@@ -9608,3 +9608,212 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-09 20:36:05.230
 !MESSAGE Jetty server stopped: true
+!SESSION 2024-10-15 17:28:54.582 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-15 17:31:13.387
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-15 17:31:27.385
+!MESSAGE Logback config file: C:\Backup\Github\DungeonoftheBrutalKing\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:31:43.656
+!MESSAGE EdgeDataDir: C:\Backup\Github\DungeonoftheBrutalKing\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-10-15 17:31:49.632
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:31:51.143
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:31:54.684
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:31:55.686
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:31:58.704
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:32:02.722
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:32:05.464
+!MESSAGE Jetty server started: true uri: http://144.35.24.55:62393/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:32:06.203
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:32:08.146
+!MESSAGE Chat App Path: http://localhost:62393/chat/chat.html?chatSessionId=1729035103741
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:32:09.819
+!MESSAGE Theme: {"--background2":"#f2f2f2","--border":"#dfdfdf","--foreground":"#000000","--image":"#202020","--background1":"#ffffff","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:32:12.460
+!MESSAGE Workspace labels: java
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-10-15 17:42:16.869
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/iloveeclipse/plugins/latest/artifacts.xml
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-10-15 17:42:17.425
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/iloveeclipse/plugins/latest/content.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:53:23.921
+!MESSAGE Jetty server stopped: Server@2a4f6518{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:53:23.924
+!MESSAGE Jetty server stopped: true
+!SESSION 2024-10-15 17:53:40.576 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product -data file:/C:/Backup/Github/DungeonoftheBrutalKing/
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-15 17:53:58.407
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-10-15 17:54:06.153
+!MESSAGE Logback config file: C:\Backup\Github\DungeonoftheBrutalKing\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:54:45.405
+!MESSAGE EdgeDataDir: C:\Backup\Github\DungeonoftheBrutalKing\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-10-15 17:54:48.012
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:54:49.859
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:54:54.280
+!MESSAGE Jetty server started: true uri: http://144.35.24.55:63155/chat
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 17:54:54.401
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:54:56.539
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:54:58.891
+!MESSAGE Chat App Path: http://localhost:63155/chat/chat.html?chatSessionId=1729036485442
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:55:00.066
+!MESSAGE Theme: {"--background2":"#d8d8d8","--border":"#c4c4c4","--foreground":"#000000","--image":"#202020","--background1":"#e4e4e4","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 17:55:02.406
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2024-10-15 18:17:32.103
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2024-10-15 18:37:09.652
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2024-10-15 18:37:43.466
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.runTask(AdaptiveExecutionStrategy.java:421)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.consumeTask(AdaptiveExecutionStrategy.java:390)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.tryProduce(AdaptiveExecutionStrategy.java:277)
+	at org.eclipse.jetty.util.thread.strategy.AdaptiveExecutionStrategy.run(AdaptiveExecutionStrategy.java:199)
+	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:411)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 18:43:25.071
+!MESSAGE Chat App Path: http://localhost:63155/chat/chat.html?chatSessionId=1729039403677
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 18:43:26.577
+!MESSAGE Theme: {"--background2":"#f2f2f2","--border":"#dfdfdf","--foreground":"#000000","--image":"#202020","--background1":"#ffffff","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2024-10-15 18:46:32.513
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2024-10-15 20:27:50.793
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2024-10-15 20:52:52.163
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 20:57:12.990
+!MESSAGE Jetty server stopped: Server@2f919bfa{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2024-10-15 20:57:12.994
+!MESSAGE Jetty server stopped: true

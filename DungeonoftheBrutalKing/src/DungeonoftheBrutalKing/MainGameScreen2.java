@@ -274,6 +274,13 @@ public class MainGameScreen2 extends JFrame implements Runnable {
 		MainGameScreenFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent windowEvent) {
+				try {
+					myGameState.QuickSaveCharecter();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				stop();
 				System.exit(0);
 			}
 		});
