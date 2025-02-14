@@ -39,7 +39,8 @@ public class CharacterCreation {
 
 	static LoadSaveGame myGameState = new LoadSaveGame();
 	static GameSettings myGameSettings = new GameSettings();
-
+			Charecter myChar = Charecter.Singleton();
+	
 	static String InitialCharecterSave = " ";
 	static String toonClass, charName = " ";
 	static int width, height = 0;
@@ -60,10 +61,15 @@ public class CharacterCreation {
 	static BufferedImage ClassImagePicture;
 
 
-	public static void CharacterCreation() throws IOException, InterruptedException {
+	public CharacterCreation() throws IOException, InterruptedException {
 
 
-		GameSettings myGameSettings = new GameSettings();
+		
+	}
+	
+	public void createCharector()
+	{
+GameSettings myGameSettings = new GameSettings();
 		
 
 		//***************************************************
@@ -293,6 +299,8 @@ public class CharacterCreation {
 						// Validating if the Charecter Name is blank or not
 						toonName(tooncreationTextField, charName, newChar);
 
+						
+						
 						do {
 
 							// Character Class
@@ -305,7 +313,7 @@ public class CharacterCreation {
 							newChar.add("0");
 
 							// Character HitPoints
-							newChar.add("15");
+							newChar.add(HP(stat).toString());
 
 							// Character Gold
 							newChar2.add("100");
@@ -456,6 +464,14 @@ public class CharacterCreation {
 
 		return stats;
 	}
+	
+	public Integer HP(Integer stat[])
+	{
+		int HP = (int) Math.floor(((2*stat[5] + Math.floor(.25*stat[2]) * 1) + 1) + 10);
+		//double HP = Math.floor(2*stat[5] + Math.floor(.25*stat[2]) * Integer.parseInt(myChar.CharInfo.get(2)) + Integer.parseInt(myChar.CharInfo.get(2)) + 10);
+		return HP;
+		
+	}
 
 	private static void classImage(String classImage) throws IOException
 	{
@@ -483,4 +499,5 @@ public class CharacterCreation {
 
 	}
 
+	
 }

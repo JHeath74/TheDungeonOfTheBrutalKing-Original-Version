@@ -38,13 +38,14 @@ public class GameStartMenu extends JFrame implements Runnable{
 
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) throws IOException, FontFormatException, BadLocationException {
+	public static void main(String[] args) throws IOException, FontFormatException, BadLocationException, InterruptedException {
 
 		GameSettings myGameSettings = new GameSettings();
         LoadSaveGame myLoadSaveGame = new LoadSaveGame();
+        CharacterCreation myCharacterCreation = new CharacterCreation();
 
 		
-		UIManager UI=new UIManager();
+
 
 		
 		new Thread(new GameStartMenu()).start();
@@ -229,29 +230,19 @@ public class GameStartMenu extends JFrame implements Runnable{
 
 
 
+				Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+				MusicPlayer.stopMidi();
+
+
+				window.dispose();
+
+
 				try {
-
-					Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
-					MusicPlayer.stopMidi();
-
-
+					
+					myCharacterCreation.createCharector();
 					window.dispose();
-
-
-					try {
-						
-						CharacterCreation.CharacterCreation();
-						window.dispose();
-					} catch (HeadlessException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-
-
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 

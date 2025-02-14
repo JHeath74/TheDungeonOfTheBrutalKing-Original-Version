@@ -55,7 +55,8 @@ public class MainGameScreen extends JFrame {
 	GameSettings myGameSettings = new GameSettings();
 	LoadSaveGame myGameState = new LoadSaveGame();
 	GameMenuItems myGameMenuItems = new GameMenuItems();
-
+	CharacterCreation myCharacterCreation;
+	
 
 
 	JFrame MainGameScreenFrame = null;
@@ -69,7 +70,6 @@ public class MainGameScreen extends JFrame {
 				charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem,
 				aboutMenuItem, helpMenuItem, mapFloor1MenuItem, mapFloor2MenuItem,
 				mapFloor3MenuItem, mapFloor4MenuItem = null;
-//	JLabel menuBarImageLabel, startingImageLabel = null;
 	JSplitPane PicturesAndTextUpdatesPane = null;
 
 	Dimension screenSize = null;
@@ -84,7 +84,7 @@ public class MainGameScreen extends JFrame {
 	public MainGameScreen() throws IOException {
 
 		
-		 
+		
 		
 		//Creating Frame
 	
@@ -302,14 +302,7 @@ public class MainGameScreen extends JFrame {
 						}
 					}
 
-					try {
-
-						CharacterCreation.CharacterCreation();
-
-					} catch (IOException | InterruptedException e1) {
-
-						e1.printStackTrace();
-					}
+					myCharacterCreation.createCharector();
 
 //					MainGameScreenFrame.dispose();
 					dispose();
