@@ -8,7 +8,7 @@ public class Events {
 	int mapLevel;
 	int map[][];
 	
-	MainGameScreen2 myMainGameScreen2 = new MainGameScreen2();
+	MainGameScreen myMainGameScreen = new MainGameScreen();
 	Combat myCombat = new Combat();
 	
 	public Events() throws IOException {
