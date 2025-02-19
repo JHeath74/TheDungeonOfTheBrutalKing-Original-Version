@@ -57,6 +57,10 @@ public class CharacterCreation {
 	static JSplitPane CharecterCreationSplitPane;
 	static JComboBox<String> charectorClass;
 	static String[] toonclasslist;
+	static Integer[] stat;
+	
+	ArrayList<String> newChar = new ArrayList<>();
+	ArrayList<String> newChar2 = new ArrayList<>();
 	static JLabel classImageLabel;
 	static BufferedImage ClassImagePicture;
 
@@ -69,7 +73,7 @@ public class CharacterCreation {
 	
 	public void createCharector()
 	{
-GameSettings myGameSettings = new GameSettings();
+		GameSettings myGameSettings = new GameSettings();
 		
 
 		//***************************************************
@@ -144,7 +148,7 @@ GameSettings myGameSettings = new GameSettings();
 			// *** Rerolling Charecter Stats if you don't like what you got. **********
 			// ************************************************************************
 
-			Integer[] stat = rollstats();
+			stat = rollstats();///////
 
 			toonstatsTextArea = new JTextArea();
 			toonstatsScrollPane = new JScrollPane(toonstatsTextArea);
@@ -291,9 +295,7 @@ GameSettings myGameSettings = new GameSettings();
 						FileWriter writer = new FileWriter(
 								"src//DungeonoftheBrutalKing//SaveGame//InitialCharecterSave.txt");
 
-						ArrayList<String> newChar = new ArrayList<>();
-
-						ArrayList<String> newChar2 = new ArrayList<>();
+						
 						
 
 						// Validating if the Charecter Name is blank or not
@@ -313,7 +315,7 @@ GameSettings myGameSettings = new GameSettings();
 							newChar.add("0");
 
 							// Character HitPoints
-							newChar.add(HP(stat).toString());
+							newChar.add(String.valueOf(HP(stat, newChar)));
 
 							// Character Gold
 							newChar2.add("100");
@@ -465,11 +467,45 @@ GameSettings myGameSettings = new GameSettings();
 		return stats;
 	}
 	
-	public Integer HP(Integer stat[])
+	public int HP(Integer stat[], ArrayList<String> newChar)
 	{
-		int HP = (int) Math.floor(((2*stat[5] + Math.floor(.25*stat[2]) * 1) + 1) + 10);
-		//double HP = Math.floor(2*stat[5] + Math.floor(.25*stat[2]) * Integer.parseInt(myChar.CharInfo.get(2)) + Integer.parseInt(myChar.CharInfo.get(2)) + 10);
-		return HP;
+		String Class = newChar.get(3);
+		Integer baseHP=0;
+		
+		switch (Class) {
+		  case "Paladin":
+			 baseHP = 10	;	  
+			 break;
+		    
+		  case "Cleric":
+			  baseHP = 3	;	
+			  break;
+		   
+		  case "Rogue":
+			  baseHP = 8	;	
+			  break;
+		   
+		  case "Hunter":
+			  baseHP = 7;		
+			  break;
+		    
+		  case "Warrior":
+			  baseHP = 20	;	
+			  break;
+		   
+		  case "Bard":
+			  baseHP = 4;	
+			  break;
+			  
+			default:
+				break;
+				
+				//("\nSTAMINA: \t\t" + stat[0]);
+				//("\nSTRENGTH: \t\t" + stat[2]);
+		  
+		  
+		}
+		return baseHP + ((stat[2] * 2) + stat[0]);
 		
 	}
 
