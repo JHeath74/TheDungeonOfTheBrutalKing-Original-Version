@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -316,9 +317,12 @@ public class CharacterCreation {
 
 							// Character HitPoints
 							newChar.add(String.valueOf(HP(stat, newChar)));
-
+							
+							//Magic Points
+							newChar.add(String.valueOf(MP(stat, newChar)));
+							
 							// Character Gold
-							newChar2.add("100");
+							newChar2.add(gold().toString());
 
 							// Character Food
 							newChar2.add("3");
@@ -337,6 +341,7 @@ public class CharacterCreation {
 							// newChar[2] = Level
 							// newChar[3] = Experience
 							// newChar[4] = Hit Points
+							// newChar[5] = Magic Points
 							// newChar[5] = Stat: Stamina
 							// newChar[6] = Stat: Charisma
 							// newChar[7] = Stat: Strength
@@ -507,6 +512,59 @@ public class CharacterCreation {
 		}
 		return baseHP + ((stat[2] * 2) + stat[0]);
 		
+	}
+	
+	public int MP(Integer stat[], ArrayList<String> newChar)
+	{
+		String Class = newChar.get(3);
+		Integer baseMP=0;
+		
+		switch (Class) {
+		  case "Paladin":
+			  baseMP = 14	;	  
+			 break;
+		    
+		  case "Cleric":
+			  baseMP = 20	;	
+			  break;
+		   
+		  case "Rogue":
+			  baseMP = 8	;	
+			  break;
+		   
+		  case "Hunter":
+			  baseMP = 3;		
+			  break;
+		    
+		  case "Warrior":
+			  baseMP = 2	;	
+			  break;
+		   
+		  case "Bard":
+			  baseMP = 12;	
+			  break;
+			  
+			default:
+				baseMP = 1;
+				break;
+				
+			//toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
+			//toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
+		  
+		  
+		}
+		return baseMP + ((stat[3] * 2) + stat[4]);
+		
+	}
+	
+	public Integer gold() 
+	{
+		Random random = new Random();
+        int min = 50;
+        int max = 100;
+        int gold = random.nextInt(max - min + 1) + min;
+		
+		return gold;
 	}
 
 	private static void classImage(String classImage) throws IOException

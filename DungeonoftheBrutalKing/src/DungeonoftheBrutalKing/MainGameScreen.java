@@ -196,17 +196,18 @@ public class MainGameScreen extends JFrame {
 								+ "Wisdom: \t"
 								+ "Agility: \t");
 
-				CharStats2Field.setText(myChar.CharInfo.get(5) + "\t" +
-								   myChar.CharInfo.get(6) + "\t" +
+				CharStats2Field.setText(myChar.CharInfo.get(6) + "\t" +
 								   myChar.CharInfo.get(7) + "\t" +
 								   myChar.CharInfo.get(8) + "\t" +
 								   myChar.CharInfo.get(9) + "\t" +
-								   myChar.CharInfo.get(10));
+								   myChar.CharInfo.get(10) + "\t" +
+								   myChar.CharInfo.get(11));
 
 
 				CharXPHPGoldField.setText("Hit Points: " + myChar.CharInfo.get(4) + "\t\t"
-									+ "Gold: " + myChar.CharInfo.get(11) + "\t\t"
-									+ "Gems: " + myChar.CharInfo.get(12) + "\t\t"
+									+ "Magic Points: " + myChar.CharInfo.get(5) + "\t\t"
+									+ "Gold: " + myChar.CharInfo.get(12) + "\t\t"
+									+ "Gems: " + myChar.CharInfo.get(13) + "\t\t"
 									+ "Dungeon Level:");
 			}
 		};
@@ -303,7 +304,7 @@ public class MainGameScreen extends JFrame {
 					}
 
 					myCharacterCreation.createCharector();
-
+					
 //					MainGameScreenFrame.dispose();
 					dispose();
 				} else if (result == JOptionPane.NO_OPTION) {

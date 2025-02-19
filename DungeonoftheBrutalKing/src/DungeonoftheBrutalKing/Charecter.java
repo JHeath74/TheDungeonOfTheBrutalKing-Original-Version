@@ -19,29 +19,31 @@ public class Charecter {
 	// CharInfo[2] = Level
 	// CharInfo[3] = Experience
 	// CharInfo[4] = Hit Points
+	// CharInfo[5] = Magic Points
 
-	// CharInfo[5] = Stat: Stamina
-	// CharInfo[6] = Stat: Charisma
-	// CharInfo[7] = Stat: Strength
-	// CharInfo[8] = Stat: Intelligence
-	// CharInfo[9] = Stat: Wisdom
+	// CharInfo[6] = Stat: Stamina
+	// CharInfo[7] = Stat: Charisma
+	// CharInfo[8] = Stat: Strength
+	// CharInfo[9] = Stat: Intelligence
+	// CharInfo[10] = Stat: Wisdom
+	// CharInfo[11] = Stat: Agility
 
-	// CharInfo[10] = Stat: Agility
-	// CharInfo[11] = Gold
-	// CharInfo[12] = Food
-	// CharInfo[13] = Water
-	// CharInfo[14] = Torches
+	// CharInfo[12] = Gold
+	// CharInfo[13] = Food
+	// CharInfo[14] = Water
+	// CharInfo[15] = Torches
+	// CharInfo[16] = Gems
+	
+	// CharInfo[17] = Weapon
+	// CharInfo[18] = Armour
+	// CharInfo[19] = Shield
+	
+	// CharInfo[20] = Map Location
+	// CharInfo[21] = Morality
 
-	// CharInfo[15] = Gems
-	// CharInfo[16] = Weapon
-	// CharInfo[17] = Armour
-	// CharInfo[18] = Shield
-	// CharInfo[19] = Map Location
-	// CharInfo[20] = Morality
-
-	//CharInfo[21] = LocationX
-	//CharInfo[22] = LocationY
-	//CharInfo[23] = LocationZ
+	//CharInfo[22] = LocationX
+	//CharInfo[23] = LocationY
+	//CharInfo[24] = LocationZ
 	
 	//Acquired Spells
 
