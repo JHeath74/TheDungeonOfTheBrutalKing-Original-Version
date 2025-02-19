@@ -472,34 +472,34 @@ public class CharacterCreation {
 		return stats;
 	}
 	
-	public int HP(Integer stat[], ArrayList<String> newChar)
+	public double HP(Integer stat[], ArrayList<String> newChar)
 	{
 		String Class = newChar.get(3);
-		Integer baseHP=0;
+		double baseHP=0;
 		
 		switch (Class) {
 		  case "Paladin":
-			 baseHP = 10	;	  
+			 baseHP = 2	;	  
 			 break;
 		    
 		  case "Cleric":
-			  baseHP = 3	;	
+			  baseHP = 1	;	
 			  break;
 		   
 		  case "Rogue":
-			  baseHP = 8	;	
+			  baseHP = 1	;	
 			  break;
 		   
 		  case "Hunter":
-			  baseHP = 7;		
+			  baseHP = 1;		
 			  break;
 		    
 		  case "Warrior":
-			  baseHP = 20	;	
+			  baseHP = 2	;	
 			  break;
 		   
 		  case "Bard":
-			  baseHP = 4;	
+			  baseHP = 1;	
 			  break;
 			  
 			default:
@@ -510,7 +510,7 @@ public class CharacterCreation {
 		  
 		  
 		}
-		return baseHP + ((stat[2] * 2) + stat[0]);
+		return baseHP * ((stat[2] * 2) + stat[0]);
 		
 	}
 	
