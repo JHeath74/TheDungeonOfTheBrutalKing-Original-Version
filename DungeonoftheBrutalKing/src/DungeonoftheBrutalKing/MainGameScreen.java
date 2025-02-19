@@ -57,6 +57,7 @@ public class MainGameScreen extends JFrame {
 	GameMenuItems myGameMenuItems = new GameMenuItems();
 	CharacterCreation myCharacterCreation;
 	
+	
 
 
 	JFrame MainGameScreenFrame = null;
@@ -185,7 +186,8 @@ public class MainGameScreen extends JFrame {
 
 				 CharNameClassLevelField.setText("Name: " + myChar.CharInfo.get(0) + "\t\t"
 						 					+ "Level: " + myChar.CharInfo.get(2) + "\t\t"
-						 					+ "Experience: " + myChar.CharInfo.get(3));
+						 					+ "Experience: " + myChar.CharInfo.get(3)
+				  + "\t\t" + "Class: " + myChar.CharInfo.get(1) + "\t\t");
 
 
 
