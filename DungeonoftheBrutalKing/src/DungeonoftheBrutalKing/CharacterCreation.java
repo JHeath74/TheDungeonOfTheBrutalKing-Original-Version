@@ -173,7 +173,13 @@ public class CharacterCreation {
 			
 			toonclasslist = Class.toonclassarray;
 
+			// Set default toon class
+			
+			toonClass = toonclasslist[0];
+
+			// Initialize JComboBox with default value selected
 			charectorClass = new JComboBox<>(toonclasslist);
+			charectorClass.setSelectedItem(toonClass);
 			
 			toonclassDescriptionTextArea = new JTextArea("Choose Your Class from the Dropdown box above.");
 			toonclassDescriptionTextArea.setLineWrap(true);
@@ -307,6 +313,7 @@ public class CharacterCreation {
 						do {
 
 							// Character Class
+							
 							newChar.add(toonClass);
 
 							// Character Level
@@ -316,10 +323,14 @@ public class CharacterCreation {
 							newChar.add("0");
 
 							// Character HitPoints
-							newChar.add(String.valueOf(HP(stat, newChar)));
+							newChar.add(String.valueOf(ToonHP(stat, newChar)));
+							//newChar.add("100");
+							
 							
 							//Magic Points
-							newChar.add(String.valueOf(MP(stat, newChar)));
+							newChar.add(String.valueOf(ToonMP(stat, newChar)));
+							
+											
 							
 							// Character Gold
 							newChar2.add(gold().toString());
@@ -371,10 +382,7 @@ public class CharacterCreation {
 							writer.close();
 
 							CharecterCreationFrame.dispose();
-							
-							
 
-							CharecterCreationFrame.dispose();
 							new MainGameScreen();
 
 
@@ -472,13 +480,14 @@ public class CharacterCreation {
 		return stats;
 	}
 	
-	public double HP(Integer stat[], ArrayList<String> newChar)
+	public Integer ToonHP(Integer stat[], ArrayList<String> newChar)
 	{
-		String Class = newChar.get(3);
-		double baseHP=0;
-		
+		String Class = newChar.get(1);
+		int baseHP=0;
+
 		switch (Class) {
 		  case "Paladin":
+			 
 			 baseHP = 2	;	  
 			 break;
 		    
@@ -503,6 +512,7 @@ public class CharacterCreation {
 			  break;
 			  
 			default:
+				baseHP = 1;
 				break;
 				
 				//("\nSTAMINA: \t\t" + stat[0]);
@@ -510,13 +520,14 @@ public class CharacterCreation {
 		  
 		  
 		}
+		
 		return baseHP * ((stat[2] * 2) + stat[0]);
 		
 	}
 	
-	public int MP(Integer stat[], ArrayList<String> newChar)
+	public int ToonMP(Integer stat[], ArrayList<String> newChar)
 	{
-		String Class = newChar.get(3);
+		String Class = newChar.get(1);
 		Integer baseMP=0;
 		
 		switch (Class) {

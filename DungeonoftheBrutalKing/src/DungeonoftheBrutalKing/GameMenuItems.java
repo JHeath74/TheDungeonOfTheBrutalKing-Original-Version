@@ -137,7 +137,7 @@ public class GameMenuItems
 		invArea.setText("");
 
 	    invArea.setText("Money");
-		invArea.append("Gold: " + myChar.CharInfo.get(11)+"\n");
+		invArea.append("Gold: " + myChar.CharInfo.get(12)+"\n");
 		invArea.append("Gems: " + myChar.CharInfo.get(15)+"\n");
 		invArea.append("\t__________ Misc__________\n");
 		invArea.append("Food: " + myChar.CharInfo.get(13)+"\n");

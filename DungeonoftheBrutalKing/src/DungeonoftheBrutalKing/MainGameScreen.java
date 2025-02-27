@@ -205,12 +205,17 @@ public class MainGameScreen extends JFrame {
 								   myChar.CharInfo.get(10) + "\t" +
 								   myChar.CharInfo.get(11));
 
+				String hitpoints = myChar.CharInfo.get(4);
+				
 
 				CharXPHPGoldField.setText("Hit Points: " + myChar.CharInfo.get(4) + "\t\t"
-									+ "Magic Points: " + myChar.CharInfo.get(5) + "\t\t"
-									+ "Gold: " + myChar.CharInfo.get(12) + "\t\t"
-									+ "Gems: " + myChar.CharInfo.get(13) + "\t\t"
-									+ "Dungeon Level:");
+									+ "Magic Points: " + myChar.CharInfo.get(5) + "\t"
+									+ "Gold: " + myChar.CharInfo.get(12) + "\t"
+									+ "Food: " + myChar.CharInfo.get(13) + "\t" 
+									+ "Water: " + myChar.CharInfo.get(14) + "\t"
+									+ "Torches: " + myChar.CharInfo.get(15) + "\t"
+									+ "Gems: " + myChar.CharInfo.get(16) + "\t"
+									);
 			}
 		};
 		timer = new Timer(100, task); // Execute task to display stats each 100 miliseconds

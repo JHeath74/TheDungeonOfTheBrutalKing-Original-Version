@@ -10242,3 +10242,608 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-18 21:00:05.649
 !MESSAGE Jetty server stopped: true
+!SESSION 2025-02-19 18:50:41.823 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-02-19 18:51:17.984
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-02-19 18:51:36.751
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 18:51:47.864
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-02-19 18:51:49.671
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-19 18:51:52.043
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-19 18:51:53.213
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 18:51:55.978
+!MESSAGE Jetty server started: true uri: http://144.35.24.89:65510/chat
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-19 18:51:56.562
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 18:51:58.060
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 18:51:59.115
+!MESSAGE Chat App Path: http://localhost:65510/chat/chat.html?chatSessionId=1740016307886
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 18:51:59.924
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 18:52:03.886
+!MESSAGE Workspace labels: java
+
+!ENTRY org.eclipse.core.jobs 4 0 2025-02-19 18:55:06.397
+!MESSAGE Text Search
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.397
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.jobs 4 0 2025-02-19 18:55:06.414
+!MESSAGE Text Search
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.414
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.415
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.415
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.search.core 4 0 2025-02-19 18:55:06.510
+!MESSAGE Problems encountered during text search.
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 18:55:06.510
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.jobs 4 0 2025-02-19 19:15:08.861
+!MESSAGE Text Search
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.861
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.862
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.search.core 4 0 2025-02-19 19:15:08.960
+!MESSAGE Problems encountered during text search.
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.960
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.960
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.960
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.960
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.core.jobs 4 2 2025-02-19 19:15:08.962
+!MESSAGE An internal error occurred during: "File Search Worker".
+!STACK 0
+java.lang.NoSuchMethodError: 'byte[] org.eclipse.core.resources.IFile.readNBytes(int)'
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.toShortString(FileCharSequenceProvider.java:495)
+	at org.eclipse.search.internal.core.text.FileCharSequenceProvider.newCharSequence(FileCharSequenceProvider.java:42)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.processFile(TextSearchVisitor.java:208)
+	at org.eclipse.search.internal.core.text.TextSearchVisitor$TextSearchJob.run(TextSearchVisitor.java:173)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2025-02-19 19:21:19.239
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 19:21:19.765
+!MESSAGE Jetty server stopped: Server@1b26b3c4{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-19 19:21:19.766
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-02-26 16:49:02.551 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-02-26 16:50:45.869
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-02-26 16:51:48.903
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:52:01.569
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-02-26 16:52:05.009
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-26 16:52:06.816
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-26 16:52:12.974
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-26 16:52:16.023
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-26 16:52:20.049
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-02-26 16:52:21.184
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:52:26.874
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:52:27.382
+!MESSAGE Chat App Path: http://localhost:60247/chat/chat.html?chatSessionId=1740613921612
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:52:27.570
+!MESSAGE Jetty server started: true uri: http://144.35.24.141:60247/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:52:28.959
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:52:31.984
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:56:42.538
+!MESSAGE Jetty server stopped: Server@1ba5b4a9{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 16:56:42.539
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-02-26 17:28:23.318 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-02-26 17:28:26.067
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-02-26 17:29:30.432
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:29:38.576
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-02-26 17:29:40.877
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:29:50.597
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:29:51.178
+!MESSAGE Chat App Path: http://localhost:61179/chat/chat.html?chatSessionId=1740616178581
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:29:51.189
+!MESSAGE Jetty server started: true uri: http://144.35.24.141:61179/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:29:51.977
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:29:55.649
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:47:16.959
+!MESSAGE Chat App Path: http://localhost:61179/chat/chat.html?chatSessionId=1740617235953
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 17:47:17.217
+!MESSAGE Theme: {"--background2":"#f2f2f2","--border":"#dfdfdf","--foreground":"#000000","--image":"#202020","--background1":"#ffffff","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 4 0 2025-02-26 18:08:41.771
+!MESSAGE Error in WebSocket connection
+!STACK 0
+java.nio.channels.ClosedChannelException
+	at org.eclipse.jetty.websocket.core.internal.WebSocketSessionState.onEof(WebSocketSessionState.java:169)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketCoreSession.onEof(WebSocketCoreSession.java:253)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.fillAndParse(WebSocketConnection.java:491)
+	at org.eclipse.jetty.websocket.core.internal.WebSocketConnection.onFillable(WebSocketConnection.java:349)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:314)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:100)
+	at org.eclipse.jetty.io.SelectableChannelEndPoint$1.run(SelectableChannelEndPoint.java:53)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:969)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.doRunJob(QueuedThreadPool.java:1194)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1149)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 18:53:50.746
+!MESSAGE Jetty server stopped: Server@12d0be7a{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-02-26 18:53:50.747
+!MESSAGE Jetty server stopped: true
