@@ -15,6 +15,12 @@ public class SettingsAndPreferences {
 	{
 
 	}
+	
+	public void SoundSettings()
+	{
+		
+	}
 
+	
 
 }

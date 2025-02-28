@@ -3,89 +3,75 @@ package DungeonoftheBrutalKing;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.sound.sampled.*;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.UnsupportedAudioFileException;
+public class MusicPlayer {
 
-public class MusicPlayer{
+    static String SoundFilePath;
+    private static Clip clip;
+    static String soundType;
 
-	//https://www.geeksforgeeks.org/play-audio-file-using-java/
-
-	static String SoundFilePath;
-	private static Clip clip;
-	static String soundType;
-
-
-    public MusicPlayer()
-    {
-    	MusicPlayer.SoundFilePath = "src\\DungeonoftheBrutalKing\\SoundEffects\\";
-    	MusicPlayer.clip = null;
-    	MusicPlayer.soundType = null;
-
-
+    public MusicPlayer() {
+        MusicPlayer.SoundFilePath = "src\\DungeonoftheBrutalKing\\SoundEffects\\";
+        MusicPlayer.clip = null;
+        MusicPlayer.soundType = null;
     }
 
-    public void midiPlayer(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException
-    {
-    	// create AudioInputStream object
-        AudioInputStream audioInputStream =
-                AudioSystem.getAudioInputStream(new File(SoundFilePath + soundType).getAbsoluteFile());
+    public void midiPlayer(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        new Thread(() -> {
+            try {
+                // create AudioInputStream object
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundFilePath + soundType).getAbsoluteFile());
 
-        // create clip reference
-        clip = AudioSystem.getClip();
+                // create clip reference
+                clip = AudioSystem.getClip();
 
-        // open audioInputStream to the clip
-        clip.open(audioInputStream);
+                // open audioInputStream to the clip
+                clip.open(audioInputStream);
 
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-
-
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public static void stopMidi() {
-	        if (clip != null && clip.isRunning()) {
-                clip.stop();
-	           // clip.stop();
-	        	clip.close();
-	        }
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
     }
 
-    public void mp3Player(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException
-    {
+    public void mp3Player(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        new Thread(() -> {
+            try {
+                System.out.println("SoundFilePath: " + SoundFilePath);
+                System.out.println("soundType: " + soundType);
 
-    	System.out.println("SoundFilePath: " + SoundFilePath);
-    	System.out.println("soundType: " + soundType);
+                InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SoundFilePath + soundType);
 
-    	InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SoundFilePath + soundType);
+                System.out.println("Working: " + inputStream);
 
-    	System.out.println("Working: " + inputStream);
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+                AudioFormat audioFormat = audioStream.getFormat();
+                DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
 
-    	AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
-    	AudioFormat audioFormat = audioStream.getFormat();
-    	DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+                Clip audioClip = (Clip) AudioSystem.getLine(info);
+                audioClip.addLineListener((LineListener) this);
+                audioClip.open(audioStream);
+                audioClip.start();
 
-    	Clip audioClip = (Clip) AudioSystem.getLine(info);
-    	audioClip.addLineListener((LineListener) this);
-    	audioClip.open(audioStream);
-    	audioClip.start();
-
-    	audioClip.close();
-    	audioStream.close();
+                audioClip.close();
+                audioStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
-
-
-	public static void stopMP3()
-	{
-
-	}
-
-
+    public static void stopMP3() {
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
+    }
 }

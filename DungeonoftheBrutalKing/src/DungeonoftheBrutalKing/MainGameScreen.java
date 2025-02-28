@@ -309,8 +309,17 @@ public class MainGameScreen extends JFrame {
 							file.delete();
 						}
 					}
-
+					try {
+						myCharacterCreation = new CharacterCreation();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					myCharacterCreation.createCharector();
+
 					
 //					MainGameScreenFrame.dispose();
 					dispose();

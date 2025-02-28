@@ -199,54 +199,55 @@ public class GameStartMenu extends JFrame implements Runnable{
         StartMenuFrame.setVisible(true);
 
         StartNewGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                File saveFile = new File(GameSettings.SavedGameDirectory + "/InitlaCharecterSave.txt");
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+                if (saveFile.exists()) {
+                    int response = JOptionPane.showConfirmDialog(null,
+                            "InitlaCharecterSave.txt exists. Do you want to delete it and start a new game?",
+                            "File Exists",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE);
 
-				 if (JOptionPane.showConfirmDialog(null, "Do you wish to delete your game to start a new one", "Restart Game",
-				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					    
-					 
-					 UIManager.put("OptionPane.background", myGameSettings.colorLightBrown);
-
-				
-					 for(File file: directory.listFiles()) {
-						if (!file.isDirectory()) {
-							file.delete();
-						}
-					}
-
-				} else {
-					try {
-					
-
-					} catch (HeadlessException e1) {
+                    if (response == JOptionPane.YES_OPTION) {
+                        if (saveFile.delete()) {
+                            try {
+								proceedToCreateCharacter(e);
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Failed to delete the file. Please try again.",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        returnToPreviousScreen();
+                    }
+                } else {
+                    try {
+						proceedToCreateCharacter(e);
+					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				}
+                }
+            }
 
+            private void proceedToCreateCharacter(ActionEvent e) throws IOException {
+                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+                MusicPlayer.stopMidi();
+                window.dispose();
+                myCharacterCreation.createCharector();
+            }
 
-
-
-
-				Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
-				MusicPlayer.stopMidi();
-
-
-				window.dispose();
-
-
-				try {
-					
-					myCharacterCreation.createCharector();
-					window.dispose();
-				} catch (HeadlessException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-			}});
+            private void returnToPreviousScreen() {
+                // Code to return to the previous screen
+            }
+        });
 
         ContinueGameButton.addActionListener(new ActionListener() {
 
