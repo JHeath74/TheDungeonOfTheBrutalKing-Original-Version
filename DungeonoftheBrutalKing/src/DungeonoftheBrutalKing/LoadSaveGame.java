@@ -41,7 +41,7 @@ public class LoadSaveGame {
 		String SavedGameName = "AutoGameSave.Txt";
 
 		if (SavedGameName != "IntialCharecterSave.txt") {
-			String AutoSaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
+			String AutoSaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
 
 			FileWriter writer = new FileWriter(AutoSaveGameName);
 
@@ -62,7 +62,7 @@ public class LoadSaveGame {
 	{
 		
 		ArrayList<String> SaveLoadChar = new ArrayList<>();
-		File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
+		File chosenFile = getLastModified(myGameSettings.SavedGameDirectory);
 
 		BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile));
 
@@ -108,7 +108,7 @@ public class LoadSaveGame {
 		JButton load = new JButton("Load Game");
 		JComboBox<String> loadGameSelection = new JComboBox<>();
 
-		File loadgamefiles = new File(GameSettings.SavedGameDirectory);
+		File loadgamefiles = new File(myGameSettings.SavedGameDirectory);
 
 		File[] listOfFiles = loadgamefiles.listFiles();
 
@@ -136,7 +136,7 @@ public class LoadSaveGame {
 							if (response == JOptionPane.YES_OPTION) {
 								try {
 									BufferedReader bufReader = new BufferedReader(
-											new FileReader(GameSettings.SavedGameDirectory + gameInfo));
+											new FileReader(myGameSettings.SavedGameDirectory + gameInfo));
 									String line = bufReader.readLine();
 									while (line != null) {
 										LoadChar.add(line);
@@ -195,7 +195,7 @@ public class LoadSaveGame {
 
 		if (SavedGameName != "IntialCharecterSave.txt") {
 
-			String SaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
+			String SaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
 
 			FileWriter writer = new FileWriter(SaveGameName);
 
@@ -222,7 +222,7 @@ public class LoadSaveGame {
 	public void StartGameLoadCharecter() throws IOException {
 
 		ArrayList<String> SaveLoadChar = new ArrayList<>();
-		File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
+		File chosenFile = getLastModified(myGameSettings.SavedGameDirectory);
 
 		BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile));
 
@@ -246,14 +246,14 @@ public class LoadSaveGame {
 		String SavedGameName = "QuickSaveGame.Txt";
 		
 		File file
-        = new File(GameSettings.SavedGameDirectory + "QuickSaveGame.txt");
+        = new File(myGameSettings.SavedGameDirectory + "QuickSaveGame.txt");
 		
 		if(file.exists()) {
 		file.delete();
 		
 
 		if (SavedGameName != "IntialCharecterSave.txt") {
-			String AutoSaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
+			String AutoSaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
 
 			FileWriter writer = new FileWriter(AutoSaveGameName);
 
@@ -272,7 +272,7 @@ public class LoadSaveGame {
 		}else {
 			
 			if (SavedGameName != "IntialCharecterSave.txt") {
-				String AutoSaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
+				String AutoSaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
 
 				FileWriter writer = new FileWriter(AutoSaveGameName);
 
@@ -314,6 +314,10 @@ public class LoadSaveGame {
 	}
 	
 	public static int getFileCount() {
+		
+		
+		
+		
 		File directory = new File(GameSettings.SavedGameDirectory);
 		File[] files = directory.listFiles(File::isFile);
 		int count = 0;

@@ -7,6 +7,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 public class GameSettings
@@ -15,43 +20,27 @@ public class GameSettings
 				 colorLightGreen, colorVeryLightRed, colorVeryDarkBlue, colorVeryLightBlue, colorMagenta,
 				 colorAqua, colorOlive, colorTeal, colorLightSalmon, colorFireBrick, colorMaroon,
 				 colorCoral, colorIndianRed, colorDarkGoldenRod, colorGoldenRod, colorPaleGoldenRod,
-				 colorDarkKhaki, colorMediumBlue, colorBlue, colorPurple, colorGreen;
+				 colorDarkKhaki, colorMediumBlue, colorBlue, colorPurple, colorGreen, colorPlum, colorGrey = null;
 
 
-	public Color colorPlum;
-
-
-	Color colorGrey
-	 = null;
-
-
-	Font fontTimesNewRoman, fontLomoCopyLTStdMidi, fontWelcomeMessage, fontWelcomeMessage2, fontAvatar = null;
-
-
+	Font fontTimesNewRoman, fontLomoCopyLTStdMidi, fontWelcomeMessage, 
+		  fontWelcomeMessage2, fontAvatar = null;
 
 	BufferedImage myJMenuBarPicture, myStartMenuPicture = null;
 
-	static String MenuBarImagePath, MonsterImagePath, FontPath, DungeonFloorTexturePath, DungeonWallTexturePath;
-
-
-	public static String SavedGameDirectory;
-
-
-	static String StartMenuPath;
-
-
-	static String StoryIntroductionPath;
-
-
-	static String ClassImagesPath;
-
-
-
-
-
-
-	public GameSettings()
-	{
+	public static String MenuBarImagePath, MonsterImagePath, FontPath, 
+	DungeonFloorTexturePath, DungeonWallTexturePath, 
+	StartMenuPath, StoryIntroductionPath, ClassImagesPath, 
+	SoundEffectsPath,SavedGameDirectory = null;
+	
+	
+	public GameSettings() {
+	
+	//*********************************************************************************
+	//--------------------------- File Locations ----------------------------------------------
+	//*********************************************************************************
+	
+	
 		MenuBarImagePath = "src\\DungeonoftheBrutalKing\\Images\\Program\\MenuBar\\";
 		MonsterImagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\";
 		FontPath = "src\\DungeonoftheBrutalKing\\Fonts\\";
@@ -61,8 +50,10 @@ public class GameSettings
 		StoryIntroductionPath = ("src\\DungeonoftheBrutalKing\\Images\\Messages\\StoryIntroduction\\");
 		StartMenuPath = ("src\\DungeonoftheBrutalKing\\Images\\Program\\StartMenu\\");
 		ClassImagesPath = ("src\\DungeonoftheBrutalKing\\Images\\Classes\\");
-
-
+		SoundEffectsPath = ("src\\DungeonoftheBrutalKing\\\\SoundEffects\\");
+	
+	
+	
 		//*********************************************************************************
 		//--------------------------- Colors ----------------------------------------------
 		//*********************************************************************************
@@ -109,33 +100,49 @@ public class GameSettings
 		fontWelcomeMessage = new Font("Segoe Script", Font.BOLD, 20);
 		fontWelcomeMessage2 = new Font(FontPath + "DragonHunter-9Ynxj.otf", Font.PLAIN, 20);
 
+	}
 
 
 		//*********************************************************************************
 		//--------------------------- Pictures --------------------------------------------
 		//*********************************************************************************
-		try {
-			myJMenuBarPicture = ImageIO.read(new File(MenuBarImagePath + "MenuBar.png"));
-		} catch (IOException e) {
+	public BufferedImage loadImage(String fileName) {
+	    BufferedImage image = null;
+	    try {
+	        image = ImageIO.read(new File(fileName));
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return image;
+	}
 
-			e.printStackTrace();
-		}
-
-		try {
-			myStartMenuPicture = ImageIO.read(new File(StartMenuPath + "StartMenu.png"));
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+	public void loadImages() {
+	    myJMenuBarPicture = loadImage(MenuBarImagePath + "MenuBar.png");
+	    myStartMenuPicture = loadImage(StartMenuPath + "StartMenu.png");
+	}
 
 
 		//*********************************************************************************
 		//--------------------------- Music --------------------------------------------
 		//*********************************************************************************
 
+	public void playMusic(String fileName) throws LineUnavailableException, UnsupportedAudioFileException, IOException {
+	   
+	        File musicFile = new File("//src//DungeonoftheBrutalKing//SoundEffects//" + fileName);
+	        AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+	        Clip clip = AudioSystem.getClip();
+	        try {
+				clip.open(audioStream);
+			} catch (LineUnavailableException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        clip.start();
+	    
 	}
-
-
-
+	
 
 }
+
+
+

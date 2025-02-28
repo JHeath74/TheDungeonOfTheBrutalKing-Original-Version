@@ -205,7 +205,7 @@ public class MainGameScreen extends JFrame {
 								   myChar.CharInfo.get(10) + "\t" +
 								   myChar.CharInfo.get(11));
 
-				String hitpoints = myChar.CharInfo.get(4);
+				
 				
 
 				CharXPHPGoldField.setText("Hit Points: " + myChar.CharInfo.get(4) + "\t\t"
@@ -292,8 +292,9 @@ public class MainGameScreen extends JFrame {
 					//MainGameScreenFrame.dispose();
 					dispose();
 					try {
+						Files.createDirectories(Paths.get("src/AlternateRealityTheDungeon/TextFiles/SaveGame"));
 						BufferedWriter writer = Files.newBufferedWriter(Paths
-								.get("src//AlternateRealityTheDungeon//TextFiles//SaveGame//InitialCharecterSave.txt"));
+						        .get("src/AlternateRealityTheDungeon/TextFiles/SaveGame/InitialCharecterSave.txt"));
 						writer.write("");
 						writer.flush();
 						writer.close();// Is this located correctly.

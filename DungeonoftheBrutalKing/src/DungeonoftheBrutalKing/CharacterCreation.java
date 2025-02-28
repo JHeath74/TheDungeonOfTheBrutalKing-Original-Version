@@ -429,7 +429,10 @@ public class CharacterCreation {
 			CharecterCreationFrame.requestFocus();
 			CharecterCreationFrame.setVisible(true);
 
-			charName = JOptionPane.showInputDialog("Please Enter a Name for Your Charater.");
+			while (charName == null || charName.trim().isEmpty()) {
+		        charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
+		    }
+			
 			tooncreationTextField.setText("Name: " + charName);
 
 			new GameMenuItems();
@@ -586,7 +589,7 @@ public class CharacterCreation {
 			ClassInfoAndImagePanel.remove(classImageLabel);
 		}
 
-		ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png")); // Buffered Image
+		ClassImagePicture = ImageIO.read(new File(myGameSettings.ClassImagesPath + classImage + ".png")); // Buffered Image
 		classImageLabel = new JLabel();
 		classImageLabel.setSize(ClassInfoAndImagePanel.getWidth(), ClassInfoAndImagePanel.getHeight());
 

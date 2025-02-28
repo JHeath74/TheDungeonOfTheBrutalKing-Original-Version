@@ -6,12 +6,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.LineUnavailableException;
@@ -22,16 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
-
-
-
 
 
 public class GameStartMenu extends JFrame implements Runnable{
@@ -43,9 +36,6 @@ public class GameStartMenu extends JFrame implements Runnable{
 		GameSettings myGameSettings = new GameSettings();
         LoadSaveGame myLoadSaveGame = new LoadSaveGame();
         CharacterCreation myCharacterCreation = new CharacterCreation();
-
-		
-
 
 		
 		new Thread(new GameStartMenu()).start();
@@ -182,9 +172,8 @@ public class GameStartMenu extends JFrame implements Runnable{
         ExitGameButton.setBackground(myGameSettings.colorGrey);
         ExitGameButton.setForeground(myGameSettings.colorWhite);
 
-
-
-        File directory = new File(GameSettings.SavedGameDirectory);
+    if (GameSettings.SavedGameDirectory != null) {
+        File directory = new File(myGameSettings.SavedGameDirectory);
         if (directory.isDirectory()) {
            String[] files = directory.list();
            if (files.length > 0) {
@@ -195,6 +184,7 @@ public class GameStartMenu extends JFrame implements Runnable{
         	  ContinueGameButton.setVisible(false);
            }
         }
+    }
 
         StartMenuFrame.setVisible(true);
 
