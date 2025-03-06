@@ -2,7 +2,8 @@ package DungeonoftheBrutalKing;
 
 public class SettingsAndPreferences {
 
-	public SettingsAndPreferences() {
+	public SettingsAndPreferences() 
+	{
 
 	}
 

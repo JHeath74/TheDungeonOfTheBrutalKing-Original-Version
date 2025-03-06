@@ -62,6 +62,7 @@ public class MainGameScreen extends JFrame {
 
 	JFrame MainGameScreenFrame = null;
 	JPanel p1Panel, p2Panel, p3Panel, p4Panel, GameImagesAndCombatPanel = null;
+	private JPanel originalPanel;
 	JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
 	JTextPane MessageTextPane = null;
 	JMenuBar menuBar = null;
@@ -77,10 +78,20 @@ public class MainGameScreen extends JFrame {
 	int width, height = 0;
 	Timer timer = null;
 	
+	// In MainGameScreen class
+	public JTextArea CombatMessageArea = new JTextArea();
+	
 	
 //-----------------------------------------------------------------------------
 
-	
+	public void replaceWithCombatPanel(JPanel combatPanel) {
+        originalPanel = GameImagesAndCombatPanel;
+        PicturesAndTextUpdatesPane.setLeftComponent(combatPanel);
+    }
+
+    public void restoreOriginalPanel() {
+        PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
+    }
 	
 	public MainGameScreen() throws IOException {
 
@@ -450,7 +461,9 @@ public class MainGameScreen extends JFrame {
 		aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 		aboutMenuItem.getAccessibleContext().setAccessibleDescription("About Game");
 		aboutMenuItem.addActionListener(new ActionListener() {
-
+			
+			
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -475,6 +488,13 @@ public class MainGameScreen extends JFrame {
 				helptext.setWrapStyleWord(true);
 				JScrollPane scrollPane = new JScrollPane(helptext);
 				scrollPane.setSize(120, 120);
+				try {
+					Combat myCombat = new Combat();
+					myCombat.CombatEncouter();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 				try {
 					// Read some text from the resource file to display in

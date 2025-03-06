@@ -34,7 +34,7 @@ public class Combat extends JFrame {
 	private static final long serialVersionUID = 1L;
 	Singleton myCharSingleton = new Singleton();
 	GameSettings myGameSettings = new GameSettings();
-	MainGameScreen myMenu = null;
+	private MainGameScreen myMainGameScreen = null;
 
 	String HeroHPArrayList = "";
 
@@ -57,8 +57,7 @@ public class Combat extends JFrame {
 		HeroHPArrayList = Singleton.myCharSingleton().CharInfo.get(4);
 		HeroHP = Integer.parseInt(HeroHPArrayList);
 
-		 myMenu = new MainGameScreen();
-
+		 myMainGameScreen = new MainGameScreen();
 	}
 
 	public void CombatEncouter() throws IOException {
@@ -68,28 +67,27 @@ public class Combat extends JFrame {
 		//*************************************************************
 		//-------------------Adding and Setting Up JFrame -------------
 		//*************************************************************
-			CombatFrame = new JFrame();
-			CombatFrame.setLayout(new BorderLayout());
-
-			// Setting the JFrame to fill the screen
-			// getScreenSize() returns the size
-	        // of the screen in pixels
-	        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-
-	        // width will store the width of the screen
-	        width = (int)size.getWidth();
-
-	        // height will store the height of the screen
-	        height = (int)size.getHeight();
-
-			CombatFrame.setSize(width, height);
+		/*
+		 * CombatFrame = new JFrame(); CombatFrame.setLayout(new BorderLayout());
+		 * 
+		 * // Setting the JFrame to fill the screen // getScreenSize() returns the size
+		 * // of the screen in pixels Dimension size =
+		 * Toolkit.getDefaultToolkit().getScreenSize();
+		 * 
+		 * // width will store the width of the screen width = (int)size.getWidth();
+		 * 
+		 * // height will store the height of the screen height = (int)size.getHeight();
+		 * 
+		 * CombatFrame.setSize(width, height);
+		 */
 
 		//*************************************************************
 		//-------------------Adding and Setting Up JPanels-------------
 		//*************************************************************
 
-		//CombatPanel = myMenu.GameImagesAndCombatPanel;
+		
 		CombatPanel = new JPanel(new BorderLayout());
+		myMainGameScreen.replaceWithCombatPanel(CombatPanel);
 		CombatImagePanel = new JPanel(); // Display Image of Enemy
 		CombatPanelButtons = new JPanel(new FlowLayout()); // Display Buttons for Combat
 		CombatPanelCombatAreaPanel = new JPanel(); // Display Combat Updates such as sucessful or not-successful
@@ -126,7 +124,7 @@ public class Combat extends JFrame {
 		CombatRunButton = new JButton("Run Away!");
 
 		// Adding Parent JPanel to JFrame
-		   CombatFrame.add(CombatPanel, BorderLayout.CENTER);
+		//   CombatFrame.add(CombatPanel, BorderLayout.CENTER);
 
 		// Getting Image to display from it's location in the project
 		   myPictureBufferedImage = ImageIO.read(new File(
@@ -275,7 +273,7 @@ public class Combat extends JFrame {
 			}
 
 		});
-/*
+
 		CombatRunButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -286,11 +284,11 @@ public class Combat extends JFrame {
 
 				if(randomCombatChance <= 50)
 				{
-					myMenu.CombatMessageArea.append("Sorry,  You Didn't Escape!\n");
+					myMainGameScreen.CombatMessageArea.append("Sorry,  You Didn't Escape!\n");
 
 
 				}else{
-					myMenu.CombatMessageArea.append("You Escaped from the Battle!\n");
+					myMainGameScreen.CombatMessageArea.append("You Escaped from the Battle!\n");
 
 
 					try {
@@ -300,18 +298,22 @@ public class Combat extends JFrame {
 						e1.printStackTrace();
 					}
 
-					CombatFrame.dispose();
+					endCombat();
 				}
 
 			}});
 
-*/
 
-		CombatFrame.setVisible(true);
+
+		//CombatFrame.setVisible(true);
 
 
 
 	}
 
+	public void endCombat() {
+        // Restore the original panel in MainGameScreen
+        myMainGameScreen.restoreOriginalPanel();
+    }
 
 }
