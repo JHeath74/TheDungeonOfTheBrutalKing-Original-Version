@@ -46,7 +46,7 @@ public class Combat extends JFrame {
 	public JTextArea CombatCombatTextArea, CombatNameAndHPfield  = null;
 	public JButton CombatAttackButton, CastSelectedSpellButton, CombatSpellButton, CombatRunButton, SelectSpellToCast  = null;
 	public JLabel picLabel  = null;
-	public int width, height, HP, HeroHP, randomCombatChance = 0;
+	public int width, height, HP, HeroHP, CharrandomCombatChance, MonsterrandomCombatChance = 0;
 	public Dimension imageSize = null;
 	public BufferedImage myPictureBufferedImage = null;
 	public Timer timer = null;
@@ -278,25 +278,30 @@ public class Combat extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Random rand = new Random();
+				int CharCharisma = Integer.parseInt(myCharSingleton.myCharSingleton().CharInfo.get(7));
+                int CharAgility = Integer.parseInt(myCharSingleton.myCharSingleton().CharInfo.get(11));
+                long CharcombinedSeed = ((long) CharCharisma << 32) | (CharAgility & 0xFFFFFFFFL);
+                
+                int MonsterCharisma = 0;
+                int MonsterAgility = 0;
+                long MonsterrcombinedSeed = ((long) MonsterCharisma << 32) | (MonsterAgility & 0xFFFFFFFFL);
+                
+				Random randChar = new Random(CharcombinedSeed);
+				
+				Random randMonster = new Random(CharcombinedSeed);
 
-				randomCombatChance = rand.nextInt(101);
-
-				if(randomCombatChance <= 50)
+				CharrandomCombatChance = randChar.nextInt(100+1);
+				MonsterrandomCombatChance = randMonster.nextInt(100+1);
+				
+				if(CharrandomCombatChance < MonsterrandomCombatChance)
 				{
-					myMainGameScreen.CombatMessageArea.append("Sorry,  You Didn't Escape!\n");
-
+					myMainGameScreen.MessageTextPane.setText("Sorry,  You Didn't Escape!\n");
+					
 
 				}else{
-					myMainGameScreen.CombatMessageArea.append("You Escaped from the Battle!\n");
+					myMainGameScreen.MessageTextPane.setText("You Escaped from the Battle!\n");
 
-
-					try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e1) {
-
-						e1.printStackTrace();
-					}
+					
 
 					endCombat();
 				}

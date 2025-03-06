@@ -657,6 +657,14 @@ public class MainGameScreen extends JFrame {
 		// *************************************************************************************
 	
 		
+		/*
+		 * MessageTextPane = new JTextPane();
+		 * MessageTextPane.setText("JTextPane MessageTextPane - Game Text Updates");
+		 * MessageTextPane.setBackground(myGameSettings.colorLightBrown);
+		 * MessageTextPane.setForeground(myGameSettings.colorLightYellow);
+		 * MessageTextPane.setFont(myGameSettings.fontLomoCopyLTStdMidi);
+		 */
+		
 		MessageTextPane = new JTextPane();
 		MessageTextPane.setText("JTextPane MessageTextPane - Game Text Updates");
 		MessageTextPane.setBackground(myGameSettings.colorLightBrown);
@@ -674,6 +682,7 @@ public class MainGameScreen extends JFrame {
 		PicturesAndTextUpdatesPane.setResizeWeight(.90d);
 		PicturesAndTextUpdatesPane.setLeftComponent(GameImagesAndCombatPanel);
 		PicturesAndTextUpdatesPane.setRightComponent(MessageTextPane);
+		
 		PicturesAndTextUpdatesPane.setVisible(true);
 		// ***************************************************************
 		// -------------------Adding JPanel to JFrame --------------------
