@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -173,9 +176,18 @@ public class CharacterCreation {
 			
 			toonclasslist = Class.toonclassarray;
 
-			// Set default toon class
+			// Convert toonclasslist to a List
+			List<String> toonclassList = Arrays.asList(toonclasslist);
+
+			// Sort the list alphabetically
+			Collections.sort(toonclassList);
+
+			// Convert the sorted list back to an array
+			toonclasslist = toonclassList.toArray(new String[0]);
 			
-			toonClass = toonclasslist[0];
+			for (int i = 0; i < toonclasslist.length; i++) {
+			    System.out.println(toonclasslist[i]);
+			}
 
 			// Initialize JComboBox with default value selected
 			charectorClass = new JComboBox<>(toonclasslist);
@@ -200,7 +212,7 @@ public class CharacterCreation {
 
 					toonclassDescriptionTextArea.setText(toonClass);
 					
-					if (toonClass == toonclasslist[0]) {
+					if (toonClass == toonclasslist[3]) {
 						toonclassDescriptionTextArea.setText(Paladin.ClassDescription());
 
 						try {
@@ -221,7 +233,7 @@ public class CharacterCreation {
 							e1.printStackTrace();
 						}
 					}
-					if (toonClass == toonclasslist[2]) {
+					if (toonClass == toonclasslist[4]) {
 						toonclassDescriptionTextArea.setText(Rogue.ClassDescription());
 						try {
 							classImage("Rogue");
@@ -230,7 +242,7 @@ public class CharacterCreation {
 							e1.printStackTrace();
 						}
 					}
-					if (toonClass.equals(toonclasslist[3])) {
+					if (toonClass.equals(toonclasslist[2])) {
 						toonclassDescriptionTextArea.setText(Hunter.ClassDescription());
 						try {
 							classImage("Hunter");
@@ -239,7 +251,7 @@ public class CharacterCreation {
 							e1.printStackTrace();
 						}
 					}
-					if (toonClass == toonclasslist[4]) {
+					if (toonClass == toonclasslist[5]) {
 						toonclassDescriptionTextArea.setText(Warrior.ClassDescription());
 						try {
 							classImage("Warrior");
@@ -248,7 +260,7 @@ public class CharacterCreation {
 							e1.printStackTrace();
 						}
 					}
-					if (toonClass == toonclasslist[5]) {
+					if (toonClass == toonclasslist[0]) {
 						toonclassDescriptionTextArea.setText(Bard.ClassDescription());
 						try {
 							classImage("Bard");
@@ -418,10 +430,10 @@ public class CharacterCreation {
 			NameAndStatsPanel.add(toonstatsTextArea, BorderLayout.CENTER);
 			NameAndStatsPanel.add(reRollStatsButton, BorderLayout.SOUTH);
 
-			ClassAndClassInfoPanel.add(charectorClass, BorderLayout.NORTH);
+			ClassAndClassInfoPanel.add(charectorClass, BorderLayout.NORTH); //ComboBox for Classes
 			ClassAndClassInfoPanel.add(ClassInfoAndImagePanel, BorderLayout.CENTER);
-			ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.NORTH);
-			ClassInfoAndImagePanel.add(classImage, BorderLayout.SOUTH);
+			ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.SOUTH);
+			ClassInfoAndImagePanel.add(classImage, BorderLayout.NORTH);
 			ClassAndClassInfoPanel.add(saveToonButton, BorderLayout.SOUTH);
 
 			CharecterCreationFrame.setLocationRelativeTo(null);
@@ -593,10 +605,15 @@ public class CharacterCreation {
 		classImageLabel = new JLabel();
 		classImageLabel.setSize(ClassInfoAndImagePanel.getWidth(), ClassInfoAndImagePanel.getHeight());
 
-		Image newClassImagePicture = ClassImagePicture.getScaledInstance(classImageLabel.getWidth(), classImageLabel.getHeight(),
+		/*
+		 * Image newClassImagePicture =
+		 * ClassImagePicture.getScaledInstance(classImageLabel.getWidth(),
+		 * classImageLabel.getHeight(), Image.SCALE_SMOOTH);
+		 */
+
+		Image newClassImagePicture = ClassImagePicture.getScaledInstance(640, 480,
 		        Image.SCALE_SMOOTH);
-
-
+		
 		ImageIcon img = new ImageIcon(newClassImagePicture);
 
 		classImageLabel.setIcon(img);
