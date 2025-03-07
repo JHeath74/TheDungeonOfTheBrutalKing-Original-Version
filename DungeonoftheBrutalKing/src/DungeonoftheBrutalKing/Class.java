@@ -27,4 +27,14 @@ public abstract class Class {
 		charClass = "";
 
 	}
+
+	protected static Class forName(String className) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getDeclaredConstructor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

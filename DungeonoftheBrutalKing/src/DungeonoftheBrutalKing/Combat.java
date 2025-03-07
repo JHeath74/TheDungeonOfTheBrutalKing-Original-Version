@@ -62,7 +62,9 @@ public class Combat extends JFrame {
 
 	public void CombatEncouter() throws IOException {
 
-		int rnd = new Random().nextInt(Singleton.myMonsters().size());
+		MonsterSelector monsterSelector = new MonsterSelector();
+		Object randomMonster = monsterSelector.selectRandomMonster();
+		
 
 		//*************************************************************
 		//-------------------Adding and Setting Up JFrame -------------
@@ -126,9 +128,7 @@ public class Combat extends JFrame {
 		// Adding Parent JPanel to JFrame
 		//   CombatFrame.add(CombatPanel, BorderLayout.CENTER);
 
-		// Getting Image to display from it's location in the project
-		   myPictureBufferedImage = ImageIO.read(new File(
-				myGameSettings.MonsterImagePath + Singleton.myMonsters().get(rnd).MonsterImage));
+		
 
 		//Adding image to JLabel
 		picLabel = new JLabel(new ImageIcon(myPictureBufferedImage));
@@ -281,14 +281,14 @@ public class Combat extends JFrame {
 				int CharCharisma = Integer.parseInt(myCharSingleton.myCharSingleton().CharInfo.get(7));
                 int CharAgility = Integer.parseInt(myCharSingleton.myCharSingleton().CharInfo.get(11));
                 long CharcombinedSeed = ((long) CharCharisma << 32) | (CharAgility & 0xFFFFFFFFL);
-                
+                                
                 int MonsterCharisma = 0;
                 int MonsterAgility = 0;
-                long MonsterrcombinedSeed = ((long) MonsterCharisma << 32) | (MonsterAgility & 0xFFFFFFFFL);
+                long MonstercombinedSeed = ((long) MonsterCharisma << 32) | (MonsterAgility & 0xFFFFFFFFL);
                 
 				Random randChar = new Random(CharcombinedSeed);
 				
-				Random randMonster = new Random(CharcombinedSeed);
+				Random randMonster = new Random(MonstercombinedSeed);
 
 				CharrandomCombatChance = randChar.nextInt(100+1);
 				MonsterrandomCombatChance = randMonster.nextInt(100+1);

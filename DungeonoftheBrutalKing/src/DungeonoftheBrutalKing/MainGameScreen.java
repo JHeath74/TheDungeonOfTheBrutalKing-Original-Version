@@ -488,13 +488,7 @@ public class MainGameScreen extends JFrame {
 				helptext.setWrapStyleWord(true);
 				JScrollPane scrollPane = new JScrollPane(helptext);
 				scrollPane.setSize(120, 120);
-				try {
-					Combat myCombat = new Combat();
-					myCombat.CombatEncouter();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
 
 				try {
 					// Read some text from the resource file to display in
