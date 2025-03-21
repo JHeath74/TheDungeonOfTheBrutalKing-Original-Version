@@ -10,7 +10,7 @@ import Armour.Leather;
 import Armour.Plate;
 import Armour.Skin;
 import Armour.StuddedLeather;
-import Monsters.Rats;
+import Monsters.Rat;
 import Monsters.Skeletons;
 import Monsters.Spiders;
 import Shields.Magical_Shield;

@@ -2,12 +2,12 @@ package DungeonoftheBrutalKing;
 
 import java.util.Random;
 import Monsters.Assassin;
-import Monsters.Brigands;
-import Monsters.Cutthroats;
+import Monsters.Brigand;
+import Monsters.Cutthroat;
 import Monsters.Devourer;
 import Monsters.Dragon;
 import Monsters.Dwarves;
-import Monsters.Flame_Demons;
+import Monsters.Flame_Demon;
 import Monsters.Ghost;
 import Monsters.Ghoul;
 import Monsters.Giant_Bat;
@@ -22,20 +22,24 @@ import Monsters.Horned_Devil;
 import Monsters.Ice_Demon;
 import Monsters.Imp;
 import Monsters.Knight;
+import Monsters.Liches;
+import Monsters.Mage;
+import Monsters.Master_Thief;
+import Monsters.Mold;
 
 class MonsterSelector {
 
     // Method to select a random monster
     public static Object selectRandomMonster() {
         Random random = new Random();
-        int index = random.nextInt(3);
+        int index = random.nextInt(21);
         switch (index) {
             case 0:
                 return new Assassin();
             case 1:
-                return new Brigands();
+                return new Brigand();
             case 2:
-                return new Cutthroats();
+                return new Cutthroat();
             case 3:
             	return new Devourer();
             case 4:
@@ -43,7 +47,7 @@ class MonsterSelector {
             case 5:
                 return new Dwarves();
             case 6:
-                return new Flame_Demons();
+                return new Flame_Demon();
             case 7:
             	return new Ghost();
             case 8:
@@ -72,6 +76,15 @@ class MonsterSelector {
                 return new Imp();
             case 20:
             	return new Knight();
+            case 21:
+                return new Liches();
+            case 22:
+                return new Mage();
+            case 23:
+                return new Master_Thief();
+            case 24:
+            	return new Mold();
+            	
             default:
                 return null;
         }

@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Cutthroats extends Enemies {
+public class Cutthroat extends Enemies {
     String name;
     int level;
     int hitPoints;
@@ -14,8 +14,8 @@ public class Cutthroats extends Enemies {
 	private String imagePath;
 
     // Constructor
-    public Cutthroats() {
-        this.name = "Cutthroats";
+    public Cutthroat() {
+        this.name = "Cutthroat";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -23,7 +23,7 @@ public class Cutthroats extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Cutthroats.png"; // Set the image path
+        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Cutthroat.png"; // Set the image path
     }
 
     // Method to take damage
@@ -49,7 +49,7 @@ public class Cutthroats extends Enemies {
 
     @Override
     public String toString() {
-        return "Cutthroats{" +
+        return "Cutthroat{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +

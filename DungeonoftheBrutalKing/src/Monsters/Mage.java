@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Night_Stalker extends Enemies {
+public class Mage extends Enemies {
     String name;
     int level;
     int hitPoints;
@@ -14,8 +14,8 @@ public class Night_Stalker extends Enemies {
     String imagePath;
 
     // Constructor
-    public Night_Stalker() {
-        this.name = "Night Stalker";
+    public Mage() {
+        this.name = "Liches";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -23,7 +23,7 @@ public class Night_Stalker extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Night_Stalker.png"; // Set the image path
+        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Mage.png"; // Set the image path
     }
 
     // Method to take damage
@@ -54,7 +54,7 @@ public class Night_Stalker extends Enemies {
 
     @Override
     public String toString() {
-        return "Night_Stalker{" +
+        return "Mage{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +

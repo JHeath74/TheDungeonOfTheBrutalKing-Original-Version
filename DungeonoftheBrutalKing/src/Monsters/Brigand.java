@@ -1,6 +1,6 @@
 package Monsters;
 
-public class Brigands {
+public class Brigand {
     String name;
     int level;
     int hitPoints;
@@ -12,8 +12,8 @@ public class Brigands {
 	private String imagePath;
 
     // Constructor
-    public Brigands() {
-        this.name = "Brigands";
+    public Brigand() {
+        this.name = "Brigand";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -21,7 +21,7 @@ public class Brigands {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Brigands.png"; // Set the image path
+        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Brigand.png"; // Set the image path
     }
 
     // Method to take damage
@@ -47,7 +47,7 @@ public class Brigands {
 
     @Override
     public String toString() {
-        return "Brigands{" +
+        return "Brigand{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +

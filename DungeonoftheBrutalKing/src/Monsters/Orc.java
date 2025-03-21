@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Flame_Demons extends Enemies {
+public class Orc extends Enemies {
     String name;
     int level;
     int hitPoints;
@@ -14,8 +14,8 @@ public class Flame_Demons extends Enemies {
     String imagePath;
 
     // Constructor
-    public Flame_Demons() {
-        this.name = "Flame Demons";
+    public Orc() {
+        this.name = "Orc";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -23,7 +23,7 @@ public class Flame_Demons extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Flame_Demons.png"; // Set the image path
+        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Orc.png"; // Set the image path
     }
 
     // Method to take damage
@@ -54,7 +54,7 @@ public class Flame_Demons extends Enemies {
 
     @Override
     public String toString() {
-        return "Flame_Demons{" +
+        return "Orc{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +
