@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Cutthroats {
+public class Cutthroats extends Enemies {
     String name;
     int level;
     int hitPoints;
@@ -49,7 +49,7 @@ public class Cutthroats {
 
     @Override
     public String toString() {
-        return "Brigands{" +
+        return "Cutthroats{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +

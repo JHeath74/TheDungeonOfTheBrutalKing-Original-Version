@@ -2,19 +2,66 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Devourer extends Enemies{
+public class Devourer extends Enemies {
+    String name;
+    int level;
+    int hitPoints;
+    int strength;
+    int charisma;
+    int agility;
+    int intelligence;
+    int wisdom;
+	private String imagePath;
 
-	public Devourer() {
+    // Constructor
+    public Devourer() {
+        this.name = "Devourer";
+        this.level = 1;
+        this.hitPoints = 30;
+        this.strength = 8;
+        this.charisma = 5;
+        this.agility = 7;
+        this.intelligence = 6;
+        this.wisdom = 3;
+        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Devourer.png"; // Set the image path
+    }
 
-		name = "Devourer";
-		sta = 1;
-		chr = 1;
-		str = 1;
-		inti = 1;
-		wis = 1;
-		agi = 1;
-		MonsterHP = 15;
-		//MonsterImage = "Devourer.jpg";
+    // Method to take damage
+    public void takeDamage(int damage) {
+        this.hitPoints -= damage;
+        if (this.hitPoints < 0) {
+            this.hitPoints = 0; // Ensure hit points don't go below 0
+        }
+        if (isDead()) {
+            System.out.println(name + " has died.");
+        }
+    }
+
+    // Method to check if the monster is dead
+    public boolean isDead() {
+        return this.hitPoints <= 0;
+    }
+
+    // Method to calculate attack strength
+    public int attack() {
+        return (int) ((strength * 1.5) + (agility * 0.5));
+    }
+
+    @Override
+    public String toString() {
+        return "Devourer{" +
+                "name='" + name + '\'' +
+                ", level=" + level +
+                ", hitPoints=" + hitPoints +
+                ", strength=" + strength +
+                ", charisma=" + charisma +
+                ", agility=" + agility +
+                ", intelligence=" + intelligence +
+                ", wisdom=" + wisdom +
+                '}';
+    }
+
+	public String getImagePath() {
+		return imagePath;
 	}
-
 }

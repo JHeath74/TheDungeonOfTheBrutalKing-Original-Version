@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Dragon extends Enemies {
+public class Gnome extends Enemies {
     String name;
     int level;
     int hitPoints;
@@ -11,11 +11,11 @@ public class Dragon extends Enemies {
     int agility;
     int intelligence;
     int wisdom;
-	private String imagePath;
+    String imagePath;
 
     // Constructor
-    public Dragon() {
-        this.name = "Dragon";
+    public Gnome() {
+        this.name = "Gnome";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -23,7 +23,7 @@ public class Dragon extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Dragon.png"; // Set the image path
+        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Gnome.png"; // Set the image path
     }
 
     // Method to take damage
@@ -47,9 +47,14 @@ public class Dragon extends Enemies {
         return (int) ((strength * 1.5) + (agility * 0.5));
     }
 
+    // Getter for imagePath
+    public String getImagePath() {
+        return imagePath;
+    }
+
     @Override
     public String toString() {
-        return "Dragon{" +
+        return "Gnome{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +
@@ -58,10 +63,7 @@ public class Dragon extends Enemies {
                 ", agility=" + agility +
                 ", intelligence=" + intelligence +
                 ", wisdom=" + wisdom +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
-
-	public String getImagePath() {
-		return imagePath;
-	}
 }

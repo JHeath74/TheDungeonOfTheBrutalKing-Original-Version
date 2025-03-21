@@ -1,7 +1,5 @@
 package Monsters;
 
-import DungeonoftheBrutalKing.Enemies;
-
 public class Brigands {
     String name;
     int level;
