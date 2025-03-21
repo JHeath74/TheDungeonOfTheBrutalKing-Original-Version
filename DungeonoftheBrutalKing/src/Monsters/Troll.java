@@ -2,10 +2,10 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Storm_Devils extends Enemies {
+public class Troll extends Enemies{
 
-	public Storm_Devils() {
-		name = "Storm Devils";
+	public Troll() {
+		name = "Trolls";
 		sta = 1;
 		chr = 1;
 		str = 1;
@@ -13,7 +13,7 @@ public class Storm_Devils extends Enemies {
 		wis = 1;
 		agi = 1;
 		MonsterHP = 20;
-		//MonsterImage = "Storm_Devils.jpg";
+		//MonsterImage = "Trolls.jpg";
 	}
 
 }

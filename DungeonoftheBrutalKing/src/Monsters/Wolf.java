@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Slime extends Enemies {
+public class Wolf extends Enemies {
     String name;
     int level;
     int hitPoints;
@@ -14,8 +14,8 @@ public class Slime extends Enemies {
     String imagePath;
 
     // Constructor
-    public Slime() {
-        this.name = "Slime";
+    public Wolf() {
+        this.name = "Wolf";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -23,7 +23,7 @@ public class Slime extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Slime.png"; // Set the image path
+        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Wolf.png"; // Set the image path
     }
 
     // Method to take damage
@@ -54,7 +54,7 @@ public class Slime extends Enemies {
 
     @Override
     public String toString() {
-        return "Slime{" +
+        return "Wolf{" +
                 "name='" + name + '\'' +
                 ", level=" + level +
                 ", hitPoints=" + hitPoints +

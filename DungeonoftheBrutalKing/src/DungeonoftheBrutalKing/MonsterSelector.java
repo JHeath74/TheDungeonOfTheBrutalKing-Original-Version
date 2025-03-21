@@ -26,6 +26,26 @@ import Monsters.Liches;
 import Monsters.Mage;
 import Monsters.Master_Thief;
 import Monsters.Mold;
+import Monsters.Night_Stalker;
+import Monsters.Noblemen;
+import Monsters.Orc;
+import Monsters.Phoenix;
+import Monsters.Rat;
+import Monsters.Salamander;
+import Monsters.Serpentmen;
+import Monsters.Skeleton;
+import Monsters.Slime;
+import Monsters.Spectre;
+import Monsters.Spider;
+import Monsters.Storm_Devil;
+import Monsters.Thief;
+import Monsters.Troll;
+import Monsters.Valkyrie;
+import Monsters.Vampire;
+import Monsters.Whirlwind;
+import Monsters.Wizard;
+import Monsters.Wolf;
+import Monsters.Wraith;
 
 class MonsterSelector {
 
@@ -84,7 +104,46 @@ class MonsterSelector {
                 return new Master_Thief();
             case 24:
             	return new Mold();
-            	
+            case 25:
+                return new Night_Stalker();
+            case 26:
+                return new Noblemen();
+            case 27:
+                return new Orc();
+            case 28:
+            	return new Phoenix(); 	
+            case 29:
+            	return new Rat(); 
+            case 30:
+                return new Salamander();
+            case 31:
+            	return new Serpentmen(); 	
+            case 32:
+            	return new Skeleton(); 
+            case 33:
+            	return new Slime(); 
+            case 34:
+                return new Spectre();
+            case 35:
+            	return new Spider(); 	
+            case 36:
+            	return new Storm_Devil(); 
+            case 38:
+            	return new Thief(); 	
+            case 39:
+            	return new Troll(); 
+            case 40:
+            	return new Valkyrie(); 
+            case 41:
+                return new Vampire();
+            case 42:
+            	return new Whirlwind(); 	
+            case 43:
+            	return new Wizard(); 
+            case 44:
+            	return new Wolf(); 	
+            case 45:
+            	return new Wraith(); 
             default:
                 return null;
         }
