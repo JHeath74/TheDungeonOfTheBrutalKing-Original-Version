@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing;
 
 public abstract class Class {
 
-	public static final String[] toonclassarray = {"Paladin", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
+	public static final String[] toonclassarray = {"Paladin", "Wizard", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
 
 	/*
 	 * public abstract double Heal(); // Heal yourself

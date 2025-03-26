@@ -1,39 +1,39 @@
+
+// Weapons.java
 package DungeonoftheBrutalKing;
 
 public class Weapons {
 
-protected Singleton myChar = new Singleton();
+    protected Singleton myChar = new Singleton();
 
-private static Weapons myWeapon = Weapons.Singleton();
-private static Weapons single_instance_weapons;
+    public String name;
+    public int requiredStrength;
+    public static String charStrength;
+    private static int damage;
+    private static double criticalHitChance;
+    private static StatusEffect statusEffect;
 
-public String name;
-public int requiredStrength;
-public static String charStrength;
-private static int damage;
-private static double criticalHitChance;
-private static StatusEffect statusEffect;
+    public Weapons(String name, int requiredStrength, int damage, String effect) {
+        this.name = name;
+        this.requiredStrength = requiredStrength;
+        Weapons.damage = damage;
+        if (effect != null) {
+            Weapons.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+        } else {
+            Weapons.statusEffect = StatusEffect.NONE;
+        }
+    }
 
-/*
- * public ARTDWeapons(String name, int damage, double criticalHitChance,
- * StatusEffect statusEffect) { this.name = name; this.damage = damage;
- * this.criticalHitChance = criticalHitChance; this.statusEffect = statusEffect;
- * }
- */
+    public enum StatusEffect {
+        NONE,
+        POISON,
+        STUN,
+        BLEED,
+        FIRE,
+        COLD,
+    }
 
-public Weapons()
-{
-
-}
-
-	public enum StatusEffect {
-	    NONE,
-	    POISON,
-	    STUN,
-	    BLEED
-	}
-
-	public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -49,15 +49,23 @@ public Weapons()
         return statusEffect;
     }
 
-public static Weapons Singleton()
-{
-	// To ensure only one instance is created
-	if (single_instance_weapons == null) {
-		single_instance_weapons = new Weapons();
-	}
-	return single_instance_weapons;
-}
+    public void setRequiredStrength(int requiredStrength) {
+        this.requiredStrength = requiredStrength;
+    }
 
+    public int getAttackDamage() {
+        return damage;
+    }
 
+    public void setEffect(String effect) {
+        if (effect != null) {
+            Weapons.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+        } else {
+            Weapons.statusEffect = StatusEffect.NONE;
+        }
+    }
 
+    public void setAttackDamage(int attackDamage) {
+        Weapons.damage = attackDamage;
+    }
 }

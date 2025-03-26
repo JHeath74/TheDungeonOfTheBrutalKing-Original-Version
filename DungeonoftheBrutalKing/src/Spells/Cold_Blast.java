@@ -1,23 +1,26 @@
+
 package Spells;
 
 import DungeonoftheBrutalKing.Spells;
+import DungeonoftheBrutalKing.Charecter;
+import java.util.Random;
 
-public class Cold_Blast extends Spells
-{
+public class Cold_Blast extends Spells{
 
-	//Damaged Base off of intelligence or Wisdom
+    // Minimum Wisdom required to cast the spell
+    private static final int MINIMUM_WISDOM = 10;
+    private static Charecter myChar = Charecter.Singleton();
 
-	public Cold_Blast()
-	{
-		name = "Cold Blast";
-		requiredint = 30;
-		requiredwis = 30;
-		charintelligence = myChar.myCharSingleton().CharInfo.get(8).toString();
-		charwisdom = myChar.myCharSingleton().CharInfo.get(9).toString();
+    int AttackerWisdom = Integer.parseInt(myChar.CharInfo.get(10));
 
-		isCombatSpell = true;
-
-
-	}
-
+    public static void castSpell(int attackerWisdom) {
+        if (attackerWisdom < MINIMUM_WISDOM) {
+            System.out.println("You lack the necessary Wisdom to cast Cold Blast!");
+        } else {
+            // Calculate random damage based on attacker's Wisdom
+            Random random = new Random();
+            int damage = random.nextInt(attackerWisdom) + 1; // Random value from 1 to attacker's Wisdom
+            System.out.println("Cold Blast deals " + damage + " cold damage!");
+        }
+    }
 }

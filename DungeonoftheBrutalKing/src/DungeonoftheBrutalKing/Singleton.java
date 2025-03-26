@@ -11,38 +11,38 @@ import Armour.Plate;
 import Armour.Skin;
 import Armour.StuddedLeather;
 import Monsters.Rat;
-import Monsters.Skeletons;
-import Monsters.Spiders;
+import Monsters.Skeleton;
+import Monsters.Spider;
 import Shields.Magical_Shield;
 import Shields.Magical_Small_Shield;
 import Shields.Magical_Spiked_Shield;
 import Shields.Small_Shield;
 import Shields.Spiked_Shield;
 import Shields.Wooden_Shield;
-import Weapons.BattleAxe;
-import Weapons.BattleHammer;
-import Weapons.Crossbow;
-import Weapons.Daggger;
-import Weapons.Dart;
-import Weapons.Flail;
-import Weapons.Hand;
-import Weapons.Javelin;
-import Weapons.LongSword;
-import Weapons.Longbow;
-import Weapons.ShortSword;
-import Weapons.Shortbow;
-import Weapons.Sling;
-import Weapons.Stilleto;
-import Weapons.Sword;
-import Weapons.WarNet;
-import Weapons.Whip;
+import Weapon.BattleAxe;
+import Weapon.BattleHammer;
+import Weapon.Crossbow;
+import Weapon.Dagger;
+import Weapon.Dart;
+import Weapon.Flail;
+import Weapon.Hand;
+import Weapon.Javelin;
+import Weapon.LongSword;
+import Weapon.Longbow;
+import Weapon.ShortSword;
+import Weapon.Shortbow;
+import Weapon.Sling;
+import Weapon.Stilleto;
+import Weapon.Sword;
+import Weapon.WarNet;
+import Weapon.Whip;
 
 public class Singleton
 {
 
 	private static Charecter myChar = Charecter.Singleton();
 
-	private static Weapons myWeapon = Weapons.Singleton();
+//	private static Weapons myWeapon = Weapons.Singleton();
 	private static Armour myArmour = Armour.Singleton();
 	private static Shields myShields = Shields.Singleton();
 	private static Spells mySpells = Spells.Singleton();
@@ -110,23 +110,23 @@ public class Singleton
 	{
 		weaponList = new ArrayList<>();
 
-	//	weaponList.add(new ARTDHand());
-	//	weaponList.add(new ARTDDaggger());
-	//	weaponList.add(new ARTDStilleto());
-//		weaponList.add(new ARTDDart());
-//		weaponList.add(new ARTDSling());
-//		weaponList.add(new ARTDShortSword());
-//		weaponList.add(new ARTDShortbow());
-//		weaponList.add(new ARTDWarNet());
-	//	weaponList.add(new ARTDFlail());
-	//	weaponList.add(new ARTDSword());
-	//	weaponList.add(new ARTDWhip());
-	//	weaponList.add(new ARTDCrossbow());
-	//	weaponList.add(new ARTDLongSword());
-	//	weaponList.add(new ARTDLongbow());
-	//	weaponList.add(new ARTDJavelin());
-	//	weaponList.add(new ARTDBattleAxe());
-	//	weaponList.add(new ARTDBattleHammer());
+	//	weaponList.add(new Hand());
+	//	weaponList.add(new Daggger());
+	//	weaponList.add(new Stilleto());
+//		weaponList.add(new Dart());
+//		weaponList.add(new Sling());
+//		weaponList.add(new ShortSword());
+//		weaponList.add(new Shortbow());
+//		weaponList.add(new WarNet());
+	//	weaponList.add(new Flail());
+	//	weaponList.add(new Sword());
+	//	weaponList.add(new Whip());
+	//	weaponList.add(new Crossbow());
+	//	weaponList.add(new LongSword());
+	//	weaponList.add(new Longbow());
+	//	weaponList.add(new Javelin());
+	//	weaponList.add(new BattleAxe());
+	//	weaponList.add(new BattleHammer());
 
 
 		return weaponList;
@@ -158,10 +158,10 @@ public class Singleton
 		return mySpells;
 	}
 
-	public static Weapons myWeaponSingleton()
-	{
-		return myWeapon;
-	}
+//	public static Weapons myWeaponSingleton()
+//	{
+//		return myWeapon;
+//	}
 
 
 	  public static List<Spells> spellList() { return spellList; }
@@ -171,5 +171,9 @@ public class Singleton
 	{
 		return weaponList;
 	}
+	
+	 public void removeEffect(String effect) {
+	        // Logic to remove the effect from the character
+	    }
 
 }
