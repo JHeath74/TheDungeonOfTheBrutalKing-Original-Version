@@ -68,4 +68,9 @@ public class Weapons {
     public void setAttackDamage(int attackDamage) {
         Weapons.damage = attackDamage;
     }
+
+	public static Weapons Singleton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

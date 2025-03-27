@@ -166,6 +166,21 @@ public class Charecter {
 	        CharInfo.set(19, shield);
 	    }
 
+		public int[] getCharInfo(int i) {
+			int[] position = new int[3];
+	        position[0] = Integer.parseInt(CharInfo.get(22)); // current x position
+	        position[1] = Integer.parseInt(CharInfo.get(23)); // current y position
+	        position[2] = Integer.parseInt(CharInfo.get(24)); // current z position
+	        return position;
+		}
+
+		public void updatePosition(int targetX, int targetY, int targetZ) {
+			CharInfo.set(22, String.valueOf(targetX)); // Update x position
+	        CharInfo.set(23, String.valueOf(targetY)); // Update y position
+	        CharInfo.set(24, String.valueOf(targetZ)); // Update z position
+			
+		}
+
 
 
 

@@ -39,10 +39,38 @@ import Weapon.Whip;
 
 public class Singleton
 {
+	public static final String CharInfo = null;
+	private static Singleton instance;
+    private int[] charInfo = new int[25]; // Example: [x, y, z, ..., other indices]
 
+    Singleton() {
+        // Initialize charInfo or other necessary fields
+        charInfo[0] = 0; // x
+        charInfo[1] = 0; // y
+        charInfo[2] = 0; // z
+        // Initialize other indices as needed
+    }
+
+    public static Charecter myCharSingleton()
+	{
+		return myChar;
+	}
+  
+//    public static Singleton myCharSingleton() {
+//        if (myChar == null) {
+//            myChar = new Singleton();
+//        }
+//        return instance;
+//    }
+
+    public int getCharInfo(int index) {
+        return charInfo[index];
+    }
+    
 	private static Charecter myChar = Charecter.Singleton();
 
-//	private static Weapons myWeapon = Weapons.Singleton();
+	private static Weapons myWeapon = Weapons.Singleton();
+
 	private static Armour myArmour = Armour.Singleton();
 	private static Shields myShields = Shields.Singleton();
 	private static Spells mySpells = Spells.Singleton();
@@ -143,15 +171,10 @@ public class Singleton
 		return myArmour;
 	}
 
-
-	public static Charecter myCharSingleton()
+	public static Shields myShieldSingleton()
 	{
-		return myChar;
+		return myShields;
 	}
-
-
-
-
 
 	public static Spells spellListSingleton()
 	{

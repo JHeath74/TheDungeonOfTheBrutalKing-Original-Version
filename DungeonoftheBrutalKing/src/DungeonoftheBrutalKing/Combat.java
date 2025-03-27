@@ -35,6 +35,7 @@ public class Combat extends JFrame {
 	Singleton myCharSingleton = new Singleton();
 	GameSettings myGameSettings = new GameSettings();
 	private MainGameScreen myMainGameScreen = null;
+	Charecter myChar = new Charecter();
 
 	String HeroHPArrayList = "";
 
@@ -54,10 +55,10 @@ public class Combat extends JFrame {
 
 	public Combat() throws IOException {
 
-		HeroHPArrayList = Singleton.myCharSingleton().CharInfo.get(4);
-		HeroHP = Integer.parseInt(HeroHPArrayList);
+        HeroHPArrayList = myChar.CharInfo.get(4);
+        HeroHP = Integer.parseInt(HeroHPArrayList);
 
-		 myMainGameScreen = new MainGameScreen();
+        myMainGameScreen = new MainGameScreen();
 	}
 
 	public void CombatEncouter() throws IOException {
