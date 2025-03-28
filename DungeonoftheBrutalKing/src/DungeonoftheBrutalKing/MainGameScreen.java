@@ -48,7 +48,7 @@ import javax.swing.WindowConstants;
  * Games Menu Items
  *
  */
-public class MainGameScreen extends JFrame {
+public class MainGameScreen extends JFrame  {
 
 	private static final long serialVersionUID = 1L;
 	Charecter myChar = Charecter.Singleton();
@@ -58,7 +58,7 @@ public class MainGameScreen extends JFrame {
 	CharacterCreation myCharacterCreation;
 	
 	
-
+	
 
 	JFrame MainGameScreenFrame = null;
 	JPanel p1Panel, p2Panel, p3Panel, p4Panel, GameImagesAndCombatPanel = null;
@@ -77,6 +77,7 @@ public class MainGameScreen extends JFrame {
 	Dimension screenSize = null;
 	int width, height = 0;
 	Timer timer = null;
+	private TimeClock clock;
 	
 	// In MainGameScreen class
 	public JTextArea CombatMessageArea = new JTextArea();
@@ -685,7 +686,8 @@ public class MainGameScreen extends JFrame {
 		MainGameScreenFrame.add(PicturesAndTextUpdatesPane, BorderLayout.CENTER);
 		MainGameScreenFrame.add(p1Panel, BorderLayout.NORTH);
 
-
+		clock = new TimeClock(TimeClock.Month.REBIRTH, MessageTextPane );
+        clock.startClock();
 
 
 		MainGameScreenFrame.setVisible(true);
@@ -693,7 +695,9 @@ public class MainGameScreen extends JFrame {
 
 	}
 	
-	
+	public static void main(String[] args) throws IOException {
+	    new MainGameScreen();
+	}
 	
 	
 

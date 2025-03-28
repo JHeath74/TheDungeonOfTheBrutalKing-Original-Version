@@ -45,17 +45,24 @@ public class Charecter {
 	//CharInfo[23] = LocationY
 	//CharInfo[24] = LocationZ
 	
+	//Date and Time
+	// CharInfo[25] = Date (Day)
+	//CharInfo[26] = Date (Month)
+	//CharInfo[27] = Time (Time)
+	
+	
+	
 	//Acquired Spells
 
 
-	// CharInfo[25]
-	// CharInfo[26]
-	// CharInfo[27]
 	// CharInfo[28]
 	// CharInfo[29]
 	// CharInfo[30]
 	// CharInfo[31]
 	// CharInfo[32]
+	// CharInfo[33]
+	// CharInfo[34]
+	// CharInfo[35]
 
 
 
@@ -68,6 +75,17 @@ public class Charecter {
 	            single_instance_myChar = new Charecter();
 	        }
 	        return single_instance_myChar;
+	    }
+	    
+	    // Method to update CharInfo at a specific index
+	    public void updateCharInfo(int index, String value) {
+	        if (index >= 0 && index < CharInfo.size()) {
+	            CharInfo.set(index, value);
+	        } else if (index == CharInfo.size()) {
+	            CharInfo.add(value);
+	        } else {
+	            // Handle invalid index if necessary
+	        }
 	    }
 	    
 		public void removeEffect(String effect) {
