@@ -2,7 +2,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
 
-public class Assassin {
+public class Assassin extends Enemies{
     String name;
     int level;
     int hitPoints;

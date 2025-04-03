@@ -36,7 +36,10 @@ public class Combat extends JFrame {
 	GameSettings myGameSettings = new GameSettings();
 	private MainGameScreen myMainGameScreen = null;
 	Charecter myChar = new Charecter();
-
+	Enemies myEnemies = new Enemies();
+	
+	// Add a variable to store the selected spell
+	private String selectedSpell = null;
 	String HeroHPArrayList = "";
 
 	public JFrame CombatFrame, spellsFrame;
@@ -200,81 +203,91 @@ public class Combat extends JFrame {
 		timer.start();
 
 		// Attack Button in Combat
-		CombatAttackButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+CombatAttackButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Enemies enemy = new Enemies();
+        while (enemy.getHitPoints() > 0 && myChar.getHitPoints() > 0) {
+            int characterStrength = Integer.parseInt(myChar.CharInfo.get(8));
+            int characterAgility = Integer.parseInt(myChar.CharInfo.get(11));
+            int weaponDamage = Weapons.getDamage();
+            int monsterDefense = enemy.getStrength();
+            int monsterAgility = enemy.getAgility();
 
-				if (HP > 0 || HeroHP > 0) {
+            int attackPower = characterStrength + weaponDamage;
+            int agilityDifference = characterAgility - monsterAgility;
 
-				}
+            Random random = new Random(attackPower + characterAgility);
+            int chance = random.nextInt(attackPower) + agilityDifference;
 
-			}
-		});
+            if (attackPower + chance > monsterDefense) {
+                myMainGameScreen.MessageTextPane.setText("Character wins the fight!");
+                enemy.hitPoints = 0; // Set enemy HP to 0 to end the loop
+            } else {
+                myMainGameScreen.MessageTextPane.setText("Monster wins the fight!");
+                myChar.CharInfo.set(4, "0"); // Set character HP to 0 to end the loop
+            }
+        }
+    }
+});
 
-		// CastSpell Button in Combat
-		CastSelectedSpellButton.addActionListener(new ActionListener() {
+//Update the ActionListener for CombatSpellButton
+CombatSpellButton.addActionListener(new ActionListener() {
+ @Override
+ public void actionPerformed(ActionEvent e) {
+     spellsFrame = new JFrame();
+     SelectSpellToCast = new JButton("Select Spell to Cast");
+     spelllistbox = new JPanel(new BorderLayout());
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+     spellList = new String[Singleton.myCharSingleton().CharInfo.size()];
 
-			}
-		});
+     for (int i = 21; i < Singleton.myCharSingleton().CharInfo.size(); i++) {
+         spellList[i] = Singleton.myCharSingleton().CharInfo.get(i);
+     }
 
-		// Select Spell to Cast
-		CombatSpellButton.addActionListener(new ActionListener() {
+     final JComboBox<String> spells;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+     if (spellList.length == 0) {
+         spells = new JComboBox<>();
+         spells.addItem("No Spells Available To Cast");
+         spells.setEditable(false);
+     } else {
+         spells = new JComboBox<>(spellList);
+         spells.setEditable(false);
+     }
 
-				spellsFrame = new JFrame();
-				SelectSpellToCast = new JButton("Select Spell to Cast");
-				spelllistbox = new JPanel(new BorderLayout());
+     spells.addItemListener(new ItemListener() {
+         @Override
+         public void itemStateChanged(ItemEvent e) {
+             selectedSpell = (String) spells.getSelectedItem(); // Store the selected spell
+         }
+     });
 
-				spellList = new String[Singleton.myCharSingleton().CharInfo.size()];
+     spellsFrame.add(spelllistbox);
+     spelllistbox.add(spells, BorderLayout.CENTER);
+     spelllistbox.add(CastSelectedSpellButton, BorderLayout.SOUTH);
+     spelllistbox.add(SelectSpellToCast, BorderLayout.SOUTH);
 
-				for (int i = 21; i < Singleton.myCharSingleton().CharInfo.size(); i++) {
-					spellList[i] = Singleton.myCharSingleton().CharInfo.get(i);
-				}
+     spellsFrame.setSize(400, 200);
+     spellsFrame.setLocationRelativeTo(null);
+     spellsFrame.setVisible(true);
+ }
+});
 
-				JComboBox<String> spells = new JComboBox<>();
-
-				if (spellList.length == 0) {
-					spells = new JComboBox<>();
-					spells.addItem("No Spells Available To Cast");
-					spells.setEditable(false);
-				}
-					spells = new JComboBox<>(spellList);
-					spells.setEditable(false);
-
-
-				spells.addItemListener(new ItemListener() {
-
-					@Override
-					public void itemStateChanged(ItemEvent e) {
-
-						//String castspell = spells.getSelectedItem().toString(); // get the selected item in the
-																				// JComboBox
-
-						//ARTDSpellList.getSpells(castspell);
-
-					}
-				});
-
-				spellsFrame.add(spelllistbox);
-				spelllistbox.add(spells, BorderLayout.CENTER);
-				spelllistbox.add(CastSelectedSpellButton, BorderLayout.SOUTH);
-				spelllistbox.add(SelectSpellToCast, BorderLayout.SOUTH);
-
-				spellsFrame.setSize(400, 200);
-				spellsFrame.setLocationRelativeTo(null);
-
-				spellsFrame.setVisible(true);
-
-			}
-
-		});
-
+//Update the ActionListener for CastSelectedSpellButton
+CastSelectedSpellButton.addActionListener(new ActionListener() {
+ @Override
+ public void actionPerformed(ActionEvent e) {
+     if (selectedSpell != null) {
+         // Cast the selected spell
+         myMainGameScreen.MessageTextPane.setText("Casting spell: " + selectedSpell);
+         // Add logic to apply the spell effect
+     } else {
+         myMainGameScreen.MessageTextPane.setText("No spell selected to cast.");
+     }
+ }
+});
 		CombatRunButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

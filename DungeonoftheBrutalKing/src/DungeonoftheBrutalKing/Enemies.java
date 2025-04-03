@@ -1,43 +1,66 @@
+
+// src/DungeonoftheBrutalKing/Enemies.java
 package DungeonoftheBrutalKing;
 
-import java.util.ArrayList;
-
-//https://gamedev.stackexchange.com/questions/81884/making-a-monster-encounter-method
-
-//https://www.geeksforgeeks.org/inheritance-in-java/
-
-
-
-public class Enemies
-{
-	public ArrayList<String> myMonsters = new ArrayList<>();
-	private static Enemies single_instance_myEnemies;
+public class Enemies {
+    protected String name;
+    protected int level;
+    protected int hitPoints;
+    protected static int strength;
+    protected int charisma;
+    protected static int agility;
+    protected int intelligence;
+    protected int wisdom;
+    protected String imagePath;
 
 
-	public double sta;
-	public double chr;
-	public double str;
-	public double inti;
-	public double wis;
-	public double agi;
-	public double MonsterHP;
-	public String name;
-	public String MonsterImage;
-	public double basedamage;
-	public double basedefense;
-	public double gold;
+    // Getter for hitPoints
+    public int getHitPoints() {
+        return hitPoints;
+    }
 
+    // Getter for strength
+    public static int getStrength() {
+        return strength;
+    }
 
-	public static Enemies Singleton()
-	{
-		// To ensure only one instance is created
-		if (single_instance_myEnemies == null) {
-			single_instance_myEnemies = new Enemies();
-		}
-		return single_instance_myEnemies;
+    // Getter for agility
+    public static int getAgility() {
+        return agility;
+    }
+    
+    // Method to check if the monster is dead
+    public boolean isDead() {
+        return this.hitPoints <= 0;
+    }
+
+    // Method to calculate attack strength
+    public int attack() {
+        return (int) ((strength * 1.5) + (agility * 0.5));
+    }
+
+    // Getter for imagePath
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "name='" + name + '\'' +
+                ", level=" + level +
+                ", hitPoints=" + hitPoints +
+                ", strength=" + strength +
+                ", charisma=" + charisma +
+                ", agility=" + agility +
+                ", intelligence=" + intelligence +
+                ", wisdom=" + wisdom +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
+    }
+
+	public static Enemies Singleton() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-
-
-
 }

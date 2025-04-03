@@ -1,6 +1,8 @@
 package Monsters;
 
-public class Brigand {
+import DungeonoftheBrutalKing.Enemies;
+
+public class Brigand extends Enemies{
     String name;
     int level;
     int hitPoints;

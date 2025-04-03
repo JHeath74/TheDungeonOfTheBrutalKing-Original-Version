@@ -16,7 +16,7 @@ public class Weapons {
     public Weapons(String name, int requiredStrength, int damage, String effect) {
         this.name = name;
         this.requiredStrength = requiredStrength;
-        Weapons.damage = damage;
+        this.damage = damage;
         if (effect != null) {
             Weapons.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
@@ -37,7 +37,7 @@ public class Weapons {
         return name;
     }
 
-    public int getDamage() {
+    public static int getDamage() {
         return damage;
     }
 

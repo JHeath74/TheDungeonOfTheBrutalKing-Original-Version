@@ -107,6 +107,11 @@ public class Charecter {
 	    public void updateHealth(int health) {
 	        CharInfo.set(4, String.valueOf(health));
 	    }
+	    
+	    public int getHitPoints() {
+	        return Integer.parseInt(CharInfo.get(4));
+	    }
+	    
 
 	    // Method to update magic points
 	    public void updateMagicPoints(int magicPoints) {
