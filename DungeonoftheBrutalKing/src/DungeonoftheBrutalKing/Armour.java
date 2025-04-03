@@ -1,54 +1,69 @@
+
+// src/Armour/Armour.java
 package DungeonoftheBrutalKing;
 
-import java.util.ArrayList;
+public class Armour {
 
-public class Armour { 
-	
-public ArrayList myArmour = new ArrayList<>();
-private static Armour single_instance_armour;
+    protected Singleton myChar = new Singleton();
 
-protected Singleton myChar = new Singleton();
+    public String name;
+    protected int requiredStrength;
+    public static String charStrength;
+    private static int damage;
+    private static double criticalHitChance;
+    private static StatusEffect statusEffect;
+    private static int armourDefense;
 
-public String name;
-public static int armourDefense;
-public int requiredStrength;
-public static String charStrength;
-public ArrayList<StatusEffect> effects = new ArrayList<>();
+    public Armour(String name, int requiredStrength,int armourDefense, String effect) {
+        this.name = name;
+        this.requiredStrength = requiredStrength;
 
-public enum StatusEffect {
-    NONE,
-    POISON,
-    STUN,
-    BLEED,
-    FIRE,
-    COLD,
-    DEFENSE,
-}
-
-public static Armour Singleton() {
-    if (single_instance_armour == null) {
-        single_instance_armour = new Armour(charStrength, armourDefense, armourDefense);
+        if (effect != null) {
+            Armour.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+        } else {
+            Armour.statusEffect = StatusEffect.NONE;
+        }
     }
-    return single_instance_armour;
-}
 
-public Armour(String name, int armourDefense, int requiredStrength) {
-    this.name = name;
-    this.armourDefense = armourDefense;
-    this.requiredStrength = requiredStrength;
-}
-
-public void addEffect(StatusEffect effect) {
-    if (!effects.contains(effect)) {
-        effects.add(effect);
+    public enum StatusEffect {
+        NONE,
+        POISON,
+        STUN,
+        BLEED,
+        FIRE,
+        COLD,
     }
-}
 
-public void removeEffect(StatusEffect effect) {
-    effects.remove(effect);
-}
+    public String getName() {
+        return name;
+    }
 
-public ArrayList<StatusEffect> getEffects() {
-    return effects;
-}
+    public StatusEffect getStatusEffect() {
+        return statusEffect;
+    }
+
+    public void setRequiredStrength(int requiredStrength) {
+        this.requiredStrength = requiredStrength;
+    }
+
+    public void setEffect(String effect) {
+        if (effect != null) {
+            Armour.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+        } else {
+            Armour.statusEffect = StatusEffect.NONE;
+        }
+    }
+
+    public void setArmourDefense(int armourDefense) {
+        Armour.armourDefense = armourDefense;
+    }
+
+    public int getArmourDefense() {
+        return armourDefense;
+    }
+
+    public static Armour Singleton() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
