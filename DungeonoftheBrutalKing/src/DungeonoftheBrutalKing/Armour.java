@@ -8,15 +8,17 @@ public class Armour {
 
     public String name;
     protected int requiredStrength;
+
+	private String effect;
     public static String charStrength;
-    private static int damage;
-    private static double criticalHitChance;
     private static StatusEffect statusEffect;
     private static int armourDefense;
 
     public Armour(String name, int requiredStrength,int armourDefense, String effect) {
         this.name = name;
         this.requiredStrength = requiredStrength;
+        this.armourDefense = armourDefense;
+        this.effect = effect;
 
         if (effect != null) {
             Armour.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
@@ -54,9 +56,6 @@ public class Armour {
         }
     }
 
-    public void setArmourDefense(int armourDefense) {
-        Armour.armourDefense = armourDefense;
-    }
 
     public int getArmourDefense() {
         return armourDefense;

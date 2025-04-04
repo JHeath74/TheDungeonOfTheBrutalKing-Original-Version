@@ -3,10 +3,12 @@ package DungeonoftheBrutalKing;
 public class ThingsToWorkOn {
 
 	public ThingsToWorkOn() {
-		// CharacterCreation.Java 	Automatically select a class to display
-		// MovementAndLevels.Java   Need to get the levels integrated and completed.
+		// CharacterCreation 	Automatically select a class to display
+		// MovementAndLevels   Need to get the levels integrated and completed.
 		// Set Required Strength for Weapons, Armour and Shields
-		// Create Spells, Armour and Shields
+		// Create extra Spells, Armour and Shields
+		// Create NCPS
+		// Create Quests
 		
 		
 		

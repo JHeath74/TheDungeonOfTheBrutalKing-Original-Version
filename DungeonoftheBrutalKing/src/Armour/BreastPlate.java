@@ -45,10 +45,6 @@ public class BreastPlate extends Armour {
         return Integer.parseInt(myChar.CharInfo.get(8));
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
-
     public int getArmourDefense() {
         return super.getArmourDefense();
     }
