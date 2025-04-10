@@ -3,6 +3,9 @@ package NPC;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+
+import DungeonoftheBrutalKing.MusicPlayer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +18,7 @@ public class DerRathskellerBarAndGrille extends JFrame {
     private JTextArea displayArea;
     private String[][][] innLocation;
 
-    public DerRathskellerBarAndGrille() {
+    public DerRathskellerBarAndGrille(JPanel mainPanel2, JTextArea displayArea2) {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
@@ -25,11 +28,11 @@ public class DerRathskellerBarAndGrille extends JFrame {
 
         add(mainPanel);
         setTitle("Main Game Screen");
-        setSize(400, 300);
+        setSize(600, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-   //     displayImage();
+   ///    displayImage();
     //    playSound();
         promptWhereToSit();
         initializeInnLocation();
@@ -37,7 +40,7 @@ public class DerRathskellerBarAndGrille extends JFrame {
     }
 
     public static void main(String[] args) {
-        new DerRathskellerBarAndGrille();
+        new DerRathskellerBarAndGrille(new JPanel(), new JTextArea());
     }
 
     private void displayImage() {
@@ -47,15 +50,8 @@ public class DerRathskellerBarAndGrille extends JFrame {
     }
 
     private void playSound() {
-        try {
-            File soundFile = new File("path/to/your/sound.wav");
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        String soundFilePath = "path/to/your/sound.wav"; // Replace with the actual path
+        MusicPlayer.wavePlayer(soundFilePath);
     }
 
     private void promptWhereToSit() {
@@ -65,6 +61,7 @@ public class DerRathskellerBarAndGrille extends JFrame {
         JButton barButton = new JButton("Sit at the bar");
         JButton tableButton = new JButton("Sit at a table");
         JButton leaveButton = new JButton("Leave the inn");
+        JButton backroomButton = new JButton("Go to the backroom");
 
         barButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +74,12 @@ public class DerRathskellerBarAndGrille extends JFrame {
                 loadInformationProvider();
             }
         });
+        
+        backroomButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
 
         leaveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +89,7 @@ public class DerRathskellerBarAndGrille extends JFrame {
 
         buttonPanel.add(barButton);
         buttonPanel.add(tableButton);
+        buttonPanel.add(backroomButton);
         buttonPanel.add(leaveButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -94,13 +98,20 @@ public class DerRathskellerBarAndGrille extends JFrame {
     }
 
     private void loadInformationProvider() {
-        InformationProvider informationProvider = new InformationProvider();
-        displayArea.append("Information Provider: " + informationProvider.provideInformation() + "\n");
+        SwingUtilities.invokeLater(() -> {
+            new InformationProvider().setVisible(true); // Display the InformationProvider GUI
+        });
     }
 
     private void loadInnkeeper() {
-        Innkeeper innkeeper = new Innkeeper();
-        displayArea.append("Innkeeper: " + innkeeper.sellItem("Information") + "\n");
+        Innkeeper innkeeper = new Innkeeper(mainPanel, displayArea);
+        innkeeper.setupUI();
+        
+    }
+    
+    private void loadInnBackroom() {
+    	InnBackroom backroom = new InnBackroom();
+        backroom.innBackroom();
     }
 
     private void initializeInnLocation() {

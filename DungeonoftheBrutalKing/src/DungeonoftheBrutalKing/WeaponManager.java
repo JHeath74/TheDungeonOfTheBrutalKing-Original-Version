@@ -2,7 +2,7 @@
 // Weapons.java
 package DungeonoftheBrutalKing;
 
-public class Weapons {
+public class WeaponManager {
 
     protected Singleton myChar = new Singleton();
 
@@ -13,14 +13,14 @@ public class Weapons {
     private static double criticalHitChance;
     private static StatusEffect statusEffect;
 
-    public Weapons(String name, int requiredStrength, int damage, String effect) {
+    public WeaponManager(String name, int requiredStrength, int damage, String effect) {
         this.name = name;
         this.requiredStrength = requiredStrength;
         this.damage = damage;
         if (effect != null) {
-            Weapons.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+            WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
-            Weapons.statusEffect = StatusEffect.NONE;
+            WeaponManager.statusEffect = StatusEffect.NONE;
         }
     }
 
@@ -59,17 +59,17 @@ public class Weapons {
 
     public void setEffect(String effect) {
         if (effect != null) {
-            Weapons.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+            WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
-            Weapons.statusEffect = StatusEffect.NONE;
+            WeaponManager.statusEffect = StatusEffect.NONE;
         }
     }
 
     public void setAttackDamage(int attackDamage) {
-        Weapons.damage = attackDamage;
+        WeaponManager.damage = attackDamage;
     }
 
-	public static Weapons Singleton() {
+	public static WeaponManager Singleton() {
 		// TODO Auto-generated method stub
 		return null;
 	}

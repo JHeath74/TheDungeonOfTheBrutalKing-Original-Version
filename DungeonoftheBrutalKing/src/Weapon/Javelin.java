@@ -3,9 +3,9 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Weapons;
+import DungeonoftheBrutalKing.WeaponManager;
 
-public class Javelin extends Weapons {
+public class Javelin extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 

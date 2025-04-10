@@ -2,9 +2,9 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Weapons;
+import DungeonoftheBrutalKing.WeaponManager;
 
-public class Dart extends Weapons {
+public class Dart extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 

@@ -1,29 +1,139 @@
-//Related Clases
-//DerRathskellerBarAndGrille.java
-//Inn.java
-//Innkeeper.java
-//InformationProvider.java
+
 package NPC;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.swing.*;
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.StatusManager;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.Random;
 
 public class Innkeeper {
-    private List<String> itemsForSale;
+    private Map<String, Integer> foodItems;
+    private Map<String, Integer> drinkItems;
+    private JPanel mainPanel;
+    private JTextArea displayArea;
 
-    public Innkeeper() {
-        itemsForSale = Arrays.asList("Food", "Drink", "Information");
+    StatusManager statusManager = new StatusManager();
+    Charecter myChar = new Charecter();
+
+    public Innkeeper(JPanel mainPanel, JTextArea displayArea) {
+        this.mainPanel = mainPanel;
+        this.displayArea = displayArea;
+
+        // Initialize food items with prices
+        foodItems = Map.of(
+            "Bread", 5,
+            "Meat", 10,
+            "Cheese", 7,
+            "Soup", 8,
+            "Fruit", 4,
+            "Vegetables", 6
+        );
+
+        // Initialize drink items with prices
+        drinkItems = Map.of(
+            "Water", 3,
+            "Ale", 5,
+            "Wine", 12,
+            "Juice", 6,
+            "Milk", 4,
+            "Tea", 5
+        );
+
+        setupUI();
     }
 
-    public List<String> getItemsForSale() {
-        return itemsForSale;
+    void setupUI() {
+        mainPanel.removeAll();
+        mainPanel.setLayout(new BorderLayout());
+
+        // Add image at the top center
+        JLabel imageLabel = new JLabel(new ImageIcon("path/to/innkeeper_image.png"));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(imageLabel, BorderLayout.NORTH);
+
+        // Add buttons below the image
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10)); // Adjusted to 3 buttons
+
+        JButton foodButton = new JButton("Buy Food");
+        JButton drinkButton = new JButton("Buy Drink");
+        JButton exitButton = new JButton("Exit");
+
+        // Add action listeners for buttons
+        foodButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handlePurchase(foodItems, "Food");
+            }
+        });
+
+        drinkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handlePurchase(drinkItems, "Drink");
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new DerRathskellerBarAndGrille(mainPanel, displayArea);
+            }
+        });
+
+        buttonPanel.add(foodButton);
+        buttonPanel.add(drinkButton);
+        buttonPanel.add(exitButton);
+
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
-    public String sellItem(String item) {
-        if (itemsForSale.contains(item)) {
-            return "You bought " + item;
+
+
+private void handlePurchase(Map<String, Integer> items, String type) {
+    if (items == null || items.isEmpty()) {
+        displayArea.append("No " + type + " items are available for purchase.\n");
+        return;
+    }
+
+    Object[] itemArray = items.keySet().toArray();
+    if (itemArray.length == 0) {
+        displayArea.append("No " + type + " items are available for purchase.\n");
+        return;
+    }
+
+    String selectedItem = (String) JOptionPane.showInputDialog(
+        null,
+        "Select a " + type + " to buy:",
+        "Buy " + type,
+        JOptionPane.QUESTION_MESSAGE,
+        null,
+        itemArray,
+        itemArray[0] // Safe because itemArray is not empty
+    );
+
+    if (selectedItem != null) {
+        int cost = items.get(selectedItem);
+        if (myChar.removeGold(cost)) {
+            displayArea.append("You bought " + selectedItem + " for " + cost + " silver.\n");
+            if (type.equals("Food")) {
+                statusManager.removeStatusByName("Hunger");
+            }
+            if (new Random().nextBoolean()) { // 50% chance to add to inventory
+                myChar.addToInventory(selectedItem);
+                displayArea.append(selectedItem + " was added to your inventory.\n");
+            }
         } else {
-            return "Item not available";
+            displayArea.append("You don't have enough silver to buy " + selectedItem + ".\n");
         }
     }
+}
+
+
 }

@@ -2,26 +2,24 @@
 // src/Armour/BreastPlate.java
 package Armour;
 
-import DungeonoftheBrutalKing.Armour;
+import DungeonoftheBrutalKing.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
-import DungeonoftheBrutalKing.Weapons;
+import DungeonoftheBrutalKing.WeaponManager;
 import Weapon.BattleAxe;
 
-public class BreastPlate extends Armour {
+public class BreastPlate extends ArmourManager {
 
     private static Charecter myChar = Charecter.Singleton();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 
-    public BreastPlate(String effect) {
-        super("Breast Plate", REQUIRED_STRENGTH, BreastPlate.armourDefense, effect);
-        BreastPlate.armourDefense = 15;
-    }
+
 
     public BreastPlate(int requiredStrength, int armourDefense, String effect) {
-        super("Breast Plate", requiredStrength, BreastPlate.armourDefense, effect);
+        super("Breast Plate", requiredStrength, armourDefense, effect);
         BreastPlate.armourDefense = 15;
+        allArmour.add(this);
     }
 
     public static BreastPlate createBreastPlate(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {

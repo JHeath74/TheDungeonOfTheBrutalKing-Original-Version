@@ -74,4 +74,41 @@ public class MusicPlayer {
             clip.stop();
         }
     }
+    
+
+public static void wavePlayer(String soundFileName) {
+    new Thread(() -> {
+        try {
+            // Create AudioInputStream object
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundFilePath + soundFileName).getAbsoluteFile());
+
+            // Create clip reference
+            Clip clip = AudioSystem.getClip();
+
+            // Open audioInputStream to the clip
+            clip.open(audioInputStream);
+
+            // Start playing the sound
+            clip.start();
+
+            // Wait for the clip to finish playing
+            clip.addLineListener(event -> {
+                if (event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                }
+            });
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }).start();
+}
+
+public static void stopWave() {
+    if (clip != null && clip.isRunning()) {
+        clip.stop();
+        clip.close();
+    }
+}
+
 }

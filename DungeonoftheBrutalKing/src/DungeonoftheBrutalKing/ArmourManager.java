@@ -2,7 +2,10 @@
 // src/Armour/Armour.java
 package DungeonoftheBrutalKing;
 
-public class Armour {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ArmourManager {
 
     protected Singleton myChar = new Singleton();
 
@@ -13,17 +16,22 @@ public class Armour {
     public static String charStrength;
     private static StatusEffect statusEffect;
     private static int armourDefense;
+    
+ // Static list to store all shields
+    protected static List<ArmourManager> allArmour = new ArrayList<>();
 
-    public Armour(String name, int requiredStrength,int armourDefense, String effect) {
+    public ArmourManager(String name, int requiredStrength,int armourDefense, String effect) {
         this.name = name;
         this.requiredStrength = requiredStrength;
         this.armourDefense = armourDefense;
         this.effect = effect;
+        allArmour.add(this);
+        
 
         if (effect != null) {
-            Armour.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+            ArmourManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
-            Armour.statusEffect = StatusEffect.NONE;
+            ArmourManager.statusEffect = StatusEffect.NONE;
         }
     }
 
@@ -47,12 +55,16 @@ public class Armour {
     public void setRequiredStrength(int requiredStrength) {
         this.requiredStrength = requiredStrength;
     }
+    
+    public static List<ArmourManager> getAllShields() {
+        return allArmour;
+    }
 
     public void setEffect(String effect) {
         if (effect != null) {
-            Armour.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+            ArmourManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
-            Armour.statusEffect = StatusEffect.NONE;
+            ArmourManager.statusEffect = StatusEffect.NONE;
         }
     }
 
@@ -61,7 +73,7 @@ public class Armour {
         return armourDefense;
     }
 
-    public static Armour Singleton() {
+    public static ArmourManager Singleton() {
         // TODO Auto-generated method stub
         return null;
     }

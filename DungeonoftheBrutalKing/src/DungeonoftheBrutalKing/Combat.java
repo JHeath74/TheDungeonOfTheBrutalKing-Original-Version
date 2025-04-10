@@ -211,7 +211,7 @@ CombatAttackButton.addActionListener(new ActionListener() {
         while (enemy.getHitPoints() > 0 && myChar.getHitPoints() > 0) {
             int characterStrength = Integer.parseInt(myChar.CharInfo.get(8));
             int characterAgility = Integer.parseInt(myChar.CharInfo.get(11));
-            int weaponDamage = Weapons.getDamage();
+            int weaponDamage = WeaponManager.getDamage();
             int monsterDefense = enemy.getStrength();
             int monsterAgility = enemy.getAgility();
 

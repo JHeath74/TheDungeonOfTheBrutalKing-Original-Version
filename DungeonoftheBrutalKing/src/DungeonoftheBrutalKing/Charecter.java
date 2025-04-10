@@ -204,6 +204,95 @@ public class Charecter {
 			
 		}
 
+		public void addToInventory(String selectedItem) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		public void removeFromInventory(String selectedItem)
+		{
+			
+		}
+		
+
+		// Method to remove gold
+
+		// Method to remove gold
+		public boolean removeGold(int amount) {
+		    // Ensure CharInfo has enough elements
+		    while (CharInfo.size() <= 12) {
+		        CharInfo.add("0"); // Add default values if necessary
+		    }
+
+		    int currentGold = Integer.parseInt(CharInfo.get(12)); // Get current gold
+		    int newGold = Math.max(0, currentGold - amount); // Subtract amount, ensuring it doesn't go below 0
+		    CharInfo.set(12, String.valueOf(newGold)); // Update gold in CharInfo
+		    return currentGold >= amount; // Return true if enough gold was available.
+		}
+
+
+
+		// Method to add gold
+		public void addGold(int amount) {
+		    int currentGold = Integer.parseInt(CharInfo.get(12)); // Get current gold
+		    int newGold = currentGold + amount; // Add the specified amount
+		    CharInfo.set(12, String.valueOf(newGold)); // Update gold in CharInfo
+		}
+
+
+		// Method to get the current gold
+		public int getGold() {
+		    return Integer.parseInt(CharInfo.get(12)); // Retrieve and return current gold
+		}
+		
+
+		// Method to add food
+		public void addFood(int amount) {
+		    // Ensure CharInfo has enough elements
+		    while (CharInfo.size() <= 13) {
+		        CharInfo.add("0"); // Add default values if necessary
+		    }
+
+		    int currentFood = Integer.parseInt(CharInfo.get(13)); // Get current food
+		    int newFood = currentFood + amount; // Add the specified amount
+		    CharInfo.set(13, String.valueOf(newFood)); // Update food in CharInfo
+		}
+
+
+
+		// Method to remove food
+		public boolean removeFood(int amount) {
+		    // Ensure CharInfo has enough elements
+		    while (CharInfo.size() <= 13) {
+		        CharInfo.add("0"); // Add default values if necessary
+		    }
+
+		    int currentFood = Integer.parseInt(CharInfo.get(13)); // Get current food
+		    if (currentFood < amount) {
+		        return false; // Not enough food to remove
+		    }
+
+		    int newFood = currentFood - amount; // Subtract the specified amount
+		    CharInfo.set(13, String.valueOf(newFood)); // Update food in CharInfo
+		    return true; // Food successfully removed
+		}
+
+
+		// Method to get the current food
+		public int getFood() {
+		    return Integer.parseInt(CharInfo.get(13)); // Retrieve and return current food
+		}
+
+
+		// Method to get the current water
+		public int getWater() {
+		    return Integer.parseInt(CharInfo.get(14)); // Retrieve and return current water
+		}
+
+		// Method to get the current torches
+		public int getTorches() {
+		    return Integer.parseInt(CharInfo.get(15)); // Retrieve and return current torches
+		}
 
 
 

@@ -2,9 +2,9 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Weapons;
+import DungeonoftheBrutalKing.WeaponManager;
 
-public class BattleHammer extends Weapons {
+public class BattleHammer extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 

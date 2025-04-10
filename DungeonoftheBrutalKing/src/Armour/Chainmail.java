@@ -2,11 +2,11 @@
 // src/Armour/BreastPlate.java
 package Armour;
 
-import DungeonoftheBrutalKing.Armour;
+import DungeonoftheBrutalKing.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 
 
-public class Chainmail extends Armour {
+public class Chainmail extends ArmourManager {
 
     public Chainmail(String name, int requiredStrength, int armourDefense, String effect) {
 		super(name, requiredStrength, armourDefense, effect);

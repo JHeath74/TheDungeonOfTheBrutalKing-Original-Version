@@ -2,11 +2,11 @@
 // src/Armour/BreastPlate.java
 package Armour;
 
-import DungeonoftheBrutalKing.Armour;
+import DungeonoftheBrutalKing.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 
 
-public class Skin extends Armour {
+public class Skin extends ArmourManager {
 
 	private static Charecter myChar = Charecter.Singleton();
     private static int armourDefense;

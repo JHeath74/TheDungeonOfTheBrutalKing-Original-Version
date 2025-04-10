@@ -1,14 +1,53 @@
+
 package Shields;
 
-import DungeonoftheBrutalKing.Shields;
+import Armour.BreastPlate;
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.ShieldManager;
 
-public class Magical_Shield extends Shields{
+public class Magical_Shield extends ShieldManager {
 
-	public Magical_Shield() {
-		name = "Magical Shield";
-		requiredStrength = 20;
-		charStrength = DungeonoftheBrutalKing.Singleton.myCharSingleton().CharInfo.get(7);
-		defenseProvided = 15;
+    private int requiredStrength;
+   	private int defenseProvided;
+   	
+   	private static Charecter myChar = Charecter.Singleton();
+
+    public Magical_Shield(int requiredStrength, int defenseProvided ) {
+        super("Magical Shield", requiredStrength, defenseProvided); // Initialize with name, required strength, and defense provided
+        this.requiredStrength = 20;
+        this.defenseProvided = 15;
+        
+        allShields.add(this);
+    }
+    
+    public static Magical_Shield createMagical_Shield(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
+   	 int requiredStrength = REQUIRED_STRENGTH;
+        try {
+            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+            if (strength >= requiredStrength) {
+                return new Magical_Shield(armourDefense, requiredStrength);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+   }
+    
+    public int getRequiredStrength() {
+		return requiredStrength;
 	}
 
+	public void setRequiredStrength(int requiredStrength) {
+		this.requiredStrength = requiredStrength;
+	}
+
+	public int getDefenseProvided() {
+		return defenseProvided;
+	}
+
+	public void setDefenseProvided(int defenseProvided) {
+		this.defenseProvided = defenseProvided;
+	}
+
+  
 }

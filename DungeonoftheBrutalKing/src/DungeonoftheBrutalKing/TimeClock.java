@@ -82,4 +82,12 @@ public class TimeClock {
     public LocalTime getCurrentTime() {
         return currentTime;
     }
-}
+    
+    public int getElapsedTime()
+    	{ 
+    		int elapsedDaysInHours = (currentDay - 1) * 24; // Convert days to hours 
+    		int elapsedHours = currentTime.getHour(); // Add current hour 
+    		return elapsedDaysInHours + elapsedHours; 
+    	}
+    	}
+

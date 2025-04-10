@@ -69,22 +69,22 @@ public class Singleton
     
 	private static Charecter myChar = Charecter.Singleton();
 
-	private static Weapons myWeapon = Weapons.Singleton();
+	private static WeaponManager myWeapon = WeaponManager.Singleton();
 
-	private static Armour myArmour = Armour.Singleton();
-	private static Shields myShields = Shields.Singleton();
+	private static ArmourManager myArmour = ArmourManager.Singleton();
+	private static ShieldManager myShields = ShieldManager.Singleton();
 	private static Spells mySpells = Spells.Singleton();
 	private static Enemies myMonsters = Enemies.Singleton();
 
 
-	private static List<Armour> armourList = addArmour();
-	private static List<Weapons> weaponList = addWeapon();
+	private static List<ArmourManager> armourList = addArmour();
+	private static List<WeaponManager> weaponList = addWeapon();
 	private static List<Spells> spellList = addSpells();
-	private static List<Shields> shieldList = addShields();
+	private static List<ShieldManager> shieldList = addShields();
 
 	//Singletons
 
-	private static List<Armour> addArmour()
+	private static List<ArmourManager> addArmour()
 	{
 		armourList = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class Singleton
 
 	}
 
-	private static List<Shields> addShields() {
+	private static List<ShieldManager> addShields() {
 
 		shieldList = new ArrayList<>();
 
@@ -134,7 +134,7 @@ public class Singleton
 	  }
 
 
-	private static List<Weapons> addWeapon()
+	private static List<WeaponManager> addWeapon()
 	{
 		weaponList = new ArrayList<>();
 
@@ -161,17 +161,17 @@ public class Singleton
 
 	}
 
-	public static List<Armour> armourList()
+	public static List<ArmourManager> armourList()
 	{
 		return armourList;
 	}
 
-	public static Armour myArmourSingleton()
+	public static ArmourManager myArmourSingleton()
 	{
 		return myArmour;
 	}
 
-	public static Shields myShieldSingleton()
+	public static ShieldManager myShieldSingleton()
 	{
 		return myShields;
 	}
@@ -190,7 +190,7 @@ public class Singleton
 	  public static List<Spells> spellList() { return spellList; }
 
 
-	public static List<Weapons> weaponsList()
+	public static List<WeaponManager> weaponsList()
 	{
 		return weaponList;
 	}

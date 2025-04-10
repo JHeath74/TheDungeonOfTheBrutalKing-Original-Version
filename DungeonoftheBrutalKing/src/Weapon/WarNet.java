@@ -2,9 +2,9 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Weapons;
+import DungeonoftheBrutalKing.WeaponManager;
 
-public class WarNet extends Weapons {
+public class WarNet extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 

@@ -1,15 +1,36 @@
+
 package Shields;
 
-import DungeonoftheBrutalKing.Shields;
+import DungeonoftheBrutalKing.ShieldManager;
 
-public class Spiked_Shield extends Shields {
+public class Spiked_Shield extends ShieldManager {
 
-	public Spiked_Shield() {
+    private int requiredStrength;
+   	private int defenseProvided;
 
-		name = "Spiked Shield";
-		requiredStrength = 20;
-		charStrength = DungeonoftheBrutalKing.Singleton.myCharSingleton().CharInfo.get(7);
-		defenseProvided = 15;
+    public Spiked_Shield(int requiredStrength, int defenseProvided ) {
+        super("Spiked Shield", requiredStrength, defenseProvided); // Initialize with name, required strength, and defense provided
+        this.requiredStrength = 20;
+        this.defenseProvided = 15;
+        
+        allShields.add(this);
+    }
+    
+    public int getRequiredStrength() {
+		return requiredStrength;
 	}
 
+	public void setRequiredStrength(int requiredStrength) {
+		this.requiredStrength = requiredStrength;
+	}
+
+	public int getDefenseProvided() {
+		return defenseProvided;
+	}
+
+	public void setDefenseProvided(int defenseProvided) {
+		this.defenseProvided = defenseProvided;
+	}
+
+  
 }
