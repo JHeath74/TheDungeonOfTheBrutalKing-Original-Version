@@ -27,6 +27,8 @@ public DerRathskellerBarAndGrille(JPanel mainPanel2) {
     mainPanel = mainPanel2; // Use the passed mainPanel
     mainPanel.setLayout(new BorderLayout());
 
+ //   myMainGameScreen.replaceWithAnyPanel(mainPanel);
+    
     // Add welcome message
     JLabel welcomeLabel = new JLabel("Welcome to DerRathskellerBarAndGrille!", SwingConstants.CENTER);
     welcomeLabel.setFont(new Font("Serif", Font.BOLD, 18));

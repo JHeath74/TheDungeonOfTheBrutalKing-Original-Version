@@ -93,7 +93,7 @@ public class Combat extends JFrame {
 
 		
 		CombatPanel = new JPanel(new BorderLayout());
-		myMainGameScreen.replaceWithCombatPanel(CombatPanel);
+		myMainGameScreen.replaceWithAnyPanel(CombatPanel);
 		CombatImagePanel = new JPanel(); // Display Image of Enemy
 		CombatPanelButtons = new JPanel(new FlowLayout()); // Display Buttons for Combat
 		CombatPanelCombatAreaPanel = new JPanel(); // Display Combat Updates such as sucessful or not-successful

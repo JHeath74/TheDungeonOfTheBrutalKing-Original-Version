@@ -3,6 +3,7 @@ package NPC;
 
 import javax.swing.*;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.StatusManager;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class Innkeeper {
     StatusManager statusManager = new StatusManager();
     Charecter myChar = new Charecter();
     MainGameScreen myMainGameScreen;
+    GameSettings myGameSettings = new GameSettings();
 
     public Innkeeper(JPanel mainPanel, JTextArea displayArea) {
         this.mainPanel = mainPanel;
@@ -48,52 +50,56 @@ public class Innkeeper {
         setupUI();
     }
 
-    void setupUI() {
-        mainPanel.removeAll();
-        mainPanel.setLayout(new BorderLayout());
 
-        // Add image at the top center
-        JLabel imageLabel = new JLabel(new ImageIcon("path/to/innkeeper_image.png"));
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(imageLabel, BorderLayout.NORTH);
+void setupUI() {
+    mainPanel.removeAll();
+    mainPanel.setLayout(new BorderLayout());
 
-        // Add buttons side by side below the image
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    // Resize and add image at the top center
+    ImageIcon originalIcon = new ImageIcon(myGameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
+    Image scaledImage = originalIcon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH); // Adjust size as needed
+    ImageIcon scaledIcon = new ImageIcon(scaledImage);
+    JLabel imageLabel = new JLabel(scaledIcon);
+    imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    mainPanel.add(imageLabel, BorderLayout.NORTH);
 
-        JButton foodButton = new JButton("Buy Food");
-        JButton drinkButton = new JButton("Buy Drink");
-        JButton exitButton = new JButton("Exit");
+    // Add buttons side by side below the image
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        // Add action listeners for buttons
-        foodButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handlePurchase(foodItems, "Food");
-            }
-        });
+    JButton foodButton = new JButton("Buy Food");
+    JButton drinkButton = new JButton("Buy Drink");
+    JButton exitButton = new JButton("Exit");
 
-        drinkButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handlePurchase(drinkItems, "Drink");
-            }
-        });
+    // Add action listeners for buttons
+    foodButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            handlePurchase(foodItems, "Food");
+        }
+    });
 
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DerRathskellerBarAndGrille(mainPanel);
-            }
-        });
+    drinkButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            handlePurchase(drinkItems, "Drink");
+        }
+    });
 
-        buttonPanel.add(foodButton);
-        buttonPanel.add(drinkButton);
-        buttonPanel.add(exitButton);
+    exitButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new DerRathskellerBarAndGrille(mainPanel);
+        }
+    });
 
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-        mainPanel.revalidate();
-        mainPanel.repaint();
-    }
+    buttonPanel.add(foodButton);
+    buttonPanel.add(drinkButton);
+    buttonPanel.add(exitButton);
+
+    mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+    mainPanel.revalidate();
+    mainPanel.repaint();
+}
 
 
 private void handlePurchase(Map<String, Integer> items, String type) {

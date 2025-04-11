@@ -87,14 +87,34 @@ public class MainGameScreen extends JFrame  {
 
 	//-----------------------------------------------------------------------------
 
-	public void replaceWithCombatPanel(JPanel combatPanel) {
-		originalPanel = GameImagesAndCombatPanel;
-		PicturesAndTextUpdatesPane.setLeftComponent(combatPanel);
-	}
 
-	public void restoreOriginalPanel() {
-		PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
-	}
+public void replaceWithAnyPanel(JPanel newPanel) {
+    if (newPanel != null) {
+        // Store the current panel if not already stored
+        if (originalPanel == null) {
+            originalPanel = (JPanel) PicturesAndTextUpdatesPane.getLeftComponent();
+        }
+        // Replace the left component with the new panel
+        PicturesAndTextUpdatesPane.setLeftComponent(newPanel);
+        PicturesAndTextUpdatesPane.revalidate();
+        PicturesAndTextUpdatesPane.repaint();
+    } else {
+        throw new IllegalArgumentException("Panel cannot be null");
+    }
+}
+
+
+
+public void restoreOriginalPanel() {
+    if (originalPanel != null) {
+        PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
+        PicturesAndTextUpdatesPane.revalidate();
+        PicturesAndTextUpdatesPane.repaint();
+    } else {
+        throw new IllegalStateException("No original panel to restore.");
+    }
+}
+
 
 	public MainGameScreen() throws IOException {
 
