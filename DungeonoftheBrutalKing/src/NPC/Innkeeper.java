@@ -3,6 +3,7 @@ package NPC;
 
 import javax.swing.*;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.StatusManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,14 +15,15 @@ public class Innkeeper {
     private Map<String, Integer> foodItems;
     private Map<String, Integer> drinkItems;
     private JPanel mainPanel;
-    private JTextArea displayArea;
+   
 
     StatusManager statusManager = new StatusManager();
     Charecter myChar = new Charecter();
+    MainGameScreen myMainGameScreen;
 
     public Innkeeper(JPanel mainPanel, JTextArea displayArea) {
         this.mainPanel = mainPanel;
-        this.displayArea = displayArea;
+       
 
         // Initialize food items with prices
         foodItems = Map.of(
@@ -55,9 +57,8 @@ public class Innkeeper {
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(imageLabel, BorderLayout.NORTH);
 
-        // Add buttons below the image
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10)); // Adjusted to 3 buttons
+        // Add buttons side by side below the image
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         JButton foodButton = new JButton("Buy Food");
         JButton drinkButton = new JButton("Buy Drink");
@@ -81,7 +82,7 @@ public class Innkeeper {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DerRathskellerBarAndGrille(mainPanel, displayArea);
+                new DerRathskellerBarAndGrille(mainPanel);
             }
         });
 
@@ -89,22 +90,21 @@ public class Innkeeper {
         buttonPanel.add(drinkButton);
         buttonPanel.add(exitButton);
 
-        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
 
-
 private void handlePurchase(Map<String, Integer> items, String type) {
     if (items == null || items.isEmpty()) {
-        displayArea.append("No " + type + " items are available for purchase.\n");
+       myMainGameScreen.setMessageTextPane("No " + type + " items are available for purchase.\n");
         return;
     }
 
     Object[] itemArray = items.keySet().toArray();
     if (itemArray.length == 0) {
-        displayArea.append("No " + type + " items are available for purchase.\n");
+    	myMainGameScreen.setMessageTextPane("No " + type + " items are available for purchase.\n");
         return;
     }
 
@@ -121,16 +121,16 @@ private void handlePurchase(Map<String, Integer> items, String type) {
     if (selectedItem != null) {
         int cost = items.get(selectedItem);
         if (myChar.removeGold(cost)) {
-            displayArea.append("You bought " + selectedItem + " for " + cost + " silver.\n");
+        	myMainGameScreen.setMessageTextPane("You bought " + selectedItem + " for " + cost + " silver.\n");
             if (type.equals("Food")) {
                 statusManager.removeStatusByName("Hunger");
             }
             if (new Random().nextBoolean()) { // 50% chance to add to inventory
                 myChar.addToInventory(selectedItem);
-                displayArea.append(selectedItem + " was added to your inventory.\n");
+                myMainGameScreen.setMessageTextPane(selectedItem + " was added to your inventory.\n");
             }
         } else {
-            displayArea.append("You don't have enough silver to buy " + selectedItem + ".\n");
+        	myMainGameScreen.setMessageTextPane("You don't have enough silver to buy " + selectedItem + ".\n");
         }
     }
 }

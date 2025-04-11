@@ -31,7 +31,7 @@ public class GameSettings
 	public static String MenuBarImagePath, MonsterImagePath, FontPath, 
 	DungeonFloorTexturePath, DungeonWallTexturePath, 
 	StartMenuPath, StoryIntroductionPath, ClassImagesPath, 
-	SoundEffectsPath,SavedGameDirectory = null;
+	SoundEffectsPath,SavedGameDirectory, NPCImagePath = null;
 	
 	
 	public GameSettings() {
@@ -51,6 +51,7 @@ public class GameSettings
 		StartMenuPath = ("src\\DungeonoftheBrutalKing\\Images\\Program\\StartMenu\\");
 		ClassImagesPath = ("src\\DungeonoftheBrutalKing\\Images\\Classes\\");
 		SoundEffectsPath = ("src\\DungeonoftheBrutalKing\\\\SoundEffects\\");
+		NPCImagePath = ("src\\DungeonoftheBrutalKing\\Images\\NPC\\");
 	
 	
 	

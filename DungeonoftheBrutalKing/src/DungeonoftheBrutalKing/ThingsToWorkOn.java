@@ -9,6 +9,9 @@ public class ThingsToWorkOn {
 		// Create extra Spells, Armour and Shields
 		// Create NCPS
 		// Create Quests
+		// Buying Armour, Shields and Weapons
+		// Buy Food and have it update the food in inventory.
+		// Information Listener needs an image to display
 		
 		
 		

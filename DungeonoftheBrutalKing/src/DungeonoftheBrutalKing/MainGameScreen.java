@@ -41,6 +41,8 @@ import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
 
 
@@ -56,9 +58,9 @@ public class MainGameScreen extends JFrame  {
 	LoadSaveGame myGameState = new LoadSaveGame();
 	GameMenuItems myGameMenuItems = new GameMenuItems();
 	CharacterCreation myCharacterCreation;
-	
-	
-	
+
+
+
 
 	JFrame MainGameScreenFrame = null;
 	JPanel p1Panel, p2Panel, p3Panel, p4Panel, GameImagesAndCombatPanel = null;
@@ -68,75 +70,75 @@ public class MainGameScreen extends JFrame  {
 	JMenuBar menuBar = null;
 	JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
 	JMenuItem newGameMenuItem, LoadSavedGameMenuItem, saveMenuItem,
-				exitGameMenuItem,charecterstatsMenuItem,
-				charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem,
-				aboutMenuItem, helpMenuItem, mapFloor1MenuItem, mapFloor2MenuItem,
-				mapFloor3MenuItem, mapFloor4MenuItem = null;
+	exitGameMenuItem,charecterstatsMenuItem,
+	charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem,
+	aboutMenuItem, helpMenuItem, mapFloor1MenuItem, mapFloor2MenuItem,
+	mapFloor3MenuItem, mapFloor4MenuItem = null;
 	JSplitPane PicturesAndTextUpdatesPane = null;
 
 	Dimension screenSize = null;
 	int width, height = 0;
 	Timer timer = null;
 	private TimeClock clock;
-	
+
 	// In MainGameScreen class
 	public JTextArea CombatMessageArea = new JTextArea();
-	
-	
-//-----------------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------------
 
 	public void replaceWithCombatPanel(JPanel combatPanel) {
-        originalPanel = GameImagesAndCombatPanel;
-        PicturesAndTextUpdatesPane.setLeftComponent(combatPanel);
-    }
+		originalPanel = GameImagesAndCombatPanel;
+		PicturesAndTextUpdatesPane.setLeftComponent(combatPanel);
+	}
 
-    public void restoreOriginalPanel() {
-        PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
-    }
-	
+	public void restoreOriginalPanel() {
+		PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
+	}
+
 	public MainGameScreen() throws IOException {
 
-		
-		
-		
+
+
+
 		//Creating Frame
-	
+
 		MainGameScreenFrame = new JFrame("Dungeon of the Brutal King");
-		
+
 		// getScreenSize() returns the size
-        // of the screen in pixels
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		// of the screen in pixels
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 
-        // width will store the width of the screen
-        width = (int)size.getWidth();
+		// width will store the width of the screen
+		width = (int)size.getWidth();
 
-        // height will store the height of the screen
-        height = (int)size.getHeight();
+		// height will store the height of the screen
+		height = (int)size.getHeight();
 
-        
-	
+
+
 		//Adding Frame Preferences and Settings
-        MainGameScreenFrame.setSize(width, height);
+		MainGameScreenFrame.setSize(width, height);
 		MainGameScreenFrame.setLayout(new BorderLayout());
 		MainGameScreenFrame.setForeground(myGameSettings.colorBrown);
 		MainGameScreenFrame.setUndecorated(true);
 		MainGameScreenFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		
 
-		
+
+
 		//Adding JPanels
-		
+
 
 		p1Panel = new JPanel(new BorderLayout());
 		p2Panel = new JPanel(new BorderLayout());
 		p3Panel = new JPanel(new BorderLayout());
 		p4Panel = new JPanel(new BorderLayout());
 		GameImagesAndCombatPanel = new JPanel(new BorderLayout());
-		
-	
-//		startingImageLabel = new JLabel(new ImageIcon(myGameSettings.StoryIntroductionPath + "Starting_Image.png"));
-//		GameImagesAndCombatPanel.add(startingImageLabel);
-		
+
+
+		//		startingImageLabel = new JLabel(new ImageIcon(myGameSettings.StoryIntroductionPath + "Starting_Image.png"));
+		//		GameImagesAndCombatPanel.add(startingImageLabel);
+
 
 		try {
 			myGameState.StartGameLoadCharecter();
@@ -180,9 +182,9 @@ public class MainGameScreen extends JFrame  {
 		CharXPHPGoldField.setForeground(myGameSettings.colorWhite);
 		CharXPHPGoldField.setColumns(3);
 		CharXPHPGoldField.setEditable(false);
-		
-		
-		
+
+
+
 		p1Panel.add(p2Panel, BorderLayout.NORTH);
 		p1Panel.add(p3Panel, BorderLayout.CENTER);
 		p1Panel.add(p4Panel, BorderLayout.SOUTH);
@@ -196,46 +198,46 @@ public class MainGameScreen extends JFrame  {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
 
-				 CharNameClassLevelField.setText("Name: " + myChar.CharInfo.get(0) + "\t\t"
-						 					+ "Level: " + myChar.CharInfo.get(2) + "\t\t"
-						 					+ "Experience: " + myChar.CharInfo.get(3)
-				  + "\t\t" + "Class: " + myChar.CharInfo.get(1) + "\t\t");
+				CharNameClassLevelField.setText("Name: " + myChar.CharInfo.get(0) + "\t\t"
+						+ "Level: " + myChar.CharInfo.get(2) + "\t\t"
+						+ "Experience: " + myChar.CharInfo.get(3)
+						+ "\t\t" + "Class: " + myChar.CharInfo.get(1) + "\t\t");
 
 
 
 				CharStatsField.setText("Stamina:\t"
-								+ "Charisma: \t"
-								+ "Strength: \t"
-								+ "Intelligence:\t "
-								+ "Wisdom: \t"
-								+ "Agility: \t");
+						+ "Charisma: \t"
+						+ "Strength: \t"
+						+ "Intelligence:\t "
+						+ "Wisdom: \t"
+						+ "Agility: \t");
 
 				CharStats2Field.setText(myChar.CharInfo.get(6) + "\t" +
-								   myChar.CharInfo.get(7) + "\t" +
-								   myChar.CharInfo.get(8) + "\t" +
-								   myChar.CharInfo.get(9) + "\t" +
-								   myChar.CharInfo.get(10) + "\t" +
-								   myChar.CharInfo.get(11));
+						myChar.CharInfo.get(7) + "\t" +
+						myChar.CharInfo.get(8) + "\t" +
+						myChar.CharInfo.get(9) + "\t" +
+						myChar.CharInfo.get(10) + "\t" +
+						myChar.CharInfo.get(11));
 
-				
-				
+
+
 
 				CharXPHPGoldField.setText("Hit Points: " + myChar.CharInfo.get(4) + "\t\t"
-									+ "Magic Points: " + myChar.CharInfo.get(5) + "\t"
-									+ "Gold: " + myChar.CharInfo.get(12) + "\t"
-									+ "Food: " + myChar.CharInfo.get(13) + "\t" 
-									+ "Water: " + myChar.CharInfo.get(14) + "\t"
-									+ "Torches: " + myChar.CharInfo.get(15) + "\t"
-									+ "Gems: " + myChar.CharInfo.get(16) + "\t"
-									);
+						+ "Magic Points: " + myChar.CharInfo.get(5) + "\t"
+						+ "Gold: " + myChar.CharInfo.get(12) + "\t"
+						+ "Food: " + myChar.CharInfo.get(13) + "\t" 
+						+ "Water: " + myChar.CharInfo.get(14) + "\t"
+						+ "Torches: " + myChar.CharInfo.get(15) + "\t"
+						+ "Gems: " + myChar.CharInfo.get(16) + "\t"
+						);
 			}
 		};
 		timer = new Timer(100, task); // Execute task to display stats each 100 miliseconds
 		timer.setRepeats(true);
 		timer.start();
-		
-		
-	
+
+
+
 
 		// ****************************************************************************************
 		// ----------------------------Menu Bar and Menu Items------------------------------------
@@ -243,11 +245,11 @@ public class MainGameScreen extends JFrame  {
 
 		// Create the menu bar.
 		menuBar = new JMenuBar();
-		
+
 		// ****************************************************************
 		// ----------------------------Adding Menu Bar to the JFrame ------
 		// ****************************************************************
-		
+
 		MainGameScreenFrame.setJMenuBar(menuBar);
 		//Menu Bar Preferences
 
@@ -298,15 +300,15 @@ public class MainGameScreen extends JFrame  {
 				int result = JOptionPane.showConfirmDialog(rootPane,
 						"Are you sure you wish to delete your current game and start a new one?", "Start New Game?",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				
-				
+
+
 				if (result == JOptionPane.YES_OPTION) {
 					//MainGameScreenFrame.dispose();
 					dispose();
 					try {
 						Files.createDirectories(Paths.get("src/AlternateRealityTheDungeon/TextFiles/SaveGame"));
 						BufferedWriter writer = Files.newBufferedWriter(Paths
-						        .get("src/AlternateRealityTheDungeon/TextFiles/SaveGame/InitialCharecterSave.txt"));
+								.get("src/AlternateRealityTheDungeon/TextFiles/SaveGame/InitialCharecterSave.txt"));
 						writer.write("");
 						writer.flush();
 						writer.close();// Is this located correctly.
@@ -333,8 +335,8 @@ public class MainGameScreen extends JFrame  {
 					}
 					myCharacterCreation.createCharector();
 
-					
-//					MainGameScreenFrame.dispose();
+
+					//					MainGameScreenFrame.dispose();
 					dispose();
 				} else if (result == JOptionPane.NO_OPTION) {
 
@@ -462,9 +464,9 @@ public class MainGameScreen extends JFrame  {
 		aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_MASK));
 		aboutMenuItem.getAccessibleContext().setAccessibleDescription("About Game");
 		aboutMenuItem.addActionListener(new ActionListener() {
-			
-			
-			
+
+
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -489,7 +491,7 @@ public class MainGameScreen extends JFrame  {
 				helptext.setWrapStyleWord(true);
 				JScrollPane scrollPane = new JScrollPane(helptext);
 				scrollPane.setSize(120, 120);
-				
+
 
 				try {
 					// Read some text from the resource file to display in
@@ -571,11 +573,11 @@ public class MainGameScreen extends JFrame  {
 		// **************************************************************
 		// ---------- Adding Menu Selection Items to the Menu bar--------
 		// **************************************************************
-				menuBar.add(gameMenu);
-				menuBar.add(charecterMenu);
-				menuBar.add(settingsMenu);
-				menuBar.add(helpMenu);
-		
+		menuBar.add(gameMenu);
+		menuBar.add(charecterMenu);
+		menuBar.add(settingsMenu);
+		menuBar.add(helpMenu);
+
 		// **********************************************************
 		// ---------- Adding Menu Items to the Menu Selections-------
 		// **********************************************************
@@ -594,7 +596,7 @@ public class MainGameScreen extends JFrame  {
 		helpMenu.add(aboutMenuItem);
 		helpMenu.add(helpMenuItem);
 
-		
+
 
 		// ***************************************************************
 		// --------------------- Map Sub Menu Items----------------------
@@ -650,8 +652,8 @@ public class MainGameScreen extends JFrame  {
 		// **************************************************************************************
 		// ----------------------------Setting Up JTextPane ------------------------------------
 		// *************************************************************************************
-	
-		
+
+
 		/*
 		 * MessageTextPane = new JTextPane();
 		 * MessageTextPane.setText("JTextPane MessageTextPane - Game Text Updates");
@@ -659,15 +661,15 @@ public class MainGameScreen extends JFrame  {
 		 * MessageTextPane.setForeground(myGameSettings.colorLightYellow);
 		 * MessageTextPane.setFont(myGameSettings.fontLomoCopyLTStdMidi);
 		 */
-		
-		MessageTextPane = new JTextPane();
+
+		setMessageTextPane(new JTextPane());
 		MessageTextPane.setText("JTextPane MessageTextPane - Game Text Updates");
 		MessageTextPane.setBackground(myGameSettings.colorLightBrown);
 		MessageTextPane.setForeground(myGameSettings.colorLightYellow);
 		MessageTextPane.setFont(myGameSettings.fontLomoCopyLTStdMidi);
-		
-		
-			
+
+
+
 		// **************************************************************************************
 		// ----------------------------Setting Up JSplitPane ------------------------------------
 		// *************************************************************************************
@@ -677,7 +679,7 @@ public class MainGameScreen extends JFrame  {
 		PicturesAndTextUpdatesPane.setResizeWeight(.90d);
 		PicturesAndTextUpdatesPane.setLeftComponent(GameImagesAndCombatPanel);
 		PicturesAndTextUpdatesPane.setRightComponent(MessageTextPane);
-		
+
 		PicturesAndTextUpdatesPane.setVisible(true);
 		// ***************************************************************
 		// -------------------Adding JPanel to JFrame --------------------
@@ -687,19 +689,37 @@ public class MainGameScreen extends JFrame  {
 		MainGameScreenFrame.add(p1Panel, BorderLayout.NORTH);
 
 		clock = new TimeClock(TimeClock.Month.REBIRTH, MessageTextPane );
-        clock.startClock();
+		clock.startClock();
 
 
 		MainGameScreenFrame.setVisible(true);
 
 
 	}
-	
-	public static void main(String[] args) throws IOException {
-	    new MainGameScreen();
-	}
-	
-	
 
-	
+	public static void main(String[] args) throws IOException {
+		new MainGameScreen();
+	}
+
+	public void setMessageTextPane(JTextPane messageTextPane) {
+		MessageTextPane = messageTextPane;
+	}
+
+	public void setMessageTextPane(String string) {
+		appendToMessageTextPane(string);
+
+	}
+
+	public void appendToMessageTextPane(String text) {
+		StyledDocument doc = MessageTextPane.getStyledDocument();
+		try {
+			doc.insertString(doc.getLength(), text, null);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
+
 }

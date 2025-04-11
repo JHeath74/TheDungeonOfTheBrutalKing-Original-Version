@@ -3,41 +3,89 @@ package NPC;
 
 import javax.swing.*;
 
+import DungeonoftheBrutalKing.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
 public class InnBackroom {
-    private JTextArea displayArea;
+    public static void loadBackroom() throws IOException {
+    	
+    	GameSettings myGameSettings = new GameSettings();
+    	MainGameScreen myMainGameScreen = new MainGameScreen();
+    	
+        // Create the main frame
+        JFrame frame = new JFrame("Inn Backroom");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new BorderLayout());
 
-    public void innBackroom() {
-       
-    }
+        // Add the picture at the top
 
-    public void loadBackroom() {
-        String[] items = {"Armor", "Shield", "Weapon"};
-        String selectedItem = (String) JOptionPane.showInputDialog(
-            null,
-            "What would you like to buy?",
-            "Backroom",
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            items,
-            items[0]
-        );
+     // Add the picture at the top
+	     ImageIcon originalIcon = new ImageIcon(myGameSettings.NPCImagePath + "Innkeeper - Backroom.jpeg");
+	     Image resizedImage = originalIcon.getImage().getScaledInstance(640, 480, Image.SCALE_SMOOTH);
+	     ImageIcon resizedIcon = new ImageIcon(resizedImage);
+	     JLabel pictureLabel = new JLabel(resizedIcon);
+	     frame.add(pictureLabel, BorderLayout.NORTH);
 
-        if (selectedItem != null) {
-            switch (selectedItem) {
-                case "Armor":
-                    displayArea.append("You bought an Armor.\n");
-                    break;
-                case "Shield":
-                    displayArea.append("You bought a Shield.\n");
-                    break;
-                case "Weapon":
-                    displayArea.append("You bought a Weapon.\n");
-                    break;
-                default:
-                    displayArea.append("Invalid selection.\n");
+
+        // Create a panel for the buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Horizontal layout with spacing
+
+        // Create buttons
+        JButton buyWeaponButton = new JButton("Buy Weapon");
+        JButton buyArmourButton = new JButton("Buy Armour");
+        JButton buyShieldButton = new JButton("Buy Shield");
+        JButton exitButton = new JButton("Exit Backroom");
+
+        // Add action listeners to buttons
+        buyWeaponButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                myMainGameScreen.setMessageTextPane("\nYou bought a Weapon.");
             }
-        } else {
-            displayArea.append("You left the backroom without buying anything.\n");
-        }
+        });
+
+        buyArmourButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	myMainGameScreen.setMessageTextPane("\nYou bought a Armour.");
+            }
+        });
+
+        buyShieldButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	myMainGameScreen.setMessageTextPane("\nYou bought a Shield.");
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose(); // Close the window
+            }
+        });
+
+        // Add buttons to the panel
+        buttonPanel.add(buyWeaponButton);
+        buttonPanel.add(buyArmourButton);
+        buttonPanel.add(buyShieldButton);
+        buttonPanel.add(exitButton);
+
+        // Add the button panel to the frame
+        frame.add(buttonPanel, BorderLayout.CENTER);
+
+     // Adjust the frame size to fit its contents
+        frame.pack();
+        
+        // Make the frame visible
+        frame.setVisible(true);
     }
 }

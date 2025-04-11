@@ -12993,3 +12993,106 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-09 20:51:10.297
 !MESSAGE Jetty server stopped: true
+!SESSION 2025-04-10 16:40:39.899 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-10 16:42:24.928
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-10 16:45:45.805
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 16:46:36.825
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-04-10 16:46:43.486
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-10 16:46:45.271
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-10 16:46:49.814
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 16:46:51.296
+!MESSAGE Jetty server started: true uri: http://144.35.24.61:50473/chat
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-10 16:46:52.830
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 16:46:53.075
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 16:46:54.527
+!MESSAGE Chat App Path: http://localhost:50473/chat/chat.html?chatSessionId=1744325196933
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 16:46:55.930
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 16:46:58.292
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:38:53.855
+!MESSAGE Jetty server stopped: Server@7b69f7a{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:38:53.858
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-04-10 18:38:59.430 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-10 18:39:41.392
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-10 18:40:33.442
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:40:41.119
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-04-10 18:40:43.352
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-10 18:40:45.256
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-10 18:40:46.758
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:40:48.748
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:40:49.097
+!MESSAGE Chat App Path: http://localhost:53473/chat/chat.html?chatSessionId=1744332041138
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:40:49.177
+!MESSAGE Jetty server started: true uri: http://144.35.24.61:53473/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:40:49.896
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 18:40:53.780
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 19:21:40.879
+!MESSAGE Jetty server stopped: Server@53759b49{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-10 19:21:40.881
+!MESSAGE Jetty server stopped: true

@@ -4,6 +4,8 @@ package NPC;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
+import DungeonoftheBrutalKing.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.MusicPlayer;
 
 import java.awt.*;
@@ -18,43 +20,54 @@ public class DerRathskellerBarAndGrille extends JFrame {
     private JTextArea displayArea;
     private String[][][] innLocation;
 
-    public DerRathskellerBarAndGrille(JPanel mainPanel2, JTextArea displayArea2) {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+    GameSettings myGameSettings = new GameSettings();
+    MainGameScreen myMainGameScreen;
 
-        displayArea = new JTextArea();
-        displayArea.setEditable(false);
-        mainPanel.add(new JScrollPane(displayArea), BorderLayout.CENTER);
+public DerRathskellerBarAndGrille(JPanel mainPanel2) {
+    mainPanel = mainPanel2; // Use the passed mainPanel
+    mainPanel.setLayout(new BorderLayout());
 
-        add(mainPanel);
-        setTitle("Main Game Screen");
-        setSize(600, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+    // Add welcome message
+    JLabel welcomeLabel = new JLabel("Welcome to DerRathskellerBarAndGrille!", SwingConstants.CENTER);
+    welcomeLabel.setFont(new Font("Serif", Font.BOLD, 18));
+    mainPanel.add(welcomeLabel, BorderLayout.NORTH);
 
-   ///    displayImage();
-    //    playSound();
-        promptWhereToSit();
-        initializeInnLocation();
-        setInnLocation(1, 2, 3, "DerRathskellerBarAndGrille");
-    }
+    setTitle("DerRathskellerBarAndGrille");
+    setPreferredSize(new Dimension(800, 600)); // Adjust dimensions as needed
+
+    displayImage(); // Add the image to the top
+    promptWhereToSit(); // Add buttons and text area
+
+    add(mainPanel); // Add the main panel to the JFrame
+    pack();
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setVisible(true);
+}
+
 
     public static void main(String[] args) {
-        new DerRathskellerBarAndGrille(new JPanel(), new JTextArea());
+        new DerRathskellerBarAndGrille(new JPanel());
     }
 
-    private void displayImage() {
-        ImageIcon icon = new ImageIcon("path/to/your/image.png");
-        JLabel label = new JLabel(icon);
-        mainPanel.add(label, BorderLayout.NORTH);
-    }
+
+private void displayImage() {
+    ImageIcon icon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - DerRathskellerBarAndGrille.jpeg");
+    Image scaledImage = icon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH); // Adjust width and height as needed
+    JLabel label = new JLabel(new ImageIcon(scaledImage));
+    // Add the image to the top of the main panel
+    mainPanel.add(label, BorderLayout.NORTH);
+}
+
+
 
     private void playSound() {
         String soundFilePath = "path/to/your/sound.wav"; // Replace with the actual path
         MusicPlayer.wavePlayer(soundFilePath);
     }
 
+
     private void promptWhereToSit() {
+        // Create a panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
@@ -63,36 +76,35 @@ public class DerRathskellerBarAndGrille extends JFrame {
         JButton leaveButton = new JButton("Leave the inn");
         JButton backroomButton = new JButton("Go to the backroom");
 
-        barButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                loadInnkeeper();
+        barButton.addActionListener(e -> loadInnkeeper());
+        tableButton.addActionListener(e -> loadInformationProvider());
+        backroomButton.addActionListener(e -> {
+            try {
+                loadInnBackroom();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         });
-
-        tableButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                loadInformationProvider();
-            }
-        });
-        
-        backroomButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
-
-        leaveButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                displayArea.append("You leave the inn.\n");
-            }
-        });
+        leaveButton.addActionListener(e -> myMainGameScreen.setMessageTextPane("You leave the inn.\n"));
 
         buttonPanel.add(barButton);
         buttonPanel.add(tableButton);
         buttonPanel.add(backroomButton);
         buttonPanel.add(leaveButton);
 
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        // Create a new panel to hold the text area and buttons
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+
+        // Add the text area to the center of the new panel
+        centerPanel.add(new JScrollPane(displayArea), BorderLayout.CENTER);
+
+        // Add the button panel to the bottom of the new panel
+        centerPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Add the new panel to the main panel
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
         mainPanel.revalidate();
         mainPanel.repaint();
     }
@@ -109,9 +121,9 @@ public class DerRathskellerBarAndGrille extends JFrame {
         
     }
     
-    private void loadInnBackroom() {
-    	InnBackroom backroom = new InnBackroom();
-        backroom.innBackroom();
+    private void loadInnBackroom() throws IOException {
+    	InnBackroom myInnBackroom = new InnBackroom();
+    	myInnBackroom.loadBackroom();
     }
 
     private void initializeInnLocation() {
