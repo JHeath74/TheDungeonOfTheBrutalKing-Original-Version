@@ -19,6 +19,8 @@ public class Camera implements KeyListener{
 		yPlane = yp;
 		
 		
+		
+		
 	}
 	public void keyPressed(KeyEvent key) {
 		if((key.getKeyCode() == KeyEvent.VK_LEFT))
@@ -77,6 +79,12 @@ public class Camera implements KeyListener{
 		
 
 	
+	}
+	public double getxPos() {
+		return xPos;
+	}
+	public double getyPos() {
+		return yPos;
 	}
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub

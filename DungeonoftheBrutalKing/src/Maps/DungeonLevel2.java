@@ -1,22 +1,14 @@
 package Maps;
 
-import DungeonoftheBrutalKing.Maps;
-
-public class DungeonLevel2 extends Maps {
-
-	//32x32
+public class DungeonLevel2 implements DungeonLevel{
 	
 
-	
+	static int mapWidth=15;
+	static int mapHeight=15;
+	static int mapLevel = 2;
 	
 
-
-
-	int mapWidth = 15;
-	int mapHeight = 15;
-	int mapLevel = 2; 
-	
-	public int[][] DungeonLevel2 = {
+	public static final int[][] map = {
 			{1,1,1,1,1,1,1,1,2,2,2,2,2,2,2},
 			{1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
 			{1,0,3,3,3,3,3,0,0,0,0,0,0,0,2},
@@ -33,32 +25,37 @@ public class DungeonLevel2 extends Maps {
 			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
 			{1,1,1,1,1,1,1,4,4,4,4,4,4,4,4}
 
-		};
-	
-	
+	};
+
+
 	public DungeonLevel2() {
-		//64x64
 		
 		
-	}
-	
-	public int[][] getDungeonLevel2() {
-		return DungeonLevel2;
+
 	}
 
 
-	public int getMapWidth() {
-		return mapWidth;
-	}
+	@Override
+    public int[][] getMap() {
+        return map;
+    }
+
+    @Override
+    public int getMapWidth() {
+        return map[0].length;
+    }
+
+    @Override
+    public int getMapHeight() {
+        return map.length;
+    }
 
 
-	public int getMapHeight() {
-		return mapHeight;
-	}
-
-
-	public int getMapLevel() {
+	@Override
+	public int getLevelNumber() {
+		// TODO Auto-generated method stub
 		return mapLevel;
 	}
+
 
 }

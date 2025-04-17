@@ -1,122 +1,85 @@
 
 package DungeonoftheBrutalKing;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
-
+import java.util.ArrayList;
 import java.util.Objects;
 
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.KeyStroke;
-import javax.swing.Timer;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
+import GameEngine.*;
+import Maps.*;
+
+public class MainGameScreen extends JFrame implements Runnable {
+
+    private static final long serialVersionUID = 1L;
+    Charecter myChar = Charecter.Singleton();
+    GameSettings myGameSettings = new GameSettings();
+    LoadSaveGame myGameState = new LoadSaveGame();
+    GameMenuItems myGameMenuItems = new GameMenuItems();
+    CharacterCreation myCharacterCreation;
+
+    private int[][] map;
+    private Thread thread;
+    private boolean running;
+    private BufferedImage image;
+    public int[] pixels;
+    public ArrayList<Texture> textures;
+    public Camera camera;
+    public Screen screen;
+
+    JFrame MainGameScreenFrame = null;
+    JPanel p1Panel, p2Panel, p3Panel, p4Panel, GameImagesAndCombatPanel = null;
+    private JPanel originalPanel;
+    JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
+    JTextPane MessageTextPane = null;
+    JMenuBar menuBar = null;
+    JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
+    JMenuItem newGameMenuItem, LoadSavedGameMenuItem, saveMenuItem, exitGameMenuItem, charecterstatsMenuItem,
+            charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem, aboutMenuItem, helpMenuItem, mapFloor1MenuItem,
+            mapFloor2MenuItem, mapFloor3MenuItem, mapFloor4MenuItem = null;
+    JSplitPane PicturesAndTextUpdatesPane = null;
+
+    Dimension screenSize = null;
+    int width, height = 0;
+    Timer timer = null;
+    private TimeClock clock;
+    DungeonLevel dungeonLevel;
+    int mapWidth;
+    int mapHeight;
+
+    public JTextArea CombatMessageArea = new JTextArea();
+
+    public MainGameScreen() throws IOException {
 
 
-/*
- * Games Menu Items
- *
- */
-public class MainGameScreen extends JFrame  {
+        thread = new Thread(this);
+        image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
+        pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+        textures = new ArrayList<>();
+        textures.add(Texture.wood);
+        textures.add(Texture.brick);
+        textures.add(Texture.bluestone);
+        textures.add(Texture.stone);
+        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
 
-	private static final long serialVersionUID = 1L;
-	Charecter myChar = Charecter.Singleton();
-	GameSettings myGameSettings = new GameSettings();
-	LoadSaveGame myGameState = new LoadSaveGame();
-	GameMenuItems myGameMenuItems = new GameMenuItems();
-	CharacterCreation myCharacterCreation;
+        // Initialize the dungeon level and map
+        dungeonLevel = getDungeonLevel(1); // Default to level 1
+        mapWidth = dungeonLevel.getMapWidth();
+        mapHeight = dungeonLevel.getMapHeight();
+        map = getDungeonMap(1); // Default to DungeonLevel1
+        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
+        addKeyListener(camera);
+        start();
 
-
-
-
-	JFrame MainGameScreenFrame = null;
-	JPanel p1Panel, p2Panel, p3Panel, p4Panel, GameImagesAndCombatPanel = null;
-	private JPanel originalPanel;
-	JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
-	JTextPane MessageTextPane = null;
-	JMenuBar menuBar = null;
-	JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
-	JMenuItem newGameMenuItem, LoadSavedGameMenuItem, saveMenuItem,
-	exitGameMenuItem,charecterstatsMenuItem,
-	charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem,
-	aboutMenuItem, helpMenuItem, mapFloor1MenuItem, mapFloor2MenuItem,
-	mapFloor3MenuItem, mapFloor4MenuItem = null;
-	JSplitPane PicturesAndTextUpdatesPane = null;
-
-	Dimension screenSize = null;
-	int width, height = 0;
-	Timer timer = null;
-	private TimeClock clock;
-
-	// In MainGameScreen class
-	public JTextArea CombatMessageArea = new JTextArea();
-
-
-	//-----------------------------------------------------------------------------
-
-
-public void replaceWithAnyPanel(JPanel newPanel) {
-    if (newPanel != null) {
-        // Store the current panel if not already stored
-        if (originalPanel == null) {
-            originalPanel = (JPanel) PicturesAndTextUpdatesPane.getLeftComponent();
-        }
-        // Replace the left component with the new panel
-        PicturesAndTextUpdatesPane.setLeftComponent(newPanel);
-        PicturesAndTextUpdatesPane.revalidate();
-        PicturesAndTextUpdatesPane.repaint();
-    } else {
-        throw new IllegalArgumentException("Panel cannot be null");
-    }
-}
-
-
-
-public void restoreOriginalPanel() {
-    if (originalPanel != null) {
-        PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
-        PicturesAndTextUpdatesPane.revalidate();
-        PicturesAndTextUpdatesPane.repaint();
-    } else {
-        throw new IllegalStateException("No original panel to restore.");
-    }
-}
-
-
-	public MainGameScreen() throws IOException {
 
 
 
@@ -716,30 +679,145 @@ public void restoreOriginalPanel() {
 
 
 	}
-
-	public static void main(String[] args) throws IOException {
-		new MainGameScreen();
-	}
-
-	public void setMessageTextPane(JTextPane messageTextPane) {
-		MessageTextPane = messageTextPane;
-	}
-
-	public void setMessageTextPane(String string) {
-		appendToMessageTextPane(string);
-
-	}
-
-	public void appendToMessageTextPane(String text) {
-		StyledDocument doc = MessageTextPane.getStyledDocument();
-		try {
-			doc.insertString(doc.getLength(), text, null);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-	}
+     
+    
 
 
 
+    private synchronized void start() {
+        running = true;
+        thread.start();
+    }
 
+
+@Override
+public void run() {
+    while (running) {
+        try {
+            camera.update(map);
+
+            // Check if the player is at the transition point
+            Point playerPosition = new Point((int) camera.xPos, (int) camera.yPos);
+            Point transitionPoint = getTransitionPoint(dungeonLevel.getLevelNumber()); // Add a method to get the level number
+            if (playerPosition.equals(transitionPoint)) {
+                changeLevel(dungeonLevel.getLevelNumber() + 1); // Move to the next level
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        render();
+    }
+}
+
+public Point getTransitionPoint(int level) {
+    switch (level) {
+        case 1:
+            return new Point(4, 4); // Example: Transition point for level 1
+        case 2:
+            return new Point(2, 2); // Example: Transition point for level 2
+        case 3:
+            return new Point(6, 6); // Example: Transition point for level 3
+        case 4:
+            return new Point(8, 8); // Example: Transition point for level 4
+        default:
+            throw new IllegalArgumentException("Invalid dungeon level: " + level);
+    }
+}
+
+
+    public void render() {
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+        	MainGameScreenFrame.createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        bs.show();
+    }
+    
+
+public void changeLevel(int level) {
+    // Update the dungeon level
+    dungeonLevel = getDungeonLevel(level);
+
+    // Update the map and its dimensions
+    map = getDungeonMap(level);
+    mapWidth = dungeonLevel.getMapWidth();
+    mapHeight = dungeonLevel.getMapHeight();
+
+    // Update the screen with the new map
+    screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
+
+    // Optionally, update any UI or game state related to the level change
+    setMessageTextPane("You have entered Dungeon Level " + level + ".\n");
+}
+
+
+    public int[][] getDungeonMap(int level) {
+        DungeonLevel dungeonLevel = getDungeonLevel(level);
+        return dungeonLevel.getMap();
+    
+    }
+    
+    public DungeonLevel getDungeonLevel(int level) {
+        switch (level) {
+            case 1:
+                return new DungeonLevel1();
+            case 2:
+                return new DungeonLevel2();
+            case 3:
+                return new DungeonLevel3();
+            case 4:
+                return new DungeonLevel4();
+            default:
+                throw new IllegalArgumentException("Invalid dungeon level: " + level);
+        }
+    }
+
+    public void setMessageTextPane(JTextPane messageTextPane) {
+        MessageTextPane = messageTextPane;
+    }
+
+    public void setMessageTextPane(String string) {
+        appendToMessageTextPane(string);
+    }
+
+    public void appendToMessageTextPane(String text) {
+        StyledDocument doc = MessageTextPane.getStyledDocument();
+        try {
+            doc.insertString(doc.getLength(), text, null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void replaceWithAnyPanel(JPanel newPanel) {
+        if (newPanel != null) {
+            // Store the current panel if not already stored
+            if (originalPanel == null) {
+                originalPanel = (JPanel) PicturesAndTextUpdatesPane.getLeftComponent();
+            }
+            // Replace the left component with the new panel
+            PicturesAndTextUpdatesPane.setLeftComponent(newPanel);
+            PicturesAndTextUpdatesPane.revalidate();
+            PicturesAndTextUpdatesPane.repaint();
+        } else {
+            throw new IllegalArgumentException("Panel cannot be null");
+        }
+    }
+    
+    public void restoreOriginalPanel() {
+        if (originalPanel != null) {
+            PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
+            PicturesAndTextUpdatesPane.revalidate();
+            PicturesAndTextUpdatesPane.repaint();
+        } else {
+            throw new IllegalStateException("No original panel to restore.");
+        }
+    }
+    
+    public static void main(String[] args) throws IOException {
+        new MainGameScreen();
+    }
 }

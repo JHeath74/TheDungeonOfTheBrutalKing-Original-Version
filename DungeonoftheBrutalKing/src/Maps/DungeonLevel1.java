@@ -1,12 +1,14 @@
 package Maps;
 
-public class DungeonLevel1 {
+public class DungeonLevel1 implements DungeonLevel{
 	
 
-	int mapWidth=15;
-	int mapHeight=15;
-	int mapLevel = 1;
-	public int[][] DungeonLevel1 = {
+	static int mapWidth=15;
+	static int mapHeight=15;
+	static int mapLevel = 1;
+	
+
+	public static final int[][] map = {
 			{1,1,1,1,1,1,1,1,2,2,2,2,2,2,2},
 			{1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
 			{1,0,3,3,3,3,3,0,0,0,0,0,0,0,2},
@@ -27,11 +29,32 @@ public class DungeonLevel1 {
 
 
 	public DungeonLevel1() {
-		//64x64
-		
 		
 		
 
+	}
+
+
+	@Override
+    public int[][] getMap() {
+        return map;
+    }
+
+    @Override
+    public int getMapWidth() {
+        return map[0].length;
+    }
+
+    @Override
+    public int getMapHeight() {
+        return map.length;
+    }
+
+
+	@Override
+	public int getLevelNumber() {
+		// TODO Auto-generated method stub
+		return mapLevel;
 	}
 
 

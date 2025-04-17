@@ -1,53 +1,61 @@
 package Maps;
 
-import DungeonoftheBrutalKing.Maps;
-
-public class DungeonLevel4 {
-
-	//8x8
+public class DungeonLevel4 implements DungeonLevel{
 	
-	public int[][] DungeonLevel4 = {
-		{1,1,1,1,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,0,1},
-		{1,0,1,1,1,1,0,1,0,1},
-		{1,0,1,0,0,1,0,1,0,1},
-		{1,0,1,0,0,1,0,1,0,1},
-		{1,0,1,1,1,1,0,1,0,1},
-		{1,0,0,0,0,0,0,0,0,1},
-		{1,1,1,1,1,1,1,1,1,1}
+
+	static int mapWidth=15;
+	static int mapHeight=15;
+	static int mapLevel = 4;
+	
+
+	public static final int[][] map = {
+			{1,1,1,1,1,1,1,1,2,2,2,2,2,2,2},
+			{1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
+			{1,0,3,3,3,3,3,0,0,0,0,0,0,0,2},
+			{1,0,3,0,0,0,3,0,2,0,0,0,0,0,2},
+			{1,0,3,0,0,0,3,0,2,2,2,0,2,2,2},
+			{1,0,3,0,0,0,3,0,2,0,0,0,0,0,2},
+			{1,0,3,3,0,3,3,0,2,0,0,0,0,0,2},
+			{1,0,0,0,0,0,0,0,2,0,0,0,0,0,2},
+			{1,1,1,1,1,1,1,1,4,4,4,0,4,4,4},
+			{1,0,0,0,0,0,1,4,0,0,0,0,0,0,4},
+			{1,0,0,0,0,0,1,4,0,0,0,0,0,0,4},
+			{1,0,0,0,0,0,1,4,0,3,3,3,3,0,4},
+			{1,0,0,0,0,0,1,4,0,3,3,3,3,0,4},
+			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
+			{1,1,1,1,1,1,1,4,4,4,4,4,4,4,4}
 
 	};
 
 
-	int mapWidth = 8;
-	int mapHeight = 8;
-	int mapLevel = 4; 
-	
-	
 	public DungeonLevel4() {
-		//64x64
 		
 		
-		
-		
-	}
-	
-	public int[][] getDungeonLevel4() {
-		return DungeonLevel4;
+
 	}
 
 
-	public int getMapWidth() {
-		return mapWidth;
-	}
+	@Override
+    public int[][] getMap() {
+        return map;
+    }
+
+    @Override
+    public int getMapWidth() {
+        return map[0].length;
+    }
+
+    @Override
+    public int getMapHeight() {
+        return map.length;
+    }
 
 
-	public int getMapHeight() {
-		return mapHeight;
-	}
-
-
-	public int getMapLevel() {
+	@Override
+	public int getLevelNumber() {
+		// TODO Auto-generated method stub
 		return mapLevel;
 	}
+
+
 }
