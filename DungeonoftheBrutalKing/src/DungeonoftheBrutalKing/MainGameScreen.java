@@ -8,17 +8,17 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.ArrayList;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
-import GameEngine.*;
+import GameEngine.Game;
 import Maps.*;
 
-public class MainGameScreen extends JFrame implements Runnable {
+public class MainGameScreen extends JFrame{
 
     private static final long serialVersionUID = 1L;
     Charecter myChar = Charecter.Singleton();
@@ -27,17 +27,13 @@ public class MainGameScreen extends JFrame implements Runnable {
     GameMenuItems myGameMenuItems = new GameMenuItems();
     CharacterCreation myCharacterCreation;
 
-    private int[][] map;
-    private Thread thread;
-    private boolean running;
-    private BufferedImage image;
-    public int[] pixels;
-    public ArrayList<Texture> textures;
-    public Camera camera;
-    public Screen screen;
+    private GamePanel gamePanel;
+
+
 
     JFrame MainGameScreenFrame = null;
-    JPanel p1Panel, p2Panel, p3Panel, p4Panel, GameImagesAndCombatPanel = null;
+    JPanel p1Panel, p2Panel, p3Panel, p4Panel = null;
+    public JPanel GameImagesAndCombatPanel = null;
     private JPanel originalPanel;
     JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
     JTextPane MessageTextPane = null;
@@ -52,37 +48,11 @@ public class MainGameScreen extends JFrame implements Runnable {
     int width, height = 0;
     Timer timer = null;
     private TimeClock clock;
-    DungeonLevel dungeonLevel;
-    int mapWidth;
-    int mapHeight;
+
 
     public JTextArea CombatMessageArea = new JTextArea();
 
     public MainGameScreen() throws IOException {
-
-
-        thread = new Thread(this);
-        image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
-        pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-        textures = new ArrayList<>();
-        textures.add(Texture.wood);
-        textures.add(Texture.brick);
-        textures.add(Texture.bluestone);
-        textures.add(Texture.stone);
-        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
-
-        // Initialize the dungeon level and map
-        dungeonLevel = getDungeonLevel(1); // Default to level 1
-        mapWidth = dungeonLevel.getMapWidth();
-        mapHeight = dungeonLevel.getMapHeight();
-        map = getDungeonMap(1); // Default to DungeonLevel1
-        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
-        addKeyListener(camera);
-        start();
-
-
-
-
 
 		//Creating Frame
 
@@ -494,6 +464,34 @@ public class MainGameScreen extends JFrame implements Runnable {
 				p.add(helpbutton, BorderLayout.SOUTH);
 				helpbutton.setSize(120, 120);
 
+				gamePanel = new GamePanel();
+				MainGameScreenFrame.add(gamePanel, BorderLayout.CENTER);
+				
+
+
+try {
+    Game gameInstance = Game.getInstance(this); // Retrieve the singleton instance of Game
+    if (gameInstance == null) {
+        throw new IllegalStateException("Failed to initialize the Game instance.");
+    }
+} catch (IOException e1) {
+
+JOptionPane.showMessageDialog(MainGameScreenFrame,
+    "An error occurred while initializing the game: " + e1.getMessage(),
+    "Initialization Error",
+    JOptionPane.ERROR_MESSAGE);
+;
+    e1.printStackTrace();
+} catch (IllegalStateException e2) {
+
+JOptionPane.showMessageDialog(MainGameScreenFrame,
+    "An error occurred while initializing the game: " + e2.getMessage(),
+    "Initialization Error",
+    JOptionPane.ERROR_MESSAGE);
+;
+}
+
+				
 				frame.pack();
 				frame.setVisible(true);
 
@@ -679,101 +677,6 @@ public class MainGameScreen extends JFrame implements Runnable {
 
 
 	}
-     
-    
-
-
-
-    private synchronized void start() {
-        running = true;
-        thread.start();
-    }
-
-
-@Override
-public void run() {
-    while (running) {
-        try {
-            camera.update(map);
-
-            // Check if the player is at the transition point
-            Point playerPosition = new Point((int) camera.xPos, (int) camera.yPos);
-            Point transitionPoint = getTransitionPoint(dungeonLevel.getLevelNumber()); // Add a method to get the level number
-            if (playerPosition.equals(transitionPoint)) {
-                changeLevel(dungeonLevel.getLevelNumber() + 1); // Move to the next level
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        render();
-    }
-}
-
-public Point getTransitionPoint(int level) {
-    switch (level) {
-        case 1:
-            return new Point(4, 4); // Example: Transition point for level 1
-        case 2:
-            return new Point(2, 2); // Example: Transition point for level 2
-        case 3:
-            return new Point(6, 6); // Example: Transition point for level 3
-        case 4:
-            return new Point(8, 8); // Example: Transition point for level 4
-        default:
-            throw new IllegalArgumentException("Invalid dungeon level: " + level);
-    }
-}
-
-
-    public void render() {
-        BufferStrategy bs = getBufferStrategy();
-        if (bs == null) {
-        	MainGameScreenFrame.createBufferStrategy(3);
-            return;
-        }
-        Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-        bs.show();
-    }
-    
-
-public void changeLevel(int level) {
-    // Update the dungeon level
-    dungeonLevel = getDungeonLevel(level);
-
-    // Update the map and its dimensions
-    map = getDungeonMap(level);
-    mapWidth = dungeonLevel.getMapWidth();
-    mapHeight = dungeonLevel.getMapHeight();
-
-    // Update the screen with the new map
-    screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
-
-    // Optionally, update any UI or game state related to the level change
-    setMessageTextPane("You have entered Dungeon Level " + level + ".\n");
-}
-
-
-    public int[][] getDungeonMap(int level) {
-        DungeonLevel dungeonLevel = getDungeonLevel(level);
-        return dungeonLevel.getMap();
-    
-    }
-    
-    public DungeonLevel getDungeonLevel(int level) {
-        switch (level) {
-            case 1:
-                return new DungeonLevel1();
-            case 2:
-                return new DungeonLevel2();
-            case 3:
-                return new DungeonLevel3();
-            case 4:
-                return new DungeonLevel4();
-            default:
-                throw new IllegalArgumentException("Invalid dungeon level: " + level);
-        }
-    }
 
     public void setMessageTextPane(JTextPane messageTextPane) {
         MessageTextPane = messageTextPane;
@@ -817,7 +720,30 @@ public void changeLevel(int level) {
         }
     }
     
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+
+    public class GamePanel extends JPanel {
+        private BufferedImage image;
+
+        public void setImage(BufferedImage image) {
+            this.image = image;
+            repaint();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (image != null) {
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            }
+        }
+    }
+   
+   
     public static void main(String[] args) throws IOException {
         new MainGameScreen();
     }
-}
+    }
+    

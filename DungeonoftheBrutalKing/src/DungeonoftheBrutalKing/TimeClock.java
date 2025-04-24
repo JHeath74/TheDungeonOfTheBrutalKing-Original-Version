@@ -2,6 +2,8 @@
 package DungeonoftheBrutalKing;
 
 import javax.swing.*;
+
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -62,8 +64,24 @@ public class TimeClock {
 
     private void updateOutputField() {
         SwingUtilities.invokeLater(() -> {
-            myMainGameScreen.MessageTextPane.setText(String.format("Day %d, %s | Time: %s",
-                    currentDay, currentMonth, currentTime));
+        	
+        	if (myMainGameScreen != null && myMainGameScreen.MessageTextPane != null) 
+        	   { 
+        		myMainGameScreen.MessageTextPane.setText(String.format("Day %d, %s | Time: %s",
+                        currentDay, currentMonth, currentTime));
+        	} else { 
+        		System.err.println("myMainGameScreen or MessageTextPane is null");
+        		}
+        	try {
+				myMainGameScreen = new MainGameScreen();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	
+        	
+        	
+            
         });
     }
 

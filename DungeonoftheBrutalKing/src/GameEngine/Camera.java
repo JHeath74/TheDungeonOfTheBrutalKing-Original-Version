@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 
 
+
+
 public class Camera implements KeyListener{
 	public double xPos, yPos, xDir, yDir, xPlane, yPlane;
 	public boolean left, right, forward, back;
@@ -17,8 +19,6 @@ public class Camera implements KeyListener{
 		yDir = yd;
 		xPlane = xp;
 		yPlane = yp;
-		
-		
 		
 		
 	}
@@ -78,13 +78,7 @@ public class Camera implements KeyListener{
 		}
 		
 
-	
-	}
-	public double getxPos() {
-		return xPos;
-	}
-	public double getyPos() {
-		return yPos;
+		
 	}
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
