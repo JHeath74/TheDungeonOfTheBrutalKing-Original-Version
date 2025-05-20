@@ -1,9 +1,10 @@
 package Monsters;
 
+import DungeonoftheBrutalKing.EffectManager;
 import DungeonoftheBrutalKing.Enemies;
 
 public class Assassin extends Enemies{
-    String name;
+    String enemiename, name;
     int level;
     int hitPoints;
     int strength;
@@ -12,10 +13,26 @@ public class Assassin extends Enemies{
     int intelligence;
     int wisdom;
     String imagePath;
+    
+    private EffectManager effectManager = new EffectManager();
+
 
     // Constructor
+    public Assassin(String name) {
+        this.enemiename = "Assassin";
+        this.name = name;
+        this.level = 1;
+        this.hitPoints = 30;
+        this.strength = 8;
+        this.charisma = 5;
+        this.agility = 7;
+        this.intelligence = 6;
+        this.wisdom = 3;
+        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Assassin.png"; // Set the image path
+    }
+    
     public Assassin() {
-        this.name = "Assassin";
+        this.enemiename = "Assassin";
         this.level = 1;
         this.hitPoints = 30;
         this.strength = 8;
@@ -26,6 +43,10 @@ public class Assassin extends Enemies{
         this.imagePath = "src/DungeonftheBrutalKing/Monsters/Assassin.png"; // Set the image path
     }
 
+    public EffectManager getEffectManager() {
+        return effectManager;
+    }
+    
     // Method to take damage
     public void takeDamage(int damage) {
         this.hitPoints -= damage;

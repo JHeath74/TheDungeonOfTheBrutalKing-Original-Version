@@ -18,15 +18,15 @@ public class SpellList {
 
   public SpellList()
   {
-   SpellList.put("Cold Blast", new Cold_Blast());
-   SpellList.put("Conjure Food", new Conjure_Food());
-   SpellList.put("Fireball", new Fireball());
-   SpellList.put("Heal", new Heal());
-   SpellList.put("Light", new Light());
-   SpellList.put("Location", new Location());
-   SpellList.put("Port", new Port());
+   SpellList.put("Cold Blast", new Spells());
+   SpellList.put("Conjure Food", new Spells());
+   SpellList.put("Fireball", new Spells());
+   SpellList.put("Heal", new Spells());
+   SpellList.put("Light", new Spells());
+   SpellList.put("Location", new Spells());
+   SpellList.put("Port", new Spells());
 
-   SpellList.put("Shield", new Shield());
+   SpellList.put("Shield", new Spells());
   }
 
   public static Spells getSpells(String Spellname)

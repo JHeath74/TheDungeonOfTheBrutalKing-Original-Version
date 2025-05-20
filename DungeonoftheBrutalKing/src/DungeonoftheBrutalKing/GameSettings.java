@@ -141,6 +141,12 @@ public class GameSettings
 	        clip.start();
 	    
 	}
+
+
+	public static GameSettings Singleton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

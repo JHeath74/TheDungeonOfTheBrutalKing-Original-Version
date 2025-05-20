@@ -7,6 +7,8 @@ import DungeonoftheBrutalKing.Spells;
 
 public class Port extends Spells {
 
+	
+	
     String name = null;
     int Wisdom = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(10));
     int Intelligence = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(9));
@@ -24,11 +26,14 @@ public class Port extends Spells {
       
     	if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5)
     	{
-    	
+    		int[] charInfo = Singleton.myCharSingleton().getCharInfo();
+
     	// Assuming the character's current position is stored in Singleton
-        int currentX = (int) myChar.getCharInfo(22);
-        int currentY = (int) myChar.getCharInfo(23);
-        int currentZ = (int) myChar.getCharInfo(24);
+    		
+    		  // Access specific indices of the array
+            int currentX = charInfo[0];
+            int currentY = charInfo[1];
+            int currentZ = charInfo[2];
 
         // Move character to the target position on the top level (z = 0)
         dungeon[currentZ][currentY][currentX] = 0; // Clear current position

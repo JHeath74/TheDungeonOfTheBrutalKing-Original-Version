@@ -12,7 +12,7 @@ public class ThingsToWorkOn {
 		// Buying Armour, Shields and Weapons
 		// Buy Food and have it update the food in inventory.
 		// Information Listener needs an image to display
-		
+		// Remove Effect Method to weapons and monsters.  Having finished first ones. 
 		
 		
 		//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/

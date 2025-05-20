@@ -1,308 +1,207 @@
+
+// src/DungeonoftheBrutalKing/Charecter.java
 package DungeonoftheBrutalKing;
 
 import java.util.ArrayList;
 
 public class Charecter {
 
+    private String name;
+    private EffectManager effectManager = new EffectManager();
 
-	private static Charecter single_instance_myChar;
-	public ArrayList<String> CharInfo = new ArrayList<>();
+    public Charecter() {
+        this.name = name;
+    }
 
-	public ArrayList<String> SpellsLearned = new ArrayList<>();
-
-	//int combatSpells = 21;
-
-	//Add Magic Points
-
-	// CharInfo[0] = Charecter Name
-	// CharInfo[1] = Class
-	// CharInfo[2] = Level
-	// CharInfo[3] = Experience
-	// CharInfo[4] = Hit Points
-	// CharInfo[5] = Magic Points
-
-	// CharInfo[6] = Stat: Stamina
-	// CharInfo[7] = Stat: Charisma
-	// CharInfo[8] = Stat: Strength
-	// CharInfo[9] = Stat: Intelligence
-	// CharInfo[10] = Stat: Wisdom
-	// CharInfo[11] = Stat: Agility
-
-	// CharInfo[12] = Gold
-	// CharInfo[13] = Food
-	// CharInfo[14] = Water
-	// CharInfo[15] = Torches
-	// CharInfo[16] = Gems
+    public EffectManager getEffectManager() {
+        return effectManager;
+    }
 	
-	// CharInfo[17] = Weapon
-	// CharInfo[18] = Armour
-	// CharInfo[19] = Shield
-	
-	// CharInfo[20] = Map Location
-	// CharInfo[21] = Morality
+    // Singleton instance of the Charecter class
+    private static Charecter single_instance_myChar;
 
-	//CharInfo[22] = LocationX
-	//CharInfo[23] = LocationY
-	//CharInfo[24] = LocationZ
-	
-	//Date and Time
-	// CharInfo[25] = Date (Day)
-	//CharInfo[26] = Date (Month)
-	//CharInfo[27] = Time (Time)
-	
-	
-	
-	//Acquired Spells
+    // List to store character information
+    public ArrayList<String> CharInfo = new ArrayList<>();
 
+    // List to store spells learned by the character
+    public ArrayList<String> SpellsLearned = new ArrayList<>();
 
-	// CharInfo[28]
-	// CharInfo[29]
-	// CharInfo[30]
-	// CharInfo[31]
-	// CharInfo[32]
-	// CharInfo[33]
-	// CharInfo[34]
-	// CharInfo[35]
+    // List to store the character's inventory
+    public ArrayList<String> CharInventory = new ArrayList<>();
 
+    // Static method to create or retrieve the Singleton instance of the Charecter class
+    public static Charecter Singleton() {
+        if (single_instance_myChar == null) {
+            single_instance_myChar = new Charecter();
+        }
+        return single_instance_myChar;
+    }
 
+    // Method to update CharInfo at a specific index
+    public void updateCharInfo(int index, String value) {
+        if (index >= 0 && index < CharInfo.size()) {
+            CharInfo.set(index, value); // Update existing value
+        } else if (index == CharInfo.size()) {
+            CharInfo.add(value); // Add new value if index matches size
+        } else {
+            // Handle invalid index if necessary
+        }
+    }
 
-	// src/DungeonoftheBrutalKing/Charecter.java
+    // Method to update the character's level
+    public void updateLevel(int Level) {
+        CharInfo.set(2, String.valueOf(Level));
+    }
 
+    // Method to update the character's experience
+    public void updateExperience(int Experience) {
+        CharInfo.set(3, String.valueOf(Experience));
+    }
 
-	    // Static method to create instance of Singleton class
-	    public static Charecter Singleton() {
-	        if (single_instance_myChar == null) {
-	            single_instance_myChar = new Charecter();
-	        }
-	        return single_instance_myChar;
-	    }
-	    
-	    // Method to update CharInfo at a specific index
-	    public void updateCharInfo(int index, String value) {
-	        if (index >= 0 && index < CharInfo.size()) {
-	            CharInfo.set(index, value);
-	        } else if (index == CharInfo.size()) {
-	            CharInfo.add(value);
-	        } else {
-	            // Handle invalid index if necessary
-	        }
-	    }
-	    
-		public void removeEffect(String effect) {
-			// TODO Auto-generated method stub
-			
-		}
+    // Method to update the character's health
+    public void updateHealth(int health) {
+        CharInfo.set(4, String.valueOf(health));
+    }
 
-	    // Method to update Level
-	    public void updateLevel(int Level) {
-	        CharInfo.set(2, String.valueOf(Level));
-	    }
+    // Method to retrieve the character's hit points
+    public int getHitPoints() {
+        return Integer.parseInt(CharInfo.get(4));
+    }
 
-	    // Method to update experience
-	    public void updateExperience(int Experience) {
-	        CharInfo.set(3, String.valueOf(Experience));
-	    }
-	    
-	    // Method to update health
-	    public void updateHealth(int health) {
-	        CharInfo.set(4, String.valueOf(health));
-	    }
-	    
-	    public int getHitPoints() {
-	        return Integer.parseInt(CharInfo.get(4));
-	    }
-	    
+    // Method to update the character's magic points
+    public void updateMagicPoints(int magicPoints) {
+        CharInfo.set(5, String.valueOf(magicPoints));
+    }
 
-	    // Method to update magic points
-	    public void updateMagicPoints(int magicPoints) {
-	        CharInfo.set(5, String.valueOf(magicPoints));
-	    }
+    // Methods to update character stats
+    public void updateStamina(int Stamina) {
+        CharInfo.set(6, String.valueOf(Stamina));
+    }
 
-	 // Method to update Stamina Stat
-	    public void updateStamina(int Stamina) {
-	        CharInfo.set(6, String.valueOf(Stamina));
-	    }
-	    
-	 // Method to update Charisma Stat
-	    public void updateCharisma(int Charisma) {
-	        CharInfo.set(7, String.valueOf(Charisma));
-	    }
-	    
-	    // Method to update Strength Stat
-	    public void updateStrength(int Strength) {
-	        CharInfo.set(8, String.valueOf(Strength));
-	    }
-	    
-	 // Method to update Intelligence Stat
-	    public void updateIntelligence(int Intelligence) {
-	        CharInfo.set(9, String.valueOf(Intelligence));
-	    }
-	    
-	 // Method to update Wisdom Stat
-	    public void updateWisdom(int Wisdom) {
-	        CharInfo.set(10, String.valueOf(Wisdom));
-	    }
-	    
-	 // Method to update Agility Stat
-	    public void updateAgility(int Agility) {
-	        CharInfo.set(11, String.valueOf(Agility));
-	    }
-	    
-	    // Method to update Gold
-	    public void updateGold(int Gold) {
-	        CharInfo.set(12, String.valueOf(Gold));
-	    }
+    public void updateCharisma(int Charisma) {
+        CharInfo.set(7, String.valueOf(Charisma));
+    }
 
-	    // Method to get hungry (update food)
-	    public void updateFood(int food) {
-	        CharInfo.set(13, String.valueOf(food));
-	    }
-	    
-	    // Method to get hungry (update food)
-	    public void updateWater(int Water) {
-	        CharInfo.set(14, String.valueOf(Water));
-	    }
-	    
-	    // Method to get torches
-	    public void updateTorches(int torches) {
-	        CharInfo.set(15, String.valueOf(torches));
-	    }
-	    
-	    // Method to get gems
-	    public void updateGems(int gems) {
-	        CharInfo.set(16, String.valueOf(gems));
-	    }
+    public void updateStrength(int Strength) {
+        CharInfo.set(8, String.valueOf(Strength));
+    }
 
-	    
-	    // Method to buy or sell a weapon
-	    public void updateWeapon(String weapon) {
-	        CharInfo.set(17, weapon);
-	    }
+    public void updateIntelligence(int Intelligence) {
+        CharInfo.set(9, String.valueOf(Intelligence));
+    }
 
-	    // Method to buy or sell armour
-	    public void updateArmour(String armour) {
-	        CharInfo.set(18, armour);
-	    }
+    public void updateWisdom(int Wisdom) {
+        CharInfo.set(10, String.valueOf(Wisdom));
+    }
 
-	    // Method to buy or sell a shield
-	    public void updateShield(String shield) {
-	        CharInfo.set(19, shield);
-	    }
+    public void updateAgility(int Agility) {
+        CharInfo.set(11, String.valueOf(Agility));
+    }
 
-		public int[] getCharInfo(int i) {
-			int[] position = new int[3];
-	        position[0] = Integer.parseInt(CharInfo.get(22)); // current x position
-	        position[1] = Integer.parseInt(CharInfo.get(23)); // current y position
-	        position[2] = Integer.parseInt(CharInfo.get(24)); // current z position
-	        return position;
-		}
+    // Methods to update resources
+    public void updateGold(int Gold) {
+        CharInfo.set(12, String.valueOf(Gold));
+    }
 
-		public void updatePosition(int targetX, int targetY, int targetZ) {
-			CharInfo.set(22, String.valueOf(targetX)); // Update x position
-	        CharInfo.set(23, String.valueOf(targetY)); // Update y position
-	        CharInfo.set(24, String.valueOf(targetZ)); // Update z position
-			
-		}
+    public void updateFood(int food) {
+        CharInfo.set(13, String.valueOf(food));
+    }
 
-		public void addToInventory(String selectedItem) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		public void removeFromInventory(String selectedItem)
-		{
-			
-		}
-		
+    public void updateWater(int Water) {
+        CharInfo.set(14, String.valueOf(Water));
+    }
 
-		// Method to remove gold
+    public void updateTorches(int torches) {
+        CharInfo.set(15, String.valueOf(torches));
+    }
 
-		// Method to remove gold
-		public boolean removeGold(int amount) {
-		    // Ensure CharInfo has enough elements
-		    while (CharInfo.size() <= 12) {
-		        CharInfo.add("0"); // Add default values if necessary
-		    }
+    public void updateGems(int gems) {
+        CharInfo.set(16, String.valueOf(gems));
+    }
 
-		    int currentGold = Integer.parseInt(CharInfo.get(12)); // Get current gold
-		    int newGold = Math.max(0, currentGold - amount); // Subtract amount, ensuring it doesn't go below 0
-		    CharInfo.set(12, String.valueOf(newGold)); // Update gold in CharInfo
-		    return currentGold >= amount; // Return true if enough gold was available.
-		}
+    // Methods to update equipment
+    public void updateWeapon(String weapon) {
+        CharInfo.set(17, weapon);
+    }
 
+    public void updateArmour(String armour) {
+        CharInfo.set(18, armour);
+    }
 
+    public void updateShield(String shield) {
+        CharInfo.set(19, shield);
+    }
 
-		// Method to add gold
-		public void addGold(int amount) {
-		    int currentGold = Integer.parseInt(CharInfo.get(12)); // Get current gold
-		    int newGold = currentGold + amount; // Add the specified amount
-		    CharInfo.set(12, String.valueOf(newGold)); // Update gold in CharInfo
-		}
+    // Method to retrieve the character's current position
+    public int[] getCharInfo() {
+        int[] position = new int[3];
+        position[0] = Integer.parseInt(CharInfo.get(22)); // X position
+        position[1] = Integer.parseInt(CharInfo.get(23)); // Y position
+        position[2] = Integer.parseInt(CharInfo.get(24)); // Z position
+        return position;
+    }
 
+    // Method to update the character's position
+    public void updatePosition(int targetX, int targetY, int targetZ) {
+        CharInfo.set(22, String.valueOf(targetX)); // Update X position
+        CharInfo.set(23, String.valueOf(targetY)); // Update Y position
+        CharInfo.set(24, String.valueOf(targetZ)); // Update Z position
+    }
 
-		// Method to get the current gold
-		public int getGold() {
-		    return Integer.parseInt(CharInfo.get(12)); // Retrieve and return current gold
-		}
-		
+    // Placeholder methods for inventory management
+    public void addToInventory(String selectedItem) {
+        // TODO: Implement inventory addition logic
+    }
 
-		// Method to add food
-		public void addFood(int amount) {
-		    // Ensure CharInfo has enough elements
-		    while (CharInfo.size() <= 13) {
-		        CharInfo.add("0"); // Add default values if necessary
-		    }
+    public void removeFromInventory(String selectedItem) {
+        // TODO: Implement inventory removal logic
+    }
 
-		    int currentFood = Integer.parseInt(CharInfo.get(13)); // Get current food
-		    int newFood = currentFood + amount; // Add the specified amount
-		    CharInfo.set(13, String.valueOf(newFood)); // Update food in CharInfo
-		}
+    // Placeholder methods for resource management
+    public boolean removeGold(int amount) {
+        // TODO: Implement gold removal logic
+        return false;
+    }
 
+    public void addGold(int amount) {
+        // TODO: Implement gold addition logic
+    }
 
+    public int getGold() {
+        // TODO: Implement logic to retrieve current gold
+        return 0;
+    }
 
-		// Method to remove food
-		public boolean removeFood(int amount) {
-		    // Ensure CharInfo has enough elements
-		    while (CharInfo.size() <= 13) {
-		        CharInfo.add("0"); // Add default values if necessary
-		    }
+    public void addFood(int amount) {
+        // TODO: Implement food addition logic
+    }
 
-		    int currentFood = Integer.parseInt(CharInfo.get(13)); // Get current food
-		    if (currentFood < amount) {
-		        return false; // Not enough food to remove
-		    }
+    public boolean removeFood(int amount) {
+        // TODO: Implement food removal logic
+        return false;
+    }
 
-		    int newFood = currentFood - amount; // Subtract the specified amount
-		    CharInfo.set(13, String.valueOf(newFood)); // Update food in CharInfo
-		    return true; // Food successfully removed
-		}
+    public int getFood() {
+        // TODO: Implement logic to retrieve current food
+        return 0;
+    }
 
+    public int getWater() {
+        // TODO: Implement logic to retrieve current water
+        return 0;
+    }
 
-		// Method to get the current food
-		public int getFood() {
-		    return Integer.parseInt(CharInfo.get(13)); // Retrieve and return current food
-		}
+    public int getTorches() {
+        // TODO: Implement logic to retrieve current torches
+        return 0;
+    }
 
+    /**
+     * Removes a specific effect from the character.
+     * This method is a placeholder and should be implemented to handle
+     * the removal of status effects or buffs/debuffs applied to the character.
+     *
+     * @param effect The name of the effect to be removed.
+     */
 
-		// Method to get the current water
-		public int getWater() {
-		    return Integer.parseInt(CharInfo.get(14)); // Retrieve and return current water
-		}
-
-		// Method to get the current torches
-		public int getTorches() {
-		    return Integer.parseInt(CharInfo.get(15)); // Retrieve and return current torches
-		}
-
-
-
-
-
-	}
-
-
-
-
-
-
-
+}

@@ -13944,3 +13944,419 @@ java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
 
 !ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-23 20:50:51.440
 !MESSAGE Jetty server stopped: true
+!SESSION 2025-04-24 16:26:31.474 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-24 16:28:18.498
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-24 16:28:26.643
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 16:28:34.665
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-04-24 16:28:37.046
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-24 16:28:39.001
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-24 16:28:40.948
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 16:28:44.635
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 16:28:45.123
+!MESSAGE Chat App Path: http://localhost:60572/chat/chat.html?chatSessionId=1745533714748
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 16:28:45.296
+!MESSAGE Jetty server started: true uri: http://144.35.25.133:60572/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 16:28:46.211
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 16:28:49.766
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 19:30:48.273
+!MESSAGE Jetty server stopped: Server@56ce44ef{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-24 19:30:48.275
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-04-29 17:06:53.477 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-29 17:08:41.148
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-29 17:21:13.940
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 17:21:57.924
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-04-29 17:22:02.049
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-29 17:22:03.820
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-29 17:22:06.962
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-29 17:22:08.350
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 17:22:11.563
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 17:22:12.126
+!MESSAGE Chat App Path: http://localhost:64192/chat/chat.html?chatSessionId=1745968918002
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 17:22:12.159
+!MESSAGE Jetty server started: true uri: http://144.35.24.110:64192/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 17:22:12.989
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 17:22:16.714
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 19:15:53.616
+!MESSAGE Jetty server stopped: Server@6f02e444{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-29 19:15:53.620
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-04-30 16:47:21.649 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-30 16:49:16.971
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-30 16:51:53.498
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 16:52:01.389
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-04-30 16:52:03.568
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-30 16:52:05.536
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-04-30 16:52:07.150
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 16:52:09.988
+!MESSAGE Jetty server started: true uri: http://144.35.24.53:52998/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 16:52:10.449
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 16:52:11.166
+!MESSAGE Chat App Path: http://localhost:52998/chat/chat.html?chatSessionId=1746053521414
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 16:52:11.980
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 16:52:15.921
+!MESSAGE Workspace labels: java
+
+!ENTRY org.eclipse.ui 4 0 2025-04-30 18:16:51.840
+!MESSAGE Unhandled event loop exception
+!STACK 0
+org.eclipse.swt.SWTException: Widget is disposed
+	at org.eclipse.swt.SWT.error(SWT.java:4922)
+	at org.eclipse.swt.SWT.error(SWT.java:4837)
+	at org.eclipse.swt.SWT.error(SWT.java:4808)
+	at org.eclipse.swt.widgets.Widget.error(Widget.java:488)
+	at org.eclipse.swt.widgets.Widget.checkWidget(Widget.java:407)
+	at org.eclipse.swt.widgets.Control.setFocus(Control.java:3394)
+	at org.eclipse.jdt.internal.ui.text.java.hover.AbstractAnnotationHover$AnnotationInformationControl.setFocus(AbstractAnnotationHover.java:212)
+	at org.eclipse.jface.text.AbstractInformationControlManager.showInformationControl(AbstractInformationControlManager.java:1246)
+	at org.eclipse.jface.internal.text.StickyHoverManager.showInformationControl(StickyHoverManager.java:262)
+	at org.eclipse.jface.internal.text.InformationControlReplacer.showInformationControl(InformationControlReplacer.java:150)
+	at org.eclipse.jface.text.AbstractInformationControlManager.internalShowInformationControl(AbstractInformationControlManager.java:1134)
+	at org.eclipse.jface.text.AbstractInformationControlManager.presentInformation(AbstractInformationControlManager.java:1120)
+	at org.eclipse.jface.text.AbstractInformationControlManager.setInformation(AbstractInformationControlManager.java:431)
+	at org.eclipse.jface.internal.text.InformationControlReplacer.computeInformation(InformationControlReplacer.java:116)
+	at org.eclipse.jface.text.AbstractInformationControlManager.doShowInformation(AbstractInformationControlManager.java:1101)
+	at org.eclipse.jface.text.AbstractInformationControlManager.showInformation(AbstractInformationControlManager.java:1091)
+	at org.eclipse.jface.internal.text.InformationControlReplacer.replaceInformationControl(InformationControlReplacer.java:103)
+	at org.eclipse.jface.text.AbstractInformationControlManager.replaceInformationControl(AbstractInformationControlManager.java:1268)
+	at org.eclipse.jface.text.AbstractHoverInformationControlManager.replaceInformationControl(AbstractHoverInformationControlManager.java:794)
+	at org.eclipse.jface.text.TextViewerHoverManager.replaceInformationControl(TextViewerHoverManager.java:297)
+	at org.eclipse.jface.text.AbstractHoverInformationControlManager$Closer.lambda$1(AbstractHoverInformationControlManager.java:296)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:132)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4058)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3676)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1151)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1042)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:152)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:639)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:546)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:143)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:109)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:439)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:271)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:668)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:605)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1481)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 18:49:39.542
+!MESSAGE Jetty server stopped: Server@415bbc9a{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-04-30 18:49:39.543
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-05-01 17:37:14.140 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-01 17:37:51.379
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-01 17:38:29.469
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 17:38:37.926
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-05-01 17:38:40.081
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-05-01 17:38:42.043
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-05-01 17:38:43.650
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 17:38:46.525
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 17:38:46.630
+!MESSAGE Jetty server started: true uri: http://144.35.24.56:63004/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 17:38:46.821
+!MESSAGE Chat App Path: http://localhost:63004/chat/chat.html?chatSessionId=1746142717952
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 17:38:47.984
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 17:38:51.600
+!MESSAGE Workspace labels: java
+
+!ENTRY org.eclipse.ui 4 0 2025-05-01 18:37:08.169
+!MESSAGE Unhandled event loop exception
+!STACK 0
+org.eclipse.jdt.internal.codeassist.select.SelectionNodeFound
+	at org.eclipse.jdt.internal.codeassist.select.SelectionOnModuleReference.resolve(SelectionOnModuleReference.java:31)
+	at org.eclipse.jdt.internal.compiler.ast.RequiresStatement.resolve(RequiresStatement.java:51)
+	at org.eclipse.jdt.internal.compiler.ast.ModuleDeclaration.resolveModuleDirectives(ModuleDeclaration.java:153)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.checkAndSetImports(CompilationUnitScope.java:223)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment$CompleteTypeBindingsSteps.perform(LookupEnvironment.java:182)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.completeTypeBindings(LookupEnvironment.java:620)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.completeTypeBindings(LookupEnvironment.java:612)
+	at org.eclipse.jdt.internal.codeassist.impl.Engine.accept(Engine.java:91)
+	at org.eclipse.jdt.internal.compiler.impl.ITypeRequestor.accept(ITypeRequestor.java:61)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.getModule(LookupEnvironment.java:256)
+	at org.eclipse.jdt.internal.compiler.env.ICompilationUnit.module(ICompilationUnit.java:64)
+	at org.eclipse.jdt.internal.compiler.ast.CompilationUnitDeclaration.module(CompilationUnitDeclaration.java:842)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.buildTypeBindings(LookupEnvironment.java:510)
+	at org.eclipse.jdt.internal.codeassist.SelectionEngine.select(SelectionEngine.java:1019)
+	at org.eclipse.jdt.internal.core.Openable.codeSelect(Openable.java:166)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeSelect(CompilationUnit.java:382)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeSelect(CompilationUnit.java:375)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlinkDetector.detectHyperlinksCached(JavaElementHyperlinkDetector.java:129)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlinkDetector.lambda$0(JavaElementHyperlinkDetector.java:85)
+	at org.eclipse.jdt.internal.core.JavaModelManager.cacheZipFiles(JavaModelManager.java:5765)
+	at org.eclipse.jdt.internal.core.JavaModelManager.callReadOnly(JavaModelManager.java:5754)
+	at org.eclipse.jdt.core.JavaCore.callReadOnly(JavaCore.java:6130)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlinkDetector.detectHyperlinks(JavaElementHyperlinkDetector.java:85)
+	at org.eclipse.ui.texteditor.HyperlinkDetectorRegistry$HyperlinkDetectorDelegate.detectHyperlinks(HyperlinkDetectorRegistry.java:81)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.findHyperlinks(HyperlinkManager.java:289)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.findHyperlinks(HyperlinkManager.java:262)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.mouseMove(HyperlinkManager.java:457)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:229)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4285)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1160)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4083)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1151)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1042)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:152)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:639)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:546)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:143)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:109)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:439)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:271)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:668)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:605)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1481)
+
+!ENTRY org.eclipse.ui 4 0 2025-05-01 18:37:08.188
+!MESSAGE Unhandled event loop exception
+!STACK 0
+org.eclipse.jdt.internal.codeassist.select.SelectionNodeFound
+	at org.eclipse.jdt.internal.codeassist.select.SelectionOnModuleReference.resolve(SelectionOnModuleReference.java:31)
+	at org.eclipse.jdt.internal.compiler.ast.RequiresStatement.resolve(RequiresStatement.java:51)
+	at org.eclipse.jdt.internal.compiler.ast.ModuleDeclaration.resolveModuleDirectives(ModuleDeclaration.java:153)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.checkAndSetImports(CompilationUnitScope.java:223)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment$CompleteTypeBindingsSteps.perform(LookupEnvironment.java:182)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.completeTypeBindings(LookupEnvironment.java:620)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.completeTypeBindings(LookupEnvironment.java:612)
+	at org.eclipse.jdt.internal.codeassist.impl.Engine.accept(Engine.java:91)
+	at org.eclipse.jdt.internal.compiler.impl.ITypeRequestor.accept(ITypeRequestor.java:61)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.getModule(LookupEnvironment.java:256)
+	at org.eclipse.jdt.internal.compiler.env.ICompilationUnit.module(ICompilationUnit.java:64)
+	at org.eclipse.jdt.internal.compiler.ast.CompilationUnitDeclaration.module(CompilationUnitDeclaration.java:842)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.buildTypeBindings(LookupEnvironment.java:510)
+	at org.eclipse.jdt.internal.codeassist.SelectionEngine.select(SelectionEngine.java:1019)
+	at org.eclipse.jdt.internal.core.Openable.codeSelect(Openable.java:166)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeSelect(CompilationUnit.java:382)
+	at org.eclipse.jdt.internal.core.CompilationUnit.codeSelect(CompilationUnit.java:375)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlinkDetector.detectHyperlinksCached(JavaElementHyperlinkDetector.java:129)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlinkDetector.lambda$0(JavaElementHyperlinkDetector.java:85)
+	at org.eclipse.jdt.internal.core.JavaModelManager.cacheZipFiles(JavaModelManager.java:5765)
+	at org.eclipse.jdt.internal.core.JavaModelManager.callReadOnly(JavaModelManager.java:5754)
+	at org.eclipse.jdt.core.JavaCore.callReadOnly(JavaCore.java:6130)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaElementHyperlinkDetector.detectHyperlinks(JavaElementHyperlinkDetector.java:85)
+	at org.eclipse.ui.texteditor.HyperlinkDetectorRegistry$HyperlinkDetectorDelegate.detectHyperlinks(HyperlinkDetectorRegistry.java:81)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.findHyperlinks(HyperlinkManager.java:289)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.findHyperlinks(HyperlinkManager.java:262)
+	at org.eclipse.jface.text.hyperlink.HyperlinkManager.mouseMove(HyperlinkManager.java:457)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:229)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:91)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4285)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1160)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4083)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1151)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1042)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:152)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:639)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:546)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:143)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:109)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:439)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:271)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:668)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:605)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1481)
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 18:46:25.931
+!MESSAGE Jetty server stopped: Server@12b6fec5{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-01 18:46:25.932
+!MESSAGE Jetty server stopped: true
+!SESSION 2025-05-19 20:09:24.407 -----------------------------------------------
+eclipse.buildId=4.32.0.20240606-1231
+java.version=22.0.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-19 20:11:42.625
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-19 20:15:07.970
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.1.20240411-1122.xml
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 20:15:15.852
+!MESSAGE EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse\edgedata
+
+!ENTRY org.eclipse.egit.ui 2 0 2025-05-19 20:15:18.242
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-05-19 20:15:20.228
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse 2 0 2025-05-19 20:15:21.983
+!MESSAGE Timeout while checking Copilot status
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 20:15:24.590
+!MESSAGE Persistence: C:\Users\jheat\AppData\Local\github-copilot
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 20:15:24.989
+!MESSAGE Jetty server started: true uri: http://172.20.0.254:57353/chat
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 20:15:25.129
+!MESSAGE Chat App Path: http://localhost:57353/chat/chat.html?chatSessionId=1747710915883
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 20:15:25.941
+!MESSAGE Theme: {"--background2":"#e4e4e4","--border":"#d0d0d0","--foreground":"#000000","--image":"#202020","--background1":"#f0f0f0","--code-font":"Consolas","--code-font-size":"12px","--disabled":"gray","--code-background":"#2C2F32","--font":"\"Segoe UI Variable\",\"Segeo UI\"","--font-size":"12px","--code":"darkviolet"}
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 20:15:29.667
+!MESSAGE Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 22:17:54.376
+!MESSAGE Jetty server stopped: Server@37d0d67b{STOPPED}[10.0.20,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2025-05-19 22:17:54.380
+!MESSAGE Jetty server stopped: true

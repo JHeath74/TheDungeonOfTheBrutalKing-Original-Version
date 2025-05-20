@@ -1,40 +1,40 @@
+
+// src/DungeonoftheBrutalKing/Class.java
 package DungeonoftheBrutalKing;
 
+// Abstract class representing a character class in the game
 public abstract class Class {
 
-	public static final String[] toonclassarray = {"Paladin", "Wizard", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
+    // Array of available character classes
+    public static final String[] toonclassarray = {"Paladin", "Wizard", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
 
-	/*
-	 * public abstract double Heal(); // Heal yourself
-	 * public abstract double Cold_Blast(); // Cast a blast of cold to hurt a monster
-	 * public abstract double Conjure_Food(); // provide 1-3 food to keep you feed.
-	 * public abstract double Fire_Ball(); // Cast a fireball to hurt a monster
-	 * public abstract double Light(); // Provide light for a short time
-	 * public abstract double Location(); // Find your location in the game
-	 * public abstract double Shield(); // Increases your protection for a short time
-	 * public abstract double RandomStat(); //Increases a random Stat for a short time
-	 * public abstract double Port(); // Port to the Dungeon Entrance
-	 */
+    // Description of the class (can be overridden by subclasses)
+    public static String ClassDescription;
 
-	public static String ClassDescription;
-	int HeroLevel;
-	String charClass;
+    // Level of the hero
+    int HeroLevel;
 
-	public Class()
-	{
-		String ClassDescription;
-		HeroLevel = 0;
-		charClass = "";
+    // Name of the character class
+    String charClass;
 
-	}
+    // Constructor to initialize default values
+    public Class() {
+        String ClassDescription; // Local variable for class description
+        HeroLevel = 0;           // Default hero level
+        charClass = "";          // Default character class name
+    }
 
-	protected static Class forName(String className) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Static method to retrieve a class instance by name
+    // (To be implemented in the future)
+    protected static Class forName(String className) {
+        // TODO: Implement logic to return a class instance based on the name
+        return null;
+    }
 
-	public Object getDeclaredConstructor() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Placeholder method to retrieve a declared constructor
+    // (To be implemented in the future)
+    public Object getDeclaredConstructor() {
+        // TODO: Implement logic to return the declared constructor
+        return null;
+    }
 }

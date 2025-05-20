@@ -6,12 +6,14 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Shield extends Spells {
 
+	Charecter myChar = Charecter.Singleton();
+	
     public Shield() {
         String name = "Shield";
         int requiredint = 30;
         int requiredwis = 30;
-        String charintelligence = myChar.myCharSingleton().CharInfo.get(8).toString();
-        String charwisdom = myChar.myCharSingleton().CharInfo.get(9).toString();
+        String charintelligence = myChar.Singleton().CharInfo.get(8).toString();
+        String charwisdom = myChar.Singleton().CharInfo.get(9).toString();
        
     }
 

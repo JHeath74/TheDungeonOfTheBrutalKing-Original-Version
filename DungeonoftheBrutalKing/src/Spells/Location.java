@@ -23,9 +23,11 @@ public class Location extends Spells {
 
         if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
             // Assuming the character's current position is stored in Singleton
-            int currentX = myChar.getCharInfo(22);
-            int currentY = myChar.getCharInfo(23);
-            int currentZ = myChar.getCharInfo(24);
+        	
+        	int[] charInfo = Singleton.myCharSingleton().getCharInfo();
+            int currentX = charInfo[0];
+            int currentY = charInfo[1];
+            int currentZ = charInfo[2];
 
             // Move character to the target position on the top level (z = 0)
             dungeon[currentZ][currentY][currentX] = 0; // Clear current position

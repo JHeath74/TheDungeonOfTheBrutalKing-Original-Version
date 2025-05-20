@@ -20,15 +20,14 @@ import Maps.*;
 
 public class MainGameScreen extends JFrame{
 
+	private JPanel renderPanel;
+	
     private static final long serialVersionUID = 1L;
     Charecter myChar = Charecter.Singleton();
     GameSettings myGameSettings = new GameSettings();
     LoadSaveGame myGameState = new LoadSaveGame();
     GameMenuItems myGameMenuItems = new GameMenuItems();
     CharacterCreation myCharacterCreation;
-
-    private GamePanel gamePanel;
-
 
 
     JFrame MainGameScreenFrame = null;
@@ -49,10 +48,14 @@ public class MainGameScreen extends JFrame{
     Timer timer = null;
     private TimeClock clock;
 
-
+    
+    private Canvas gameImagesAndCombatCanvas;
+    
     public JTextArea CombatMessageArea = new JTextArea();
 
     public MainGameScreen() throws IOException {
+    	
+    	
 
 		//Creating Frame
 
@@ -77,8 +80,20 @@ public class MainGameScreen extends JFrame{
 		MainGameScreenFrame.setUndecorated(true);
 		MainGameScreenFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
+		//gameImagesAndCombatCanvas = new Canvas();
+     //   gameImagesAndCombatCanvas.setPreferredSize(new Dimension(640, 480));
+     //   add(gameImagesAndCombatCanvas, BorderLayout.CENTER);
 
 
+		/*
+		 * GameImagesAndCombatPanel = new JPanel() {
+		 * 
+		 * @Override protected void paintComponent(Graphics g) {
+		 * super.paintComponent(g); // Custom rendering logic if needed } };
+		 * GameImagesAndCombatPanel.setPreferredSize(new Dimension(640, 480));
+		 * add(GameImagesAndCombatPanel, BorderLayout.CENTER);
+		 */
+		
 		//Adding JPanels
 
 
@@ -89,6 +104,8 @@ public class MainGameScreen extends JFrame{
 		GameImagesAndCombatPanel = new JPanel(new BorderLayout());
 
 
+
+		
 		//		startingImageLabel = new JLabel(new ImageIcon(myGameSettings.StoryIntroductionPath + "Starting_Image.png"));
 		//		GameImagesAndCombatPanel.add(startingImageLabel);
 
@@ -463,40 +480,19 @@ public class MainGameScreen extends JFrame{
 
 				p.add(helpbutton, BorderLayout.SOUTH);
 				helpbutton.setSize(120, 120);
-
-				gamePanel = new GamePanel();
-				MainGameScreenFrame.add(gamePanel, BorderLayout.CENTER);
+		
+			
 				
-
-
-try {
-    Game gameInstance = Game.getInstance(this); // Retrieve the singleton instance of Game
-    if (gameInstance == null) {
-        throw new IllegalStateException("Failed to initialize the Game instance.");
-    }
-} catch (IOException e1) {
-
-JOptionPane.showMessageDialog(MainGameScreenFrame,
-    "An error occurred while initializing the game: " + e1.getMessage(),
-    "Initialization Error",
-    JOptionPane.ERROR_MESSAGE);
-;
-    e1.printStackTrace();
-} catch (IllegalStateException e2) {
-
-JOptionPane.showMessageDialog(MainGameScreenFrame,
-    "An error occurred while initializing the game: " + e2.getMessage(),
-    "Initialization Error",
-    JOptionPane.ERROR_MESSAGE);
-;
-}
-
 				
 				frame.pack();
 				frame.setVisible(true);
 
 			}
 		});
+		
+		
+		
+
 
 		helpMenuItem = new JMenuItem("Help");
 		helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
@@ -720,28 +716,16 @@ JOptionPane.showMessageDialog(MainGameScreenFrame,
         }
     }
     
-    public GamePanel getGamePanel() {
-        return gamePanel;
-    }
 
-    public class GamePanel extends JPanel {
-        private BufferedImage image;
 
-        public void setImage(BufferedImage image) {
-            this.image = image;
-            repaint();
-        }
+public JPanel getGameImagesAndCombatPanel() {
+    return GameImagesAndCombatPanel;
+}
+	
+public Canvas getGameImagesAndCombatCanvas() {
+    return gameImagesAndCombatCanvas;
+}   
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            if (image != null) {
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-            }
-        }
-    }
-   
-   
     public static void main(String[] args) throws IOException {
         new MainGameScreen();
     }

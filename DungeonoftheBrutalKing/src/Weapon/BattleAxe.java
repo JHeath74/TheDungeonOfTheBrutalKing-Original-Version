@@ -3,6 +3,7 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.EffectManager;
 import DungeonoftheBrutalKing.WeaponManager;
 
 public class BattleAxe extends WeaponManager {
@@ -10,13 +11,24 @@ public class BattleAxe extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
+    
+    private String weaponname;
+    private EffectManager effectManager = new EffectManager();
+
+
+    public EffectManager getEffectManager() {
+        return effectManager;
+    }
 
     public BattleAxe(int attackDamage, String effect) {
         super("Battle Axe", REQUIRED_STRENGTH, attackDamage, effect);
+        this.weaponname = "Battle Axe";
+        
     }
 
     public BattleAxe(int requiredStrength, int attackDamage, String effect) {
         super("Battle Axe", requiredStrength, attackDamage, effect);
+        this.weaponname = "Battle Axe";
     }
 
     public static BattleAxe createBattleAxe(Character character, int attackDamage, String effect) throws NumberFormatException {
