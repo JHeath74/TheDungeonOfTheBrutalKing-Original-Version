@@ -3,11 +3,13 @@
 package DungeonoftheBrutalKing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Charecter {
 
     private String name;
     private EffectManager effectManager = new EffectManager();
+    private List<String> activeEffects = new ArrayList<>();
 
     public Charecter() {
         this.name = name;
@@ -195,6 +197,51 @@ public class Charecter {
         // TODO: Implement logic to retrieve current torches
         return 0;
     }
+    
+    /**
+     * Removes a specific effect from the character.
+     *
+     * @param effect The name of the effect to be removed.
+     */
+    public void removeEffect(String effect) {
+        if (activeEffects.contains(effect)) {
+            activeEffects.remove(effect);
+            System.out.println(effect + " has been removed.");
+        } else {
+            System.out.println(effect + " is not active.");
+        }
+    }
+    
+    /**
+     * Adds an effect to the character.
+     *
+     * @param effect The name of the effect to be added.
+     * @return 
+     */
+    /**
+     * Adds an effect to the character.
+     *
+     * @param effect The name of the effect to be added.
+     * @return A list of active effects.
+     */
+    public List<String> addEffect(String effect) {
+        if (!activeEffects.contains(effect)) {
+            activeEffects.add(effect);
+            System.out.println(effect + " has been added.");
+        } else {
+            System.out.println(effect + " is already active.");
+        }
+        return activeEffects;
+    }
+        
+        /**
+         * Gets the list of active effects.
+         *
+         * @return A list of active effects.
+         */
+        public List<String> getActiveEffects() {
+            return activeEffects;
+        }
 
     /**
      * Removes a specific effect from the character.
@@ -203,5 +250,6 @@ public class Charecter {
      *
      * @param effect The name of the effect to be removed.
      */
+    
 
 }

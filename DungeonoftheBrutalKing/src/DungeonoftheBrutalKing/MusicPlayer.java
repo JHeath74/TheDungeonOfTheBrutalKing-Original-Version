@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing;
 
 import java.io.File;
@@ -7,108 +8,141 @@ import javax.sound.sampled.*;
 
 public class MusicPlayer {
 
+    // Path to the directory containing sound files
     static String SoundFilePath;
+
+    // Clip object to play audio
     private static Clip clip;
+
+    // Type of sound being played
     static String soundType;
 
+    // Constructor to initialize default values
     public MusicPlayer() {
         MusicPlayer.SoundFilePath = "src\\DungeonoftheBrutalKing\\SoundEffects\\";
         MusicPlayer.clip = null;
         MusicPlayer.soundType = null;
     }
 
+    // Method to play MIDI files
     public void midiPlayer(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         new Thread(() -> {
             try {
-                // create AudioInputStream object
+                // Create AudioInputStream object for the specified sound file
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundFilePath + soundType).getAbsoluteFile());
 
-                // create clip reference
+                // Create a Clip object to play the audio
                 clip = AudioSystem.getClip();
 
-                // open audioInputStream to the clip
+                // Open the audio stream in the clip
                 clip.open(audioInputStream);
 
+                // Loop the audio continuously
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
             } catch (Exception e) {
+                // Print stack trace if an exception occurs
                 e.printStackTrace();
             }
-        }).start();
+        }).start(); // Start the thread
     }
 
+    // Method to stop playing MIDI files
     public static void stopMidi() {
+        // Stop the clip if it is running
         if (clip != null && clip.isRunning()) {
             clip.stop();
         }
     }
 
+    // Method to play MP3 files
     public void mp3Player(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         new Thread(() -> {
             try {
+                // Print debug information for the file path and sound type
                 System.out.println("SoundFilePath: " + SoundFilePath);
                 System.out.println("soundType: " + soundType);
 
+                // Load the sound file as an InputStream
                 InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SoundFilePath + soundType);
 
+                // Print debug information for the InputStream
                 System.out.println("Working: " + inputStream);
 
+                // Create an AudioInputStream from the InputStream
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+
+                // Get the audio format of the stream
                 AudioFormat audioFormat = audioStream.getFormat();
+
+                // Create a DataLine.Info object for the audio format
                 DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
 
+                // Create a Clip object to play the audio
                 Clip audioClip = (Clip) AudioSystem.getLine(info);
+
+                // Add a LineListener to the clip
                 audioClip.addLineListener((LineListener) this);
+
+                // Open the audio stream in the clip
                 audioClip.open(audioStream);
+
+                // Start playing the audio
                 audioClip.start();
 
+                // Close the clip and audio stream after playback
                 audioClip.close();
                 audioStream.close();
             } catch (Exception e) {
+                // Print stack trace if an exception occurs
                 e.printStackTrace();
             }
-        }).start();
+        }).start(); // Start the thread
     }
 
+    // Method to stop playing MP3 files
     public static void stopMP3() {
+        // Stop the clip if it is running
         if (clip != null && clip.isRunning()) {
             clip.stop();
         }
     }
-    
 
-public static void wavePlayer(String soundFileName) {
-    new Thread(() -> {
-        try {
-            // Create AudioInputStream object
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundFilePath + soundFileName).getAbsoluteFile());
+    // Method to play WAV files
+    public static void wavePlayer(String soundFileName) {
+        new Thread(() -> {
+            try {
+                // Create AudioInputStream object for the specified sound file
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundFilePath + soundFileName).getAbsoluteFile());
 
-            // Create clip reference
-            Clip clip = AudioSystem.getClip();
+                // Create a Clip object to play the audio
+                Clip clip = AudioSystem.getClip();
 
-            // Open audioInputStream to the clip
-            clip.open(audioInputStream);
+                // Open the audio stream in the clip
+                clip.open(audioInputStream);
 
-            // Start playing the sound
-            clip.start();
+                // Start playing the audio
+                clip.start();
 
-            // Wait for the clip to finish playing
-            clip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP) {
-                    clip.close();
-                }
-            });
+                // Add a LineListener to close the clip after playback
+                clip.addLineListener(event -> {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        clip.close();
+                    }
+                });
 
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-    }).start();
-}
-
-public static void stopWave() {
-    if (clip != null && clip.isRunning()) {
-        clip.stop();
-        clip.close();
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                // Print stack trace if an exception occurs
+                e.printStackTrace();
+            }
+        }).start(); // Start the thread
     }
-}
 
+    // Method to stop playing WAV files
+    public static void stopWave() {
+        // Stop and close the clip if it is running
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+            clip.close();
+        }
+    }
 }

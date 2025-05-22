@@ -13,7 +13,7 @@ public class ThingsToWorkOn {
 		// Buy Food and have it update the food in inventory.
 		// Information Listener needs an image to display
 		// Remove Effect Method to weapons and monsters.  Having finished first ones. 
-		
+		//Guild Class
 		
 		//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
 		//https://stackoverflow.com/questions/13590002/understand-bufferstrategy

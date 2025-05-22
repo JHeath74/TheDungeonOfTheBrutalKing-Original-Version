@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing;
 
 import java.awt.BorderLayout;
@@ -10,179 +11,152 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+/**
+ * The GameMenuItems class provides functionality for displaying and managing
+ * various game menu options such as character stats and inventory.
+ * It uses Swing components to create and display the user interface for these menus.
+ */
+public class GameMenuItems {
 
-public class GameMenuItems
-{
+    // Singleton instance of the character
+    Charecter myChar = Charecter.Singleton();
 
-	Charecter myChar = Charecter.Singleton();
-	GameSettings myGamePreferences = new GameSettings();
+    // Game settings instance for UI preferences
+    GameSettings myGamePreferences = new GameSettings();
 
-	public void Stats()
-	{
-		JFrame statsFrame = new JFrame("Charecter Stats");
+    /**
+     * Displays the character stats in a new window.
+     * The stats include attributes such as name, class, level, experience, and more.
+     */
+    public void Stats() {
+        // Create a new frame for character stats
+        JFrame statsFrame = new JFrame("Charecter Stats");
 
+        // Text area to display stats
+        JTextArea statsArea = new JTextArea();
 
-		JTextArea statsArea = new JTextArea();
-		JButton closeStats = new JButton("Ok");
+        // Button to close the stats window
+        JButton closeStats = new JButton("Ok");
 
-		closeStats.addActionListener(new ActionListener() {
+        // Add action listener to close the stats window
+        closeStats.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statsFrame.dispose(); // Close the stats frame
+            }
+        });
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				statsFrame.dispose();
+        // Add components to the frame
+        statsFrame.add(statsArea, BorderLayout.CENTER);
+        statsFrame.add(closeStats, BorderLayout.SOUTH);
 
-			}
+        // Configure text area font and colors
+        statsArea.setFont(new Font(Font.SERIF, Font.PLAIN, 15));
+        statsArea.setForeground(myGamePreferences.colorWhite);
+        statsArea.setBackground(myGamePreferences.colorBlack);
+        statsArea.setVisible(true);
 
-		});
+        // Configure frame size and visibility
+        statsFrame.setSize(400, 600);
+        statsFrame.setLocationRelativeTo(null);
+        statsFrame.setVisible(true);
+        statsFrame.toFront();
+        statsFrame.requestFocus();
 
-		statsFrame.add(statsArea, BorderLayout.CENTER);
-		statsFrame.add(closeStats, BorderLayout.SOUTH);
+        // Populate the stats area with character information
+        statsArea.setText("Name: " + myChar.CharInfo.get(0) + "\n");
+        statsArea.append("Class: " + myChar.CharInfo.get(1) + "\n");
+        statsArea.append("Level: " + myChar.CharInfo.get(2) + "\n");
+        statsArea.append("Experience: " + myChar.CharInfo.get(3) + "\n");
+        statsArea.append("Hit Points: " + myChar.CharInfo.get(4) + "\n");
+        statsArea.append("Stamina: " + myChar.CharInfo.get(5) + "\n");
+        statsArea.append("Charisma: " + myChar.CharInfo.get(6) + "\n");
+        statsArea.append("Strength: " + myChar.CharInfo.get(7) + "\n");
+        statsArea.append("Intelligence: " + myChar.CharInfo.get(8) + "\n");
+        statsArea.append("Wisdom: " + myChar.CharInfo.get(9) + "\n");
+        statsArea.append("Agility: " + myChar.CharInfo.get(10) + "\n");
+    }
 
+    /**
+     * Displays the character's inventory in a new window.
+     * The inventory includes items such as gold, gems, food, weapons, and armor.
+     */
+    public void Inventory() {
+        // Create a new frame for inventory
+        JFrame invFrame = new JFrame("Inventory");
 
-		//Text Font Settings
-		statsArea.setFont(new Font(Font.SERIF, Font.PLAIN, 15));
+        // Text area to display inventory
+        JTextArea invArea = new JTextArea();
 
-		statsArea.setForeground(myGamePreferences.colorWhite);
-		statsArea.setBackground(myGamePreferences.colorBlack);
-		statsArea.setVisible(true);
+        // Button to close the inventory window
+        JButton closeStats = new JButton("Ok");
 
-		statsFrame.setSize(400, 600);
-		statsFrame.setLocationRelativeTo(null);
-		statsFrame.setVisible(true);
-		statsFrame.toFront();
-		statsFrame.requestFocus();
+        // Add action listener to close the inventory window
+        closeStats.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                invFrame.dispose(); // Close the inventory frame
+            }
+        });
 
-		statsArea.setText("");
+        // Add components to the frame
+        invFrame.add(invArea, BorderLayout.CENTER);
+        invFrame.add(closeStats, BorderLayout.SOUTH);
 
+        // Configure text area font and colors
+        invArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
 
-		// newChar[0] = Charecter Name
-		// newChar[1] = Class
-		// newChar[2] = Level
-		// newChar[3] = Experience
-		// newChar[4] = Hit Points
-		// newChar[5] = Stat: Stamina
-		// newChar[6] = Stat: Charisma
-		// newChar[7] = Stat: Strength
-		// newChar[8] = Stat: Intelligence
-		// newChar[9] = Stat: Wisdom
-		// newChar[10] = Stat: Agility
-		// newChar[11] = Gold
-		// newChar[12] = Food
-		// newChar[13] = Water
-		// newChar[14] = Torches
-		// newChar[15] = Gems
+        // Background and text colors
+        Color sab = new Color(25, 50, 75); // Background color
+        Color sabText = new Color(255, 255, 255); // Text color
+        invArea.setForeground(sabText);
+        invArea.setBackground(sab);
+        invArea.setVisible(true);
 
-		statsArea.setText("Name: " + myChar.CharInfo.get(0)+"\n");
-		statsArea.append("Class: " + myChar.CharInfo.get(1)+"\n" );
-		statsArea.append("Level: " + myChar.CharInfo.get(2)+"\n");
-		statsArea.append("Experience: " + myChar.CharInfo.get(3)+"\n");
-		statsArea.append("Hit Points: " + myChar.CharInfo.get(4)+"\n");
-		statsArea.append("Stamina: " + myChar.CharInfo.get(5)+"\n");
-		statsArea.append("Charisma: " + myChar.CharInfo.get(6)+"\n");
-		statsArea.append("Strength: " + myChar.CharInfo.get(7)+"\n");
-		statsArea.append("Intelligence: " + myChar.CharInfo.get(8)+"\n");
-		statsArea.append("Wisdom: " + myChar.CharInfo.get(9)+"\n");
-		statsArea.append("Agility: " + myChar.CharInfo.get(10)+"\n");
+        // Configure frame size and visibility
+        invFrame.setLocationRelativeTo(null);
+        invFrame.setSize(400, 600);
+        invFrame.setVisible(true);
+        invFrame.toFront();
+        invFrame.requestFocus();
 
+        // Populate the inventory area with character inventory information
+        invArea.setText("Money\n");
+        invArea.append("Gold: " + myChar.CharInfo.get(12) + "\n");
+        invArea.append("Gems: " + myChar.CharInfo.get(15) + "\n");
+        invArea.append("\t__________ Misc__________\n");
+        invArea.append("Food: " + myChar.CharInfo.get(13) + "\n");
+        invArea.append("Torches: " + myChar.CharInfo.get(14) + "\n");
+        invArea.append("________Weapons and Armour_______\n");
 
+        // Retrieve weapon and armor information
+        String weapon = myChar.CharInfo.get(16);
+        String armour = myChar.CharInfo.get(17);
 
-	}
+        // Display weapon information
+        if (weapon.isEmpty() || weapon == null || weapon.isBlank()) {
+            invArea.append("Weapon: \n");
+        } else {
+            invArea.append("Weapon: " + weapon + "\n");
+        }
 
-	public void Inventory()
-	{
-		JFrame invFrame = new JFrame("Inventory");
-		//invFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Display armor information
+        if (armour.isEmpty()) {
+            invArea.append("Armour: \n");
+        } else {
+            invArea.append("Armour: " + armour + "\n");
+        }
 
+        // Display learned spells in the inventory area
+        invArea.append("\t_____Your Spells_____\n");
 
-		JTextArea invArea = new JTextArea();
-		JButton closeStats = new JButton("Ok");
-
-
-		closeStats.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-
-				invFrame.dispose();
-
-			}
-
-		});
-
-		invFrame.add(invArea, BorderLayout.CENTER);
-		invFrame.add(closeStats, BorderLayout.SOUTH);
-
-		//Text Font Settings
-		invArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 15));
-
-		//Background Colors
-		Color sab = new Color(25, 50, 75);
-
-		//Text Colors
-		Color sabText = new Color(255,255,255);
-
-		invArea.setForeground(sabText);
-		invArea.setBackground(sab);
-
-		invArea.setVisible(true);
-
-		invFrame.setLocationRelativeTo(null);
-		invFrame.setSize(400, 600);
-		invFrame.setLocationRelativeTo(null);
-		invFrame.setVisible(true);
-		invFrame.toFront();
-		invFrame.requestFocus();
-
-		invArea.setText("");
-
-	    invArea.setText("Money");
-		invArea.append("Gold: " + myChar.CharInfo.get(12)+"\n");
-		invArea.append("Gems: " + myChar.CharInfo.get(15)+"\n");
-		invArea.append("\t__________ Misc__________\n");
-		invArea.append("Food: " + myChar.CharInfo.get(13)+"\n");
-	    invArea.append("Torches: " + myChar.CharInfo.get(14)+"\n");
-	    invArea.append("________Weapons and Armour_______\n");
-
-	    String weapon = "";
-	    String armour = "";
-
-
-	    weapon = myChar.CharInfo.get(16);
-	    armour = myChar.CharInfo.get(17);
-
-
-
-	    if(weapon.isEmpty() || weapon == null | weapon == "" || weapon.isBlank())
-	    {
-	    	invArea.append("Weapon: ");
-	    }else {
-	    	invArea.append("Weapon: " + myChar.CharInfo.get(14)+"\n");
-	    }
-
-	    if(armour.isEmpty())
-	    {
-	    	invArea.append("Armour: ");
-	    }else {
-	    	invArea.append("Armour: " + myChar.CharInfo.get(15)+"\n");
-	    }
-
-		invArea.append("\t_____Your Spells_____\n");
-//		invArea.append(myChar.CharInfo.get(20)+"\n");
-//		invArea.append(myChar.CharInfo.get(21)+"\n");
-//		invArea.append(myChar.CharInfo.get(22)+"\n");
-//		invArea.append(myChar.CharInfo.get(23)+"\n");
-//		invArea.append(myChar.CharInfo.get(24)+"\n");
-//		invArea.append(myChar.CharInfo.get(25)+"\n");
-//		invArea.append(myChar.CharInfo.get(26)+"\n");
-//		invArea.append(myChar.CharInfo.get(27)+"\n");
-//		invArea.append(myChar.CharInfo.get(28)+"\n");
-//		invArea.append(myChar.CharInfo.get(29)+"\n");
-//		invArea.append(myChar.CharInfo.get(30)+"\n");
-//
-
-	}
-
-
-
+        // Check if the SpellsLearned list is not null or empty
+        if (myChar.SpellsLearned != null && !myChar.SpellsLearned.isEmpty()) {
+            for (String spell : myChar.SpellsLearned) {
+                invArea.append(spell + "\n"); // Append each spell to the inventory area
+            }
+        } else {
+            invArea.append("No spells learned yet.\n"); // Display message if no spells are learned
+        }
+    }
 }

@@ -1,4 +1,14 @@
 
+
+/**
+ * The Combat class is responsible for managing combat encounters in the game.
+ * It handles the setup of the combat user interface, manages combat logic,
+ * and facilitates interactions between the player and enemies.
+ * This class also integrates with other game components such as the character,
+ * enemies, and game settings.
+ */
+
+
 // src/DungeonoftheBrutalKing/Combat.java
 package DungeonoftheBrutalKing;
 
@@ -10,6 +20,7 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 
 /**
  * The Combat class handles the combat encounters in the game.
@@ -39,20 +50,20 @@ public class Combat extends JFrame {
     String HeroHPArrayList = "";
 
     // UI components
-    public JFrame CombatFrame, spellsFrame;
+    public JFrame CombatFrame, spellsFrame; // Frames for combat and spell selection
     public JPanel CombatPanel, CombatImagePanel, CombatPanelButtons, CombatPanelCombatAreaPanel,
-            CombatUpdateInfoPanel, CombatNameAndHPPanel, spelllistbox = null;
-    public JSplitPane CombatImageAndCombatUpdatesStatsSplitPane, CombatCombatUpdatesAndStatsSplitPane = null;
-    public JTextArea CombatCombatTextArea, CombatNameAndHPfield = null;
-    public JButton CombatAttackButton, CastSelectedSpellButton, CombatSpellButton, CombatRunButton, SelectSpellToCast = null;
-    public JLabel picLabel = null;
+            CombatUpdateInfoPanel, CombatNameAndHPPanel, spelllistbox = null; // Panels for UI layout
+    public JSplitPane CombatImageAndCombatUpdatesStatsSplitPane, CombatCombatUpdatesAndStatsSplitPane = null; // Split panes for layout
+    public JTextArea CombatCombatTextArea, CombatNameAndHPfield = null; // Text areas for combat updates and player stats
+    public JButton CombatAttackButton, CastSelectedSpellButton, CombatSpellButton, CombatRunButton, SelectSpellToCast = null; // Buttons for combat actions
+    public JLabel picLabel = null; // Label for displaying the enemy image
 
     // Combat-related variables
-    public int width, height, HP, HeroHP, CharrandomCombatChance, MonsterrandomCombatChance = 0;
-    public Dimension imageSize = null;
-    public BufferedImage myPictureBufferedImage = null;
-    public Timer timer = null;
-    public String[] spellList = null;
+    public int width, height, HP, HeroHP, CharrandomCombatChance, MonsterrandomCombatChance = 0; // Combat stats
+    public Dimension imageSize = null; // Dimension for enemy image size
+    public BufferedImage myPictureBufferedImage = null; // Buffered image for enemy display
+    public Timer timer = null; // Timer for periodic updates
+    public String[] spellList = null; // List of available spells
 
     /**
      * Constructor for the Combat class.

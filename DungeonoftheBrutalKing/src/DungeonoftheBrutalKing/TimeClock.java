@@ -2,7 +2,6 @@
 package DungeonoftheBrutalKing;
 
 import javax.swing.*;
-
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Timer;
@@ -15,18 +14,20 @@ public class TimeClock {
         HARVEST, FINAL_REAPING, THE_FALL, DARKNESS, COLD_WINDS, LIGHTS
     }
 
+    private static TimeClock timeClock = new TimeClock(Month.REBIRTH, null); // Singleton instance
     private Month currentMonth;
     private int currentDay;
     private LocalTime currentTime;
     private final Timer timer;
     private MainGameScreen myMainGameScreen;
+    int startTime = timeClock.getCurrentHour();
+
 
     public TimeClock(Month startMonth, JTextPane messageTextPane) {
         this.currentMonth = startMonth;
         this.currentDay = 1;
         this.currentTime = LocalTime.of(0, 0);
         this.timer = new Timer();
-       
     }
 
     public synchronized void startSimulation() {
@@ -64,24 +65,17 @@ public class TimeClock {
 
     private void updateOutputField() {
         SwingUtilities.invokeLater(() -> {
-        	
-        	if (myMainGameScreen != null && myMainGameScreen.MessageTextPane != null) 
-        	   { 
-        		myMainGameScreen.MessageTextPane.setText(String.format("Day %d, %s | Time: %s",
+            if (myMainGameScreen != null && myMainGameScreen.MessageTextPane != null) {
+                myMainGameScreen.MessageTextPane.setText(String.format("Day %d, %s | Time: %s",
                         currentDay, currentMonth, currentTime));
-        	} else { 
-        		System.err.println("myMainGameScreen or MessageTextPane is null");
-        		}
-        	try {
-				myMainGameScreen = new MainGameScreen();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	
-        	
-        	
-            
+            } else {
+                System.err.println("myMainGameScreen or MessageTextPane is null");
+            }
+            try {
+                myMainGameScreen = new MainGameScreen();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -100,12 +94,18 @@ public class TimeClock {
     public LocalTime getCurrentTime() {
         return currentTime;
     }
-    
-    public int getElapsedTime()
-    	{ 
-    		int elapsedDaysInHours = (currentDay - 1) * 24; // Convert days to hours 
-    		int elapsedHours = currentTime.getHour(); // Add current hour 
-    		return elapsedDaysInHours + elapsedHours; 
-    	}
-    	}
 
+    public int getElapsedTime() {
+        int elapsedDaysInHours = (currentDay - 1) * 24; // Convert days to hours
+        int elapsedHours = currentTime.getHour(); // Add current hour
+        return elapsedDaysInHours + elapsedHours;
+    }
+
+    public int getCurrentHour() {
+        return currentTime.getHour();
+    }
+
+    public static TimeClock Singleton() {
+        return timeClock;
+    }
+}

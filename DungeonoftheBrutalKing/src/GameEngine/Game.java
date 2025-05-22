@@ -97,9 +97,9 @@ public class Game implements Runnable {
                 try {
                     camera.update(map);
                     Point playerPosition = new Point((int) camera.xPos, (int) camera.yPos);
-                    Point transitionPoint = getTransitionPoint(dungeonLevel.getLevelNumber());
+                    Point transitionPoint = getTransitionPoint(dungeonLevel.getDungeonLevelNumber());
                     if (playerPosition.equals(transitionPoint)) {
-                        changeLevel(dungeonLevel.getLevelNumber() + 1);
+                        changeLevel(dungeonLevel.getDungeonLevelNumber() + 1);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

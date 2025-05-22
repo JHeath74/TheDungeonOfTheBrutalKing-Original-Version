@@ -42,7 +42,8 @@ public class Singleton
 	public static final String CharInfo = null;
 	private static Singleton instance;
     private int[] charInfo = new int[25]; // Example: [x, y, z, ..., other indices]
-
+    private static TimeClock timeClock = TimeClock.Singleton(); // Initialize the singleton instance
+    
     Singleton() {
         // Initialize charInfo or other necessary fields
         charInfo[0] = 0; // x
@@ -198,5 +199,9 @@ public class Singleton
 	 public void removeEffect(String effect) {
 	        // Logic to remove the effect from the character
 	    }
+	 
+	 public static TimeClock Singleton() {
+		    return timeClock;
+		}
 
 }

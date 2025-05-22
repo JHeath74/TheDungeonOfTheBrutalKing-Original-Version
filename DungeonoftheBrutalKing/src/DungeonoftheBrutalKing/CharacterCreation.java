@@ -230,7 +230,7 @@ public class CharacterCreation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CharecterCreationFrame.dispose();
-                new GameStartMenu();
+                new GameStart();
             }
         });
 

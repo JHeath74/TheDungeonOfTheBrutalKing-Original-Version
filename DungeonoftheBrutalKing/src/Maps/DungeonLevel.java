@@ -4,5 +4,5 @@ public interface DungeonLevel {
     int[][] getMap();
     int getMapWidth();
     int getMapHeight();
-	int getLevelNumber();
+	int getDungeonLevelNumber();
 }
