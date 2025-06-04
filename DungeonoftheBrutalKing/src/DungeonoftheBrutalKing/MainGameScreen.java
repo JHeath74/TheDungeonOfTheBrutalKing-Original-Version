@@ -1,121 +1,89 @@
 
-// Package declaration for the project
+// MainGameScreen.java
 package DungeonoftheBrutalKing;
 
-// Import statements for required libraries and classes
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.util.Objects;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 
-import GameEngine.Game;
-import Maps.*;
-
-// MainGameScreen class extends JFrame to create the main game window
 public class MainGameScreen extends JFrame {
-
-    // JPanel for rendering game visuals
-    private JPanel renderPanel;
-
-    // Serial version UID for serialization
     private static final long serialVersionUID = 1L;
 
     // Singleton instance of the character
     Charecter myChar = Charecter.Singleton();
-
-    // Game settings instance for managing preferences
     GameSettings myGameSettings = new GameSettings();
-
-    // Instance for managing game state (saving/loading)
     LoadSaveGame myGameState = new LoadSaveGame();
-
-    // Instance for handling game menu items
     GameMenuItems myGameMenuItems = new GameMenuItems();
-
-    // Instance for character creation
     CharacterCreation myCharacterCreation;
 
-    // JFrame for the main game screen
+    // Main frame and panels for the game screen
     JFrame MainGameScreenFrame = null;
-
-    // Panels for organizing UI components
     JPanel p1Panel, p2Panel, p3Panel, p4Panel = null;
     public JPanel GameImagesAndCombatPanel = null;
     private JPanel originalPanel;
 
-    // Text fields for displaying character information
+    // Text fields for displaying character stats
     JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
-
-    // Text pane for displaying game messages
     JTextPane MessageTextPane = null;
 
-    // Menu bar and menu items for the game
+    // Menu bar and menu items
     JMenuBar menuBar = null;
     JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
     JMenuItem newGameMenuItem, LoadSavedGameMenuItem, saveMenuItem, exitGameMenuItem, charecterstatsMenuItem,
             charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem, aboutMenuItem, helpMenuItem, mapFloor1MenuItem,
             mapFloor2MenuItem, mapFloor3MenuItem, mapFloor4MenuItem = null;
 
-    // Split pane for dividing game visuals and text updates
+    // Split pane for dividing the game screen
     JSplitPane PicturesAndTextUpdatesPane = null;
 
     // Screen dimensions
     Dimension screenSize = null;
     int width, height = 0;
 
-    // Timer for updating character stats periodically
+    // Timer for updating character stats
     Timer timer = null;
-
-    // Instance of TimeClock for managing in-game time
     private TimeClock clock;
-
-    // Canvas for rendering game images and combat
     private Canvas gameImagesAndCombatCanvas;
-
-    // Text area for displaying combat messages
     public JTextArea CombatMessageArea = new JTextArea();
 
-    // Constructor to initialize the main game screen
+    // Constructor for initializing the game screen
     public MainGameScreen() throws IOException {
-
-        // Creating the main game frame
+        // Create the main frame
         MainGameScreenFrame = new JFrame("Dungeon of the Brutal King");
 
-        // Get the screen size
+        // Set screen dimensions
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        width = (int) size.getWidth(); // Store screen width
-        height = (int) size.getHeight(); // Store screen height
+        width = (int) size.getWidth();
+        height = (int) size.getHeight();
 
-        // Set frame preferences and settings
+        // Configure the main frame
         MainGameScreenFrame.setSize(width, height);
         MainGameScreenFrame.setLayout(new BorderLayout());
         MainGameScreenFrame.setForeground(myGameSettings.colorBrown);
         MainGameScreenFrame.setUndecorated(true);
         MainGameScreenFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // Initialize panels for organizing UI components
+        // Initialize panels
         p1Panel = new JPanel(new BorderLayout());
         p2Panel = new JPanel(new BorderLayout());
         p3Panel = new JPanel(new BorderLayout());
         p4Panel = new JPanel(new BorderLayout());
         GameImagesAndCombatPanel = new JPanel(new BorderLayout());
 
-        // Load character data from the most recently saved game
+        // Load character data
         try {
             myGameState.StartGameLoadCharecter();
         } catch (IOException e2) {
             e2.printStackTrace();
         }
 
-        // Initialize text fields for character information
+        // Initialize text fields for character stats
         CharNameClassLevelField = new JTextField();
         CharNameClassLevelField.setFont(myGameSettings.fontTimesNewRoman);
         CharNameClassLevelField.setBackground(myGameSettings.colorGreen);
@@ -154,7 +122,7 @@ public class MainGameScreen extends JFrame {
         p3Panel.add(CharStats2Field, BorderLayout.SOUTH);
         p4Panel.add(CharXPHPGoldField);
 
-        // Timer to periodically update character stats
+        // Timer for updating character stats periodically
         ActionListener task = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -187,20 +155,18 @@ public class MainGameScreen extends JFrame {
                         + "Gems: " + myChar.CharInfo.get(16) + "\t");
             }
         };
-        timer = new Timer(100, task); // Execute task every 100 milliseconds
+        timer = new Timer(100, task);
         timer.setRepeats(true);
         timer.start();
 
-        // Initialize the menu bar and menu items
+        // Initialize menu bar and menus
         menuBar = new JMenuBar();
         menuBar.setPreferredSize(new Dimension(25, 35));
         menuBar.setFont(new Font("sans-serif", Font.ROMAN_BASELINE, 22));
         menuBar.setBackground(myGameSettings.colorPlum);
 
-        // Add menu bar to the frame
         MainGameScreenFrame.setJMenuBar(menuBar);
 
-        // Initialize menu headers
         gameMenu = new JMenu("Game");
         gameMenu.setMnemonic(KeyEvent.VK_G);
 
@@ -213,20 +179,19 @@ public class MainGameScreen extends JFrame {
         helpMenu = new JMenu("About");
         helpMenu.setMnemonic(KeyEvent.VK_H);
 
-        // Add menu headers to the menu bar
         menuBar.add(gameMenu);
         menuBar.add(charecterMenu);
         menuBar.add(settingsMenu);
         menuBar.add(helpMenu);
 
-        // Initialize and add menu items to the menus
+        // Add menu items to the game menu
         newGameMenuItem = new JMenuItem("New Game");
-        newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
         newGameMenuItem.getAccessibleContext().setAccessibleDescription("New Game");
         newGameMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Handle starting a new game
+                // Confirm and start a new game
                 int result = JOptionPane.showConfirmDialog(rootPane,
                         "Are you sure you wish to delete your current game and start a new one?", "Start New Game?",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -260,42 +225,36 @@ public class MainGameScreen extends JFrame {
             }
         });
 
-        // Add the new game menu item to the game menu
         gameMenu.add(newGameMenuItem);
 
-        // Initialize and add other menu items (Load, Save, Exit, etc.)
-        // ...
-
-        // Initialize the split pane for game visuals and text updates
+        // Configure split pane for game screen layout
         PicturesAndTextUpdatesPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         PicturesAndTextUpdatesPane.setDividerLocation(width - 200);
         PicturesAndTextUpdatesPane.setResizeWeight(.90d);
         PicturesAndTextUpdatesPane.setLeftComponent(GameImagesAndCombatPanel);
         PicturesAndTextUpdatesPane.setRightComponent(MessageTextPane);
 
-        // Add components to the main frame
         MainGameScreenFrame.add(PicturesAndTextUpdatesPane, BorderLayout.CENTER);
         MainGameScreenFrame.add(p1Panel, BorderLayout.NORTH);
 
-        // Initialize and start the in-game clock
+        // Start the game clock
         clock = new TimeClock(TimeClock.Month.REBIRTH, MessageTextPane);
         clock.startClock();
 
-        // Make the main frame visible
+        // Make the frame visible
         MainGameScreenFrame.setVisible(true);
     }
 
-    // Setter for the message text pane
+    // Set the message text pane
     public void setMessageTextPane(JTextPane messageTextPane) {
         MessageTextPane = messageTextPane;
     }
 
-    // Overloaded setter for the message text pane with a string
+    // Append text to the message text pane
     public void setMessageTextPane(String string) {
         appendToMessageTextPane(string);
     }
 
-    // Method to append text to the message text pane
     public void appendToMessageTextPane(String text) {
         StyledDocument doc = MessageTextPane.getStyledDocument();
         try {
@@ -305,7 +264,7 @@ public class MainGameScreen extends JFrame {
         }
     }
 
-    // Method to replace the left component of the split pane with a new panel
+    // Replace the left panel with a new panel
     public void replaceWithAnyPanel(JPanel newPanel) {
         if (newPanel != null) {
             if (originalPanel == null) {
@@ -319,7 +278,7 @@ public class MainGameScreen extends JFrame {
         }
     }
 
-    // Method to restore the original panel in the split pane
+    // Restore the original left panel
     public void restoreOriginalPanel() {
         if (originalPanel != null) {
             PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
@@ -330,17 +289,17 @@ public class MainGameScreen extends JFrame {
         }
     }
 
-    // Getter for the game images and combat panel
+    // Get the game images and combat panel
     public JPanel getGameImagesAndCombatPanel() {
         return GameImagesAndCombatPanel;
     }
 
-    // Getter for the game images and combat canvas
+    // Get the game images and combat canvas
     public Canvas getGameImagesAndCombatCanvas() {
         return gameImagesAndCombatCanvas;
     }
 
-    // Main method to launch the game screen
+    // Main method to start the game screen
     public static void main(String[] args) throws IOException {
         new MainGameScreen();
     }

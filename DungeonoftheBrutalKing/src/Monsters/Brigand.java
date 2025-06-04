@@ -1,6 +1,7 @@
 package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
+import DungeonoftheBrutalKing.GameSettings;
 
 public class Brigand extends Enemies{
     String name;
@@ -12,6 +13,8 @@ public class Brigand extends Enemies{
     int intelligence;
     int wisdom;
 	private String imagePath;
+	
+	GameSettings myGameSettings = new GameSettings();
 
     // Constructor
     public Brigand() {
@@ -23,7 +26,7 @@ public class Brigand extends Enemies{
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Brigand.png"; // Set the image path
+        this.imagePath = myGameSettings.MonsterImagePath + "Brigand.png"; // Set the image path
     }
 
     // Method to take damage

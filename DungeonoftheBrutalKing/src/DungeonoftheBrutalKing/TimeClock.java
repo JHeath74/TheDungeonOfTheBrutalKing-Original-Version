@@ -14,7 +14,8 @@ public class TimeClock {
         HARVEST, FINAL_REAPING, THE_FALL, DARKNESS, COLD_WINDS, LIGHTS
     }
 
-    private static TimeClock timeClock = new TimeClock(Month.REBIRTH, null); // Singleton instance
+    private static TimeClock timeClock;
+    
     private Month currentMonth;
     private int currentDay;
     private LocalTime currentTime;
@@ -22,8 +23,10 @@ public class TimeClock {
     private MainGameScreen myMainGameScreen;
     int startTime = timeClock.getCurrentHour();
 
-
-    public TimeClock(Month startMonth, JTextPane messageTextPane) {
+    static {
+        timeClock = new TimeClock(Month.REBIRTH, null); // Initialize in a static block
+    }
+    TimeClock(Month startMonth, JTextPane messageTextPane) {
         this.currentMonth = startMonth;
         this.currentDay = 1;
         this.currentTime = LocalTime.of(0, 0);
@@ -101,11 +104,13 @@ public class TimeClock {
         return elapsedDaysInHours + elapsedHours;
     }
 
-    public int getCurrentHour() {
-        return currentTime.getHour();
-    }
+   
+        public int getCurrentHour() {
+            return timeClock.getCurrentHour(); // Access the initialized object
+        }
 
-    public static TimeClock Singleton() {
-        return timeClock;
-    }
+		public static TimeClock Singleton() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

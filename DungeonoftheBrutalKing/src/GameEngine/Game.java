@@ -1,6 +1,7 @@
 
 package GameEngine;
 
+
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferStrategy;
@@ -54,12 +55,14 @@ public class Game implements Runnable {
         start();
     }
 
-    public synchronized void start() {
-        if (!running) {
-            running = true;
-            thread.start();
-        }
+
+public synchronized void start() {
+    if (!running && thread.getState() == Thread.State.NEW) { // Ensure thread is only started once
+        running = true;
+        thread.start();
     }
+}
+
 
     public synchronized void stop() {
         running = false;
@@ -69,6 +72,8 @@ public class Game implements Runnable {
             e.printStackTrace();
         }
     }
+    
+    
 
     public void render() {
         BufferStrategy bs = myMainGameScreen.getGameImagesAndCombatCanvas().getBufferStrategy();
@@ -109,6 +114,7 @@ public class Game implements Runnable {
             render();
         }
     }
+    
 
     public void changeLevel(int level) {
         dungeonLevel = getDungeonLevel(level);

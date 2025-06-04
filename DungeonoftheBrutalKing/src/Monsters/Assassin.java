@@ -1,9 +1,16 @@
+
 package Monsters;
 
 import DungeonoftheBrutalKing.EffectManager;
 import DungeonoftheBrutalKing.Enemies;
+import DungeonoftheBrutalKing.GameSettings;
 
-public class Assassin extends Enemies{
+
+
+// The Assassin class represents a specific type of enemy in the game.
+// It extends the Enemies class and includes attributes and methods specific to an Assassin.
+public class Assassin extends Enemies {
+    // Attributes for the Assassin's name, level, stats, and image path
     String enemiename, name;
     int level;
     int hitPoints;
@@ -13,66 +20,71 @@ public class Assassin extends Enemies{
     int intelligence;
     int wisdom;
     String imagePath;
-    
+
+    // EffectManager instance to manage effects applied to the Assassin
     private EffectManager effectManager = new EffectManager();
-
-
-    // Constructor
-    public Assassin(String name) {
-        this.enemiename = "Assassin";
-        this.name = name;
-        this.level = 1;
-        this.hitPoints = 30;
-        this.strength = 8;
-        this.charisma = 5;
-        this.agility = 7;
-        this.intelligence = 6;
-        this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Assassin.png"; // Set the image path
-    }
     
-    public Assassin() {
-        this.enemiename = "Assassin";
-        this.level = 1;
-        this.hitPoints = 30;
-        this.strength = 8;
-        this.charisma = 5;
-        this.agility = 7;
-        this.intelligence = 6;
-        this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Assassin.png"; // Set the image path
+    GameSettings myGameSettings = new GameSettings();
+
+    // Constructor to initialize an Assassin with a specific name
+    public Assassin(String name) {
+        this.enemiename = "Assassin"; // Default enemy type name
+        this.name = name; // Custom name for the Assassin
+        this.level = 1; // Initial level
+        this.hitPoints = 30; // Initial hit points
+        this.strength = 8; // Initial strength
+        this.charisma = 5; // Initial charisma
+        this.agility = 7; // Initial agility
+        this.intelligence = 6; // Initial intelligence
+        this.wisdom = 3; // Initial wisdom
+        this.imagePath = myGameSettings.MonsterImagePath + "Assassin.png"; // Path to the Assassin's image
     }
 
+    // Default constructor to initialize an Assassin with default values
+    public Assassin() {
+        this.enemiename = "Assassin"; // Default enemy type name
+        this.level = 1; // Initial level
+        this.hitPoints = 30; // Initial hit points
+        this.strength = 8; // Initial strength
+        this.charisma = 5; // Initial charisma
+        this.agility = 7; // Initial agility
+        this.intelligence = 6; // Initial intelligence
+        this.wisdom = 3; // Initial wisdom
+        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Assassin.png"; // Path to the Assassin's image
+    }
+
+    // Getter for the EffectManager instance
     public EffectManager getEffectManager() {
         return effectManager;
     }
-    
-    // Method to take damage
+
+    // Method to apply damage to the Assassin
     public void takeDamage(int damage) {
-        this.hitPoints -= damage;
+        this.hitPoints -= damage; // Reduce hit points by the damage amount
         if (this.hitPoints < 0) {
-            this.hitPoints = 0; // Ensure hit points don't go below 0
+            this.hitPoints = 0; // Ensure hit points do not go below 0
         }
-        if (isDead()) {
-            System.out.println(name + " has died.");
+        if (isDead()) { // Check if the Assassin is dead
+            System.out.println(name + " has died."); // Print a death message
         }
     }
 
-    // Method to check if the monster is dead
+    // Method to check if the Assassin is dead
     public boolean isDead() {
-        return this.hitPoints <= 0;
+        return this.hitPoints <= 0; // Return true if hit points are 0 or less
     }
 
-    // Method to calculate attack strength
+    // Method to calculate the Assassin's attack strength
     public int attack() {
-        return (int) ((strength * 1.5) + (agility * 0.5));
+        return (int) ((strength * 1.5) + (agility * 0.5)); // Calculate attack strength based on stats
     }
 
-    // Getter for imagePath
+    // Getter for the image path of the Assassin
     public String getImagePath() {
         return imagePath;
     }
 
+    // Override the toString method to provide a string representation of the Assassin
     @Override
     public String toString() {
         return "Assassin{" +
