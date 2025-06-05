@@ -26,7 +26,7 @@ public class Brigand extends Enemies{
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = myGameSettings.MonsterImagePath + "Brigand.png"; // Set the image path
+        this.imagePath = GameSettings.MonsterImagePath + "Brigand.png"; // Set the image path
     }
 
     // Method to take damage

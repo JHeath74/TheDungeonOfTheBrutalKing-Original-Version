@@ -1,6 +1,7 @@
 package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
+import DungeonoftheBrutalKing.GameSettings;
 
 public class Cutthroat extends Enemies {
     String name;
@@ -12,6 +13,8 @@ public class Cutthroat extends Enemies {
     int intelligence;
     int wisdom;
 	private String imagePath;
+	
+	GameSettings myGameSettings = new GameSettings();
 
     // Constructor
     public Cutthroat() {
@@ -23,7 +26,7 @@ public class Cutthroat extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src\\DungeonoftheBrutalKing\\Images\\Monsters\\Cutthroat.png"; // Set the image path
+        this.imagePath = GameSettings.MonsterImagePath + "Cutthroat.png"; // Set the image path
     }
 
     // Method to take damage

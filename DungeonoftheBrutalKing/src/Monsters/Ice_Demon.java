@@ -1,6 +1,7 @@
 package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
+import DungeonoftheBrutalKing.GameSettings;
 
 public class Ice_Demon extends Enemies {
     String name;
@@ -23,7 +24,7 @@ public class Ice_Demon extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Ice_Demon.png"; // Set the image path
+        this.imagePath = GameSettings.MonsterImagePath + "Ice_Demon.png"; // Set the image path
     }
 
     // Method to take damage

@@ -1,6 +1,7 @@
 package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
+import DungeonoftheBrutalKing.GameSettings;
 
 public class Ghoul extends Enemies {
     String name;
@@ -23,7 +24,7 @@ public class Ghoul extends Enemies {
         this.agility = 7;
         this.intelligence = 6;
         this.wisdom = 3;
-        this.imagePath = "src/DungeonftheBrutalKing/Monsters/Ghoul.png"; // Set the image path
+        this.imagePath = GameSettings.MonsterImagePath +"Ghoul.png"; // Set the image path
     }
 
     // Method to take damage
