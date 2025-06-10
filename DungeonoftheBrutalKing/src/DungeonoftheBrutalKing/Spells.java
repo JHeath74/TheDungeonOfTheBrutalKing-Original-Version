@@ -1,55 +1,52 @@
 
 package DungeonoftheBrutalKing;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Spells {
 
     private static Spells single_instance_spells;
-    private Map<String, String> spellMap = new HashMap<>(); // Use a placeholder (e.g., String) for spell names
+    private Map<String, Integer> spellDamageMap = new HashMap<>();
+    private static String spellName;
 
     public Spells() {
-        
+        // Default constructor for compatibility
+    }
+
+    public Spells(String spellName) {
         initializeSpells();
+        Spells.spellName = spellName;
     }
 
     public static Spells Singleton() {
         if (single_instance_spells == null) {
-            single_instance_spells = new Spells();
+            single_instance_spells = new Spells(spellName);
         }
         return single_instance_spells;
     }
 
     private void initializeSpells() {
-        // Add spell names to the map without creating new Spells instances
-        spellMap.put("Cold Blast", "Cold Blast");
-        spellMap.put("Conjure Food", "Conjure Food");
-        spellMap.put("Cure", "Cure");
-        spellMap.put("Fireball", "Fireball");
+        spellDamageMap.put("Cold Blast", 25);
+        spellDamageMap.put("Conjure Food", 0);
+        spellDamageMap.put("Cure", 0);
+        spellDamageMap.put("Fireball", 50);
     }
 
     public void useSpell(String spellName) {
-        String spell = spellMap.get(spellName);
-        if (spell != null) {
-     //       spell.cast();
-            
+        Integer damage = spellDamageMap.get(spellName);
+        if (damage != null) {
+            System.out.println("Using spell: " + spellName + " with damage: " + damage);
         } else {
             System.out.println("Spell not found: " + spellName);
         }
     }
 
+    public String getName() {
+        return spellName;
+    }
 
-    
-    
-    
+    public int getDamage() {
+        return spellDamageMap.getOrDefault(spellName, 0);
+    }
 }
-
-
-
-
-
-
-	
-

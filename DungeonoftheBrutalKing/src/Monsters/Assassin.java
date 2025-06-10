@@ -11,7 +11,7 @@ import DungeonoftheBrutalKing.GameSettings;
 // It extends the Enemies class and includes attributes and methods specific to an Assassin.
 public class Assassin extends Enemies {
     // Attributes for the Assassin's name, level, stats, and image path
-    String enemiename, name;
+    String enemiesname, name;
     int level;
     int hitPoints;
     int strength;
@@ -28,7 +28,7 @@ public class Assassin extends Enemies {
 
     // Constructor to initialize an Assassin with a specific name
     public Assassin(String name) {
-        this.enemiename = "Assassin"; // Default enemy type name
+        this.enemiesname = "Assassin"; // Default enemy type name
         this.name = name; // Custom name for the Assassin
         this.level = 1; // Initial level
         this.hitPoints = 30; // Initial hit points
@@ -42,7 +42,7 @@ public class Assassin extends Enemies {
 
     // Default constructor to initialize an Assassin with default values
     public Assassin() {
-        this.enemiename = "Assassin"; // Default enemy type name
+        this.enemiesname = "Assassin"; // Default enemy type name
         this.level = 1; // Initial level
         this.hitPoints = 30; // Initial hit points
         this.strength = 8; // Initial strength

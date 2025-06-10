@@ -50,7 +50,7 @@ public class MainGameScreen extends JFrame {
     Timer timer = null;
     private TimeClock clock;
     private Canvas gameImagesAndCombatCanvas;
-    public JTextArea CombatMessageArea = new JTextArea();
+    public static JTextArea CombatMessageArea = new JTextArea();
 
     // Constructor for initializing the game screen
     public MainGameScreen() throws IOException {

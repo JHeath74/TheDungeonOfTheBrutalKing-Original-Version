@@ -1,15 +1,4 @@
 
-
-/**
- * The Combat class is responsible for managing combat encounters in the game.
- * It handles the setup of the combat user interface, manages combat logic,
- * and facilitates interactions between the player and enemies.
- * This class also integrates with other game components such as the character,
- * enemies, and game settings.
- */
-
-
-// src/DungeonoftheBrutalKing/Combat.java
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -21,104 +10,69 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-
-/**
- * The Combat class handles the combat encounters in the game.
- * It sets up the combat UI, manages combat logic, and interacts with the player and enemies.
- */
 public class Combat extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    // Singleton instance for character
     Singleton myCharSingleton = new Singleton();
-
-    // Game settings instance
     GameSettings myGameSettings = new GameSettings();
-
-    // Main game screen reference
     private MainGameScreen myMainGameScreen = null;
-
-    // Character and enemy instances
     Charecter myChar = new Charecter();
     Enemies myEnemies = new Enemies();
-
-    // Variable to store the selected spell
     private String selectedSpell = null;
-
-    // Hero's HP as a string
     String HeroHPArrayList = "";
-
-    // UI components
-    public JFrame CombatFrame, spellsFrame; // Frames for combat and spell selection
+    public JFrame CombatFrame, spellsFrame;
     public JPanel CombatPanel, CombatImagePanel, CombatPanelButtons, CombatPanelCombatAreaPanel,
-            CombatUpdateInfoPanel, CombatNameAndHPPanel, spelllistbox = null; // Panels for UI layout
-    public JSplitPane CombatImageAndCombatUpdatesStatsSplitPane, CombatCombatUpdatesAndStatsSplitPane = null; // Split panes for layout
-    public JTextArea CombatCombatTextArea, CombatNameAndHPfield = null; // Text areas for combat updates and player stats
-    public JButton CombatAttackButton, CastSelectedSpellButton, CombatSpellButton, CombatRunButton, SelectSpellToCast = null; // Buttons for combat actions
-    public JLabel picLabel = null; // Label for displaying the enemy image
+            CombatUpdateInfoPanel, CombatNameAndHPPanel, spelllistbox = null;
+    public JSplitPane CombatImageAndCombatUpdatesStatsSplitPane, CombatCombatUpdatesAndStatsSplitPane = null;
+    public JTextArea CombatCombatTextArea, CombatNameAndHPfield = null;
+    public JButton CombatAttackButton, CastSelectedSpellButton, SelectSpellButton, CombatRunButton, SelectSpellToCast = null;
+    public JLabel picLabel = null;
+    public int width, height, HP, HeroHP, CharrandomCombatChance, MonsterrandomCombatChance = 0;
+    public Dimension imageSize = null;
+    public BufferedImage myPictureBufferedImage = null;
+    public Timer timer = null;
+    public String[] spellList = null;
 
-    // Combat-related variables
-    public int width, height, HP, HeroHP, CharrandomCombatChance, MonsterrandomCombatChance = 0; // Combat stats
-    public Dimension imageSize = null; // Dimension for enemy image size
-    public BufferedImage myPictureBufferedImage = null; // Buffered image for enemy display
-    public Timer timer = null; // Timer for periodic updates
-    public String[] spellList = null; // List of available spells
-
-    /**
-     * Constructor for the Combat class.
-     * Initializes the hero's HP and sets up the combat environment.
-     */
     public Combat() throws IOException {
-        // Retrieve hero's HP from character info
         HeroHPArrayList = myChar.CharInfo.size() > 4 ? myChar.CharInfo.get(4) : "0";
         HeroHP = Integer.parseInt(HeroHPArrayList);
     }
 
-    /**
-     * Sets up and starts a combat encounter.
-     */
     public void CombatEncouter() throws IOException {
-        // Select a random monster for the encounter
-        MonsterSelector monsterSelector = new MonsterSelector();
-        Object randomMonster = monsterSelector.selectRandomMonster();
-
-        // Initialize the main game screen
+        Object randomMonster = MonsterSelector.selectRandomMonster();
         MainGameScreen myMainGameScreen = new MainGameScreen();
 
-        // Set up the combat UI components
         CombatPanel = new JPanel(new BorderLayout());
         myMainGameScreen.replaceWithAnyPanel(CombatPanel);
-        CombatImagePanel = new JPanel(); // Panel for displaying the enemy image
-        CombatPanelButtons = new JPanel(new FlowLayout()); // Panel for combat buttons
-        CombatPanelCombatAreaPanel = new JPanel(); // Panel for combat updates
-        CombatUpdateInfoPanel = new JPanel(); // Panel for player stats
-        CombatNameAndHPPanel = new JPanel(new FlowLayout()); // Panel for name and HP display
+        CombatImagePanel = new JPanel();
+        CombatPanelButtons = new JPanel(new FlowLayout());
+        CombatPanelCombatAreaPanel = new JPanel();
+        CombatUpdateInfoPanel = new JPanel();
+        CombatNameAndHPPanel = new JPanel(new FlowLayout());
 
-        // Set up split panes for layout
         CombatImageAndCombatUpdatesStatsSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         CombatCombatUpdatesAndStatsSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
-        // Set up text areas for combat outcomes and name/HP display
         CombatCombatTextArea = new JTextArea();
         CombatNameAndHPfield = new JTextArea();
 
-        // Set up combat buttons
         CombatAttackButton = new JButton("Attack");
         CastSelectedSpellButton = new JButton("Cast Selected Spell");
-        CombatSpellButton = new JButton("Select Spell to Cast");
+        SelectSpellButton = new JButton("Select Spell to Cast");
         CombatRunButton = new JButton("Run Away!");
 
-        // Load and display the enemy image
         try {
-            myPictureBufferedImage = ImageIO.read(new File(myGameSettings.MonsterImagePath + myEnemies.getMonsterImagePath() + ".png"));
+            myPictureBufferedImage = ImageIO.read(new File(GameSettings.MonsterImagePath + myEnemies.getImagePath()));
+            if (myPictureBufferedImage == null) {
+                throw new IOException("Image could not be loaded: null image");
+            }
             picLabel = new JLabel(new ImageIcon(myPictureBufferedImage));
         } catch (IOException e) {
             System.err.println("Error loading image: " + e.getMessage());
             picLabel = new JLabel("Image not found");
         }
 
-        // Set image size and add components to panels
         imageSize = new Dimension();
         imageSize.setSize(768, 1024);
         picLabel.setPreferredSize(imageSize);
@@ -127,7 +81,7 @@ public class Combat extends JFrame {
         CombatPanel.add(CombatImageAndCombatUpdatesStatsSplitPane, BorderLayout.CENTER);
         CombatPanelButtons.add(CombatAttackButton);
         CombatPanelButtons.add(CastSelectedSpellButton);
-        CombatPanelButtons.add(CombatSpellButton);
+        CombatPanelButtons.add(SelectSpellButton);
         CombatPanelButtons.add(CombatRunButton);
         CombatPanelCombatAreaPanel.add(CombatCombatTextArea);
         CombatNameAndHPPanel.add(CombatNameAndHPfield);
@@ -138,17 +92,14 @@ public class Combat extends JFrame {
         CombatCombatUpdatesAndStatsSplitPane.setTopComponent(CombatNameAndHPPanel);
         CombatCombatUpdatesAndStatsSplitPane.setBottomComponent(CombatUpdateInfoPanel);
 
-        // Configure split panes
         CombatImageAndCombatUpdatesStatsSplitPane.setDividerLocation(0.5);
         CombatCombatUpdatesAndStatsSplitPane.setDividerLocation(0.25);
 
-        // Configure text areas
         CombatNameAndHPfield.setLineWrap(false);
         CombatNameAndHPfield.setEditable(false);
         CombatNameAndHPfield.setBackground(myGameSettings.colorLightYellow);
         CombatNameAndHPPanel.setBackground(myGameSettings.colorCoral);
 
-        // Set up a timer for periodic updates
         ActionListener task = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -159,32 +110,148 @@ public class Combat extends JFrame {
         timer.setRepeats(true);
         timer.start();
 
-        // Add action listeners for combat buttons
         CombatAttackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Add attack logic
+                Random random = new Random();
+                StringBuilder combatLog = new StringBuilder();
+
+                int charAttackChance = random.nextInt(100);
+                if (charAttackChance >= Enemies.getAgility()) {
+                    int charDamage = myChar.getWeaponDamage() + myChar.getStrength();
+                    myEnemies.setHP(myEnemies.getHP() - charDamage);
+                    combatLog.append("You hit the ").append(myEnemies.getName())
+                            .append(" for ").append(charDamage).append(" damage!\n");
+                } else {
+                    combatLog.append("You missed your attack!\n");
+                }
+
+                if (myEnemies.getHP() <= 0) {
+                    combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
+                    MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+                    return;
+                }
+
+                int monsterAttackChance = random.nextInt(100);
+                if (monsterAttackChance >= myChar.getAgility()) {
+                    int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
+                    myChar.setHP(myChar.getHP() - monsterDamage);
+                    combatLog.append("The ").append(myEnemies.getName())
+                            .append(" hit you for ").append(monsterDamage).append(" damage!\n");
+                } else {
+                    combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
+                }
+
+                if (myChar.getHP() <= 0) {
+                    combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
+                    MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+                    return;
+                }
+
+                MainGameScreen.CombatMessageArea.setText(combatLog.toString());
             }
         });
 
-        CombatSpellButton.addActionListener(new ActionListener() {
+        SelectSpellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Add spell selection logic
+                String[] knownSpells = myChar.getKnownSpells();
+                String selected = (String) JOptionPane.showInputDialog(
+                        CombatFrame,
+                        "Select a spell to cast:",
+                        "Spell Selection",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        knownSpells,
+                        knownSpells.length > 0 ? knownSpells[0] : null
+                );
+
+                if (selected != null) {
+                    selectedSpell = selected;
+                    JOptionPane.showMessageDialog(CombatFrame, "You selected: " + selectedSpell);
+                } else {
+                    JOptionPane.showMessageDialog(CombatFrame, "No spell selected.");
+                }
             }
         });
 
         CastSelectedSpellButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: Add spell casting logic
+                if (selectedSpell == null) {
+                    JOptionPane.showMessageDialog(CombatFrame, "No spell selected. Please select a spell first.");
+                    return;
+                }
+
+                Spells spell = myChar.getSpellByName(selectedSpell);
+                if (spell == null) {
+                    JOptionPane.showMessageDialog(CombatFrame, "Selected spell not found.");
+                    return;
+                }
+
+                StringBuilder combatLog = new StringBuilder();
+                int spellDamage = spell.getDamage();
+                myEnemies.setHP(myEnemies.getHP() - spellDamage);
+                combatLog.append("You cast ").append(spell.getName())
+                        .append(" and dealt ").append(spellDamage)
+                        .append(" damage to ").append(myEnemies.getName()).append("!\n");
+
+                if (myEnemies.getHP() <= 0) {
+                    combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
+                }
+
+                MainGameScreen.CombatMessageArea.setText(combatLog.toString());
             }
         });
-    }
 
+        CastSelectedSpellButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectedSpell == null) {
+                    JOptionPane.showMessageDialog(CombatFrame, "No spell selected. Please select a spell first.");
+                    return;
+                }
+
+                StringBuilder combatLog = new StringBuilder();
+                Random random = new Random();
+
+                int spellDamage = SpellList.getSpells(selectedSpell).getDamage();
+
+                myEnemies.setHP(myEnemies.getHP() - spellDamage);
+                combatLog.append("You cast ").append(selectedSpell)
+                        .append(" and dealt ").append(spellDamage)
+                        .append(" damage to ").append(myEnemies.getName()).append("!\n");
+
+                if (myEnemies.getHP() <= 0) {
+                    combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
+                }
+
+                MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+            }
+        });
+    
+    
+
+CombatRunButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        Random random = new Random();
+        int runChance = random.nextInt(100); // Generate a random number between 0 and 99
+        int agility = myChar.getAgility();  // Get the character's agility
+
+        if (runChance < agility) {
+            JOptionPane.showMessageDialog(CombatFrame, "You successfully ran away!");
+            // Logic to exit combat or return to the previous screen
+            myMainGameScreen.replaceWithAnyPanel(new JPanel()); // Example: Replace with a blank panel
+        } else {
+            JOptionPane.showMessageDialog(CombatFrame, "You failed to run away!");
+            // Logic for the enemy to attack or continue combat
+        }
+    }
+});
+
+    }
     public static void main(String[] args) {
         try {
-            // Start the combat encounter
             new Combat().CombatEncouter();
         } catch (IOException e) {
             e.printStackTrace();

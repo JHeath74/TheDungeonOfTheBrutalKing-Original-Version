@@ -88,4 +88,27 @@ public class Enemies {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Object getName() {
+		return name;
+	}
+
+	public int getHP() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+public int getWeaponDamage() {
+    Random random = new Random();
+    int baseDamage = (int) (strength * 1.2); // Base damage based on strength
+    int randomFactor = random.nextInt(5) + 1; // Random factor between 1 and 5
+    return baseDamage + randomFactor; // Total weapon damage
+}
+
+public void setHP(int i) {
+	
+	this.hitPoints= i;
+	}
+
 }

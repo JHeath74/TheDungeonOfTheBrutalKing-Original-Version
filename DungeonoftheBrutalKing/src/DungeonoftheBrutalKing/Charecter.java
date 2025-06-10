@@ -4,6 +4,45 @@ package DungeonoftheBrutalKing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+
+//CharInfo ArrayList:
+//Index 0: Character's name (String)
+//Index 1: Character's class or type (String)
+//Index 2: Character's level (int as String)
+//Index 3: Character's experience points (int as String)
+//Index 4: Character's health points (HP) (int as String)
+//Index 5: Character's magic points (MP) (int as String)
+//Index 6: Character's stamina (int as String)
+//Index 7: Character's charisma (int as String)
+//Index 8: Character's strength (int as String)
+//Index 9: Character's intelligence (int as String)
+//Index 10: Character's wisdom (int as String)
+//Index 11: Character's agility (int as String)
+//Index 12: Character's gold (int as String)
+//Index 13: Character's food (int as String)
+//Index 14: Character's water (int as String)
+//Index 15: Character's torches (int as String)
+//Index 16: Character's gems (int as String)
+//Index 17: Character's equipped weapon (String)
+//Index 18: Character's equipped armor (String)
+//Index 19: Character's equipped shield (String)
+//Index 22: Character's X position (int as String)
+//Index 23: Character's Y position (int as String)
+//Index 24: Character's Z position (int as String)
+
+
+//SpellsLearned ArrayList:
+//This ArrayList stores the names of spells that the character has learned.
+//Each element represents the name of a spell as a String.
+//Example:
+//Index 0: "Fireball"
+//Index 1: "Heal"
+//Index 2: "Shield"
+//The list is used to track which spells the character can cast during gameplay.
+
+
 
 public class Charecter {
 
@@ -150,53 +189,85 @@ public class Charecter {
         CharInfo.set(24, String.valueOf(targetZ)); // Update Z position
     }
 
-    // Placeholder methods for inventory management
-    public void addToInventory(String selectedItem) {
-        // TODO: Implement inventory addition logic
-    }
 
-    public void removeFromInventory(String selectedItem) {
-        // TODO: Implement inventory removal logic
+public void addToInventory(String item) {
+    if (!CharInventory.contains(item)) {
+        CharInventory.add(item);
+        System.out.println(item + " has been added to the inventory.");
+    } else {
+        System.out.println(item + " is already in the inventory.");
     }
+}
+
+
+
+public boolean removeFromInventory(String item) {
+    if (CharInventory.contains(item)) {
+        CharInventory.remove(item);
+        return true; // Successfully removed the item
+    }
+    return false; // Item not found in inventory
+}
+
 
     // Placeholder methods for resource management
-    public boolean removeGold(int amount) {
-        // TODO: Implement gold removal logic
-        return false;
-    }
 
-    public void addGold(int amount) {
-        // TODO: Implement gold addition logic
+public boolean removeGold(int amount) {
+    int currentGold = Integer.parseInt(CharInfo.get(12));
+    if (currentGold >= amount) {
+        CharInfo.set(12, String.valueOf(currentGold - amount));
+        return true; // Successfully removed gold
     }
+    return false; // Not enough gold to remove
+}
 
-    public int getGold() {
-        // TODO: Implement logic to retrieve current gold
-        return 0;
-    }
 
-    public void addFood(int amount) {
-        // TODO: Implement food addition logic
-    }
+
+public void addGold(int amount) {
+    int currentGold = Integer.parseInt(CharInfo.get(12));
+    CharInfo.set(12, String.valueOf(currentGold + amount));
+}
+
+
+
+public int getGold() {
+    return Integer.parseInt(CharInfo.get(12));
+}
+
+
+
+public void addFood(int amount) {
+    int currentFood = Integer.parseInt(CharInfo.get(13));
+    CharInfo.set(13, String.valueOf(currentFood + amount));
+}
+
 
     public boolean removeFood(int amount) {
-        // TODO: Implement food removal logic
-        return false;
+        int currentFood = Integer.parseInt(CharInfo.get(13));
+        if (currentFood >= amount) {
+            CharInfo.set(13, String.valueOf(currentFood - amount));
+            return true; // Successfully removed food
+        }
+        return false; // Not enough food to remove
     }
 
-    public int getFood() {
-        // TODO: Implement logic to retrieve current food
-        return 0;
-    }
 
-    public int getWater() {
-        // TODO: Implement logic to retrieve current water
-        return 0;
-    }
+public int getFood() {
+    return Integer.parseInt(CharInfo.get(13));
+}
 
-    public int getTorches() {
-        // TODO: Implement logic to retrieve current torches
-        return 0;
-    }
+
+
+public int getWater() {
+    return Integer.parseInt(CharInfo.get(14));
+}
+
+
+
+public int getTorches() {
+    return Integer.parseInt(CharInfo.get(15));
+}
+
     
     /**
      * Removes a specific effect from the character.
@@ -242,6 +313,53 @@ public class Charecter {
         public List<String> getActiveEffects() {
             return activeEffects;
         }
+
+        public int getAgility() {
+            return Integer.parseInt(CharInfo.get(11));
+        }
+
+        public int getStrength() {
+            return Integer.parseInt(CharInfo.get(8));
+        }
+
+		public int getHP() {
+			
+			return Integer.parseInt(CharInfo.get(4));
+		}
+
+		public void setHP(int hp) {
+		    CharInfo.set(4, String.valueOf(hp));
+		}
+
+		
+		public int getWeaponDamage() {
+		    int strength = getStrength(); // Retrieve character's strength
+		    String weapon = CharInfo.get(17); // Retrieve equipped weapon
+		    int baseDamage = weapon != null && !weapon.isEmpty() ? Integer.parseInt(weapon) : 0; // Parse weapon damage
+		    Random random = new Random();
+		    int randomFactor = random.nextInt(5) + 1; // Random factor between 1 and 5
+		    return baseDamage + (int) (strength * 1.2) + randomFactor; // Total weapon damage
+		}
+
+
+		// src/DungeonoftheBrutalKing/Charecter.java
+		public Spells getSpellByName(String selectedSpell) {
+		    for (String spellName : SpellsLearned) {
+		        if (spellName.equalsIgnoreCase(selectedSpell)) {
+		            return SpellList.getSpells(spellName); // Retrieve the spell from SpellList
+		        }
+		    }
+		    return null; // Return null if the spell is not found
+		}
+
+
+
+		// src/DungeonoftheBrutalKing/Charecter.java
+		public String[] getKnownSpells() {
+		    return SpellsLearned.toArray(new String[0]); // Convert the list to an array
+		}
+
+
 
     /**
      * Removes a specific effect from the character.
