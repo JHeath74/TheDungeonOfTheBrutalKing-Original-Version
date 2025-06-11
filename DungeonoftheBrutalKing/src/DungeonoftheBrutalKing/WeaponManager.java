@@ -9,14 +9,16 @@ public class WeaponManager {
     public String name;
     public int requiredStrength;
     public static String charStrength;
-    private static int damage;
+    private static double damage;
+    private static double weight;
     private static double criticalHitChance;
     private static StatusEffect statusEffect;
 
-    public WeaponManager(String name, int requiredStrength, int damage, String effect) {
+    public WeaponManager(String name, int requiredStrength, double damage, String effect, double weight) {
         this.name = name;
         this.requiredStrength = requiredStrength;
         this.damage = damage;
+        this.weight = weight;
         if (effect != null) {
             WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
@@ -24,7 +26,15 @@ public class WeaponManager {
         }
     }
 
-    public enum StatusEffect {
+    public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public enum StatusEffect {
         NONE,
         POISON,
         STUN,
@@ -37,7 +47,7 @@ public class WeaponManager {
         return name;
     }
 
-    public static int getDamage() {
+    public double getDamage() {
         return damage;
     }
 
@@ -53,10 +63,6 @@ public class WeaponManager {
         this.requiredStrength = requiredStrength;
     }
 
-    public int getAttackDamage() {
-        return damage;
-    }
-
     public void setEffect(String effect) {
         if (effect != null) {
             WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
@@ -65,8 +71,8 @@ public class WeaponManager {
         }
     }
 
-    public void setAttackDamage(int attackDamage) {
-        WeaponManager.damage = attackDamage;
+    public void setDamage(int damage) {
+        WeaponManager.damage = damage;
     }
 
 	public static WeaponManager Singleton() {

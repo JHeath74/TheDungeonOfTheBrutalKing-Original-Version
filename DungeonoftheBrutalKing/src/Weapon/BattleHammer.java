@@ -8,22 +8,26 @@ public class BattleHammer extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 
+	private static double weight = 25.0;
+	private static double damage = 25.0;
+	private static String weaponName = "Battle Hammer";
+
     private static final int REQUIRED_STRENGTH = 15;
 
-    public BattleHammer(int attackDamage, String effect) {
-        super("Battle Axe", REQUIRED_STRENGTH, attackDamage, effect);
+    public BattleHammer(double damage, String effect) {
+        super("Battle Axe", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public BattleHammer(int requiredStrength, int attackDamage, String effect) {
-        super("BattleHammer", requiredStrength, attackDamage, effect);
+    public BattleHammer(int requiredStrength, double damage, String effect) {
+        super("BattleHammer", requiredStrength, damage, effect, weight );
     }
 
-    public static BattleHammer createBattleHammer(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static BattleHammer createBattleHammer(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new BattleHammer(attackDamage, effect);
+                return new BattleHammer(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -33,7 +37,7 @@ public class BattleHammer extends WeaponManager {
 
     // Getters and Setters
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
@@ -41,17 +45,11 @@ public class BattleHammer extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
+
+    public double getDamage() {
+        return damage;
     }
 
-    public int getAttackDamage() {
-        return super.getAttackDamage();
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
-    }
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();

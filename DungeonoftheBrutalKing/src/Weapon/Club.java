@@ -8,21 +8,24 @@ public class Club extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
+    private static double weight = 20.0;
+    private static int damage = 20;
+    private static String weaponName = "Club";
 
-    public Club(int attackDamage, String effect) {
-        super("Club", REQUIRED_STRENGTH, attackDamage, effect);
+    public Club(double damage, String effect) {
+        super("Club", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public Club(int requiredStrength, int attackDamage, String effect) {
-        super("Club", requiredStrength, attackDamage, effect);
+    public Club(int requiredStrength, double damage, String effect) {
+        super("Club", requiredStrength, damage, effect, weight);
     }
 
-    public static Club createClub(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static Club createClub(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new Club(attackDamage, effect);
+                return new Club(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -32,7 +35,7 @@ public class Club extends WeaponManager {
 
     // Getters and Setters
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
@@ -40,16 +43,8 @@ public class Club extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
-
-    public int getAttackDamage() {
-        return super.getAttackDamage();
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
+    public double getDamage() {
+        return damage;
     }
 
     public StatusEffect getEffect() {

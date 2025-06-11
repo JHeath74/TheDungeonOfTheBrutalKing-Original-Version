@@ -10,21 +10,24 @@ public class Flail extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
+    private static double weight = 20.0;
+	private static int damage = 20;
+	private static String weaponName = "Flail";
 
-    public Flail(int attackDamage, String effect) {
-        super("Flail", REQUIRED_STRENGTH, attackDamage, effect);
+    public Flail(double damage, String effect) {
+        super("Flail", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public Flail(int requiredStrength, int attackDamage, String effect) {
-        super("Flail", requiredStrength, attackDamage, effect);
+    public Flail(int requiredStrength, double damage, String effect) {
+        super("Flail", requiredStrength, damage, effect, weight);
     }
 
-    public static Flail createLongbow(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static Flail createLongbow(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new Flail(attackDamage, effect);
+                return new Flail(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -33,24 +36,20 @@ public class Flail extends WeaponManager {
     }
 
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
-        return Integer.parseInt(myChar.CharInfo.get(8));
+        return REQUIRED_STRENGTH;
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
+
 
     public int getAttackDamage() {
-        return super.getAttackDamage();
+        return damage;
     }
 
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
-    }
+
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();

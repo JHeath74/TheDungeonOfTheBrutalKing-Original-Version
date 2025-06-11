@@ -8,21 +8,40 @@ public class Crossbow extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
+    private static double weight = 20.0;
+	private static int damage = 20;
+	private static String weaponName = "Crossbow";
+    
 
-    public Crossbow(int attackDamage, String effect) {
-        super("Club", REQUIRED_STRENGTH, attackDamage, effect);
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+    
+    public double getWeight() {
+		return weight;
+	}
+
+	public double getDamage() {
+		return damage;
+	}
+
+
+
+    public Crossbow(double damage, String effect) {
+        super("Club", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public Crossbow(int requiredStrength, int attackDamage, String effect) {
-        super("Crossbow", requiredStrength, attackDamage, effect);
+    public Crossbow(int requiredStrength, double damage, String effect) {
+        super("Crossbow", requiredStrength, damage, effect, weight);
     }
 
-    public static Crossbow createCrossbow(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static Crossbow createCrossbow(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new Crossbow(attackDamage, effect);
+                return new Crossbow(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -32,24 +51,12 @@ public class Crossbow extends WeaponManager {
 
     // Getters and Setters
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
        
         return REQUIRED_STRENGTH;
-    }
-
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
-
-    public int getAttackDamage() {
-        return super.getAttackDamage();
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
     }
 
     public StatusEffect getEffect() {

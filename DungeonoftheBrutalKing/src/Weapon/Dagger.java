@@ -9,21 +9,24 @@ public class Dagger extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
+    private static double weight = 20.0;
+	private static int damage = 20;
+	private static String weaponName = "Dagger";
 
-    public Dagger(int attackDamage, String effect) {
-        super("Dagger", REQUIRED_STRENGTH, attackDamage, effect);
+    public Dagger(double damage, String effect) {
+        super("Dagger", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public Dagger(int requiredStrength, int attackDamage, String effect) {
-        super("Dagger", requiredStrength, attackDamage, effect);
+    public Dagger(int requiredStrength, double damage, String effect) {
+        super("Dagger", requiredStrength, damage, effect, weight);
     }
 
-    public static Dagger createDagger(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static Dagger createDagger(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new Dagger(attackDamage, effect);
+                return new Dagger(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -41,17 +44,10 @@ public class Dagger extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
 
-    public int getAttackDamage() {
-        return super.getAttackDamage();
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
-    }
+	public double getDamage() {
+		return damage;
+	}
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();

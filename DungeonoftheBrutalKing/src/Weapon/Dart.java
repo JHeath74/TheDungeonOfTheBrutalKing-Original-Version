@@ -9,21 +9,24 @@ public class Dart extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
+    private static double weight = 20.0;
+	private static int damage = 20;
+	private static String weaponName = "Dart";
 
-    public Dart(int attackDamage, String effect) {
-        super("Dart", REQUIRED_STRENGTH, attackDamage, effect);
+    public Dart(double attackDamage, String effect) {
+        super("Dart", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public Dart(int requiredStrength, int attackDamage, String effect) {
-        super("Dart", requiredStrength, attackDamage, effect);
+    public Dart(int requiredStrength, double damage, String effect) {
+        super("Dart", requiredStrength, damage, effect, weight);
     }
 
-    public static Dart createDart(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static Dart createDart(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new Dart(attackDamage, effect);
+                return new Dart(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -33,7 +36,7 @@ public class Dart extends WeaponManager {
 
     // Getters and Setters
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
@@ -41,17 +44,10 @@ public class Dart extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
 
-    public int getAttackDamage() {
-        return super.getAttackDamage();
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
-    }
+	public double getDamage() {
+		return damage;
+	}
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();

@@ -8,22 +8,26 @@ public class WarNet extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 
-    private static final int REQUIRED_STRENGTH = 15;
+    private String weaponname = "Warnet";
+    private static double weight = 25.0;
+    private static double damage = 35;
+    private static final int REQUIRED_STRENGTH = 30;
 
-    public WarNet(int attackDamage, String effect) {
-        super("WarNet", REQUIRED_STRENGTH, attackDamage, effect);
+
+    public WarNet(double damage, String effect) {
+        super("WarNet", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public WarNet(int requiredStrength, int attackDamage, String effect) {
-        super("WarNet", requiredStrength, attackDamage, effect);
+    public WarNet(int requiredStrength, double damage, String effect) {
+        super("WarNet", requiredStrength, damage, effect, weight);
     }
 
-    public static WarNet createDagger(Character character, int attackDamage, String effect) throws NumberFormatException {
+    public static WarNet createDagger(Character character, double damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new WarNet(attackDamage, effect);
+                return new WarNet(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -33,7 +37,7 @@ public class WarNet extends WeaponManager {
 
     // Getters and Setters
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
@@ -41,17 +45,12 @@ public class WarNet extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
+
+    public double getDamage() {
+        return damage;
     }
 
-    public int getAttackDamage() {
-        return super.getAttackDamage();
-    }
 
-    public void setAttackDamage(int attackDamage) {
-        super.setAttackDamage(attackDamage);
-    }
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();
