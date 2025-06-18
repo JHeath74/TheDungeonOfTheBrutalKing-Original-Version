@@ -23,7 +23,7 @@ public class Location extends Spells {
 
         if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
             // Assuming the character's current position is stored in Singleton
-        	
+
         	int[] charInfo = Singleton.myCharSingleton().getCharInfo();
             int currentX = charInfo[0];
             int currentY = charInfo[1];

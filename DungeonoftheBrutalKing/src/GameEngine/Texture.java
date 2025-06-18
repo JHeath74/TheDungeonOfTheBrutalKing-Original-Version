@@ -3,20 +3,21 @@ package GameEngine;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 
 public class Texture {
 	public int[] pixels;
 	private String loc;
 	public final int SIZE;
-	
+
 	public Texture(String location, int size) {
 		loc = location;
 		SIZE = size;
 		pixels = new int[SIZE * SIZE];
 		load();
 	}
-	
+
 	private void load() {
 		try {
 			BufferedImage image = ImageIO.read(new File(loc));
@@ -27,7 +28,7 @@ public class Texture {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static Texture wood = new Texture("src\\DungeonoftheBrutalKing\\Images\\Level\\Wall\\wood.png", 64);
 	public static Texture brick = new Texture("src\\DungeonoftheBrutalKing\\Images\\Level\\Wall\\redbrick.png", 64);
 	public static Texture bluestone = new Texture("src\\DungeonoftheBrutalKing\\Images\\Level\\Wall\\bluestone.png", 64);

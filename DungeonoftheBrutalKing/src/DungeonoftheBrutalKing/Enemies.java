@@ -107,7 +107,7 @@ public int getWeaponDamage() {
 }
 
 public void setHP(int i) {
-	
+
 	this.hitPoints= i;
 	}
 

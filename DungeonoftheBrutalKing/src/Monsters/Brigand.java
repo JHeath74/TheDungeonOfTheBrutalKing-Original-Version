@@ -13,7 +13,7 @@ public class Brigand extends Enemies{
     int intelligence;
     int wisdom;
 	private String imagePath;
-	
+
 	GameSettings myGameSettings = new GameSettings();
 
     // Constructor
@@ -41,12 +41,14 @@ public class Brigand extends Enemies{
     }
 
     // Method to check if the monster is dead
-    public boolean isDead() {
+    @Override
+	public boolean isDead() {
         return this.hitPoints <= 0;
     }
 
     // Method to calculate attack strength
-    public int attack() {
+    @Override
+	public int attack() {
         return (int) ((strength * 1.5) + (agility * 0.5));
     }
 
@@ -64,6 +66,7 @@ public class Brigand extends Enemies{
                 '}';
     }
 
+	@Override
 	public String getImagePath() {
 		return imagePath;
 	}

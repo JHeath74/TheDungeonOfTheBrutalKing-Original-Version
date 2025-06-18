@@ -1,7 +1,6 @@
 
 package Shields;
 
-import Armour.BreastPlate;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.ShieldManager;
 
@@ -9,17 +8,17 @@ public class Magical_Shield extends ShieldManager {
 
     private int requiredStrength;
    	private int defenseProvided;
-   	
+
    	private static Charecter myChar = Charecter.Singleton();
 
     public Magical_Shield(int requiredStrength, int defenseProvided ) {
         super("Magical Shield", requiredStrength, defenseProvided); // Initialize with name, required strength, and defense provided
         this.requiredStrength = 20;
         this.defenseProvided = 15;
-        
+
         allShields.add(this);
     }
-    
+
     public static Magical_Shield createMagical_Shield(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
    	 int requiredStrength = REQUIRED_STRENGTH;
         try {
@@ -32,7 +31,7 @@ public class Magical_Shield extends ShieldManager {
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
    }
-    
+
     public int getRequiredStrength() {
 		return requiredStrength;
 	}
@@ -49,5 +48,5 @@ public class Magical_Shield extends ShieldManager {
 		this.defenseProvided = defenseProvided;
 	}
 
-  
+
 }

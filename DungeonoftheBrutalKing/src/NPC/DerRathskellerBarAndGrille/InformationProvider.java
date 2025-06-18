@@ -1,19 +1,25 @@
 
-package NPC;
+package NPC.DerRathskellerBarAndGrille;
 
-import javax.swing.*;
-
-import DungeonoftheBrutalKing.MainGameScreen;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
+import DungeonoftheBrutalKing.MainGameScreen;
+
 public class InformationProvider extends JFrame {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String[] randomInfo = {
@@ -32,23 +38,23 @@ public class InformationProvider extends JFrame {
     private String specialInfo = "This is the 20th attempt special information!";
     private int listenCounter = 0;
     MainGameScreen myMainGameScreen;
-    
-    
 
 
-public InformationProvider() {
-	
+
+
+public InformationProvider() throws InterruptedException {
+
 	try {
         myMainGameScreen = new MainGameScreen(); // Handle IOException here
     } catch (IOException e) {
         e.printStackTrace(); // Log the exception
         JOptionPane.showMessageDialog(this, "Error initializing MainGameScreen: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-	
+
     // Set up the frame
     setTitle("Information Listener");
     setPreferredSize(new Dimension(800, 600)); // Increase the size of the JFrame
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
 
     // Create components
@@ -100,7 +106,12 @@ public InformationProvider() {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            new InformationProvider().setVisible(true);
+            try {
+				new InformationProvider().setVisible(true);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         });
     }
 }

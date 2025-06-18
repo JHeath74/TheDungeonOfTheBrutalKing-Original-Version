@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Quests.Quest;
+
 
 //CharInfo ArrayList:
 //Index 0: Character's name (String)
@@ -50,6 +52,7 @@ public class Charecter {
     private EffectManager effectManager = new EffectManager();
     private List<String> activeEffects = new ArrayList<>();
 
+
     public Charecter() {
         this.name = name;
     }
@@ -57,7 +60,7 @@ public class Charecter {
     public EffectManager getEffectManager() {
         return effectManager;
     }
-	
+
     // Singleton instance of the Charecter class
     private static Charecter single_instance_myChar;
 
@@ -69,6 +72,9 @@ public class Charecter {
 
     // List to store the character's inventory
     public ArrayList<String> CharInventory = new ArrayList<>();
+    
+ // List to store active quests for the character
+    private List<Quest> activeQuests = new ArrayList<>();
 
     // Static method to create or retrieve the Singleton instance of the Charecter class
     public static Charecter Singleton() {
@@ -268,7 +274,7 @@ public int getTorches() {
     return Integer.parseInt(CharInfo.get(15));
 }
 
-    
+
     /**
      * Removes a specific effect from the character.
      *
@@ -282,12 +288,12 @@ public int getTorches() {
             System.out.println(effect + " is not active.");
         }
     }
-    
+
     /**
      * Adds an effect to the character.
      *
      * @param effect The name of the effect to be added.
-     * @return 
+     * @return
      */
     /**
      * Adds an effect to the character.
@@ -304,7 +310,7 @@ public int getTorches() {
         }
         return activeEffects;
     }
-        
+
         /**
          * Gets the list of active effects.
          *
@@ -323,7 +329,7 @@ public int getTorches() {
         }
 
 		public int getHP() {
-			
+
 			return Integer.parseInt(CharInfo.get(4));
 		}
 
@@ -331,7 +337,7 @@ public int getTorches() {
 		    CharInfo.set(4, String.valueOf(hp));
 		}
 
-		
+
 		public int getWeaponDamage() {
 		    int strength = getStrength(); // Retrieve character's strength
 		    String weapon = CharInfo.get(17); // Retrieve equipped weapon
@@ -358,7 +364,20 @@ public int getTorches() {
 		public String[] getKnownSpells() {
 		    return SpellsLearned.toArray(new String[0]); // Convert the list to an array
 		}
+		
+	    public List<Quest> getActiveQuests() {
+	        return activeQuests;
+	    }
 
+	    public void addActiveQuest(Quest quest) {
+	        if (!activeQuests.contains(quest)) {
+	            activeQuests.add(quest);
+	        }
+	    }
+
+	    public boolean removeActiveQuest(Quest quest) {
+	        return activeQuests.remove(quest);
+	    }
 
 
     /**
@@ -368,6 +387,6 @@ public int getTorches() {
      *
      * @param effect The name of the effect to be removed.
      */
-    
+
 
 }

@@ -45,7 +45,7 @@ public class DungeonLevel3 implements DungeonLevel {
         return mapHeight;
     }
 
-   
+
 
 	@Override
 	public int getDungeonLevelNumber() {

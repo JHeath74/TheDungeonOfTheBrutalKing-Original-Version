@@ -10,14 +10,14 @@ public class BattleAxe extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 
-	
+
     private String weaponname = "Battle Axe";
     private static double weight = 25.0;
     private static double damage = 35;
     private static final int REQUIRED_STRENGTH = 30;
-    
-    
-    
+
+
+
 
 
 	private EffectManager effectManager = new EffectManager();
@@ -30,14 +30,14 @@ public class BattleAxe extends WeaponManager {
     public BattleAxe(double damage, String effect) {
         super("Battle Axe", REQUIRED_STRENGTH, damage, effect, weight);
         this.weaponname = "Battle Axe";
-        this.weight = weight;
-        
+        BattleAxe.weight = weight;
+
     }
 
     public BattleAxe(int requiredStrength, double damage, String effect) {
         super("Battle Axe", requiredStrength, damage, effect, weight);
         this.weaponname = "Battle Axe";
-        this.weight = weight;
+        BattleAxe.weight = weight;
     }
 
     public static BattleAxe createBattleAxe(Character character, double damage, String effect) throws NumberFormatException {
@@ -53,7 +53,8 @@ public class BattleAxe extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName();
     }
 
@@ -62,20 +63,23 @@ public class BattleAxe extends WeaponManager {
     }
 
 
-    public double getWeight() {
+    @Override
+	public double getWeight() {
         return weight;
     }
-    
-    public double getDamage() {
+
+    @Override
+	public double getDamage() {
 		return damage;
 	}
 
-    
+
     public StatusEffect getEffect() {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

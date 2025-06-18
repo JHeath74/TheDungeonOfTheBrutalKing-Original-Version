@@ -12,10 +12,10 @@ public class Wooden_Shield extends ShieldManager {
         super("Wooden Shield", requiredStrength, defenseProvided); // Initialize with name, required strength, and defense provided
         this.requiredStrength = 20;
         this.defenseProvided = 15;
-        
+
         allShields.add(this);
     }
-    
+
     public int getRequiredStrength() {
 		return requiredStrength;
 	}
@@ -32,5 +32,5 @@ public class Wooden_Shield extends ShieldManager {
 		this.defenseProvided = defenseProvided;
 	}
 
-  
+
 }

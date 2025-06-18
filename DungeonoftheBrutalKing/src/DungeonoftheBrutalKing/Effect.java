@@ -6,13 +6,13 @@ import java.util.function.Consumer;
 
 /**
  * Represents an effect that can be applied to various entities in the game, such as characters, weapons, armor, or shields.
- * 
+ *
  * What it affects:
  * - Charecter: Can modify attributes like health, strength, or apply statuses (e.g., "Poisoned", "Shielded").
  * - Weapon: Can enhance damage, add elemental effects, or grant special abilities.
  * - Armour: Can increase defense, add resistances, or reduce damage taken.
  * - Shield: Can improve block rate, durability, or add special defensive properties.
- * 
+ *
  * What the effects are:
  * - Temporary changes that last for a specified duration.
  * - Can include buffs (positive effects) or debuffs (negative effects).
@@ -30,7 +30,7 @@ public class Effect {
 
     /**
      * Constructor to initialize an Effect object.
-     * 
+     *
      * @param name         The name of the effect.
      * @param duration     The duration of the effect in time units.
      * @param effectAction The action to apply the effect on a target.
@@ -46,17 +46,17 @@ public class Effect {
 
     /**
      * Gets the name of the effect.
-     * 
+     *
      * @return The name of the effect.
      */
     public String getName() {
         return name;
     }
-    
+
     public int getStartTime() {
         return startTime;
     }
-    
+
     public Runnable getOnExpire() {
         return onExpire;
     }
@@ -71,7 +71,7 @@ public class Effect {
 
     /**
      * Gets the duration of the effect.
-     * 
+     *
      * @return The duration of the effect in time units.
      */
     public int getDuration() {
@@ -80,7 +80,7 @@ public class Effect {
 
     /**
      * Reduces the duration of the effect by a specified amount.
-     * 
+     *
      * @param amount The amount to reduce the duration by.
      */
     public void reduceDuration(int amount) {
@@ -89,7 +89,7 @@ public class Effect {
 
     /**
      * Checks if the effect has expired.
-     * 
+     *
      * @return True if the effect's duration is less than or equal to zero, otherwise false.
      */
     public boolean isExpired() {
@@ -98,7 +98,7 @@ public class Effect {
 
     /**
      * Applies the effect to a target.
-     * 
+     *
      * @param target The target object to which the effect is applied.
      */
     public void applyEffect(Object target) {
@@ -106,7 +106,7 @@ public class Effect {
             effectAction.accept(target);
         }
     }
-    
+
     /**
      * Removes the effect from the character.
      */

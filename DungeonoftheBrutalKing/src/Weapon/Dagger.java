@@ -35,7 +35,8 @@ public class Dagger extends WeaponManager {
     }
 
     // Getters and Setters
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName();
     }
 
@@ -45,6 +46,7 @@ public class Dagger extends WeaponManager {
     }
 
 
+	@Override
 	public double getDamage() {
 		return damage;
 	}
@@ -53,7 +55,8 @@ public class Dagger extends WeaponManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

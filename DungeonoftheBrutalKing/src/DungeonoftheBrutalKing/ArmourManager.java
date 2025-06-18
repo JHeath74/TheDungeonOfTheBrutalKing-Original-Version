@@ -35,7 +35,7 @@ public class ArmourManager {
     public ArmourManager(String name, int requiredStrength, int armourDefense, String effect) {
         this.name = name;
         this.requiredStrength = requiredStrength;
-        this.armourDefense = armourDefense;
+        ArmourManager.armourDefense = armourDefense;
         this.effect = effect;
         allArmour.add(this);
 

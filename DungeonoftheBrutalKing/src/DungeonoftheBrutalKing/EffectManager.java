@@ -1,8 +1,11 @@
 
 package DungeonoftheBrutalKing;
 
-import java.util.*;
-import DungeonoftheBrutalKing.Effect;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Manages the effects applied to entities in the game.
@@ -14,7 +17,7 @@ import DungeonoftheBrutalKing.Effect;
  * predefinedEffects: A Map<String, Effect> that stores predefined effects by
  * their names. These are reusable effects that can be applied multiple times to
  * different entities.
- * 
+ *
  * activeEffects: A List<Effect> that stores currently active effects. These are
  * effects that have been applied to entities and are being tracked for their
  * duration and expiration.
@@ -96,5 +99,5 @@ public class EffectManager {
  }
 
 
-   
+
 }

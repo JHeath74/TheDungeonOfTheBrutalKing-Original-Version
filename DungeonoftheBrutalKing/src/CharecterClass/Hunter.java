@@ -18,7 +18,6 @@ public class Hunter extends Class
 	int Herolevel;
 
 	public static String charClass = "Hunter";
-
 	public static String ClassDescription;
 
 	public Hunter()

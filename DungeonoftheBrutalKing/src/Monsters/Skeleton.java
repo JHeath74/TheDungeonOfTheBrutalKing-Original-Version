@@ -39,17 +39,20 @@ public class Skeleton extends Enemies {
     }
 
     // Method to check if the monster is dead
-    public boolean isDead() {
+    @Override
+	public boolean isDead() {
         return this.hitPoints <= 0;
     }
 
     // Method to calculate attack strength
-    public int attack() {
+    @Override
+	public int attack() {
         return (int) ((strength * 1.5) + (agility * 0.5));
     }
 
     // Getter for imagePath
-    public String getImagePath() {
+    @Override
+	public String getImagePath() {
         return imagePath;
     }
 

@@ -35,7 +35,8 @@ public class Flail extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required strength to wield the Longbow.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return name;
     }
 
@@ -55,7 +56,8 @@ public class Flail extends WeaponManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

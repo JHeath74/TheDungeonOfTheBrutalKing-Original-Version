@@ -1,11 +1,13 @@
 
 package DungeonoftheBrutalKing;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 
 public class TimeClock {
 
@@ -15,22 +17,25 @@ public class TimeClock {
     }
 
     private static TimeClock timeClock;
-    
+
     private Month currentMonth;
     private int currentDay;
     private LocalTime currentTime;
     private final Timer timer;
     private MainGameScreen myMainGameScreen;
-    int startTime = timeClock.getCurrentHour();
+
+    int startTime;
 
     static {
-        timeClock = new TimeClock(Month.REBIRTH, null); // Initialize in a static block
+        timeClock = new TimeClock(TimeClock.Month.REBIRTH, null); // Proper initialization
     }
+
     TimeClock(Month startMonth, JTextPane messageTextPane) {
         this.currentMonth = startMonth;
         this.currentDay = 1;
         this.currentTime = LocalTime.of(0, 0);
         this.timer = new Timer();
+        this.startTime = currentTime.getHour(); // Initialize startTime correctly
     }
 
     public synchronized void startSimulation() {
@@ -66,21 +71,28 @@ public class TimeClock {
         return Month.values()[index];
     }
 
-    private void updateOutputField() {
-        SwingUtilities.invokeLater(() -> {
-            if (myMainGameScreen != null && myMainGameScreen.MessageTextPane != null) {
-                myMainGameScreen.MessageTextPane.setText(String.format("Day %d, %s | Time: %s",
-                        currentDay, currentMonth, currentTime));
-            } else {
-                System.err.println("myMainGameScreen or MessageTextPane is null");
+
+private void updateOutputField() {
+    SwingUtilities.invokeLater(() -> {
+        try {
+            if (myMainGameScreen == null) {
+                myMainGameScreen = new MainGameScreen(); // Initialize myMainGameScreen
             }
-            try {
-                myMainGameScreen = new MainGameScreen();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            if (myMainGameScreen.MessageTextPane == null) {
+                throw new IllegalStateException("MessageTextPane is not initialized in MainGameScreen.");
             }
-        });
-    }
+
+            myMainGameScreen.MessageTextPane.setText(String.format("Day %d, %s | Time: %s",
+                    currentDay, currentMonth, currentTime));
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            System.err.println(e.getMessage());
+        }
+    });
+}
+
 
     public synchronized void stopClock() {
         timer.cancel();
@@ -104,13 +116,11 @@ public class TimeClock {
         return elapsedDaysInHours + elapsedHours;
     }
 
-   
-        public int getCurrentHour() {
-            return timeClock.getCurrentHour(); // Access the initialized object
-        }
+    public int getCurrentHour() {
+        return currentTime.getHour(); // Correct implementation
+    }
 
-		public static TimeClock Singleton() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+    public static TimeClock Singleton() {
+        return timeClock; // Return the initialized singleton instance
+    }
 }

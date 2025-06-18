@@ -1,22 +1,32 @@
 
-package NPC;
+package NPC.DerRathskellerBarAndGrille;
 
-import javax.swing.*;
-import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.GameSettings;
-import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.StatusManager;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.StatusManager;
+
 public class Innkeeper {
     private Map<String, Integer> foodItems;
     private Map<String, Integer> drinkItems;
     private JPanel mainPanel;
-   
+
 
     StatusManager statusManager = new StatusManager();
     Charecter myChar = new Charecter();
@@ -25,7 +35,7 @@ public class Innkeeper {
 
     public Innkeeper(JPanel mainPanel, JTextArea displayArea) {
         this.mainPanel = mainPanel;
-       
+
 
         // Initialize food items with prices
         foodItems = Map.of(
@@ -56,7 +66,7 @@ void setupUI() {
     mainPanel.setLayout(new BorderLayout());
 
     // Resize and add image at the top center
-    ImageIcon originalIcon = new ImageIcon(myGameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
+    ImageIcon originalIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
     Image scaledImage = originalIcon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH); // Adjust size as needed
     ImageIcon scaledIcon = new ImageIcon(scaledImage);
     JLabel imageLabel = new JLabel(scaledIcon);

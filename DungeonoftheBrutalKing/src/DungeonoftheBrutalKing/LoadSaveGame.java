@@ -11,18 +11,15 @@
 package DungeonoftheBrutalKing;
 
 import java.awt.BorderLayout;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -55,14 +52,14 @@ public class LoadSaveGame {
     /**
      * Automatically saves the current game state to a predefined file.
      * Displays a message upon successful save or failure.
-     * 
+     *
      * @throws IOException if an I/O error occurs during saving.
      */
     public void AutoSaveGame() throws IOException {
         String SavedGameName = "AutoGameSave.Txt";
 
         if (!SavedGameName.equals("IntialCharecterSave.txt")) {
-            String AutoSaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
+            String AutoSaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
 
             FileWriter writer = new FileWriter(AutoSaveGameName);
 
@@ -80,12 +77,13 @@ public class LoadSaveGame {
 
     /**
      * Continues the most recently saved game by loading its data into the character instance.
-     * 
+     *
      * @throws IOException if an I/O error occurs during loading.
+     * @throws InterruptedException 
      */
-    public void ContinueCurrentGame() throws IOException {
+    public void ContinueCurrentGame() throws IOException, InterruptedException {
         ArrayList<String> SaveLoadChar = new ArrayList<>();
-        File chosenFile = getLastModified(myGameSettings.SavedGameDirectory);
+        File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
         BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile));
 
@@ -123,7 +121,7 @@ public class LoadSaveGame {
         JComboBox<String> loadGameSelection = new JComboBox<>();
 
         // Populate the JComboBox with saved game files
-        File loadgamefiles = new File(myGameSettings.SavedGameDirectory);
+        File loadgamefiles = new File(GameSettings.SavedGameDirectory);
         File[] listOfFiles = loadgamefiles.listFiles();
 
         for (File listOfFile : listOfFiles) {
@@ -146,7 +144,7 @@ public class LoadSaveGame {
                             if (response == JOptionPane.YES_OPTION) {
                                 try {
                                     BufferedReader bufReader = new BufferedReader(
-                                            new FileReader(myGameSettings.SavedGameDirectory + gameInfo));
+                                            new FileReader(GameSettings.SavedGameDirectory + gameInfo));
                                     String line = bufReader.readLine();
                                     while (line != null) {
                                         LoadChar.add(line);
@@ -186,7 +184,7 @@ public class LoadSaveGame {
 
     /**
      * Saves the current game state to a new file with a timestamped name.
-     * 
+     *
      * @throws IOException if an I/O error occurs during saving.
      * @throws ParseException if the date format is invalid.
      */
@@ -200,7 +198,7 @@ public class LoadSaveGame {
         String SavedGameName = "SavedGame" + datetime + ".txt";
 
         if (!SavedGameName.equals("IntialCharecterSave.txt")) {
-            String SaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
+            String SaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
 
             FileWriter writer = new FileWriter(SaveGameName);
 
@@ -218,12 +216,12 @@ public class LoadSaveGame {
 
     /**
      * Loads the character data from the most recently saved game file.
-     * 
+     *
      * @throws IOException if an I/O error occurs during loading.
      */
     public void StartGameLoadCharecter() throws IOException {
         ArrayList<String> SaveLoadChar = new ArrayList<>();
-        File chosenFile = getLastModified(myGameSettings.SavedGameDirectory);
+        File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
         BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile));
 
@@ -240,20 +238,20 @@ public class LoadSaveGame {
 
     /**
      * Quickly saves the current game state to a predefined quick-save file.
-     * 
+     *
      * @throws IOException if an I/O error occurs during saving.
      */
     public void QuickSaveCharecter() throws IOException {
         String SavedGameName = "QuickSaveGame.Txt";
 
-        File file = new File(myGameSettings.SavedGameDirectory + "QuickSaveGame.txt");
+        File file = new File(GameSettings.SavedGameDirectory + "QuickSaveGame.txt");
 
         if (file.exists()) {
             file.delete();
         }
 
         if (!SavedGameName.equals("IntialCharecterSave.txt")) {
-            String AutoSaveGameName = myGameSettings.SavedGameDirectory + SavedGameName;
+            String AutoSaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
 
             FileWriter writer = new FileWriter(AutoSaveGameName);
 
@@ -271,7 +269,7 @@ public class LoadSaveGame {
 
     /**
      * Retrieves the most recently modified file from the specified directory.
-     * 
+     *
      * @param SavedGameDirectory The directory containing saved game files.
      * @return The most recently modified file.
      */
@@ -295,7 +293,7 @@ public class LoadSaveGame {
 
     /**
      * Counts the number of files in the saved game directory.
-     * 
+     *
      * @return The number of saved game files.
      */
     public static int getFileCount() {

@@ -2,7 +2,6 @@
 // src/DungeonoftheBrutalKing/EncryptionUtil.java
 package DungeonoftheBrutalKing;
 
-import java.security.Key;
 import java.util.Base64;
 
 /**

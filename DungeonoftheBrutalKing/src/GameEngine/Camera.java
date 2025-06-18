@@ -19,46 +19,59 @@ public class Camera implements KeyListener{
 		yDir = yd;
 		xPlane = xp;
 		yPlane = yp;
-		
-		
+
+
 	}
+	@Override
 	public void keyPressed(KeyEvent key) {
-		if((key.getKeyCode() == KeyEvent.VK_LEFT))
+		if((key.getKeyCode() == KeyEvent.VK_LEFT)) {
 			left = true;
-		if((key.getKeyCode() == KeyEvent.VK_RIGHT))
+		}
+		if((key.getKeyCode() == KeyEvent.VK_RIGHT)) {
 			right = true;
-		if((key.getKeyCode() == KeyEvent.VK_UP))
+		}
+		if((key.getKeyCode() == KeyEvent.VK_UP)) {
 			forward = true;
-		if((key.getKeyCode() == KeyEvent.VK_DOWN))
+		}
+		if((key.getKeyCode() == KeyEvent.VK_DOWN)) {
 			back = true;
+		}
 	}
+	@Override
 	public void keyReleased(KeyEvent key) {
-		if((key.getKeyCode() == KeyEvent.VK_LEFT))
+		if((key.getKeyCode() == KeyEvent.VK_LEFT)) {
 			left = false;
-		if((key.getKeyCode() == KeyEvent.VK_RIGHT))
+		}
+		if((key.getKeyCode() == KeyEvent.VK_RIGHT)) {
 			right = false;
-		if((key.getKeyCode() == KeyEvent.VK_UP))
+		}
+		if((key.getKeyCode() == KeyEvent.VK_UP)) {
 			forward = false;
-		if((key.getKeyCode() == KeyEvent.VK_DOWN))
+		}
+		if((key.getKeyCode() == KeyEvent.VK_DOWN)) {
 			back = false;
+		}
 	}
 	public void update(int[][] map) throws IOException {
-		
+
 		int newXPos = (int)xPos;
 	    int newYPos = (int)yPos;
-		
+
 		if(forward) {
 			if(map[(int)(xPos + xDir * MOVE_SPEED)][(int)yPos] == 0) {
 				xPos+=xDir*MOVE_SPEED;
 			}
-			if(map[(int)xPos][(int)(yPos + yDir * MOVE_SPEED)] ==0)
+			if(map[(int)xPos][(int)(yPos + yDir * MOVE_SPEED)] ==0) {
 				yPos+=yDir*MOVE_SPEED;
+			}
 		}
 		if(back) {
-			if(map[(int)(xPos - xDir * MOVE_SPEED)][(int)yPos] == 0)
+			if(map[(int)(xPos - xDir * MOVE_SPEED)][(int)yPos] == 0) {
 				xPos-=xDir*MOVE_SPEED;
-			if(map[(int)xPos][(int)(yPos - yDir * MOVE_SPEED)]==0)
+			}
+			if(map[(int)xPos][(int)(yPos - yDir * MOVE_SPEED)]==0) {
 				yPos-=yDir*MOVE_SPEED;
+			}
 		}
 		if(right) {
 			double oldxDir=xDir;
@@ -76,19 +89,20 @@ public class Camera implements KeyListener{
 			xPlane=xPlane*Math.cos(ROTATION_SPEED) - yPlane*Math.sin(ROTATION_SPEED);
 			yPlane=oldxPlane*Math.sin(ROTATION_SPEED) + yPlane*Math.cos(ROTATION_SPEED);
 		}
-		
 
-		
+
+
 	}
+	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
-	}
-	
 
-	
-	
-	
+	}
+
+
+
+
+
 }
 
 

@@ -1,4 +1,4 @@
-module DungeonoftheBrutalKing {
-	requires java.desktop;
+module AlternateRealityTheDungeon {
+    requires java.desktop;
 	requires java.management;
 }

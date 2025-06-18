@@ -12,7 +12,7 @@ public class Leather extends ArmourManager {
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
     private static final String effect = "None";
-	
+
 	   public Leather(int requiredStrength, int armourDefense, String effect) {
 	        super("Leather", requiredStrength, armourDefense, effect);
 	        Leather.armourDefense = 15;
@@ -24,7 +24,7 @@ public class Leather extends ArmourManager {
         Leather.armourDefense = 15;
     }
 
- 
+
 
     public static Leather createLeather(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
     	 int requiredStrength = REQUIRED_STRENGTH;
@@ -39,7 +39,8 @@ public class Leather extends ArmourManager {
          throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName();
     }
 
@@ -48,7 +49,8 @@ public class Leather extends ArmourManager {
     }
 
 
-    public int getArmourDefense() {
+    @Override
+	public int getArmourDefense() {
         return super.getArmourDefense();
     }
 
@@ -56,7 +58,8 @@ public class Leather extends ArmourManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

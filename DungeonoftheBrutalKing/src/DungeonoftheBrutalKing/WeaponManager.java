@@ -17,8 +17,8 @@ public class WeaponManager {
     public WeaponManager(String name, int requiredStrength, double damage, String effect, double weight) {
         this.name = name;
         this.requiredStrength = requiredStrength;
-        this.damage = damage;
-        this.weight = weight;
+        WeaponManager.damage = damage;
+        WeaponManager.weight = weight;
         if (effect != null) {
             WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
@@ -31,7 +31,7 @@ public class WeaponManager {
 	}
 
 	public void setWeight(double weight) {
-		this.weight = weight;
+		WeaponManager.weight = weight;
 	}
 
 	public enum StatusEffect {

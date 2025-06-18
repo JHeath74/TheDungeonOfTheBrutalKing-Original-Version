@@ -1,14 +1,26 @@
 
 package DungeonoftheBrutalKing;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.Timer;
 
 public class Combat extends JFrame {
 
@@ -39,7 +51,7 @@ public class Combat extends JFrame {
         HeroHP = Integer.parseInt(HeroHPArrayList);
     }
 
-    public void CombatEncouter() throws IOException {
+    public void CombatEncouter() throws IOException, InterruptedException {
         Object randomMonster = MonsterSelector.selectRandomMonster();
         MainGameScreen myMainGameScreen = new MainGameScreen();
 
@@ -229,11 +241,12 @@ public class Combat extends JFrame {
                 MainGameScreen.CombatMessageArea.setText(combatLog.toString());
             }
         });
-    
-    
+
+
 
 CombatRunButton.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
+    @Override
+	public void actionPerformed(ActionEvent e) {
         Random random = new Random();
         int runChance = random.nextInt(100); // Generate a random number between 0 and 99
         int agility = myChar.getAgility();  // Get the character's agility
@@ -250,7 +263,7 @@ CombatRunButton.addActionListener(new ActionListener() {
 });
 
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         try {
             new Combat().CombatEncouter();
         } catch (IOException e) {

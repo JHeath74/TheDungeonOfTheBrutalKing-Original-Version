@@ -115,7 +115,7 @@ public class GameSettings {
 
     /**
      * Loads an image from the specified file path.
-     * 
+     *
      * @param fileName The path to the image file.
      * @return The loaded BufferedImage, or null if an error occurs.
      */
@@ -143,7 +143,7 @@ public class GameSettings {
 
     /**
      * Plays a music file from the specified file path.
-     * 
+     *
      * @param fileName The name of the music file to play.
      * @throws LineUnavailableException If the audio line is unavailable.
      * @throws UnsupportedAudioFileException If the audio file format is unsupported.
@@ -163,7 +163,7 @@ public class GameSettings {
 
     /**
      * Returns a singleton instance of the GameSettings class.
-     * 
+     *
      * @return The singleton instance of GameSettings.
      */
     public static GameSettings Singleton() {

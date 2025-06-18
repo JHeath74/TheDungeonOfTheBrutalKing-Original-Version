@@ -2,8 +2,9 @@
 package Spells;
 
 
-import DungeonoftheBrutalKing.Charecter;
 import java.util.Random;
+
+import DungeonoftheBrutalKing.Charecter;
 
 public abstract class Conjure_Food implements Spells {
 
@@ -11,7 +12,7 @@ public abstract class Conjure_Food implements Spells {
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
     private static Charecter myChar = Charecter.Singleton();
-    
+
     public Conjure_Food() {
         super(); // Explicitly call the constructor of the Spells class
     }

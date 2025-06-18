@@ -1,32 +1,39 @@
 
-package NPC;
+package NPC.DerRathskellerBarAndGrille;
 
-import javax.swing.*;
-
-import DungeonoftheBrutalKing.GameSettings;
-import DungeonoftheBrutalKing.MainGameScreen;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
+import DungeonoftheBrutalKing.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
+
 public class InnBackroom {
-    public static void loadBackroom() throws IOException {
-    	
+    public static void loadBackroom() throws IOException, InterruptedException {
+
     	GameSettings myGameSettings = new GameSettings();
     	MainGameScreen myMainGameScreen = new MainGameScreen();
-    	
+
         // Create the main frame
         JFrame frame = new JFrame("Inn Backroom");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLayout(new BorderLayout());
 
         // Add the picture at the top
 
      // Add the picture at the top
-	     ImageIcon originalIcon = new ImageIcon(myGameSettings.NPCImagePath + "Innkeeper - Backroom.jpeg");
+	     ImageIcon originalIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - Backroom.jpeg");
 	     Image resizedImage = originalIcon.getImage().getScaledInstance(640, 480, Image.SCALE_SMOOTH);
 	     ImageIcon resizedIcon = new ImageIcon(resizedImage);
 	     JLabel pictureLabel = new JLabel(resizedIcon);
@@ -47,7 +54,7 @@ public class InnBackroom {
         buyWeaponButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               
+
                 myMainGameScreen.setMessageTextPane("\nYou bought a Weapon.");
             }
         });
@@ -84,7 +91,7 @@ public class InnBackroom {
 
      // Adjust the frame size to fit its contents
         frame.pack();
-        
+
         // Make the frame visible
         frame.setVisible(true);
     }

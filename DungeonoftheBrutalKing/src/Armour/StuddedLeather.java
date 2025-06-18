@@ -12,7 +12,7 @@ public class StuddedLeather extends ArmourManager {
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
     private static final String effect = "None";
-	
+
 	   public StuddedLeather(int requiredStrength, int armourDefense, String effect) {
 	        super("Skin", requiredStrength, armourDefense, effect);
 	        StuddedLeather.armourDefense = 15;
@@ -37,7 +37,8 @@ public class StuddedLeather extends ArmourManager {
          throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName();
     }
 
@@ -46,7 +47,8 @@ public class StuddedLeather extends ArmourManager {
     }
 
 
-    public int getArmourDefense() {
+    @Override
+	public int getArmourDefense() {
         return super.getArmourDefense();
     }
 
@@ -54,7 +56,8 @@ public class StuddedLeather extends ArmourManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

@@ -23,7 +23,7 @@ public class LoadSaveGame2 {
     // Method to save the game state with encryption
     public void saveGameWithEncryption() throws IOException {
         String savedGameName = "EncryptedGameSave.txt"; // Name of the save file
-        String saveFilePath = myGameSettings.SavedGameDirectory + savedGameName; // Full path to the save file
+        String saveFilePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the save file
 
         FileWriter writer = new FileWriter(saveFilePath); // Create a FileWriter to write to the file
 
@@ -45,7 +45,7 @@ public class LoadSaveGame2 {
     // Method to load the game state with decryption
     public void loadGameWithDecryption() throws IOException {
         String savedGameName = "EncryptedGameSave.txt"; // Name of the save file
-        String saveFilePath = myGameSettings.SavedGameDirectory + savedGameName; // Full path to the save file
+        String saveFilePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the save file
 
         BufferedReader reader = new BufferedReader(new FileReader(saveFilePath)); // Create a BufferedReader to read the file
         ArrayList<String> decryptedData = new ArrayList<>(); // List to store decrypted data
@@ -75,7 +75,7 @@ public class LoadSaveGame2 {
     // Method to auto-save the game state
     public void AutoSaveGame() throws IOException {
         String savedGameName = "AutoGameSave.txt"; // Name of the auto-save file
-        String autoSaveGamePath = myGameSettings.SavedGameDirectory + savedGameName; // Full path to the auto-save file
+        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the auto-save file
 
         try (FileWriter writer = new FileWriter(autoSaveGamePath)) { // Create a FileWriter to write to the file
             for (String charInfo : myChar.CharInfo) {
@@ -90,7 +90,7 @@ public class LoadSaveGame2 {
     // Method to auto-load the game state
     public void AutoLoadGame() throws IOException {
         String savedGameName = "AutoGameSave.txt"; // Name of the auto-save file
-        String autoSaveGamePath = myGameSettings.SavedGameDirectory + savedGameName; // Full path to the auto-save file
+        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the auto-save file
 
         try (BufferedReader reader = new BufferedReader(new FileReader(autoSaveGamePath))) { // Create a BufferedReader to read the file
             myChar.CharInfo.clear(); // Clear existing character info
@@ -107,7 +107,7 @@ public class LoadSaveGame2 {
     // Method to load the character data from the most recently modified save file
     public void StartGameLoadCharecter() throws IOException {
         ArrayList<String> SaveLoadChar = new ArrayList<>(); // List to store loaded character data
-        File chosenFile = getLastModified(myGameSettings.SavedGameDirectory); // Get the most recently modified file
+        File chosenFile = getLastModified(GameSettings.SavedGameDirectory); // Get the most recently modified file
 
         try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) { // Create a BufferedReader to read the file
             String line = bufReader.readLine();

@@ -23,7 +23,7 @@ public class Assassin extends Enemies {
 
     // EffectManager instance to manage effects applied to the Assassin
     private EffectManager effectManager = new EffectManager();
-    
+
     GameSettings myGameSettings = new GameSettings();
 
     // Constructor to initialize an Assassin with a specific name
@@ -37,7 +37,7 @@ public class Assassin extends Enemies {
         this.agility = 7; // Initial agility
         this.intelligence = 6; // Initial intelligence
         this.wisdom = 3; // Initial wisdom
-        this.imagePath = myGameSettings.MonsterImagePath + "Assassin.png"; // Path to the Assassin's image
+        this.imagePath = GameSettings.MonsterImagePath + "Assassin.png"; // Path to the Assassin's image
     }
 
     // Default constructor to initialize an Assassin with default values
@@ -70,17 +70,20 @@ public class Assassin extends Enemies {
     }
 
     // Method to check if the Assassin is dead
-    public boolean isDead() {
+    @Override
+	public boolean isDead() {
         return this.hitPoints <= 0; // Return true if hit points are 0 or less
     }
 
     // Method to calculate the Assassin's attack strength
-    public int attack() {
+    @Override
+	public int attack() {
         return (int) ((strength * 1.5) + (agility * 0.5)); // Calculate attack strength based on stats
     }
 
     // Getter for the image path of the Assassin
-    public String getImagePath() {
+    @Override
+	public String getImagePath() {
         return imagePath;
     }
 

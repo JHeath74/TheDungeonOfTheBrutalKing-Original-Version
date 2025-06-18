@@ -2,18 +2,43 @@
 // src/DungeonoftheBrutalKing/CharacterCreation.java
 package DungeonoftheBrutalKing;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Scanner;
 
-import CharecterClass.*;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+
+import CharecterClass.Bard;
+import CharecterClass.Cleric;
+import CharecterClass.Hunter;
+import CharecterClass.Paladin;
+import CharecterClass.Rogue;
+import CharecterClass.Warrior;
 
 // Class responsible for character creation functionality
 public class CharacterCreation {
@@ -220,7 +245,10 @@ public class CharacterCreation {
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(null, "Error:\n " + e1);
                     e1.printStackTrace();
-                }
+                } catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
 
@@ -321,35 +349,42 @@ public class CharacterCreation {
         return baseHP * ((stat[2] * 2) + stat[0]);
     }
 
-    // Method to calculate character magic points based on stats and class
-    public int ToonMP(Integer stat[], ArrayList<String> newChar) {
-        String Class = newChar.get(1);
-        Integer baseMP = 0;
-        switch (Class) {
-            case "Paladin":
-                baseMP = 14;
-                break;
-            case "Cleric":
-                baseMP = 20;
-                break;
-            case "Rogue":
-                baseMP = 8;
-                break;
-            case "Hunter":
-                baseMP = 3;
-                break;
-            case "Warrior":
-                baseMP = 2;
-                break;
-            case "Bard":
-                baseMP = 12;
-                break;
-            default:
-                baseMP = 1;
-                break;
-        }
-        return baseMP + ((stat[3] * 2) + stat[4]);
-    }
+
+ // Method to calculate character magic points or action points based on stats and class
+ public int ToonMP(Integer[] stat, ArrayList<String> newChar) {
+     String characterClass = newChar.get(1); // Get the character's class
+     int points;
+
+     if (isMagicUser(characterClass)) {
+         points = calculateMagicPoints(stat, characterClass); // Assign magic points
+     } else {
+         points = ToonActionPoints(stat); // Assign action points
+     }
+
+     return points;
+ }
+
+ // Helper method to check if the class is a magic user
+ boolean isMagicUser(String characterClass) {
+     return Arrays.asList("Cleric", "Paladin", "Bard").contains(characterClass);
+ }
+
+ // Method to calculate magic points for magic users
+ private int calculateMagicPoints(Integer[] stat, String characterClass) {
+     int baseMP = switch (characterClass) {
+         case "Paladin" -> 14;
+         case "Cleric" -> 20;
+         case "Bard" -> 12;
+         default -> 1;
+     };
+     return baseMP + ((stat[3] * 2) + stat[4]);
+ }
+
+ // Method to calculate action points for non-magic users
+ public int ToonActionPoints(Integer[] stat) {
+     return (stat[2] * 2) + stat[5]; // Example formula for action points
+ }
+
 
     // Method to generate random gold for the character
     public Integer gold() {
@@ -364,7 +399,7 @@ public class CharacterCreation {
         if (classImageLabel != null) {
             ClassInfoAndImagePanel.remove(classImageLabel);
         }
-        ClassImagePicture = ImageIO.read(new File(myGameSettings.ClassImagesPath + classImage + ".png"));
+        ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
         classImageLabel = new JLabel();
         classImageLabel.setSize(ClassInfoAndImagePanel.getWidth(), ClassInfoAndImagePanel.getHeight());
         Image newClassImagePicture = ClassImagePicture.getScaledInstance(640, 480, Image.SCALE_SMOOTH);

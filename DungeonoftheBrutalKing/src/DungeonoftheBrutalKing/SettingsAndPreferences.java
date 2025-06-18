@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing;
 
 public class SettingsAndPreferences {
 
-	public SettingsAndPreferences() 
+	public SettingsAndPreferences()
 	{
 
 	}
@@ -16,12 +16,12 @@ public class SettingsAndPreferences {
 	{
 
 	}
-	
+
 	public void SoundSettings()
 	{
-		
+
 	}
 
-	
+
 
 }

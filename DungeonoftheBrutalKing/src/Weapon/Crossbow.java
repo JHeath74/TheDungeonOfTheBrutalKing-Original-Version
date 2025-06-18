@@ -11,17 +11,20 @@ public class Crossbow extends WeaponManager {
     private static double weight = 20.0;
 	private static int damage = 20;
 	private static String weaponName = "Crossbow";
-    
 
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+
+    @Override
+	public void setWeight(double weight) {
+        Crossbow.weight = weight;
     }
-    
-    public double getWeight() {
+
+    @Override
+	public double getWeight() {
 		return weight;
 	}
 
+	@Override
 	public double getDamage() {
 		return damage;
 	}
@@ -50,12 +53,13 @@ public class Crossbow extends WeaponManager {
     }
 
     // Getters and Setters
-    public String getName() {
+    @Override
+	public String getName() {
         return name;
     }
 
     public int getRequiredStrength() {
-       
+
         return REQUIRED_STRENGTH;
     }
 
@@ -63,7 +67,8 @@ public class Crossbow extends WeaponManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

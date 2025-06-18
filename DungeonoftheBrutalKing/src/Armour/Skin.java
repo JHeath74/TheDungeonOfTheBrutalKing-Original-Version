@@ -12,7 +12,7 @@ public class Skin extends ArmourManager {
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
     private static final String effect = "None";
-	
+
 	   public Skin(int requiredStrength, int armourDefense, String effect) {
 	        super("Skin", requiredStrength, armourDefense, effect);
 	        Skin.armourDefense = 15;
@@ -24,7 +24,7 @@ public class Skin extends ArmourManager {
         Skin.armourDefense = 15;
     }
 
- 
+
 
     public static Skin createSkin(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
     	 int requiredStrength = REQUIRED_STRENGTH;
@@ -39,7 +39,8 @@ public class Skin extends ArmourManager {
          throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName();
     }
 
@@ -48,7 +49,8 @@ public class Skin extends ArmourManager {
     }
 
 
-    public int getArmourDefense() {
+    @Override
+	public int getArmourDefense() {
         return super.getArmourDefense();
     }
 
@@ -56,7 +58,8 @@ public class Skin extends ArmourManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

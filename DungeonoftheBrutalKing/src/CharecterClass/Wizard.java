@@ -32,12 +32,12 @@ public class Wizard extends Class {
 
 	public static String ClassDescription()
 	{
-		return ClassDescription = "A " + Wizard.charClass + " is a master of arcane magic," 
+		return ClassDescription = "A " + Wizard.charClass + " is a master of arcane magic,"
 			+	"shaping the fabric of reality through sheer intellect and rigorous study."
 			+	"With their spellbook as a constant companion, "
 			+	"they wield a vast array of powerful spells, excelling in versatility and utility."
 			+	Wizard.charClass +  "thrive in roles requiring control, damage, or problem-solving, "
-			+	"prowess and boosting their effectiveness in arcane knowledge and skill checks." 
+			+	"prowess and boosting their effectiveness in arcane knowledge and skill checks."
 			+	"While physically frail, their mental acuity and deep magical expertise make them "
 			+	"an indispensable asset to any adventuring party.";
 

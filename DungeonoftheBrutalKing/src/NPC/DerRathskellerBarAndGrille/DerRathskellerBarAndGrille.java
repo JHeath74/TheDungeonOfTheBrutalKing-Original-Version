@@ -1,18 +1,27 @@
 
-package NPC;
+package NPC.DerRathskellerBarAndGrille;
 
-import javax.sound.sampled.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import DungeonoftheBrutalKing.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.MusicPlayer;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 public class DerRathskellerBarAndGrille extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -28,7 +37,7 @@ public DerRathskellerBarAndGrille(JPanel mainPanel2) {
     mainPanel.setLayout(new BorderLayout());
 
  //   myMainGameScreen.replaceWithAnyPanel(mainPanel);
-    
+
     // Add welcome message
     JLabel welcomeLabel = new JLabel("Welcome to DerRathskellerBarAndGrille!", SwingConstants.CENTER);
     welcomeLabel.setFont(new Font("Serif", Font.BOLD, 18));
@@ -42,7 +51,7 @@ public DerRathskellerBarAndGrille(JPanel mainPanel2) {
 
     add(mainPanel); // Add the main panel to the JFrame
     pack();
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setVisible(true);
 }
 
@@ -85,7 +94,10 @@ private void displayImage() {
                 loadInnBackroom();
             } catch (IOException e1) {
                 e1.printStackTrace();
-            }
+            } catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
         leaveButton.addActionListener(e -> myMainGameScreen.setMessageTextPane("You leave the inn.\n"));
 
@@ -113,19 +125,24 @@ private void displayImage() {
 
     private void loadInformationProvider() {
         SwingUtilities.invokeLater(() -> {
-            new InformationProvider().setVisible(true); // Display the InformationProvider GUI
+            try {
+				new InformationProvider().setVisible(true);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} // Display the InformationProvider GUI
         });
     }
 
     private void loadInnkeeper() {
         Innkeeper innkeeper = new Innkeeper(mainPanel, displayArea);
         innkeeper.setupUI();
-        
+
     }
-    
-    private void loadInnBackroom() throws IOException {
+
+    private void loadInnBackroom() throws IOException, InterruptedException {
     	InnBackroom myInnBackroom = new InnBackroom();
-    	myInnBackroom.loadBackroom();
+    	InnBackroom.loadBackroom();
     }
 
     private void initializeInnLocation() {

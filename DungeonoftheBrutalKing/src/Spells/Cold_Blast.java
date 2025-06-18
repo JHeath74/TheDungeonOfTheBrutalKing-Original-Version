@@ -2,8 +2,9 @@
 package Spells;
 
 
-import DungeonoftheBrutalKing.Charecter;
 import java.util.Random;
+
+import DungeonoftheBrutalKing.Charecter;
 
 public abstract class Cold_Blast implements Spells {
 

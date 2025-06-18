@@ -1,306 +1,514 @@
 
-// MainGameScreen.java
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.text.ParseException;
+import java.util.Objects;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.StyledDocument;
+import javax.swing.text.*;
+
+import Quests.Quest;
+import Quests.QuestManager;
 
 public class MainGameScreen extends JFrame {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    // Singleton instance of the character
-    Charecter myChar = Charecter.Singleton();
-    GameSettings myGameSettings = new GameSettings();
-    LoadSaveGame myGameState = new LoadSaveGame();
-    GameMenuItems myGameMenuItems = new GameMenuItems();
-    CharacterCreation myCharacterCreation;
+	private static MainGameScreen instance;
 
-    // Main frame and panels for the game screen
-    JFrame MainGameScreenFrame = null;
-    JPanel p1Panel, p2Panel, p3Panel, p4Panel = null;
-    public JPanel GameImagesAndCombatPanel = null;
-    private JPanel originalPanel;
+	Charecter myChar = Charecter.Singleton();
+	GameSettings myGameSettings = new GameSettings();
+	LoadSaveGame myGameState = new LoadSaveGame();
+	GameMenuItems myGameMenuItems = new GameMenuItems();
+	CharacterCreation myCharacterCreation = new CharacterCreation();
+	private QuestManager questManager = new QuestManager(myChar);
 
-    // Text fields for displaying character stats
-    JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
-    JTextPane MessageTextPane = null;
+	JFrame MainGameScreenFrame = null;
+	JPanel p1Panel, p2Panel, p3Panel, p4Panel = null;
+	public JPanel GameImagesAndCombatPanel = null;
+	private JPanel originalPanel;
 
-    // Menu bar and menu items
-    JMenuBar menuBar = null;
-    JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
-    JMenuItem newGameMenuItem, LoadSavedGameMenuItem, saveMenuItem, exitGameMenuItem, charecterstatsMenuItem,
-            charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem, aboutMenuItem, helpMenuItem, mapFloor1MenuItem,
-            mapFloor2MenuItem, mapFloor3MenuItem, mapFloor4MenuItem = null;
+	JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
+	JTextPane MessageTextPane = null;
 
-    // Split pane for dividing the game screen
-    JSplitPane PicturesAndTextUpdatesPane = null;
+	JMenuBar menuBar = null;
+	JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
+	JMenuItem newGameMenuItem, LoadSavedGameMenuItem, saveMenuItem, exitGameMenuItem, charecterstatsMenuItem,
+	charecterinventoryMenuItem, mapMenu, gameSettingsMenuItem, aboutMenuItem, helpMenuItem, mapFloor1MenuItem,
+	mapFloor2MenuItem, mapFloor3MenuItem, mapFloor4MenuItem, displayActiveQuestsMenuItem = null;
 
-    // Screen dimensions
-    Dimension screenSize = null;
-    int width, height = 0;
+	JSplitPane PicturesAndTextUpdatesPane = null;
 
-    // Timer for updating character stats
-    Timer timer = null;
-    private TimeClock clock;
-    private Canvas gameImagesAndCombatCanvas;
-    public static JTextArea CombatMessageArea = new JTextArea();
+	Dimension screenSize = null;
+	int width, height = 0;
 
-    // Constructor for initializing the game screen
-    public MainGameScreen() throws IOException {
-        // Create the main frame
-        MainGameScreenFrame = new JFrame("Dungeon of the Brutal King");
+	Timer timer = null;
+	private TimeClock clock;
+	private Canvas gameImagesAndCombatCanvas;
+	public static JTextArea CombatMessageArea = new JTextArea();
 
-        // Set screen dimensions
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        width = (int) size.getWidth();
-        height = (int) size.getHeight();
+	public static MainGameScreen getInstance() throws IOException, InterruptedException {
+		if (instance == null) {
+			instance = new MainGameScreen();
+		}
+		return instance;
+	}
 
-        // Configure the main frame
-        MainGameScreenFrame.setSize(width, height);
-        MainGameScreenFrame.setLayout(new BorderLayout());
-        MainGameScreenFrame.setForeground(myGameSettings.colorBrown);
-        MainGameScreenFrame.setUndecorated(true);
-        MainGameScreenFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	public MainGameScreen() throws IOException, InterruptedException {
+		myCharacterCreation = new CharacterCreation();
 
-        // Initialize panels
-        p1Panel = new JPanel(new BorderLayout());
-        p2Panel = new JPanel(new BorderLayout());
-        p3Panel = new JPanel(new BorderLayout());
-        p4Panel = new JPanel(new BorderLayout());
-        GameImagesAndCombatPanel = new JPanel(new BorderLayout());
 
-        // Load character data
-        try {
-            myGameState.StartGameLoadCharecter();
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        }
+		// MainGameScreen.java
+		//QuestManager questManager = new QuestManager(myChar);
+	//	questManager.displayActiveQuests(); // Generate and display quests for dungeon level 1
 
-        // Initialize text fields for character stats
-        CharNameClassLevelField = new JTextField();
-        CharNameClassLevelField.setFont(myGameSettings.fontTimesNewRoman);
-        CharNameClassLevelField.setBackground(myGameSettings.colorGreen);
-        CharNameClassLevelField.setForeground(myGameSettings.colorWhite);
-        CharNameClassLevelField.setColumns(3);
-        CharNameClassLevelField.setEditable(false);
 
-        CharStatsField = new JTextField();
-        CharStatsField.setLayout(new FlowLayout());
-        CharStatsField.setFont(myGameSettings.fontTimesNewRoman);
-        CharStatsField.setBackground(myGameSettings.colorBlue);
-        CharStatsField.setForeground(myGameSettings.colorWhite);
-        CharStatsField.setEditable(false);
+		MessageTextPane = new JTextPane();
+		MessageTextPane.setEditable(false);
+		MessageTextPane.setFont(new Font("Arial", Font.PLAIN, 14));
 
-        CharStats2Field = new JTextField();
-        CharStats2Field.setLayout(new FlowLayout());
-        CharStats2Field.setFont(myGameSettings.fontTimesNewRoman);
-        CharStats2Field.setBackground(myGameSettings.colorBlue);
-        CharStats2Field.setForeground(myGameSettings.colorWhite);
-        CharStats2Field.setEditable(false);
+		MainGameScreenFrame = new JFrame("Dungeon of the Brutal King");
 
-        CharXPHPGoldField = new JTextField();
-        CharXPHPGoldField.setLayout(getLayout());
-        CharXPHPGoldField.setFont(myGameSettings.fontTimesNewRoman);
-        CharXPHPGoldField.setBackground(myGameSettings.colorPurple);
-        CharXPHPGoldField.setForeground(myGameSettings.colorWhite);
-        CharXPHPGoldField.setColumns(3);
-        CharXPHPGoldField.setEditable(false);
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		width = (int) size.getWidth();
+		height = (int) size.getHeight();
 
-        // Add panels and text fields to the layout
-        p1Panel.add(p2Panel, BorderLayout.NORTH);
-        p1Panel.add(p3Panel, BorderLayout.CENTER);
-        p1Panel.add(p4Panel, BorderLayout.SOUTH);
-        p2Panel.add(CharNameClassLevelField);
-        p3Panel.add(CharStatsField, BorderLayout.NORTH);
-        p3Panel.add(CharStats2Field, BorderLayout.SOUTH);
-        p4Panel.add(CharXPHPGoldField);
+		MainGameScreenFrame.setSize(width, height);
+		MainGameScreenFrame.setLayout(new BorderLayout());
+		MainGameScreenFrame.setForeground(myGameSettings.colorBrown);
+		MainGameScreenFrame.setUndecorated(true);
+		MainGameScreenFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        // Timer for updating character stats periodically
-        ActionListener task = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                // Update character stats in the text fields
-                CharNameClassLevelField.setText("Name: " + myChar.CharInfo.get(0) + "\t\t"
-                        + "Level: " + myChar.CharInfo.get(2) + "\t\t"
-                        + "Experience: " + myChar.CharInfo.get(3)
-                        + "\t\t" + "Class: " + myChar.CharInfo.get(1) + "\t\t");
+		p1Panel = new JPanel(new BorderLayout());
+		p2Panel = new JPanel(new BorderLayout());
+		p3Panel = new JPanel(new BorderLayout());
+		p4Panel = new JPanel(new BorderLayout());
+		GameImagesAndCombatPanel = new JPanel(new BorderLayout());
 
-                CharStatsField.setText("Stamina:\t"
-                        + "Charisma: \t"
-                        + "Strength: \t"
-                        + "Intelligence:\t "
-                        + "Wisdom: \t"
-                        + "Agility: \t");
+		try {
+			myGameState.StartGameLoadCharecter();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
 
-                CharStats2Field.setText(myChar.CharInfo.get(6) + "\t" +
-                        myChar.CharInfo.get(7) + "\t" +
-                        myChar.CharInfo.get(8) + "\t" +
-                        myChar.CharInfo.get(9) + "\t" +
-                        myChar.CharInfo.get(10) + "\t" +
-                        myChar.CharInfo.get(11));
+		CharNameClassLevelField = new JTextField();
+		CharNameClassLevelField.setFont(myGameSettings.fontTimesNewRoman);
+		CharNameClassLevelField.setBackground(myGameSettings.colorGreen);
+		CharNameClassLevelField.setForeground(myGameSettings.colorWhite);
+		CharNameClassLevelField.setColumns(3);
+		CharNameClassLevelField.setEditable(false);
 
-                CharXPHPGoldField.setText("Hit Points: " + myChar.CharInfo.get(4) + "\t\t"
-                        + "Magic Points: " + myChar.CharInfo.get(5) + "\t"
-                        + "Gold: " + myChar.CharInfo.get(12) + "\t"
-                        + "Food: " + myChar.CharInfo.get(13) + "\t"
-                        + "Water: " + myChar.CharInfo.get(14) + "\t"
-                        + "Torches: " + myChar.CharInfo.get(15) + "\t"
-                        + "Gems: " + myChar.CharInfo.get(16) + "\t");
-            }
-        };
-        timer = new Timer(100, task);
-        timer.setRepeats(true);
-        timer.start();
+		CharStatsField = new JTextField();
+		CharStatsField.setLayout(new FlowLayout());
+		CharStatsField.setFont(myGameSettings.fontTimesNewRoman);
+		CharStatsField.setBackground(myGameSettings.colorBlue);
+		CharStatsField.setForeground(myGameSettings.colorWhite);
+		CharStatsField.setEditable(false);
 
-        // Initialize menu bar and menus
-        menuBar = new JMenuBar();
-        menuBar.setPreferredSize(new Dimension(25, 35));
-        menuBar.setFont(new Font("sans-serif", Font.ROMAN_BASELINE, 22));
-        menuBar.setBackground(myGameSettings.colorPlum);
+		CharStats2Field = new JTextField();
+		CharStats2Field.setLayout(new FlowLayout());
+		CharStats2Field.setFont(myGameSettings.fontTimesNewRoman);
+		CharStats2Field.setBackground(myGameSettings.colorBlue);
+		CharStats2Field.setForeground(myGameSettings.colorWhite);
+		CharStats2Field.setEditable(false);
 
-        MainGameScreenFrame.setJMenuBar(menuBar);
+		CharXPHPGoldField = new JTextField();
+		CharXPHPGoldField.setLayout(getLayout());
+		CharXPHPGoldField.setFont(myGameSettings.fontTimesNewRoman);
+		CharXPHPGoldField.setBackground(myGameSettings.colorPurple);
+		CharXPHPGoldField.setForeground(myGameSettings.colorWhite);
+		CharXPHPGoldField.setColumns(3);
+		CharXPHPGoldField.setEditable(false);
 
-        gameMenu = new JMenu("Game");
-        gameMenu.setMnemonic(KeyEvent.VK_G);
+		p1Panel.add(p2Panel, BorderLayout.NORTH);
+		p1Panel.add(p3Panel, BorderLayout.CENTER);
+		p1Panel.add(p4Panel, BorderLayout.SOUTH);
+		p2Panel.add(CharNameClassLevelField);
+		p3Panel.add(CharStatsField, BorderLayout.NORTH);
+		p3Panel.add(CharStats2Field, BorderLayout.SOUTH);
+		p4Panel.add(CharXPHPGoldField);
 
-        charecterMenu = new JMenu("Charecter");
-        charecterMenu.setMnemonic(KeyEvent.VK_C);
+		ActionListener task = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				CharNameClassLevelField.setText("Name: " + myChar.CharInfo.get(0) + "\t\t"
+						+ "Level: " + myChar.CharInfo.get(2) + "\t\t"
+						+ "Experience: " + myChar.CharInfo.get(3)
+						+ "\t\t" + "Class: " + myChar.CharInfo.get(1) + "\t\t");
 
-        settingsMenu = new JMenu("Preferences");
-        settingsMenu.setMnemonic(KeyEvent.VK_P);
+				CharStatsField.setText("Stamina:\t"
+						+ "Charisma: \t"
+						+ "Strength: \t"
+						+ "Intelligence:\t "
+						+ "Wisdom: \t"
+						+ "Agility: \t");
 
-        helpMenu = new JMenu("About");
-        helpMenu.setMnemonic(KeyEvent.VK_H);
+				CharStats2Field.setText(myChar.CharInfo.get(6) + "\t" +
+						myChar.CharInfo.get(7) + "\t" +
+						myChar.CharInfo.get(8) + "\t" +
+						myChar.CharInfo.get(9) + "\t" +
+						myChar.CharInfo.get(10) + "\t" +
+						myChar.CharInfo.get(11));
 
-        menuBar.add(gameMenu);
-        menuBar.add(charecterMenu);
-        menuBar.add(settingsMenu);
-        menuBar.add(helpMenu);
+				CharXPHPGoldField.setText("Hit Points: " + myChar.CharInfo.get(4) + "\t\t"
+						+ "Action Points: " + myChar.CharInfo.get(5) + "\t"
+						+ "Gold: " + myChar.CharInfo.get(12) + "\t"
+						+ "Food: " + myChar.CharInfo.get(13) + "\t"
+						+ "Water: " + myChar.CharInfo.get(14) + "\t"
+						+ "Torches: " + myChar.CharInfo.get(15) + "\t"
+						+ "Gems: " + myChar.CharInfo.get(16) + "\t");
+			}
+		};
+		timer = new Timer(100, task);
+		timer.setRepeats(true);
+		timer.start();
 
-        // Add menu items to the game menu
-        newGameMenuItem = new JMenuItem("New Game");
-        newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
-        newGameMenuItem.getAccessibleContext().setAccessibleDescription("New Game");
-        newGameMenuItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Confirm and start a new game
-                int result = JOptionPane.showConfirmDialog(rootPane,
-                        "Are you sure you wish to delete your current game and start a new one?", "Start New Game?",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-                if (result == JOptionPane.YES_OPTION) {
-                    dispose();
-                    try {
-                        Files.createDirectories(Paths.get("src/AlternateRealityTheDungeon/TextFiles/SaveGame"));
-                        BufferedWriter writer = Files.newBufferedWriter(Paths
-                                .get("src/AlternateRealityTheDungeon/TextFiles/SaveGame/InitialCharecterSave.txt"));
-                        writer.write("");
-                        writer.flush();
-                        writer.close();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
+		// Java
+		menuBar = new JMenuBar();
+		menuBar.setPreferredSize(new Dimension(25, 35));
+		menuBar.setFont(new Font("sans-serif", Font.ROMAN_BASELINE, 22));
+		menuBar.setBackground(myGameSettings.colorPlum);
 
-                    File d = new File(GameSettings.SavedGameDirectory);
-                    for (File file : d.listFiles()) {
-                        if (!file.isDirectory()) {
-                            file.delete();
-                        }
-                    }
-                    try {
-                        myCharacterCreation = new CharacterCreation();
-                    } catch (IOException | InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                    myCharacterCreation.createCharector();
-                }
-            }
-        });
+		// Create menus
+		gameMenu = new JMenu("Game");
+		gameMenu.setMnemonic(KeyEvent.VK_G);
 
-        gameMenu.add(newGameMenuItem);
+		charecterMenu = new JMenu("Character");
+		charecterMenu.setMnemonic(KeyEvent.VK_C);
 
-        // Configure split pane for game screen layout
-        PicturesAndTextUpdatesPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        PicturesAndTextUpdatesPane.setDividerLocation(width - 200);
-        PicturesAndTextUpdatesPane.setResizeWeight(.90d);
-        PicturesAndTextUpdatesPane.setLeftComponent(GameImagesAndCombatPanel);
-        PicturesAndTextUpdatesPane.setRightComponent(MessageTextPane);
+		settingsMenu = new JMenu("Preferences");
+		settingsMenu.setMnemonic(KeyEvent.VK_P);
 
-        MainGameScreenFrame.add(PicturesAndTextUpdatesPane, BorderLayout.CENTER);
-        MainGameScreenFrame.add(p1Panel, BorderLayout.NORTH);
+		helpMenu = new JMenu("About");
+		helpMenu.setMnemonic(KeyEvent.VK_H);
 
-        // Start the game clock
-        clock = new TimeClock(TimeClock.Month.REBIRTH, MessageTextPane);
-        clock.startClock();
+		// Add menus to the menuBar
+		menuBar.add(gameMenu);
+		menuBar.add(charecterMenu);
+		menuBar.add(settingsMenu);
+		menuBar.add(helpMenu);
 
-        // Make the frame visible
-        MainGameScreenFrame.setVisible(true);
-    }
+		// Set the menuBar to the frame
+		MainGameScreenFrame.setJMenuBar(menuBar);
 
-    // Set the message text pane
-    public void setMessageTextPane(JTextPane messageTextPane) {
-        MessageTextPane = messageTextPane;
-    }
 
-    // Append text to the message text pane
-    public void setMessageTextPane(String string) {
-        appendToMessageTextPane(string);
-    }
 
-    public void appendToMessageTextPane(String text) {
-        StyledDocument doc = MessageTextPane.getStyledDocument();
-        try {
-            doc.insertString(doc.getLength(), text, null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-    }
+		// Java
+		// Add missing menu items to the respective menus
 
-    // Replace the left panel with a new panel
-    public void replaceWithAnyPanel(JPanel newPanel) {
-        if (newPanel != null) {
-            if (originalPanel == null) {
-                originalPanel = (JPanel) PicturesAndTextUpdatesPane.getLeftComponent();
-            }
-            PicturesAndTextUpdatesPane.setLeftComponent(newPanel);
-            PicturesAndTextUpdatesPane.revalidate();
-            PicturesAndTextUpdatesPane.repaint();
-        } else {
-            throw new IllegalArgumentException("Panel cannot be null");
-        }
-    }
+		// Game Menu Items
+		newGameMenuItem = new JMenuItem("New Game");
+		newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
+		newGameMenuItem.getAccessibleContext().setAccessibleDescription("Start a new game");
+		newGameMenuItem.addActionListener(e -> {
+			int result = JOptionPane.showConfirmDialog(rootPane,
+					"Are you sure you wish to delete your current game and start a new one?", "Start New Game?",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-    // Restore the original left panel
-    public void restoreOriginalPanel() {
-        if (originalPanel != null) {
-            PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
-            PicturesAndTextUpdatesPane.revalidate();
-            PicturesAndTextUpdatesPane.repaint();
-        } else {
-            throw new IllegalStateException("No original panel to restore.");
-        }
-    }
+			if (result == JOptionPane.YES_OPTION) {
+				dispose();
+				try {
+					Files.createDirectories(Paths.get("src/AlternateRealityTheDungeon/TextFiles/SaveGame"));
+					BufferedWriter writer = Files.newBufferedWriter(Paths
+							.get("src/AlternateRealityTheDungeon/TextFiles/SaveGame/InitialCharecterSave.txt"));
+					writer.write("");
+					writer.flush();
+					writer.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 
-    // Get the game images and combat panel
-    public JPanel getGameImagesAndCombatPanel() {
-        return GameImagesAndCombatPanel;
-    }
+				File d = new File(GameSettings.SavedGameDirectory);
+				for (File file : d.listFiles()) {
+					if (!file.isDirectory()) {
+						file.delete();
+					}
+				}
+				try {
+					myCharacterCreation = new CharacterCreation();
+				} catch (IOException | InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				myCharacterCreation.createCharector();
+			}
 
-    // Get the game images and combat canvas
-    public Canvas getGameImagesAndCombatCanvas() {
-        return gameImagesAndCombatCanvas;
-    }
 
-    // Main method to start the game screen
-    public static void main(String[] args) throws IOException {
-        new MainGameScreen();
-    }
+		});
+
+		LoadSavedGameMenuItem = new JMenuItem("Load Saved Game");
+		LoadSavedGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
+		LoadSavedGameMenuItem.getAccessibleContext().setAccessibleDescription("Load a saved game");
+		LoadSavedGameMenuItem.addActionListener(e -> {
+			myGameState.LoadGame();
+		});
+
+		saveMenuItem = new JMenuItem("Save Game");
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+		saveMenuItem.getAccessibleContext().setAccessibleDescription("Save the current game");
+		saveMenuItem.addActionListener(e -> {
+			try {
+				myGameState.SaveGame();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+
+		exitGameMenuItem = new JMenuItem("Exit Game");
+		exitGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
+		exitGameMenuItem.getAccessibleContext().setAccessibleDescription("Exit the game");
+		exitGameMenuItem.addActionListener(e -> {
+			System.exit(0);
+		});
+
+		// Add items to Game Menu
+		gameMenu.add(newGameMenuItem);
+		gameMenu.add(LoadSavedGameMenuItem);
+		gameMenu.add(saveMenuItem);
+		gameMenu.add(exitGameMenuItem);
+
+
+		// Character Menu Items
+		charecterstatsMenuItem = new JMenuItem("Character Stats");
+		charecterstatsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK));
+		charecterstatsMenuItem.getAccessibleContext().setAccessibleDescription("View character stats");
+		charecterstatsMenuItem.addActionListener(e -> {
+			myGameMenuItems.Stats();
+		});
+
+		charecterinventoryMenuItem = new JMenuItem("Character Inventory");
+		charecterinventoryMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
+		charecterinventoryMenuItem.getAccessibleContext().setAccessibleDescription("View character inventory");
+		charecterinventoryMenuItem.addActionListener(e -> {
+			myGameMenuItems.Inventory();
+		});
+
+		// Inside the MainGameScreen constructor
+		JMenuItem displayActiveQuestsMenuItem = new JMenuItem("Display Active Quests");
+		displayActiveQuestsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
+		displayActiveQuestsMenuItem.getAccessibleContext().setAccessibleDescription("Display Active Quests");
+		displayActiveQuestsMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.print("Active Quests:\n");
+				questManager.displayActiveQuests(); // Generate and display quests for dungeon level 1
+
+
+				/*
+				 * StringBuilder questsInfo = new StringBuilder();
+				 * questsInfo.append("Active Quests:\n"); for (Quest quest :
+				 * questManager.getActiveQuests()) {
+				 * questsInfo.append("Quest: ").append(quest.getName()).append("\n");
+				 * questsInfo.append("Description: ").append(quest.getDescription()).append(
+				 * "\n\n"); }
+				 * 
+				 * 
+				 * JOptionPane.showMessageDialog(MainGameScreenFrame, questsInfo.toString(),
+				 * "Active Quests", JOptionPane.INFORMATION_MESSAGE);
+				 */
+			}
+		});
+
+
+		// Add items to Character Menu
+		charecterMenu.add(charecterstatsMenuItem);
+		charecterMenu.add(charecterinventoryMenuItem);
+		charecterMenu.add(displayActiveQuestsMenuItem);
+
+		// Settings Menu Items
+		gameSettingsMenuItem = new JMenuItem("Game Settings");
+		gameSettingsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+		gameSettingsMenuItem.getAccessibleContext().setAccessibleDescription("Adjust game settings");
+		gameSettingsMenuItem.addActionListener(e -> {
+			// Logic for game settings
+		});
+
+		// Add items to Settings Menu
+		settingsMenu.add(gameSettingsMenuItem);
+
+		// Help Menu Items
+		aboutMenuItem = new JMenuItem("About");
+		aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
+		aboutMenuItem.getAccessibleContext().setAccessibleDescription("About the game");
+		aboutMenuItem.addActionListener(e -> {
+			JFrame frame = new JFrame("Help Information");
+			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+			JPanel p = new JPanel(new BorderLayout());
+
+			JButton helpbutton = new JButton("Click to Close");
+			helpbutton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+
+				}
+
+			});
+
+			JTextArea helptext = new JTextArea(50, 150);
+			helptext.setLineWrap(true);
+			helptext.setWrapStyleWord(true);
+			JScrollPane scrollPane = new JScrollPane(helptext);
+			scrollPane.setSize(120, 120);
+
+			try {
+				// Read some text from the resource file to display in
+				// the JTextArea.
+				helptext.read(
+						new InputStreamReader(Objects.requireNonNull(
+								getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt"))),
+						null);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			frame.add(p);
+			frame.getContentPane().add(new JScrollPane(helptext), BorderLayout.NORTH);
+			frame.setSize(120, 120);
+
+			p.add(helpbutton, BorderLayout.SOUTH);
+			helpbutton.setSize(120, 120);
+
+			frame.pack();
+			frame.setVisible(true);
+		});
+
+		helpMenuItem = new JMenuItem("Help");
+		helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
+		helpMenuItem.getAccessibleContext().setAccessibleDescription("Help information");
+		helpMenuItem.addActionListener(e -> {
+
+			JFrame frame = new JFrame("Help Information");
+			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+			JPanel p = new JPanel(new BorderLayout());
+
+			JButton helpbutton = new JButton("Click to Close");
+			helpbutton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+
+				}
+
+			});
+
+			JTextArea helptext = new JTextArea(50, 150);
+			helptext.setLineWrap(true);
+			helptext.setWrapStyleWord(true);
+
+			try {
+				// Read some text from the resource file to display in
+				// the JTextArea.
+				helptext.read(
+						new InputStreamReader(Objects.requireNonNull(
+								getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/Help.txt"))),
+						null);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
+			frame.add(p);
+			frame.getContentPane().add(new JScrollPane(helptext), BorderLayout.NORTH);
+			frame.setSize(120, 120);
+
+			p.add(helpbutton, BorderLayout.SOUTH);
+			helpbutton.setSize(120, 120);
+
+			// frame.setLocationRelativeTo(null);
+			frame.pack();
+			frame.setVisible(true);  
+
+		});
+
+		// Add items to Help Menu
+		helpMenu.add(aboutMenuItem);
+		helpMenu.add(helpMenuItem);
+
+
+		// Java
+
+
+
+		//  gameMenu.add(newGameMenuItem);
+
+		PicturesAndTextUpdatesPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		PicturesAndTextUpdatesPane.setDividerLocation(width - 200);
+		PicturesAndTextUpdatesPane.setResizeWeight(.90d);
+		PicturesAndTextUpdatesPane.setLeftComponent(GameImagesAndCombatPanel);
+		PicturesAndTextUpdatesPane.setRightComponent(MessageTextPane);
+
+		MainGameScreenFrame.add(PicturesAndTextUpdatesPane, BorderLayout.CENTER);
+		MainGameScreenFrame.add(p1Panel, BorderLayout.NORTH);
+
+
+
+		clock = new TimeClock(TimeClock.Month.REBIRTH, MessageTextPane);
+		clock.startClock();
+
+		MainGameScreenFrame.setVisible(true);
+	}
+
+	public void setMessageTextPane(JTextPane messageTextPane) {
+		MessageTextPane = messageTextPane;
+	}
+
+	public void setMessageTextPane(String string) {
+		appendToMessageTextPane(string);
+	}
+
+	public void appendToMessageTextPane(String text) {
+		StyledDocument doc = MessageTextPane.getStyledDocument();
+		try {
+			doc.insertString(doc.getLength(), text, null);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void replaceWithAnyPanel(JPanel newPanel) {
+		if (newPanel != null) {
+			if (originalPanel == null) {
+				originalPanel = (JPanel) PicturesAndTextUpdatesPane.getLeftComponent();
+			}
+			PicturesAndTextUpdatesPane.setLeftComponent(newPanel);
+			PicturesAndTextUpdatesPane.revalidate();
+			PicturesAndTextUpdatesPane.repaint();
+		} else {
+			throw new IllegalArgumentException("Panel cannot be null");
+		}
+	}
+
+	public void restoreOriginalPanel() {
+		if (originalPanel != null) {
+			PicturesAndTextUpdatesPane.setLeftComponent(originalPanel);
+			PicturesAndTextUpdatesPane.revalidate();
+			PicturesAndTextUpdatesPane.repaint();
+		} else {
+			throw new IllegalStateException("No original panel to restore.");
+		}
+	}
+
+	public JPanel getGameImagesAndCombatPanel() {
+		return GameImagesAndCombatPanel;
+	}
+
+	public Canvas getGameImagesAndCombatCanvas() {
+		return gameImagesAndCombatCanvas;
+	}
+
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+		MainGameScreen.getInstance();
+	}
 }

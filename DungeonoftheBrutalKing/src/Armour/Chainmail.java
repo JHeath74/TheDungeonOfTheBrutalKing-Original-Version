@@ -40,7 +40,8 @@ public class Chainmail extends ArmourManager {
          throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return super.getName();
     }
 
@@ -48,11 +49,13 @@ public class Chainmail extends ArmourManager {
         return Integer.parseInt(myChar.CharInfo.get(8));
     }
 
-    public void setRequiredStrength(int requiredStrength) {
+    @Override
+	public void setRequiredStrength(int requiredStrength) {
         super.setRequiredStrength(requiredStrength);
     }
 
-    public int getArmourDefense() {
+    @Override
+	public int getArmourDefense() {
         return super.getArmourDefense();
     }
 
@@ -60,7 +63,8 @@ public class Chainmail extends ArmourManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

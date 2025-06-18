@@ -3,47 +3,13 @@ package DungeonoftheBrutalKing;
 import java.util.ArrayList;
 import java.util.List;
 
-import Armour.BreastPlate;
-import Armour.Chainmail;
-import Armour.Cloth;
-import Armour.Leather;
-import Armour.Plate;
-import Armour.Skin;
-import Armour.StuddedLeather;
-import Monsters.Rat;
-import Monsters.Skeleton;
-import Monsters.Spider;
-import Shields.Magical_Shield;
-import Shields.Magical_Small_Shield;
-import Shields.Magical_Spiked_Shield;
-import Shields.Small_Shield;
-import Shields.Spiked_Shield;
-import Shields.Wooden_Shield;
-import Weapon.BattleAxe;
-import Weapon.BattleHammer;
-import Weapon.Crossbow;
-import Weapon.Dagger;
-import Weapon.Dart;
-import Weapon.Flail;
-import Weapon.Hand;
-import Weapon.Javelin;
-import Weapon.LongSword;
-import Weapon.Longbow;
-import Weapon.ShortSword;
-import Weapon.Shortbow;
-import Weapon.Sling;
-import Weapon.Stilleto;
-import Weapon.Sword;
-import Weapon.WarNet;
-import Weapon.Whip;
-
 public class Singleton
 {
 	public static final String CharInfo = null;
 	private static Singleton instance;
     private int[] charInfo = new int[25]; // Example: [x, y, z, ..., other indices]
     private static TimeClock timeClock = TimeClock.Singleton(); // Initialize the singleton instance
-    
+
     Singleton() {
         // Initialize charInfo or other necessary fields
         charInfo[0] = 0; // x
@@ -56,7 +22,7 @@ public class Singleton
 	{
 		return myChar;
 	}
-  
+
 //    public static Singleton myCharSingleton() {
 //        if (myChar == null) {
 //            myChar = new Singleton();
@@ -67,7 +33,7 @@ public class Singleton
     public int getCharInfo(int index) {
         return charInfo[index];
     }
-    
+
 	private static Charecter myChar = Charecter.Singleton();
 
 	private static WeaponManager myWeapon = WeaponManager.Singleton();
@@ -116,7 +82,7 @@ public class Singleton
 		return shieldList;
 	}
 
-	
+
 
 	  private static List<Spells> addSpells()
 	  {
@@ -195,11 +161,11 @@ public class Singleton
 	{
 		return weaponList;
 	}
-	
+
 	 public void removeEffect(String effect) {
 	        // Logic to remove the effect from the character
 	    }
-	 
+
 	 public static TimeClock Singleton() {
 		    return timeClock;
 		}

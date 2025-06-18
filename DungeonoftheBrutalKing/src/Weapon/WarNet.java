@@ -36,7 +36,8 @@ public class WarNet extends WeaponManager {
     }
 
     // Getters and Setters
-    public String getName() {
+    @Override
+	public String getName() {
         return name;
     }
 
@@ -46,7 +47,8 @@ public class WarNet extends WeaponManager {
     }
 
 
-    public double getDamage() {
+    @Override
+	public double getDamage() {
         return damage;
     }
 
@@ -56,7 +58,8 @@ public class WarNet extends WeaponManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

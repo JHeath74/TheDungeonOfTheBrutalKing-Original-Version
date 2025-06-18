@@ -1,9 +1,10 @@
 
 package Spells;
 
-import DungeonoftheBrutalKing.Spells;
-import DungeonoftheBrutalKing.Charecter;
 import java.util.Random;
+
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Spells;
 
 public class Fireball extends Spells{
 

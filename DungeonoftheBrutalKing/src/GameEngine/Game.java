@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import Maps.DungeonLevel;
@@ -17,9 +18,10 @@ import Maps.DungeonLevel2;
 import Maps.DungeonLevel3;
 import Maps.DungeonLevel4;
 
-public class Game implements Runnable {
+public class Game extends JFrame implements Runnable {
 
-    MainGameScreen myMainGameScreen = new MainGameScreen();
+	
+    MainGameScreen myMainGameScreen;
 
     private static final long serialVersionUID = 1L;
     private Thread thread;
@@ -33,25 +35,34 @@ public class Game implements Runnable {
     private int[][] map;
     private int mapWidth;
     private int mapHeight;
+    
 
-    private Game() throws IOException {
-        thread = new Thread(this);
-        image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
-        pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-        textures = new ArrayList<>();
-        textures.add(Texture.wood);
-        textures.add(Texture.brick);
-        textures.add(Texture.bluestone);
-        textures.add(Texture.stone);
-        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
-
+    private Game() throws IOException, InterruptedException {
+    	
+    	try {
+            myMainGameScreen = MainGameScreen.getInstance();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            throw e; // Rethrow if necessary
+        }
+    	
+    	thread = new Thread(this);
+		image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
+		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+		textures = new ArrayList<Texture>();
+		textures.add(Texture.wood);
+		textures.add(Texture.brick);
+		textures.add(Texture.bluestone);
+		textures.add(Texture.stone);
+		camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
+		screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
+		addKeyListener(camera);
+		
         dungeonLevel = getDungeonLevel(1);
         map = getDungeonMap(1);
         mapWidth = dungeonLevel.getMapWidth();
         mapHeight = dungeonLevel.getMapHeight();
 
-        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
-        myMainGameScreen.addKeyListener(camera);
         start();
     }
 
@@ -72,23 +83,32 @@ public synchronized void start() {
             e.printStackTrace();
         }
     }
-    
-    
+
 
     public void render() {
-        BufferStrategy bs = myMainGameScreen.getGameImagesAndCombatCanvas().getBufferStrategy();
-        if (bs == null) {
-            myMainGameScreen.getGameImagesAndCombatCanvas().createBufferStrategy(3);
-            return;
-        }
+		BufferStrategy bs = getBufferStrategy();
+		if(bs == null) {
+			createBufferStrategy(3);
+			return;
+		}
+		Graphics g = bs.getDrawGraphics();
+		g.drawImage(image, 50, 450, image.getWidth(), image.getHeight(), null);
+		bs.show();
+	}
 
-        Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
-        g.dispose();
-        bs.show();
-    }
+	/*
+	 * public void render() { BufferStrategy bs =
+	 * myMainGameScreen.getGameImagesAndCombatCanvas().getBufferStrategy(); if (bs
+	 * == null) {
+	 * myMainGameScreen.getGameImagesAndCombatCanvas().createBufferStrategy(3);
+	 * return; }
+	 * 
+	 * Graphics g = bs.getDrawGraphics(); g.drawImage(image, 0, 0, image.getWidth(),
+	 * image.getHeight(), null); g.dispose(); bs.show(); }
+	 */
 
-    public void run() {
+    @Override
+	public void run() {
         long lastTime = System.nanoTime();
         final double ns = 1000000000.0 / 60.0; // 60 times per second
         double delta = 0;
@@ -114,7 +134,7 @@ public synchronized void start() {
             render();
         }
     }
-    
+
 
     public void changeLevel(int level) {
         dungeonLevel = getDungeonLevel(level);

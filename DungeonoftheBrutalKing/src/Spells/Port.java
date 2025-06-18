@@ -7,29 +7,29 @@ import DungeonoftheBrutalKing.Spells;
 
 public class Port extends Spells {
 
-	
-	
+
+
     String name = null;
     int Wisdom = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(10));
     int Intelligence = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(9));
     int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(5));
-    
-   
+
+
     int minWisdom = 30;
     int minIntelligence = 30;
-    
+
     public Port() {
         this.name = "Teleport";
     }
 
     public void castSpell(int[][][] dungeon, int targetX, int targetY, int targetZ) {
-      
+
     	if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5)
     	{
     		int[] charInfo = Singleton.myCharSingleton().getCharInfo();
 
     	// Assuming the character's current position is stored in Singleton
-    		
+
     		  // Access specific indices of the array
             int currentX = charInfo[0];
             int currentY = charInfo[1];

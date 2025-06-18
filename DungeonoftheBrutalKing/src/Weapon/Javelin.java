@@ -35,7 +35,8 @@ public class Javelin extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required strength to wield the Longbow.");
     }
 
-    public String getName() {
+    @Override
+	public String getName() {
         return name;
     }
 
@@ -43,9 +44,10 @@ public class Javelin extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    
 
-    public double getDamage() {
+
+    @Override
+	public double getDamage() {
         return damage;
     }
 
@@ -55,7 +57,8 @@ public class Javelin extends WeaponManager {
         return super.getStatusEffect();
     }
 
-    public void setEffect(String effect) {
+    @Override
+	public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

@@ -1,10 +1,10 @@
 
 package Spells;
 
-import DungeonoftheBrutalKing.Spells;
-import DungeonoftheBrutalKing.TimeClock;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.EffectManager;
+import DungeonoftheBrutalKing.Spells;
+import DungeonoftheBrutalKing.TimeClock;
 
 public class Shield extends Spells {
 
@@ -12,14 +12,14 @@ public class Shield extends Spells {
 	 private TimeClock timeClock = TimeClock.Singleton();
 	 private EffectManager effectManager = EffectManager.Singleton();
 	 Charecter myChar = Charecter.Singleton();
-	
+
     public Shield() {
         String name = "Shield";
         int requiredint = 30;
         int requiredwis = 30;
-        String charintelligence = myChar.Singleton().CharInfo.get(8).toString();
-        String charwisdom = myChar.Singleton().CharInfo.get(9).toString();
-       
+        String charintelligence = Charecter.Singleton().CharInfo.get(8).toString();
+        String charwisdom = Charecter.Singleton().CharInfo.get(9).toString();
+
     }
 
 
@@ -35,7 +35,7 @@ public void castSpell() {
     effectManager.registerEffect("Shield", startTime, duration, this::removeSpellEffect);
 }
 
-    
+
     private void removeSpellEffect() {
         Charecter character = Charecter.Singleton();
         int currentDefense = Integer.parseInt(character.CharInfo.get(23).toString());
