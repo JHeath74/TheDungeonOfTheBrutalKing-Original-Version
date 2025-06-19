@@ -32,7 +32,7 @@ public class MainGameScreen extends JFrame {
 	private JPanel originalPanel;
 
 	JTextField CharNameClassLevelField, CharStatsField, CharStats2Field, CharXPHPGoldField = null;
-	JTextPane MessageTextPane = null;
+	static JTextPane MessageTextPane = null;
 
 	JMenuBar menuBar = null;
 	JMenu gameMenu, charecterMenu, settingsMenu, helpMenu = null;
@@ -467,7 +467,7 @@ public class MainGameScreen extends JFrame {
 		appendToMessageTextPane(string);
 	}
 
-	public void appendToMessageTextPane(String text) {
+	public static void appendToMessageTextPane(String text) {
 		StyledDocument doc = MessageTextPane.getStyledDocument();
 		try {
 			doc.insertString(doc.getLength(), text, null);

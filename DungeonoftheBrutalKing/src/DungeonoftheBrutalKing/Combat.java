@@ -147,14 +147,14 @@ public class Combat extends JFrame {
                 int monsterAttackChance = random.nextInt(100);
                 if (monsterAttackChance >= myChar.getAgility()) {
                     int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
-                    myChar.setHP(myChar.getHP() - monsterDamage);
+                    myChar.setHP(myChar.getHitPoints() - monsterDamage);
                     combatLog.append("The ").append(myEnemies.getName())
                             .append(" hit you for ").append(monsterDamage).append(" damage!\n");
                 } else {
                     combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
                 }
 
-                if (myChar.getHP() <= 0) {
+                if (myChar.getHitPoints() <= 0) {
                     combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
                     MainGameScreen.CombatMessageArea.setText(combatLog.toString());
                     return;
