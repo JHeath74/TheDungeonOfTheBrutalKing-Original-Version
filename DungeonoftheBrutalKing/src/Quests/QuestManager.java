@@ -3,8 +3,14 @@
 package Quests;
 
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * The QuestManager class is responsible for managing quests in the game.
@@ -107,5 +113,17 @@ public class QuestManager {
             System.out.println("Quest: " + quest.getName());
             System.out.println("Description: " + quest.getDescription());
         }
+    }
+
+    public void displayQuestDetails(Quest quest, MainGameScreen mainGameScreen) {
+        // Display the quest description in the MessageTextPane
+        MainGameScreen.appendToMessageTextPane("New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n");
+
+        // Display the quest image in the GameImagesAndCombatPanel
+        ImageIcon questImage = new ImageIcon("path/to/quest/image.png"); // Replace with the actual image path
+        JLabel imageLabel = new JLabel(questImage);
+        JPanel panel = new JPanel();
+        panel.add(imageLabel);
+        mainGameScreen.replaceWithAnyPanel(panel);
     }
 }
