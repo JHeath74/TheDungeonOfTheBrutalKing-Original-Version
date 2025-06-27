@@ -1,7 +1,6 @@
 package CharecterClass;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Class;
 
 public class Paladin extends Class
 {

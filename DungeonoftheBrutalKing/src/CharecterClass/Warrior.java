@@ -1,7 +1,6 @@
 package CharecterClass;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Class;
 
 public class Warrior extends Class {
 
@@ -19,6 +18,8 @@ public class Warrior extends Class {
 	public static String charClass = "Warrior";
 
 	public static String ClassDescription;
+	
+	
 
 	public Warrior()
 	{

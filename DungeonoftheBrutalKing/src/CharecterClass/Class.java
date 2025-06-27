@@ -1,6 +1,6 @@
 
 // src/DungeonoftheBrutalKing/Class.java
-package DungeonoftheBrutalKing;
+package CharecterClass;
 
 // Abstract class representing a character class in the game
 public abstract class Class {
@@ -15,13 +15,13 @@ public abstract class Class {
     int HeroLevel;
 
     // Name of the character class
-    String charClass;
+    protected String charClass;
 
     // Constructor to initialize default values
     public Class() {
         String ClassDescription; // Local variable for class description
         HeroLevel = 0;           // Default hero level
-        charClass = "";          // Default character class name
+        setCharClass("");          // Default character class name
     }
 
     // Static method to retrieve a class instance by name
@@ -37,4 +37,12 @@ public abstract class Class {
         // TODO: Implement logic to return the declared constructor
         return null;
     }
+
+	public String getCharClass() {
+		return charClass;
+	}
+
+	public void setCharClass(String charClass) {
+		this.charClass = charClass;
+	}
 }

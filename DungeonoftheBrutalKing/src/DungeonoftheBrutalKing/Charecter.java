@@ -72,7 +72,7 @@ public class Charecter {
 		}
 		return single_instance_myChar;
 	}
-	private String name;
+	private static String name;
 
 	private EffectManager effectManager = new EffectManager();
 

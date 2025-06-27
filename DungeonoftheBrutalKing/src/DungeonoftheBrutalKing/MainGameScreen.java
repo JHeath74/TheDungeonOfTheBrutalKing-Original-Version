@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.swing.*;
 import javax.swing.text.*;
 
+
 import Quests.Quest;
 import Quests.QuestManager;
 
@@ -50,14 +51,14 @@ public class MainGameScreen extends JFrame {
 	private Canvas gameImagesAndCombatCanvas;
 	public static JTextArea CombatMessageArea = new JTextArea();
 
-	public static MainGameScreen getInstance() throws IOException, InterruptedException {
+	public static MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
 		if (instance == null) {
 			instance = new MainGameScreen();
 		}
 		return instance;
 	}
 
-	public MainGameScreen() throws IOException, InterruptedException {
+	public MainGameScreen() throws IOException, InterruptedException, ParseException {
 		myCharacterCreation = new CharacterCreation();
 
 
@@ -71,6 +72,10 @@ public class MainGameScreen extends JFrame {
 		MessageTextPane.setFont(new Font("Arial", Font.PLAIN, 14));
 
 		MainGameScreenFrame = new JFrame("Dungeon of the Brutal King");
+		
+        for (int i = 0; i < myChar.CharInfo.size(); i++) {
+            System.out.println("Index: " + i + " : " + myChar.CharInfo.get(i));
+        }
 
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) size.getWidth();
@@ -87,6 +92,12 @@ public class MainGameScreen extends JFrame {
 		p3Panel = new JPanel(new BorderLayout());
 		p4Panel = new JPanel(new BorderLayout());
 		GameImagesAndCombatPanel = new JPanel(new BorderLayout());
+		
+
+		// Replace GameImagesAndCombatPanel initialization
+		//GameImagesAndCombatPanel = new RenderPanel();
+		//GameImagesAndCombatPanel.setLayout(new BorderLayout());
+
 
 		try {
 			myGameState.StartGameLoadCharecter();
@@ -508,7 +519,7 @@ public class MainGameScreen extends JFrame {
 	}
 
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException, ParseException {
 		MainGameScreen.getInstance();
 	}
 }

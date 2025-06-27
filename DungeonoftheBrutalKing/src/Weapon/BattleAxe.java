@@ -27,14 +27,14 @@ public class BattleAxe extends WeaponManager {
         return effectManager;
     }
 
-    public BattleAxe(double damage, String effect) {
+    public BattleAxe(double damage, String effect, double weight) {
         super("Battle Axe", REQUIRED_STRENGTH, damage, effect, weight);
         this.weaponname = "Battle Axe";
         BattleAxe.weight = weight;
 
     }
 
-    public BattleAxe(int requiredStrength, double damage, String effect) {
+    public BattleAxe(int requiredStrength, double damage, String effect, double weight) {
         super("Battle Axe", requiredStrength, damage, effect, weight);
         this.weaponname = "Battle Axe";
         BattleAxe.weight = weight;
@@ -45,7 +45,7 @@ public class BattleAxe extends WeaponManager {
         try {
             int strength = Integer.parseInt(myChar.CharInfo.get(8));
             if (strength >= requiredStrength) {
-                return new BattleAxe(damage, effect);
+                return new BattleAxe(damage, effect, weight);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();

@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import CharecterClass.Bard;
+import CharecterClass.Class;
 import CharecterClass.Cleric;
 import CharecterClass.Hunter;
 import CharecterClass.Paladin;
@@ -246,6 +248,9 @@ public class CharacterCreation {
                     JOptionPane.showMessageDialog(null, "Error:\n " + e1);
                     e1.printStackTrace();
                 } catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

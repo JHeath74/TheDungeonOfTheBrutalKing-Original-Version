@@ -2,6 +2,7 @@
 package DungeonoftheBrutalKing;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -76,7 +77,12 @@ private void updateOutputField() {
     SwingUtilities.invokeLater(() -> {
         try {
             if (myMainGameScreen == null) {
-                myMainGameScreen = new MainGameScreen(); // Initialize myMainGameScreen
+                try {
+					myMainGameScreen = new MainGameScreen();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // Initialize myMainGameScreen
             }
 
             if (myMainGameScreen.MessageTextPane == null) {

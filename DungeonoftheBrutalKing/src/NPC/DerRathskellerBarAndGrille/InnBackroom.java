@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +20,7 @@ import DungeonoftheBrutalKing.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class InnBackroom {
-    public static void loadBackroom() throws IOException, InterruptedException {
+    public static void loadBackroom() throws IOException, InterruptedException, ParseException {
 
     	GameSettings myGameSettings = new GameSettings();
     	MainGameScreen myMainGameScreen = new MainGameScreen();

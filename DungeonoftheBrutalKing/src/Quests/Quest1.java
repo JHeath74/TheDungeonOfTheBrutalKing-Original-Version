@@ -20,6 +20,7 @@ public class Quest1 implements Quest {
     private int locationY;    // Y-coordinate of the quest location
 
     Charecter myChar = new Charecter();
+    int charLevel = 0;
 
     public Quest1(String name, String description, int i, String conversation, LocationType locationType) {
         this.name = name;
@@ -30,12 +31,18 @@ public class Quest1 implements Quest {
         assignRandomLocation(); // Call the method to assign a random location
     }
 
-    private int calculateGoldReward() {
-        Random random = new Random();
-        int goldMultiplier = random.nextInt(41) + 10; // Random value between 10 and 50
-        int charLevel = Integer.parseInt(myChar.CharInfo.get(2));
-        return goldMultiplier * charLevel;
+
+private int calculateGoldReward() {
+    if (myChar.CharInfo == null || myChar.CharInfo.size() <= 2) {
+        throw new IllegalStateException("CharInfo is not properly initialized or loaded from the save game.");
     }
+
+    Random random = new Random();
+    int goldMultiplier = random.nextInt(41) + 10; // Random value between 10 and 50
+    int charLevel = Integer.parseInt(myChar.CharInfo.get(2));
+    return goldMultiplier * charLevel;
+}
+
 
     public void giveExperienceReward(Charecter character) {
         int charLevel = Integer.parseInt(character.CharInfo.get(2)); // Get character level

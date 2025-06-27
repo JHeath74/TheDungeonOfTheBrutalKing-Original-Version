@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -46,7 +47,7 @@ public InformationProvider() throws InterruptedException {
 
 	try {
         myMainGameScreen = new MainGameScreen(); // Handle IOException here
-    } catch (IOException e) {
+    } catch (IOException | ParseException e) {
         e.printStackTrace(); // Log the exception
         JOptionPane.showMessageDialog(this, "Error initializing MainGameScreen: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -51,7 +52,7 @@ public class Combat extends JFrame {
         HeroHP = Integer.parseInt(HeroHPArrayList);
     }
 
-    public void CombatEncouter() throws IOException, InterruptedException {
+    public void CombatEncouter() throws IOException, InterruptedException, ParseException {
         Object randomMonster = MonsterSelector.selectRandomMonster();
         MainGameScreen myMainGameScreen = new MainGameScreen();
 
@@ -263,7 +264,7 @@ CombatRunButton.addActionListener(new ActionListener() {
 });
 
     }
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ParseException {
         try {
             new Combat().CombatEncouter();
         } catch (IOException e) {

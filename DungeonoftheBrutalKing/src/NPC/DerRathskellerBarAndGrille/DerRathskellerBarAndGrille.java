@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -97,6 +98,9 @@ private void displayImage() {
             } catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
         });
         leaveButton.addActionListener(e -> myMainGameScreen.setMessageTextPane("You leave the inn.\n"));
@@ -140,7 +144,7 @@ private void displayImage() {
 
     }
 
-    private void loadInnBackroom() throws IOException, InterruptedException {
+    private void loadInnBackroom() throws IOException, InterruptedException, ParseException {
     	InnBackroom myInnBackroom = new InnBackroom();
     	InnBackroom.loadBackroom();
     }
