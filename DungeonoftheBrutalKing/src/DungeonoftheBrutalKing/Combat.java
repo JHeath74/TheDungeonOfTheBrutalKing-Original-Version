@@ -217,53 +217,25 @@ public class Combat extends JFrame {
             }
         });
 
-        CastSelectedSpellButton.addActionListener(new ActionListener() {
+        CombatRunButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (selectedSpell == null) {
-                    JOptionPane.showMessageDialog(CombatFrame, "No spell selected. Please select a spell first.");
-                    return;
-                }
-
-                StringBuilder combatLog = new StringBuilder();
                 Random random = new Random();
+                int runChance = random.nextInt(100); // Generate a random number between 0 and 99
+                int agility = myChar.getAgility();  // Get the character's agility
 
-                int spellDamage = SpellList.getSpells(selectedSpell).getDamage();
-
-                myEnemies.setHP(myEnemies.getHP() - spellDamage);
-                combatLog.append("You cast ").append(selectedSpell)
-                        .append(" and dealt ").append(spellDamage)
-                        .append(" damage to ").append(myEnemies.getName()).append("!\n");
-
-                if (myEnemies.getHP() <= 0) {
-                    combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
+                if (runChance < agility) {
+                    JOptionPane.showMessageDialog(CombatFrame, "You successfully ran away!");
+                    // Logic to exit combat or return to the previous screen
+                    myMainGameScreen.replaceWithAnyPanel(new JPanel()); // Example: Replace with a blank panel
+                } else {
+                    JOptionPane.showMessageDialog(CombatFrame, "You failed to run away!");
+                    // Logic for the enemy to attack or continue combat
                 }
-
-                MainGameScreen.CombatMessageArea.setText(combatLog.toString());
             }
         });
-
-
-
-CombatRunButton.addActionListener(new ActionListener() {
-    @Override
-	public void actionPerformed(ActionEvent e) {
-        Random random = new Random();
-        int runChance = random.nextInt(100); // Generate a random number between 0 and 99
-        int agility = myChar.getAgility();  // Get the character's agility
-
-        if (runChance < agility) {
-            JOptionPane.showMessageDialog(CombatFrame, "You successfully ran away!");
-            // Logic to exit combat or return to the previous screen
-            myMainGameScreen.replaceWithAnyPanel(new JPanel()); // Example: Replace with a blank panel
-        } else {
-            JOptionPane.showMessageDialog(CombatFrame, "You failed to run away!");
-            // Logic for the enemy to attack or continue combat
-        }
     }
-});
 
-    }
     public static void main(String[] args) throws InterruptedException, ParseException {
         try {
             new Combat().CombatEncouter();

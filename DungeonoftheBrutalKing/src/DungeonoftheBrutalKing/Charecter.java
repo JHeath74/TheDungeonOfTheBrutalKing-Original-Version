@@ -346,6 +346,10 @@ public class Charecter {
 		CharInfo.set(5, String.valueOf(actionPoints));
 	}
 	
+	public int getActionPoints() {
+	    return Integer.parseInt(CharInfo.get(5)); // Retrieve action points from index 5
+	}
+	
 	// Methods to update character stats
 	public void updateStamina(int Stamina) {
 		CharInfo.set(6, String.valueOf(Stamina));

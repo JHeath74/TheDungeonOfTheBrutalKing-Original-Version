@@ -47,4 +47,9 @@ public class Port extends Spells {
     		System.out.println("You Don't have of Magic Points, or either Wisdom or Intelligence to Cast this spell");
     	}
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 }

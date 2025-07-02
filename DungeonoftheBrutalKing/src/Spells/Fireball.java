@@ -24,4 +24,9 @@ public class Fireball extends Spells{
             System.out.println("Fire Ball deals " + damage + " fire damage!");
         }
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 }

@@ -33,4 +33,9 @@ public class Heal extends Spells {
 
         System.out.println("Restored " + (newHealth - currentHealth) + " health points!");
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 }

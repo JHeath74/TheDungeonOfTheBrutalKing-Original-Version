@@ -39,4 +39,9 @@ public abstract class Cure implements Spells {
             }
         }
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 }

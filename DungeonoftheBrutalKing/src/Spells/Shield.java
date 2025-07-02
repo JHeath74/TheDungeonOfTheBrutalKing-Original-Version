@@ -43,4 +43,9 @@ public void castSpell() {
         int newDefense = currentDefense - extraDefense;
         character.CharInfo.set(23, String.valueOf(newDefense));
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 }

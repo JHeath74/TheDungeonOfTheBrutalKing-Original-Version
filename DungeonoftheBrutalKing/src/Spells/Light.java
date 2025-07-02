@@ -18,5 +18,10 @@ public abstract class Light implements Spells{
 		String charwisdom = Charecter.Singleton().CharInfo.get(9).toString();
 
 	}
+	
+	@Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 
 }

@@ -29,4 +29,9 @@ public abstract class Conjure_Food implements Spells {
             System.out.println("Conjured " + foodConjured + " food items!");
         }
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 }

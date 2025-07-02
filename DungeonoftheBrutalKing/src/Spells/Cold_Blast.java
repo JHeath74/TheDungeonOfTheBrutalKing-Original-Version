@@ -23,6 +23,11 @@ public abstract class Cold_Blast implements Spells {
             System.out.println("Cold Blast deals " + damage + " cold damage!");
         }
     }
+    
+    @Override
+    public boolean isGuildSpell() {
+        return false; // Explicitly mark this as a non-guild spell
+    }
 
 
 }
