@@ -18,10 +18,9 @@ public class CrimsonBlades extends JPanel {
     // Indicates whether the player is a member of the guild
     private boolean isMember;
 
-    // Designates this guild as evil
-    private final boolean isEvil = true;
-
     private String description = "";
+
+	private Alignment alignment;
 
     /**
      * Constructor for the CrimsonBlades class.
@@ -34,6 +33,7 @@ public class CrimsonBlades extends JPanel {
      */
     public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
+        this.alignment = Alignment.EVIL; // Set the alignment for Crimson Blades
         this.description = "The Crimson Blades is a guild of skilled warriors who thrive on combat and power.";
         setLayout(new BorderLayout());
 
@@ -143,21 +143,21 @@ public class CrimsonBlades extends JPanel {
     }
 
     /**
-     * Returns whether the guild is evil.
-     *
-     * @return true if the guild is evil, false otherwise.
-     */
-    public boolean isEvil() {
-        return isEvil;
-    }
-
-    /**
      * Returns the description of the guild.
      *
      * @return The guild's description.
      */
     public String getDescription() {
         return description;
+    }
+    
+    /**
+     * Returns the alignment of the guild.
+     *
+     * @return The guild's alignment.
+     */
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     /**

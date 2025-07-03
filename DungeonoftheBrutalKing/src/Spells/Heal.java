@@ -3,10 +3,12 @@ package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
-import DungeonoftheBrutalKing.Spells;
+import Spells.Spells;
+import Spells.SpellAlignment;
 
-public class Heal extends Spells {
+public abstract class Heal implements Spells {
 
+    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.GOOD; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();
     String name = null;
 
@@ -14,7 +16,7 @@ public class Heal extends Spells {
         this.name = "Heal";
     }
 
-    public void castSpell() {
+    public void cast() {
         int intelligence = Integer.parseInt(myChar.CharInfo.get(8));
         int maxHealth = Integer.parseInt(myChar.CharInfo.get(10));
         int currentHealth = Integer.parseInt(myChar.CharInfo.get(11));
@@ -33,9 +35,13 @@ public class Heal extends Spells {
 
         System.out.println("Restored " + (newHealth - currentHealth) + " health points!");
     }
-    
+
     @Override
     public boolean isGuildSpell() {
         return false; // Explicitly mark this as a non-guild spell
+    }
+
+    public SpellAlignment getSpellAlignment() {
+        return SPELL_ALIGNMENT; // Getter for the spell alignment
     }
 }

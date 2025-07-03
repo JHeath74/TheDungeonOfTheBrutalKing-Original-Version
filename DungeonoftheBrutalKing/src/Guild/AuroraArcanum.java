@@ -11,41 +11,21 @@ import java.util.ArrayList;
 
 public class AuroraArcanum extends JPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final String guildName = "Aurora Arcanum";
-
-    // Indicates whether the player is a member of the guild
+    private final String guildName = "Aurora Arcanum";
     private boolean isMember;
-
-    // Designates this guild as good
-    private final boolean isGood = true;
-
-    // Description of the guild
+    private final Alignment alignment = Alignment.GOOD;
     private final String description;
 
-    /**
-     * Constructor for the AuroraArcanum class.
-     * Initializes the guild's description and sets up the UI components.
-     *
-     * @param isMember Indicates if the player is already a member of the guild.
-     * @throws ParseException
-     * @throws InterruptedException
-     * @throws IOException
-     */
     public AuroraArcanum(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
         this.description = "The Aurora Arcanum is a guild of benevolent magic users dedicated to the pursuit of light and order.";
         setLayout(new BorderLayout());
 
-        // Access the character's inventory
         Charecter character = Charecter.Singleton();
         ArrayList<String> inventory = character.CharInventory;
 
-        // Check for guild ring in inventory
         if (!isMember && !inventory.contains("Aurora Arcanum Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
@@ -60,47 +40,41 @@ public class AuroraArcanum extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                inventory.add("Aurora Arcanum Guild Ring"); // Add the guild ring with the correct name
+                inventory.add("Aurora Arcanum Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Aurora Arcanum and received the Aurora Arcanum Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
-                return; // Exit the constructor if the player doesn't join
+                return;
             }
         }
 
-        // If the player is not a member, display the description in the MessageTextPane
         if (!isMember) {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        // Add an image to the panel
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/AuroraArcanum.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        // Create a panel for buttons
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Enter Storage");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        // Add buttons based on membership status
         if (!isMember) {
-            // If the player is not a member, show the "Join Guild" button
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(e -> {
+            joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                inventory.add("Aurora Arcanum Guild Ring"); // Add the guild ring with the correct name
+                inventory.add("Aurora Arcanum Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Aurora Arcanum!");
                 try {
                     reloadPanel();
                 } catch (IOException | InterruptedException | ParseException e1) {
                     e1.printStackTrace();
-                } // Reload the panel to update the UI
+                }
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            // If the player is a member, show other guild-related buttons
             buttonPanel.add(buySpellsButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
@@ -109,13 +83,11 @@ public class AuroraArcanum extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add actions for the buttons
-        buySpellsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Buying spells..."));
-        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Entering storage..."));
-        exitRoomButton.addActionListener(e -> {
+        buySpellsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Buying spells..."));
+        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        exitRoomButton.addActionListener(event -> {
             try {
-                // Restore the original panel in the main game screen
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
@@ -123,42 +95,26 @@ public class AuroraArcanum extends JPanel {
         });
     }
 
-    /**
-     * Reloads the panel to reflect changes in membership status.
-     * @throws ParseException
-     * @throws InterruptedException
-     * @throws IOException
-     */
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
-        removeAll(); // Remove all components from the panel
-        revalidate(); // Revalidate the panel
-        repaint(); // Repaint the panel
-        new AuroraArcanum(isMember); // Create a new instance of the panel
+        removeAll();
+        revalidate();
+        repaint();
+        new AuroraArcanum(isMember);
     }
 
     /**
-     * Returns whether the guild is good.
+     * Returns the alignment of the guild.
      *
-     * @return true if the guild is good, false otherwise.
+     * @return The guild's alignment.
      */
-    public boolean isGood() {
-        return isGood;
+    public Alignment getAlignment() {
+        return alignment;
     }
 
-    /**
-     * Returns the description of the guild.
-     *
-     * @return The guild's description.
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Returns the name of the guild.
-     *
-     * @return The guild's name.
-     */
     public String getGuildName() {
         return guildName;
     }

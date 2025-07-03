@@ -12,6 +12,9 @@ public abstract class Conjure_Food implements Spells {
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
     private static Charecter myChar = Charecter.Singleton();
+    
+    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.NON_ALIGNED; // Non-aligned spell type
+    
 
     public Conjure_Food() {
         super(); // Explicitly call the constructor of the Spells class
@@ -33,5 +36,9 @@ public abstract class Conjure_Food implements Spells {
     @Override
     public boolean isGuildSpell() {
         return false; // Explicitly mark this as a non-guild spell
+    }
+    
+    public SpellAlignment getSpellAlignment() {
+        return SPELL_ALIGNMENT; // Getter for the spell type
     }
 }

@@ -1,9 +1,7 @@
 
 package Spells;
 
-
 import java.util.Random;
-
 import DungeonoftheBrutalKing.Charecter;
 
 public abstract class Cold_Blast implements Spells {
@@ -11,7 +9,10 @@ public abstract class Cold_Blast implements Spells {
     private static final int MINIMUM_WISDOM = 10;
     private static Charecter myChar = Charecter.Singleton();
 
-    int attackerWisdom = Integer.parseInt(myChar.CharInfo.get(10));
+    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.NON_ALIGNED; // Non-aligned spell type
+
+    String wisdomValue = myChar.CharInfo.get(10);
+    int attackerWisdom = (wisdomValue != null) ? Integer.parseInt(wisdomValue) : 0;
 
     @Override
     public void cast(int attackerWisdom) {
@@ -23,11 +24,13 @@ public abstract class Cold_Blast implements Spells {
             System.out.println("Cold Blast deals " + damage + " cold damage!");
         }
     }
-    
+
     @Override
     public boolean isGuildSpell() {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-
+    public SpellAlignment getSpellAlignment() {
+        return SPELL_ALIGNMENT; // Getter for the spell type
+    }
 }
