@@ -1,30 +1,30 @@
 
+// File: CrimsonBlades.java
 package Guild;
 
 import javax.swing.*;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Charecter;
 import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CrimsonBlades extends JPanel {
 
-    private static final long serialVersionUID = 1L; // Added serialVersionUID
+    private static final long serialVersionUID = 1L;
 
     private final String guildName = "Crimson Blades";
-
-    // Indicates whether the player is a member of the guild
     private boolean isMember;
-
     private String description = "";
+    private Alignment alignment;
 
-	private Alignment alignment;
 
     /**
      * Constructor for the CrimsonBlades class.
-     * Initializes the guild's description and sets up the UI components.
+     * Initializes the guild's description and dungeon level.
      *
      * @param isMember Indicates if the player is already a member of the guild.
      * @throws ParseException
@@ -33,14 +33,15 @@ public class CrimsonBlades extends JPanel {
      */
     public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = Alignment.EVIL; // Set the alignment for Crimson Blades
+        this.alignment = Alignment.EVIL;
         this.description = "The Crimson Blades is a guild of skilled warriors who thrive on combat and power.";
+        
         setLayout(new BorderLayout());
 
         // Access the character's inventory and action points
         Charecter character = Charecter.Singleton();
         ArrayList<String> inventory = character.CharInventory;
-        final int[] actionPoints = {character.getActionPoints()}; // Use a mutable wrapper
+        final int[] actionPoints = {character.getActionPoints()};
 
         // Check for guild ring in inventory
         if (!isMember && !inventory.contains("Crimson Blades Guild Ring")) {
@@ -57,11 +58,11 @@ public class CrimsonBlades extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                inventory.add("Crimson Blades Guild Ring"); // Add the guild ring with the correct name
+                inventory.add("Crimson Blades Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades and received the Crimson Blades Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
-                return; // Exit the constructor if the player doesn't join
+                return;
             }
         }
 
@@ -83,21 +84,19 @@ public class CrimsonBlades extends JPanel {
 
         // Add buttons based on membership status
         if (!isMember) {
-            // If the player is not a member, show the "Join Guild" button
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(e -> {
+            joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                inventory.add("Crimson Blades Guild Ring"); // Add the guild ring with the correct name
+                inventory.add("Crimson Blades Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
-                } // Reload the panel to update the UI
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
+                }
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            // If the player is a member, show other guild-related buttons
             buttonPanel.add(useSkillsButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
@@ -107,39 +106,57 @@ public class CrimsonBlades extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Add actions for the buttons
-        useSkillsButton.addActionListener(e -> {
-            if (actionPoints[0] >= 10) { // Example: Each skill use costs 10 action points
+        useSkillsButton.addActionListener(event -> {
+            if (actionPoints[0] >= 10) {
                 actionPoints[0] -= 10;
-                character.updateActionPoints(actionPoints[0]); // Update the character's action points
+                character.updateActionPoints(actionPoints[0]);
                 JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + actionPoints[0]);
             } else {
                 JOptionPane.showMessageDialog(this, "Not enough Action Points to use a skill!");
             }
         });
 
-        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Entering storage..."));
-        exitRoomButton.addActionListener(e -> {
+        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        exitRoomButton.addActionListener(event -> {
             try {
-                // Restore the original panel in the main game screen
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
         });
     }
 
     /**
+     * Generates a random dungeon level between 1 and 4.
+     *
+     * @return Random dungeon level.
+     */
+    private int generateDungeonLevel() {
+        return new Random().nextInt(4) + 1; // Random number between 1 and 4
+    }
+
+    /**
      * Reloads the panel to reflect changes in membership status.
+     *
      * @throws ParseException
      * @throws InterruptedException
      * @throws IOException
      */
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
-        removeAll(); // Remove all components from the panel
-        revalidate(); // Revalidate the panel
-        repaint(); // Repaint the panel
-        new CrimsonBlades(isMember); // Create a new instance of the panel
+        removeAll();
+        revalidate();
+        repaint();
+        add(new CrimsonBlades(isMember));
+    }
+
+    /**
+     * Returns the dungeon level of the guild.
+     *
+     * @return Dungeon level.
+     */
+    public int getDungeonLevel() {
+        return dungeonLevel;
     }
 
     /**
@@ -150,7 +167,7 @@ public class CrimsonBlades extends JPanel {
     public String getDescription() {
         return description;
     }
-    
+
     /**
      * Returns the alignment of the guild.
      *

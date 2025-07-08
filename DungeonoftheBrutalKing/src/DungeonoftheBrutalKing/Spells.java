@@ -50,8 +50,4 @@ public class Spells {
         return spellDamageMap.getOrDefault(spellName, 0);
     }
 
-	public boolean isGuildSpell() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

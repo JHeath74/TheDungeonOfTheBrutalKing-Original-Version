@@ -29,6 +29,7 @@ import Quests.Quest;
 //Index 17: Character's equipped weapon (String)
 //Index 18: Character's equipped armor (String)
 //Index 19: Character's equipped shield (String)
+//Index 20: Character's alignment (int as a String)
 //Index 22: Character's X position (int as String)
 //Index 23: Character's Y position (int as String)
 //Index 24: Character's Z position (int as String)
@@ -83,6 +84,9 @@ public class Charecter {
 
 	// List to store spells learned by the character
 	public ArrayList<String> SpellsLearned = new ArrayList<>();
+	
+	// List to store guild spells
+    public static ArrayList<String> GuildSpells = new ArrayList<>();
 
 	// List to store the character's inventory
 	public ArrayList<String> CharInventory = new ArrayList<>();
@@ -371,6 +375,10 @@ public class Charecter {
 		CharInfo.set(10, String.valueOf(Wisdom));
 	}
 	
+	public int getWisdom() {
+	    return Integer.parseInt(CharInfo.get(10)); // Retrieve wisdom from index 10
+	}
+	
 	public void updateAgility(int Agility) {
 		CharInfo.set(11, String.valueOf(Agility));
 	}
@@ -409,6 +417,13 @@ public class Charecter {
 		CharInfo.set(19, shield);
 	}
 	
+	public int getAlignment() {
+	    return Integer.parseInt(CharInfo.get(20)); // Retrieve alignment from index 20
+	}
+
+	public void setAlignment(int alignment) {
+	    CharInfo.set(20, String.valueOf(alignment)); // Update alignment at index 20
+	}
 
 	// Method to update the character's position
 	public void updatePosition(int targetX, int targetY, int targetZ) {

@@ -4,6 +4,7 @@ package Quests;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.LocationType;
 
 import java.util.ArrayList;
 import java.util.List;

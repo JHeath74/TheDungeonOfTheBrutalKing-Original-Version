@@ -3,6 +3,7 @@ package Guild;
 
 import javax.swing.*;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Charecter;
 import java.awt.*;
 import java.io.IOException;

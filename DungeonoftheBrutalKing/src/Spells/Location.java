@@ -2,12 +2,13 @@
 package Spells;
 
 import DungeonoftheBrutalKing.Singleton;
+import SharedData.Alignment;
 import Spells.Spells;
-import Spells.SpellAlignment;
+
 
 public abstract class Location implements Spells {
 
-    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.NEUTRAL; // Alignment of the spell
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     String name = null;
     int minWisdom = 30;
     int minIntelligence = 30;
@@ -43,7 +44,7 @@ public abstract class Location implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SpellAlignment getSpellAlignment() {
+    public Alignment getSpellAlignment() {
         return SPELL_ALIGNMENT; // Getter for the spell alignment
     }
 

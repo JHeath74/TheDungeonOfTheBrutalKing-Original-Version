@@ -3,6 +3,7 @@ package Guild;
 
 import javax.swing.*;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Charecter;
 import java.awt.*;
 import java.io.IOException;
@@ -15,12 +16,15 @@ public class AuroraArcanum extends JPanel {
 
     private final String guildName = "Aurora Arcanum";
     private boolean isMember;
-    private final Alignment alignment = Alignment.GOOD;
-    private final String description;
+    private String description = "";
+    private Alignment alignment;
 
     public AuroraArcanum(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Aurora Arcanum is a guild of benevolent magic users dedicated to the pursuit of light and order.";
+        this.alignment = Alignment.GOOD;
+
+        this.description = "The Aurora Arcanum is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
+
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.Singleton();
@@ -52,7 +56,7 @@ public class AuroraArcanum extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/AuroraArcanum.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
@@ -69,8 +73,8 @@ public class AuroraArcanum extends JPanel {
                 JOptionPane.showMessageDialog(this, "You have joined the Aurora Arcanum!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
                 }
             });
             buttonPanel.add(joinGuildButton);
@@ -83,39 +87,107 @@ public class AuroraArcanum extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Buying spells..."));
+        buySpellsButton.addActionListener(event -> buyGuildSpell());
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
         });
+    }
+
+    private void buyGuildSpell() {
+        Charecter character = Charecter.Singleton();
+        ArrayList<String> inventory = character.CharInventory;
+        int wisdom = character.getWisdom();
+        int alignmentValue = character.getAlignment();
+        int maxSpells = 6;
+        int currentGuildSpells = getGuildSpellsCount();
+
+        if (!isMember) {
+            JOptionPane.showMessageDialog(this, "You must be a member of the Aurora Arcanum to buy guild spells.");
+            return;
+        }
+
+        if (!inventory.contains("Aurora Arcanum Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Aurora Arcanum Guild Ring to buy guild spells.");
+            return;
+        }
+
+        if (currentGuildSpells >= maxSpells) {
+            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
+        }
+
+        if (wisdom <= 0) {
+            JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
+            return;
+        }
+
+        if (alignmentValue > 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
+        } else if (alignmentValue < 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
+            return;
+        }
+
+        String newSpell = "New Guild Spell";
+        addGuildSpell(newSpell);
+        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
         revalidate();
         repaint();
-        new AuroraArcanum(isMember);
-    }
-
-    /**
-     * Returns the alignment of the guild.
-     *
-     * @return The guild's alignment.
-     */
-    public Alignment getAlignment() {
-        return alignment;
+        add(new AuroraArcanum(isMember));
     }
 
     public String getDescription() {
         return description;
     }
 
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
     public String getGuildName() {
         return guildName;
+    }
+
+    public boolean removeGuildSpell(String spell) {
+        Charecter character = Charecter.Singleton();
+        ArrayList<String> guildSpells = getGuildSpells();
+        if (guildSpells.contains(spell)) {
+            guildSpells.remove(spell);
+            return true;
+        }
+        return false;
+    }
+    
+    public int getGuildSpellsCount()
+    {
+    	Charecter charecter = Charecter.Singleton();
+    	return charecter.GuildSpells.size();
+    }
+    
+    public void addGuildSpell(String spell)
+    {
+    	Charecter charecter = Charecter.Singleton();
+    	ArrayList <String>  Guildspells = charecter.GuildSpells;
+		if (Guildspells.size() < 6) { // Assuming a maximum of 6 spells
+			Guildspells.add(spell);
+		} else {
+			JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
+		}
+				
+    }
+
+
+	public ArrayList <String> getGuildSpells() {
+        return new ArrayList<>(GuildSpells); // Return a copy of the GuildSpells list
     }
 }

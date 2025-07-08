@@ -3,6 +3,7 @@ package Spells;
 
 import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.Alignment;
 import Spells.Spells;
 
 //public abstract class Fireball implements Spells {
@@ -10,7 +11,7 @@ import Spells.Spells;
 
     // Minimum Wisdom required to cast the spell
     private static final int MINIMUM_WISDOM = 10;
-    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.EVIL; // Alignment of the spell
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();
 
     
@@ -39,7 +40,7 @@ import Spells.Spells;
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SpellAlignment getSpellAlignment() {
-        return SPELL_ALIGNMENT; // Getter for the spell alignment
+    public SharedData.Alignment getSpellAlignment() {
+        return getSpellAlignment(); // Getter for the spell type
     }
 }

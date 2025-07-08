@@ -4,12 +4,12 @@ package Spells;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.EffectManager;
 import Spells.Spells;
-import Spells.SpellAlignment;
 import DungeonoftheBrutalKing.TimeClock;
+import SharedData.Alignment;
 
 public abstract class Shield implements Spells {
 
-    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.GOOD; // Alignment of the spell
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private int duration = 12; // Duration in in-game hours
     private TimeClock timeClock = TimeClock.Singleton();
     private EffectManager effectManager = EffectManager.Singleton();
@@ -48,7 +48,7 @@ public abstract class Shield implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SpellAlignment getSpellAlignment() {
-        return SPELL_ALIGNMENT; // Getter for the spell alignment
+    public SharedData.Alignment getSpellAlignment() {
+        return getSpellAlignment(); // Getter for the spell type
     }
 }

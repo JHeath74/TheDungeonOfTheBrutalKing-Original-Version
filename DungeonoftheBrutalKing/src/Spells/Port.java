@@ -2,12 +2,13 @@
 package Spells;
 
 import DungeonoftheBrutalKing.Singleton;
+import SharedData.Alignment;
 import Spells.Spells;
-import Spells.SpellAlignment;
+
 
 public abstract class Port implements Spells {
 
-    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.NON_ALIGNED; // Alignment of the spell
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     String name = null;
     int Wisdom = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(10));
     int Intelligence = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(9));
@@ -47,7 +48,7 @@ public abstract class Port implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SpellAlignment getSpellAlignment() {
-        return SPELL_ALIGNMENT; // Getter for the spell alignment
+    public SharedData.Alignment getSpellAlignment() {
+        return getSpellAlignment(); // Getter for the spell type
     }
 }

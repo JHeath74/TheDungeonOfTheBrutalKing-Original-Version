@@ -1,121 +1,55 @@
 
+// File: AuroraArcanum.java
 package Guild;
 
 import javax.swing.*;
-import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import java.awt.*;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
 public class HarmonicLightEnsemble extends JPanel {
 
-    private static final long serialVersionUID = 1L;
-
-    private final String guildName = "Harmonic Light Ensemble";
-
-    // Indicates whether the player is a member of the guild
-    private boolean isMember;
-
-    // Designates this guild as good
-    private final Alignment alignment = Alignment.GOOD;
-
-    private String description = "";
+    private static final int BASE_SPELL_LIMIT = 0;
+    private static final int MAX_SPELL_LIMIT = 6;
+    private static final int SPELL_COST = 50; // Cost of each spell in gold
 
     public HarmonicLightEnsemble(boolean isMember) throws IOException, InterruptedException, ParseException {
-        this.isMember = isMember;
-        this.description = "The Harmonic Light Ensemble is a guild of benevolent magic users dedicated to the pursuit of light and order.";
-        setLayout(new BorderLayout());
 
-        Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        JButton buySpellsButton = new JButton("Buy Spells");
 
-        if (!isMember && !inventory.contains("Harmonic Light Ensemble Guild Ring")) {
-            int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Harmonic Light Ensemble. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
-            );
+        buySpellsButton.addActionListener(event -> {
+            Charecter character = Charecter.Singleton();
+            ArrayList<String> spells = character.GuildSpells; // Guild spells list
+            int wisdom = Integer.parseInt(character.CharInfo.get(10)); // Wisdom value
+            int gold = Integer.parseInt(character.CharInfo.get(12)); // Gold value
 
-            if (choice == JOptionPane.YES_OPTION) {
-                this.isMember = true;
-                inventory.add("Harmonic Light Ensemble Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble Guild and received the Harmonic Light Ensemble Guild Ring!");
-            } else {
-                JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
+            if (!isMember) {
+                JOptionPane.showMessageDialog(this, "You must be a member of the guild to buy spells.");
                 return;
             }
-        }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
+            if (gold < SPELL_COST) {
+                JOptionPane.showMessageDialog(this, "You do not have enough gold to buy a spell.");
+                return;
+            }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/HarmonicLightEnsemble.jpg")));
-        add(imageLabel, BorderLayout.CENTER);
+            int spellLimit = BASE_SPELL_LIMIT + Math.min(wisdom / 8, MAX_SPELL_LIMIT - BASE_SPELL_LIMIT);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        JButton buySpellsButton = new JButton("Buy Spells");
-        JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
-        JButton exitRoomButton = new JButton("Exit Room");
+            if (spells.size() >= spellLimit) {
+                JOptionPane.showMessageDialog(this, "You cannot carry more spells.");
+                return;
+            }
 
-        if (!isMember) {
-            JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
-                this.isMember = true;
-                inventory.add("Harmonic Light Ensemble Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble!");
-                try {
-                    reloadPanel();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
-                }
-            });
-            buttonPanel.add(joinGuildButton);
-        } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-        }
-        buttonPanel.add(exitRoomButton);
-
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        buySpellsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Buying spells..."));
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
-        exitRoomButton.addActionListener(event -> {
-            try {
-                MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            String newSpell = JOptionPane.showInputDialog(this, "Enter the name of the spell to buy:");
+            if (newSpell != null && !newSpell.isEmpty()) {
+                spells.add(newSpell);
+                character.updateGold(gold - SPELL_COST); // Deduct gold
+                JOptionPane.showMessageDialog(this, "You purchased the spell: " + newSpell);
             }
         });
-    }
 
-    private void reloadPanel() throws IOException, InterruptedException, ParseException {
-        removeAll();
-        revalidate();
-        repaint();
-        new HarmonicLightEnsemble(isMember);
-    }
-
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getGuildName() {
-        return guildName;
+        add(buySpellsButton);
     }
 }

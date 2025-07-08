@@ -3,12 +3,12 @@ package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
+import SharedData.Alignment;
 import Spells.Spells;
-import Spells.SpellAlignment;
 
 public abstract class Heal implements Spells {
 
-    private static final SpellAlignment SPELL_ALIGNMENT = SpellAlignment.GOOD; // Alignment of the spell
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();
     String name = null;
 
@@ -41,7 +41,7 @@ public abstract class Heal implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SpellAlignment getSpellAlignment() {
-        return SPELL_ALIGNMENT; // Getter for the spell alignment
+    public SharedData.Alignment getSpellAlignment() {
+        return getSpellAlignment(); // Getter for the spell type
     }
 }

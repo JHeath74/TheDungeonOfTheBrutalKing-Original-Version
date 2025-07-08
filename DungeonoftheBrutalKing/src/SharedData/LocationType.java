@@ -1,6 +1,6 @@
 
 // Java
-package Quests;
+package SharedData;
 
 public enum LocationType {
     STATIC, DYNAMIC, INTERACTIVE, HIDDEN;
