@@ -348,50 +348,62 @@ public class MainGameScreen extends JFrame {
 		aboutMenuItem = new JMenuItem("About");
 		aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
 		aboutMenuItem.getAccessibleContext().setAccessibleDescription("About the game");
-		aboutMenuItem.addActionListener(e -> {
-			JFrame frame = new JFrame("Help Information");
-			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-			JPanel p = new JPanel(new BorderLayout());
+aboutMenuItem.addActionListener(e -> {
+    JDialog aboutDialog = new JDialog(MainGameScreenFrame, "About Information", true);
+    aboutDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-			JButton helpbutton = new JButton("Click to Close");
-			helpbutton.addActionListener(new ActionListener() {
+    JPanel panel = new JPanel(new BorderLayout());
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					frame.dispose();
+    JButton closeButton = new JButton("Close");
+    closeButton.addActionListener(event -> aboutDialog.dispose());
 
-				}
+    JTextPane aboutTextPane = new JTextPane();
+    aboutTextPane.setEditable(false);
 
-			});
+    StyledDocument doc = aboutTextPane.getStyledDocument();
 
-			JTextArea helptext = new JTextArea(50, 150);
-			helptext.setLineWrap(true);
-			helptext.setWrapStyleWord(true);
-			JScrollPane scrollPane = new JScrollPane(helptext);
-			scrollPane.setSize(120, 120);
+    // Define styles
+    Style headerStyle = doc.addStyle("Header", null);
+    StyleConstants.setFontSize(headerStyle, 18);
+    StyleConstants.setBold(headerStyle, true);
+    StyleConstants.setForeground(headerStyle, Color.BLUE);
 
-			try {
-				// Read some text from the resource file to display in
-				// the JTextArea.
-				helptext.read(
-						new InputStreamReader(Objects.requireNonNull(
-								getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt"))),
-						null);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+    Style bodyStyle = doc.addStyle("Body", null);
+    StyleConstants.setFontSize(bodyStyle, 14);
+    StyleConstants.setForeground(bodyStyle, Color.BLACK);
 
-			frame.add(p);
-			frame.getContentPane().add(new JScrollPane(helptext), BorderLayout.NORTH);
-			frame.setSize(120, 120);
+    Style footerStyle = doc.addStyle("Footer", null);
+    StyleConstants.setFontSize(footerStyle, 12);
+    StyleConstants.setItalic(footerStyle, true);
+    StyleConstants.setForeground(footerStyle, Color.GRAY);
 
-			p.add(helpbutton, BorderLayout.SOUTH);
-			helpbutton.setSize(120, 120);
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+            Objects.requireNonNull(getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt"))))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith("Header:")) {
+                doc.insertString(doc.getLength(), line.replace("Header:", "") + "\n", headerStyle);
+            } else if (line.startsWith("Footer:")) {
+                doc.insertString(doc.getLength(), line.replace("Footer:", "") + "\n", footerStyle);
+            } else {
+                doc.insertString(doc.getLength(), line + "\n", bodyStyle);
+            }
+        }
+    } catch (IOException | BadLocationException ex) {
+        ex.printStackTrace();
+    }
 
-			frame.pack();
-			frame.setVisible(true);
-		});
+    JScrollPane scrollPane = new JScrollPane(aboutTextPane);
+    panel.add(scrollPane, BorderLayout.CENTER);
+    panel.add(closeButton, BorderLayout.SOUTH);
+
+    aboutDialog.add(panel);
+    aboutDialog.pack();
+    aboutDialog.setLocationRelativeTo(MainGameScreenFrame);
+    aboutDialog.setVisible(true);
+});
+
 
 		helpMenuItem = new JMenuItem("Help");
 		helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
