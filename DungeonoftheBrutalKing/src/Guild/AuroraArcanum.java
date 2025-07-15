@@ -167,27 +167,23 @@ public class AuroraArcanum extends JPanel {
         }
         return false;
     }
-    
-    public int getGuildSpellsCount()
-    {
-    	Charecter charecter = Charecter.Singleton();
-    	return charecter.GuildSpells.size();
-    }
-    
-    public void addGuildSpell(String spell)
-    {
-    	Charecter charecter = Charecter.Singleton();
-    	ArrayList <String>  Guildspells = charecter.GuildSpells;
-		if (Guildspells.size() < 6) { // Assuming a maximum of 6 spells
-			Guildspells.add(spell);
-		} else {
-			JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
-		}
-				
+
+    public int getGuildSpellsCount() {
+        Charecter character = Charecter.Singleton();
+        return character.GuildSpells.size();
     }
 
+    public void addGuildSpell(String spell) {
+        Charecter character = Charecter.Singleton();
+        ArrayList<String> guildSpells = character.GuildSpells;
+        if (guildSpells.size() < 6) { // Assuming a maximum of 6 spells
+            guildSpells.add(spell);
+        } else {
+            JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
+        }
+    }
 
-	public ArrayList <String> getGuildSpells() {
-        return new ArrayList<>(GuildSpells); // Return a copy of the GuildSpells list
+    public ArrayList<String> getGuildSpells() {
+        return new ArrayList<>(Charecter.Singleton().GuildSpells); // Return a copy of the GuildSpells list
     }
 }

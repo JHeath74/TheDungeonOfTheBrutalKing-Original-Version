@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class ObsidianHexCoven extends JPanel {
+
     private static final long serialVersionUID = 1L;
 
     private final String guildName = "Obsidian Hex Coven";
@@ -83,7 +84,7 @@ public class ObsidianHexCoven extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Buying spells..."));
+        buySpellsButton.addActionListener(event -> buyGuildSpell());
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
         exitRoomButton.addActionListener(event -> {
@@ -95,11 +96,51 @@ public class ObsidianHexCoven extends JPanel {
         });
     }
 
+    private void buyGuildSpell() {
+        Charecter character = Charecter.Singleton();
+        ArrayList<String> inventory = character.CharInventory;
+        int wisdom = character.getWisdom();
+        int alignmentValue = character.getAlignment();
+        int maxSpells = 6;
+        int currentGuildSpells = getGuildSpellsCount();
+
+        if (!isMember) {
+            JOptionPane.showMessageDialog(this, "You must be a member of the Obsidian Hex Coven to buy guild spells.");
+            return;
+        }
+
+        if (!inventory.contains("Obsidian Hex Coven Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Obsidian Hex Coven Guild Ring to buy guild spells.");
+            return;
+        }
+
+        if (currentGuildSpells >= maxSpells) {
+            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
+        }
+
+        if (wisdom <= 0) {
+            JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
+            return;
+        }
+
+        if (alignmentValue < 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
+            return;
+        }
+
+        String newSpell = "New Guild Spell";
+        addGuildSpell(newSpell);
+        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+    }
+
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
         revalidate();
         repaint();
-        new ObsidianHexCoven(isMember);
+        add(new ObsidianHexCoven(isMember));
     }
 
     public Alignment getAlignment() {
@@ -112,5 +153,34 @@ public class ObsidianHexCoven extends JPanel {
 
     public String getGuildName() {
         return guildName;
+    }
+
+    public int getGuildSpellsCount() {
+        Charecter character = Charecter.Singleton();
+        return character.GuildSpells.size();
+    }
+
+    public void addGuildSpell(String spell) {
+        Charecter character = Charecter.Singleton();
+        ArrayList<String> guildSpells = character.GuildSpells;
+        if (guildSpells.size() < 6) {
+            guildSpells.add(spell);
+        } else {
+            JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
+        }
+    }
+
+    public boolean removeGuildSpell(String spell) {
+        Charecter character = Charecter.Singleton();
+        ArrayList<String> guildSpells = character.GuildSpells;
+        if (guildSpells.contains(spell)) {
+            guildSpells.remove(spell);
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<String> getGuildSpells() {
+        return new ArrayList<>(Charecter.Singleton().GuildSpells);
     }
 }
