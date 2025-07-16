@@ -1,146 +1,98 @@
 
 package DungeonoftheBrutalKing;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Toolkit;
-import java.awt.Window;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-
-/**
- * The GameStartMenu class represents the main menu of the game.
- * It provides options to start a new game, continue a current game, load an existing game, or exit the game.
- * The menu is displayed using a JFrame with various UI components.
- */
-public class GameStart extends JFrame implements Runnable {
-
+public class GameStart extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    public static void main(String[] args) throws IOException, FontFormatException, BadLocationException, InterruptedException {
-
-        // Initialize game settings, save/load functionality, and character creation
+    public static void main(String[] args) throws IOException, InterruptedException {
         GameSettings myGameSettings = new GameSettings();
-        LoadSaveGame myLoadSaveGame = new LoadSaveGame();
         CharacterCreation myCharacterCreation = new CharacterCreation();
+        LoadSaveGame myLoadSaveGame = new LoadSaveGame();
 
-        // Start the GameStartMenu in a new thread
-        new Thread(new GameStart()).start();
-
-        // Declare UI components
-        JFrame StartMenuFrame = null;
-        JPanel GameTitlePanel, StartButtonPanel = null;
-        JButton ContinueGameButton, StartNewGameButton, LoadExistingGameButton, ExitGameButton = null;
-        JTextPane GameTitlePane = null;
-
-        int width, height = 0;
-
-        // Create and initialize JFrame and JPanel components
-        StartMenuFrame = new JFrame("Dungeon of the Brutal King");
-        GameTitlePanel = new JPanel();
-        StartButtonPanel = new JPanel();
-        StartNewGameButton = new JButton("Start New Game");
-        ContinueGameButton = new JButton("Continue Current Game");
-        LoadExistingGameButton = new JButton("Load Existing Game");
-        ExitGameButton = new JButton("Exit Game");
-        GameTitlePane = new JTextPane();
-
-        // Get screen dimensions
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        width = (int) size.getWidth();
-        height = (int) size.getHeight();
-
-        // Configure JFrame settings
-        StartMenuFrame.setLayout(new BorderLayout());
-        StartMenuFrame.setSize(width, height);
+        JFrame StartMenuFrame = new JFrame("Dungeon of the Brutal King");
         StartMenuFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        StartMenuFrame.setUndecorated(true);
+        StartMenuFrame.setSize(800, 600);
+        StartMenuFrame.setLayout(new BorderLayout());
         StartMenuFrame.getContentPane().setBackground(myGameSettings.colorLightBrown);
-        StartMenuFrame.getContentPane().setForeground(myGameSettings.colorLightBrown);
 
-        // Configure JPanel settings
-        GameTitlePanel.setLayout(new BorderLayout());
-        StartButtonPanel.setLayout(new FlowLayout());
-        GameTitlePanel.setMaximumSize(new Dimension(450, 200));
-        StartButtonPanel.setMaximumSize(new Dimension(250, 350));
-        StartMenuFrame.add(GameTitlePanel, BorderLayout.CENTER);
-        StartMenuFrame.add(StartButtonPanel, BorderLayout.SOUTH);
-        StartButtonPanel.setBackground(myGameSettings.colorLightBrown);
-        StartButtonPanel.setForeground(myGameSettings.colorLightBrown);
-        GameTitlePanel.setBackground(myGameSettings.colorLightBrown);
-        GameTitlePanel.setForeground(myGameSettings.colorLightBrown);
+        // Title label
+        JLabel titleLabel = new JLabel("<html><div style='text-align: center;'>Dungeon<br>of the<br>Brutal King</div></html>", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Verdana", Font.BOLD, 46));
+        titleLabel.setForeground(myGameSettings.colorWhite);
+        StartMenuFrame.add(titleLabel, BorderLayout.NORTH);
 
-        // Add buttons to the StartButtonPanel
-        StartButtonPanel.add(ContinueGameButton, FlowLayout.LEFT);
-        StartButtonPanel.add(StartNewGameButton, FlowLayout.LEFT);
-        StartButtonPanel.add(LoadExistingGameButton, FlowLayout.CENTER);
-        StartButtonPanel.add(ExitGameButton, FlowLayout.RIGHT);
+       
 
-        // Configure JTextPane for the game title
-        GameTitlePanel.add(GameTitlePane);
-        GameTitlePane.setEditable(false);
-        Font avatarFont = new Font("src\\DungeonoftheBrutalKing\\Fonts\\fontAvatar.ttf", Font.BOLD, 100);
-        StyledDocument doc = GameTitlePane.getStyledDocument();
-        SimpleAttributeSet attributeSet = new SimpleAttributeSet();
-        StyleConstants.setAlignment(attributeSet, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), attributeSet, false);
-        GameTitlePane.setForeground(myGameSettings.colorLightYellow);
-        GameTitlePane.setBackground(myGameSettings.colorLightBrown);
-        GameTitlePane.setFont(avatarFont);
-        GameTitlePane.setText("\nDungeon\n of the\nBrutal King");
-        GameTitlePane.setCharacterAttributes(attributeSet, true);
+        JButton ContinueGameButton = new JButton("Continue");
+        JButton StartNewGameButton = new JButton("Start New Game");
+        JButton LoadExistingGameButton = new JButton("Load Game");
+        JButton ExitGameButton = new JButton("Exit");
 
-        // Configure button settings
-        ContinueGameButton.setPreferredSize(new Dimension(200, 50));
-        StartNewGameButton.setPreferredSize(new Dimension(200, 50));
-        LoadExistingGameButton.setPreferredSize(new Dimension(200, 50));
-        ExitGameButton.setPreferredSize(new Dimension(200, 50));
+        // Configure button sizes and styles
+        Dimension buttonSize = new Dimension(200, 50);
+        ContinueGameButton.setPreferredSize(buttonSize);
+        StartNewGameButton.setPreferredSize(buttonSize);
+        LoadExistingGameButton.setPreferredSize(buttonSize);
+        ExitGameButton.setPreferredSize(buttonSize);
+
         ContinueGameButton.setBackground(myGameSettings.colorGrey);
-        ContinueGameButton.setForeground(myGameSettings.colorWhite);
         StartNewGameButton.setBackground(myGameSettings.colorGrey);
-        StartNewGameButton.setForeground(myGameSettings.colorWhite);
         LoadExistingGameButton.setBackground(myGameSettings.colorGrey);
-        LoadExistingGameButton.setForeground(myGameSettings.colorWhite);
         ExitGameButton.setBackground(myGameSettings.colorGrey);
+
+        ContinueGameButton.setForeground(myGameSettings.colorWhite);
+        StartNewGameButton.setForeground(myGameSettings.colorWhite);
+        LoadExistingGameButton.setForeground(myGameSettings.colorWhite);
         ExitGameButton.setForeground(myGameSettings.colorWhite);
 
         // Check if saved games exist and adjust button visibility
-        if (GameSettings.SavedGameDirectory != null) {
-            File directory = new File(GameSettings.SavedGameDirectory);
-            if (directory.isDirectory()) {
-                String[] files = directory.list();
-                if (files.length > 0) {
-                    LoadExistingGameButton.setVisible(true);
-                    ContinueGameButton.setVisible(true);
-                } else {
-                    LoadExistingGameButton.setVisible(false);
-                    ContinueGameButton.setVisible(false);
-                }
+        File directory = new File(GameSettings.SavedGameDirectory);
+        if (directory.isDirectory()) {
+            String[] files = directory.list();
+            if (files != null && files.length > 0) {
+                ContinueGameButton.setVisible(true);
+            } else {
+                ContinueGameButton.setVisible(false);
             }
         }
 
-        // Display the StartMenuFrame
+        
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBackground(myGameSettings.colorLightBrown);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0; // All buttons in the same column
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Stretch buttons horizontally
+        gbc.weighty = 0.1; // Adjust weighty to move buttons up
+        gbc.anchor = GridBagConstraints.NORTH; // Align buttons to the top
+
+        // Adjust spacing for the first button
+        gbc.insets = new Insets(50, 0, 7, 0); // Move the top button down by 0.5 inches
+        gbc.gridy = 0; // First button
+        buttonPanel.add(ContinueGameButton, gbc);
+
+        // Adjust spacing for subsequent buttons
+        gbc.insets = new Insets(-50, 0, 7, 0); // Reduced spacing between buttons
+        gbc.gridy = 1; // Second button
+        buttonPanel.add(StartNewGameButton, gbc);
+
+        gbc.gridy = 2; // Third button
+        buttonPanel.add(LoadExistingGameButton, gbc);
+
+        gbc.gridy = 3; // Last button
+        buttonPanel.add(ExitGameButton, gbc);
+
+        StartMenuFrame.add(buttonPanel, BorderLayout.CENTER);        StartMenuFrame.setLocationRelativeTo(null);
         StartMenuFrame.setVisible(true);
 
         // Add action listener for the Start New Game button
@@ -201,15 +153,9 @@ public class GameStart extends JFrame implements Runnable {
                     Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
                     myLoadSaveGame.ContinueCurrentGame();
                     window.dispose();
-                } catch (IOException e1) {
+                } catch (IOException | InterruptedException | ParseException e1) {
                     e1.printStackTrace();
-                } catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+                }
             }
         });
 
@@ -233,14 +179,16 @@ public class GameStart extends JFrame implements Runnable {
         });
     }
 
-    @Override
-    public void run() {
-        // Play background music for the start menu
-        MusicPlayer soundplayer = new MusicPlayer();
-        try {
-            soundplayer.midiPlayer("Stones.mid");
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+    public GameStart() throws IOException, InterruptedException {
+        // Start the background music in a separate thread
+        Thread musicThread = new Thread(() -> {
+            MusicPlayer soundplayer = new MusicPlayer();
+            try {
+                soundplayer.midiPlayer("Stones.mid");
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                e.printStackTrace();
+            }
+        });
+        musicThread.start();
     }
 }

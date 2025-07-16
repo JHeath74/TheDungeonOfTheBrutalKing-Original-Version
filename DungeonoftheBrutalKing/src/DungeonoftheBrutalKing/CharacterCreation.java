@@ -263,7 +263,15 @@ public class CharacterCreation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CharecterCreationFrame.dispose();
-                new GameStart();
+                try {
+					new GameStart();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
         });
 
