@@ -23,6 +23,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
+import SharedData.GameSettings;
+
 public class Combat extends JFrame {
 
     private static final long serialVersionUID = 1L;
@@ -110,8 +112,8 @@ public class Combat extends JFrame {
 
         CombatNameAndHPfield.setLineWrap(false);
         CombatNameAndHPfield.setEditable(false);
-        CombatNameAndHPfield.setBackground(myGameSettings.colorLightYellow);
-        CombatNameAndHPPanel.setBackground(myGameSettings.colorCoral);
+        CombatNameAndHPfield.setBackground(myGameSettings.getColorLightYellow());
+        CombatNameAndHPPanel.setBackground(myGameSettings.getColorCoral());
 
         ActionListener task = new ActionListener() {
             @Override

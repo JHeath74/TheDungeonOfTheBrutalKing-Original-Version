@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import SharedData.GameSettings;
+
 // Class to manage saving and loading game states with encryption and decryption
 public class LoadSaveGame2 {
 

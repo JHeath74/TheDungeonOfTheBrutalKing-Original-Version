@@ -1,7 +1,7 @@
 package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
-import DungeonoftheBrutalKing.GameSettings;
+import SharedData.GameSettings;
 
 public class Troll extends Enemies {
     String name;

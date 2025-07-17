@@ -16,8 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import DungeonoftheBrutalKing.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.GameSettings;
 
 public class InnBackroom {
     public static void loadBackroom() throws IOException, InterruptedException, ParseException {

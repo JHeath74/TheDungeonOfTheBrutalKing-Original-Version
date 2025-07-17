@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing;
+package SharedData;
 
 import java.io.File;
 import java.io.IOException;

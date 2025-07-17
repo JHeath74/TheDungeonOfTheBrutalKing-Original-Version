@@ -1,7 +1,7 @@
 package Monsters;
 
 import DungeonoftheBrutalKing.Enemies;
-import DungeonoftheBrutalKing.GameSettings;
+import SharedData.GameSettings;
 
 public class Slime extends Enemies {
     String name;

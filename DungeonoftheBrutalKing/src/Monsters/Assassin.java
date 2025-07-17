@@ -3,7 +3,7 @@ package Monsters;
 
 import DungeonoftheBrutalKing.EffectManager;
 import DungeonoftheBrutalKing.Enemies;
-import DungeonoftheBrutalKing.GameSettings;
+import SharedData.GameSettings;
 
 
 

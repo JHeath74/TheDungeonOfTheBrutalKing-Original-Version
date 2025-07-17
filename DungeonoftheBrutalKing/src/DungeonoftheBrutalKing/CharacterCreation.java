@@ -41,6 +41,7 @@ import CharecterClass.Hunter;
 import CharecterClass.Paladin;
 import CharecterClass.Rogue;
 import CharecterClass.Warrior;
+import SharedData.GameSettings;
 
 // Class responsible for character creation functionality
 public class CharacterCreation {
@@ -98,7 +99,7 @@ public class CharacterCreation {
         CharecterCreationFrame = new JFrame("Create New Charecter");
         CharecterCreationFrame.setSize(width, height);
         CharecterCreationFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        CharecterCreationFrame.setBackground(myGameSettings.colorBrown);
+        CharecterCreationFrame.setBackground(myGameSettings.getColorBrown());
         CharecterCreationFrame.setUndecorated(true);
 
         // Setup JSplitPane for layout

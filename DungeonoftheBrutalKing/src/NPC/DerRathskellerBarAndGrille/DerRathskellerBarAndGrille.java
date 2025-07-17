@@ -20,9 +20,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import DungeonoftheBrutalKing.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.MusicPlayer;
+import SharedData.GameSettings;
+import SharedData.MusicPlayer;
 
 public class DerRathskellerBarAndGrille extends JFrame {
     private static final long serialVersionUID = 1L;

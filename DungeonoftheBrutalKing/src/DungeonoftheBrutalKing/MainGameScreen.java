@@ -14,6 +14,7 @@ import javax.swing.text.*;
 
 import Quests.Quest;
 import Quests.QuestManager;
+import SharedData.GameSettings;
 
 public class MainGameScreen extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -25,7 +26,7 @@ public class MainGameScreen extends JFrame {
 	LoadSaveGame myGameState = new LoadSaveGame();
 	GameMenuItems myGameMenuItems = new GameMenuItems();
 	CharacterCreation myCharacterCreation = new CharacterCreation();
-	private QuestManager questManager = new QuestManager(myChar);
+	//private QuestManager questManager = new QuestManager(myChar);
 
 	JFrame MainGameScreenFrame = null;
 	JPanel p1Panel, p2Panel, p3Panel, p4Panel = null;
@@ -83,7 +84,7 @@ public class MainGameScreen extends JFrame {
 
 		MainGameScreenFrame.setSize(width, height);
 		MainGameScreenFrame.setLayout(new BorderLayout());
-		MainGameScreenFrame.setForeground(myGameSettings.colorBrown);
+		MainGameScreenFrame.setForeground(myGameSettings.getColorBrown());
 		MainGameScreenFrame.setUndecorated(true);
 		MainGameScreenFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -106,31 +107,31 @@ public class MainGameScreen extends JFrame {
 		}
 
 		CharNameClassLevelField = new JTextField();
-		CharNameClassLevelField.setFont(myGameSettings.fontTimesNewRoman);
-		CharNameClassLevelField.setBackground(myGameSettings.colorGreen);
-		CharNameClassLevelField.setForeground(myGameSettings.colorWhite);
+		CharNameClassLevelField.setFont(myGameSettings.getFontTimesNewRoman());
+		CharNameClassLevelField.setBackground(myGameSettings.getColorGreen());
+		CharNameClassLevelField.setForeground(myGameSettings.getColorWhite());
 		CharNameClassLevelField.setColumns(3);
 		CharNameClassLevelField.setEditable(false);
 
 		CharStatsField = new JTextField();
 		CharStatsField.setLayout(new FlowLayout());
-		CharStatsField.setFont(myGameSettings.fontTimesNewRoman);
-		CharStatsField.setBackground(myGameSettings.colorBlue);
-		CharStatsField.setForeground(myGameSettings.colorWhite);
+		CharStatsField.setFont(myGameSettings.getFontTimesNewRoman());
+		CharStatsField.setBackground(myGameSettings.getColorBlue());
+		CharStatsField.setForeground(myGameSettings.getColorWhite());
 		CharStatsField.setEditable(false);
 
 		CharStats2Field = new JTextField();
 		CharStats2Field.setLayout(new FlowLayout());
-		CharStats2Field.setFont(myGameSettings.fontTimesNewRoman);
-		CharStats2Field.setBackground(myGameSettings.colorBlue);
-		CharStats2Field.setForeground(myGameSettings.colorWhite);
+		CharStats2Field.setFont(myGameSettings.getFontTimesNewRoman());
+		CharStats2Field.setBackground(myGameSettings.getColorBlue());
+		CharStats2Field.setForeground(myGameSettings.getColorWhite());
 		CharStats2Field.setEditable(false);
 
 		CharXPHPGoldField = new JTextField();
 		CharXPHPGoldField.setLayout(getLayout());
-		CharXPHPGoldField.setFont(myGameSettings.fontTimesNewRoman);
-		CharXPHPGoldField.setBackground(myGameSettings.colorPurple);
-		CharXPHPGoldField.setForeground(myGameSettings.colorWhite);
+		CharXPHPGoldField.setFont(myGameSettings.getFontTimesNewRoman());
+		CharXPHPGoldField.setBackground(myGameSettings.getColorPurple());
+		CharXPHPGoldField.setForeground(myGameSettings.getColorWhite());
 		CharXPHPGoldField.setColumns(3);
 		CharXPHPGoldField.setEditable(false);
 
@@ -182,7 +183,7 @@ public class MainGameScreen extends JFrame {
 		menuBar = new JMenuBar();
 		menuBar.setPreferredSize(new Dimension(25, 35));
 		menuBar.setFont(new Font("sans-serif", Font.ROMAN_BASELINE, 22));
-		menuBar.setBackground(myGameSettings.colorPlum);
+		menuBar.setBackground(myGameSettings.getColorPlum());
 
 		// Create menus
 		gameMenu = new JMenu("Game");
@@ -309,7 +310,7 @@ public class MainGameScreen extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.print("Active Quests:\n");
-				questManager.displayActiveQuests(); // Generate and display quests for dungeon level 1
+			//	questManager.displayActiveQuests(); // Generate and display quests for dungeon level 1
 
 
 				/*

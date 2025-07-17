@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import SharedData.GameSettings;
+
 /**
  * The GameMenuItems class provides functionality for displaying and managing
  * various game menu options such as character stats and inventory.
@@ -52,8 +54,8 @@ public class GameMenuItems {
 
         // Configure text area font and colors
         statsArea.setFont(new Font(Font.SERIF, Font.PLAIN, 15));
-        statsArea.setForeground(myGamePreferences.colorWhite);
-        statsArea.setBackground(myGamePreferences.colorBlack);
+        statsArea.setForeground(myGamePreferences.getColorWhite());
+        statsArea.setBackground(myGamePreferences.getColorBlack());
         statsArea.setVisible(true);
 
         // Configure frame size and visibility
