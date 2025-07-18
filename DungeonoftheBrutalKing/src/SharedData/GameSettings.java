@@ -48,6 +48,8 @@ public class GameSettings {
 	private Color colorPlum;
 	
 	
+	
+	
     private Font fontTimesNewRoman, fontAvatar, fontWelcomeMessage;
     private BufferedImage myJMenuBarPicture, myStartMenuPicture;
 
@@ -65,19 +67,27 @@ public class GameSettings {
     //*********************************************************************************
     //--------------------------- Initialization Methods ------------------------------
     //*********************************************************************************
-    private void initializeFilePaths() {
-        MenuBarImagePath = "MenuBar/";
-        MonsterImagePath = "Monsters/";
-        FontPath = "Fonts/";
-        DungeonFloorTexturePath = "Level/Floor/";
-        DungeonWallTexturePath = "Level/Door/";
-        SavedGameDirectory = "SaveGame/";
-        StoryIntroductionPath = "Messages/StoryIntroduction/";
-        StartMenuPath = "Program/StartMenu/";
-        ClassImagesPath = "Classes/";
-        SoundEffectsPath = "SoundEffects/";
-        NPCImagePath = "NPC/";
-    }
+
+
+
+
+private void initializeFilePaths() {
+    MenuBarImagePath = "MenuBar/";
+    MonsterImagePath = "src/DungeonoftheBrutalKing/Images/Monsters/";
+    FontPath = "src/DungeonoftheBrutalKing/Fonts/";
+    DungeonFloorTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Floor/";
+    DungeonWallTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Door/";
+    SavedGameDirectory = "src/DungeonoftheBrutalKing/SaveGame/";
+    StoryIntroductionPath = "Messages/StoryIntroduction/";
+    StartMenuPath = "Program/StartMenu/";
+    ClassImagesPath = "src/DungeonoftheBrutalKing/Images/Classes/";
+    SoundEffectsPath = "src/DungeonoftheBrutalKing/SoundEffects/"; // Updated path
+    NPCImagePath = "src/DungeonoftheBrutalKing/Images/NPC/";
+}
+
+
+
+
 
     private void initializeColors() {
         colorBrown = new Color(165, 42, 42);

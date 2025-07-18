@@ -9,7 +9,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class CrimsonBlades extends JPanel {
 

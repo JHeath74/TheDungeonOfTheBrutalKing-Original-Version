@@ -11,7 +11,11 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 public class RoundedButton extends JButton {
-    private int radius;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -541523765650294418L;
+	private int radius;
 
     public RoundedButton(String text, int radius) {
         super(text);

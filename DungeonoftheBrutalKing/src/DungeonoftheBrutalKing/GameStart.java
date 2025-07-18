@@ -9,7 +9,6 @@ import SharedData.SettingsAndPreferences;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +32,13 @@ public class GameStart extends JFrame {
         StartMenuFrame.getContentPane().setBackground(myGameSettings.getColorLightBrown());
 
         JPanel backgroundPanel = new JPanel() {
-            @Override
+       
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Image backgroundImage = Toolkit.getDefaultToolkit().getImage("src\\DungeonoftheBrutalKing\\Images\\Program\\StartMenu\\StartingImage.png");
@@ -223,4 +228,6 @@ SettingsButton.addActionListener(new ActionListener() {
         });
         musicThread.start();
     }
+
+
 }

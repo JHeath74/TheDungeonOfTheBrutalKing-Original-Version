@@ -2,37 +2,33 @@
 package SharedData;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class SettingsAndPreferences extends JFrame {
-
     private static final long serialVersionUID = 1L;
 
-    private int soundVolume;
-    private String resolution;
+    private int soundVolume = 50; // Default value
+    private String resolution = "1920x1080"; // Default value
     private Map<String, String> keyMappings = new HashMap<>();
     private boolean isFullScreen = false;
-    private GraphicsDevice graphicsDevice;
 
     public SettingsAndPreferences() {
+        GameSettings myGameSettings = new GameSettings(); // Retrieve color scheme
+
         setTitle("Settings");
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridBagLayout());
 
-        graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        // Set background color
+        getContentPane().setBackground(myGameSettings.getColorBlack());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -40,6 +36,7 @@ public class SettingsAndPreferences extends JFrame {
 
         // Sound Volume Slider
         JLabel volumeLabel = new JLabel("Sound Volume:");
+        volumeLabel.setForeground(myGameSettings.getColorWhite());
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(volumeLabel, gbc);
@@ -55,6 +52,7 @@ public class SettingsAndPreferences extends JFrame {
 
         // Resolution Dropdown
         JLabel resolutionLabel = new JLabel("Resolution:");
+        resolutionLabel.setForeground(myGameSettings.getColorWhite());
         gbc.gridx = 0;
         gbc.gridy = 1;
         add(resolutionLabel, gbc);
@@ -66,13 +64,49 @@ public class SettingsAndPreferences extends JFrame {
         gbc.gridy = 1;
         add(resolutionDropdown, gbc);
 
-        // Save Button
-        JButton saveButton = new JButton("Save");
+        // Screen Mode Dropdown
+        JLabel screenModeLabel = new JLabel("Screen Mode:");
+        screenModeLabel.setForeground(myGameSettings.getColorWhite());
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
+        add(screenModeLabel, gbc);
+
+        String[] screenModes = {"Windowed", "Full-Screen"};
+        JComboBox<String> screenModeDropdown = new JComboBox<>(screenModes);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        add(screenModeDropdown, gbc);
+
+        screenModeDropdown.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedMode = (String) screenModeDropdown.getSelectedItem();
+                toggleScreenMode(selectedMode);
+            }
+        });
+
+        // Control Mapping Button
+        JButton controlMappingButton = createButton("Control Mapping");
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
+        add(controlMappingButton, gbc);
+
+        controlMappingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openControlMappingDialog();
+            }
+        });
+
+        // Save Settings Button
+        JButton saveButton = createButton("Save Settings");
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
         add(saveButton, gbc);
 
+        saveButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25))); // 25% larger size
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,31 +121,42 @@ public class SettingsAndPreferences extends JFrame {
             }
         });
 
-        // Control Mapping Button
-        JButton controlMappingButton = new JButton("Control Mapping");
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        add(controlMappingButton, gbc);
+        // Restore Default Button
+        JButton restoreDefaultButton = createButton("Restore Default");
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        add(restoreDefaultButton, gbc);
 
-        controlMappingButton.addActionListener(new ActionListener() {
+        restoreDefaultButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25))); // 25% larger size
+        restoreDefaultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openControlMappingDialog();
+                setSoundVolume(50); // Default sound volume
+                setResolution("1920x1080"); // Default resolution
+                toggleScreenMode("Full-Screen"); // Default screen mode
+
+                keyMappings.put("Move Forward", "Up");
+                keyMappings.put("Move Backward", "Down");
+                keyMappings.put("Move Left", "Left");
+                keyMappings.put("Move Right", "Right");
+
+                JOptionPane.showMessageDialog(SettingsAndPreferences.this, "Default settings restored!");
             }
         });
 
-        // Full-Screen Toggle Button
-        JButton fullScreenButton = new JButton("Toggle Full-Screen");
+        // Exit Button
+        JButton exitButton = createButton("Exit");
         gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        add(fullScreenButton, gbc);
+        gbc.gridy = 7; // Move below Save and Restore Default buttons
+        gbc.gridwidth = 2; // Center the Exit button
+        add(exitButton, gbc);
 
-        fullScreenButton.addActionListener(new ActionListener() {
+        exitButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25))); // 25% larger size
+        exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                toggleFullScreen();
+                dispose();
             }
         });
 
@@ -119,145 +164,88 @@ public class SettingsAndPreferences extends JFrame {
         setVisible(true);
     }
 
-    private void toggleFullScreen() {
-        if (isFullScreen) {
-            graphicsDevice.setFullScreenWindow(null); // Exit full-screen mode
-            setSize(400, 400); // Restore window size
-            setLocationRelativeTo(null); // Center the window
-        } else {
-            graphicsDevice.setFullScreenWindow(this); // Enter full-screen mode
-        }
-        isFullScreen = !isFullScreen;
-    }
+    private JButton createButton(String text) {
+        Font gameFont = new Font("Verdana", Font.PLAIN, 18); // Use default font
 
-    private void openControlMappingDialog() {
-        JDialog controlMappingDialog = new JDialog(this, "Control Mapping", true);
-        controlMappingDialog.setSize(400, 300);
-        controlMappingDialog.setLayout(new GridLayout(0, 2));
-
-        String[] actions = {"Move Forward", "Move Backward", "Move Left", "Move Right"};
-        Map<String, JTextField> actionFields = new HashMap<>();
-
-        for (String action : actions) {
-            controlMappingDialog.add(new JLabel(action + ":"));
-            JTextField keyField = new JTextField(keyMappings.getOrDefault(action, ""));
-            keyField.setEditable(false);
-            keyField.addKeyListener(new KeyListener() {
-                @Override
-                public void keyTyped(KeyEvent e) {}
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    keyField.setText(KeyEvent.getKeyText(e.getKeyCode()));
-                }
-
-                @Override
-                public void keyReleased(KeyEvent e) {}
-            });
-            actionFields.put(action, keyField);
-            controlMappingDialog.add(keyField);
-        }
-
-        JButton saveMappingButton = new JButton("Save Mappings");
-        controlMappingDialog.add(saveMappingButton);
-        saveMappingButton.addActionListener(new ActionListener() {
+        JButton button = new JButton(text) {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Map.Entry<String, JTextField> entry : actionFields.entrySet()) {
-                    keyMappings.put(entry.getKey(), entry.getValue().getText());
-                }
-                saveKeyMappings();
-                controlMappingDialog.dispose();
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+
+                // Draw yellow border
+                g2.setColor(Color.YELLOW);
+                g2.setStroke(new BasicStroke(2));
+                g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20);
+
+                g2.dispose();
+
+                // Call superclass method to render text
+                super.paintComponent(g);
             }
-        });
 
-        controlMappingDialog.setLocationRelativeTo(this);
-        controlMappingDialog.setVisible(true);
-    }
-
-    private void saveKeyMappings() {
-        String filePath = "src/DungeonoftheBrutalKing/TextFiles/keyMappings.txt";
-        try (FileWriter writer = new FileWriter(filePath)) {
-            for (Map.Entry<String, String> entry : keyMappings.entrySet()) {
-                writer.write(entry.getKey() + "=" + entry.getValue() + "\n");
+            @Override
+            public void setBorder(Border border) {
+                // Prevent setting a border to avoid visual issues
             }
-            System.out.println("Key mappings saved successfully.");
-        } catch (IOException e) {
-            System.err.println("Failed to save key mappings: " + e.getMessage());
-        }
-    }
-
-    private String[] getSupportedResolutions() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
-        DisplayMode[] displayModes = gd.getDisplayModes();
-
-        Set<String> resolutionsSet = new LinkedHashSet<>();
-        for (DisplayMode mode : displayModes) {
-            int width = mode.getWidth();
-            int height = mode.getHeight();
-            resolutionsSet.add(width + "x" + height);
-        }
-
-        return resolutionsSet.toArray(new String[0]);
-    }
-
-    protected void setResolution(String selectedItem) {
-        if (selectedItem != null && !selectedItem.isEmpty()) {
-            this.resolution = selectedItem;
-        } else {
-            throw new IllegalArgumentException("Resolution cannot be empty.");
-        }
-    }
-
-    protected void setSoundVolume(int value) {
-        if (value >= 0 && value <= 100) {
-            this.soundVolume = value;
-        } else {
-            throw new IllegalArgumentException("Volume must be between 0 and 100.");
-        }
-    }
-
-    private String getResolution() {
-        return resolution != null ? resolution : "1920x1080";
+        };
+        button.setFont(gameFont); // Apply default font
+        button.setBackground(Color.GRAY);
+        button.setForeground(Color.WHITE); // White text
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension((int) (150 * 1.2), (int) (50 * 1.2))); // 20% larger size
+        return button;
     }
 
     private int getSoundVolume() {
         return soundVolume;
     }
 
-    protected void autoSaveSettings() {
-        String filePath = "src/DungeonoftheBrutalKing/TextFiles/settings.txt";
-        try (FileWriter writer = new FileWriter(filePath)) {
+    private String getResolution() {
+        return resolution;
+    }
+
+    private String[] getSupportedResolutions() {
+        return new String[]{"1920x1080", "1280x720", "800x600"};
+    }
+
+    private void toggleScreenMode(String mode) {
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        isFullScreen = mode.equals("Full-Screen");
+
+        if (isFullScreen) {
+            dispose();
+            setUndecorated(true);
+            graphicsDevice.setFullScreenWindow(this);
+        } else {
+            graphicsDevice.setFullScreenWindow(null);
+            setUndecorated(false);
+            setVisible(true);
+        }
+    }
+
+    private void setSoundVolume(int volume) {
+        soundVolume = volume;
+    }
+
+    private void setResolution(String res) {
+        resolution = res;
+    }
+
+    private void autoSaveSettings() {
+        try (FileWriter writer = new FileWriter("settings.txt")) {
             writer.write("SoundVolume=" + soundVolume + "\n");
             writer.write("Resolution=" + resolution + "\n");
-            System.out.println("Settings auto-saved to file: Volume = " + soundVolume + ", Resolution = " + resolution);
+            writer.write("FullScreen=" + isFullScreen + "\n");
         } catch (IOException e) {
-            System.err.println("Failed to save settings: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Failed to save settings: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    protected void loadSettings() throws IOException {
-        String filePath = "src/DungeonoftheBrutalKing/TextFiles/settings.txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("=");
-                if (parts.length == 2) {
-                    switch (parts[0]) {
-                        case "SoundVolume":
-                            setSoundVolume(Integer.parseInt(parts[1]));
-                            break;
-                        case "Resolution":
-                            setResolution(parts[1]);
-                            break;
-                    }
-                }
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        new SettingsAndPreferences();
+    private void openControlMappingDialog() {
+        JOptionPane.showMessageDialog(this, "Control mapping dialog opened.");
     }
 }
