@@ -1,8 +1,8 @@
 
 package GameEngine;
 
+import java.awt.Canvas;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -12,17 +12,12 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import Maps.DungeonLevel;
-import Maps.DungeonLevel1;
-import Maps.DungeonLevel2;
-import Maps.DungeonLevel3;
-import Maps.DungeonLevel4;
 
 public class Game extends JFrame implements Runnable {
 
-    MainGameScreen myMainGameScreen;
-
     private static final long serialVersionUID = 1L;
+    public int mapWidth = 15;
+    public int mapHeight = 15;
     private Thread thread;
     private boolean running;
     private BufferedImage image;
@@ -30,19 +25,33 @@ public class Game extends JFrame implements Runnable {
     public ArrayList<Texture> textures;
     public Camera camera;
     public Screen screen;
-    private DungeonLevel dungeonLevel;
-    private int[][] map;
-    private int mapWidth;
-    private int mapHeight;
+    
+    private MainGameScreen mainGameScreen;
+    
+    
+    
 
-    private Game() throws IOException, InterruptedException, ParseException {
-        try {
-            myMainGameScreen = MainGameScreen.getInstance();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            throw e; // Rethrow if necessary
-        }
 
+
+    public static int[][] map = {
+        {1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 2},
+        {1, 0, 3, 0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 3, 0, 0, 0, 3, 0, 2, 2, 2, 0, 2, 2, 2},
+        {1, 0, 3, 0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 3, 3, 0, 3, 3, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 0, 4, 4, 4},
+        {1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4},
+        {1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4},
+        {1, 0, 0, 0, 0, 0, 1, 4, 0, 3, 3, 3, 3, 0, 4},
+        {1, 0, 0, 0, 0, 0, 1, 4, 0, 3, 3, 3, 3, 0, 4},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+        {1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4}
+    };
+
+    public Game() throws IOException, InterruptedException {
         thread = new Thread(this);
         image = new BufferedImage(640, 480, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -55,19 +64,17 @@ public class Game extends JFrame implements Runnable {
         screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
         addKeyListener(camera);
 
-        dungeonLevel = getDungeonLevel(1);
-        map = getDungeonMap(1);
-        mapWidth = dungeonLevel.getMapWidth();
-        mapHeight = dungeonLevel.getMapHeight();
-
-        start();
+		try {
+		    new MainGameScreen();
+		} catch (ParseException e) {
+		    e.printStackTrace();
+		}
+        
     }
 
-    public synchronized void start() {
-        if (!running && thread.getState() == Thread.State.NEW) { // Ensure thread is only started once
-            running = true;
-            thread.start();
-        }
+    private synchronized void start() {
+        running = true;
+        thread.start();
     }
 
     public synchronized void stop() {
@@ -79,25 +86,24 @@ public class Game extends JFrame implements Runnable {
         }
     }
 
-    public void render() {
-        BufferStrategy bs = myMainGameScreen.getGameImagesAndCombatCanvas().getBufferStrategy();
+    public void render(MainGameScreen mainGameScreen) {
+        Canvas canvas = mainGameScreen.getGameImagesAndCombatCanvas();
+        BufferStrategy bs = canvas.getBufferStrategy();
         if (bs == null) {
-            myMainGameScreen.getGameImagesAndCombatCanvas().createBufferStrategy(3);
+            canvas.createBufferStrategy(3);
             return;
         }
-
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null); // Draw the image
-        g.dispose();
+        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
         bs.show();
+        g.dispose();
     }
 
-    @Override
     public void run() {
         long lastTime = System.nanoTime();
         final double ns = 1000000000.0 / 60.0; // 60 times per second
         double delta = 0;
-        myMainGameScreen.requestFocus();
+        requestFocus();
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -106,61 +112,17 @@ public class Game extends JFrame implements Runnable {
                 screen.update(camera, pixels);
                 try {
                     camera.update(map);
-                    Point playerPosition = new Point((int) camera.xPos, (int) camera.yPos);
-                    Point transitionPoint = getTransitionPoint(dungeonLevel.getDungeonLevelNumber());
-                    if (playerPosition.equals(transitionPoint)) {
-                        changeLevel(dungeonLevel.getDungeonLevelNumber() + 1);
-                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 delta--;
             }
-            render();
+            render(mainGameScreen); // displays to the screen unrestricted time
         }
     }
 
-    public void changeLevel(int level) {
-        dungeonLevel = getDungeonLevel(level);
-        map = getDungeonMap(level);
-        mapWidth = dungeonLevel.getMapWidth();
-        mapHeight = dungeonLevel.getMapHeight();
-        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
-        myMainGameScreen.setMessageTextPane("You have entered Dungeon Level " + level + ".\n");
-    }
-
-    public int[][] getDungeonMap(int level) {
-        DungeonLevel dungeonLevel = getDungeonLevel(level);
-        return dungeonLevel.getMap();
-    }
-
-    public DungeonLevel getDungeonLevel(int level) {
-        switch (level) {
-            case 1:
-                return new DungeonLevel1();
-            case 2:
-                return new DungeonLevel2();
-            case 3:
-                return new DungeonLevel3();
-            case 4:
-                return new DungeonLevel4();
-            default:
-                throw new IllegalArgumentException("Invalid dungeon level: " + level);
-        }
-    }
-
-    public Point getTransitionPoint(int level) {
-        switch (level) {
-            case 1:
-                return new Point(4, 4);
-            case 2:
-                return new Point(2, 2);
-            case 3:
-                return new Point(6, 6);
-            case 4:
-                return new Point(8, 8);
-            default:
-                throw new IllegalArgumentException("Invalid dungeon level: " + level);
-        }
-    }
+	/*
+	 * public static void main(String[] args) { Game game = new Game();
+	 * game.start(); }
+	 */
 }
