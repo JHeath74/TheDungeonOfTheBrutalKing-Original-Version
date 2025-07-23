@@ -150,7 +150,7 @@ public class Combat extends JFrame {
                 int monsterAttackChance = random.nextInt(100);
                 if (monsterAttackChance >= myChar.getAgility()) {
                     int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
-                    myChar.setHP(myChar.getHitPoints() - monsterDamage);
+                    myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
                     combatLog.append("The ").append(myEnemies.getName())
                             .append(" hit you for ").append(monsterDamage).append(" damage!\n");
                 } else {

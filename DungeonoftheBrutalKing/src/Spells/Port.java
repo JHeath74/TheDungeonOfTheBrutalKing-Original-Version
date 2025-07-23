@@ -35,7 +35,7 @@ public abstract class Port implements Spells {
             dungeon[targetZ][targetY][targetX] = 1; // Set new position
 
             // Update character's position in Singleton
-            Singleton.myCharSingleton().updatePosition(targetX, targetY, targetZ);
+            Singleton.myCharSingleton().setPosition(targetX, targetY, targetZ);
 
             System.out.println("Teleported to (" + targetX + ", " + targetY + ", 0)!");
         } else {

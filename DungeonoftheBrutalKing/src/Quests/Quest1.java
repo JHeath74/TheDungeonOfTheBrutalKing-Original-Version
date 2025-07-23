@@ -51,7 +51,7 @@ private int calculateGoldReward() {
         int experienceReward = charLevel * experienceMultiplier; // Calculate experience reward
 
         int currentExperience = Integer.parseInt(character.CharInfo.get(11)); // Get current experience
-        character.updateExperience(currentExperience + experienceReward); // Update experience in CharInfo index 11
+        character.setExperience(currentExperience + experienceReward); // Update experience in CharInfo index 11
     }
 
     public void checkQuestCompletion(Charecter character) {
@@ -99,7 +99,7 @@ private int calculateGoldReward() {
 
     public void giveReward(Charecter character) {
         int currentGold = Integer.parseInt(character.CharInfo.get(12)); // Get current gold
-        character.updateGold(currentGold + rewardGold); // Update gold in CharInfo index 12
+        character.setGold(currentGold + rewardGold); // Update gold in CharInfo index 12
     }
 
     private void assignRandomLocation() {

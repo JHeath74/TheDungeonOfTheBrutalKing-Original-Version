@@ -31,7 +31,7 @@ public abstract class Location implements Spells {
             dungeon[currentZ][currentY][currentX] = 0; // Clear current position
             dungeon[targetZ][targetY][targetX] = 1; // Set new position
 
-            Singleton.myCharSingleton().updatePosition(targetX, targetY, targetZ);
+            Singleton.myCharSingleton().setPosition(targetX, targetY, targetZ);
 
             System.out.println("Your Location is to (" + currentX + ", " + currentY + "," + currentZ + ")!");
         } else {

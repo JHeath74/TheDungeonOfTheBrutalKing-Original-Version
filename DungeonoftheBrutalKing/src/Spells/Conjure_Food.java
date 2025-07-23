@@ -29,7 +29,7 @@ public abstract class Conjure_Food implements Spells {
             Random random = new Random();
             int foodConjured = random.nextInt(3) + 1; // Random value from 1 to 3
             int currentFood = Integer.parseInt(myChar.CharInfo.get(13));
-            myChar.updateFood(currentFood + foodConjured);
+            myChar.setFood(currentFood + foodConjured);
             System.out.println("Conjured " + foodConjured + " food items!");
         }
     }

@@ -132,7 +132,7 @@ public class HarmonicLightEnsemble extends JPanel {
         String newSpell = JOptionPane.showInputDialog(this, "Enter the name of the spell to buy:");
         if (newSpell != null && !newSpell.isEmpty()) {
             spells.add(newSpell);
-            character.updateGold(gold - SPELL_COST);
+            character.setGold(gold - SPELL_COST);
             JOptionPane.showMessageDialog(this, "You purchased the spell: " + newSpell);
         }
     }

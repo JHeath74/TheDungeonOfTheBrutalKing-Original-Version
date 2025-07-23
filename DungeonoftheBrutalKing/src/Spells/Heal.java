@@ -31,7 +31,7 @@ public abstract class Heal implements Spells {
         int newHealth = Math.min(currentHealth + healthRestored, maxHealth);
 
         // Update character's health
-        Singleton.myCharSingleton().updateHealth(newHealth);
+        Singleton.myCharSingleton().setHitPoints(newHealth);
 
         System.out.println("Restored " + (newHealth - currentHealth) + " health points!");
     }

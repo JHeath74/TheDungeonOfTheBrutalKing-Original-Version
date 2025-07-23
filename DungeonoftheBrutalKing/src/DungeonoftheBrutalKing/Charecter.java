@@ -11,28 +11,30 @@ import Quests.Quest;
 //CharInfo ArrayList:
 //Index 0: Character's name (String)
 //Index 1: Character's class or type (String)
-//Index 2: Character's level (int as String)
-//Index 3: Character's experience points (int as String)
-//Index 4: Character's health points (HP) (int as String)
-//Index 5: Character's magic points (MP) (int as String)
-//Index 6: Character's stamina (int as String)
-//Index 7: Character's charisma (int as String)
-//Index 8: Character's strength (int as String)
-//Index 9: Character's intelligence (int as String)
-//Index 10: Character's wisdom (int as String)
-//Index 11: Character's agility (int as String)
-//Index 12: Character's gold (int as String)
-//Index 13: Character's food (int as String)
-//Index 14: Character's water (int as String)
-//Index 15: Character's torches (int as String)
-//Index 16: Character's gems (int as String)
-//Index 17: Character's equipped weapon (String)
-//Index 18: Character's equipped armor (String)
-//Index 19: Character's equipped shield (String)
-//Index 20: Character's alignment (int as a String)
-//Index 22: Character's X position (int as String)
-//Index 23: Character's Y position (int as String)
-//Index 24: Character's Z position (int as String)
+//Index 2: Character's Race (String)
+//Index 3: Character's level (int as String)
+//Index 4: Character's experience points (int as String)
+//Index 5: Character's health points (HP) (int as String)
+//Index 6: Character's magic points (MP) (int as String)
+//Index 7: Character's stamina (int as String)
+//Index 8: Character's charisma (int as String)
+//Index 9: Character's strength (int as String)
+//Index 10: Character's intelligence (int as String)
+//Index 11: Character's wisdom (int as String)
+//Index 12: Character's agility (int as String)
+//Index 13: Character's gold (int as String)
+//Index 14: Character's food (int as String)
+//Index 15: Character's water (int as String)
+//Index 16: Character's torches (int as String)
+//Index 17: Character's gems (int as String)
+//Index 18: Character's equipped weapon (String)
+//Index 19: Character's equipped armor (String)
+//Index 20: Character's equipped shield (String)
+//Index 21: Character's alignment (int as String)
+//Index 23: Character's X position (int as String)
+//Index 24: Character's Y position (int as String)
+//Index 25: Character's Z position (int as String)
+
 
 //SpellsLearned ArrayList:
 //This ArrayList stores the names of spells that the character has learned.
@@ -125,17 +127,9 @@ public class Charecter {
 		}
 		return activeEffects;
 	}
+	
 
-	public void addFood(int amount) {
-		int currentFood = Integer.parseInt(CharInfo.get(13));
-		CharInfo.set(13, String.valueOf(currentFood + amount));
-	}
-
-	public void addGold(int amount) {
-		int currentGold = Integer.parseInt(CharInfo.get(12));
-		CharInfo.set(12, String.valueOf(currentGold + amount));
-	}
-
+	
 	public void addToInventory(String item) {
 		if (!CharInventory.contains(item)) {
 			CharInventory.add(item);
@@ -151,7 +145,7 @@ public class Charecter {
 		int experienceRequired = getExperienceRequiredForLevel(currentLevel + 1); // Experience needed for next level
 
 		if (currentExperience >= experienceRequired) {
-			updateLevel(currentLevel + 1); // Level up the character
+			setLevel(currentLevel + 1); // Level up the character
 			MainGameScreen.appendToMessageTextPane("Congratulations! You leveled up to level " + (currentLevel + 1));
 		}
 	}
@@ -169,18 +163,6 @@ public class Charecter {
 		return activeQuests;
 	}
 
-	public int getAgility() {
-		return Integer.parseInt(CharInfo.get(11));
-	}
-
-	// Method to retrieve the character's current position
-	public int[] getCharInfo() {
-		int[] position = new int[3];
-		position[0] = Integer.parseInt(CharInfo.get(22)); // X position
-		position[1] = Integer.parseInt(CharInfo.get(23)); // Y position
-		position[2] = Integer.parseInt(CharInfo.get(24)); // Z position
-		return position;
-	}
 
 	public EffectManager getEffectManager() {
 		return effectManager;
@@ -190,19 +172,6 @@ public class Charecter {
 		int baseExperience = 1000; // Starting experience for level 1
 		double scalingFactor = 1.5; // Experience multiplier for each level
 		return (int) (baseExperience * Math.pow(scalingFactor, level - 1));
-	}
-
-	public int getFood() {
-		return Integer.parseInt(CharInfo.get(13));
-	}
-
-	public int getGold() {
-		return Integer.parseInt(CharInfo.get(12));
-	}
-
-	// Method to retrieve the character's hit points
-	public int getHitPoints() {
-		return Integer.parseInt(CharInfo.get(4));
 	}
 
 	// src/DungeonoftheBrutalKing/Charecter.java
@@ -220,17 +189,9 @@ public class Charecter {
 		return null; // Return null if the spell is not found
 	}
 
-	public int getStrength() {
-		return Integer.parseInt(CharInfo.get(8));
-	}
 
-	public int getTorches() {
-		return Integer.parseInt(CharInfo.get(15));
-	}
 
-	public int getWater() {
-		return Integer.parseInt(CharInfo.get(14));
-	}
+
 
 	public int getWeaponDamage() {
 		int strength = getStrength(); // Retrieve character's strength
@@ -298,7 +259,7 @@ public class Charecter {
 	// src/DungeonoftheBrutalKing/Charecter.java
 	public void rewardExperience(int experiencePoints) {
 		int currentExperience = Integer.parseInt(CharInfo.get(3)); // Get current experience
-		updateExperience(currentExperience + experiencePoints); // Add experience points
+		setExperience(currentExperience + experiencePoints); // Add experience points
 		MainGameScreen.appendToMessageTextPane("You gained " + experiencePoints + " experience points!");
 
 		checkLevelUp(); // Check if the character qualifies for a level-up
@@ -319,118 +280,199 @@ public class Charecter {
 		}
 	}
 
-	// Method to update the character's level
-	public void updateLevel(int Level) {
-		CharInfo.set(2, String.valueOf(Level));
+	// Index 2 – Race & Level
+	public String getRace() {
+	    return CharInfo.get(2);
+	}
+	public void setRace(String race) {
+	    CharInfo.set(2, race);
+	}
+	// Index 3 – Level
+	public String getLevel() {
+	    return CharInfo.get(3);
+	}
+	public void setLevel(int level) {
+	    CharInfo.set(3, String.valueOf(level));
 	}
 
-
-	// Method to update the character's experience
-	public void updateExperience(int Experience) {
-		CharInfo.set(3, String.valueOf(Experience));
+	// Index 4 – Experience
+	public String getExperience() {
+	    return CharInfo.get(4);
+	}
+	public void setExperience(int experience) {
+	    CharInfo.set(4, String.valueOf(experience));
 	}
 
-	// Method to update the character's health
-	public void updateHealth(int health) {
-		CharInfo.set(4, String.valueOf(health));
-		MainGameScreen.appendToMessageTextPane("Your Health has been updated to " + health + ".");
+	// Index 5 – Health Points (HP)
+	public int getHitPoints() {
+	    return Integer.parseInt(CharInfo.get(5));
 	}
-	
-	public void setHP(int hp) {
-		CharInfo.set(4, String.valueOf(hp));
+	public void setHitPoints(int hp) {
+	    CharInfo.set(5, String.valueOf(hp));
 	}
 
-	// Method to update the character's magic points
-	public void updateMagicPoints(int magicPoints) {
-		CharInfo.set(5, String.valueOf(magicPoints));
-	}
-	
-	// Method to update the character's magic points
-	public void updateActionPoints(int actionPoints) {
-		CharInfo.set(5, String.valueOf(actionPoints));
-	}
-	
+	// Index 6 – Action Points
 	public int getActionPoints() {
-	    return Integer.parseInt(CharInfo.get(5)); // Retrieve action points from index 5
-	}
-	
-	// Methods to update character stats
-	public void updateStamina(int Stamina) {
-		CharInfo.set(6, String.valueOf(Stamina));
+	    return Integer.parseInt(CharInfo.get(6)); // Retrieve action points
 	}
 
-	public void updateCharisma(int Charisma) {
-		CharInfo.set(7, String.valueOf(Charisma));
+	public void setActionPoints(int actionPoints) {
+	    CharInfo.set(6, String.valueOf(actionPoints)); // Update action points
 	}
-	
-	public void updateStrength(int Strength) {
-		CharInfo.set(8, String.valueOf(Strength));
+
+
+	// Index 6 – Magic Points (MP)
+	public int getMagicPoints() {
+	    return Integer.parseInt(CharInfo.get(6));
 	}
-	
-	public void updateIntelligence(int Intelligence) {
-		CharInfo.set(9, String.valueOf(Intelligence));
+	public void setMagicPoints(int magicPoints) {
+	    CharInfo.set(6, String.valueOf(magicPoints));
 	}
-	
-	public void updateWisdom(int Wisdom) {
-		CharInfo.set(10, String.valueOf(Wisdom));
+
+	// Index 7 – Stamina
+	public int getStamina() {
+	    return Integer.parseInt(CharInfo.get(7));
 	}
-	
+	public void setStamina(int stamina) {
+	    CharInfo.set(7, String.valueOf(stamina));
+	}
+
+	// Index 8 – Charisma
+	public int getCharisma() {
+	    return Integer.parseInt(CharInfo.get(8));
+	}
+	public void setCharisma(int charisma) {
+	    CharInfo.set(8, String.valueOf(charisma));
+	}
+
+	// Index 9 – Strength
+	public int getStrength() {
+	    return Integer.parseInt(CharInfo.get(9));
+	}
+	public void setStrength(int strength) {
+	    CharInfo.set(9, String.valueOf(strength));
+	}
+
+	// Index 10 – Intelligence
+	public int getIntelligence() {
+	    return Integer.parseInt(CharInfo.get(10));
+	}
+	public void setIntelligence(int intelligence) {
+	    CharInfo.set(10, String.valueOf(intelligence));
+	}
+
+	// Index 11 – Wisdom
 	public int getWisdom() {
-	    return Integer.parseInt(CharInfo.get(10)); // Retrieve wisdom from index 10
+	    return Integer.parseInt(CharInfo.get(11));
 	}
-	
-	public void updateAgility(int Agility) {
-		CharInfo.set(11, String.valueOf(Agility));
-	}
-	
-	// Methods to update resources
-	public void updateGold(int Gold) {
-		CharInfo.set(12, String.valueOf(Gold));
-	}
-	
-	public void updateFood(int food) {
-		CharInfo.set(13, String.valueOf(food));
-	}
-	
-	public void updateWater(int Water) {
-		CharInfo.set(14, String.valueOf(Water));
+	public void setWisdom(int wisdom) {
+	    CharInfo.set(11, String.valueOf(wisdom));
 	}
 
-	public void updateTorches(int torches) {
-		CharInfo.set(15, String.valueOf(torches));
+	// Index 12 – Agility
+	public int getAgility() {
+	    return Integer.parseInt(CharInfo.get(12));
+	}
+	public void setAgility(int agility) {
+	    CharInfo.set(12, String.valueOf(agility));
 	}
 
-	public void updateGems(int gems) {
-		CharInfo.set(16, String.valueOf(gems));
+	// Index 13 – Gold
+	public int getGold() {
+	    return Integer.parseInt(CharInfo.get(13));
 	}
-	
-	// Methods to update equipment
-	public void updateWeapon(String weapon) {
-		CharInfo.set(17, weapon);
-	}
-
-	public void updateArmour(String armour) {
-		CharInfo.set(18, armour);
+	public void setGold(int gold) {
+	    CharInfo.set(13, String.valueOf(gold));
 	}
 
-	public void updateShield(String shield) {
-		CharInfo.set(19, shield);
+	// Index 14 – Food
+	public int getFood() {
+	    return Integer.parseInt(CharInfo.get(14));
 	}
-	
+	public void setFood(int food) {
+	    CharInfo.set(14, String.valueOf(food));
+	}
+
+	// Index 15 – Water
+	public int getWater() {
+	    return Integer.parseInt(CharInfo.get(15));
+	}
+	public void setWater(int water) {
+	    CharInfo.set(15, String.valueOf(water));
+	}
+
+	// Index 16 – Torches
+	public int getTorches() {
+	    return Integer.parseInt(CharInfo.get(16));
+	}
+	public void setTorches(int torches) {
+	    CharInfo.set(16, String.valueOf(torches));
+	}
+
+	// Index 17 – Gems
+	public int getGems() {
+	    return Integer.parseInt(CharInfo.get(17));
+	}
+	public void setGems(int gems) {
+	    CharInfo.set(17, String.valueOf(gems));
+	}
+
+	// Index 18 – Equipped Weapon
+	public String getWeapon() {
+	    return CharInfo.get(18);
+	}
+	public void setWeapon(String weapon) {
+	    CharInfo.set(18, weapon);
+	}
+
+	// Index 19 – Equipped Armor
+	public String getArmour() {
+	    return CharInfo.get(19);
+	}
+	public void setArmour(String armour) {
+	    CharInfo.set(19, armour);
+	}
+
+	// Index 20 – Equipped Shield
+	public String getShield() {
+	    return CharInfo.get(20);
+	}
+	public void setShield(String shield) {
+	    CharInfo.set(20, shield);
+	}
+
+	// Index 21 – Alignment
 	public int getAlignment() {
-	    return Integer.parseInt(CharInfo.get(20)); // Retrieve alignment from index 20
+	    return Integer.parseInt(CharInfo.get(21));
 	}
-
 	public void setAlignment(int alignment) {
-	    CharInfo.set(20, String.valueOf(alignment)); // Update alignment at index 20
+	    CharInfo.set(21, String.valueOf(alignment));
 	}
 
-	// Method to update the character's position
-	public void updatePosition(int targetX, int targetY, int targetZ) {
-		CharInfo.set(22, String.valueOf(targetX)); // Update X position
-		CharInfo.set(23, String.valueOf(targetY)); // Update Y position
-		CharInfo.set(24, String.valueOf(targetZ)); // Update Z position
+	// Indexes 23–25 – Position
+	public void setPosition(int targetX, int targetY, int targetZ) {
+	    CharInfo.set(23, String.valueOf(targetX));
+	    CharInfo.set(24, String.valueOf(targetY));
+	    CharInfo.set(25, String.valueOf(targetZ));
 	}
+
+	public void getPosition(int[] position) {
+		position[0] = Integer.parseInt(CharInfo.get(23)); // X position
+		position[1] = Integer.parseInt(CharInfo.get(24)); // Y position
+		position[2] = Integer.parseInt(CharInfo.get(25)); // Z position
+	}
+	
+	// Method to retrieve the character's current position
+	public int[] getCharInfo() {
+		int[] position = new int[3];
+		position[0] = Integer.parseInt(CharInfo.get(22)); // X position
+		position[1] = Integer.parseInt(CharInfo.get(23)); // Y position
+		position[2] = Integer.parseInt(CharInfo.get(24)); // Z position
+		return position;
+	}
+	
+
+
 
 
 

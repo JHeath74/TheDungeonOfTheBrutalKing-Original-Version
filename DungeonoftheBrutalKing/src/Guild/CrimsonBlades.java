@@ -109,7 +109,7 @@ public class CrimsonBlades extends JPanel {
 
         if (actionPoints >= 10) {
             actionPoints -= 10;
-            character.updateActionPoints(actionPoints);
+            character.setActionPoints(actionPoints);
             JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + actionPoints);
         } else {
             JOptionPane.showMessageDialog(this, "Not enough Action Points to use a skill!");
