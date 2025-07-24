@@ -26,7 +26,7 @@ public abstract class Class {
 
     // Static method to retrieve a class instance by name
     // (To be implemented in the future)
-    protected static Class forName(String className) {
+    public static Class forName(String className) {
         // TODO: Implement logic to return a class instance based on the name
         return null;
     }

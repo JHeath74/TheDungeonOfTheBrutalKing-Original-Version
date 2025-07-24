@@ -34,6 +34,7 @@
             <entry path="null"/>
         </endorsedDirs>
     </libraryInfo>
+    <libraryInfo home="C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot" version="11.0.16.1"/>
     <libraryInfo home="C:\Users\jheat\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.9.v20231028-0858" version="17.0.9"/>
     <libraryInfo home="C:\Users\jheat\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.6.v20230204-1729" version="17.0.6"/>
 </libraryInfos>

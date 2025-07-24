@@ -110,7 +110,7 @@ public class LoadSaveGame {
 			myChar.CharInfo.clear();
 			myChar.CharInfo.addAll(SaveLoadChar);
 
-			JOptionPane.showMessageDialog(null, "Game continued successfully from: " + chosenFile.getName());
+		//	JOptionPane.showMessageDialog(null, "Game continued successfully from: " + chosenFile.getName());
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error continuing game: " + e.getMessage());
 			throw e;

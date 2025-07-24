@@ -1,59 +1,32 @@
 
-// src/DungeonoftheBrutalKing/CharacterCreation.java
 package DungeonoftheBrutalKing;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
-import java.util.Scanner;
-
+import java.util.*;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
-import CharecterClass.Bard;
-import CharecterClass.Class;
 import CharecterClass.Cleric;
-import CharecterClass.Hunter;
 import CharecterClass.Paladin;
-import CharecterClass.Rogue;
 import CharecterClass.Warrior;
+import CharecterClass.Rogue;
+import CharecterClass.Hunter;
+import CharecterClass.Bard;
 import SharedData.GameSettings;
+import Race.*;
 
-// Class responsible for character creation functionality
 public class CharacterCreation {
 
-    // Static instances for game state and settings
     static LoadSaveGame myGameState = new LoadSaveGame();
     static GameSettings myGameSettings = new GameSettings();
-
-    // Singleton instance for the character
     Charecter myChar = Charecter.Singleton();
 
-    // Static variables for character details
     static String InitialCharecterSave = " ";
     static String toonClass, charName = " ";
     static int width, height = 0;
@@ -61,7 +34,6 @@ public class CharacterCreation {
     static File charSave;
     static Scanner saveFile;
 
-    // GUI components for character creation
     static JFrame CharecterCreationFrame;
     static JPanel NameAndStatsPanel, ClassAndClassInfoPanel, ClassInfoAndImagePanel;
     static JTextArea toonstatsTextArea, toonclassDescriptionTextArea;
@@ -73,173 +45,188 @@ public class CharacterCreation {
     static String[] toonclasslist;
     static Integer[] stat;
 
-    // Lists to store character data
-    ArrayList<String> newChar = new ArrayList<>();
-    ArrayList<String> newChar2 = new ArrayList<>();
+    // Race selection fields
+    static JComboBox<String> raceComboBox;
+    static JLabel raceImageLabel;
+    static JTextArea raceDescriptionTextArea;
+    static String[] raceList = RaceFactory.getClassNamesInPackage("Race", RaceFactory.class);
+    static String selectedRace = null;
 
-    // Label and image for class display
     static JLabel classImageLabel;
     static BufferedImage ClassImagePicture;
 
-    // Constructor for initializing character creation
-    public CharacterCreation() throws IOException, InterruptedException {
-        // Empty constructor for setup
-    }
+    public CharacterCreation() throws IOException, InterruptedException {}
 
-    // Method to create a new character
     public void createCharector() {
-        GameSettings myGameSettings = new GameSettings();
-
-        // Get screen dimensions
         size = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) size.getWidth();
         height = (int) size.getHeight();
 
-        // Setup JFrame for character creation
         CharecterCreationFrame = new JFrame("Create New Charecter");
         CharecterCreationFrame.setSize(width, height);
         CharecterCreationFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         CharecterCreationFrame.setBackground(myGameSettings.getColorBrown());
         CharecterCreationFrame.setUndecorated(true);
 
-        // Setup JSplitPane for layout
         CharecterCreationSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         CharecterCreationFrame.add(CharecterCreationSplitPane);
         CharecterCreationSplitPane.setDividerLocation(.5);
         CharecterCreationSplitPane.setResizeWeight(.2d);
 
-        // Initialize text areas and text field
         toonstatsTextArea = new JTextArea();
         toonclassDescriptionTextArea = new JTextArea();
         tooncreationTextField = new JTextField();
         tooncreationTextField.setEditable(false);
 
-        // Set font for class description
         Font toonClassDescriptionFont = new Font("Verdana", Font.BOLD, 30);
         toonclassDescriptionTextArea.setFont(toonClassDescriptionFont);
 
-        // Set default text for character name
         tooncreationTextField.setText("Name: " + charName);
         toonstatsScrollPane = new JScrollPane();
 
-        // Setup panels and add them to the split pane
         NameAndStatsPanel = new JPanel(new BorderLayout());
         ClassAndClassInfoPanel = new JPanel(new BorderLayout());
         ClassInfoAndImagePanel = new JPanel(new BorderLayout());
         CharecterCreationSplitPane.setLeftComponent(NameAndStatsPanel);
-        CharecterCreationSplitPane.setRightComponent(ClassAndClassInfoPanel);
 
-        // Initialize buttons
-        exitToStartMenuButton = new JButton();
+        // --- RACE SELECTION SETUP ---
 
-        // Roll initial stats for the character
-        stat = rollstats();
-        toonstatsTextArea = new JTextArea();
-        toonstatsScrollPane = new JScrollPane(toonstatsTextArea);
 
-        // Display character stats
-        toonstatsTextArea.setText("Charecter Stats\n");
-        toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
-        toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
-        toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[2]);
-        toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
-        toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
-        toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
-        toonstatsTextArea.setEditable(false);
 
-        // Setup character class dropdown
-        toonclasslist = Class.toonclassarray;
-       // List<String> toonclassList = Arrays.asList(toonclasslist);
+
+
+String[] raceList = RaceFactory.getClassNamesInPackage("Race", RaceFactory.class);
+Arrays.sort(raceList);
+raceComboBox = new JComboBox<>(raceList);
+raceComboBox.setSelectedItem("Human"); // Default selection
+selectedRace = "Human"; // Default
+raceComboBox = new JComboBox<>(raceList);
+
+        raceImageLabel = new JLabel();
+        raceDescriptionTextArea = new JTextArea("Choose your race.");
+        raceDescriptionTextArea.setLineWrap(true);
+        raceDescriptionTextArea.setEditable(false);
+
+        // --- CLASS SELECTION SETUP ---
+        toonclasslist = CharecterClass.Class.toonclassarray;
         java.util.List<String> toonclassList = Arrays.asList(toonclasslist);
         Collections.sort(toonclassList);
         toonclasslist = toonclassList.toArray(new String[0]);
         charectorClass = new JComboBox<>(toonclasslist);
         charectorClass.setSelectedItem(toonClass);
+        charectorClass.setEnabled(false);
 
-        // Set default class description
         toonclassDescriptionTextArea = new JTextArea("Choose Your Class from the Dropdown box above.");
         toonclassDescriptionTextArea.setLineWrap(true);
 
-        // Add action listener for class selection
+        // --- RACE SELECTION LOGIC ---
+        raceComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                selectedRace = raceComboBox.getSelectedItem().toString();
+                try {
+                    BufferedImage raceImg = ImageIO.read(new File("src/DungeonoftheBrutalKing/Images/Race/" + selectedRace + ".png"));
+                    raceImageLabel.setIcon(new ImageIcon(raceImg.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+                } catch (IOException ex) {
+                    raceImageLabel.setIcon(null);
+                }
+                raceDescriptionTextArea.setText(getRaceDescription(selectedRace));
+                charectorClass.setEnabled(true);
+                charectorClass.setModel(new DefaultComboBoxModel<>(getClassesForRace(selectedRace)));
+            }
+        });
+
+        // --- CLASS SELECTION LOGIC ---
         charectorClass.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                toonClass = charectorClass.getSelectedItem().toString();
-                toonclassDescriptionTextArea.setText(toonClass);
-
-                // Update class description and image based on selection
+                toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
+                StringBuilder info = new StringBuilder();
+                info.append("Class: ").append(toonClass).append("\n\n");
                 try {
-                    if (toonClass.equals("Paladin")) {
-                        toonclassDescriptionTextArea.setText(Paladin.ClassDescription());
-                        classImage("Paladin");
-                    } else if (toonClass.equals("Cleric")) {
-                        toonclassDescriptionTextArea.setText(Cleric.ClassDescription());
-                        classImage("Cleric");
-                    } else if (toonClass.equals("Rogue")) {
-                        toonclassDescriptionTextArea.setText(Rogue.ClassDescription());
-                        classImage("Rogue");
-                    } else if (toonClass.equals("Hunter")) {
-                        toonclassDescriptionTextArea.setText(Hunter.ClassDescription());
-                        classImage("Hunter");
-                    } else if (toonClass.equals("Warrior")) {
-                        toonclassDescriptionTextArea.setText(Warrior.ClassDescription());
-                        classImage("Warrior");
-                    } else if (toonClass.equals("Bard")) {
-                        toonclassDescriptionTextArea.setText(Bard.ClassDescription());
-                        classImage("Bard");
+                    switch (toonClass) {
+                        case "Paladin":
+                            info.append(Paladin.ClassDescription());
+                            classImage("Paladin");
+                            break;
+                        case "Cleric":
+                            info.append(Cleric.ClassDescription());
+                            classImage("Cleric");
+                            break;
+                        case "Rogue":
+                            info.append(Rogue.ClassDescription());
+                            classImage("Rogue");
+                            break;
+                        case "Hunter":
+                            info.append(Hunter.ClassDescription());
+                            classImage("Hunter");
+                            break;
+                        case "Warrior":
+                            info.append(Warrior.ClassDescription());
+                            classImage("Warrior");
+                            break;
+                        case "Bard":
+                            info.append(Bard.ClassDescription());
+                            classImage("Bard");
+                            break;
+                        default:
+                            info.append("No description available.");
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                toonclassDescriptionTextArea.setText(info.toString());
             }
         });
 
-        // Add action listener for rerolling stats
+        // --- STATS ---
+        stat = rollstats();
+        toonstatsTextArea = new JTextArea();
+        toonstatsScrollPane = new JScrollPane(toonstatsTextArea);
+        displayStats(stat);
+
         reRollStatsButton = new JButton("Reroll Stats");
         reRollStatsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Integer[] stat = rollstats();
-                toonstatsTextArea.setText("Charecter Stats\n");
-                toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
-                toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
-                toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[2]);
-                toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
-                toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
-                toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
+                stat = rollstats();
+                displayStats(stat);
             }
         });
 
-        // Add action listener for saving the character
+        // --- SAVE BUTTON ---
         saveToonButton = new JButton("Save Charecter");
         saveToonButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Check for race and class selection before saving
+                if (selectedRace == null || selectedRace.isEmpty() || toonClass == null || toonClass.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please select both a race and a class before saving.");
+                    return;
+                }
                 try {
                     FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt");
-                    toonName(tooncreationTextField, charName, newChar);
+                    ArrayList<String> saveData = new ArrayList<>();
 
-                    // Add character details to the save file
-                    newChar.add(toonClass);
-                    newChar.add("0"); // Level
-                    newChar.add("0"); // Experience
-                    newChar.add(String.valueOf(ToonHP(stat, newChar))); // Hit Points
-                    newChar.add(String.valueOf(ToonMP(stat, newChar))); // Magic Points
-                    newChar2.add(gold().toString()); // Gold
-                    newChar2.add("3"); // Food
-                    newChar2.add("3"); // Water
-                    newChar2.add("3"); // Torches
-                    newChar2.add("0"); // Gems
+                    toonName(tooncreationTextField, charName, saveData);
 
-                    // Write character data to the file
-                    for (String str : newChar) {
+                    saveData.add(selectedRace);
+                    saveData.add(toonClass);
+                    saveData.add("0");
+                    saveData.add("0");
+                    saveData.add(String.valueOf(ToonHP(stat, saveData)));
+                    saveData.add(String.valueOf(ToonMP(stat, saveData)));
+
+                    for (Integer s : stat) saveData.add(String.valueOf(s));
+
+                    saveData.add(gold().toString());
+                    saveData.add("3");
+                    saveData.add("3");
+                    saveData.add("3");
+                    saveData.add("0");
+
+                    for (String str : saveData) {
                         writer.write(str + System.lineSeparator());
-                    }
-                    for (Integer str2 : stat) {
-                        writer.write(str2 + System.lineSeparator());
-                    }
-                    for (String str3 : newChar2) {
-                        writer.write(str3 + System.lineSeparator());
                     }
 
                     writer.close();
@@ -248,52 +235,51 @@ public class CharacterCreation {
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(null, "Error:\n " + e1);
                     e1.printStackTrace();
-                } catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+                } catch (InterruptedException | ParseException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
-        // Add action listener for returning to the start menu
+        // --- EXIT BUTTON ---
         exitToStartMenuButton = new JButton("Return to Start Menu");
         exitToStartMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CharecterCreationFrame.dispose();
                 try {
-					new GameStart();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+                    new GameStart();
+                } catch (IOException | InterruptedException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
-        // Add components to panels
-        JLabel classImage = new JLabel();
+        JPanel racePanel = new JPanel(new BorderLayout());
+        racePanel.add(raceComboBox, BorderLayout.NORTH);
+        racePanel.add(raceImageLabel, BorderLayout.CENTER);
+        racePanel.add(raceDescriptionTextArea, BorderLayout.SOUTH);
+
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(racePanel, BorderLayout.NORTH);
+        rightPanel.add(ClassInfoAndImagePanel, BorderLayout.CENTER);
+        rightPanel.add(saveToonButton, BorderLayout.SOUTH);
+
+        CharecterCreationSplitPane.setRightComponent(rightPanel);
+
         NameAndStatsPanel.add(tooncreationTextField, BorderLayout.NORTH);
         NameAndStatsPanel.add(toonstatsTextArea, BorderLayout.CENTER);
         NameAndStatsPanel.add(reRollStatsButton, BorderLayout.SOUTH);
-        ClassAndClassInfoPanel.add(charectorClass, BorderLayout.NORTH);
-        ClassAndClassInfoPanel.add(ClassInfoAndImagePanel, BorderLayout.CENTER);
-        ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.SOUTH);
-        ClassInfoAndImagePanel.add(classImage, BorderLayout.NORTH);
-        ClassAndClassInfoPanel.add(saveToonButton, BorderLayout.SOUTH);
 
-        // Finalize frame setup
+        // After initializing ClassInfoAndImagePanel
+        ClassInfoAndImagePanel.add(charectorClass, BorderLayout.NORTH);
+        ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.SOUTH);
+
         CharecterCreationFrame.setLocationRelativeTo(null);
         CharecterCreationFrame.toFront();
         CharecterCreationFrame.requestFocus();
         CharecterCreationFrame.setVisible(true);
 
-        // Prompt for character name if not set
         while (charName == null || charName.trim().isEmpty()) {
             charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
         }
@@ -301,7 +287,39 @@ public class CharacterCreation {
         new GameMenuItems();
     }
 
-    // Method to validate and set character name
+    private void displayStats(Integer[] stat) {
+        toonstatsTextArea.setText("Charecter Stats\n");
+        toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
+        toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
+        toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[2]);
+        toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
+        toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
+        toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
+        toonstatsTextArea.setEditable(false);
+    }
+
+    private String getRaceDescription(String race) {
+        try {
+
+Class<?> raceClass = Class.forName("Race." + race);
+
+            Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+            java.lang.reflect.Field descField = raceClass.getField("description");
+            return (String) descField.get(raceInstance);
+        } catch (Exception e) {
+            return "No description available.";
+        }
+    }
+
+    private String[] getClassesForRace(String race) {
+        return switch (race) {
+            case "Elf" -> new String[]{"Cleric", "Bard", "Hunter"};
+            case "Dwarf" -> new String[]{"Warrior", "Paladin"};
+            case "Orc" -> new String[]{"Warrior", "Rogue"};
+            default -> CharecterClass.Class.toonclassarray;
+        };
+    }
+
     public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {
         boolean inputAccepted = false;
         while (!inputAccepted) {
@@ -322,7 +340,6 @@ public class CharacterCreation {
         }
     }
 
-    // Method to roll random stats for the character
     public static Integer[] rollstats() {
         int range = 20;
         int lowerbound = 10;
@@ -333,74 +350,46 @@ public class CharacterCreation {
         return stats;
     }
 
-    // Method to calculate character hit points based on stats and class
     public Integer ToonHP(Integer stat[], ArrayList<String> newChar) {
-        String Class = newChar.get(1);
-        int baseHP = 0;
-        switch (Class) {
-            case "Paladin":
-                baseHP = 2;
-                break;
-            case "Cleric":
-                baseHP = 1;
-                break;
-            case "Rogue":
-                baseHP = 1;
-                break;
-            case "Hunter":
-                baseHP = 1;
-                break;
-            case "Warrior":
-                baseHP = 2;
-                break;
-            case "Bard":
-                baseHP = 1;
-                break;
-            default:
-                baseHP = 1;
-                break;
-        }
+        if (newChar.size() < 3 || newChar.get(2) == null) return 0;
+        String Class = newChar.get(2);
+        int baseHP = switch (Class) {
+            case "Paladin", "Warrior" -> 2;
+            default -> 1;
+        };
         return baseHP * ((stat[2] * 2) + stat[0]);
     }
 
+    public int ToonMP(Integer[] stat, ArrayList<String> newChar) {
+        if (newChar.size() < 3 || newChar.get(2) == null) return 0;
+        String characterClass = newChar.get(2);
+        int points;
+        if (isMagicUser(characterClass)) {
+            points = calculateMagicPoints(stat, characterClass);
+        } else {
+            points = ToonActionPoints(stat);
+        }
+        return points;
+    }
 
- // Method to calculate character magic points or action points based on stats and class
- public int ToonMP(Integer[] stat, ArrayList<String> newChar) {
-     String characterClass = newChar.get(1); // Get the character's class
-     int points;
+    boolean isMagicUser(String characterClass) {
+        return Arrays.asList("Cleric", "Paladin", "Bard").contains(characterClass);
+    }
 
-     if (isMagicUser(characterClass)) {
-         points = calculateMagicPoints(stat, characterClass); // Assign magic points
-     } else {
-         points = ToonActionPoints(stat); // Assign action points
-     }
+    private int calculateMagicPoints(Integer[] stat, String characterClass) {
+        int baseMP = switch (characterClass) {
+            case "Paladin" -> 14;
+            case "Cleric" -> 20;
+            case "Bard" -> 12;
+            default -> 1;
+        };
+        return baseMP + ((stat[3] * 2) + stat[4]);
+    }
 
-     return points;
- }
+    public int ToonActionPoints(Integer[] stat) {
+        return (stat[2] * 2) + stat[5];
+    }
 
- // Helper method to check if the class is a magic user
- boolean isMagicUser(String characterClass) {
-     return Arrays.asList("Cleric", "Paladin", "Bard").contains(characterClass);
- }
-
- // Method to calculate magic points for magic users
- private int calculateMagicPoints(Integer[] stat, String characterClass) {
-     int baseMP = switch (characterClass) {
-         case "Paladin" -> 14;
-         case "Cleric" -> 20;
-         case "Bard" -> 12;
-         default -> 1;
-     };
-     return baseMP + ((stat[3] * 2) + stat[4]);
- }
-
- // Method to calculate action points for non-magic users
- public int ToonActionPoints(Integer[] stat) {
-     return (stat[2] * 2) + stat[5]; // Example formula for action points
- }
-
-
-    // Method to generate random gold for the character
     public Integer gold() {
         Random random = new Random();
         int min = 50;
@@ -408,7 +397,6 @@ public class CharacterCreation {
         return random.nextInt(max - min + 1) + min;
     }
 
-    // Method to set the class image based on the selected class
     private static void classImage(String classImage) throws IOException {
         if (classImageLabel != null) {
             ClassInfoAndImagePanel.remove(classImageLabel);
