@@ -86,7 +86,7 @@ public class Charecter {
 
 	// List to store spells learned by the character
 	public ArrayList<String> SpellsLearned = new ArrayList<>();
-	
+
 	// List to store guild spells
     public static ArrayList<String> GuildSpells = new ArrayList<>();
 
@@ -97,7 +97,7 @@ public class Charecter {
 	private List<Quest> activeQuests = new ArrayList<>();
 
 	public Charecter() {
-		this.name = name;
+		Charecter.name = name;
 	}
 
 	public void addActiveQuest(Quest quest) {
@@ -127,9 +127,9 @@ public class Charecter {
 		}
 		return activeEffects;
 	}
-	
 
-	
+
+
 	public void addToInventory(String item) {
 		if (!CharInventory.contains(item)) {
 			CharInventory.add(item);
@@ -461,7 +461,7 @@ public class Charecter {
 		position[1] = Integer.parseInt(CharInfo.get(24)); // Y position
 		position[2] = Integer.parseInt(CharInfo.get(25)); // Z position
 	}
-	
+
 	// Method to retrieve the character's current position
 	public int[] getCharInfo() {
 		int[] position = new int[3];
@@ -470,7 +470,7 @@ public class Charecter {
 		position[2] = Integer.parseInt(CharInfo.get(24)); // Z position
 		return position;
 	}
-	
+
 
 
 

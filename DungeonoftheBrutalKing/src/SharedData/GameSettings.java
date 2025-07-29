@@ -6,16 +6,21 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class GameSettings {
 
-    
 
-	
 
-	
+
+
+
 
 	//*********************************************************************************
     //--------------------------- Static Fields ---------------------------------------
@@ -38,22 +43,22 @@ public class GameSettings {
 	private Color colorWhite;
 
 	private Color colorCoral;
-	
+
 	private Color colorGreen;
-	
+
 	private Color colorPurple;
-	
+
 	private Color colorBlue;
-	
+
 	private Color colorPlum;
-	
-	
-	
-	
+
+
+
+
     private Font fontTimesNewRoman, fontAvatar, fontWelcomeMessage;
     private BufferedImage myJMenuBarPicture, myStartMenuPicture;
 
-	
+
 
     //*********************************************************************************
     //--------------------------- Constructor -----------------------------------------
@@ -220,15 +225,15 @@ private void initializeFilePaths() {
     public Color getColorWhite() {
         return colorWhite;
     }
-    
+
 	public Color getColorCoral() {
 		return colorCoral;
 	}
-	
+
 	public Color getColorBlue() {
 		return colorBlue;
 	}
-	
+
 
 	public Color getColorPlum() {
 		return colorPlum;

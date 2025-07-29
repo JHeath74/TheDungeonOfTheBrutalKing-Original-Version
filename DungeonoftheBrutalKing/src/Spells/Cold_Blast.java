@@ -2,6 +2,7 @@
 package Spells;
 
 import java.util.Random;
+
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 

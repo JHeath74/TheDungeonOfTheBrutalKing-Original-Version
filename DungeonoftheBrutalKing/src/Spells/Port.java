@@ -3,7 +3,6 @@ package Spells;
 
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
-import Spells.Spells;
 
 
 public abstract class Port implements Spells {
@@ -48,7 +47,8 @@ public abstract class Port implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SharedData.Alignment getSpellAlignment() {
+    @Override
+	public SharedData.Alignment getSpellAlignment() {
         return getSpellAlignment(); // Getter for the spell type
     }
 }

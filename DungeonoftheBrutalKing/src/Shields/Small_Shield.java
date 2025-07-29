@@ -20,6 +20,7 @@ public class Small_Shield extends ShieldManager {
 		return requiredStrength;
 	}
 
+	@Override
 	public void setRequiredStrength(int requiredStrength) {
 		this.requiredStrength = requiredStrength;
 	}

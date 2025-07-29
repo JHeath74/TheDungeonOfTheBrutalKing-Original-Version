@@ -1,15 +1,21 @@
 
 package Guild;
 
-import javax.swing.*;
-import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Charecter;
-import SharedData.Alignment;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class HarmonicLightEnsemble extends JPanel {
 
@@ -103,7 +109,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
     private void buyGuildSpell() {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> spells = character.GuildSpells;
+        ArrayList<String> spells = Charecter.GuildSpells;
         int wisdom = Integer.parseInt(character.CharInfo.get(10));
         int gold = Integer.parseInt(character.CharInfo.get(12));
 
@@ -158,12 +164,12 @@ public class HarmonicLightEnsemble extends JPanel {
 
     public int getGuildSpellsCount() {
         Charecter character = Charecter.Singleton();
-        return character.GuildSpells.size();
+        return Charecter.GuildSpells.size();
     }
 
     public void addGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = character.GuildSpells;
+        ArrayList<String> guildSpells = Charecter.GuildSpells;
         if (guildSpells.size() < MAX_SPELL_LIMIT) {
             guildSpells.add(spell);
         } else {
@@ -173,7 +179,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
     public boolean removeGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = character.GuildSpells;
+        ArrayList<String> guildSpells = Charecter.GuildSpells;
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
             return true;
@@ -182,6 +188,7 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.Singleton().GuildSpells);
+        Charecter.Singleton();
+		return new ArrayList<>(Charecter.GuildSpells);
     }
 }

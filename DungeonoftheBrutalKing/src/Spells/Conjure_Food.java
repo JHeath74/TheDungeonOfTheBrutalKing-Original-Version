@@ -13,9 +13,9 @@ public abstract class Conjure_Food implements Spells {
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
     private static Charecter myChar = Charecter.Singleton();
-    
+
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Non-aligned spell type
-    
+
 
     public Conjure_Food() {
         super(); // Explicitly call the constructor of the Spells class
@@ -33,13 +33,14 @@ public abstract class Conjure_Food implements Spells {
             System.out.println("Conjured " + foodConjured + " food items!");
         }
     }
-    
+
     @Override
     public boolean isGuildSpell() {
         return false; // Explicitly mark this as a non-guild spell
     }
-    
-    public SharedData.Alignment getSpellAlignment() {
+
+    @Override
+	public SharedData.Alignment getSpellAlignment() {
         return getSpellAlignment(); // Getter for the spell type
     }
 }

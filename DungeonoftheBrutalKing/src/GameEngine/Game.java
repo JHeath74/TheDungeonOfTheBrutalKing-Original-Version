@@ -9,6 +9,7 @@ import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -25,11 +26,11 @@ public class Game extends JFrame implements Runnable {
     public ArrayList<Texture> textures;
     public Camera camera;
     public Screen screen;
-    
+
     private MainGameScreen mainGameScreen;
-    
-    
-    
+
+
+
 
 
 
@@ -69,7 +70,7 @@ public class Game extends JFrame implements Runnable {
 		} catch (ParseException e) {
 		    e.printStackTrace();
 		}
-        
+
     }
 
     private synchronized void start() {
@@ -99,7 +100,8 @@ public class Game extends JFrame implements Runnable {
         g.dispose();
     }
 
-    public void run() {
+    @Override
+	public void run() {
         long lastTime = System.nanoTime();
         final double ns = 1000000000.0 / 60.0; // 60 times per second
         double delta = 0;

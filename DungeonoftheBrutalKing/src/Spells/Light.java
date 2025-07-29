@@ -3,7 +3,6 @@ package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
-import Spells.Spells;
 
 public abstract class Light implements Spells {
 
@@ -20,7 +19,7 @@ public abstract class Light implements Spells {
         String charintelligence = Charecter.Singleton().CharInfo.get(8).toString();
         String charwisdom = Charecter.Singleton().CharInfo.get(9).toString();
     }
-    
+
     @Override
     public void cast() {
         System.out.println("Casting the Light spell...");

@@ -2,16 +2,16 @@
 // Java
 package Quests;
 
-import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.LocationType;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.LocationType;
 
 /**
  * The QuestManager class is responsible for managing quests in the game.

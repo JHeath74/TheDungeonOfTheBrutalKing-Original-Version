@@ -1,14 +1,21 @@
 
 package Guild;
 
-import javax.swing.*;
-import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import DungeonoftheBrutalKing.Charecter;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class DirgeweaversChorus extends JPanel {
 
@@ -169,12 +176,12 @@ public class DirgeweaversChorus extends JPanel {
 
     public int getGuildSpellsCount() {
         Charecter character = Charecter.Singleton();
-        return character.GuildSpells.size();
+        return Charecter.GuildSpells.size();
     }
 
     public void addGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = character.GuildSpells;
+        ArrayList<String> guildSpells = Charecter.GuildSpells;
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
         } else {
@@ -183,6 +190,7 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.Singleton().GuildSpells);
+        Charecter.Singleton();
+		return new ArrayList<>(Charecter.GuildSpells);
     }
 }

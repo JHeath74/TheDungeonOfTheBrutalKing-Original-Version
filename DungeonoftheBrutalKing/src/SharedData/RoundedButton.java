@@ -1,18 +1,19 @@
 
 package SharedData;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.BasicStroke;
+
 import javax.swing.JButton;
 import javax.swing.border.Border;
 
 public class RoundedButton extends JButton {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -541523765650294418L;
 	private int radius;

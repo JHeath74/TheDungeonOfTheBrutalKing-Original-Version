@@ -1,15 +1,33 @@
 
 package SharedData;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSlider;
+import javax.swing.WindowConstants;
+import javax.swing.border.Border;
 
 public class SettingsAndPreferences extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -24,7 +42,7 @@ public class SettingsAndPreferences extends JFrame {
 
         setTitle("Settings");
         setSize(400, 400);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLayout(new GridBagLayout());
 
         // Set background color

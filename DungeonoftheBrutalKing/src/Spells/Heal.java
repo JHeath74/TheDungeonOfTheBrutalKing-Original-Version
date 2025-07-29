@@ -4,7 +4,6 @@ package Spells;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
-import Spells.Spells;
 
 public abstract class Heal implements Spells {
 
@@ -16,7 +15,8 @@ public abstract class Heal implements Spells {
         this.name = "Heal";
     }
 
-    public void cast() {
+    @Override
+	public void cast() {
         int intelligence = Integer.parseInt(myChar.CharInfo.get(8));
         int maxHealth = Integer.parseInt(myChar.CharInfo.get(10));
         int currentHealth = Integer.parseInt(myChar.CharInfo.get(11));
@@ -41,7 +41,8 @@ public abstract class Heal implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SharedData.Alignment getSpellAlignment() {
+    @Override
+	public SharedData.Alignment getSpellAlignment() {
         return getSpellAlignment(); // Getter for the spell type
     }
 }

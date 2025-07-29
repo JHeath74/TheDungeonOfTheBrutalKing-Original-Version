@@ -3,7 +3,6 @@ package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.EffectManager;
-import Spells.Spells;
 import DungeonoftheBrutalKing.TimeClock;
 import SharedData.Alignment;
 

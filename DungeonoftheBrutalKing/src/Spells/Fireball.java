@@ -2,9 +2,9 @@
 package Spells;
 
 import java.util.Random;
+
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
-import Spells.Spells;
 
 //public abstract class Fireball implements Spells {
 	public abstract class Fireball implements Spells{
@@ -14,8 +14,8 @@ import Spells.Spells;
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();
 
-    
-    
+
+
     @Override
     public void cast() {
         if (myChar == null || myChar.CharInfo == null) {
@@ -40,7 +40,8 @@ import Spells.Spells;
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SharedData.Alignment getSpellAlignment() {
+    @Override
+	public SharedData.Alignment getSpellAlignment() {
         return getSpellAlignment(); // Getter for the spell type
     }
 }

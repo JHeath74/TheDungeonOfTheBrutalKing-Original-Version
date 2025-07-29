@@ -2,9 +2,11 @@
 package Quests;
 
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.LocationType;

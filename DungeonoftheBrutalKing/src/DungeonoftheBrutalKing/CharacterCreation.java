@@ -2,7 +2,8 @@
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
@@ -12,14 +13,14 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import CharecterClass.Cleric;
-import CharecterClass.Paladin;
-import CharecterClass.Warrior;
-import CharecterClass.Rogue;
-import CharecterClass.Hunter;
-import CharecterClass.Bard;
+import Charecters.Bard;
+import Charecters.Cleric;
+import Charecters.Hunter;
+import Charecters.Paladin;
+import Charecters.Rogue;
+import Charecters.Warrior;
+import Races.RaceEnum;
 import SharedData.GameSettings;
-import Race.*;
 
 public class CharacterCreation {
 
@@ -49,7 +50,6 @@ public class CharacterCreation {
     static JComboBox<String> raceComboBox;
     static JLabel raceImageLabel;
     static JTextArea raceDescriptionTextArea;
-    static String[] raceList = RaceFactory.getClassNamesInPackage("Race", RaceFactory.class);
     static String selectedRace = null;
 
     static JLabel classImageLabel;
@@ -90,17 +90,13 @@ public class CharacterCreation {
         CharecterCreationSplitPane.setLeftComponent(NameAndStatsPanel);
 
         // --- RACE SELECTION SETUP ---
-
-
-
-
-
-String[] raceList = RaceFactory.getClassNamesInPackage("Race", RaceFactory.class);
-Arrays.sort(raceList);
-raceComboBox = new JComboBox<>(raceList);
-raceComboBox.setSelectedItem("Human"); // Default selection
-selectedRace = "Human"; // Default
-raceComboBox = new JComboBox<>(raceList);
+        String[] raceList = Arrays.stream(RaceEnum.values())
+                .map(Enum::name)
+                .toArray(String[]::new);
+        Arrays.sort(raceList);
+        raceComboBox = new JComboBox<>(raceList);
+        raceComboBox.setSelectedItem("Human"); // Default selection
+        selectedRace = "Human"; // Default
 
         raceImageLabel = new JLabel();
         raceDescriptionTextArea = new JTextArea("Choose your race.");
@@ -108,7 +104,7 @@ raceComboBox = new JComboBox<>(raceList);
         raceDescriptionTextArea.setEditable(false);
 
         // --- CLASS SELECTION SETUP ---
-        toonclasslist = CharecterClass.Class.toonclassarray;
+        toonclasslist = Charecters.Class.toonclassarray;
         java.util.List<String> toonclassList = Arrays.asList(toonclasslist);
         Collections.sort(toonclassList);
         toonclasslist = toonclassList.toArray(new String[0]);
@@ -124,10 +120,15 @@ raceComboBox = new JComboBox<>(raceList);
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedRace = raceComboBox.getSelectedItem().toString();
-                try {
-                    BufferedImage raceImg = ImageIO.read(new File("src/DungeonoftheBrutalKing/Images/Race/" + selectedRace + ".png"));
-                    raceImageLabel.setIcon(new ImageIcon(raceImg.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-                } catch (IOException ex) {
+                String imagePath = CharacterCreation.getRaceImagePath(selectedRace);
+                if (imagePath != null) {
+                    try {
+                        BufferedImage raceImg = ImageIO.read(new File(imagePath));
+                        raceImageLabel.setIcon(new ImageIcon(raceImg.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+                    } catch (IOException ex) {
+                        raceImageLabel.setIcon(null);
+                    }
+                } else {
                     raceImageLabel.setIcon(null);
                 }
                 raceDescriptionTextArea.setText(getRaceDescription(selectedRace));
@@ -199,7 +200,6 @@ raceComboBox = new JComboBox<>(raceList);
         saveToonButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Check for race and class selection before saving
                 if (selectedRace == null || selectedRace.isEmpty() || toonClass == null || toonClass.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please select both a race and a class before saving.");
                     return;
@@ -217,7 +217,9 @@ raceComboBox = new JComboBox<>(raceList);
                     saveData.add(String.valueOf(ToonHP(stat, saveData)));
                     saveData.add(String.valueOf(ToonMP(stat, saveData)));
 
-                    for (Integer s : stat) saveData.add(String.valueOf(s));
+                    for (Integer s : stat) {
+                        saveData.add(String.valueOf(s));
+                    }
 
                     saveData.add(gold().toString());
                     saveData.add("3");
@@ -271,7 +273,6 @@ raceComboBox = new JComboBox<>(raceList);
         NameAndStatsPanel.add(toonstatsTextArea, BorderLayout.CENTER);
         NameAndStatsPanel.add(reRollStatsButton, BorderLayout.SOUTH);
 
-        // After initializing ClassInfoAndImagePanel
         ClassInfoAndImagePanel.add(charectorClass, BorderLayout.NORTH);
         ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.SOUTH);
 
@@ -287,7 +288,42 @@ raceComboBox = new JComboBox<>(raceList);
         new GameMenuItems();
     }
 
-    private void displayStats(Integer[] stat) {
+
+ // Update in CharacterCreation.java
+
+ public static String getRaceImagePath(String race) {
+     try {
+         Class<?> raceClass = Class.forName("Races." + race);
+         Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+         return (String) raceClass.getMethod("getRaceImagePath").invoke(raceInstance);
+     } catch (Exception e) {
+         return null;
+     }
+ }
+
+ private static String getRaceDescription(String race) {
+     try {
+         Class<?> raceClass = Class.forName("Races." + race);
+         Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+         return (String) raceClass.getMethod("getRaceDescription").invoke(raceInstance);
+     } catch (Exception e) {
+         return "No description available.";
+     }
+ }
+
+ private static String[] getClassesForRace(String race) {
+     try {
+         Class<?> raceClass = Class.forName("Races." + race);
+         Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+         java.util.List<String> allowed = (java.util.List<String>) raceClass.getMethod("getAllowedClasses").invoke(raceInstance);
+         return allowed.toArray(new String[0]);
+     } catch (Exception e) {
+         return Charecters.Class.toonclassarray;
+     }
+ }
+
+
+    private static void displayStats(Integer[] stat) {
         toonstatsTextArea.setText("Charecter Stats\n");
         toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
         toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
@@ -298,27 +334,9 @@ raceComboBox = new JComboBox<>(raceList);
         toonstatsTextArea.setEditable(false);
     }
 
-    private String getRaceDescription(String race) {
-        try {
 
-Class<?> raceClass = Class.forName("Race." + race);
 
-            Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
-            java.lang.reflect.Field descField = raceClass.getField("description");
-            return (String) descField.get(raceInstance);
-        } catch (Exception e) {
-            return "No description available.";
-        }
-    }
 
-    private String[] getClassesForRace(String race) {
-        return switch (race) {
-            case "Elf" -> new String[]{"Cleric", "Bard", "Hunter"};
-            case "Dwarf" -> new String[]{"Warrior", "Paladin"};
-            case "Orc" -> new String[]{"Warrior", "Rogue"};
-            default -> CharecterClass.Class.toonclassarray;
-        };
-    }
 
     public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {
         boolean inputAccepted = false;
@@ -350,8 +368,10 @@ Class<?> raceClass = Class.forName("Race." + race);
         return stats;
     }
 
-    public Integer ToonHP(Integer stat[], ArrayList<String> newChar) {
-        if (newChar.size() < 3 || newChar.get(2) == null) return 0;
+    public static Integer ToonHP(Integer stat[], ArrayList<String> newChar) {
+        if (newChar.size() < 3 || newChar.get(2) == null) {
+            return 0;
+        }
         String Class = newChar.get(2);
         int baseHP = switch (Class) {
             case "Paladin", "Warrior" -> 2;
@@ -360,8 +380,10 @@ Class<?> raceClass = Class.forName("Race." + race);
         return baseHP * ((stat[2] * 2) + stat[0]);
     }
 
-    public int ToonMP(Integer[] stat, ArrayList<String> newChar) {
-        if (newChar.size() < 3 || newChar.get(2) == null) return 0;
+    public static int ToonMP(Integer[] stat, ArrayList<String> newChar) {
+        if (newChar.size() < 3 || newChar.get(2) == null) {
+            return 0;
+        }
         String characterClass = newChar.get(2);
         int points;
         if (isMagicUser(characterClass)) {
@@ -372,11 +394,11 @@ Class<?> raceClass = Class.forName("Race." + race);
         return points;
     }
 
-    boolean isMagicUser(String characterClass) {
+    static boolean isMagicUser(String characterClass) {
         return Arrays.asList("Cleric", "Paladin", "Bard").contains(characterClass);
     }
 
-    private int calculateMagicPoints(Integer[] stat, String characterClass) {
+    private static int calculateMagicPoints(Integer[] stat, String characterClass) {
         int baseMP = switch (characterClass) {
             case "Paladin" -> 14;
             case "Cleric" -> 20;
@@ -386,11 +408,11 @@ Class<?> raceClass = Class.forName("Race." + race);
         return baseMP + ((stat[3] * 2) + stat[4]);
     }
 
-    public int ToonActionPoints(Integer[] stat) {
+    public static int ToonActionPoints(Integer[] stat) {
         return (stat[2] * 2) + stat[5];
     }
 
-    public Integer gold() {
+    public static Integer gold() {
         Random random = new Random();
         int min = 50;
         int max = 100;

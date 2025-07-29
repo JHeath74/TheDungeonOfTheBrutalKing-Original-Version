@@ -17,7 +17,7 @@ public class ThingsToWorkOn {
 	}
 
 	public void GuildInformation() {
-		
+
 	//	Absolutely! Here's a balanced lineup of **nine guilds** across the **Evil**, **Neutral**, and **Good** alignments, with each group featuring a **Magic User**, **Fighter**, and **Bard** type. Their names are themed to reflect their role and moral alignment:
 
 	//	| **Guild Name**                  | **Type**        | **Alignment** |
@@ -45,7 +45,7 @@ public class ThingsToWorkOn {
 
 	//	Want sigils, mottos, or famous members next? I’d love to help build their legends! 🛡️🎼🔥
 		// Guild needs a storage arraylist in CharInfo Class
-		
+
 	//	✨ Quick Flavor Highlights:
 
 	//		Obsidian Hex Coven: Shadowcasters who specialize in curses, soul traps, and forbidden rituals.
@@ -65,8 +65,8 @@ public class ThingsToWorkOn {
 	//		Silverward Sentinels: Noble warriors sworn to defend justice with shield and steel.
 
 	//		Harmonic Light Ensemble: Bards whose melodies heal, uplift, and rally the forces of good.
-		
+
 	}
-	
-	
+
+
 }

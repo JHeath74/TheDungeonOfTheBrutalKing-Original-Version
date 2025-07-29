@@ -42,7 +42,8 @@ public abstract class Cure implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SharedData.Alignment getSpellAlignment() {
+    @Override
+	public SharedData.Alignment getSpellAlignment() {
         return getSpellAlignment(); // Getter for the spell type
     }
 }

@@ -1,20 +1,40 @@
 
 package DungeonoftheBrutalKing;
 
-import SharedData.GameSettings;
-import SharedData.MusicPlayer;
-import SharedData.RoundedButton;
-import SharedData.SettingsAndPreferences;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
+import SharedData.GameSettings;
+import SharedData.MusicPlayer;
+import SharedData.RoundedButton;
+import SharedData.SettingsAndPreferences;
 
 public class GameStart extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -26,15 +46,15 @@ public class GameStart extends JFrame {
 
         JFrame StartMenuFrame = new JFrame("Dungeon of the Brutal King");
         StartMenuFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        StartMenuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        StartMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
         StartMenuFrame.setUndecorated(true);
         StartMenuFrame.setLayout(new BorderLayout());
         StartMenuFrame.getContentPane().setBackground(myGameSettings.getColorLightBrown());
 
         JPanel backgroundPanel = new JPanel() {
-       
+
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 

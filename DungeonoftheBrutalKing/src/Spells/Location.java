@@ -3,7 +3,6 @@ package Spells;
 
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
-import Spells.Spells;
 
 
 public abstract class Location implements Spells {
@@ -44,7 +43,8 @@ public abstract class Location implements Spells {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public Alignment getSpellAlignment() {
+    @Override
+	public Alignment getSpellAlignment() {
         return SPELL_ALIGNMENT; // Getter for the spell alignment
     }
 
