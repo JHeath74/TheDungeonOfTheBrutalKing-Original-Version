@@ -4,9 +4,6 @@ package Races;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Represents a Dwarf race with specific strengths and weaknesses.
- */
 public class Dwarf {
     private String name;
     private String description;
@@ -14,36 +11,56 @@ public class Dwarf {
     private String weakness;
     private List<String> allowedClasses;
 
-    public Dwarf(String name, String description, String strength, String weakness) {
-        this.name = name;
-        this.description = description;
-        this.strength = strength;
-        this.weakness = weakness;
+    public Dwarf() {
+        this.name = "Dwarf";
+        this.description = "";
+        this.strength = "+5 Agility";
+        this.weakness = "-5 Intelligence, -5 Wisdom";
         this.allowedClasses = Arrays.asList("Bard", "Hunter", "Rogue");
     }
 
     public String getName() {
-        return "Dwarf";
+        return name;
     }
 
+    public String getRaceDescription() {
+        return """
+        Dwarf (Character Description)
+        Dwarves are stout, resilient, and renowned for their endurance and agility in harsh environments.
+        While physically adept and skilled in combat, they are less inclined toward scholarly pursuits.
 
-public String getRaceDescription() {
-    return "Dwarf (Character Description)\n"
-        + "Stout and resilient, Dwarves are known for their endurance and agility in harsh environments.\n"
-        + "While physically adept, they are less inclined toward scholarly pursuits.\n\n"
-        + "Strengths:\n"
-        + "- Ability Score Increase: +5 Agility\n"
-        + "Weaknesses:\n"
-        + "-5 Intelligence, -5 Wisdom\n"
-        + "Allowed Classes:\n"
-        + "- " + String.join(", ", allowedClasses);
-}
+        Strengths:
+        - +5 Agility
 
-    
+        Weaknesses:
+        -5 Intelligence, -5 Wisdom
+
+        Allowed Classes:
+        - Bard, Hunter, Rogue
+        """;
+    }
+
     public String getRaceImagePath() {
         return "src/DungeonoftheBrutalKing/Images/Race/Dwarf.png";
     }
 
+    public String getStrength() {
+        return strength;
+    }
+
+    public String getWeakness() {
+        return weakness;
+    }
+
+    public List<String> getAllowedClasses() {
+        return allowedClasses;
+    }
+
+    public void setAllowedClasses(List<String> allowedClasses) {
+        this.allowedClasses = allowedClasses;
+    }
+
+ 
     /**
      * Increases Agility (index 6) by 5 in the provided CharInfo list.
      */
@@ -62,14 +79,6 @@ public String getRaceDescription() {
         CharInfo.set(9, String.valueOf(intelligence - 5));
         CharInfo.set(10, String.valueOf(wisdom - 5));
         System.out.println("Intelligence and Wisdom decreased by 5.");
-    }
-
-    public List<String> getAllowedClasses() {
-        return allowedClasses;
-    }
-
-    public void setAllowedClasses(List<String> allowedClasses) {
-        this.allowedClasses = allowedClasses;
     }
 
     public void displayDetails() {

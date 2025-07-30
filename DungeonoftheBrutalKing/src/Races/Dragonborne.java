@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Dragonborne {
     private String name;
-    public String description;
+    private String description;
     private String strength;
     private String weakness;
     private List<String> allowedClasses;
@@ -14,7 +14,6 @@ public class Dragonborne {
     public Dragonborne() {
         this.name = "Dragonborne";
         this.description = "";
-
         this.strength = "+10 Strength, +5 Endurance, +5 Charisma";
         this.weakness = "-5 Wisdom";
         this.allowedClasses = Arrays.asList("Warrior", "Paladin", "Rogue");
@@ -24,10 +23,9 @@ public class Dragonborne {
         return name;
     }
 
-
     public String getRaceDescription() {
         return """
-        Dragonborne (Character Description)
+               Dragonborne (Character Description)
         Dragonborn are proud, strong, and resilient, with a natural affinity for magic and combat.
         Their draconic heritage grants them great power, but their pride can sometimes cloud their judgment.
 
@@ -40,8 +38,7 @@ public class Dragonborne {
         Allowed Classes:
         - Warrior, Rogue, Paladin
         """;
-}
-
+    }
 
     public String getRaceImagePath() {
         return "src/DungeonoftheBrutalKing/Images/Race/Dragonborne.png";
@@ -63,15 +60,7 @@ public class Dragonborne {
         this.allowedClasses = allowedClasses;
     }
 
-    public void displayDetails() {
-        System.out.println("Name: " + name);
-        System.out.println("Description: " + description);
-        System.out.println("Strength: " + strength);
-        System.out.println("Weakness: " + weakness);
-        System.out.println("Allowed Classes: " + String.join(", ", allowedClasses));
-    }
-
-    // Stat modification methods (adjust indices as needed)
+ 
     public void setStrength(List<String> CharInfo) {
         int strength = Integer.parseInt(CharInfo.get(2));
         CharInfo.set(2, String.valueOf(strength + 10));
@@ -86,5 +75,13 @@ public class Dragonborne {
         int wisdom = Integer.parseInt(CharInfo.get(4));
         CharInfo.set(4, String.valueOf(wisdom - 5));
         System.out.println("Wisdom decreased by 5.");
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("Description: " + description);
+        System.out.println("Strength: " + strength);
+        System.out.println("Weakness: " + weakness);
+        System.out.println("Allowed Classes: " + String.join(", ", allowedClasses));
     }
 }

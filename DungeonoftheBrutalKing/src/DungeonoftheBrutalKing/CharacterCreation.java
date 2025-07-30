@@ -54,6 +54,15 @@ public class CharacterCreation {
 
     static JLabel classImageLabel;
     static BufferedImage ClassImagePicture;
+    
+    private static final Map<String, Class<?>> classMap = Map.of(
+    	    "Paladin", Paladin.class,
+    	    "Cleric", Cleric.class,
+    	    "Rogue", Rogue.class,
+    	    "Hunter", Hunter.class,
+    	    "Warrior", Warrior.class,
+    	    "Bard", Bard.class
+    	);
 
     public CharacterCreation() throws IOException, InterruptedException {}
 
@@ -101,7 +110,12 @@ public class CharacterCreation {
         raceImageLabel = new JLabel();
         raceDescriptionTextArea = new JTextArea("Choose your race.");
         raceDescriptionTextArea.setLineWrap(true);
+        raceDescriptionTextArea.setWrapStyleWord(true);
         raceDescriptionTextArea.setEditable(false);
+        raceDescriptionTextArea.setColumns(60); // Wider area
+        raceDescriptionTextArea.setRows(5);     // Adjust as needed
+        raceDescriptionTextArea.setPreferredSize(new Dimension(800, 200)); // Optional: explicit width
+
 
         // --- CLASS SELECTION SETUP ---
         toonclasslist = Charecters.Class.toonclassarray;
@@ -138,46 +152,24 @@ public class CharacterCreation {
         });
 
         // --- CLASS SELECTION LOGIC ---
-        charectorClass.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
-                StringBuilder info = new StringBuilder();
-                info.append("Class: ").append(toonClass).append("\n\n");
+        charectorClass.addActionListener(e -> {
+            toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
+            StringBuilder info = new StringBuilder();
+            info.append("Class: ").append(toonClass).append("\n\n");
+            Class<?> clazz = classMap.get(toonClass);
+            String imageName = toonClass;
+            if (clazz != null) {
                 try {
-                    switch (toonClass) {
-                        case "Paladin":
-                            info.append(Paladin.ClassDescription());
-                            classImage("Paladin");
-                            break;
-                        case "Cleric":
-                            info.append(Cleric.ClassDescription());
-                            classImage("Cleric");
-                            break;
-                        case "Rogue":
-                            info.append(Rogue.ClassDescription());
-                            classImage("Rogue");
-                            break;
-                        case "Hunter":
-                            info.append(Hunter.ClassDescription());
-                            classImage("Hunter");
-                            break;
-                        case "Warrior":
-                            info.append(Warrior.ClassDescription());
-                            classImage("Warrior");
-                            break;
-                        case "Bard":
-                            info.append(Bard.ClassDescription());
-                            classImage("Bard");
-                            break;
-                        default:
-                            info.append("No description available.");
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                    String desc = (String) clazz.getMethod("ClassDescription").invoke(null);
+                    info.append(desc);
+                    classImage(imageName);
+                } catch (Exception ex) {
+                    info.append("No description available.");
                 }
-                toonclassDescriptionTextArea.setText(info.toString());
+            } else {
+                info.append("No description available.");
             }
+            toonclassDescriptionTextArea.setText(info.toString());
         });
 
         // --- STATS ---
@@ -289,6 +281,7 @@ public class CharacterCreation {
     }
 
 
+    
  // Update in CharacterCreation.java
 
  public static String getRaceImagePath(String race) {
