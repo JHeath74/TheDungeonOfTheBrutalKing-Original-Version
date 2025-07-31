@@ -55,6 +55,8 @@ public class CharacterCreation {
     static JLabel classImageLabel;
     static BufferedImage ClassImagePicture;
     
+    private static JPanel classImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    
     private static final Map<String, Class<?>> classMap = Map.of(
     	    "Paladin", Paladin.class,
     	    "Cleric", Cleric.class,
@@ -251,7 +253,9 @@ public class CharacterCreation {
 
         JPanel racePanel = new JPanel(new BorderLayout());
         racePanel.add(raceComboBox, BorderLayout.NORTH);
-        racePanel.add(raceImageLabel, BorderLayout.CENTER);
+        JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        raceImagePanel.add(raceImageLabel);
+        racePanel.add(raceImagePanel, BorderLayout.CENTER);
         racePanel.add(raceDescriptionTextArea, BorderLayout.SOUTH);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -412,17 +416,20 @@ public class CharacterCreation {
         return random.nextInt(max - min + 1) + min;
     }
 
-    private static void classImage(String classImage) throws IOException {
-        if (classImageLabel != null) {
-            ClassInfoAndImagePanel.remove(classImageLabel);
-        }
-        ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
-        classImageLabel = new JLabel();
-        classImageLabel.setSize(ClassInfoAndImagePanel.getWidth(), ClassInfoAndImagePanel.getHeight());
-        Image newClassImagePicture = ClassImagePicture.getScaledInstance(640, 480, Image.SCALE_SMOOTH);
-        ImageIcon img = new ImageIcon(newClassImagePicture);
-        classImageLabel.setIcon(img);
-        ClassInfoAndImagePanel.add(classImageLabel);
-        classImageLabel.revalidate();
-    }
+
+
+private static void classImage(String classImage) throws IOException {
+    classImagePanel.removeAll(); // Clear previous images
+    ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
+    classImageLabel = new JLabel();
+    Image newClassImagePicture = ClassImagePicture.getScaledInstance(640, 480, Image.SCALE_SMOOTH);
+    ImageIcon img = new ImageIcon(newClassImagePicture);
+    classImageLabel.setIcon(img);
+    classImagePanel.add(classImageLabel);
+    ClassInfoAndImagePanel.add(classImagePanel, BorderLayout.CENTER);
+    classImagePanel.revalidate();
+    classImagePanel.repaint();
+}
+
+
 }
