@@ -13,12 +13,13 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import Charecters.Bard;
-import Charecters.Cleric;
-import Charecters.Hunter;
-import Charecters.Paladin;
-import Charecters.Rogue;
-import Charecters.Warrior;
+import Classes.Bard;
+import Classes.Cleric;
+import Classes.Hunter;
+import Classes.Paladin;
+import Classes.Rogue;
+import Classes.Warrior;
+import Classes.Wizard;
 import Races.RaceEnum;
 import SharedData.GameSettings;
 
@@ -36,7 +37,7 @@ public class CharacterCreation {
     static Scanner saveFile;
 
     static JFrame CharecterCreationFrame;
-    static JPanel NameAndStatsPanel, ClassAndClassInfoPanel, ClassInfoAndImagePanel;
+    static JPanel NameAndStatsPanel, ClassAndClassInfoPanel, ClassInfoAndImagePanel, racePanel;
     static JTextArea toonstatsTextArea, toonclassDescriptionTextArea;
     static JTextField tooncreationTextField;
     static JScrollPane toonstatsScrollPane;
@@ -63,7 +64,8 @@ public class CharacterCreation {
     	    "Rogue", Rogue.class,
     	    "Hunter", Hunter.class,
     	    "Warrior", Warrior.class,
-    	    "Bard", Bard.class
+    	    "Bard", Bard.class,
+    	    "Wizard", Wizard.class // Add Wizard here
     	);
 
     public CharacterCreation() throws IOException, InterruptedException {}
@@ -115,12 +117,34 @@ public class CharacterCreation {
         raceDescriptionTextArea.setWrapStyleWord(true);
         raceDescriptionTextArea.setEditable(false);
         raceDescriptionTextArea.setColumns(60); // Wider area
-        raceDescriptionTextArea.setRows(5);     // Adjust as needed
-        raceDescriptionTextArea.setPreferredSize(new Dimension(800, 200)); // Optional: explicit width
+        raceDescriptionTextArea.setRows(10);     // Adjust as needed
+        //raceDescriptionTextArea.setPreferredSize(new Dimension(800, 200)); // Optional: explicit width
 
+
+     // Wrap the text area in a scroll pane
+     JScrollPane raceDescriptionScrollPane = new JScrollPane(raceDescriptionTextArea);
+
+     // Set preferred size for the scroll pane (not the text area)
+     int lineHeight = raceDescriptionTextArea.getFontMetrics(raceDescriptionTextArea.getFont()).getHeight();
+     raceDescriptionScrollPane.setPreferredSize(new Dimension(800, lineHeight * 12));
+
+
+racePanel = new JPanel(new BorderLayout());
+racePanel.add(raceComboBox, BorderLayout.NORTH);
+JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+raceImagePanel.add(raceImageLabel);
+racePanel.add(raceImagePanel, BorderLayout.CENTER);
+racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH); // Use scroll pane here
+
+     
+     // Add the scroll pane instead of the text area
+     racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH);
+
+
+        
 
         // --- CLASS SELECTION SETUP ---
-        toonclasslist = Charecters.Class.toonclassarray;
+        toonclasslist = Classes.Class.toonclassarray;
         java.util.List<String> toonclassList = Arrays.asList(toonclasslist);
         Collections.sort(toonclassList);
         toonclasslist = toonclassList.toArray(new String[0]);
@@ -251,9 +275,9 @@ public class CharacterCreation {
             }
         });
 
-        JPanel racePanel = new JPanel(new BorderLayout());
+        racePanel = new JPanel(new BorderLayout());
         racePanel.add(raceComboBox, BorderLayout.NORTH);
-        JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+      //  JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         raceImagePanel.add(raceImageLabel);
         racePanel.add(raceImagePanel, BorderLayout.CENTER);
         racePanel.add(raceDescriptionTextArea, BorderLayout.SOUTH);
@@ -315,7 +339,7 @@ public class CharacterCreation {
          java.util.List<String> allowed = (java.util.List<String>) raceClass.getMethod("getAllowedClasses").invoke(raceInstance);
          return allowed.toArray(new String[0]);
      } catch (Exception e) {
-         return Charecters.Class.toonclassarray;
+         return Classes.Class.toonclassarray;
      }
  }
 

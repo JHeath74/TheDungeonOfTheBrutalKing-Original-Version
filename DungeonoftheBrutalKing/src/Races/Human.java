@@ -34,7 +34,7 @@ public class Human {
 
         Strengths:
         - Ability Score Increase: +2 to all core stats (Agility, Strength, Wisdom, Intelligence)
-        - Weaknesses: -5 to Endurance, -10% to Health, Magic Points, and Action Points
+        - Weaknesses: -5 to Endurance, -10% to Health, Magic Points, or Action Points
 
         Allowed Classes:
         - Bard, Cleric, Hunter, Paladin, Rogue, Warrior, Wizard
