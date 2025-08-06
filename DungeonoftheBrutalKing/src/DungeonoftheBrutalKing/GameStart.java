@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,12 +13,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
@@ -38,27 +34,44 @@ import SharedData.SettingsAndPreferences;
 
 public class GameStart extends JFrame {
     private static final long serialVersionUID = 1L;
+    private JFrame StartMenuFrame;
+    private GameSettings myGameSettings;
+    private CharacterCreation myCharacterCreation;
+    private LoadSaveGame myLoadSaveGame;
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        GameSettings myGameSettings = new GameSettings();
-        CharacterCreation myCharacterCreation = new CharacterCreation();
-        LoadSaveGame myLoadSaveGame = new LoadSaveGame();
+        new GameStart();
+    }
 
-        JFrame StartMenuFrame = new JFrame("Dungeon of the Brutal King");
+    public GameStart() throws IOException, InterruptedException {
+        myGameSettings = new GameSettings();
+        myCharacterCreation = new CharacterCreation();
+        myLoadSaveGame = new LoadSaveGame();
+
+        setupFrame();
+        JPanel backgroundPanel = createBackgroundPanel();
+        JPanel buttonPanel = createButtonPanel();
+        backgroundPanel.add(buttonPanel, BorderLayout.CENTER);
+        StartMenuFrame.add(backgroundPanel);
+        StartMenuFrame.setLocationRelativeTo(null);
+        StartMenuFrame.setVisible(true);
+
+        setupMusic();
+    }
+
+    private void setupFrame() {
+        StartMenuFrame = new JFrame("Dungeon of the Brutal King");
         StartMenuFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        StartMenuFrame.setExtendedState(Frame.MAXIMIZED_BOTH);
+        StartMenuFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         StartMenuFrame.setUndecorated(true);
         StartMenuFrame.setLayout(new BorderLayout());
         StartMenuFrame.getContentPane().setBackground(myGameSettings.getColorLightBrown());
+    }
 
+    private JPanel createBackgroundPanel() {
         JPanel backgroundPanel = new JPanel() {
-
-			/**
-			 *
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Image backgroundImage = Toolkit.getDefaultToolkit().getImage("src\\DungeonoftheBrutalKing\\Images\\Program\\StartMenu\\StartingImage.png");
@@ -73,171 +86,108 @@ public class GameStart extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         backgroundPanel.add(titleLabel, BorderLayout.NORTH);
 
+        return backgroundPanel;
+    }
+
+    private JPanel createButtonPanel() {
         int buttonRadius = 20;
+        Dimension buttonSize = new Dimension(200, 50);
+
         RoundedButton ContinueGameButton = new RoundedButton("Continue", buttonRadius);
         RoundedButton StartNewGameButton = new RoundedButton("Start New Game", buttonRadius);
         RoundedButton LoadExistingGameButton = new RoundedButton("Load Game", buttonRadius);
-        RoundedButton SettingsButton = new RoundedButton("Settings", buttonRadius); // New Settings button
+        RoundedButton SettingsButton = new RoundedButton("Settings", buttonRadius);
         RoundedButton ExitGameButton = new RoundedButton("Exit", buttonRadius);
 
-        Dimension buttonSize = new Dimension(200, 50);
-        ContinueGameButton.setPreferredSize(buttonSize);
-        StartNewGameButton.setPreferredSize(buttonSize);
-        LoadExistingGameButton.setPreferredSize(buttonSize);
-        SettingsButton.setPreferredSize(buttonSize); // Configure Settings button size
-        ExitGameButton.setPreferredSize(buttonSize);
-
-        ContinueGameButton.setBackground(new Color(128, 128, 128));
-        StartNewGameButton.setBackground(new Color(128, 128, 128));
-        LoadExistingGameButton.setBackground(new Color(128, 128, 128));
-        SettingsButton.setBackground(new Color(128, 128, 128)); // Configure Settings button color
-        ExitGameButton.setBackground(new Color(128, 128, 128));
-
-        ContinueGameButton.setForeground(myGameSettings.getColorWhite());
-        StartNewGameButton.setForeground(myGameSettings.getColorWhite());
-        LoadExistingGameButton.setForeground(myGameSettings.getColorWhite());
-        SettingsButton.setForeground(myGameSettings.getColorWhite()); // Configure Settings button text color
-        ExitGameButton.setForeground(myGameSettings.getColorWhite());
+        for (RoundedButton btn : new RoundedButton[]{ContinueGameButton, StartNewGameButton, LoadExistingGameButton, SettingsButton, ExitGameButton}) {
+            btn.setPreferredSize(buttonSize);
+            btn.setBackground(new Color(128, 128, 128));
+            btn.setForeground(myGameSettings.getColorWhite());
+        }
 
         File directory = new File(GameSettings.SavedGameDirectory);
-        if (directory.isDirectory()) {
-            String[] files = directory.list();
-            if (files != null && files.length > 0) {
-                ContinueGameButton.setVisible(true);
-            } else {
-                ContinueGameButton.setVisible(false);
-            }
-        }
+        ContinueGameButton.setVisible(directory.isDirectory() && directory.list() != null && directory.list().length > 0);
 
         JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setOpaque(false);
-
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.weightx = 0;
         gbc.weighty = 0.25;
-        gbc.insets = new Insets(20, 20, 20, 20);
-
         gbc.insets = new Insets(20, 0, 0, 0);
-        gbc.gridy = 0;
-        buttonPanel.add(ContinueGameButton, gbc);
 
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.gridy = 1;
-        buttonPanel.add(StartNewGameButton, gbc);
+        int y = 0;
+        for (RoundedButton btn : new RoundedButton[]{ContinueGameButton, StartNewGameButton, LoadExistingGameButton, SettingsButton, ExitGameButton}) {
+            gbc.gridy = y++;
+            buttonPanel.add(btn, gbc);
+            if (y == 1) gbc.insets = new Insets(0, 0, 0, 0);
+        }
 
-        gbc.gridy = 2;
-        buttonPanel.add(LoadExistingGameButton, gbc);
+        setupButtonActions(ContinueGameButton, StartNewGameButton, LoadExistingGameButton, SettingsButton, ExitGameButton);
 
-        gbc.gridy = 3; // Position for Settings button
-        buttonPanel.add(SettingsButton, gbc);
+        return buttonPanel;
+    }
 
-        gbc.gridy = 4; // Move Exit button down
-        buttonPanel.add(ExitGameButton, gbc);
-
-        backgroundPanel.add(buttonPanel, BorderLayout.CENTER);
-        StartMenuFrame.add(backgroundPanel);
-        StartMenuFrame.setLocationRelativeTo(null);
-        StartMenuFrame.setVisible(true);
-
-        StartNewGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                File saveFile = new File(GameSettings.SavedGameDirectory + "/InitlaCharecterSave.txt");
-
-                if (saveFile.exists()) {
-                    int response = JOptionPane.showConfirmDialog(null,
-                            "InitalCharecterSave.txt exists. Do you want to delete it and start a new game?",
-                            "File Exists",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE);
-
-                    if (response == JOptionPane.YES_OPTION) {
-                        if (saveFile.delete()) {
-                            try {
-                                proceedToCreateCharacter(e);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null,
-                                    "Failed to delete the file. Please try again.",
-                                    "Error",
-                                    JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        returnToPreviousScreen();
-                    }
-                } else {
-                    try {
+    private void setupButtonActions(RoundedButton continueBtn, RoundedButton newGameBtn, RoundedButton loadBtn, RoundedButton settingsBtn, RoundedButton exitBtn) {
+        newGameBtn.addActionListener(e -> {
+            File saveFile = new File(GameSettings.SavedGameDirectory + "/InitlaCharecterSave.txt");
+            if (saveFile.exists()) {
+                int response = JOptionPane.showConfirmDialog(null,
+                        "InitalCharecterSave.txt exists. Do you want to delete it and start a new game?",
+                        "File Exists",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    if (saveFile.delete()) {
                         proceedToCreateCharacter(e);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to delete the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-            }
-
-            private void proceedToCreateCharacter(ActionEvent e) throws IOException {
-                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
-                MusicPlayer.stopMidi();
-                window.dispose();
-                myCharacterCreation.createCharector();
-            }
-
-            private void returnToPreviousScreen() {
-                // Code to return to the previous screen
+            } else {
+                proceedToCreateCharacter(e);
             }
         });
 
-        ContinueGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
-                    myLoadSaveGame.ContinueCurrentGame();
-                    window.dispose();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
-        LoadExistingGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MusicPlayer.stopMidi();
-                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
-                myLoadSaveGame.LoadGame();
-                window.dispose();
-            }
-        });
-
-
-SettingsButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        SwingUtilities.invokeLater(() -> {
+        continueBtn.addActionListener(e -> {
             try {
-                new SettingsAndPreferences(); // Open the SettingsAndPreferences window
+                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+                myLoadSaveGame.ContinueCurrentGame();
+                window.dispose();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        loadBtn.addActionListener(e -> {
+            MusicPlayer.stopMidi();
+            Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+            myLoadSaveGame.LoadGame();
+            window.dispose();
+        });
+
+        settingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> {
+            try {
+                new SettingsAndPreferences();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Failed to open settings.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        });
-    }
-});
+        }));
 
-
-        ExitGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exitBtn.addActionListener(e -> System.exit(0));
     }
 
-    public GameStart() throws IOException, InterruptedException {
+    private void proceedToCreateCharacter(java.awt.event.ActionEvent e) {
+        Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+        MusicPlayer.stopMidi();
+        window.dispose();
+        myCharacterCreation.createCharector();
+    }
+
+    private void setupMusic() {
+        MusicPlayer.stopMidi();
         Thread musicThread = new Thread(() -> {
             MusicPlayer soundplayer = new MusicPlayer();
             try {
@@ -249,5 +199,7 @@ SettingsButton.addActionListener(new ActionListener() {
         musicThread.start();
     }
 
-
+    public JFrame getStartMenuFrame() {
+        return StartMenuFrame;
+    }
 }

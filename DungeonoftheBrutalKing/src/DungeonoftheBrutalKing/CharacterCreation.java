@@ -55,18 +55,18 @@ public class CharacterCreation {
 
     static JLabel classImageLabel;
     static BufferedImage ClassImagePicture;
-    
+
     private static JPanel classImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    
+
     private static final Map<String, Class<?>> classMap = Map.of(
-    	    "Paladin", Paladin.class,
-    	    "Cleric", Cleric.class,
-    	    "Rogue", Rogue.class,
-    	    "Hunter", Hunter.class,
-    	    "Warrior", Warrior.class,
-    	    "Bard", Bard.class,
-    	    "Wizard", Wizard.class // Add Wizard here
-    	);
+         "Paladin", Paladin.class,
+         "Cleric", Cleric.class,
+         "Rogue", Rogue.class,
+         "Hunter", Hunter.class,
+         "Warrior", Warrior.class,
+         "Bard", Bard.class,
+         "Wizard", Wizard.class
+     );
 
     public CharacterCreation() throws IOException, InterruptedException {}
 
@@ -108,40 +108,27 @@ public class CharacterCreation {
                 .toArray(String[]::new);
         Arrays.sort(raceList);
         raceComboBox = new JComboBox<>(raceList);
-        raceComboBox.setSelectedItem("Human"); // Default selection
-        selectedRace = "Human"; // Default
+        raceComboBox.setSelectedItem("Human");
+        selectedRace = "Human";
 
         raceImageLabel = new JLabel();
         raceDescriptionTextArea = new JTextArea("Choose your race.");
         raceDescriptionTextArea.setLineWrap(true);
         raceDescriptionTextArea.setWrapStyleWord(true);
         raceDescriptionTextArea.setEditable(false);
-        raceDescriptionTextArea.setColumns(60); // Wider area
-        raceDescriptionTextArea.setRows(10);     // Adjust as needed
-        //raceDescriptionTextArea.setPreferredSize(new Dimension(800, 200)); // Optional: explicit width
+        raceDescriptionTextArea.setColumns(60);
+        raceDescriptionTextArea.setRows(10);
 
+        JScrollPane raceDescriptionScrollPane = new JScrollPane(raceDescriptionTextArea);
+        int lineHeight = raceDescriptionTextArea.getFontMetrics(raceDescriptionTextArea.getFont()).getHeight();
+        raceDescriptionScrollPane.setPreferredSize(new Dimension(800, lineHeight * 12));
 
-     // Wrap the text area in a scroll pane
-     JScrollPane raceDescriptionScrollPane = new JScrollPane(raceDescriptionTextArea);
-
-     // Set preferred size for the scroll pane (not the text area)
-     int lineHeight = raceDescriptionTextArea.getFontMetrics(raceDescriptionTextArea.getFont()).getHeight();
-     raceDescriptionScrollPane.setPreferredSize(new Dimension(800, lineHeight * 12));
-
-
-racePanel = new JPanel(new BorderLayout());
-racePanel.add(raceComboBox, BorderLayout.NORTH);
-JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-raceImagePanel.add(raceImageLabel);
-racePanel.add(raceImagePanel, BorderLayout.CENTER);
-racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH); // Use scroll pane here
-
-     
-     // Add the scroll pane instead of the text area
-     racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH);
-
-
-        
+        racePanel = new JPanel(new BorderLayout());
+        racePanel.add(raceComboBox, BorderLayout.NORTH);
+        JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        raceImagePanel.add(raceImageLabel);
+        racePanel.add(raceImagePanel, BorderLayout.CENTER);
+        racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH);
 
         // --- CLASS SELECTION SETUP ---
         toonclasslist = Classes.Class.toonclassarray;
@@ -263,29 +250,37 @@ racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH); // Use scroll pane
 
         // --- EXIT BUTTON ---
         exitToStartMenuButton = new JButton("Return to Start Menu");
-        exitToStartMenuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CharecterCreationFrame.dispose();
-                try {
-                    new GameStart();
-                } catch (IOException | InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
 
-        racePanel = new JPanel(new BorderLayout());
-        racePanel.add(raceComboBox, BorderLayout.NORTH);
-      //  JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        raceImagePanel.add(raceImageLabel);
-        racePanel.add(raceImagePanel, BorderLayout.CENTER);
-        racePanel.add(raceDescriptionTextArea, BorderLayout.SOUTH);
+
+exitToStartMenuButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        CharecterCreationFrame.dispose();
+
+try {
+    GameStart startMenu = new GameStart();
+    JFrame startMenuFrame = startMenu.getStartMenuFrame();
+    if (startMenuFrame != null) {
+        startMenuFrame.setVisible(true);
+    }
+} catch (IOException | InterruptedException ex) {
+    ex.printStackTrace();
+}
+
+    }
+});
+
+
+
+        // --- BUTTON PANEL (Save + Exit) ---
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.add(saveToonButton);
+        buttonPanel.add(exitToStartMenuButton);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(racePanel, BorderLayout.NORTH);
         rightPanel.add(ClassInfoAndImagePanel, BorderLayout.CENTER);
-        rightPanel.add(saveToonButton, BorderLayout.SOUTH);
+        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         CharecterCreationSplitPane.setRightComponent(rightPanel);
 
@@ -308,41 +303,41 @@ racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH); // Use scroll pane
         new GameMenuItems();
     }
 
+    public static String getRaceImagePath(String race) {
+        try {
+            Class<?> raceClass = Class.forName("Races." + race);
+            Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+            return (String) raceClass.getMethod("getRaceImagePath").invoke(raceInstance);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-    
- // Update in CharacterCreation.java
+    private static String getRaceDescription(String race) {
+        try {
+            Class<?> raceClass = Class.forName("Races." + race);
+            Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+            return (String) raceClass.getMethod("getRaceDescription").invoke(raceInstance);
+        } catch (Exception e) {
+            return "No description available.";
+        }
+    }
 
- public static String getRaceImagePath(String race) {
-     try {
-         Class<?> raceClass = Class.forName("Races." + race);
-         Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
-         return (String) raceClass.getMethod("getRaceImagePath").invoke(raceInstance);
-     } catch (Exception e) {
-         return null;
-     }
- }
-
- private static String getRaceDescription(String race) {
-     try {
-         Class<?> raceClass = Class.forName("Races." + race);
-         Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
-         return (String) raceClass.getMethod("getRaceDescription").invoke(raceInstance);
-     } catch (Exception e) {
-         return "No description available.";
-     }
- }
-
- private static String[] getClassesForRace(String race) {
-     try {
-         Class<?> raceClass = Class.forName("Races." + race);
-         Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
-         java.util.List<String> allowed = (java.util.List<String>) raceClass.getMethod("getAllowedClasses").invoke(raceInstance);
-         return allowed.toArray(new String[0]);
-     } catch (Exception e) {
-         return Classes.Class.toonclassarray;
-     }
- }
-
+    @SuppressWarnings("unchecked")
+    private static String[] getClassesForRace(String race) {
+        try {
+            Class<?> raceClass = Class.forName("Races." + race);
+            Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
+            java.util.List<?> allowedRaw = (java.util.List<?>) raceClass.getMethod("getAllowedClasses").invoke(raceInstance);
+            java.util.List<String> allowed = new java.util.ArrayList<>();
+            for (Object o : allowedRaw) {
+                allowed.add((String) o);
+            }
+            return allowed.toArray(new String[0]);
+        } catch (Exception e) {
+            return Classes.Class.toonclassarray;
+        }
+    }
 
     private static void displayStats(Integer[] stat) {
         toonstatsTextArea.setText("Charecter Stats\n");
@@ -354,10 +349,6 @@ racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH); // Use scroll pane
         toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
         toonstatsTextArea.setEditable(false);
     }
-
-
-
-
 
     public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {
         boolean inputAccepted = false;
@@ -441,19 +432,22 @@ racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH); // Use scroll pane
     }
 
 
-
 private static void classImage(String classImage) throws IOException {
-    classImagePanel.removeAll(); // Clear previous images
+    classImagePanel.removeAll();
     ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
     classImageLabel = new JLabel();
-    Image newClassImagePicture = ClassImagePicture.getScaledInstance(640, 480, Image.SCALE_SMOOTH);
-    ImageIcon img = new ImageIcon(newClassImagePicture);
+
+    // Get panel size, fallback to default if not set
+    int panelWidth = classImagePanel.getWidth() > 0 ? classImagePanel.getWidth() : 640;
+    int panelHeight = classImagePanel.getHeight() > 0 ? classImagePanel.getHeight() : 480;
+
+    Image scaledImage = ClassImagePicture.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
+    ImageIcon img = new ImageIcon(scaledImage);
     classImageLabel.setIcon(img);
     classImagePanel.add(classImageLabel);
     ClassInfoAndImagePanel.add(classImagePanel, BorderLayout.CENTER);
     classImagePanel.revalidate();
     classImagePanel.repaint();
 }
-
 
 }
