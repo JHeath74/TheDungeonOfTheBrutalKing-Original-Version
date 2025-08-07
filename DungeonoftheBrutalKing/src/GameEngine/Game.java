@@ -9,14 +9,12 @@ import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 
-public class Game extends JFrame implements Runnable {
+public class Game implements Runnable {
 
-    private static final long serialVersionUID = 1L;
     public int mapWidth = 15;
     public int mapHeight = 15;
     private Thread thread;
@@ -27,12 +25,8 @@ public class Game extends JFrame implements Runnable {
     public Camera camera;
     public Screen screen;
 
-    private MainGameScreen mainGameScreen;
-
-
-
-
-
+    private Canvas renderCanvas;
+    private JPanel renderPanel;
 
     public static int[][] map = {
         {1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2},
@@ -43,13 +37,13 @@ public class Game extends JFrame implements Runnable {
         {1, 0, 3, 0, 0, 0, 3, 0, 2, 0, 0, 0, 0, 0, 2},
         {1, 0, 3, 3, 0, 3, 3, 0, 2, 0, 0, 0, 0, 0, 2},
         {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
-        {1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 0, 4, 4, 4},
-        {1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4},
-        {1, 0, 0, 0, 0, 0, 1, 4, 0, 0, 0, 0, 0, 0, 4},
-        {1, 0, 0, 0, 0, 0, 1, 4, 0, 3, 3, 3, 3, 0, 4},
-        {1, 0, 0, 0, 0, 0, 1, 4, 0, 3, 3, 3, 3, 0, 4},
-        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
-        {1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4}
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2},
+        {1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2}
     };
 
     public Game() throws IOException, InterruptedException {
@@ -63,19 +57,31 @@ public class Game extends JFrame implements Runnable {
         textures.add(Texture.stone);
         camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
         screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
-        addKeyListener(camera);
 
-		try {
-		    new MainGameScreen();
-		} catch (ParseException e) {
-		    e.printStackTrace();
-		}
+        renderCanvas = new Canvas();
+        renderCanvas.setSize(640, 480);
+        renderPanel = new JPanel();
+        renderPanel.setLayout(new java.awt.BorderLayout());
+        renderPanel.add(renderCanvas, java.awt.BorderLayout.CENTER);
 
+        renderCanvas.setFocusable(false);
+        renderPanel.setFocusable(true);
+        renderPanel.requestFocusInWindow();
+        renderPanel.addKeyListener(camera);
+
+        // Optionally, you can start the game here or from outside
+        // start();
     }
 
-    private synchronized void start() {
-        running = true;
-        thread.start();
+    public JPanel getRenderPanel() {
+        return renderPanel;
+    }
+
+    public synchronized void start() {
+        if (!running) {
+            running = true;
+            thread.start();
+        }
     }
 
     public synchronized void stop() {
@@ -87,11 +93,10 @@ public class Game extends JFrame implements Runnable {
         }
     }
 
-    public void render(MainGameScreen mainGameScreen) {
-        Canvas canvas = mainGameScreen.getGameImagesAndCombatCanvas();
-        BufferStrategy bs = canvas.getBufferStrategy();
+    public void render() {
+        BufferStrategy bs = renderCanvas.getBufferStrategy();
         if (bs == null) {
-            canvas.createBufferStrategy(3);
+            renderCanvas.createBufferStrategy(3);
             return;
         }
         Graphics g = bs.getDrawGraphics();
@@ -101,30 +106,20 @@ public class Game extends JFrame implements Runnable {
     }
 
     @Override
-	public void run() {
+    public void run() {
         long lastTime = System.nanoTime();
         final double ns = 1000000000.0 / 60.0; // 60 times per second
         double delta = 0;
-        requestFocus();
+        renderPanel.requestFocusInWindow();
         while (running) {
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
                 screen.update(camera, pixels);
-                try {
-                    camera.update(map);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 delta--;
             }
-            render(mainGameScreen); // displays to the screen unrestricted time
+            render();
         }
     }
-
-	/*
-	 * public static void main(String[] args) { Game game = new Game();
-	 * game.start(); }
-	 */
 }

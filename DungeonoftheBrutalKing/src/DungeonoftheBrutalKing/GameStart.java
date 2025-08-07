@@ -131,6 +131,7 @@ public class GameStart extends JFrame {
 
     private void setupButtonActions(RoundedButton continueBtn, RoundedButton newGameBtn, RoundedButton loadBtn, RoundedButton settingsBtn, RoundedButton exitBtn) {
         newGameBtn.addActionListener(e -> {
+            MusicPlayer.stopMidi();
             File saveFile = new File(GameSettings.SavedGameDirectory + "/InitlaCharecterSave.txt");
             if (saveFile.exists()) {
                 int response = JOptionPane.showConfirmDialog(null,
@@ -151,6 +152,7 @@ public class GameStart extends JFrame {
         });
 
         continueBtn.addActionListener(e -> {
+            MusicPlayer.stopMidi();
             try {
                 Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
                 myLoadSaveGame.ContinueCurrentGame();
@@ -167,18 +169,24 @@ public class GameStart extends JFrame {
             window.dispose();
         });
 
-        settingsBtn.addActionListener(e -> SwingUtilities.invokeLater(() -> {
-            try {
-                new SettingsAndPreferences();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Failed to open settings.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }));
+        settingsBtn.addActionListener(e -> {
+            MusicPlayer.stopMidi();
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    new SettingsAndPreferences();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Failed to open settings.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+        });
 
-        exitBtn.addActionListener(e -> System.exit(0));
+        exitBtn.addActionListener(e -> {
+            MusicPlayer.stopMidi();
+            System.exit(0);
+        });
     }
-
+    
     private void proceedToCreateCharacter(java.awt.event.ActionEvent e) {
         Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
         MusicPlayer.stopMidi();

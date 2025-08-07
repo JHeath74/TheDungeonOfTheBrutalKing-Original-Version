@@ -65,6 +65,45 @@ import Quests.Quest;
 
 public class Charecter {
 
+	public ArrayList<String> getSpellsLearned() {
+		return SpellsLearned;
+	}
+
+	public void setSpellsLearned(ArrayList<String> spellsLearned) {
+		SpellsLearned = spellsLearned;
+	}
+
+	public ArrayList<String> getCharInventory() {
+		return CharInventory;
+	}
+
+	public void setCharInventory(ArrayList<String> charInventory) {
+		CharInventory = charInventory;
+	}
+
+	public static Charecter getSingle_instance_myChar() {
+		return single_instance_myChar;
+	}
+
+	public static String getName() {
+		return name;
+	}
+
+	public void setEffectManager(EffectManager effectManager) {
+		this.effectManager = effectManager;
+	}
+
+	public void setActiveEffects(List<String> activeEffects) {
+		this.activeEffects = activeEffects;
+	}
+
+	public void setCharInfo(ArrayList<String> charInfo) {
+		CharInfo = charInfo;
+	}
+
+	public void setActiveQuests(List<Quest> activeQuests) {
+		this.activeQuests = activeQuests;
+	}
 	// Singleton instance of the Charecter class
 	private static Charecter single_instance_myChar;
 	// Static method to create or retrieve the Singleton instance of the Charecter

@@ -31,7 +31,6 @@ public class Combat extends JFrame {
 
     Singleton myCharSingleton = new Singleton();
     GameSettings myGameSettings = new GameSettings();
-    private MainGameScreen myMainGameScreen = null;
     Charecter myChar = new Charecter();
     Enemies myEnemies = new Enemies();
     private String selectedSpell = null;
@@ -40,7 +39,7 @@ public class Combat extends JFrame {
     public JPanel CombatPanel, CombatImagePanel, CombatPanelButtons, CombatPanelCombatAreaPanel,
             CombatUpdateInfoPanel, CombatNameAndHPPanel, spelllistbox = null;
     public JSplitPane CombatImageAndCombatUpdatesStatsSplitPane, CombatCombatUpdatesAndStatsSplitPane = null;
-    public JTextArea CombatCombatTextArea, CombatNameAndHPfield = null;
+    public JTextArea CombatMessageArea, CombatNameAndHPfield = null;
     public JButton CombatAttackButton, CastSelectedSpellButton, SelectSpellButton, CombatRunButton, SelectSpellToCast = null;
     public JLabel picLabel = null;
     public int width, height, HP, HeroHP, CharrandomCombatChance, MonsterrandomCombatChance = 0;
@@ -55,11 +54,10 @@ public class Combat extends JFrame {
     }
 
     public void CombatEncouter() throws IOException, InterruptedException, ParseException {
-        Object randomMonster = MonsterSelector.selectRandomMonster();
-        MainGameScreen myMainGameScreen = new MainGameScreen();
+        MonsterSelector.selectRandomMonster();
 
         CombatPanel = new JPanel(new BorderLayout());
-        myMainGameScreen.replaceWithAnyPanel(CombatPanel);
+        MainGameScreen.getInstance().replaceWithAnyPanel(CombatPanel);
         CombatImagePanel = new JPanel();
         CombatPanelButtons = new JPanel(new FlowLayout());
         CombatPanelCombatAreaPanel = new JPanel();
@@ -69,8 +67,8 @@ public class Combat extends JFrame {
         CombatImageAndCombatUpdatesStatsSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         CombatCombatUpdatesAndStatsSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
-        CombatCombatTextArea = new JTextArea();
-        CombatNameAndHPfield = new JTextArea();
+        CombatMessageArea = new JTextArea(12, 40);
+        CombatNameAndHPfield = new JTextArea(2, 40);
 
         CombatAttackButton = new JButton("Attack");
         CastSelectedSpellButton = new JButton("Cast Selected Spell");
@@ -89,8 +87,9 @@ public class Combat extends JFrame {
         }
 
         imageSize = new Dimension();
-        imageSize.setSize(768, 1024);
+        imageSize.setSize(300, 400);
         picLabel.setPreferredSize(imageSize);
+        CombatImagePanel.add(picLabel);
 
         CombatPanel.add(CombatPanelButtons, BorderLayout.SOUTH);
         CombatPanel.add(CombatImageAndCombatUpdatesStatsSplitPane, BorderLayout.CENTER);
@@ -98,7 +97,7 @@ public class Combat extends JFrame {
         CombatPanelButtons.add(CastSelectedSpellButton);
         CombatPanelButtons.add(SelectSpellButton);
         CombatPanelButtons.add(CombatRunButton);
-        CombatPanelCombatAreaPanel.add(CombatCombatTextArea);
+        CombatPanelCombatAreaPanel.add(CombatMessageArea);
         CombatNameAndHPPanel.add(CombatNameAndHPfield);
         CombatUpdateInfoPanel.add(CombatPanelCombatAreaPanel);
 
@@ -115,10 +114,12 @@ public class Combat extends JFrame {
         CombatNameAndHPfield.setBackground(myGameSettings.getColorLightYellow());
         CombatNameAndHPPanel.setBackground(myGameSettings.getColorCoral());
 
+        updateNameAndHP();
+
         ActionListener task = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                // TODO: Add periodic update logic
+                updateNameAndHP();
             }
         };
         timer = new Timer(1000, task);
@@ -132,7 +133,7 @@ public class Combat extends JFrame {
                 StringBuilder combatLog = new StringBuilder();
 
                 int charAttackChance = random.nextInt(100);
-                if (charAttackChance >= Enemies.getAgility()) {
+                if (charAttackChance >= myEnemies.getAgility()) {
                     int charDamage = myChar.getWeaponDamage() + myChar.getStrength();
                     myEnemies.setHP(myEnemies.getHP() - charDamage);
                     combatLog.append("You hit the ").append(myEnemies.getName())
@@ -143,13 +144,17 @@ public class Combat extends JFrame {
 
                 if (myEnemies.getHP() <= 0) {
                     combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
-                    MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+                    CombatMessageArea.setText(combatLog.toString());
+                    CombatAttackButton.setEnabled(false);
+                    CastSelectedSpellButton.setEnabled(false);
+                    SelectSpellButton.setEnabled(false);
+                    CombatRunButton.setEnabled(false);
                     return;
                 }
 
                 int monsterAttackChance = random.nextInt(100);
                 if (monsterAttackChance >= myChar.getAgility()) {
-                    int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
+                    int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
                     myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
                     combatLog.append("The ").append(myEnemies.getName())
                             .append(" hit you for ").append(monsterDamage).append(" damage!\n");
@@ -159,11 +164,15 @@ public class Combat extends JFrame {
 
                 if (myChar.getHitPoints() <= 0) {
                     combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
-                    MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+                    CombatMessageArea.setText(combatLog.toString());
+                    CombatAttackButton.setEnabled(false);
+                    CastSelectedSpellButton.setEnabled(false);
+                    SelectSpellButton.setEnabled(false);
+                    CombatRunButton.setEnabled(false);
                     return;
                 }
 
-                MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+                CombatMessageArea.setText(combatLog.toString());
             }
         });
 
@@ -171,21 +180,25 @@ public class Combat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String[] knownSpells = myChar.getKnownSpells();
+                if (knownSpells == null || knownSpells.length == 0) {
+                    JOptionPane.showMessageDialog(CombatPanel, "You don't know any spells.");
+                    return;
+                }
                 String selected = (String) JOptionPane.showInputDialog(
-                        CombatFrame,
+                        CombatPanel,
                         "Select a spell to cast:",
                         "Spell Selection",
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         knownSpells,
-                        knownSpells.length > 0 ? knownSpells[0] : null
+                        knownSpells[0]
                 );
 
                 if (selected != null) {
                     selectedSpell = selected;
-                    JOptionPane.showMessageDialog(CombatFrame, "You selected: " + selectedSpell);
+                    JOptionPane.showMessageDialog(CombatPanel, "You selected: " + selectedSpell);
                 } else {
-                    JOptionPane.showMessageDialog(CombatFrame, "No spell selected.");
+                    JOptionPane.showMessageDialog(CombatPanel, "No spell selected.");
                 }
             }
         });
@@ -194,13 +207,15 @@ public class Combat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedSpell == null) {
-                    JOptionPane.showMessageDialog(CombatFrame, "No spell selected. Please select a spell first.");
+                    JOptionPane.showMessageDialog(CombatPanel, "No spell selected. Please select a spell first.");
+                    CombatMessageArea.setText("No spell selected.\n");
                     return;
                 }
 
                 Spells spell = myChar.getSpellByName(selectedSpell);
                 if (spell == null) {
-                    JOptionPane.showMessageDialog(CombatFrame, "Selected spell not found.");
+                    JOptionPane.showMessageDialog(CombatPanel, "Selected spell not found.");
+                    CombatMessageArea.setText("Selected spell not found.\n");
                     return;
                 }
 
@@ -213,9 +228,37 @@ public class Combat extends JFrame {
 
                 if (myEnemies.getHP() <= 0) {
                     combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
+                    CombatMessageArea.setText(combatLog.toString());
+                    CombatAttackButton.setEnabled(false);
+                    CastSelectedSpellButton.setEnabled(false);
+                    SelectSpellButton.setEnabled(false);
+                    CombatRunButton.setEnabled(false);
+                    return;
                 }
 
-                MainGameScreen.CombatMessageArea.setText(combatLog.toString());
+                // Monster's turn after spell
+                Random random = new Random();
+                int monsterAttackChance = random.nextInt(100);
+                if (monsterAttackChance >= myChar.getAgility()) {
+                    int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
+                    myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
+                    combatLog.append("The ").append(myEnemies.getName())
+                            .append(" hit you for ").append(monsterDamage).append(" damage!\n");
+                } else {
+                    combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
+                }
+
+                if (myChar.getHitPoints() <= 0) {
+                    combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
+                    CombatMessageArea.setText(combatLog.toString());
+                    CombatAttackButton.setEnabled(false);
+                    CastSelectedSpellButton.setEnabled(false);
+                    SelectSpellButton.setEnabled(false);
+                    CombatRunButton.setEnabled(false);
+                    return;
+                }
+
+                CombatMessageArea.setText(combatLog.toString());
             }
         });
 
@@ -223,19 +266,46 @@ public class Combat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Random random = new Random();
-                int runChance = random.nextInt(100); // Generate a random number between 0 and 99
-                int agility = myChar.getAgility();  // Get the character's agility
+                int runChance = random.nextInt(100);
+                int agility = myChar.getAgility();
 
                 if (runChance < agility) {
-                    JOptionPane.showMessageDialog(CombatFrame, "You successfully ran away!");
-                    // Logic to exit combat or return to the previous screen
-                    myMainGameScreen.replaceWithAnyPanel(new JPanel()); // Example: Replace with a blank panel
+                    CombatMessageArea.setText("You successfully ran away!\n");
+                    CombatAttackButton.setEnabled(false);
+                    CastSelectedSpellButton.setEnabled(false);
+                    SelectSpellButton.setEnabled(false);
+                    CombatRunButton.setEnabled(false);
                 } else {
-                    JOptionPane.showMessageDialog(CombatFrame, "You failed to run away!");
-                    // Logic for the enemy to attack or continue combat
+                    StringBuilder combatLog = new StringBuilder();
+                    combatLog.append("You failed to run away!\n");
+                    // Monster gets a free attack
+                    int monsterAttackChance = random.nextInt(100);
+                    if (monsterAttackChance >= myChar.getAgility()) {
+                        int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
+                        myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
+                        combatLog.append("The ").append(myEnemies.getName())
+                                .append(" hit you for ").append(monsterDamage).append(" damage!\n");
+                    } else {
+                        combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
+                    }
+                    if (myChar.getHitPoints() <= 0) {
+                        combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
+                        CombatAttackButton.setEnabled(false);
+                        CastSelectedSpellButton.setEnabled(false);
+                        SelectSpellButton.setEnabled(false);
+                        CombatRunButton.setEnabled(false);
+                    }
+                    CombatMessageArea.setText(combatLog.toString());
                 }
             }
         });
+    }
+
+    private void updateNameAndHP() {
+        CombatNameAndHPfield.setText(
+                myChar.getName() + " HP: " + myChar.getHitPoints() +
+                " | " + myEnemies.getName() + " HP: " + myEnemies.getHP()
+        );
     }
 
     public static void main(String[] args) throws InterruptedException, ParseException {
