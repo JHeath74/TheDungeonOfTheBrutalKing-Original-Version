@@ -22,7 +22,7 @@ public class Game implements Runnable {
     private BufferedImage image;
     public int[] pixels;
     public ArrayList<Texture> textures;
-    public Camera camera;
+    private Camera camera;
     public Screen screen;
 
     private Canvas renderCanvas;
@@ -69,13 +69,25 @@ public class Game implements Runnable {
         renderPanel.requestFocusInWindow();
         renderPanel.addKeyListener(camera);
 
-        // Optionally, you can start the game here or from outside
-        // start();
+        // Add component listener to handle resizing
+        renderPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentResized(java.awt.event.ComponentEvent e) {
+                int width = renderPanel.getWidth();
+                int height = renderPanel.getHeight();
+                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+                renderCanvas.setSize(width, height);
+                screen = new Screen(map, mapWidth, mapHeight, textures, width, height);
+            }
+        });
     }
 
     public JPanel getRenderPanel() {
         return renderPanel;
     }
+    
+   
 
     public synchronized void start() {
         if (!running) {
@@ -122,4 +134,9 @@ public class Game implements Runnable {
             render();
         }
     }
+
+	public Camera getCamera() {
+		// TODO Auto-generated method stub
+		return camera;
+	}
 }

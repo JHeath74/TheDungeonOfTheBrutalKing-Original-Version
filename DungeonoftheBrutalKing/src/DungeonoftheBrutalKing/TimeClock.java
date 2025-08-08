@@ -14,7 +14,7 @@ public class TimeClock {
         HARVEST, FINAL_REAPING, THE_FALL, DARKNESS, COLD_WINDS, LIGHTS
     }
 
-    private static final TimeClock timeClock = new TimeClock(Month.REBIRTH, null);
+    private static final TimeClock timeClock = new TimeClock(Month.REBIRTH, null, null);
 
     private Month currentMonth;
     private int currentDay;
@@ -24,11 +24,17 @@ public class TimeClock {
 
     int startTime;
 
-    TimeClock(Month startMonth, JTextPane messageTextPane) {
+    TimeClock(Month startMonth, JTextPane messageTextPane, MainGameScreen mainGameScreen) {
         this.currentMonth = startMonth;
         this.currentDay = 1;
         this.currentTime = LocalTime.of(0, 0);
         this.startTime = currentTime.getHour();
+        this.myMainGameScreen = mainGameScreen;
+    }
+
+    // For singleton compatibility
+    TimeClock(Month startMonth, JTextPane messageTextPane) {
+        this(startMonth, messageTextPane, null);
     }
 
     public synchronized void startSimulation() {
@@ -64,17 +70,18 @@ public class TimeClock {
         return Month.values()[index];
     }
 
+
     private void updateOutputField() {
         try {
             if (myMainGameScreen == null) {
                 myMainGameScreen = MainGameScreen.getInstance();
             }
-            myMainGameScreen.setMessageTextPane(String.format("Day %d, %s | Time: %s",
-                    currentDay, currentMonth, currentTime));
+            myMainGameScreen.updateCombatMessageArea(getCurrentTimeString());
         } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
         }
     }
+
 
     public synchronized void stopClock() {
         if (timer != null) {
@@ -107,4 +114,12 @@ public class TimeClock {
     public static TimeClock Singleton() {
         return timeClock;
     }
+    
+
+
+public String getCurrentTimeString() {
+    return String.format("Time: %s\nDay: %d\nMonth: %s", currentTime, currentDay, currentMonth);
+}
+
+
 }

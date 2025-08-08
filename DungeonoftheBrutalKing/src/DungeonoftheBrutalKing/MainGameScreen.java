@@ -1,4 +1,5 @@
 
+// File: MainGameScreen.java
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -9,10 +10,11 @@ import javax.swing.*;
 import javax.swing.text.*;
 
 import GameEngine.Game;
+import GameEngine.Camera;
 import SharedData.GameSettings;
 import SharedData.SettingsAndPreferences;
 
-public class MainGameScreen extends JFrame {
+public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
     private static MainGameScreen instance;
 
@@ -43,6 +45,10 @@ public class MainGameScreen extends JFrame {
     private JMenuItem characterStatsMenuItem, characterInventoryMenuItem, displayActiveQuestsMenuItem;
     private JMenuItem gameSettingsMenuItem, aboutMenuItem, helpMenuItem;
 
+    // Key handling
+    private Camera camera;
+    private JPanel renderPanel;
+
     public static MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
         if (instance == null) {
             instance = new MainGameScreen();
@@ -58,17 +64,49 @@ public class MainGameScreen extends JFrame {
         setupSplitPane();
         setupTimer();
         setupClock();
-
+        
+        updateCombatMessageArea(clock.getCurrentTimeString());
+        
         Game game = new Game();
-        JPanel renderPanel = game.getRenderPanel();
+        renderPanel = game.getRenderPanel();
+        camera = game.getCamera();
+
         replaceWithAnyPanel(renderPanel);
 
-        // Repaint renderPanel at ~60 FPS using Swing Timer (EDT safe)
-        Timer renderTimer = new Timer(16, e -> renderPanel.repaint());
+        renderPanel.addKeyListener(this);
+        renderPanel.setFocusable(true);
+        renderPanel.requestFocusInWindow();
+
+        Timer renderTimer = new Timer(16, _ -> renderPanel.repaint());
         renderTimer.start();
 
         mainFrame.setVisible(true);
-        game.start(); // Game thread only updates game state and BufferedImage
+        game.start();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (camera != null) {
+            camera.keyPressed(e);
+            renderPanel.repaint();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (camera != null) {
+            camera.keyReleased(e);
+            renderPanel.repaint();
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // Not used
+    }
+
+    public void updateCombatMessageArea(String text) {
+        combatMessageArea.setText(text);
     }
 
     private void setupFrame() {
@@ -94,6 +132,14 @@ public class MainGameScreen extends JFrame {
         messageTextPane = new JTextPane();
         messageTextPane.setEditable(false);
         messageTextPane.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        combatMessageArea.setEditable(false);
+        combatMessageArea.setFont(new Font("Arial", Font.BOLD, 16));
+        combatMessageArea.setBackground(Color.BLACK);
+        combatMessageArea.setForeground(Color.GREEN);
+        combatMessageArea.setRows(4);
+        combatMessageArea.setLineWrap(true);
+        combatMessageArea.setWrapStyleWord(true);
 
         try {
             myGameState.StartGameLoadCharecter();
@@ -134,24 +180,23 @@ public class MainGameScreen extends JFrame {
     }
 
     private void setupMenusAndItems() {
-        // Game Menu
         gameMenu = new JMenu("Game");
         gameMenu.setMnemonic(KeyEvent.VK_G);
 
         newGameMenuItem = new JMenuItem("New Game");
         newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         newGameMenuItem.getAccessibleContext().setAccessibleDescription("Start a new game");
-        newGameMenuItem.addActionListener(e -> handleNewGame());
+        newGameMenuItem.addActionListener(_ -> handleNewGame());
 
         loadSavedGameMenuItem = new JMenuItem("Load Saved Game");
         loadSavedGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK));
         loadSavedGameMenuItem.getAccessibleContext().setAccessibleDescription("Load a saved game");
-        loadSavedGameMenuItem.addActionListener(e -> myGameState.LoadGame());
+        loadSavedGameMenuItem.addActionListener(_ -> myGameState.LoadGame());
 
         saveMenuItem = new JMenuItem("Save Game");
         saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         saveMenuItem.getAccessibleContext().setAccessibleDescription("Save the current game");
-        saveMenuItem.addActionListener(e -> {
+        saveMenuItem.addActionListener(_ -> {
             try {
                 myGameState.SaveGame();
             } catch (IOException | ParseException ex) {
@@ -162,32 +207,30 @@ public class MainGameScreen extends JFrame {
         exitGameMenuItem = new JMenuItem("Exit Game");
         exitGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
         exitGameMenuItem.getAccessibleContext().setAccessibleDescription("Exit the game");
-        exitGameMenuItem.addActionListener(e -> System.exit(0));
+        exitGameMenuItem.addActionListener(_ -> System.exit(0));
 
         gameMenu.add(newGameMenuItem);
         gameMenu.add(loadSavedGameMenuItem);
         gameMenu.add(saveMenuItem);
         gameMenu.add(exitGameMenuItem);
 
-        // Character Menu
         characterMenu = new JMenu("Character");
         characterMenu.setMnemonic(KeyEvent.VK_C);
 
         characterStatsMenuItem = new JMenuItem("Character Stats");
         characterStatsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_DOWN_MASK));
         characterStatsMenuItem.getAccessibleContext().setAccessibleDescription("View character stats");
-        characterStatsMenuItem.addActionListener(e -> myGameMenuItems.Stats());
+        characterStatsMenuItem.addActionListener(_ -> myGameMenuItems.Stats());
 
         characterInventoryMenuItem = new JMenuItem("Character Inventory");
         characterInventoryMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK));
         characterInventoryMenuItem.getAccessibleContext().setAccessibleDescription("View character inventory");
-        characterInventoryMenuItem.addActionListener(e -> myGameMenuItems.Inventory());
+        characterInventoryMenuItem.addActionListener(_ -> myGameMenuItems.Inventory());
 
         displayActiveQuestsMenuItem = new JMenuItem("Display Active Quests");
         displayActiveQuestsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         displayActiveQuestsMenuItem.getAccessibleContext().setAccessibleDescription("Display Active Quests");
-        displayActiveQuestsMenuItem.addActionListener(e -> {
-            // Placeholder for quest display logic
+        displayActiveQuestsMenuItem.addActionListener(_ -> {
             System.out.print("Active Quests:\n");
         });
 
@@ -195,35 +238,32 @@ public class MainGameScreen extends JFrame {
         characterMenu.add(characterInventoryMenuItem);
         characterMenu.add(displayActiveQuestsMenuItem);
 
-        // Settings Menu
         settingsMenu = new JMenu("Preferences");
         settingsMenu.setMnemonic(KeyEvent.VK_P);
 
         gameSettingsMenuItem = new JMenuItem("Game Settings");
         gameSettingsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
         gameSettingsMenuItem.getAccessibleContext().setAccessibleDescription("Adjust game settings");
-        gameSettingsMenuItem.addActionListener(e -> new SettingsAndPreferences());
+        gameSettingsMenuItem.addActionListener(_ -> new SettingsAndPreferences());
 
         settingsMenu.add(gameSettingsMenuItem);
 
-        // Help Menu
         helpMenu = new JMenu("About");
         helpMenu.setMnemonic(KeyEvent.VK_H);
 
         aboutMenuItem = new JMenuItem("About");
         aboutMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.CTRL_DOWN_MASK));
         aboutMenuItem.getAccessibleContext().setAccessibleDescription("About the game");
-        aboutMenuItem.addActionListener(e -> showAboutDialog());
+        aboutMenuItem.addActionListener(_ -> showAboutDialog());
 
         helpMenuItem = new JMenuItem("Help");
         helpMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
         helpMenuItem.getAccessibleContext().setAccessibleDescription("Help information");
-        helpMenuItem.addActionListener(e -> showHelpDialog());
+        helpMenuItem.addActionListener(_ -> showHelpDialog());
 
         helpMenu.add(aboutMenuItem);
         helpMenu.add(helpMenuItem);
 
-        // Add menus to menu bar
         menuBar.add(gameMenu);
         menuBar.add(characterMenu);
         menuBar.add(settingsMenu);
@@ -258,7 +298,7 @@ public class MainGameScreen extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
         JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(event -> aboutDialog.dispose());
+        closeButton.addActionListener(_ -> aboutDialog.dispose());
 
         JTextPane aboutTextPane = new JTextPane();
         aboutTextPane.setEditable(false);
@@ -304,7 +344,7 @@ public class MainGameScreen extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
         JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(event -> helpDialog.dispose());
+        closeButton.addActionListener(_ -> helpDialog.dispose());
 
         JTextPane helpTextPane = new JTextPane();
         helpTextPane.setEditable(false);
@@ -348,61 +388,66 @@ public class MainGameScreen extends JFrame {
         picturesAndTextUpdatesPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         picturesAndTextUpdatesPane.setDividerLocation(width - 200);
         picturesAndTextUpdatesPane.setResizeWeight(.90d);
+        
         picturesAndTextUpdatesPane.setLeftComponent(gameImagesAndCombatPanel);
-        picturesAndTextUpdatesPane.setRightComponent(messageTextPane);
+
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(new JScrollPane(messageTextPane), BorderLayout.CENTER);
+
+        JScrollPane combatScrollPane = new JScrollPane(combatMessageArea);
+        combatScrollPane.setPreferredSize(new Dimension(0, 75));
+        rightPanel.add(combatScrollPane, BorderLayout.SOUTH);
+
+        picturesAndTextUpdatesPane.setRightComponent(rightPanel);
 
         mainFrame.add(picturesAndTextUpdatesPane, BorderLayout.CENTER);
         mainFrame.add(p1Panel, BorderLayout.NORTH);
     }
 
     private void setupTimer() {
-        ActionListener task = evt -> {
-        	
-        	String mpOrApLabel;
-        	if (myChar.CharInfo.get(1).equals("Mage") || myChar.CharInfo.get(1).equals("Wizard")) {
-        	    mpOrApLabel = "Magic Points: ";
-        	} else {
-        	    mpOrApLabel = "Action Points: ";
-        	}
-        
+        ActionListener task = _ -> {
+            String mpOrApLabel;
+            if (myChar.CharInfo.get(1).equals("Mage") || myChar.CharInfo.get(1).equals("Wizard")) {
+                mpOrApLabel = "Magic Points: ";
+            } else {
+                mpOrApLabel = "Action Points: ";
+            }
 
-        	charNameClassLevelField.setText(
-        		    "Name: " + myChar.CharInfo.get(0) + "\t\t" +
-        		    "Class: " + myChar.CharInfo.get(1) + "\t\t" +
-        		    "Race: " + myChar.CharInfo.get(2) + "\t\t" +
-        		    "Level: " + myChar.CharInfo.get(3) + "\t\t" +
-        		    "XP: " + myChar.CharInfo.get(4)
-        		);
-charStatsField.setText(
-	    "Stamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
-	);
+            charNameClassLevelField.setText(
+                "Name: " + myChar.CharInfo.get(0) + "\t\t" +
+                "Class: " + myChar.CharInfo.get(1) + "\t\t" +
+                "Race: " + myChar.CharInfo.get(2) + "\t\t" +
+                "Level: " + myChar.CharInfo.get(3) + "\t\t" +
+                "XP: " + myChar.CharInfo.get(4)
+            );
+            charStatsField.setText(
+                "Stamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
+            );
+            charStats2Field.setText(
+                myChar.CharInfo.get(7) + "\t\t" +
+                myChar.CharInfo.get(8) + "\t\t" +
+                myChar.CharInfo.get(9) + "\t\t" +
+                myChar.CharInfo.get(10) + "\t\t" +
+                myChar.CharInfo.get(11) + "\t\t" +
+                myChar.CharInfo.get(12)
+            );
+            charXPHPGoldField.setText(
+                "Hit Points: " + myChar.CharInfo.get(5) + "\t\t" +
+                mpOrApLabel + myChar.CharInfo.get(6) + "\t\t" +
+                "Gold: " + myChar.CharInfo.get(9)
+            );
+        };
 
-	charStats2Field.setText(
-	    myChar.CharInfo.get(7) + "\t\t" +
-	    myChar.CharInfo.get(8) + "\t\t" +
-	    myChar.CharInfo.get(9) + "\t\t" +
-	    myChar.CharInfo.get(10) + "\t\t" +
-	    myChar.CharInfo.get(11) + "\t\t" +
-	    myChar.CharInfo.get(12)
-	);
-	charXPHPGoldField.setText(
-		    "Hit Points: " + myChar.CharInfo.get(5) + "\t\t" +
-		    mpOrApLabel + myChar.CharInfo.get(6) + "\t\t" +
-		    "Gold: " + myChar.CharInfo.get(9)
-		);
-		}; // Close the lambda
-
-		timer = new Timer(1000, task);
-		timer.setRepeats(true);
-		timer.start();
-		}
+        timer = new Timer(1000, task);
+        timer.setRepeats(true);
+        timer.start();
+    }
 
     private void setupClock() {
-        clock = new TimeClock(TimeClock.Month.REBIRTH, messageTextPane);
+        clock = new TimeClock(TimeClock.Month.REBIRTH, messageTextPane, this);
         clock.startClock();
     }
 
-    // Utility and public methods
     public void setMessageTextPane(JTextPane pane) {
         messageTextPane = pane;
     }
@@ -420,7 +465,6 @@ charStatsField.setText(
         }
     }
 
-    // Replace the left panel (gameImagesAndCombatPanel) with any JPanel (e.g., from Game)
     public void replaceWithAnyPanel(JPanel newPanel) {
         if (newPanel != null) {
             if (picturesAndTextUpdatesPane != null) {
@@ -429,7 +473,6 @@ charStatsField.setText(
         }
     }
 
-    // Restore the original left panel
     public void restoreOriginalPanel() {
         if (originalPanel != null && picturesAndTextUpdatesPane != null) {
             picturesAndTextUpdatesPane.setLeftComponent(originalPanel);
