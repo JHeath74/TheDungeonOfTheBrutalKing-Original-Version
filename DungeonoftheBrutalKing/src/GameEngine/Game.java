@@ -7,14 +7,15 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-
-import DungeonoftheBrutalKing.MainGameScreen;
+import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class Game implements Runnable {
 
+    private boolean flash = false;
     public int mapWidth = 15;
     public int mapHeight = 15;
     private Thread thread;
@@ -61,8 +62,8 @@ public class Game implements Runnable {
         renderCanvas = new Canvas();
         renderCanvas.setSize(640, 480);
         renderPanel = new JPanel();
-        renderPanel.setLayout(new java.awt.BorderLayout());
-        renderPanel.add(renderCanvas, java.awt.BorderLayout.CENTER);
+        renderPanel.setLayout(new BorderLayout());
+        renderPanel.add(renderCanvas, BorderLayout.CENTER);
 
         renderCanvas.setFocusable(false);
         renderPanel.setFocusable(true);
@@ -70,24 +71,26 @@ public class Game implements Runnable {
         renderPanel.addKeyListener(camera);
 
         // Add component listener to handle resizing
-        renderPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+        renderPanel.addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(java.awt.event.ComponentEvent e) {
+            public void componentResized(ComponentEvent e) {
                 int width = renderPanel.getWidth();
                 int height = renderPanel.getHeight();
                 image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
                 pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
                 renderCanvas.setSize(width, height);
                 screen = new Screen(map, mapWidth, mapHeight, textures, width, height);
+
+                renderPanel.requestFocusInWindow();
+                // Do not call render() here
             }
         });
+        // Do not call render() here
     }
 
     public JPanel getRenderPanel() {
         return renderPanel;
     }
-    
-   
 
     public synchronized void start() {
         if (!running) {
@@ -114,6 +117,7 @@ public class Game implements Runnable {
         Graphics g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
         bs.show();
+        java.awt.Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
 
@@ -128,15 +132,23 @@ public class Game implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
-                screen.update(camera, pixels);
+                // Camera should be updated by key events
+            	try {
+					camera.update(map);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} // <-- Add this
+                screen.update(camera, pixels); // <-- And this // This should use the latest camera state
+                flash = !flash;
+                pixels[0] = flash ? 0xFF00FF : 0x000000;
                 delta--;
             }
-            render();
+            render(); // This should display the updated image
         }
     }
 
-	public Camera getCamera() {
-		// TODO Auto-generated method stub
-		return camera;
-	}
+    public Camera getCamera() {
+        return camera;
+    }
 }
