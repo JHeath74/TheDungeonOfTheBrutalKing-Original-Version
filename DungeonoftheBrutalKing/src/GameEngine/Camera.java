@@ -26,19 +26,19 @@ public class Camera implements KeyListener{
 	public void keyPressed(KeyEvent key) {
 		if((key.getKeyCode() == KeyEvent.VK_LEFT)) {
 			left = true;
-			System.out.println("Left key pressed");
+
 		}
 		if((key.getKeyCode() == KeyEvent.VK_RIGHT)) {
 			right = true;
-			System.out.println("Right key pressed");
+
 		}
 		if((key.getKeyCode() == KeyEvent.VK_UP)) {
 			forward = true;
-			System.out.println("Up key pressed");
+
 		}
 		if((key.getKeyCode() == KeyEvent.VK_DOWN)) {
 			back = true;
-			System.out.println("Down key pressed");
+
 		}
 	}
 	@Override
@@ -59,7 +59,7 @@ public class Camera implements KeyListener{
 
 
 public void update(int[][] map) throws IOException {
-    System.out.printf("Before update: xPos=%.2f, yPos=%.2f, xDir=%.2f, yDir=%.2f\n", xPos, yPos, xDir, yDir);
+    
 
     if (forward) {
         if (map[(int)(xPos + xDir * MOVE_SPEED)][(int)yPos] == 0) {
@@ -94,7 +94,7 @@ public void update(int[][] map) throws IOException {
         yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
     }
 
-    System.out.printf("After update:  xPos=%.2f, yPos=%.2f, xDir=%.2f, yDir=%.2f\n", xPos, yPos, xDir, yDir);
+   
 }
 	@Override
 	public void keyTyped(KeyEvent arg0) {
