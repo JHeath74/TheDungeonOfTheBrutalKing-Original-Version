@@ -8,16 +8,19 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import Maps.DungeonLevel1;
+import Maps.DungeonLevel2;
 
 public class Game implements Runnable {
 
-    public int mapWidth = 15;
-    public int mapHeight = 15;
+    private int mapWidth;
+    private int mapHeight;
     private Thread thread;
     private boolean running;
     private BufferedImage image;
@@ -29,7 +32,9 @@ public class Game implements Runnable {
     private Canvas renderCanvas;
     private JPanel renderPanel;
 
-    public static int[][] map = DungeonLevel1.map;
+    private int currentLevel = 1;
+    private Map<Integer, Object> levels = new HashMap<>();
+    public int[][] map;
 
     public Game() throws IOException, InterruptedException {
         thread = new Thread(this);
@@ -39,10 +44,8 @@ public class Game implements Runnable {
         initializeTextures();
         camera = new Camera(4.5, 4.5, 1, 0, 0, -.66);
 
-        mapWidth = DungeonLevel1.getMapWidth();
-        mapHeight = DungeonLevel1.getMapHeight();
-
-        screen = new Screen(map, mapWidth, mapHeight, textures, 640, 480);
+        initializeLevels();
+        changeLevel(currentLevel);
 
         renderCanvas = new Canvas();
         renderCanvas.setSize(640, 480);
@@ -55,7 +58,6 @@ public class Game implements Runnable {
         renderPanel.requestFocusInWindow();
         renderPanel.addKeyListener(camera);
 
-        // Add component listener to handle resizing
         renderPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -65,12 +67,45 @@ public class Game implements Runnable {
                 pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
                 renderCanvas.setSize(width, height);
                 screen = new Screen(map, mapWidth, mapHeight, textures, width, height);
-
                 renderPanel.requestFocusInWindow();
-                // Do not call render() here
             }
         });
-        // Do not call render() here
+    }
+
+    private void initializeLevels() {
+        levels.put(1, new DungeonLevel1());
+        levels.put(2, new DungeonLevel2());
+        // Add more levels as needed, e.g. levels.put(3, new DungeonLevel3());
+    }
+
+    public void changeLevel(int levelNumber) {
+        Object levelObj = levels.get(levelNumber);
+        if (levelObj instanceof DungeonLevel1) {
+            DungeonLevel1 level = (DungeonLevel1) levelObj;
+            map = level.getMap();
+            mapWidth = DungeonLevel1.getMapWidth();
+            mapHeight = DungeonLevel1.getMapHeight();
+        } else if (levelObj instanceof DungeonLevel2) {
+            DungeonLevel2 level = (DungeonLevel2) levelObj;
+            map = level.getMap();
+            mapWidth = DungeonLevel2.getMapWidth();
+            mapHeight = DungeonLevel2.getMapHeight();
+        }
+        // Add more else-if blocks for additional levels
+        currentLevel = levelNumber;
+        screen = new Screen(map, mapWidth, mapHeight, textures, image.getWidth(), image.getHeight());
+    }
+
+    public void checkLevelTransition() {
+        int playerX = (int) camera.getX();
+        int playerY = (int) camera.getY();
+        int tile = map[playerY][playerX];
+
+        if (tile == 5) {
+            changeLevel(currentLevel + 1);
+        } else if (tile == 6) {
+            changeLevel(currentLevel - 1);
+        }
     }
 
     public JPanel getRenderPanel() {
@@ -109,7 +144,7 @@ public class Game implements Runnable {
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        final double ns = 1000000000.0 / 60.0; // 60 times per second
+        final double ns = 1000000000.0 / 60.0;
         double delta = 0;
         renderPanel.requestFocusInWindow();
         while (running) {
@@ -117,14 +152,13 @@ public class Game implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while (delta >= 1) {
-                // Camera should be updated by key events
                 try {
                     camera.update(map);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 screen.update(camera, pixels);
-
+                checkLevelTransition();
                 delta--;
             }
             render();
@@ -135,10 +169,16 @@ public class Game implements Runnable {
         return camera;
     }
 
-    private void initializeTextures() {
-        textures.add(Texture.brick);
-        textures.add(Texture.stone);
-        textures.add(Texture.wood);
-        textures.add(Texture.bluestone);
-    }
+
+private void initializeTextures() {
+    textures.add(Texture.brick);      // 1
+    textures.add(Texture.stone);      // 2
+    textures.add(Texture.wood);       // 3
+    textures.add(Texture.bluestone);  // 4
+    textures.add(Texture.door);       // 5
+    textures.add(Texture.door2);      // 6
+    textures.add(Texture.stairsup);   // 7
+    textures.add(Texture.stairsdown); // 8
+}
+
 }

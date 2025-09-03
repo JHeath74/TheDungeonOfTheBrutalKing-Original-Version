@@ -101,6 +101,12 @@ public void update(int[][] map) throws IOException {
 		// TODO Auto-generated method stub
 
 	}
+	public int getX() {
+	    return (int) xPos;
+	}
+	public int getY() {
+	    return (int) yPos;
+	}
 
 
 
