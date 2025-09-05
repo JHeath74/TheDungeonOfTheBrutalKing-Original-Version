@@ -27,7 +27,7 @@ public class GameSettings {
 	//*********************************************************************************
 	public static String MenuBarImagePath, MonsterImagePath, FontPath, DungeonFloorTexturePath,
 	DungeonWallTexturePath, StartMenuPath, StoryIntroductionPath, ClassImagesPath,
-	SoundEffectsPath, SavedGameDirectory, NPCImagePath;
+	SoundEffectsPath, SavedGameDirectory, NPCImagePath, DungeonStairsTexturePath, DungeonDoorTexturePath;
 
 	//*********************************************************************************
 	//--------------------------- Instance Variables ----------------------------------
@@ -81,7 +81,9 @@ public class GameSettings {
 		MonsterImagePath = "src/DungeonoftheBrutalKing/Images/Monsters/";
 		FontPath = "src/DungeonoftheBrutalKing/Fonts/";
 		DungeonFloorTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Floor/";
-		DungeonWallTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Door/";
+		DungeonWallTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Wall/";
+		DungeonStairsTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Stairs/";
+		DungeonDoorTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Door/";
 		SavedGameDirectory = "src/DungeonoftheBrutalKing/SaveGame/";
 		StoryIntroductionPath = "Messages/StoryIntroduction/";
 		StartMenuPath = "Program/StartMenu/";

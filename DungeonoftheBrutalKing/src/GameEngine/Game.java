@@ -179,6 +179,8 @@ private void initializeTextures() {
     textures.add(Texture.door2);      // 6
     textures.add(Texture.stairsup);   // 7
     textures.add(Texture.stairsdown); // 8
+    textures.add(Texture.stairsdownwithgate); // 9
+    textures.add(Texture.downstairsdownwithgateandtorches);//10
 }
 
 }
