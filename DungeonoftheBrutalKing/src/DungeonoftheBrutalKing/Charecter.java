@@ -31,9 +31,9 @@ import Quests.Quest;
 //Index 19: Character's equipped armor (String)
 //Index 20: Character's equipped shield (String)
 //Index 21: Character's alignment (int as String)
-//Index 23: Character's X position (int as String)
-//Index 24: Character's Y position (int as String)
-//Index 25: Character's Z position (int as String)
+//Index 22: Character's X position (int as String)
+//Index 23: Character's Y position (int as String)
+//Index 24: Character's Z position (int as String)
 
 
 //SpellsLearned ArrayList:
@@ -85,8 +85,18 @@ public class Charecter {
 		return single_instance_myChar;
 	}
 
-	public static String getName() {
-		return name;
+	public String getName() {
+	    return CharInfo != null && CharInfo.size() > 0 ? CharInfo.get(0) : "";
+	}
+
+	public void setName(String name) {
+	    if (CharInfo != null) {
+	        if (CharInfo.size() > 0) {
+	            CharInfo.set(0, name);
+	        } else {
+	            CharInfo.add(name);
+	        }
+	    }
 	}
 
 	public void setEffectManager(EffectManager effectManager) {
@@ -343,9 +353,18 @@ public class Charecter {
 	}
 
 	// Index 5 – Health Points (HP)
+	// After:
 	public int getHitPoints() {
-	    return Integer.parseInt(CharInfo.get(5));
+	    if (CharInfo != null && CharInfo.size() > 5) {
+	        try {
+	            return Integer.parseInt(CharInfo.get(5));
+	        } catch (NumberFormatException e) {
+	            return 0; // fallback if not a number
+	        }
+	    }
+	    return 0; // fallback if missing
 	}
+	
 	public void setHitPoints(int hp) {
 	    CharInfo.set(5, String.valueOf(hp));
 	}
@@ -490,24 +509,37 @@ public class Charecter {
 
 	// Indexes 23–25 – Position
 	public void setPosition(int targetX, int targetY, int targetZ) {
-	    CharInfo.set(23, String.valueOf(targetX));
-	    CharInfo.set(24, String.valueOf(targetY));
-	    CharInfo.set(25, String.valueOf(targetZ));
+		// Print index and value for debugging
+	    for (int i = 0; i < CharInfo.size(); i++) {
+	        System.out.println("Index " + i + ": " + CharInfo.get(i));
+	    }
+
+		
+	    CharInfo.set(22, String.valueOf(targetX));
+	    CharInfo.set(23, String.valueOf(targetY));
+	    CharInfo.set(24, String.valueOf(targetZ));
 	}
 
 	public void getPosition(int[] position) {
-		position[0] = Integer.parseInt(CharInfo.get(23)); // X position
-		position[1] = Integer.parseInt(CharInfo.get(24)); // Y position
-		position[2] = Integer.parseInt(CharInfo.get(25)); // Z position
-	}
-
-	// Method to retrieve the character's current position
-	public int[] getCharInfo() {
-		int[] position = new int[3];
 		position[0] = Integer.parseInt(CharInfo.get(22)); // X position
 		position[1] = Integer.parseInt(CharInfo.get(23)); // Y position
 		position[2] = Integer.parseInt(CharInfo.get(24)); // Z position
-		return position;
+	}
+
+	public double getX() {
+		return Double.parseDouble(CharInfo.get(22));
+	}
+	
+	public double getY() {
+	    return Double.parseDouble(CharInfo.get(23));
+	}
+
+	public double getZ() {
+		return Double.parseDouble(CharInfo.get(24));
+	}
+	
+	public double getDirection() {
+		return Double.parseDouble(CharInfo.get(25));
 	}
 
 

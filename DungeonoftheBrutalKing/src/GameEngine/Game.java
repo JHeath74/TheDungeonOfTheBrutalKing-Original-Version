@@ -7,6 +7,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,18 +129,20 @@ public class Game implements Runnable {
         }
     }
 
-    public void render() {
-        BufferStrategy bs = renderCanvas.getBufferStrategy();
-        if (bs == null) {
-            renderCanvas.createBufferStrategy(3);
-            return;
-        }
-        Graphics g = bs.getDrawGraphics();
-        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
-        bs.show();
-        java.awt.Toolkit.getDefaultToolkit().sync();
-        g.dispose();
+
+public void render() {
+    BufferStrategy bs = renderCanvas.getBufferStrategy();
+    if (bs == null) {
+        renderCanvas.createBufferStrategy(3);
+        return; // Wait for next render call
     }
+    Graphics g = bs.getDrawGraphics();
+    g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+    bs.show();
+    java.awt.Toolkit.getDefaultToolkit().sync();
+    g.dispose();
+}
+
 
     @Override
     public void run() {
@@ -154,7 +157,7 @@ public class Game implements Runnable {
             while (delta >= 1) {
                 try {
                     camera.update(map);
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException | ParseException e) {
                     e.printStackTrace();
                 }
                 screen.update(camera, pixels);

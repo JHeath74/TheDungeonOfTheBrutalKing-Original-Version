@@ -22,10 +22,11 @@ public abstract class Location implements Spells {
         int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(5));
 
         if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
-            int[] charInfo = Singleton.myCharSingleton().getCharInfo();
-            int currentX = charInfo[0];
-            int currentY = charInfo[1];
-            int currentZ = charInfo[2];
+        	int[] position = new int[3];
+			Singleton.myCharSingleton().getPosition(position);
+            int currentX = position[0];
+            int currentY = position[1];
+            int currentZ = position[2];
 
             dungeon[currentZ][currentY][currentX] = 0; // Clear current position
             dungeon[targetZ][targetY][targetX] = 1; // Set new position

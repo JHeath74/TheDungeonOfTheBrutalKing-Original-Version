@@ -1,11 +1,11 @@
 
 package Maps;
 
-public class DungeonLevel2 {
+public class DungeonLevel2 extends DungeonLevel {
 
-    static int mapWidth = 128;
-    static int mapHeight = 128;
-    static int DungeonLevel = 2;
+    private static final int MAP_WIDTH = 128;
+    private static final int MAP_HEIGHT = 128;
+    private static final int DUNGEON_LEVEL = 1;
 
     // New 15x15 map layout for level 2
     int[][] map = {
@@ -145,14 +145,14 @@ public class DungeonLevel2 {
     }
 
     public static int getMapWidth() {
-        return mapWidth;
+        return MAP_WIDTH;
     }
 
     public static int getMapHeight() {
-        return mapHeight;
+        return MAP_HEIGHT;
     }
 
     public int getDungeonLevelNumber() {
-        return DungeonLevel;
+        return DUNGEON_LEVEL;
     }
 }

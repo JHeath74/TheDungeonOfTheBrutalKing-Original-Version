@@ -70,6 +70,10 @@ public class GameMenuItems {
         statsArea.append("Class: " + myChar.CharInfo.get(1) + "\n");
         statsArea.append("Level: " + myChar.CharInfo.get(2) + "\n");
         statsArea.append("Experience: " + myChar.CharInfo.get(3) + "\n");
+        statsArea.append("Location:  \n"
+        		+ "\tDungeon level: "+(int)myChar.getZ() +"\n"
+        		+ "\tX: " + (int)myChar.getX() + "\n"
+                + "\tY: " + (int)myChar.getY() +  "\n");
         statsArea.append("Hit Points: " + myChar.CharInfo.get(4) + "\n");
         statsArea.append("Stamina: " + myChar.CharInfo.get(5) + "\n");
         statsArea.append("Charisma: " + myChar.CharInfo.get(6) + "\n");
@@ -77,6 +81,11 @@ public class GameMenuItems {
         statsArea.append("Intelligence: " + myChar.CharInfo.get(8) + "\n");
         statsArea.append("Wisdom: " + myChar.CharInfo.get(9) + "\n");
         statsArea.append("Agility: " + myChar.CharInfo.get(10) + "\n");
+        statsArea.append("Alignment: " + myChar.CharInfo.get(21) + "\n");
+        statsArea.append("Equipped Weapon: " + myChar.CharInfo.get(18) + "\n");
+        statsArea.append("Equipped Armor: " + myChar.CharInfo.get(19) + "\n");
+        statsArea.append("Equipped Shield: " + myChar.CharInfo.get(20) + "\n");
+        
     }
 
     /**
@@ -123,42 +132,35 @@ public class GameMenuItems {
         invFrame.requestFocus();
 
         // Populate the inventory area with character inventory information
-        invArea.setText("Money\n");
-        invArea.append("Gold: " + myChar.CharInfo.get(12) + "\n");
-        invArea.append("Gems: " + myChar.CharInfo.get(15) + "\n");
-        invArea.append("\t__________ Misc__________\n");
-        invArea.append("Food: " + myChar.CharInfo.get(13) + "\n");
-        invArea.append("Torches: " + myChar.CharInfo.get(14) + "\n");
-        invArea.append("________Weapons and Armour_______\n");
 
-        // Retrieve weapon and armor information
-        String weapon = myChar.CharInfo.get(16);
-        String armour = myChar.CharInfo.get(17);
 
-        // Display weapon information
-        if (weapon.isEmpty() || weapon == null || weapon.isBlank()) {
-            invArea.append("Weapon: \n");
-        } else {
-            invArea.append("Weapon: " + weapon + "\n");
-        }
+StringBuilder sb = new StringBuilder();
+int width = 40;
+sb.append(String.format("%" + ((width + "Money".length()) / 2) + "s", "Money") + "\n");
+sb.append("Gold: ").append(myChar.CharInfo.get(12)).append("\n");
+sb.append("Gems: ").append(myChar.CharInfo.get(15)).append("\n");
+sb.append(String.format("%" + ((width + "Misc".length()) / 2) + "s", "Misc") + "\n");
+sb.append("Food: ").append(myChar.CharInfo.get(13)).append("\n");
+sb.append("Torches: ").append(myChar.CharInfo.get(14)).append("\n");
+sb.append(String.format("%" + ((width + "Weapons and Armour".length()) / 2) + "s", "Weapons and Armour") + "\n");
 
-        // Display armor information
-        if (armour.isEmpty()) {
-            invArea.append("Armour: \n");
-        } else {
-            invArea.append("Armour: " + armour + "\n");
-        }
 
-        // Display learned spells in the inventory area
-        invArea.append("\t_____Your Spells_____\n");
+// Equipped items and alignment
+sb.append("Equipped Weapon: ").append(myChar.CharInfo.get(18)).append("\n");
+sb.append("Equipped Armor: ").append(myChar.CharInfo.get(19)).append("\n");
+sb.append("Equipped Shield: ").append(myChar.CharInfo.get(20)).append("\n");
 
-        // Check if the SpellsLearned list is not null or empty
-        if (myChar.SpellsLearned != null && !myChar.SpellsLearned.isEmpty()) {
-            for (String spell : myChar.SpellsLearned) {
-                invArea.append(spell + "\n"); // Append each spell to the inventory area
-            }
-        } else {
-            invArea.append("No spells learned yet.\n"); // Display message if no spells are learned
-        }
+
+// Display learned spells
+sb.append(String.format("%" + ((width + "Your Spells".length()) / 2) + "s", "Your Spells") + "\n");
+if (myChar.SpellsLearned != null && !myChar.SpellsLearned.isEmpty()) {
+    for (String spell : myChar.SpellsLearned) {
+        sb.append(spell).append("\n");
+    }
+} else {
+    sb.append("No spells learned yet.\n");
+}
+
+invArea.setText(sb.toString());
     }
 }

@@ -47,7 +47,6 @@ public class CharacterCreation {
     static String[] toonclasslist;
     static Integer[] stat;
 
-    // Race selection fields
     static JComboBox<String> raceComboBox;
     static JLabel raceImageLabel;
     static JTextArea raceDescriptionTextArea;
@@ -55,7 +54,6 @@ public class CharacterCreation {
 
     static JLabel classImageLabel;
     static BufferedImage ClassImagePicture;
-
     private static JPanel classImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
     private static final Map<String, Class<?>> classMap = Map.of(
@@ -102,7 +100,6 @@ public class CharacterCreation {
         ClassInfoAndImagePanel = new JPanel(new BorderLayout());
         CharecterCreationSplitPane.setLeftComponent(NameAndStatsPanel);
 
-        // --- RACE SELECTION SETUP ---
         String[] raceList = Arrays.stream(RaceEnum.values())
                 .map(Enum::name)
                 .toArray(String[]::new);
@@ -130,7 +127,6 @@ public class CharacterCreation {
         racePanel.add(raceImagePanel, BorderLayout.CENTER);
         racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH);
 
-        // --- CLASS SELECTION SETUP ---
         toonclasslist = Classes.Class.toonclassarray;
         java.util.List<String> toonclassList = Arrays.asList(toonclasslist);
         Collections.sort(toonclassList);
@@ -142,7 +138,6 @@ public class CharacterCreation {
         toonclassDescriptionTextArea = new JTextArea("Choose Your Class from the Dropdown box above.");
         toonclassDescriptionTextArea.setLineWrap(true);
 
-        // --- RACE SELECTION LOGIC ---
         raceComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -164,28 +159,29 @@ public class CharacterCreation {
             }
         });
 
-        // --- CLASS SELECTION LOGIC ---
-        charectorClass.addActionListener(e -> {
-            toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
-            StringBuilder info = new StringBuilder();
-            info.append("Class: ").append(toonClass).append("\n\n");
-            Class<?> clazz = classMap.get(toonClass);
-            String imageName = toonClass;
-            if (clazz != null) {
-                try {
-                    String desc = (String) clazz.getMethod("ClassDescription").invoke(null);
-                    info.append(desc);
-                    classImage(imageName);
-                } catch (Exception ex) {
+        charectorClass.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
+                StringBuilder info = new StringBuilder();
+                info.append("Class: ").append(toonClass).append("\n\n");
+                Class<?> clazz = classMap.get(toonClass);
+                String imageName = toonClass;
+                if (clazz != null) {
+                    try {
+                        String desc = (String) clazz.getMethod("ClassDescription").invoke(null);
+                        info.append(desc);
+                        classImage(imageName);
+                    } catch (Exception ex) {
+                        info.append("No description available.");
+                    }
+                } else {
                     info.append("No description available.");
                 }
-            } else {
-                info.append("No description available.");
+                toonclassDescriptionTextArea.setText(info.toString());
             }
-            toonclassDescriptionTextArea.setText(info.toString());
         });
 
-        // --- STATS ---
         stat = rollstats();
         toonstatsTextArea = new JTextArea();
         toonstatsScrollPane = new JScrollPane(toonstatsTextArea);
@@ -200,7 +196,6 @@ public class CharacterCreation {
             }
         });
 
-        // --- SAVE BUTTON ---
         saveToonButton = new JButton("Save Charecter");
         saveToonButton.addActionListener(new ActionListener() {
             @Override
@@ -213,30 +208,49 @@ public class CharacterCreation {
                     FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt");
                     ArrayList<String> saveData = new ArrayList<>();
 
-                    toonName(tooncreationTextField, charName, saveData);
+                    saveData.add(charName);                // 0: Name
+                    saveData.add(toonClass);               // 1: Class/Type
+                    saveData.add(selectedRace);            // 2: Race
+                    saveData.add("1");                     // 3: Level (default 1)
+                    saveData.add("0");                     // 4: Experience points
+                    saveData.add(String.valueOf(ToonHP(stat, saveData))); // 5: HP
+                    saveData.add(String.valueOf(ToonMP(stat, saveData))); // 6: MP
+                    saveData.add(String.valueOf(stat[0])); // 7: Stamina
+                    saveData.add(String.valueOf(stat[1])); // 8: Charisma
+                    saveData.add(String.valueOf(stat[2])); // 9: Strength
+                    saveData.add(String.valueOf(stat[3])); // 10: Intelligence
+                    saveData.add(String.valueOf(stat[4])); // 11: Wisdom
+                    saveData.add(String.valueOf(stat[5])); // 12: Agility
+                    saveData.add(gold().toString());       // 13: Gold
+                    saveData.add("3");                     // 14: Food
+                    saveData.add("3");                     // 15: Water
+                    saveData.add("3");                     // 16: Torches
+                    saveData.add("0");                     // 17: Gems
+                    saveData.add("");   // 18: Character's equipped weapon (String)
+                    saveData.add("");   // 19: Character's equipped armor (String)
+                    saveData.add("");   // 20: Character's equipped shield (String)
+                    saveData.add("0");  // 21: Character's alignment (int as String)                   
+                    saveData.add("2"); // 22: Character's X position (int as String)
+                    saveData.add("3"); // 23: Character's Y position (int as String)
+                    saveData.add("1"); // 24: Character's Z position (int as String)
+                    saveData.add("180.0"); // 25: Character's starting orientation (double as String)
 
-                    saveData.add(selectedRace);
-                    saveData.add(toonClass);
-                    saveData.add("0");
-                    saveData.add("0");
-                    saveData.add(String.valueOf(ToonHP(stat, saveData)));
-                    saveData.add(String.valueOf(ToonMP(stat, saveData)));
 
-                    for (Integer s : stat) {
-                        saveData.add(String.valueOf(s));
+                    
+                    System.out.println("Final Save Data:");
+                    
+                    for (int i = 0; i < saveData.size(); i++) {
+                        System.out.println("Index " + i + ": " + saveData.get(i));
                     }
-
-                    saveData.add(gold().toString());
-                    saveData.add("3");
-                    saveData.add("3");
-                    saveData.add("3");
-                    saveData.add("0");
-
+                    
+                    // Write to file
                     for (String str : saveData) {
                         writer.write(str + System.lineSeparator());
                     }
-
                     writer.close();
+
+                 //   
+
                     CharecterCreationFrame.dispose();
                     new MainGameScreen();
                 } catch (IOException e1) {
@@ -248,31 +262,23 @@ public class CharacterCreation {
             }
         });
 
-        // --- EXIT BUTTON ---
         exitToStartMenuButton = new JButton("Return to Start Menu");
+        exitToStartMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CharecterCreationFrame.dispose();
+                try {
+                    GameStart startMenu = new GameStart();
+                    JFrame startMenuFrame = startMenu.getStartMenuFrame();
+                    if (startMenuFrame != null) {
+                        startMenuFrame.setVisible(true);
+                    }
+                } catch (IOException | InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
-
-exitToStartMenuButton.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        CharecterCreationFrame.dispose();
-
-try {
-    GameStart startMenu = new GameStart();
-    JFrame startMenuFrame = startMenu.getStartMenuFrame();
-    if (startMenuFrame != null) {
-        startMenuFrame.setVisible(true);
-    }
-} catch (IOException | InterruptedException ex) {
-    ex.printStackTrace();
-}
-
-    }
-});
-
-
-
-        // --- BUTTON PANEL (Save + Exit) ---
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.add(saveToonButton);
         buttonPanel.add(exitToStartMenuButton);
@@ -323,7 +329,6 @@ try {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private static String[] getClassesForRace(String race) {
         try {
             Class<?> raceClass = Class.forName("Races." + race);
@@ -431,23 +436,20 @@ try {
         return random.nextInt(max - min + 1) + min;
     }
 
+    private static void classImage(String classImage) throws IOException {
+        classImagePanel.removeAll();
+        ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
+        classImageLabel = new JLabel();
 
-private static void classImage(String classImage) throws IOException {
-    classImagePanel.removeAll();
-    ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
-    classImageLabel = new JLabel();
+        int panelWidth = classImagePanel.getWidth() > 0 ? classImagePanel.getWidth() : 640;
+        int panelHeight = classImagePanel.getHeight() > 0 ? classImagePanel.getHeight() : 480;
 
-    // Get panel size, fallback to default if not set
-    int panelWidth = classImagePanel.getWidth() > 0 ? classImagePanel.getWidth() : 640;
-    int panelHeight = classImagePanel.getHeight() > 0 ? classImagePanel.getHeight() : 480;
-
-    Image scaledImage = ClassImagePicture.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
-    ImageIcon img = new ImageIcon(scaledImage);
-    classImageLabel.setIcon(img);
-    classImagePanel.add(classImageLabel);
-    ClassInfoAndImagePanel.add(classImagePanel, BorderLayout.CENTER);
-    classImagePanel.revalidate();
-    classImagePanel.repaint();
-}
-
+        Image scaledImage = ClassImagePicture.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
+        ImageIcon img = new ImageIcon(scaledImage);
+        classImageLabel.setIcon(img);
+        classImagePanel.add(classImageLabel);
+        ClassInfoAndImagePanel.add(classImagePanel, BorderLayout.CENTER);
+        classImagePanel.revalidate();
+        classImagePanel.repaint();
+    }
 }

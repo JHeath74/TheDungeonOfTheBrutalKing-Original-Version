@@ -31,7 +31,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private JTextField charNameClassLevelField, charStatsField, charStats2Field, charXPHPGoldField;
     private static JTextPane messageTextPane;
     private JMenuBar menuBar;
-    private JSplitPane picturesAndTextUpdatesPane;
+    private static JSplitPane picturesAndTextUpdatesPane; // <-- made static
     private Dimension screenSize;
     private int width, height;
     private Timer timer;
@@ -64,12 +64,17 @@ public class MainGameScreen extends JFrame implements KeyListener {
         setupSplitPane();
         setupTimer();
         setupClock();
-        
+
         updateCombatMessageArea(clock.getCurrentTimeString());
-        
+
         Game game = new Game();
         renderPanel = game.getRenderPanel();
         camera = game.getCamera();
+
+        double startX = myChar.getX();
+        double startY = myChar.getY();
+
+        camera.setPosition(startX, startY);
 
         replaceWithAnyPanel(renderPanel);
 
@@ -89,6 +94,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         if (camera != null) {
             camera.keyPressed(e);
             renderPanel.repaint();
+
         }
     }
 
@@ -318,8 +324,14 @@ public class MainGameScreen extends JFrame implements KeyListener {
         StyleConstants.setItalic(footerStyle, true);
         StyleConstants.setForeground(footerStyle, Color.GRAY);
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                getClass().getResourceAsStream("/about.txt")))) {
+
+InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt");
+
+        if (stream == null) {
+            JOptionPane.showMessageDialog(this, "About file not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 doc.insertString(doc.getLength(), line + "\n", bodyStyle);
@@ -338,57 +350,64 @@ public class MainGameScreen extends JFrame implements KeyListener {
         aboutDialog.setVisible(true);
     }
 
-    private void showHelpDialog() {
-        JDialog helpDialog = new JDialog(mainFrame, "Help Information", true);
-        helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel(new BorderLayout());
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(_ -> helpDialog.dispose());
+private void showHelpDialog() {
+    JDialog helpDialog = new JDialog(mainFrame, "Help Information", true);
+    helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        JTextPane helpTextPane = new JTextPane();
-        helpTextPane.setEditable(false);
-        StyledDocument doc = helpTextPane.getStyledDocument();
+    JPanel panel = new JPanel(new BorderLayout());
+    JButton closeButton = new JButton("Close");
+    closeButton.addActionListener(_ -> helpDialog.dispose());
 
-        Style headerStyle = doc.addStyle("Header", null);
-        StyleConstants.setFontSize(headerStyle, 18);
-        StyleConstants.setBold(headerStyle, true);
-        StyleConstants.setForeground(headerStyle, Color.BLUE);
+    JTextPane helpTextPane = new JTextPane();
+    helpTextPane.setEditable(false);
+    StyledDocument doc = helpTextPane.getStyledDocument();
 
-        Style bodyStyle = doc.addStyle("Body", null);
-        StyleConstants.setFontSize(bodyStyle, 14);
-        StyleConstants.setForeground(bodyStyle, Color.BLACK);
+    Style headerStyle = doc.addStyle("Header", null);
+    StyleConstants.setFontSize(headerStyle, 18);
+    StyleConstants.setBold(headerStyle, true);
+    StyleConstants.setForeground(headerStyle, Color.BLUE);
 
-        Style footerStyle = doc.addStyle("Footer", null);
-        StyleConstants.setFontSize(footerStyle, 12);
-        StyleConstants.setItalic(footerStyle, true);
-        StyleConstants.setForeground(footerStyle, Color.GRAY);
+    Style bodyStyle = doc.addStyle("Body", null);
+    StyleConstants.setFontSize(bodyStyle, 14);
+    StyleConstants.setForeground(bodyStyle, Color.BLACK);
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                getClass().getResourceAsStream("/help.txt")))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                doc.insertString(doc.getLength(), line + "\n", bodyStyle);
-            }
-        } catch (IOException | BadLocationException ex) {
-            ex.printStackTrace();
-        }
+    Style footerStyle = doc.addStyle("Footer", null);
+    StyleConstants.setFontSize(footerStyle, 12);
+    StyleConstants.setItalic(footerStyle, true);
+    StyleConstants.setForeground(footerStyle, Color.GRAY);
 
-        JScrollPane scrollPane = new JScrollPane(helpTextPane);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(closeButton, BorderLayout.SOUTH);
 
-        helpDialog.add(panel);
-        helpDialog.pack();
-        helpDialog.setLocationRelativeTo(mainFrame);
-        helpDialog.setVisible(true);
+InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/Help.txt");
+
+    if (stream == null) {
+        JOptionPane.showMessageDialog(this, "Help file not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            doc.insertString(doc.getLength(), line + "\n", bodyStyle);
+        }
+    } catch (IOException | BadLocationException ex) {
+        ex.printStackTrace();
+    }
+
+    JScrollPane scrollPane = new JScrollPane(helpTextPane);
+    panel.add(scrollPane, BorderLayout.CENTER);
+    panel.add(closeButton, BorderLayout.SOUTH);
+
+    helpDialog.add(panel);
+    helpDialog.pack();
+    helpDialog.setLocationRelativeTo(mainFrame);
+    helpDialog.setVisible(true);
+}
 
     private void setupSplitPane() {
         picturesAndTextUpdatesPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         picturesAndTextUpdatesPane.setDividerLocation(width - 200);
         picturesAndTextUpdatesPane.setResizeWeight(.90d);
-        
+
         picturesAndTextUpdatesPane.setLeftComponent(gameImagesAndCombatPanel);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -434,8 +453,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
             charXPHPGoldField.setText(
                 "Hit Points: " + myChar.CharInfo.get(5) + "\t\t" +
                 mpOrApLabel + myChar.CharInfo.get(6) + "\t\t" +
-                "Gold: " + myChar.CharInfo.get(9)
-            );
+                "Gold: " + myChar.CharInfo.get(9) + "\t\t"
+           
+
+              );
+
         };
 
         timer = new Timer(1000, task);
@@ -465,10 +487,14 @@ public class MainGameScreen extends JFrame implements KeyListener {
         }
     }
 
-    public void replaceWithAnyPanel(JPanel newPanel) {
+    public static void replaceWithAnyPanel(JPanel newPanel) {
         if (newPanel != null) {
-            if (picturesAndTextUpdatesPane != null) {
-                picturesAndTextUpdatesPane.setLeftComponent(newPanel);
+            try {
+                if (picturesAndTextUpdatesPane != null) {
+                    picturesAndTextUpdatesPane.setLeftComponent(newPanel);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

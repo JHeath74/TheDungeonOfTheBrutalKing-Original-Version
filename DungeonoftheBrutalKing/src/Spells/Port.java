@@ -4,7 +4,6 @@ package Spells;
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
 
-
 public abstract class Port implements Spells {
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
@@ -22,12 +21,14 @@ public abstract class Port implements Spells {
 
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
         if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
-            int[] charInfo = Singleton.myCharSingleton().getCharInfo();
+
+        	int[] position = new int[3];
+			Singleton.myCharSingleton().getPosition(position);
 
             // Access specific indices of the array
-            int currentX = charInfo[0];
-            int currentY = charInfo[1];
-            int currentZ = charInfo[2];
+            int currentX = position[0];
+            int currentY = position[1];
+            int currentZ = position[2];
 
             // Move character to the target position on the top level (z = 0)
             dungeon[currentZ][currentY][currentX] = 0; // Clear current position
@@ -48,7 +49,7 @@ public abstract class Port implements Spells {
     }
 
     @Override
-	public SharedData.Alignment getSpellAlignment() {
-        return getSpellAlignment(); // Getter for the spell type
+    public Alignment getSpellAlignment() {
+        return SPELL_ALIGNMENT;
     }
 }

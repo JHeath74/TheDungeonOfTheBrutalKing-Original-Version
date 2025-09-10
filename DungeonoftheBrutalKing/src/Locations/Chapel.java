@@ -1,4 +1,4 @@
-package NPC;
+package Locations;
 
 public class Chapel {
 

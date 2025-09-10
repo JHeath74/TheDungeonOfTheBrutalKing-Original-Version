@@ -90,6 +90,9 @@ public class LoadSaveGame {
 		}
 
 		Singleton.myCharSingleton().CharInfo.addAll(SaveLoadChar);
+
+		myChar.getDirection();
+
 	}
 
 	public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {

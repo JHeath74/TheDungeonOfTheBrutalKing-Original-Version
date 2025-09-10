@@ -29,7 +29,6 @@ public class Assassin extends Enemies {
     // Constructor to initialize an Assassin with a specific name
     public Assassin(String name) {
         this.enemiesname = "Assassin"; // Default enemy type name
-        this.name = name; // Custom name for the Assassin
         this.level = 1; // Initial level
         this.hitPoints = 30; // Initial hit points
         this.strength = 8; // Initial strength

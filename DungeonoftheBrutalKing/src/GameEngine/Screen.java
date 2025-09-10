@@ -110,12 +110,7 @@ public class Screen {
             wallX -= Math.floor(wallX);
 
             int texX = (int) (wallX * (textures.get(texNum).SIZE));
-            int halfSize = textures.get(texNum).SIZE / 2;
-            if (side == 0 && rayDirX > 0 || side == 1 && rayDirY < 0) {
-                texX = Math.min(texX, halfSize - 1);
-            } else {
-                texX = Math.max(texX, halfSize);
-            }
+  
             if (side == 0 && rayDirX > 0) {
                 texX = textures.get(texNum).SIZE - texX - 1;
             }
