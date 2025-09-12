@@ -1,4 +1,5 @@
 
+
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -10,14 +11,15 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import Monsters.MonsterSelector;
+import Enemies.Enemies;
+import Enemies.MonsterSelector;
 import SharedData.GameSettings;
 
 public class Combat {
 
     private final GameSettings myGameSettings = new GameSettings();
     private final Charecter myChar = Charecter.Singleton();
-    private final Enemies myEnemies = new Enemies();
+    private Enemies myEnemies;
     private String selectedSpell = null;
 
     private JPanel combatPanel, combatImagePanel, combatPanelButtons, combatPanelCombatAreaPanel,
@@ -36,18 +38,28 @@ public class Combat {
     }
 
     public void combatEncounter() throws IOException, InterruptedException, ParseException {
-        MonsterSelector.selectRandomMonster();
-
         combatPanel = new JPanel(new BorderLayout());
         MainGameScreen.replaceWithAnyPanel(combatPanel);
 
+        myEnemies = MonsterSelector.selectRandomMonster();
+        if (myEnemies == null) {
+            JOptionPane.showMessageDialog(combatPanel, "No monster found!");
+            combatPanel.setVisible(true);
+            return;
+        }
+        System.out.println("Selected monster: " + myEnemies.getName() + " HP: " + myEnemies.getHP());
+
         combatImagePanel = new JPanel();
+        combatImagePanel.setPreferredSize(new Dimension(300, 400));
+
         combatPanelButtons = new JPanel(new FlowLayout());
         combatPanelCombatAreaPanel = new JPanel();
         combatUpdateInfoPanel = new JPanel();
         combatNameAndHPPanel = new JPanel(new FlowLayout());
 
         combatImageAndCombatUpdatesStatsSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        combatImageAndCombatUpdatesStatsSplitPane.setResizeWeight(0.3);
+
         combatCombatUpdatesAndStatsSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
         combatMessageArea = new JTextArea(12, 40);
@@ -58,9 +70,18 @@ public class Combat {
         selectSpellButton = new JButton("Select Spell to Cast");
         combatRunButton = new JButton("Run Away!");
 
+        String imageDir = GameSettings.MonsterImagePath;
+        String enemyImageFile = new File(myEnemies.getImagePath()).getName();
+        File imageFile = new File(imageDir, enemyImageFile);
+
+        BufferedImage img = null;
         try {
-            BufferedImage img = ImageIO.read(new File(GameSettings.MonsterImagePath + myEnemies.getImagePath()));
-            picLabel = (img != null) ? new JLabel(new ImageIcon(img)) : new JLabel("Image not found");
+            img = ImageIO.read(imageFile);
+            if (img == null) {
+                picLabel = new JLabel("Image not found");
+            } else {
+                picLabel = new JLabel(new ImageIcon(img));
+            }
         } catch (IOException e) {
             picLabel = new JLabel("Image not found");
         }
@@ -108,7 +129,7 @@ public class Combat {
         StringBuilder combatLog = new StringBuilder();
 
         int charAttackChance = random.nextInt(100);
-        if (charAttackChance >= Enemies.getAgility()) {
+        if (charAttackChance >= myEnemies.getAgility()) {
             int charDamage = myChar.getWeaponDamage() + myChar.getStrength();
             myEnemies.setHP(myEnemies.getHP() - charDamage);
             combatLog.append("You hit the ").append(myEnemies.getName())
@@ -125,7 +146,7 @@ public class Combat {
 
         int monsterAttackChance = random.nextInt(100);
         if (monsterAttackChance >= myChar.getAgility()) {
-            int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
+            int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
             myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
             combatLog.append("The ").append(myEnemies.getName())
                     .append(" hit you for ").append(monsterDamage).append(" damage!\n");
@@ -191,7 +212,7 @@ public class Combat {
         Random random = new Random();
         int monsterAttackChance = random.nextInt(100);
         if (monsterAttackChance >= myChar.getAgility()) {
-            int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
+            int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
             myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
             combatLog.append("The ").append(myEnemies.getName())
                     .append(" hit you for ").append(monsterDamage).append(" damage!\n");
@@ -221,7 +242,7 @@ public class Combat {
             combatLog.append("You failed to run away!\n");
             int monsterAttackChance = random.nextInt(100);
             if (monsterAttackChance >= myChar.getAgility()) {
-                int monsterDamage = myEnemies.getWeaponDamage() + Enemies.getStrength();
+                int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
                 myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
                 combatLog.append("The ").append(myEnemies.getName())
                         .append(" hit you for ").append(monsterDamage).append(" damage!\n");
@@ -236,14 +257,19 @@ public class Combat {
         }
     }
 
+    private void updateNameAndHP() {
+        String charName = myChar.getName() != null ? myChar.getName() : "Unknown";
+        String charHP = String.valueOf(myChar.getHitPoints());
+        String monsterName = myEnemies != null && myEnemies.getName() != null ? myEnemies.getName() : "Unknown";
+        String monsterHP = myEnemies != null ? String.valueOf(myEnemies.getHP()) : "0";
 
-private void updateNameAndHP() {
-    combatNameAndHPfield.setText(
-        myChar.getName() + " HP: " + myChar.getHitPoints() +
-        " | " + myEnemies.getName() + " HP: " + myEnemies.getHP()
-    );
-}
+        System.out.println("Monster: " + monsterName + " HP: " + monsterHP);
 
+        combatNameAndHPfield.setText(
+            charName + " HP: " + charHP +
+            " | " + monsterName + " HP: " + monsterHP
+        );
+    }
 
     private void endCombat(StringBuilder combatLog) {
         combatMessageArea.setText(combatLog.toString());

@@ -3,6 +3,8 @@ package DungeonoftheBrutalKing;
 import java.util.ArrayList;
 import java.util.List;
 
+import Enemies.Enemies;
+
 public class Singleton
 {
 	public static final String CharInfo = null;
