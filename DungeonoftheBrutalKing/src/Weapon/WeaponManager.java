@@ -1,6 +1,8 @@
 
 // Weapons.java
-package DungeonoftheBrutalKing;
+package Weapon;
+
+import DungeonoftheBrutalKing.Singleton;
 
 public class WeaponManager {
 

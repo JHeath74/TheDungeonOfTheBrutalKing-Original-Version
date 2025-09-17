@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing;
+package Spells;
 
 import java.util.Hashtable;
 

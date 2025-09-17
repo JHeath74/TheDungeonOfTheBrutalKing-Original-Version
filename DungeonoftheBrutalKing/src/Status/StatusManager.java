@@ -1,9 +1,11 @@
 
-package DungeonoftheBrutalKing;
+package Status;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import DungeonoftheBrutalKing.Charecter;
 
 /**
  * Manages the status effects applied to a character.

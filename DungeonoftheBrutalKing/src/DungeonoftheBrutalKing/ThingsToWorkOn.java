@@ -3,7 +3,17 @@ package DungeonoftheBrutalKing;
 public class ThingsToWorkOn {
 
 	public ThingsToWorkOn() {
-		// CharacterCreation 	Automatically select a class to display
+		// Need to work on the following:
+		// Combat System
+		// Spell System
+		// Status Effects
+		// Inventory System
+		// Loading/Saving Game
+		// Effects on Weapons and Armor
+		// Effects from Spells
+		// Effects from Potions
+		// Effects from Status Ailments
+		// Effects from Monsters
 		// MovementAndLevels   Need to get the levels integrated and completed.
 		// Create NCPS
 		// Create Quests

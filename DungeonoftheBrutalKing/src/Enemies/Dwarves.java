@@ -1,78 +1,64 @@
 
+// src/Enemies/Dwarves.java
 package Enemies;
 
 import SharedData.GameSettings;
 
 public class Dwarves extends Enemies {
-    private String name;
-    private int level;
-    private int hitPoints;
-    private int strength;
-    private int charisma;
-    private int agility;
-    private int intelligence;
-    private int wisdom;
-    private String imagePath;
 
-    // Constructor
+    // Constructor with comments for each variable
     public Dwarves() {
-        this.name = "Dwarves";
-        this.level = 1;
-        this.hitPoints = 30;
-        this.strength = 8;
-        this.charisma = 5;
-        this.agility = 7;
-        this.intelligence = 6;
-        this.wisdom = 3;
-        this.imagePath = GameSettings.MonsterImagePath + "Dwarves.png";
+        super(
+            /* name: The type or identifier of the enemy */ "Dwarves",
+            /* level: The enemy's experience or difficulty level */ 1,
+            /* hitPoints: The enemy's health value */ 30,
+            /* strength: Physical attack power */ 8,
+            /* charisma: Social or persuasive ability */ 5,
+            /* agility: Speed and evasion capability */ 7,
+            /* intelligence: Problem-solving or magical ability */ 6,
+            /* wisdom: Decision-making or resistance to effects */ 3,
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Dwarves.png"
+        );
     }
 
+    @Override
     public void takeDamage(int damage) {
-        this.hitPoints -= damage;
-        if (this.hitPoints < 0) {
-            this.hitPoints = 0;
+        setHitPoints(getHitPoints() - damage);
+        if (getHitPoints() < 0) {
+            setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(name + " has died.");
+            System.out.println(getName() + " has died.");
         }
     }
 
     @Override
     public boolean isDead() {
-        return this.hitPoints <= 0;
+        return getHitPoints() <= 0;
     }
 
     @Override
     public int attack() {
-        return (int) ((strength * 1.5) + (agility * 0.5));
+        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
     }
 
     @Override
     public String getImagePath() {
-        return imagePath;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int getHP() {
-        return hitPoints;
+        return super.getImagePath();
     }
 
     @Override
     public String toString() {
         return "Dwarves{" +
-                "name='" + name + '\'' +
-                ", level=" + level +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", charisma=" + charisma +
-                ", agility=" + agility +
-                ", intelligence=" + intelligence +
-                ", wisdom=" + wisdom +
+                "name='" + getName() + '\'' +
+                ", level=" + getLevel() +
+                ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() +
+                ", charisma=" + getCharisma() +
+                ", agility=" + getAgility() +
+                ", intelligence=" + getIntelligence() +
+                ", wisdom=" + getWisdom() +
+                ", imagePath='" + getImagePath() + '\'' +
                 '}';
     }
 }

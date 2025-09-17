@@ -19,8 +19,8 @@ import javax.swing.SwingConstants;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.StatusManager;
 import SharedData.GameSettings;
+import Status.StatusManager;
 
 public class Innkeeper {
     private Map<String, Integer> foodItems;

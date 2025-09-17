@@ -5,7 +5,7 @@ import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
 
-public abstract class Heal implements Spells {
+public abstract class Heal implements Spell {
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();

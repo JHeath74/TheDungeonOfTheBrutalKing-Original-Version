@@ -1,6 +1,8 @@
 
-package DungeonoftheBrutalKing;
+package Effect;
 import java.util.function.Consumer;
+
+import DungeonoftheBrutalKing.Charecter;
 
 
 

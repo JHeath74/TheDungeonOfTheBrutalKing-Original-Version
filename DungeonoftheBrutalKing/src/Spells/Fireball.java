@@ -7,7 +7,7 @@ import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
 //public abstract class Fireball implements Spells {
-	public abstract class Fireball implements Spells{
+	public abstract class Fireball implements Spell{
 
     // Minimum Wisdom required to cast the spell
     private static final int MINIMUM_WISDOM = 10;

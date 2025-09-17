@@ -3,8 +3,7 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.EffectManager;
-import DungeonoftheBrutalKing.WeaponManager;
+import Effect.EffectManager;
 
 public class BattleAxe extends WeaponManager {
 

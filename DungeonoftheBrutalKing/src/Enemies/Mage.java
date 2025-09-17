@@ -1,72 +1,64 @@
+
+// src/Enemies/Mage.java
 package Enemies;
 
 import SharedData.GameSettings;
 
 public class Mage extends Enemies {
-    String name;
-    int level;
-    int hitPoints;
-    int strength;
-    int charisma;
-    int agility;
-    int intelligence;
-    int wisdom;
-    String imagePath;
 
-    // Constructor
+    // Constructor with comments for each variable
     public Mage() {
-        this.name = "Liches";
-        this.level = 1;
-        this.hitPoints = 30;
-        this.strength = 8;
-        this.charisma = 5;
-        this.agility = 7;
-        this.intelligence = 6;
-        this.wisdom = 3;
-        this.imagePath = GameSettings.MonsterImagePath + "Mage.png"; // Set the image path
+        super(
+            /* name: The type or identifier of the enemy */ "Mage",
+            /* level: The enemy's experience or difficulty level */ 1,
+            /* hitPoints: The enemy's health value */ 25,
+            /* strength: Physical attack power */ 5,
+            /* charisma: Social or persuasive ability */ 6,
+            /* agility: Speed and evasion capability */ 8,
+            /* intelligence: Problem-solving or magical ability */ 10,
+            /* wisdom: Decision-making or resistance to effects */ 7,
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Mage.png"
+        );
     }
 
-    // Method to take damage
+    @Override
     public void takeDamage(int damage) {
-        this.hitPoints -= damage;
-        if (this.hitPoints < 0) {
-            this.hitPoints = 0; // Ensure hit points don't go below 0
+        setHitPoints(getHitPoints() - damage);
+        if (getHitPoints() < 0) {
+            setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(name + " has died.");
+            System.out.println(getName() + " has died.");
         }
     }
 
-    // Method to check if the monster is dead
     @Override
-	public boolean isDead() {
-        return this.hitPoints <= 0;
+    public boolean isDead() {
+        return getHitPoints() <= 0;
     }
 
-    // Method to calculate attack strength
     @Override
-	public int attack() {
-        return (int) ((strength * 1.5) + (agility * 0.5));
+    public int attack() {
+        return (int) ((getIntelligence() * 1.5) + (getAgility() * 0.5));
     }
 
-    // Getter for imagePath
     @Override
-	public String getImagePath() {
-        return imagePath;
+    public String getImagePath() {
+        return super.getImagePath();
     }
 
     @Override
     public String toString() {
         return "Mage{" +
-                "name='" + name + '\'' +
-                ", level=" + level +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", charisma=" + charisma +
-                ", agility=" + agility +
-                ", intelligence=" + intelligence +
-                ", wisdom=" + wisdom +
-                ", imagePath='" + imagePath + '\'' +
+                "name='" + getName() + '\'' +
+                ", level=" + getLevel() +
+                ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() +
+                ", charisma=" + getCharisma() +
+                ", agility=" + getAgility() +
+                ", intelligence=" + getIntelligence() +
+                ", wisdom=" + getWisdom() +
+                ", imagePath='" + getImagePath() + '\'' +
                 '}';
     }
 }

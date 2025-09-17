@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Effect.EffectManager;
 import Quests.Quest;
+import Spells.SpellList;
+import Spells.Spells;
 
 //CharInfo ArrayList:
 //Index 0: Character's name (String)
@@ -64,6 +67,8 @@ import Quests.Quest;
 
 
 public class Charecter {
+	
+	private static Charecter instance;
 
 	public ArrayList<String> getSpellsLearned() {
 		return SpellsLearned;
@@ -84,6 +89,13 @@ public class Charecter {
 	public static Charecter getSingle_instance_myChar() {
 		return single_instance_myChar;
 	}
+	
+	  public static Charecter getInstance() {
+	        if (instance == null) {
+	            instance = new Charecter();
+	        }
+	        return instance;
+	    }
 
 	public String getName() {
 	    return CharInfo != null && CharInfo.size() > 0 ? CharInfo.get(0) : "";
@@ -146,7 +158,7 @@ public class Charecter {
 	private List<Quest> activeQuests = new ArrayList<>();
 
 	public Charecter() {
-		Charecter.name = name;
+		
 	}
 
 	public void addActiveQuest(Quest quest) {
@@ -329,14 +341,14 @@ public class Charecter {
 		}
 	}
 
-	// Index 2 – Race & Level
+	// Index 2 Race & Level
 	public String getRace() {
 	    return CharInfo.get(2);
 	}
 	public void setRace(String race) {
 	    CharInfo.set(2, race);
 	}
-	// Index 3 – Level
+	// Index 3 Â– Level
 	public String getLevel() {
 	    return CharInfo.get(3);
 	}
@@ -344,7 +356,7 @@ public class Charecter {
 	    CharInfo.set(3, String.valueOf(level));
 	}
 
-	// Index 4 – Experience
+	// Index 4 Â– Experience
 	public String getExperience() {
 	    return CharInfo.get(4);
 	}
@@ -352,7 +364,7 @@ public class Charecter {
 	    CharInfo.set(4, String.valueOf(experience));
 	}
 
-	// Index 5 – Health Points (HP)
+	// Index 5 Â– Health Points (HP)
 	// After:
 	public int getHitPoints() {
 	    if (CharInfo != null && CharInfo.size() > 5) {
@@ -369,7 +381,7 @@ public class Charecter {
 	    CharInfo.set(5, String.valueOf(hp));
 	}
 
-	// Index 6 – Action Points
+	// Index 6 Â– Action Points
 	public int getActionPoints() {
 	    return Integer.parseInt(CharInfo.get(6)); // Retrieve action points
 	}
@@ -379,7 +391,7 @@ public class Charecter {
 	}
 
 
-	// Index 6 – Magic Points (MP)
+	// Index 6 Â– Magic Points (MP)
 	public int getMagicPoints() {
 	    return Integer.parseInt(CharInfo.get(6));
 	}
@@ -387,7 +399,7 @@ public class Charecter {
 	    CharInfo.set(6, String.valueOf(magicPoints));
 	}
 
-	// Index 7 – Stamina
+	// Index 7 Â– Stamina
 	public int getStamina() {
 	    return Integer.parseInt(CharInfo.get(7));
 	}
@@ -395,7 +407,7 @@ public class Charecter {
 	    CharInfo.set(7, String.valueOf(stamina));
 	}
 
-	// Index 8 – Charisma
+	// Index 8 Â– Charisma
 	public int getCharisma() {
 	    return Integer.parseInt(CharInfo.get(8));
 	}
@@ -403,7 +415,7 @@ public class Charecter {
 	    CharInfo.set(8, String.valueOf(charisma));
 	}
 
-	// Index 9 – Strength
+	// Index 9 Â– Strength
 	public int getStrength() {
 	    return Integer.parseInt(CharInfo.get(9));
 	}
@@ -411,7 +423,7 @@ public class Charecter {
 	    CharInfo.set(9, String.valueOf(strength));
 	}
 
-	// Index 10 – Intelligence
+	// Index 10 Â– Intelligence
 	public int getIntelligence() {
 	    return Integer.parseInt(CharInfo.get(10));
 	}
@@ -419,7 +431,7 @@ public class Charecter {
 	    CharInfo.set(10, String.valueOf(intelligence));
 	}
 
-	// Index 11 – Wisdom
+	// Index 11 Â– Wisdom
 	public int getWisdom() {
 	    return Integer.parseInt(CharInfo.get(11));
 	}
@@ -427,7 +439,7 @@ public class Charecter {
 	    CharInfo.set(11, String.valueOf(wisdom));
 	}
 
-	// Index 12 – Agility
+	// Index 12 Â– Agility
 	public int getAgility() {
 	    return Integer.parseInt(CharInfo.get(12));
 	}
@@ -435,7 +447,7 @@ public class Charecter {
 	    CharInfo.set(12, String.valueOf(agility));
 	}
 
-	// Index 13 – Gold
+	// Index 13 Â– Gold
 	public int getGold() {
 	    return Integer.parseInt(CharInfo.get(13));
 	}
@@ -443,7 +455,7 @@ public class Charecter {
 	    CharInfo.set(13, String.valueOf(gold));
 	}
 
-	// Index 14 – Food
+	// Index 14 Â– Food
 	public int getFood() {
 	    return Integer.parseInt(CharInfo.get(14));
 	}
@@ -451,7 +463,7 @@ public class Charecter {
 	    CharInfo.set(14, String.valueOf(food));
 	}
 
-	// Index 15 – Water
+	// Index 15 Â– Water
 	public int getWater() {
 	    return Integer.parseInt(CharInfo.get(15));
 	}
@@ -459,7 +471,7 @@ public class Charecter {
 	    CharInfo.set(15, String.valueOf(water));
 	}
 
-	// Index 16 – Torches
+	// Index 16 Â– Torches
 	public int getTorches() {
 	    return Integer.parseInt(CharInfo.get(16));
 	}
@@ -467,7 +479,7 @@ public class Charecter {
 	    CharInfo.set(16, String.valueOf(torches));
 	}
 
-	// Index 17 – Gems
+	// Index 17 Â– Gems
 	public int getGems() {
 	    return Integer.parseInt(CharInfo.get(17));
 	}
@@ -475,7 +487,7 @@ public class Charecter {
 	    CharInfo.set(17, String.valueOf(gems));
 	}
 
-	// Index 18 – Equipped Weapon
+	// Index 18 Â– Equipped Weapon
 	public String getWeapon() {
 	    return CharInfo.get(18);
 	}
@@ -483,7 +495,7 @@ public class Charecter {
 	    CharInfo.set(18, weapon);
 	}
 
-	// Index 19 – Equipped Armor
+	// Index 19 Â– Equipped Armor
 	public String getArmour() {
 	    return CharInfo.get(19);
 	}
@@ -491,7 +503,7 @@ public class Charecter {
 	    CharInfo.set(19, armour);
 	}
 
-	// Index 20 – Equipped Shield
+	// Index 20 Â– Equipped Shield
 	public String getShield() {
 	    return CharInfo.get(20);
 	}
@@ -499,7 +511,7 @@ public class Charecter {
 	    CharInfo.set(20, shield);
 	}
 
-	// Index 21 – Alignment
+	// Index 21 Â– Alignment
 	public int getAlignment() {
 	    return Integer.parseInt(CharInfo.get(21));
 	}
@@ -507,7 +519,7 @@ public class Charecter {
 	    CharInfo.set(21, String.valueOf(alignment));
 	}
 
-	// Indexes 23–25 – Position
+	// Indexes 23Â–25 Â– Position
 	public void setPosition(int targetX, int targetY, int targetZ) {
 		// Print index and value for debugging
 	    for (int i = 0; i < CharInfo.size(); i++) {

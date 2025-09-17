@@ -1,11 +1,13 @@
 
-package DungeonoftheBrutalKing;
+package Effect;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import DungeonoftheBrutalKing.TimeClock;
 
 /**
  * Manages the effects applied to entities in the game.

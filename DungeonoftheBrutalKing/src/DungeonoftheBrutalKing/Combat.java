@@ -1,5 +1,4 @@
 
-
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -14,11 +13,13 @@ import javax.swing.*;
 import Enemies.Enemies;
 import Enemies.MonsterSelector;
 import SharedData.GameSettings;
+import Spells.Spells;
 
 public class Combat {
 
+    private static final int RANDOM_CHANCE_MAX = 100;
     private final GameSettings myGameSettings = new GameSettings();
-    private final Charecter myChar = Charecter.Singleton();
+    private final Charecter myChar = Charecter.getInstance();
     private Enemies myEnemies;
     private String selectedSpell = null;
 
@@ -31,9 +32,7 @@ public class Combat {
     private Timer timer;
 
     public Combat() throws IOException {
-        int heroHP = (myChar.CharInfo != null && myChar.CharInfo.size() > 5)
-                ? parseIntSafe(myChar.CharInfo.get(5))
-                : 0;
+        int heroHP = myChar.getHitPoints();
         myChar.setHitPoints(heroHP);
     }
 
@@ -47,24 +46,18 @@ public class Combat {
             combatPanel.setVisible(true);
             return;
         }
-        System.out.println("Selected monster: " + myEnemies.getName() + " HP: " + myEnemies.getHP());
 
         combatImagePanel = new JPanel();
         combatImagePanel.setPreferredSize(new Dimension(300, 400));
-
         combatPanelButtons = new JPanel(new FlowLayout());
         combatPanelCombatAreaPanel = new JPanel();
         combatUpdateInfoPanel = new JPanel();
         combatNameAndHPPanel = new JPanel(new FlowLayout());
-
         combatImageAndCombatUpdatesStatsSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         combatImageAndCombatUpdatesStatsSplitPane.setResizeWeight(0.3);
-
         combatCombatUpdatesAndStatsSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-
         combatMessageArea = new JTextArea(12, 40);
         combatNameAndHPfield = new JTextArea(2, 40);
-
         combatAttackButton = new JButton("Attack");
         castSelectedSpellButton = new JButton("Cast Selected Spell");
         selectSpellButton = new JButton("Select Spell to Cast");
@@ -77,15 +70,10 @@ public class Combat {
         BufferedImage img = null;
         try {
             img = ImageIO.read(imageFile);
-            if (img == null) {
-                picLabel = new JLabel("Image not found");
-            } else {
-                picLabel = new JLabel(new ImageIcon(img));
-            }
+            picLabel = (img == null) ? new JLabel("Image not found") : new JLabel(new ImageIcon(img));
         } catch (IOException e) {
             picLabel = new JLabel("Image not found");
         }
-
         picLabel.setPreferredSize(new Dimension(300, 400));
         combatImagePanel.add(picLabel);
 
@@ -125,34 +113,27 @@ public class Combat {
     }
 
     private void handleAttack() {
+        if (myChar == null || myEnemies == null) return;
         Random random = new Random();
         StringBuilder combatLog = new StringBuilder();
 
-        int charAttackChance = random.nextInt(100);
+        int charAttackChance = random.nextInt(RANDOM_CHANCE_MAX);
         if (charAttackChance >= myEnemies.getAgility()) {
             int charDamage = myChar.getWeaponDamage() + myChar.getStrength();
-            myEnemies.setHP(myEnemies.getHP() - charDamage);
+            myEnemies.setHitPoints(myEnemies.getHitPoints() - charDamage);
             combatLog.append("You hit the ").append(myEnemies.getName())
                     .append(" for ").append(charDamage).append(" damage!\n");
         } else {
             combatLog.append("You missed your attack!\n");
         }
 
-        if (myEnemies.getHP() <= 0) {
+        if (myEnemies.getHitPoints() <= 0) {
             combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
             endCombat(combatLog);
             return;
         }
 
-        int monsterAttackChance = random.nextInt(100);
-        if (monsterAttackChance >= myChar.getAgility()) {
-            int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
-            myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
-            combatLog.append("The ").append(myEnemies.getName())
-                    .append(" hit you for ").append(monsterDamage).append(" damage!\n");
-        } else {
-            combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
-        }
+        monsterAttack(combatLog);
 
         if (myChar.getHitPoints() <= 0) {
             combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
@@ -164,6 +145,7 @@ public class Combat {
     }
 
     private void handleSelectSpell() {
+        if (myChar == null) return;
         String[] knownSpells = myChar.getKnownSpells();
         if (knownSpells == null || knownSpells.length == 0) {
             JOptionPane.showMessageDialog(combatPanel, "You don't know any spells.");
@@ -183,6 +165,7 @@ public class Combat {
     }
 
     private void handleCastSpell() {
+        if (myChar == null || myEnemies == null) return;
         if (selectedSpell == null) {
             JOptionPane.showMessageDialog(combatPanel, "No spell selected. Please select a spell first.");
             combatMessageArea.setText("No spell selected.\n");
@@ -198,27 +181,18 @@ public class Combat {
 
         StringBuilder combatLog = new StringBuilder();
         int spellDamage = spell.getDamage();
-        myEnemies.setHP(myEnemies.getHP() - spellDamage);
+        myEnemies.setHitPoints(myEnemies.getHitPoints() - spellDamage);
         combatLog.append("You cast ").append(spell.getName())
                 .append(" and dealt ").append(spellDamage)
                 .append(" damage to ").append(myEnemies.getName()).append("!\n");
 
-        if (myEnemies.getHP() <= 0) {
+        if (myEnemies.getHitPoints() <= 0) {
             combatLog.append("You defeated the ").append(myEnemies.getName()).append("!\n");
             endCombat(combatLog);
             return;
         }
 
-        Random random = new Random();
-        int monsterAttackChance = random.nextInt(100);
-        if (monsterAttackChance >= myChar.getAgility()) {
-            int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
-            myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
-            combatLog.append("The ").append(myEnemies.getName())
-                    .append(" hit you for ").append(monsterDamage).append(" damage!\n");
-        } else {
-            combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
-        }
+        monsterAttack(combatLog);
 
         if (myChar.getHitPoints() <= 0) {
             combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
@@ -230,8 +204,9 @@ public class Combat {
     }
 
     private void handleRun() {
+        if (myChar == null || myEnemies == null) return;
         Random random = new Random();
-        int runChance = random.nextInt(100);
+        int runChance = random.nextInt(RANDOM_CHANCE_MAX);
         int agility = myChar.getAgility();
 
         if (runChance < agility) {
@@ -240,15 +215,7 @@ public class Combat {
         } else {
             StringBuilder combatLog = new StringBuilder();
             combatLog.append("You failed to run away!\n");
-            int monsterAttackChance = random.nextInt(100);
-            if (monsterAttackChance >= myChar.getAgility()) {
-                int monsterDamage = myEnemies.getWeaponDamage() + myEnemies.getStrength();
-                myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
-                combatLog.append("The ").append(myEnemies.getName())
-                        .append(" hit you for ").append(monsterDamage).append(" damage!\n");
-            } else {
-                combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
-            }
+            monsterAttack(combatLog);
             if (myChar.getHitPoints() <= 0) {
                 combatLog.append("You were defeated by the ").append(myEnemies.getName()).append("!\n");
                 disableCombatButtons();
@@ -257,14 +224,24 @@ public class Combat {
         }
     }
 
+    private void monsterAttack(StringBuilder combatLog) {
+        Random random = new Random();
+        int monsterAttackChance = random.nextInt(RANDOM_CHANCE_MAX);
+        if (monsterAttackChance >= myChar.getAgility()) {
+            int monsterDamage = myEnemies.attack() + myEnemies.getStrength();
+            myChar.setHitPoints(myChar.getHitPoints() - monsterDamage);
+            combatLog.append("The ").append(myEnemies.getName())
+                    .append(" hit you for ").append(monsterDamage).append(" damage!\n");
+        } else {
+            combatLog.append("The ").append(myEnemies.getName()).append(" missed its attack!\n");
+        }
+    }
+
     private void updateNameAndHP() {
-        String charName = myChar.getName() != null ? myChar.getName() : "Unknown";
-        String charHP = String.valueOf(myChar.getHitPoints());
-        String monsterName = myEnemies != null && myEnemies.getName() != null ? myEnemies.getName() : "Unknown";
-        String monsterHP = myEnemies != null ? String.valueOf(myEnemies.getHP()) : "0";
-
-        System.out.println("Monster: " + monsterName + " HP: " + monsterHP);
-
+        String charName = (myChar != null && myChar.getName() != null) ? myChar.getName() : "Unknown";
+        String charHP = (myChar != null) ? String.valueOf(myChar.getHitPoints()) : "0";
+        String monsterName = (myEnemies != null && myEnemies.getName() != null) ? myEnemies.getName() : "Unknown";
+        String monsterHP = (myEnemies != null) ? String.valueOf(myEnemies.getHitPoints()) : "0";
         combatNameAndHPfield.setText(
             charName + " HP: " + charHP +
             " | " + monsterName + " HP: " + monsterHP

@@ -1,9 +1,11 @@
 
 // src/DungeonoftheBrutalKing/ArmourManager.java
-package DungeonoftheBrutalKing;
+package Armour;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import DungeonoftheBrutalKing.Singleton;
 
 public class ArmourManager {
 

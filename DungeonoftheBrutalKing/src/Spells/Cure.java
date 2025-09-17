@@ -7,7 +7,7 @@ import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
 
-public abstract class Cure implements Spells {
+public abstract class Cure implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;

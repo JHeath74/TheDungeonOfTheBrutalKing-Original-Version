@@ -7,7 +7,7 @@ import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
-public abstract class Conjure_Food implements Spells {
+public abstract class Conjure_Food implements Spell {
 
     // Minimum Wisdom and Intelligence required to cast the spell
     private static final int MINIMUM_WISDOM = 10;

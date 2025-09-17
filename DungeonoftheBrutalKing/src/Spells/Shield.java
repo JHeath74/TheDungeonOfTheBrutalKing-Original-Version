@@ -2,11 +2,11 @@
 package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.EffectManager;
 import DungeonoftheBrutalKing.TimeClock;
+import Effect.EffectManager;
 import SharedData.Alignment;
 
-public abstract class Shield implements Spells {
+public abstract class Shield implements Spell {
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private int duration = 12; // Duration in in-game hours

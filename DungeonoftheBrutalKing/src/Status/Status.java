@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing;
+package Status;
 
 import java.util.function.Consumer;
 

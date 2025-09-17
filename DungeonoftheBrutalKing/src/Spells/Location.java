@@ -5,7 +5,7 @@ import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
 
 
-public abstract class Location implements Spells {
+public abstract class Location implements Spell {
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     String name = null;

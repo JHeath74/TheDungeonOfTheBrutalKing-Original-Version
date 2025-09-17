@@ -4,7 +4,7 @@ package Spells;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
-public abstract class Light implements Spells {
+public abstract class Light implements Spell {
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();

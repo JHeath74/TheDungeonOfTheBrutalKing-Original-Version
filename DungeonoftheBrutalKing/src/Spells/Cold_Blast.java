@@ -6,7 +6,7 @@ import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
-public abstract class Cold_Blast implements Spells {
+public abstract class Cold_Blast implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
     private static Charecter myChar = Charecter.Singleton();

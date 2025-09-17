@@ -1,7 +1,6 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.WeaponManager;
 
 public class Club extends WeaponManager {
 
