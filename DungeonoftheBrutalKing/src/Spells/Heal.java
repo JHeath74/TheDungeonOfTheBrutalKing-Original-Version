@@ -1,4 +1,3 @@
-
 package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -7,7 +6,6 @@ import SharedData.Alignment;
 
 public abstract class Heal implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();
     String name = null;
 
@@ -16,10 +14,10 @@ public abstract class Heal implements Spell {
     }
 
     @Override
-	public void cast() {
-        int intelligence = Integer.parseInt(myChar.CharInfo.get(8));
-        int maxHealth = Integer.parseInt(myChar.CharInfo.get(10));
-        int currentHealth = Integer.parseInt(myChar.CharInfo.get(11));
+    public void cast() {
+        int intelligence = Integer.parseInt(myChar.getCharInfo().get(8));
+        int maxHealth = Integer.parseInt(myChar.getCharInfo().get(10));
+        int currentHealth = Integer.parseInt(myChar.getCharInfo().get(11));
 
         // Minimum health restored
         int healthRestored = 10;
@@ -42,7 +40,7 @@ public abstract class Heal implements Spell {
     }
 
     @Override
-	public SharedData.Alignment getSpellAlignment() {
-        return getSpellAlignment(); // Getter for the spell type
+    public Alignment getSpellAlignment() {
+        return Alignment.NOT_ALIGNED;
     }
 }

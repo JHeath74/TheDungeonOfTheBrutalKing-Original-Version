@@ -1,4 +1,3 @@
-
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -8,54 +7,51 @@ public class Dart extends WeaponManager {
     private static Charecter myChar = Charecter.Singleton();
 
     private static final int REQUIRED_STRENGTH = 15;
-    private static double weight = 20.0;
-	private static int damage = 20;
-	private static String weaponName = "Dart";
+    private static int weight = 20;
+    private static int damage = 20;
 
-    public Dart(double attackDamage, String effect) {
-        super("Dart", REQUIRED_STRENGTH, damage, effect, weight);
+    public Dart(int attackDamage, String effect) {
+        super("Dart", REQUIRED_STRENGTH, attackDamage, effect, weight);
     }
 
-    public Dart(int requiredStrength, double damage, String effect) {
+    public Dart(int requiredStrength, int damage, String effect) {
         super("Dart", requiredStrength, damage, effect, weight);
     }
 
-    public static Dart createDart(Character character, double damage, String effect) throws NumberFormatException {
+    public static Dart createDart(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
-            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
             if (strength >= requiredStrength) {
                 return new Dart(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Dart.");
     }
 
     // Getters and Setters
     @Override
-	public String getName() {
+    public String getName() {
         return name;
     }
 
     public int getRequiredStrength() {
-        // Retrieve the strength from the Character class's CharInfo ArrayList at index 8 and parse as an int
         return REQUIRED_STRENGTH;
     }
 
-
-	@Override
-	public double getDamage() {
-		return damage;
-	}
+    @Override
+    public double getDamage() {
+        return (double) damage;
+    }
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();
     }
 
     @Override
-	public void setEffect(String effect) {
+    public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

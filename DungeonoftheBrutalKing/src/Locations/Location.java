@@ -1,5 +1,5 @@
 
-package Location;
+package Locations;
 
 import java.util.List;
 

@@ -35,7 +35,7 @@ public class AuroraArcanum extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Aurora Arcanum Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -108,7 +108,7 @@ public class AuroraArcanum extends JPanel {
 
     private void buyGuildSpell() {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        ArrayList<String> inventory = character.getCharInventory();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
         int maxSpells = 6;
@@ -166,7 +166,6 @@ public class AuroraArcanum extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
         ArrayList<String> guildSpells = getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
@@ -176,14 +175,12 @@ public class AuroraArcanum extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        Charecter character = Charecter.Singleton();
-        return character.GuildSpells.size();
+        return Charecter.Singleton().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = character.GuildSpells;
-        if (guildSpells.size() < 6) { // Assuming a maximum of 6 spells
+        ArrayList<String> guildSpells = Charecter.Singleton().getGuildSpells();
+        if (guildSpells.size() < 6) {
             guildSpells.add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
@@ -191,6 +188,6 @@ public class AuroraArcanum extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.Singleton().GuildSpells); // Return a copy of the GuildSpells list
+        return new ArrayList<>(Charecter.Singleton().getGuildSpells());
     }
 }

@@ -1,5 +1,5 @@
 
-// Longbow.java
+// src/Weapon/Longbow.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -8,23 +8,22 @@ public class Longbow extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 
-    private String weaponname = "Longbow";
-    private static double weight = 25.0;
-    private static double damage = 35;
+    private static int weight = 25;
+    private static int damage = 35;
     private static final int REQUIRED_STRENGTH = 30;
 
-    public Longbow(double damage, String effect) {
+    public Longbow(int damage, String effect) {
         super("Long bow", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public Longbow(int requiredStrength, double damage, String effect) {
+    public Longbow(int requiredStrength, int damage, String effect) {
         super("Long bow", requiredStrength, damage, effect, weight);
     }
 
-    public static Longbow createLongbow(Character character, double damage, String effect) throws NumberFormatException {
+    public static Longbow createLongbow(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
-            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
             if (strength >= requiredStrength) {
                 return new Longbow(damage, effect);
             }
@@ -35,7 +34,7 @@ public class Longbow extends WeaponManager {
     }
 
     @Override
-	public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -43,18 +42,16 @@ public class Longbow extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-
     public double getAttackDamage() {
-        return damage;
+        return (double) damage;
     }
-
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();
     }
 
     @Override
-	public void setEffect(String effect) {
+    public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

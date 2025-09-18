@@ -1,9 +1,7 @@
 
-// src/Armour/BreastPlate.java
 package Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-
 
 public class Plate extends ArmourManager {
 
@@ -21,30 +19,30 @@ public class Plate extends ArmourManager {
         Plate.armourDefense = 15;
     }
 
-    public static Plate createPlate(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
-    	 int requiredStrength = REQUIRED_STRENGTH;
-         try {
-             int strength = Integer.parseInt(myChar.CharInfo.get(8));
-             if (strength >= requiredStrength) {
-                 return new Plate(armourDefense, requiredStrength, effect);
-             }
-         } catch (NumberFormatException e) {
-             e.printStackTrace();
-         }
-         throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+    public static Plate createPlate(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
+        int requiredStrength = REQUIRED_STRENGTH;
+        try {
+            int strength = myChar.getStrength();
+            if (strength >= requiredStrength) {
+                return new Plate(armourDefense, requiredStrength, effect);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
     @Override
-	public String getName() {
+    public String getName() {
         return super.getName();
     }
 
     public int getRequiredStrength() {
-        return Integer.parseInt(myChar.CharInfo.get(8));
+        return myChar.getStrength();
     }
 
     @Override
-	public int getArmourDefense() {
+    public int getArmourDefense() {
         return super.getArmourDefense();
     }
 
@@ -53,7 +51,7 @@ public class Plate extends ArmourManager {
     }
 
     @Override
-	public void setEffect(String effect) {
+    public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

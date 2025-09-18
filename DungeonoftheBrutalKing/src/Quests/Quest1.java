@@ -2,7 +2,6 @@
 package Quests;
 
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,30 +33,28 @@ public class Quest1 implements Quest {
         assignRandomLocation(); // Call the method to assign a random location
     }
 
+    private int calculateGoldReward() {
+        if (myChar.getCharInfo() == null || myChar.getCharInfo().size() <= 2) {
+            throw new IllegalStateException("CharInfo is not properly initialized or loaded from the save game.");
+        }
 
-private int calculateGoldReward() {
-    if (myChar.CharInfo == null || myChar.CharInfo.size() <= 2) {
-        throw new IllegalStateException("CharInfo is not properly initialized or loaded from the save game.");
+        Random random = new Random();
+        int goldMultiplier = random.nextInt(41) + 10; // Random value between 10 and 50
+        int charLevel = Integer.parseInt(myChar.getCharInfo().get(2));
+        return goldMultiplier * charLevel;
     }
 
-    Random random = new Random();
-    int goldMultiplier = random.nextInt(41) + 10; // Random value between 10 and 50
-    int charLevel = Integer.parseInt(myChar.CharInfo.get(2));
-    return goldMultiplier * charLevel;
-}
-
-
     public void giveExperienceReward(Charecter character) {
-        int charLevel = Integer.parseInt(character.CharInfo.get(2)); // Get character level
+        int charLevel = Integer.parseInt(character.getCharInfo().get(2)); // Get character level
         int experienceMultiplier = 100; // Define a base multiplier for experience
         int experienceReward = charLevel * experienceMultiplier; // Calculate experience reward
 
-        int currentExperience = Integer.parseInt(character.CharInfo.get(11)); // Get current experience
+        int currentExperience = Integer.parseInt(character.getCharInfo().get(11)); // Get current experience
         character.setExperience(currentExperience + experienceReward); // Update experience in CharInfo index 11
     }
 
     public void checkQuestCompletion(Charecter character) {
-        int charLevel = Integer.parseInt(character.CharInfo.get(2)); // Get character level
+        int charLevel = Integer.parseInt(character.getCharInfo().get(2)); // Get character level
         if (charLevel >= 10) { // Example condition for quest completion
             this.completed = true;
         }
@@ -72,7 +69,7 @@ private int calculateGoldReward() {
         JLabel imageLabel = new JLabel(questImage);
         JPanel panel = new JPanel();
         panel.add(imageLabel);
-        mainGameScreen.replaceWithAnyPanel(panel);
+        MainGameScreen.replaceWithAnyPanel(panel);
     }
 
     public LocationType getLocationType() {
@@ -100,7 +97,7 @@ private int calculateGoldReward() {
     }
 
     public void giveReward(Charecter character) {
-        int currentGold = Integer.parseInt(character.CharInfo.get(12)); // Get current gold
+        int currentGold = Integer.parseInt(character.getCharInfo().get(12)); // Get current gold
         character.setGold(currentGold + rewardGold); // Update gold in CharInfo index 12
     }
 

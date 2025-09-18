@@ -1,4 +1,5 @@
 
+// src/Weapon/ShortSword.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -7,23 +8,22 @@ public class ShortSword extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 
-    private String weaponname = "ShortSword";
-    private static double weight = 25.0;
-    private static double damage = 35;
+    private static int weight = 25;
+    private static int damage = 35;
     private static final int REQUIRED_STRENGTH = 30;
 
-    public ShortSword(double damage, String effect) {
-        super("Dagger", REQUIRED_STRENGTH, damage, effect, weight);
+    public ShortSword(int damage, String effect) {
+        super("Short Sword", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public ShortSword(int requiredStrength, double damage, String effect) {
+    public ShortSword(int requiredStrength, int damage, String effect) {
         super("Short Sword", requiredStrength, damage, effect, weight);
     }
 
-    public static ShortSword createShortSword(Character character, double damage, String effect) throws NumberFormatException {
+    public static ShortSword createShortSword(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
-            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
             if (strength >= requiredStrength) {
                 return new ShortSword(damage, effect);
             }
@@ -33,21 +33,18 @@ public class ShortSword extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
     }
 
-    // Getters and Setters
     @Override
-	public String getName() {
+    public String getName() {
         return name;
     }
 
     public int getRequiredStrength() {
-        // Retrieve the strength from the Character class's CharInfo ArrayList at index 8 and parse as an int
         return REQUIRED_STRENGTH;
     }
 
-
     @Override
-	public double getDamage() {
-        return damage;
+    public double getDamage() {
+        return (double) damage;
     }
 
     public StatusEffect getEffect() {
@@ -55,7 +52,7 @@ public class ShortSword extends WeaponManager {
     }
 
     @Override
-	public void setEffect(String effect) {
+    public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

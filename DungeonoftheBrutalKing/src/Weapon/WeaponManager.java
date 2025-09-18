@@ -11,12 +11,12 @@ public class WeaponManager {
     public String name;
     public int requiredStrength;
     public static String charStrength;
-    private static double damage;
-    private static double weight;
+    private static int damage;
+    private static int weight;
     private static double criticalHitChance;
     private static StatusEffect statusEffect;
 
-    public WeaponManager(String name, int requiredStrength, double damage, String effect, double weight) {
+    public WeaponManager(String name, int requiredStrength, int damage, String effect, int weight) {
         this.name = name;
         this.requiredStrength = requiredStrength;
         WeaponManager.damage = damage;
@@ -32,7 +32,7 @@ public class WeaponManager {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(int weight) {
 		WeaponManager.weight = weight;
 	}
 

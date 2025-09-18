@@ -1,64 +1,55 @@
 
+// src/Weapon/WarNet.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
 
 public class WarNet extends WeaponManager {
 
-    private static Charecter myChar = Charecter.Singleton();
-
-    private String weaponname = "Warnet";
-    private static double weight = 25.0;
-    private static double damage = 35;
+    private static final int WEIGHT = 25;
     private static final int REQUIRED_STRENGTH = 30;
 
-
-    public WarNet(double damage, String effect) {
-        super("WarNet", REQUIRED_STRENGTH, damage, effect, weight);
+    public WarNet(int damage, String effect) {
+        super("WarNet", REQUIRED_STRENGTH, damage, effect, WEIGHT);
     }
 
-    public WarNet(int requiredStrength, double damage, String effect) {
-        super("WarNet", requiredStrength, damage, effect, weight);
+    public WarNet(int requiredStrength, int damage, String effect) {
+        super("WarNet", requiredStrength, damage, effect, WEIGHT);
     }
 
-    public static WarNet createDagger(Character character, double damage, String effect) throws NumberFormatException {
+    public static WarNet createWarNet(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
-            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+            int strength = Integer.parseInt(character.getCharInfo().get(8));
             if (strength >= requiredStrength) {
                 return new WarNet(damage, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wield the WarNet.");
     }
 
-    // Getters and Setters
     @Override
-	public String getName() {
+    public String getName() {
         return name;
     }
 
     public int getRequiredStrength() {
-        // Retrieve the strength from the Character class's CharInfo ArrayList at index 8 and parse as an int
         return REQUIRED_STRENGTH;
     }
 
-
     @Override
-	public double getDamage() {
-        return damage;
+    public double getDamage() {
+        return super.getDamage();
     }
-
-
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();
     }
 
     @Override
-	public void setEffect(String effect) {
+    public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }

@@ -13,7 +13,7 @@ public abstract class Cold_Blast implements Spell {
 
     private static final Alignment SPELL_ALIGNMENT = SharedData.Alignment.NOT_ALIGNED; // Non-aligned spell type
 
-    String wisdomValue = myChar.CharInfo.get(10);
+    String wisdomValue = myChar.getCharInfo().get(10);
     int attackerWisdom = (wisdomValue != null) ? Integer.parseInt(wisdomValue) : 0;
 
     @Override

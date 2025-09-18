@@ -1,9 +1,7 @@
-
 package Spells;
 
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Alignment;
-
 
 public abstract class Location implements Spell {
 
@@ -17,13 +15,13 @@ public abstract class Location implements Spell {
     }
 
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
-        int Wisdom = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(10));
-        int Intelligence = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(9));
-        int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(5));
+        int Wisdom = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(10));
+        int Intelligence = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(9));
+        int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(5));
 
         if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
-        	int[] position = new int[3];
-			Singleton.myCharSingleton().getPosition(position);
+            int[] position = new int[3];
+            Singleton.myCharSingleton().getPosition(position);
             int currentX = position[0];
             int currentY = position[1];
             int currentZ = position[2];
@@ -45,8 +43,7 @@ public abstract class Location implements Spell {
     }
 
     @Override
-	public Alignment getSpellAlignment() {
+    public Alignment getSpellAlignment() {
         return SPELL_ALIGNMENT; // Getter for the spell alignment
     }
-
 }

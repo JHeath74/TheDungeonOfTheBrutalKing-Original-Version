@@ -22,7 +22,9 @@ public class Magical_Shield extends ShieldManager {
     public static Magical_Shield createMagical_Shield(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
    	 int requiredStrength = REQUIRED_STRENGTH;
         try {
-            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+
+        	int strength = Integer.parseInt(myChar.getCharInfo().get(8));
+
             if (strength >= requiredStrength) {
                 return new Magical_Shield(armourDefense, requiredStrength);
             }

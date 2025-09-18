@@ -2,27 +2,22 @@
 package Spells;
 
 import java.util.Random;
-
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
-//public abstract class Fireball implements Spells {
-	public abstract class Fireball implements Spell{
+public abstract class Fireball implements Spell {
 
     // Minimum Wisdom required to cast the spell
     private static final int MINIMUM_WISDOM = 10;
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private static Charecter myChar = Charecter.Singleton();
-
-
 
     @Override
     public void cast() {
-        if (myChar == null || myChar.CharInfo == null) {
+        if (myChar == null || myChar.getCharInfo() == null) {
             System.out.println("Character or character info is not available.");
             return;
         }
-        String wisdomValue = myChar.CharInfo.get(10);
+        String wisdomValue = myChar.getCharInfo().get(10);
         int attackerWisdom = (wisdomValue != null) ? Integer.parseInt(wisdomValue) : 0;
 
         if (attackerWisdom < MINIMUM_WISDOM) {
@@ -41,7 +36,7 @@ import SharedData.Alignment;
     }
 
     @Override
-	public SharedData.Alignment getSpellAlignment() {
-        return getSpellAlignment(); // Getter for the spell type
+    public Alignment getSpellAlignment() {
+        return Alignment.NOT_ALIGNED;
     }
 }

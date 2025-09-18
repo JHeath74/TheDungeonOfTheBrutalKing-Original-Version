@@ -1,34 +1,33 @@
+
 package Classes;
 
 import DungeonoftheBrutalKing.Charecter;
 
 public class Paladin extends Class
 {
-	int sta; //Stamina
-	int chr; //Charisma
-	int str; //Strength
-	int inti; //Intelligence
-	int wis; //Wisdom
-	int agi; //Agility
+    int sta; //Stamina
+    int chr; //Charisma
+    int str; //Strength
+    int inti; //Intelligence
+    int wis; //Wisdom
+    int agi; //Agility
 
-	int Herolevel;
+    int Herolevel;
 
-	Charecter myChar = new Charecter();
+    Charecter myChar = Charecter.Singleton();
 
-	public static String charClass = "Paladin";
+    public static String charClass = "Paladin";
+    public static String ClassDescription;
 
-	public static String ClassDescription;
+    public Paladin()
+    {
+        Herolevel = myChar.getLevel();
+    }
 
-	public Paladin()
-	{
-		Herolevel = myChar.CharInfo.indexOf(myChar.CharInfo.get(2));
-
-	}
-	public static String ClassDescription()
-	{
-		return ClassDescription = "Compared with other classes the " + Paladin.charClass + " class has one of the most/n restrictive codes"
-				+ " of conduct and paladin characters are expected to/n demonstrate and embody goodness. \n\n"
-				+ "Wisdom (WIS) followed by Strength is most important stats for a " + Paladin.charClass;
-	}
-
+    public static String ClassDescription()
+    {
+        return ClassDescription = "Compared with other classes the " + Paladin.charClass + " class has one of the most/n restrictive codes"
+            + " of conduct and paladin characters are expected to/n demonstrate and embody goodness. \n\n"
+            + "Wisdom (WIS) followed by Strength is most important stats for a " + Paladin.charClass;
+    }
 }

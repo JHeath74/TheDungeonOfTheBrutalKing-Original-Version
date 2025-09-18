@@ -1,4 +1,3 @@
-
 package Guild;
 
 import java.awt.BorderLayout;
@@ -34,7 +33,7 @@ public class DirgeweaversChorus extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Dirgeweavers Chorus Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -75,7 +74,7 @@ public class DirgeweaversChorus extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                inventory.add("Dirgeweavers Chorus Guild Ring");
+                character.getCharInventory().add("Dirgeweavers Chorus Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus!");
                 try {
                     reloadPanel();
@@ -107,7 +106,7 @@ public class DirgeweaversChorus extends JPanel {
 
     private void buyGuildSpell() {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        ArrayList<String> inventory = character.getCharInventory();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
         int maxSpells = 6;
@@ -166,7 +165,7 @@ public class DirgeweaversChorus extends JPanel {
 
     public boolean removeGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = getGuildSpells();
+        ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
             return true;
@@ -176,12 +175,12 @@ public class DirgeweaversChorus extends JPanel {
 
     public int getGuildSpellsCount() {
         Charecter character = Charecter.Singleton();
-        return Charecter.GuildSpells.size();
+        return character.getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = Charecter.GuildSpells;
+        ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
         } else {
@@ -190,7 +189,7 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        Charecter.Singleton();
-		return new ArrayList<>(Charecter.GuildSpells);
+        Charecter character = Charecter.Singleton();
+        return new ArrayList<>(character.getGuildSpells());
     }
 }

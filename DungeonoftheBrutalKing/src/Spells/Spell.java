@@ -9,4 +9,5 @@ public interface Spell {
     boolean isGuildSpell();
     void cast(int attackerWisdom);
     Alignment getSpellAlignment();
+    int getRequiredMagicPoints(); // Added method
 }

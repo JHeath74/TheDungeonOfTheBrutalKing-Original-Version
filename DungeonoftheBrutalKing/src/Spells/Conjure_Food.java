@@ -1,9 +1,7 @@
 
 package Spells;
 
-
 import java.util.Random;
-
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
@@ -13,9 +11,6 @@ public abstract class Conjure_Food implements Spell {
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
     private static Charecter myChar = Charecter.Singleton();
-
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Non-aligned spell type
-
 
     public Conjure_Food() {
         super(); // Explicitly call the constructor of the Spells class
@@ -28,7 +23,7 @@ public abstract class Conjure_Food implements Spell {
             // Conjure 1 to 3 food items
             Random random = new Random();
             int foodConjured = random.nextInt(3) + 1; // Random value from 1 to 3
-            int currentFood = Integer.parseInt(myChar.CharInfo.get(13));
+            int currentFood = Integer.parseInt(myChar.getCharInfo().get(13));
             myChar.setFood(currentFood + foodConjured);
             System.out.println("Conjured " + foodConjured + " food items!");
         }
@@ -40,7 +35,7 @@ public abstract class Conjure_Food implements Spell {
     }
 
     @Override
-	public SharedData.Alignment getSpellAlignment() {
-        return getSpellAlignment(); // Getter for the spell type
+    public Alignment getSpellAlignment() {
+        return Alignment.NOT_ALIGNED;
     }
 }

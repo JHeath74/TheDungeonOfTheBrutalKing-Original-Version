@@ -1,5 +1,3 @@
-
-// Import necessary classes for file handling, I/O operations, and GUI components
 package DungeonoftheBrutalKing;
 
 import java.io.BufferedReader;
@@ -13,149 +11,135 @@ import javax.swing.JOptionPane;
 
 import SharedData.GameSettings;
 
-// Class to manage saving and loading game states with encryption and decryption
 public class LoadSaveGame2 {
 
-    // Singleton instance of the character
     Charecter myChar = Charecter.Singleton();
-
-    // Singleton instance of game settings
     GameSettings myGameSettings = GameSettings.Singleton();
 
-    // Method to save the game state with encryption
     public void saveGameWithEncryption() throws IOException {
-        String savedGameName = "EncryptedGameSave.txt"; // Name of the save file
-        String saveFilePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the save file
+        String savedGameName = "EncryptedGameSave.txt";
+        String saveFilePath = GameSettings.SavedGameDirectory + savedGameName;
 
-        FileWriter writer = new FileWriter(saveFilePath); // Create a FileWriter to write to the file
+        FileWriter writer = new FileWriter(saveFilePath);
 
-        // Combine data from multiple ArrayLists
         ArrayList<String> combinedData = new ArrayList<>();
-        combinedData.addAll(myChar.CharInfo); // Add character info
-        combinedData.addAll(myChar.SpellsLearned); // Add learned spells
+        combinedData.addAll(myChar.getCharInfo());
+        combinedData.addAll(myChar.getSpellsLearned());
 
-        // Encrypt and write each line to the file
         for (String data : combinedData) {
-            String encryptedData = EncryptionUtil.encrypt(data); // Encrypt the data
-            writer.write(encryptedData + System.lineSeparator()); // Write encrypted data to the file
+            String encryptedData = EncryptionUtil.encrypt(data);
+            writer.write(encryptedData + System.lineSeparator());
         }
 
-        writer.close(); // Close the FileWriter
-        JOptionPane.showMessageDialog(null, "Game Saved: " + savedGameName); // Notify the user
+        writer.close();
+        JOptionPane.showMessageDialog(null, "Game Saved: " + savedGameName);
     }
 
-    // Method to load the game state with decryption
     public void loadGameWithDecryption() throws IOException {
-        String savedGameName = "EncryptedGameSave.txt"; // Name of the save file
-        String saveFilePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the save file
+        String savedGameName = "EncryptedGameSave.txt";
+        String saveFilePath = GameSettings.SavedGameDirectory + savedGameName;
 
-        BufferedReader reader = new BufferedReader(new FileReader(saveFilePath)); // Create a BufferedReader to read the file
-        ArrayList<String> decryptedData = new ArrayList<>(); // List to store decrypted data
+        BufferedReader reader = new BufferedReader(new FileReader(saveFilePath));
+        ArrayList<String> decryptedData = new ArrayList<>();
 
         String line;
-        while ((line = reader.readLine()) != null) { // Read each line from the file
-            String decryptedLine = EncryptionUtil.decrypt(line); // Decrypt the line
-            decryptedData.add(decryptedLine); // Add decrypted data to the list
+        while ((line = reader.readLine()) != null) {
+            String decryptedLine = EncryptionUtil.decrypt(line);
+            decryptedData.add(decryptedLine);
         }
 
-        reader.close(); // Close the BufferedReader
+        reader.close();
 
-        // Populate ArrayLists with decrypted data
-        myChar.CharInfo.clear(); // Clear existing character info
-        myChar.SpellsLearned.clear(); // Clear existing learned spells
+        myChar.getCharInfo().clear();
+        myChar.getSpellsLearned().clear();
         for (int i = 0; i < decryptedData.size(); i++) {
-            if (i < myChar.CharInfo.size()) {
-                myChar.CharInfo.add(decryptedData.get(i)); // Add to character info
+            if (i < myChar.getCharInfo().size()) {
+                myChar.getCharInfo().add(decryptedData.get(i));
             } else {
-                myChar.SpellsLearned.add(decryptedData.get(i)); // Add to learned spells
+                myChar.getSpellsLearned().add(decryptedData.get(i));
             }
         }
 
-        JOptionPane.showMessageDialog(null, "Game Loaded Successfully"); // Notify the user
+        JOptionPane.showMessageDialog(null, "Game Loaded Successfully");
     }
 
-    // Method to auto-save the game state
     public void AutoSaveGame() throws IOException {
-        String savedGameName = "AutoGameSave.txt"; // Name of the auto-save file
-        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the auto-save file
+        String savedGameName = "AutoGameSave.txt";
+        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName;
 
-        try (FileWriter writer = new FileWriter(autoSaveGamePath)) { // Create a FileWriter to write to the file
-            for (String charInfo : myChar.CharInfo) {
-                String encryptedData = EncryptionUtil.encrypt(charInfo); // Encrypt the character info
-                writer.write(encryptedData + System.lineSeparator()); // Write encrypted data to the file
+        try (FileWriter writer = new FileWriter(autoSaveGamePath)) {
+            for (String charInfo : myChar.getCharInfo()) {
+                String encryptedData = EncryptionUtil.encrypt(charInfo);
+                writer.write(encryptedData + System.lineSeparator());
             }
         }
 
-        JOptionPane.showMessageDialog(null, "Game Auto-Saved: " + savedGameName); // Notify the user
+        JOptionPane.showMessageDialog(null, "Game Auto-Saved: " + savedGameName);
     }
 
-    // Method to auto-load the game state
     public void AutoLoadGame() throws IOException {
-        String savedGameName = "AutoGameSave.txt"; // Name of the auto-save file
-        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName; // Full path to the auto-save file
+        String savedGameName = "AutoGameSave.txt";
+        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(autoSaveGamePath))) { // Create a BufferedReader to read the file
-            myChar.CharInfo.clear(); // Clear existing character info
+        try (BufferedReader reader = new BufferedReader(new FileReader(autoSaveGamePath))) {
+            myChar.getCharInfo().clear();
             String line;
-            while ((line = reader.readLine()) != null) { // Read each line from the file
-                String decryptedData = EncryptionUtil.decrypt(line); // Decrypt the line
-                myChar.CharInfo.add(decryptedData); // Add decrypted data to character info
+            while ((line = reader.readLine()) != null) {
+                String decryptedData = EncryptionUtil.decrypt(line);
+                myChar.getCharInfo().add(decryptedData);
             }
         }
 
-        JOptionPane.showMessageDialog(null, "Game Auto-Loaded Successfully"); // Notify the user
+        JOptionPane.showMessageDialog(null, "Game Auto-Loaded Successfully");
     }
 
-    // Method to load the character data from the most recently modified save file
     public void StartGameLoadCharecter() throws IOException {
-        ArrayList<String> SaveLoadChar = new ArrayList<>(); // List to store loaded character data
-        File chosenFile = getLastModified(GameSettings.SavedGameDirectory); // Get the most recently modified file
+        ArrayList<String> SaveLoadChar = new ArrayList<>();
+        File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
-        try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) { // Create a BufferedReader to read the file
+        try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
             String line = bufReader.readLine();
-            while (line != null) { // Read each line from the file
-                String decryptedData = EncryptionUtil.decrypt(line); // Decrypt the line
-                SaveLoadChar.add(decryptedData); // Add decrypted data to the list
+            while (line != null) {
+                String decryptedData = EncryptionUtil.decrypt(line);
+                SaveLoadChar.add(decryptedData);
                 line = bufReader.readLine();
             }
         }
 
-        myChar.CharInfo.addAll(SaveLoadChar); // Add loaded data to character info
+        myChar.getCharInfo().addAll(SaveLoadChar);
 
-        JOptionPane.showMessageDialog(null, "Game Loaded Successfully from: " + chosenFile.getName()); // Notify the user
+        JOptionPane.showMessageDialog(null, "Game Loaded Successfully from: " + chosenFile.getName());
     }
 
-    // Utility method to get the most recently modified file in a directory
     public static File getLastModified(String SavedGameDirectory) {
-        File directory = new File(SavedGameDirectory); // Create a File object for the directory
-        File[] files = directory.listFiles(File::isFile); // Get all files in the directory
-        long lastModifiedTime = Long.MIN_VALUE; // Initialize the last modified time
-        File chosenFile = null; // Initialize the chosen file
+        File directory = new File(SavedGameDirectory);
+        File[] files = directory.listFiles(File::isFile);
+        long lastModifiedTime = Long.MIN_VALUE;
+        File chosenFile = null;
 
         if (files != null) {
-            for (File file : files) { // Iterate through the files
-                if (file.lastModified() > lastModifiedTime) { // Check if the file is more recently modified
-                    chosenFile = file; // Update the chosen file
-                    lastModifiedTime = file.lastModified(); // Update the last modified time
+            for (File file : files) {
+                if (file.lastModified() > lastModifiedTime) {
+                    chosenFile = file;
+                    lastModifiedTime = file.lastModified();
                 }
             }
         }
 
-        return chosenFile; // Return the most recently modified file
+        return chosenFile;
     }
 
-    // Utility method to count the number of files in a directory
     public static int getFileCount() {
-        File directory = new File(GameSettings.SavedGameDirectory); // Create a File object for the directory
-        File[] files = directory.listFiles(File::isFile); // Get all files in the directory
-        int count = 0; // Initialize the file count
+        File directory = new File(GameSettings.SavedGameDirectory);
+        File[] files = directory.listFiles(File::isFile);
+        int count = 0;
 
         if (files != null) {
-            for (File file : files) { // Iterate through the files
-                count++; // Increment the file count
+            for (File ignored : files) {
+                count++;
             }
         }
 
-        return count; // Return the file count
+        return count;
     }
 }

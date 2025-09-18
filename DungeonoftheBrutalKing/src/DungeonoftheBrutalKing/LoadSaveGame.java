@@ -26,197 +26,194 @@ import SharedData.GameSettings;
 
 public class LoadSaveGame {
 
-	Charecter myChar = Charecter.Singleton();
-	GameSettings myGameSettings = new GameSettings();
-	ArrayList<ArrayList<?>> GameState = new ArrayList<>();
-	int width, height = 0;
+    Charecter myChar = Charecter.Singleton();
+    GameSettings myGameSettings = new GameSettings();
+    ArrayList<ArrayList<?>> GameState = new ArrayList<>();
+    int width, height = 0;
 
-	public void AutoSaveGame() throws IOException {
-		String savedGameName = "AutoGameSave.Txt";
-		String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName;
+    public void AutoSaveGame() throws IOException {
+        String savedGameName = "AutoGameSave.Txt";
+        String autoSaveGamePath = GameSettings.SavedGameDirectory + savedGameName;
 
-		if (!savedGameName.equals("IntialCharecterSave.txt")) {
-			try (FileWriter writer = new FileWriter(autoSaveGamePath)) {
-				for (String charInfo : myChar.CharInfo) {
-					writer.write(charInfo + System.lineSeparator());
-				}
-				JOptionPane.showMessageDialog(null, "Game Saved: " + savedGameName);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, "Error saving game: " + e.getMessage());
-				throw e;
-			}
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"Unable to Save Current Game Over Saved Game called 'InitialCharecterSave.txt'\n");
-		}
-	}
+        if (!savedGameName.equals("IntialCharecterSave.txt")) {
+            try (FileWriter writer = new FileWriter(autoSaveGamePath)) {
+                for (String charInfo : myChar.getCharInfo()) {
+                    writer.write(charInfo + System.lineSeparator());
+                }
+                JOptionPane.showMessageDialog(null, "Game Saved: " + savedGameName);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error saving game: " + e.getMessage());
+                throw e;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null,
+                "Unable to Save Current Game Over Saved Game called 'InitialCharecterSave.txt'\n");
+        }
+    }
 
+    public void SaveGame() throws IOException, ParseException {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
 
-	public void SaveGame() throws IOException, ParseException {
-		Date date = Calendar.getInstance().getTime();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        String datetime = dateFormat.format(date);
+        datetime = datetime.replaceAll(":", ".");
 
-		String datetime = dateFormat.format(date);
-		datetime = datetime.replaceAll(":", ".");
+        String SavedGameName = "SavedGame" + datetime + ".txt";
 
-		String SavedGameName = "SavedGame" + datetime + ".txt";
+        if (!SavedGameName.equals("IntialCharecterSave.txt")) {
+            String SaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
 
-		if (!SavedGameName.equals("IntialCharecterSave.txt")) {
-			String SaveGameName = GameSettings.SavedGameDirectory + SavedGameName;
+            try (FileWriter writer = new FileWriter(SaveGameName)) {
+                for (String charInfo : myChar.getCharInfo()) {
+                    writer.write(charInfo + System.lineSeparator());
+                }
+            }
 
-			try (FileWriter writer = new FileWriter(SaveGameName)) {
-				for (String Charinfo : myChar.CharInfo) {
-					writer.write(Charinfo + System.lineSeparator());
-				}
-			}
+            JOptionPane.showMessageDialog(null, "Game Saved: " + SavedGameName);
+        } else {
+            JOptionPane.showMessageDialog(null,
+                "Unable to Save Current Game Over Saved Game called 'InitialCharecterSave.txt'\n");
+        }
+    }
 
-			JOptionPane.showMessageDialog(null, "Game Saved: " + SavedGameName);
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"Unable to Save Current Game Over Saved Game called 'InitialCharecterSave.txt'\n");
-		}
-	}
+    public void StartGameLoadCharecter() throws IOException {
+        ArrayList<String> SaveLoadChar = new ArrayList<>();
+        File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
+        try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
+            String line;
+            while ((line = bufReader.readLine()) != null) {
+                SaveLoadChar.add(line);
+            }
+        }
 
-	public void StartGameLoadCharecter() throws IOException {
-		ArrayList<String> SaveLoadChar = new ArrayList<>();
-		File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
+        myChar.getCharInfo().addAll(SaveLoadChar);
 
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
-			String line;
-			while ((line = bufReader.readLine()) != null) {
-				SaveLoadChar.add(line);
-			}
-		}
+        myChar.getDirection();
+    }
 
-		Singleton.myCharSingleton().CharInfo.addAll(SaveLoadChar);
+    public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {
+        ArrayList<String> SaveLoadChar = new ArrayList<>();
+        File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
-		myChar.getDirection();
+        if (chosenFile == null || !chosenFile.exists()) {
+            JOptionPane.showMessageDialog(null, "No valid save file found to continue the game.");
+            return;
+        }
 
-	}
+        try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
+            String line;
+            while ((line = bufReader.readLine()) != null) {
+                SaveLoadChar.add(line);
+            }
 
-	public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {
-		ArrayList<String> SaveLoadChar = new ArrayList<>();
-		File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
+            myChar.getCharInfo().clear();
+            myChar.getCharInfo().addAll(SaveLoadChar);
 
-		if (chosenFile == null || !chosenFile.exists()) {
-			JOptionPane.showMessageDialog(null, "No valid save file found to continue the game.");
-			return;
-		}
+        //  JOptionPane.showMessageDialog(null, "Game continued successfully from: " + chosenFile.getName());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error continuing game: " + e.getMessage());
+            throw e;
+        }
 
-		try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
-			String line;
-			while ((line = bufReader.readLine()) != null) {
-				SaveLoadChar.add(line);
-			}
+        new MainGameScreen();
+    }
 
-			myChar.CharInfo.clear();
-			myChar.CharInfo.addAll(SaveLoadChar);
+    public void LoadGame() {
+        ArrayList<String> LoadChar = new ArrayList<>();
 
-		//	JOptionPane.showMessageDialog(null, "Game continued successfully from: " + chosenFile.getName());
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error continuing game: " + e.getMessage());
-			throw e;
-		}
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        width = (int) size.getWidth();
+        height = (int) size.getHeight();
 
-		new MainGameScreen();
-	}
+        JFrame loadGame = new JFrame("Load Game");
+        loadGame.setSize(width, height);
 
-	public void LoadGame() {
-		ArrayList<String> LoadChar = new ArrayList<>();
+        JPanel lg = new JPanel(new BorderLayout());
+        JButton load = new JButton("Load Game");
+        JComboBox<String> loadGameSelection = new JComboBox<>();
 
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		width = (int) size.getWidth();
-		height = (int) size.getHeight();
+        File loadgamefiles = new File(GameSettings.SavedGameDirectory);
+        File[] listOfFiles = loadgamefiles.listFiles();
 
-		JFrame loadGame = new JFrame("Load Game");
-		loadGame.setSize(width, height);
+        if (listOfFiles == null || listOfFiles.length == 0) {
+            JOptionPane.showMessageDialog(null, "No saved game files found.");
+            return;
+        }
 
-		JPanel lg = new JPanel(new BorderLayout());
-		JButton load = new JButton("Load Game");
-		JComboBox<String> loadGameSelection = new JComboBox<>();
+        for (File listOfFile : listOfFiles) {
+            loadGameSelection.addItem(listOfFile.getName());
+        }
 
-		File loadgamefiles = new File(GameSettings.SavedGameDirectory);
-		File[] listOfFiles = loadgamefiles.listFiles();
+        load.addActionListener(_ -> {
+            String gameInfo = (String) loadGameSelection.getSelectedItem();
 
-		if (listOfFiles == null || listOfFiles.length == 0) {
-			JOptionPane.showMessageDialog(null, "No saved game files found.");
-			return;
-		}
+            if (gameInfo.equals("InitialCharecterSave.txt")) {
+                int response = JOptionPane.showConfirmDialog(null,
+                    "This will reload the original saved game and restart your character",
+                    "Reload Save Game", JOptionPane.YES_NO_OPTION);
+                if (response != JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Please Choose a Different Saved Game File");
+                    return;
+                }
+            }
 
-		for (File listOfFile : listOfFiles) {
-			loadGameSelection.addItem(listOfFile.getName());
-		}
+            try (BufferedReader bufReader = new BufferedReader(
+                new FileReader(GameSettings.SavedGameDirectory + gameInfo))) {
+                String line;
+                while ((line = bufReader.readLine()) != null) {
+                    LoadChar.add(line);
+                }
 
-		load.addActionListener(_ -> {
-			String gameInfo = (String) loadGameSelection.getSelectedItem();
+                myChar.getCharInfo().clear();
+                myChar.getCharInfo().addAll(LoadChar);
 
-			if (gameInfo.equals("InitialCharecterSave.txt")) {
-				int response = JOptionPane.showConfirmDialog(null,
-						"This will reload the original saved game and restart your character",
-						"Reload Save Game", JOptionPane.YES_NO_OPTION);
-				if (response != JOptionPane.YES_OPTION) {
-					JOptionPane.showMessageDialog(null, "Please Choose a Different Saved Game File");
-					return;
-				}
-			}
+                JOptionPane.showMessageDialog(null, "Game Loaded: " + gameInfo);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Error loading game: " + ex.getMessage());
+            }
 
-			try (BufferedReader bufReader = new BufferedReader(
-					new FileReader(GameSettings.SavedGameDirectory + gameInfo))) {
-				String line;
-				while ((line = bufReader.readLine()) != null) {
-					LoadChar.add(line);
-				}
+            loadGame.dispose();
+        });
 
-				Singleton.myCharSingleton().CharInfo.clear();
-				Singleton.myCharSingleton().CharInfo.addAll(LoadChar);
+        lg.add(loadGameSelection, BorderLayout.CENTER);
+        loadGame.add(lg, BorderLayout.CENTER);
+        loadGame.add(load, BorderLayout.SOUTH);
 
-				JOptionPane.showMessageDialog(null, "Game Loaded: " + gameInfo);
-			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(null, "Error loading game: " + ex.getMessage());
-			}
+        loadGame.setLocationRelativeTo(null);
+        loadGame.setSize(640, 480);
+        loadGame.setVisible(true);
+    }
 
-			loadGame.dispose();
-		});
+    public static File getLastModified(String SavedGameDirectory) {
+        File directory = new File(SavedGameDirectory);
+        File[] files = directory.listFiles(File::isFile);
+        long lastModifiedTime = Long.MIN_VALUE;
+        File chosenFile = null;
 
-		lg.add(loadGameSelection, BorderLayout.CENTER);
-		loadGame.add(lg, BorderLayout.CENTER);
-		loadGame.add(load, BorderLayout.SOUTH);
+        if (files != null) {
+            for (File file : files) {
+                if (file.lastModified() > lastModifiedTime) {
+                    chosenFile = file;
+                    lastModifiedTime = file.lastModified();
+                }
+            }
+        }
 
-		loadGame.setLocationRelativeTo(null);
-		loadGame.setSize(640, 480);
-		loadGame.setVisible(true);
-	}
+        return chosenFile;
+    }
 
-	public static File getLastModified(String SavedGameDirectory) {
-		File directory = new File(SavedGameDirectory);
-		File[] files = directory.listFiles(File::isFile);
-		long lastModifiedTime = Long.MIN_VALUE;
-		File chosenFile = null;
+    public static int getFileCount() {
+        File directory = new File(GameSettings.SavedGameDirectory);
+        File[] files = directory.listFiles(File::isFile);
+        int count = 0;
 
-		if (files != null) {
-			for (File file : files) {
-				if (file.lastModified() > lastModifiedTime) {
-					chosenFile = file;
-					lastModifiedTime = file.lastModified();
-				}
-			}
-		}
+        if (files != null) {
+            for (File file : files) {
+                count++;
+            }
+        }
 
-		return chosenFile;
-	}
-
-	public static int getFileCount() {
-		File directory = new File(GameSettings.SavedGameDirectory);
-		File[] files = directory.listFiles(File::isFile);
-		int count = 0;
-
-		if (files != null) {
-			for (File file : files) {
-				count++;
-			}
-		}
-
-		return count;
-	}
+        return count;
+    }
 }

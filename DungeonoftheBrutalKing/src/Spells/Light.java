@@ -1,13 +1,9 @@
-
 package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
 public abstract class Light implements Spell {
-
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
-    private static Charecter myChar = Charecter.Singleton();
 
     public Light() {
         super();
@@ -16,8 +12,8 @@ public abstract class Light implements Spell {
         int requiredint = 30;
         int requiredwis = 30;
 
-        String charintelligence = Charecter.Singleton().CharInfo.get(8).toString();
-        String charwisdom = Charecter.Singleton().CharInfo.get(9).toString();
+        String charintelligence = Charecter.Singleton().getCharInfo().get(8).toString();
+        String charwisdom = Charecter.Singleton().getCharInfo().get(9).toString();
     }
 
     @Override
@@ -31,7 +27,8 @@ public abstract class Light implements Spell {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SharedData.Alignment getSpellAlignment() {
-        return getSpellAlignment(); // Getter for the spell type
+    @Override
+    public Alignment getSpellAlignment() {
+        return Alignment.NOT_ALIGNED;
     }
 }

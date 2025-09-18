@@ -36,7 +36,7 @@ public class HarmonicLightEnsemble extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Harmonic Light Ensemble Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -77,7 +77,7 @@ public class HarmonicLightEnsemble extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                inventory.add("Harmonic Light Ensemble Guild Ring");
+                character.getCharInventory().add("Harmonic Light Ensemble Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble!");
                 try {
                     reloadPanel();
@@ -109,16 +109,16 @@ public class HarmonicLightEnsemble extends JPanel {
 
     private void buyGuildSpell() {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> spells = Charecter.GuildSpells;
-        int wisdom = Integer.parseInt(character.CharInfo.get(10));
-        int gold = Integer.parseInt(character.CharInfo.get(12));
+        ArrayList<String> spells = character.getGuildSpells();
+        int wisdom = character.getWisdom();
+        int gold = character.getGold();
 
         if (!isMember) {
             JOptionPane.showMessageDialog(this, "You must be a member of the Harmonic Light Ensemble to buy guild spells.");
             return;
         }
 
-        if (!character.CharInventory.contains("Harmonic Light Ensemble Guild Ring")) {
+        if (!character.getCharInventory().contains("Harmonic Light Ensemble Guild Ring")) {
             JOptionPane.showMessageDialog(this, "You need the Harmonic Light Ensemble Guild Ring to buy guild spells.");
             return;
         }
@@ -164,12 +164,12 @@ public class HarmonicLightEnsemble extends JPanel {
 
     public int getGuildSpellsCount() {
         Charecter character = Charecter.Singleton();
-        return Charecter.GuildSpells.size();
+        return character.getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = Charecter.GuildSpells;
+        ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.size() < MAX_SPELL_LIMIT) {
             guildSpells.add(spell);
         } else {
@@ -179,7 +179,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
     public boolean removeGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = Charecter.GuildSpells;
+        ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
             return true;
@@ -188,7 +188,7 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        Charecter.Singleton();
-		return new ArrayList<>(Charecter.GuildSpells);
+        Charecter character = Charecter.Singleton();
+        return new ArrayList<>(character.getGuildSpells());
     }
 }

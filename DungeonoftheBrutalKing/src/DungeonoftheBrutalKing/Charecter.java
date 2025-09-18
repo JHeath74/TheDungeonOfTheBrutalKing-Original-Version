@@ -1,569 +1,269 @@
 
-// src/DungeonoftheBrutalKing/Charecter.java
 package DungeonoftheBrutalKing;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import Effect.EffectManager;
 import Quests.Quest;
 import Spells.SpellList;
 import Spells.Spells;
 
-//CharInfo ArrayList:
-//Index 0: Character's name (String)
-//Index 1: Character's class or type (String)
-//Index 2: Character's Race (String)
-//Index 3: Character's level (int as String)
-//Index 4: Character's experience points (int as String)
-//Index 5: Character's health points (HP) (int as String)
-//Index 6: Character's magic points (MP) (int as String)
-//Index 7: Character's stamina (int as String)
-//Index 8: Character's charisma (int as String)
-//Index 9: Character's strength (int as String)
-//Index 10: Character's intelligence (int as String)
-//Index 11: Character's wisdom (int as String)
-//Index 12: Character's agility (int as String)
-//Index 13: Character's gold (int as String)
-//Index 14: Character's food (int as String)
-//Index 15: Character's water (int as String)
-//Index 16: Character's torches (int as String)
-//Index 17: Character's gems (int as String)
-//Index 18: Character's equipped weapon (String)
-//Index 19: Character's equipped armor (String)
-//Index 20: Character's equipped shield (String)
-//Index 21: Character's alignment (int as String)
-//Index 22: Character's X position (int as String)
-//Index 23: Character's Y position (int as String)
-//Index 24: Character's Z position (int as String)
 
-
-//SpellsLearned ArrayList:
-//This ArrayList stores the names of spells that the character has learned.
-//Each element represents the name of a spell as a String.
-//Example:
-//Index 0: "Fireball"
-//Index 1: "Heal"
-//Index 2: "Shield"
-//The list is used to track which spells the character can cast during gameplay.
-
-
-//The CharInventory ArrayList is used to store the items that the character possesses in their inventory.
-//Each element in the list represents an item as a String.
-//Example:
-//Index 0: "Sword"
-//Index 1: "Potion"
-//Index 2: "Shield"
-//The list allows for inventory management, such as adding, removing, or checking items during gameplay.
-
-//The activeQuests ArrayList stores the quests that the character is currently undertaking.
-//Each element in the list represents a Quest object, which contains details about the quest.
-//Example:
-//Index 0: Quest object for "Retrieve the Ancient Artifact"
-//Index 1: Quest object for "Defeat the Goblin King"
-//The list allows for tracking and managing active quests, such as adding new quests,
-//removing completed quests, or checking the status of ongoing quests.
+/**
+ * Charecter class
+ * 
+ * ArrayLists in this class:
+ * - charInfo: Stores character attributes by index:
+ *   0  - Name
+ *   1  - (unused)
+ *   2  - Race
+ *   3  - Level
+ *   4  - Experience
+ *   5  - Hit Points
+ *   6  - Magic Points
+ *   7  - Stamina
+ *   8  - Charisma
+ *   9  - Strength
+ *   10 - Intelligence
+ *   11 - Wisdom
+ *   12 - Agility
+ *   13 - Gold
+ *   14 - Food
+ *   15 - Water
+ *   16 - Torches
+ *   17 - Gems
+ *   18 - Weapon
+ *   19 - Armor
+ *   20 - Shield
+ *   21 - Alignment
+ *   22 - X position
+ *   23 - Y position
+ *   24 - Z position
+ *   25 - Direction
+ *   26 - Defense
+ * - spellsLearned: List of learned spell names
+ * - charInventory: List of inventory item names
+ * - guildSpells: List of guild spell names
+ */
 
 
 public class Charecter {
-	
-	private static Charecter instance;
-
-	public ArrayList<String> getSpellsLearned() {
-		return SpellsLearned;
-	}
-
-	public void setSpellsLearned(ArrayList<String> spellsLearned) {
-		SpellsLearned = spellsLearned;
-	}
-
-	public ArrayList<String> getCharInventory() {
-		return CharInventory;
-	}
-
-	public void setCharInventory(ArrayList<String> charInventory) {
-		CharInventory = charInventory;
-	}
-
-	public static Charecter getSingle_instance_myChar() {
-		return single_instance_myChar;
-	}
-	
-	  public static Charecter getInstance() {
-	        if (instance == null) {
-	            instance = new Charecter();
-	        }
-	        return instance;
-	    }
-
-	public String getName() {
-	    return CharInfo != null && CharInfo.size() > 0 ? CharInfo.get(0) : "";
-	}
-
-	public void setName(String name) {
-	    if (CharInfo != null) {
-	        if (CharInfo.size() > 0) {
-	            CharInfo.set(0, name);
-	        } else {
-	            CharInfo.add(name);
-	        }
-	    }
-	}
-
-	public void setEffectManager(EffectManager effectManager) {
-		this.effectManager = effectManager;
-	}
-
-	public void setActiveEffects(List<String> activeEffects) {
-		this.activeEffects = activeEffects;
-	}
-
-	public void setCharInfo(ArrayList<String> charInfo) {
-		CharInfo = charInfo;
-	}
-
-	public void setActiveQuests(List<Quest> activeQuests) {
-		this.activeQuests = activeQuests;
-	}
-	// Singleton instance of the Charecter class
-	private static Charecter single_instance_myChar;
-	// Static method to create or retrieve the Singleton instance of the Charecter
-	// class
-	public static Charecter Singleton() {
-		if (single_instance_myChar == null) {
-			single_instance_myChar = new Charecter();
-		}
-		return single_instance_myChar;
-	}
-	private static String name;
-
-	private EffectManager effectManager = new EffectManager();
-
-	private List<String> activeEffects = new ArrayList<>();
-
-	// List to store character information
-	public ArrayList<String> CharInfo = new ArrayList<>();
-
-	// List to store spells learned by the character
-	public ArrayList<String> SpellsLearned = new ArrayList<>();
-
-	// List to store guild spells
-    public static ArrayList<String> GuildSpells = new ArrayList<>();
-
-	// List to store the character's inventory
-	public ArrayList<String> CharInventory = new ArrayList<>();
-
-	// List to store active quests for the character
-	private List<Quest> activeQuests = new ArrayList<>();
-
-	public Charecter() {
-		
-	}
-
-	public void addActiveQuest(Quest quest) {
-		if (!activeQuests.contains(quest)) {
-			activeQuests.add(quest);
-		}
-	}
-
-	/**
-	 * Adds an effect to the character.
-	 *
-	 * @param effect The name of the effect to be added.
-	 * @return
-	 */
-	/**
-	 * Adds an effect to the character.
-	 *
-	 * @param effect The name of the effect to be added.
-	 * @return A list of active effects.
-	 */
-	public List<String> addEffect(String effect) {
-		if (!activeEffects.contains(effect)) {
-			activeEffects.add(effect);
-			MainGameScreen.appendToMessageTextPane(effect + " has been added.");
-		} else {
-			MainGameScreen.appendToMessageTextPane(effect + " is already active.");
-		}
-		return activeEffects;
-	}
-
-
-
-	public void addToInventory(String item) {
-		if (!CharInventory.contains(item)) {
-			CharInventory.add(item);
-			MainGameScreen.appendToMessageTextPane(item + " has been added to the inventory.");
-		} else {
-			MainGameScreen.appendToMessageTextPane(item + " is already in the inventory.");
-		}
-	}
-
-	private void checkLevelUp() {
-		int currentLevel = Integer.parseInt(CharInfo.get(2)); // Get current level
-		int currentExperience = Integer.parseInt(CharInfo.get(3)); // Get current experience
-		int experienceRequired = getExperienceRequiredForLevel(currentLevel + 1); // Experience needed for next level
-
-		if (currentExperience >= experienceRequired) {
-			setLevel(currentLevel + 1); // Level up the character
-			MainGameScreen.appendToMessageTextPane("Congratulations! You leveled up to level " + (currentLevel + 1));
-		}
-	}
-
-	/**
-	 * Gets the list of active effects.
-	 *
-	 * @return A list of active effects.
-	 */
-	public List<String> getActiveEffects() {
-		return activeEffects;
-	}
-
-	public List<Quest> getActiveQuests() {
-		return activeQuests;
-	}
-
-
-	public EffectManager getEffectManager() {
-		return effectManager;
-	}
-
-	public int getExperienceRequiredForLevel(int level) {
-		int baseExperience = 1000; // Starting experience for level 1
-		double scalingFactor = 1.5; // Experience multiplier for each level
-		return (int) (baseExperience * Math.pow(scalingFactor, level - 1));
-	}
-
-	// src/DungeonoftheBrutalKing/Charecter.java
-	public String[] getKnownSpells() {
-		return SpellsLearned.toArray(new String[0]); // Convert the list to an array
-	}
-
-	// src/DungeonoftheBrutalKing/Charecter.java
-	public Spells getSpellByName(String selectedSpell) {
-		for (String spellName : SpellsLearned) {
-			if (spellName.equalsIgnoreCase(selectedSpell)) {
-				return SpellList.getSpells(spellName); // Retrieve the spell from SpellList
-			}
-		}
-		return null; // Return null if the spell is not found
-	}
-
-
-
-
-
-	public int getWeaponDamage() {
-		int strength = getStrength(); // Retrieve character's strength
-		String weapon = CharInfo.get(17); // Retrieve equipped weapon
-		int baseDamage = weapon != null && !weapon.isEmpty() ? Integer.parseInt(weapon) : 0; // Parse weapon damage
-		Random random = new Random();
-		int randomFactor = random.nextInt(5) + 1; // Random factor between 1 and 5
-		return baseDamage + (int) (strength * 1.2) + randomFactor; // Total weapon damage
-	}
-
-	public boolean removeActiveQuest(Quest quest) {
-		return activeQuests.remove(quest);
-	}
-
-	/**
-	 * Removes a specific effect from the character.
-	 *
-	 * @param effect The name of the effect to be removed.
-	 */
-	public void removeEffect(String effect) {
-		if (activeEffects.contains(effect)) {
-			activeEffects.remove(effect);
-			MainGameScreen.appendToMessageTextPane(effect + " has been removed.");
-		} else {
-			MainGameScreen.appendToMessageTextPane(effect + " is not active.");
-		}
-	}
-
-	public boolean removeFood(int amount) {
-		int currentFood = Integer.parseInt(CharInfo.get(13));
-		if (currentFood >= amount) {
-			CharInfo.set(13, String.valueOf(currentFood - amount));
-			return true; // Successfully removed food
-		}
-		return false; // Not enough food to remove
-	}
-
-	// Placeholder methods for resource management
-
-	public boolean removeFromInventory(String item) {
-		if (CharInventory.contains(item)) {
-			CharInventory.remove(item);
-			return true; // Successfully removed the item
-		}
-		return false; // Item not found in inventory
-	}
-
-	public boolean removeGold(int amount) {
-		int currentGold = Integer.parseInt(CharInfo.get(12));
-		if (currentGold >= amount) {
-			CharInfo.set(12, String.valueOf(currentGold - amount));
-			return true; // Successfully removed gold
-		}
-		return false; // Not enough gold to remove
-	}
-
-	/**
-	 * Removes a specific effect from the character. This method is a placeholder
-	 * and should be implemented to handle the removal of status effects or
-	 * buffs/debuffs applied to the character.
-	 *
-	 * @param effect The name of the effect to be removed.
-	 */
-
-	// src/DungeonoftheBrutalKing/Charecter.java
-	public void rewardExperience(int experiencePoints) {
-		int currentExperience = Integer.parseInt(CharInfo.get(3)); // Get current experience
-		setExperience(currentExperience + experiencePoints); // Add experience points
-		MainGameScreen.appendToMessageTextPane("You gained " + experiencePoints + " experience points!");
-
-		checkLevelUp(); // Check if the character qualifies for a level-up
-	}
-
-
-
-
-
-	// Method to update CharInfo at a specific index
-	public void updateCharInfo(int index, String value) {
-		if (index >= 0 && index < CharInfo.size()) {
-			CharInfo.set(index, value); // Update existing value
-		} else if (index == CharInfo.size()) {
-			CharInfo.add(value); // Add new value if index matches size
-		} else {
-			// Handle invalid index if necessary
-		}
-	}
-
-	// Index 2 Race & Level
-	public String getRace() {
-	    return CharInfo.get(2);
-	}
-	public void setRace(String race) {
-	    CharInfo.set(2, race);
-	}
-	// Index 3  Level
-	public String getLevel() {
-	    return CharInfo.get(3);
-	}
-	public void setLevel(int level) {
-	    CharInfo.set(3, String.valueOf(level));
-	}
-
-	// Index 4  Experience
-	public String getExperience() {
-	    return CharInfo.get(4);
-	}
-	public void setExperience(int experience) {
-	    CharInfo.set(4, String.valueOf(experience));
-	}
-
-	// Index 5  Health Points (HP)
-	// After:
-	public int getHitPoints() {
-	    if (CharInfo != null && CharInfo.size() > 5) {
-	        try {
-	            return Integer.parseInt(CharInfo.get(5));
-	        } catch (NumberFormatException e) {
-	            return 0; // fallback if not a number
-	        }
-	    }
-	    return 0; // fallback if missing
-	}
-	
-	public void setHitPoints(int hp) {
-	    CharInfo.set(5, String.valueOf(hp));
-	}
-
-	// Index 6  Action Points
-	public int getActionPoints() {
-	    return Integer.parseInt(CharInfo.get(6)); // Retrieve action points
-	}
-
-	public void setActionPoints(int actionPoints) {
-	    CharInfo.set(6, String.valueOf(actionPoints)); // Update action points
-	}
-
-
-	// Index 6  Magic Points (MP)
-	public int getMagicPoints() {
-	    return Integer.parseInt(CharInfo.get(6));
-	}
-	public void setMagicPoints(int magicPoints) {
-	    CharInfo.set(6, String.valueOf(magicPoints));
-	}
-
-	// Index 7  Stamina
-	public int getStamina() {
-	    return Integer.parseInt(CharInfo.get(7));
-	}
-	public void setStamina(int stamina) {
-	    CharInfo.set(7, String.valueOf(stamina));
-	}
-
-	// Index 8  Charisma
-	public int getCharisma() {
-	    return Integer.parseInt(CharInfo.get(8));
-	}
-	public void setCharisma(int charisma) {
-	    CharInfo.set(8, String.valueOf(charisma));
-	}
-
-	// Index 9  Strength
-	public int getStrength() {
-	    return Integer.parseInt(CharInfo.get(9));
-	}
-	public void setStrength(int strength) {
-	    CharInfo.set(9, String.valueOf(strength));
-	}
-
-	// Index 10  Intelligence
-	public int getIntelligence() {
-	    return Integer.parseInt(CharInfo.get(10));
-	}
-	public void setIntelligence(int intelligence) {
-	    CharInfo.set(10, String.valueOf(intelligence));
-	}
-
-	// Index 11  Wisdom
-	public int getWisdom() {
-	    return Integer.parseInt(CharInfo.get(11));
-	}
-	public void setWisdom(int wisdom) {
-	    CharInfo.set(11, String.valueOf(wisdom));
-	}
-
-	// Index 12  Agility
-	public int getAgility() {
-	    return Integer.parseInt(CharInfo.get(12));
-	}
-	public void setAgility(int agility) {
-	    CharInfo.set(12, String.valueOf(agility));
-	}
-
-	// Index 13  Gold
-	public int getGold() {
-	    return Integer.parseInt(CharInfo.get(13));
-	}
-	public void setGold(int gold) {
-	    CharInfo.set(13, String.valueOf(gold));
-	}
-
-	// Index 14  Food
-	public int getFood() {
-	    return Integer.parseInt(CharInfo.get(14));
-	}
-	public void setFood(int food) {
-	    CharInfo.set(14, String.valueOf(food));
-	}
-
-	// Index 15  Water
-	public int getWater() {
-	    return Integer.parseInt(CharInfo.get(15));
-	}
-	public void setWater(int water) {
-	    CharInfo.set(15, String.valueOf(water));
-	}
-
-	// Index 16  Torches
-	public int getTorches() {
-	    return Integer.parseInt(CharInfo.get(16));
-	}
-	public void setTorches(int torches) {
-	    CharInfo.set(16, String.valueOf(torches));
-	}
-
-	// Index 17  Gems
-	public int getGems() {
-	    return Integer.parseInt(CharInfo.get(17));
-	}
-	public void setGems(int gems) {
-	    CharInfo.set(17, String.valueOf(gems));
-	}
-
-	// Index 18  Equipped Weapon
-	public String getWeapon() {
-	    return CharInfo.get(18);
-	}
-	public void setWeapon(String weapon) {
-	    CharInfo.set(18, weapon);
-	}
-
-	// Index 19  Equipped Armor
-	public String getArmour() {
-	    return CharInfo.get(19);
-	}
-	public void setArmour(String armour) {
-	    CharInfo.set(19, armour);
-	}
-
-	// Index 20  Equipped Shield
-	public String getShield() {
-	    return CharInfo.get(20);
-	}
-	public void setShield(String shield) {
-	    CharInfo.set(20, shield);
-	}
-
-	// Index 21  Alignment
-	public int getAlignment() {
-	    return Integer.parseInt(CharInfo.get(21));
-	}
-	public void setAlignment(int alignment) {
-	    CharInfo.set(21, String.valueOf(alignment));
-	}
-
-	// Indexes 2325  Position
-	public void setPosition(int targetX, int targetY, int targetZ) {
-		// Print index and value for debugging
-	    for (int i = 0; i < CharInfo.size(); i++) {
-	        System.out.println("Index " + i + ": " + CharInfo.get(i));
-	    }
-
-		
-	    CharInfo.set(22, String.valueOf(targetX));
-	    CharInfo.set(23, String.valueOf(targetY));
-	    CharInfo.set(24, String.valueOf(targetZ));
-	}
-
-	public void getPosition(int[] position) {
-		position[0] = Integer.parseInt(CharInfo.get(22)); // X position
-		position[1] = Integer.parseInt(CharInfo.get(23)); // Y position
-		position[2] = Integer.parseInt(CharInfo.get(24)); // Z position
-	}
-
-	public double getX() {
-		return Double.parseDouble(CharInfo.get(22));
-	}
-	
-	public double getY() {
-	    return Double.parseDouble(CharInfo.get(23));
-	}
-
-	public double getZ() {
-		return Double.parseDouble(CharInfo.get(24));
-	}
-	
-	public double getDirection() {
-		return Double.parseDouble(CharInfo.get(25));
-	}
 
-
-
-
-
-
-
-
-
-
-
-
-
+    private static final int NAME_IDX = 0;
+    private static final int RACE_IDX = 2;
+    private static final int LEVEL_IDX = 3;
+    private static final int EXP_IDX = 4;
+    private static final int HP_IDX = 5;
+    private static final int MP_IDX = 6;
+    private static final int STAMINA_IDX = 7;
+    private static final int CHARISMA_IDX = 8;
+    private static final int STRENGTH_IDX = 9;
+    private static final int INTELLIGENCE_IDX = 10;
+    private static final int WISDOM_IDX = 11;
+    private static final int AGILITY_IDX = 12;
+    private static final int GOLD_IDX = 13;
+    private static final int FOOD_IDX = 14;
+    private static final int WATER_IDX = 15;
+    private static final int TORCHES_IDX = 16;
+    private static final int GEMS_IDX = 17;
+    private static final int WEAPON_IDX = 18;
+    private static final int ARMOR_IDX = 19;
+    private static final int SHIELD_IDX = 20;
+    private static final int ALIGNMENT_IDX = 21;
+    private static final int X_IDX = 22;
+    private static final int Y_IDX = 23;
+    private static final int Z_IDX = 24;
+    private static final int DIRECTION_IDX = 25;
+    private static final int DEFENSE_IDX = 26;
+
+    private static Charecter instance;
+    private EffectManager effectManager = new EffectManager();
+    private List<String> activeEffects = new ArrayList<>();
+    private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(27, "0"));
+    private ArrayList<String> spellsLearned = new ArrayList<>();
+    private ArrayList<String> charInventory = new ArrayList<>();
+    private ArrayList<String> guildSpells = new ArrayList<>();
+    private List<Quest> activeQuests = new ArrayList<>();
+    private int actionPoints = 100;
+
+    public static Charecter Singleton() {
+        if (instance == null) instance = new Charecter();
+        return instance;
+    }
+
+    public Charecter() {}
+
+    private int getInt(int idx, int def) {
+        try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; }
+    }
+    private void setInt(int idx, int val) { charInfo.set(idx, String.valueOf(val)); }
+    private String getStr(int idx) { return charInfo.get(idx); }
+    private void setStr(int idx, String val) { charInfo.set(idx, val); }
+
+    public String getName() { return getStr(NAME_IDX); }
+    public void setName(String name) { setStr(NAME_IDX, name); }
+    public String getRace() { return getStr(RACE_IDX); }
+    public void setRace(String race) { setStr(RACE_IDX, race); }
+    public int getLevel() { return getInt(LEVEL_IDX, 1); }
+    public void setLevel(int level) { setInt(LEVEL_IDX, level); }
+    public int getExperience() { return getInt(EXP_IDX, 0); }
+    public void setExperience(int exp) { setInt(EXP_IDX, exp); }
+    public int getHitPoints() { return getInt(HP_IDX, 0); }
+    public void setHitPoints(int hp) { setInt(HP_IDX, hp); }
+    public int getMagicPoints() { return getInt(MP_IDX, 0); }
+    public void setMagicPoints(int mp) { setInt(MP_IDX, mp); }
+    public int getStamina() { return getInt(STAMINA_IDX, 0); }
+    public void setStamina(int stamina) { setInt(STAMINA_IDX, stamina); }
+    public int getCharisma() { return getInt(CHARISMA_IDX, 0); }
+    public void setCharisma(int charisma) { setInt(CHARISMA_IDX, charisma); }
+    public int getStrength() { return getInt(STRENGTH_IDX, 0); }
+    public void setStrength(int strength) { setInt(STRENGTH_IDX, strength); }
+    public int getIntelligence() { return getInt(INTELLIGENCE_IDX, 0); }
+    public void setIntelligence(int intelligence) { setInt(INTELLIGENCE_IDX, intelligence); }
+    public int getWisdom() { return getInt(WISDOM_IDX, 0); }
+    public void setWisdom(int wisdom) { setInt(WISDOM_IDX, wisdom); }
+    public int getAgility() { return getInt(AGILITY_IDX, 0); }
+    public void setAgility(int agility) { setInt(AGILITY_IDX, agility); }
+    public int getGold() { return getInt(GOLD_IDX, 0); }
+    public void setGold(int gold) { setInt(GOLD_IDX, gold); }
+    public int getFood() { return getInt(FOOD_IDX, 0); }
+    public void setFood(int food) { setInt(FOOD_IDX, food); }
+    public int getWater() { return getInt(WATER_IDX, 0); }
+    public void setWater(int water) { setInt(WATER_IDX, water); }
+    public int getTorches() { return getInt(TORCHES_IDX, 0); }
+    public void setTorches(int torches) { setInt(TORCHES_IDX, torches); }
+    public int getGems() { return getInt(GEMS_IDX, 0); }
+    public void setGems(int gems) { setInt(GEMS_IDX, gems); }
+    public String getWeapon() { return getStr(WEAPON_IDX); }
+    public void setWeapon(String weapon) { setStr(WEAPON_IDX, weapon); }
+    public String getArmour() { return getStr(ARMOR_IDX); }
+    public void setArmour(String armour) { setStr(ARMOR_IDX, armour); }
+    public String getShield() { return getStr(SHIELD_IDX); }
+    public void setShield(String shield) { setStr(SHIELD_IDX, shield); }
+    public int getAlignment() { return getInt(ALIGNMENT_IDX, 0); }
+    public void setAlignment(int alignment) { setInt(ALIGNMENT_IDX, alignment); }
+    public double getX() { return Double.parseDouble(getStr(X_IDX)); }
+    public double getY() { return Double.parseDouble(getStr(Y_IDX)); }
+    public double getZ() { return Double.parseDouble(getStr(Z_IDX)); }
+    public double getDirection() { return Double.parseDouble(getStr(DIRECTION_IDX)); }
+    public int getDefense() { return getInt(DEFENSE_IDX, 0); }
+    public void setDefense(int defense) { setInt(DEFENSE_IDX, defense); }
+
+    public int getActionPoints() { return actionPoints; }
+    public void setActionPoints(int points) { actionPoints = points; }
+    public boolean consumeSkillPoints(int cost) {
+        if (actionPoints >= cost) {
+            actionPoints -= cost;
+            return true;
+        } else if (getMagicPoints() >= cost) {
+            setMagicPoints(getMagicPoints() - cost);
+            return true;
+        }
+        return false;
+    }
+
+    public void setPosition(int x, int y, int z) {
+        setInt(X_IDX, x); setInt(Y_IDX, y); setInt(Z_IDX, z);
+    }
+    public void getPosition(int[] pos) {
+        pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
+    }
+
+    public ArrayList<String> getCharInventory() { return charInventory; }
+    public void addToInventory(String item) {
+        if (!charInventory.contains(item)) charInventory.add(item);
+    }
+    public boolean removeFromInventory(String item) { return charInventory.remove(item); }
+    public ArrayList<String> getSpellsLearned() { return spellsLearned; }
+    public void setSpellsLearned(ArrayList<String> spells) { spellsLearned = spells; }
+    public ArrayList<String> getGuildSpells() { return guildSpells; }
+    public void setGuildSpells(ArrayList<String> spells) { guildSpells = spells; }
+    public List<String> getActiveEffects() { return activeEffects; }
+    public List<Quest> getActiveQuests() { return activeQuests; }
+    public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
+    public boolean removeActiveQuest(Quest quest) { return activeQuests.remove(quest); }
+    public void addEffect(String effect) { if (!activeEffects.contains(effect)) activeEffects.add(effect); }
+    public void removeEffect(String effect) { activeEffects.remove(effect); }
+    public EffectManager getEffectManager() { return effectManager; }
+    public void setEffectManager(EffectManager em) { effectManager = em; }
+
+    public int getWeaponDamage() {
+        int strength = getStrength();
+        int baseDamage = 0;
+        try { baseDamage = Integer.parseInt(getWeapon()); } catch (Exception e) {}
+        return baseDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+    }
+    public void reduceHitPoints(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
+    public void reduceDefense(int amount) { setDefense(Math.max(0, getDefense() - amount)); }
+    public boolean removeFood(int amount) {
+        if (getFood() >= amount) { setFood(getFood() - amount); return true; }
+        return false;
+    }
+    public boolean removeGold(int amount) {
+        if (getGold() >= amount) { setGold(getGold() - amount); return true; }
+        return false;
+    }
+    public void rewardExperience(int xp) {
+        setExperience(getExperience() + xp);
+        checkLevelUp();
+    }
+    private void checkLevelUp() {
+        int lvl = getLevel();
+        if (getExperience() >= getExperienceRequiredForLevel(lvl + 1)) setLevel(lvl + 1);
+    }
+    public int getExperienceRequiredForLevel(int level) {
+        return (int)(1000 * Math.pow(1.5, level - 1));
+    }
+    public String[] getKnownSpells() { return spellsLearned.toArray(new String[0]); }
+    public Spells getSpellByName(String name) {
+        for (String spell : spellsLearned)
+            if (spell.equalsIgnoreCase(name)) return SpellList.getSpells(spell);
+        return null;
+    }
+    public void calculateAndSetDefense() {
+        int baseDefense = 10;
+        int dexMod = (getAgility() - 10) / 2;
+        int armorBonus = 0, shieldBonus = 0;
+        try { armorBonus = Integer.parseInt(getArmour()); } catch (Exception e) {}
+        try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) {}
+        setDefense(baseDefense + dexMod + armorBonus + shieldBonus);
+    }
+
+    public void updateCharInfo(int index, String value) {
+        if (charInfo == null) return;
+        if (index >= 0 && index < charInfo.size()) charInfo.set(index, value);
+        else if (index == charInfo.size()) charInfo.add(value);
+    }
+
+    public void setActiveEffects(List<String> activeEffects) {
+        this.activeEffects = activeEffects;
+    }
+
+    public void setCharInfo(ArrayList<String> charInfo) {
+        this.charInfo = charInfo;
+    }
+
+    public void setActiveQuests(List<Quest> activeQuests) {
+        this.activeQuests = activeQuests;
+    }
+
+    public ArrayList<String> getCharInfo() {
+        return charInfo;
+    }
+
+    public String getClassName() {
+        return getStr(RACE_IDX);
+    }
+
+    public String getEquippedWeapon() {
+        return getStr(WEAPON_IDX);
+    }
+
+    public String getEquippedArmor() {
+        return getStr(ARMOR_IDX);
+    }
+
+    public String getEquippedShield() {
+        return getStr(SHIELD_IDX);
+    }
 }

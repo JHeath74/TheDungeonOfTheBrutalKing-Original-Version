@@ -19,7 +19,9 @@ public class Combat {
 
     private static final int RANDOM_CHANCE_MAX = 100;
     private final GameSettings myGameSettings = new GameSettings();
-    private final Charecter myChar = Charecter.getInstance();
+
+private final Charecter myChar = Charecter.Singleton();
+
     private Enemies myEnemies;
     private String selectedSpell = null;
 

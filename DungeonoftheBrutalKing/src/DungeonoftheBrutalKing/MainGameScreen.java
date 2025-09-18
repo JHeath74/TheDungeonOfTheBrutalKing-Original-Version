@@ -1,5 +1,4 @@
 
-// File: MainGameScreen.java
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -18,20 +17,18 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
     private static MainGameScreen instance;
 
-    // Core game objects
     private final Charecter myChar = Charecter.Singleton();
     private final GameSettings myGameSettings = new GameSettings();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
     private CharacterCreation myCharacterCreation = new CharacterCreation();
 
-    // UI components
     private JFrame mainFrame;
     private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel, originalPanel;
     private JTextField charNameClassLevelField, charStatsField, charStats2Field, charXPHPGoldField;
     private static JTextPane messageTextPane;
     private JMenuBar menuBar;
-    private static JSplitPane picturesAndTextUpdatesPane; // <-- made static
+    private static JSplitPane picturesAndTextUpdatesPane;
     private Dimension screenSize;
     private int width, height;
     private Timer timer;
@@ -39,13 +36,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private Canvas gameImagesAndCombatCanvas;
     public static JTextArea combatMessageArea = new JTextArea();
 
-    // Menus and items
     private JMenu gameMenu, characterMenu, settingsMenu, helpMenu;
     private JMenuItem newGameMenuItem, loadSavedGameMenuItem, saveMenuItem, exitGameMenuItem;
     private JMenuItem characterStatsMenuItem, characterInventoryMenuItem, displayActiveQuestsMenuItem;
     private JMenuItem gameSettingsMenuItem, aboutMenuItem, helpMenuItem;
 
-    // Key handling
     private Camera camera;
     private JPanel renderPanel;
 
@@ -94,7 +89,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
         if (camera != null) {
             camera.keyPressed(e);
             renderPanel.repaint();
-
         }
     }
 
@@ -107,9 +101,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        // Not used
-    }
+    public void keyTyped(KeyEvent e) {}
 
     public void updateCombatMessageArea(String text) {
         combatMessageArea.setText(text);
@@ -324,8 +316,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         StyleConstants.setItalic(footerStyle, true);
         StyleConstants.setForeground(footerStyle, Color.GRAY);
 
-
-InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt");
+        InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt");
 
         if (stream == null) {
             JOptionPane.showMessageDialog(this, "About file not found.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -350,58 +341,56 @@ InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/Tex
         aboutDialog.setVisible(true);
     }
 
+    private void showHelpDialog() {
+        JDialog helpDialog = new JDialog(mainFrame, "Help Information", true);
+        helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-private void showHelpDialog() {
-    JDialog helpDialog = new JDialog(mainFrame, "Help Information", true);
-    helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        JPanel panel = new JPanel(new BorderLayout());
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(_ -> helpDialog.dispose());
 
-    JPanel panel = new JPanel(new BorderLayout());
-    JButton closeButton = new JButton("Close");
-    closeButton.addActionListener(_ -> helpDialog.dispose());
+        JTextPane helpTextPane = new JTextPane();
+        helpTextPane.setEditable(false);
+        StyledDocument doc = helpTextPane.getStyledDocument();
 
-    JTextPane helpTextPane = new JTextPane();
-    helpTextPane.setEditable(false);
-    StyledDocument doc = helpTextPane.getStyledDocument();
+        Style headerStyle = doc.addStyle("Header", null);
+        StyleConstants.setFontSize(headerStyle, 18);
+        StyleConstants.setBold(headerStyle, true);
+        StyleConstants.setForeground(headerStyle, Color.BLUE);
 
-    Style headerStyle = doc.addStyle("Header", null);
-    StyleConstants.setFontSize(headerStyle, 18);
-    StyleConstants.setBold(headerStyle, true);
-    StyleConstants.setForeground(headerStyle, Color.BLUE);
+        Style bodyStyle = doc.addStyle("Body", null);
+        StyleConstants.setFontSize(bodyStyle, 14);
+        StyleConstants.setForeground(bodyStyle, Color.BLACK);
 
-    Style bodyStyle = doc.addStyle("Body", null);
-    StyleConstants.setFontSize(bodyStyle, 14);
-    StyleConstants.setForeground(bodyStyle, Color.BLACK);
+        Style footerStyle = doc.addStyle("Footer", null);
+        StyleConstants.setFontSize(footerStyle, 12);
+        StyleConstants.setItalic(footerStyle, true);
+        StyleConstants.setForeground(footerStyle, Color.GRAY);
 
-    Style footerStyle = doc.addStyle("Footer", null);
-    StyleConstants.setFontSize(footerStyle, 12);
-    StyleConstants.setItalic(footerStyle, true);
-    StyleConstants.setForeground(footerStyle, Color.GRAY);
+        InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/Help.txt");
 
-
-InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/Help.txt");
-
-    if (stream == null) {
-        JOptionPane.showMessageDialog(this, "Help file not found.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            doc.insertString(doc.getLength(), line + "\n", bodyStyle);
+        if (stream == null) {
+            JOptionPane.showMessageDialog(this, "Help file not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    } catch (IOException | BadLocationException ex) {
-        ex.printStackTrace();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                doc.insertString(doc.getLength(), line + "\n", bodyStyle);
+            }
+        } catch (IOException | BadLocationException ex) {
+            ex.printStackTrace();
+        }
+
+        JScrollPane scrollPane = new JScrollPane(helpTextPane);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(closeButton, BorderLayout.SOUTH);
+
+        helpDialog.add(panel);
+        helpDialog.pack();
+        helpDialog.setLocationRelativeTo(mainFrame);
+        helpDialog.setVisible(true);
     }
-
-    JScrollPane scrollPane = new JScrollPane(helpTextPane);
-    panel.add(scrollPane, BorderLayout.CENTER);
-    panel.add(closeButton, BorderLayout.SOUTH);
-
-    helpDialog.add(panel);
-    helpDialog.pack();
-    helpDialog.setLocationRelativeTo(mainFrame);
-    helpDialog.setVisible(true);
-}
 
     private void setupSplitPane() {
         picturesAndTextUpdatesPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -426,38 +415,35 @@ InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/Tex
     private void setupTimer() {
         ActionListener task = _ -> {
             String mpOrApLabel;
-            if (myChar.CharInfo.get(1).equals("Mage") || myChar.CharInfo.get(1).equals("Wizard")) {
+            if (myChar.getCharInfo().get(1).equals("Mage") || myChar.getCharInfo().get(1).equals("Wizard")) {
                 mpOrApLabel = "Magic Points: ";
             } else {
                 mpOrApLabel = "Action Points: ";
             }
 
             charNameClassLevelField.setText(
-                "Name: " + myChar.CharInfo.get(0) + "\t\t" +
-                "Class: " + myChar.CharInfo.get(1) + "\t\t" +
-                "Race: " + myChar.CharInfo.get(2) + "\t\t" +
-                "Level: " + myChar.CharInfo.get(3) + "\t\t" +
-                "XP: " + myChar.CharInfo.get(4)
+                "Name: " + myChar.getCharInfo().get(0) + "\t\t" +
+                "Class: " + myChar.getCharInfo().get(1) + "\t\t" +
+                "Race: " + myChar.getCharInfo().get(2) + "\t\t" +
+                "Level: " + myChar.getCharInfo().get(3) + "\t\t" +
+                "XP: " + myChar.getCharInfo().get(4)
             );
             charStatsField.setText(
                 "Stamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
             );
             charStats2Field.setText(
-                myChar.CharInfo.get(7) + "\t\t" +
-                myChar.CharInfo.get(8) + "\t\t" +
-                myChar.CharInfo.get(9) + "\t\t" +
-                myChar.CharInfo.get(10) + "\t\t" +
-                myChar.CharInfo.get(11) + "\t\t" +
-                myChar.CharInfo.get(12)
+                myChar.getCharInfo().get(7) + "\t\t" +
+                myChar.getCharInfo().get(8) + "\t\t" +
+                myChar.getCharInfo().get(9) + "\t\t" +
+                myChar.getCharInfo().get(10) + "\t\t" +
+                myChar.getCharInfo().get(11) + "\t\t" +
+                myChar.getCharInfo().get(12)
             );
             charXPHPGoldField.setText(
-                "Hit Points: " + myChar.CharInfo.get(5) + "\t\t" +
-                mpOrApLabel + myChar.CharInfo.get(6) + "\t\t" +
-                "Gold: " + myChar.CharInfo.get(9) + "\t\t"
-           
-
-              );
-
+                "Hit Points: " + myChar.getCharInfo().get(5) + "\t\t" +
+                mpOrApLabel + myChar.getCharInfo().get(6) + "\t\t" +
+                "Gold: " + myChar.getCharInfo().get(9) + "\t\t"
+            );
         };
 
         timer = new Timer(1000, task);

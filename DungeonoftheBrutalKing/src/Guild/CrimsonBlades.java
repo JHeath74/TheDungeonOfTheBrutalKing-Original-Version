@@ -34,7 +34,7 @@ public class CrimsonBlades extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.Singleton();
-        ArrayList<String> inventory = character.CharInventory;
+        ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Crimson Blades Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -105,24 +105,7 @@ public class CrimsonBlades extends JPanel {
         });
     }
 
-    private void useSkill() {
-        Charecter character = Charecter.Singleton();
-        int actionPoints = character.getActionPoints();
-
-        if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to use skills.");
-            return;
-        }
-
-        if (actionPoints >= 10) {
-            actionPoints -= 10;
-            character.setActionPoints(actionPoints);
-            JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + actionPoints);
-        } else {
-            JOptionPane.showMessageDialog(this, "Not enough Action Points to use a skill!");
-        }
-    }
-
+   
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
         revalidate();
@@ -144,7 +127,7 @@ public class CrimsonBlades extends JPanel {
 
     public boolean removeGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = getGuildSpells();
+        ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
             return true;
@@ -154,12 +137,12 @@ public class CrimsonBlades extends JPanel {
 
     public int getGuildSpellsCount() {
         Charecter character = Charecter.Singleton();
-        return Charecter.GuildSpells.size();
+        return character.getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
         Charecter character = Charecter.Singleton();
-        ArrayList<String> guildSpells = Charecter.GuildSpells;
+        ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
         } else {
@@ -168,7 +151,30 @@ public class CrimsonBlades extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        Charecter.Singleton();
-		return new ArrayList<>(Charecter.GuildSpells);
+        Charecter character = Charecter.Singleton();
+        return new ArrayList<>(character.getGuildSpells());
     }
+    
+
+private void useSkill() {
+    Charecter character = Charecter.Singleton();
+    int actionPoints = character.getActionPoints();
+    int magicPoints = character.getMagicPoints();
+
+    if (!isMember) {
+        JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to use skills.");
+        return;
+    }
+
+    if (actionPoints >= 10) {
+        character.setActionPoints(actionPoints - 10);
+        JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + (actionPoints - 10));
+    } else if (magicPoints >= 10) {
+        character.setMagicPoints(magicPoints - 10);
+        JOptionPane.showMessageDialog(this, "You used a skill! Remaining Magic Points: " + (magicPoints - 10));
+    } else {
+        JOptionPane.showMessageDialog(this, "Not enough Action Points or Magic Points to use a skill!");
+    }
+}
+
 }

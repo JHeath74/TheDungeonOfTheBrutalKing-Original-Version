@@ -1,4 +1,3 @@
-
 package Spells;
 
 import DungeonoftheBrutalKing.Singleton;
@@ -8,9 +7,9 @@ public abstract class Port implements Spell {
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     String name = null;
-    int Wisdom = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(10));
-    int Intelligence = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(9));
-    int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().CharInfo.get(5));
+    int Wisdom = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(10));
+    int Intelligence = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(9));
+    int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(5));
 
     int minWisdom = 30;
     int minIntelligence = 30;
@@ -22,19 +21,16 @@ public abstract class Port implements Spell {
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
         if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
 
-        	int[] position = new int[3];
-			Singleton.myCharSingleton().getPosition(position);
+            int[] position = new int[3];
+            Singleton.myCharSingleton().getPosition(position);
 
-            // Access specific indices of the array
             int currentX = position[0];
             int currentY = position[1];
             int currentZ = position[2];
 
-            // Move character to the target position on the top level (z = 0)
             dungeon[currentZ][currentY][currentX] = 0; // Clear current position
             dungeon[targetZ][targetY][targetX] = 1; // Set new position
 
-            // Update character's position in Singleton
             Singleton.myCharSingleton().setPosition(targetX, targetY, targetZ);
 
             System.out.println("Teleported to (" + targetX + ", " + targetY + ", 0)!");

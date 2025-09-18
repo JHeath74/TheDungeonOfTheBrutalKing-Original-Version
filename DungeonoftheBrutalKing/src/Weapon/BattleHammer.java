@@ -7,24 +7,23 @@ public class BattleHammer extends WeaponManager {
 
     private static Charecter myChar = Charecter.Singleton();
 
-	private static double weight = 25.0;
-	private static double damage = 25.0;
-	private static String weaponName = "Battle Hammer";
+    private static int weight = 25;
+    private static int damage = 25;
 
     private static final int REQUIRED_STRENGTH = 15;
 
-    public BattleHammer(double damage, String effect) {
+    public BattleHammer(int damage, String effect) {
         super("Battle Axe", REQUIRED_STRENGTH, damage, effect, weight);
     }
 
-    public BattleHammer(int requiredStrength, double damage, String effect) {
+    public BattleHammer(int requiredStrength, int damage, String effect) {
         super("BattleHammer", requiredStrength, damage, effect, weight );
     }
 
-    public static BattleHammer createBattleHammer(Character character, double damage, String effect) throws NumberFormatException {
+    public static BattleHammer createBattleHammer(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
-            int strength = Integer.parseInt(myChar.CharInfo.get(8));
+            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
             if (strength >= requiredStrength) {
                 return new BattleHammer(damage, effect);
             }
@@ -36,28 +35,25 @@ public class BattleHammer extends WeaponManager {
 
     // Getters and Setters
     @Override
-	public String getName() {
+    public String getName() {
         return name;
     }
 
     public int getRequiredStrength() {
-        // Retrieve the strength from the Character class's CharInfo ArrayList at index 8 and parse as an int
         return REQUIRED_STRENGTH;
     }
 
-
     @Override
-	public double getDamage() {
-        return damage;
+    public double getDamage() {
+        return (double) damage;
     }
-
 
     public StatusEffect getEffect() {
         return super.getStatusEffect();
     }
 
     @Override
-	public void setEffect(String effect) {
+    public void setEffect(String effect) {
         super.setEffect(effect);
     }
 }
