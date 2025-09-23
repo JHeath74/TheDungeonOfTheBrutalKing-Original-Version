@@ -9,6 +9,9 @@ import java.util.Map;
 
 import DungeonoftheBrutalKing.TimeClock;
 
+/*Effect: Represents temporary changes (buffs, debuffs) with duration and expiration logic.
+EffectManager: Handles registration, updating, and removal of effects.*/
+
 /**
  * Manages the effects applied to entities in the game.
  * This class is responsible for registering, updating, and removing effects.

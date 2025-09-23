@@ -1,4 +1,3 @@
-
 // src/Enemies/Devourer.java
 package Enemies;
 
@@ -17,7 +16,9 @@ public class Devourer extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Devourer.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Devourer.png",
+            /* isMagicUser: Devourer is not a magic user */ false,
+            /* spellStrength: Devourer has no spell strength */ 0
         );
     }
 
@@ -38,7 +39,7 @@ public class Devourer extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int getAttackDamage() {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
     }
 

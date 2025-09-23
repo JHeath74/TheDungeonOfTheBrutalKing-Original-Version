@@ -8,45 +8,6 @@ import Quests.Quest;
 import Spells.SpellList;
 import Spells.Spells;
 
-
-/**
- * Charecter class
- * 
- * ArrayLists in this class:
- * - charInfo: Stores character attributes by index:
- *   0  - Name
- *   1  - (unused)
- *   2  - Race
- *   3  - Level
- *   4  - Experience
- *   5  - Hit Points
- *   6  - Magic Points
- *   7  - Stamina
- *   8  - Charisma
- *   9  - Strength
- *   10 - Intelligence
- *   11 - Wisdom
- *   12 - Agility
- *   13 - Gold
- *   14 - Food
- *   15 - Water
- *   16 - Torches
- *   17 - Gems
- *   18 - Weapon
- *   19 - Armor
- *   20 - Shield
- *   21 - Alignment
- *   22 - X position
- *   23 - Y position
- *   24 - Z position
- *   25 - Direction
- *   26 - Defense
- * - spellsLearned: List of learned spell names
- * - charInventory: List of inventory item names
- * - guildSpells: List of guild spell names
- */
-
-
 public class Charecter {
 
     private static final int NAME_IDX = 0;
@@ -187,12 +148,13 @@ public class Charecter {
     public EffectManager getEffectManager() { return effectManager; }
     public void setEffectManager(EffectManager em) { effectManager = em; }
 
-    public int getWeaponDamage() {
+    public int getAttackDamage() {
         int strength = getStrength();
-        int baseDamage = 0;
-        try { baseDamage = Integer.parseInt(getWeapon()); } catch (Exception e) {}
-        return baseDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+        int weaponDamage = 0;
+        try { weaponDamage = Integer.parseInt(getWeapon()); } catch (Exception e) {}
+        return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
     }
+
     public void reduceHitPoints(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
     public void reduceDefense(int amount) { setDefense(Math.max(0, getDefense() - amount)); }
     public boolean removeFood(int amount) {

@@ -17,7 +17,9 @@ public class Dwarves extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Dwarves.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Dwarves.png",
+            /* isMagicUser: Dwarves are not magic users */ false,
+            /* spellStrength: Dwarves have no spell strength */ 0
         );
     }
 
@@ -38,7 +40,7 @@ public class Dwarves extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int getAttackDamage() {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
     }
 

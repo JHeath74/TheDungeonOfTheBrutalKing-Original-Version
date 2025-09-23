@@ -1,5 +1,5 @@
-
 // src/Enemies/Enemies.java
+
 package Enemies;
 
 public class Enemies {
@@ -12,8 +12,10 @@ public class Enemies {
     private int intelligence;
     private int wisdom;
     private String imagePath;
+    private boolean isMagicUser;
+    private int spellStrength;
 
-    public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath) {
+    public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath, boolean isMagicUser, int spellStrength) {
         this.name = name;
         this.level = level;
         this.hitPoints = hitPoints;
@@ -23,9 +25,10 @@ public class Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.imagePath = imagePath;
+        this.isMagicUser = isMagicUser;
+        this.spellStrength = spellStrength;
     }
 
-    // Getters
     public String getName() { return name; }
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
@@ -35,51 +38,34 @@ public class Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public String getImagePath() { return imagePath; }
+    public boolean isMagicUser() { return isMagicUser; }
+    public int getSpellStrength() { return spellStrength; }
 
-    // Setters
-    public void setName(String name) { this.name = name; }
-    public void setLevel(int level) { this.level = level; }
     public void setHitPoints(int hitPoints) { this.hitPoints = hitPoints; }
-    public void setStrength(int strength) { this.strength = strength; }
-    public void setCharisma(int charisma) { this.charisma = charisma; }
-    public void setAgility(int agility) { this.agility = agility; }
-    public void setIntelligence(int intelligence) { this.intelligence = intelligence; }
-    public void setWisdom(int wisdom) { this.wisdom = wisdom; }
-    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
+    public void setMagicUser(boolean isMagicUser) { this.isMagicUser = isMagicUser; }
+    public void setSpellStrength(int spellStrength) { this.spellStrength = spellStrength; }
 
-    // Core methods
-    public void takeDamage(int damage) {
-        int actualDamage = defend(damage);
-        setHitPoints(getHitPoints() - actualDamage);
-        if (getHitPoints() < 0) setHitPoints(0);
+    public int getAttackDamage() {
+        if (isMagicUser) {
+            return (int)((strength * 1.2) + (spellStrength * 1.5) + (agility * 0.3));
+        } else {
+            return (int)((strength * 1.5) + (agility * 0.5));
+        }
     }
 
-    public int defend(int damage) {
-        double reduction = agility * 0.05;
-        int reducedDamage = (int) (damage * (1 - reduction));
-        return Math.max(reducedDamage, 0);
+    // Reduces hit points by the given amount, not below zero
+    public void takeDamage(int amount) {
+        hitPoints = Math.max(0, hitPoints - amount);
+    }
+
+    // Reduces incoming damage based on agility
+    public int defend(int incomingDamage) {
+        int reduction = agility / 4; // Example: agility reduces damage
+        int actualDamage = Math.max(0, incomingDamage - reduction);
+        return actualDamage;
     }
 
     public boolean isDead() {
-        return getHitPoints() <= 0;
-    }
-
-    public int attack() {
-        return (int) ((strength * 1.5) + (agility * 0.5));
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
-                ", level=" + level +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", charisma=" + charisma +
-                ", agility=" + agility +
-                ", intelligence=" + intelligence +
-                ", wisdom=" + wisdom +
-                ", imagePath='" + imagePath + '\'' +
-                '}';
+        return hitPoints <= 0;
     }
 }

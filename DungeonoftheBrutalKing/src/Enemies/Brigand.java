@@ -1,5 +1,3 @@
-
-// src/Enemies/Brigand.java
 package Enemies;
 
 import SharedData.GameSettings;
@@ -17,7 +15,9 @@ public class Brigand extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Brigand.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Brigand.png",
+            /* isMagicUser: Brigand is not a magic user */ false,
+            /* spellStrength: Brigand has no spell strength */ 0
         );
     }
 
@@ -38,7 +38,7 @@ public class Brigand extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int getAttackDamage() {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
     }
 

@@ -8,6 +8,9 @@ import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
 
+/*Status: Represents persistent or current state (e.g., poisoned, stunned, healthy).
+StatusManager: Manages the set of statuses for an entity (add, remove, query).*/
+
 /**
  * Manages the status effects applied to a character.
  * Handles adding, updating, removing, and retrieving statuses.
