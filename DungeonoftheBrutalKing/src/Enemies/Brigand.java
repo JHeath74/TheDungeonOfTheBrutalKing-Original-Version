@@ -1,5 +1,7 @@
+
 package Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class Brigand extends Enemies {
@@ -37,9 +39,16 @@ public class Brigand extends Enemies {
         return getHitPoints() <= 0;
     }
 
+    // Implement the required attack() method
     @Override
-    public int getAttackDamage() {
+    public int attack() {
+        // Simple attack logic: base damage from strength and agility
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+    }
+
+    // Helper method, not an override
+    public int getAttackDamage() {
+        return attack();
     }
 
     @Override
@@ -60,5 +69,15 @@ public class Brigand extends Enemies {
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
+    }
+    
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 }

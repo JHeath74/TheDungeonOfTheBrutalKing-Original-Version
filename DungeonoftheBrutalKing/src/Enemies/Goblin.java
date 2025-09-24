@@ -1,8 +1,7 @@
-
-// src/Enemies/Goblin.java
 package Enemies;
 
 import SharedData.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Goblin extends Enemies {
 
@@ -17,7 +16,9 @@ public class Goblin extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Goblin.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Goblin.png",
+            /* isMagicUser: Goblin is not a magic user */ false,
+            /* spellStrength: Goblin has no spell strength */ 0
         );
     }
 
@@ -45,6 +46,16 @@ public class Goblin extends Enemies {
     @Override
     public String getImagePath() {
         return super.getImagePath();
+    }
+
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override

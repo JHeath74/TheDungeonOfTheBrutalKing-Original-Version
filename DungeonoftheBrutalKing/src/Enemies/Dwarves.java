@@ -6,22 +6,22 @@ import SharedData.GameSettings;
 
 public class Dwarves extends Enemies {
 
-    // Constructor with comments for each variable
-    public Dwarves() {
-        super(
-            /* name: The type or identifier of the enemy */ "Dwarves",
-            /* level: The enemy's experience or difficulty level */ 1,
-            /* hitPoints: The enemy's health value */ 30,
-            /* strength: Physical attack power */ 8,
-            /* charisma: Social or persuasive ability */ 5,
-            /* agility: Speed and evasion capability */ 7,
-            /* intelligence: Problem-solving or magical ability */ 6,
-            /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Dwarves.png",
-            /* isMagicUser: Dwarves are not magic users */ false,
-            /* spellStrength: Dwarves have no spell strength */ 0
-        );
-    }
+	public Dwarves() {
+	    // Calls the superclass constructor with the following parameters:
+	    super(
+	        "Dwarves",                          // Name of the enemy
+	        1,                                  // Level
+	        30,                                 // Hit points
+	        8,                                  // Strength
+	        5,                                  // Charisma
+	        7,                                  // Agility
+	        6,                                  // Intelligence
+	        3,                                  // Wisdom
+	        GameSettings.MonsterImagePath + "Dwarves.png", // Image path
+	        false,                              // Is boss
+	        0                                   // Experience points
+	    );
+	}
 
     @Override
     public void takeDamage(int damage) {
@@ -62,5 +62,11 @@ public class Dwarves extends Enemies {
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
+    }
+
+    // Implementation of the abstract attack() method
+    @Override
+    public int attack() {
+        return getAttackDamage();
     }
 }

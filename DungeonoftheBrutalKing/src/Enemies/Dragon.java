@@ -1,37 +1,48 @@
-
-// src/Enemies/Dragon.java
 package Enemies;
 
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
+import Status.Fire;
 
 public class Dragon extends Enemies {
 
-    // Constructor with comments for each variable
-    public Dragon() {
-        super(
-            /* name: The type or identifier of the enemy */ "Dragon",
-            /* level: The enemy's experience or difficulty level */ 1,
-            /* hitPoints: The enemy's health value */ 30,
-            /* strength: Physical attack power */ 8,
-            /* charisma: Social or persuasive ability */ 5,
-            /* agility: Speed and evasion capability */ 7,
-            /* intelligence: Problem-solving or magical ability */ 6,
-            /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Dragon.png",
-            /* isMagicUser: Dragon is not a magic user */ false,
-            /* spellStrength: Dragon has no spell strength */ 0
-        );
-    }
+	public Dragon() {
+	    super(
+	        "Dragon",                  // Name
+	        1,                         // Level
+	        30,                        // Hit Points
+	        8,                         // Strength
+	        5,                         // Charisma
+	        7,                         // Agility
+	        6,                         // Intelligence
+	        3,                         // Wisdom
+	        GameSettings.MonsterImagePath + "Dragon.png", // Image path
+	        false,                     // Is boss
+	        0                          // Experience reward
+	    );
+	}
 
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) {
-            setHitPoints(0);
+        if (getHitPoints() < 0) setHitPoints(0);
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.\n");
+    }
+
+    public int attack(Charecter target) {
+        int damage = getAttackDamage();
+        double baseBurnChance = 0.3;
+        double defenseFactor = Math.max(0, 1.0 - (target.getDefense() / 100.0));
+        double finalBurnChance = baseBurnChance * defenseFactor;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage.\n");
+        target.takeDamage(damage);
+        if (Math.random() < finalBurnChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.\n");
+            Fire fireStatus = new Fire();
+            target.getEffectManager().addStatus(fireStatus, target);
         }
-        if (isDead()) {
-            System.out.println(getName() + " has died.");
-        }
+        return damage;
     }
 
     @Override
@@ -62,5 +73,20 @@ public class Dragon extends Enemies {
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
+    }
+
+    @Override
+    public int attack() {
+        throw new UnsupportedOperationException("Use attack(Charecter target) instead.");
+    }
+    
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".\n");
+        return reducedDamage;
     }
 }

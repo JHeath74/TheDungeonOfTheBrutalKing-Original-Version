@@ -1,8 +1,7 @@
-// src/Enemies/Enemies.java
 
 package Enemies;
 
-public class Enemies {
+public abstract class Enemies {
     private String name;
     private int level;
     private int hitPoints;
@@ -45,22 +44,14 @@ public class Enemies {
     public void setMagicUser(boolean isMagicUser) { this.isMagicUser = isMagicUser; }
     public void setSpellStrength(int spellStrength) { this.spellStrength = spellStrength; }
 
-    public int getAttackDamage() {
-        if (isMagicUser) {
-            return (int)((strength * 1.2) + (spellStrength * 1.5) + (agility * 0.3));
-        } else {
-            return (int)((strength * 1.5) + (agility * 0.5));
-        }
-    }
+    public abstract int attack();
 
-    // Reduces hit points by the given amount, not below zero
     public void takeDamage(int amount) {
         hitPoints = Math.max(0, hitPoints - amount);
     }
 
-    // Reduces incoming damage based on agility
     public int defend(int incomingDamage) {
-        int reduction = agility / 4; // Example: agility reduces damage
+        int reduction = agility / 4;
         int actualDamage = Math.max(0, incomingDamage - reduction);
         return actualDamage;
     }
@@ -68,4 +59,9 @@ public class Enemies {
     public boolean isDead() {
         return hitPoints <= 0;
     }
+
+	public int getAttackDamage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

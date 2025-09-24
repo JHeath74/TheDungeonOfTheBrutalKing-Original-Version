@@ -1,4 +1,3 @@
-
 // src/Enemies/Gremlin.java
 package Enemies;
 
@@ -17,9 +16,23 @@ public class Gremlin extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Gremlin.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Gremlin.png",
+            /* isMagicUser: Gremlin is not a magic user */ false,
+            /* spellStrength: Gremlin has no spell strength */ 0
         );
     }
+    
+
+public int defend(int incomingDamage) {
+    int baseDefense = 10;
+    int agility = getAgility();
+    int reductionPercent = (baseDefense + agility) / 2;
+    if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+    int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+    DungeonoftheBrutalKing.MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+    return reducedDamage;
+}
+
 
     @Override
     public void takeDamage(int damage) {

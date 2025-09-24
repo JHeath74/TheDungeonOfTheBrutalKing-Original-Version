@@ -14,7 +14,6 @@ import javax.swing.*;
 import Enemies.Enemies;
 import Enemies.MonsterSelector;
 import SharedData.GameSettings;
-import Spells.Spells;
 
 public class Combat {
 
@@ -37,92 +36,126 @@ public class Combat {
         myChar.setHitPoints(heroHP);
     }
 
-    public void combatEncounter() throws IOException, InterruptedException, ParseException {
-        combatPanel = new JPanel(new BorderLayout());
-        MainGameScreen.replaceWithAnyPanel(combatPanel);
 
-        myEnemies = MonsterSelector.selectRandomMonster();
-        if (myEnemies == null) {
-            JOptionPane.showMessageDialog(combatPanel, "No monster found!");
-            combatPanel.setVisible(true);
-            return;
-        }
+public void combatEncounter() throws IOException, InterruptedException, ParseException {
+    combatPanel = new JPanel(new GridBagLayout());
+    MainGameScreen.replaceWithAnyPanel(combatPanel);
 
-        // Image panel (fixed width)
-        combatImagePanel = new JPanel();
-        combatImagePanel.setPreferredSize(new Dimension(150, 200));
-        String imageDir = GameSettings.MonsterImagePath;
-        String enemyImageFile = new File(myEnemies.getImagePath()).getName();
-        File imageFile = new File(imageDir, enemyImageFile);
-
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(imageFile);
-            picLabel = (img == null) ? new JLabel("Image not found") : new JLabel(new ImageIcon(img));
-        } catch (IOException e) {
-            picLabel = new JLabel("Image not found");
-        }
-        picLabel.setPreferredSize(new Dimension(150, 200));
-        combatImagePanel.add(picLabel);
-
-        // Right panel (vertical layout)
-        combatRightPanel = new JPanel();
-        combatRightPanel.setLayout(new BoxLayout(combatRightPanel, BoxLayout.Y_AXIS));
-
-        combatNameAndHPPanel = new JPanel(new FlowLayout());
-        combatNameAndHPfield = new JTextArea(2, 40);
-        combatNameAndHPfield.setLineWrap(false);
-        combatNameAndHPfield.setEditable(false);
-        combatNameAndHPfield.setBackground(myGameSettings.getColorLightYellow());
-        combatNameAndHPPanel.setBackground(myGameSettings.getColorCoral());
-        combatNameAndHPPanel.add(combatNameAndHPfield);
-
-        combatUpdateInfoPanel = new JPanel();
-        combatMessageArea = new JTextArea(12, 40);
-        combatUpdateInfoPanel.add(combatMessageArea);
-
-        combatPanelButtons = new JPanel(new FlowLayout());
-        combatAttackButton = new JButton("Attack");
-        castSelectedSpellButton = new JButton("Cast Selected Spell");
-        selectSpellButton = new JButton("Select Spell to Cast");
-        combatRunButton = new JButton("Run Away!");
-        combatPanelButtons.add(combatAttackButton);
-        combatPanelButtons.add(castSelectedSpellButton);
-        combatPanelButtons.add(selectSpellButton);
-        combatPanelButtons.add(combatRunButton);
-
-        combatRightPanel.add(combatNameAndHPPanel);
-        combatRightPanel.add(combatUpdateInfoPanel);
-
-        combatPanel.add(combatImagePanel, BorderLayout.WEST);
-        combatPanel.add(combatRightPanel, BorderLayout.CENTER);
-        combatPanel.add(combatPanelButtons, BorderLayout.SOUTH);
-
-        updateNameAndHP();
-
-        timer = new Timer(1000, _ -> updateNameAndHP());
-        timer.setRepeats(true);
-        timer.start();
-
-        combatAttackButton.addActionListener(_ -> handleAttack());
-        selectSpellButton.addActionListener(_ -> handleSelectSpell());
-        castSelectedSpellButton.addActionListener(_ -> handleCastSpell());
-        combatRunButton.addActionListener(_ -> handleRun());
-
-        combatPanel.revalidate();
-        combatPanel.repaint();
+    myEnemies = MonsterSelector.selectRandomMonster();
+    if (myEnemies == null) {
+        JOptionPane.showMessageDialog(combatPanel, "No monster found!");
+        combatPanel.setVisible(true);
+        return;
     }
 
-    // --- Add missing methods below ---
+    JPanel playerPanel = new JPanel();
+    playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+    BufferedImage playerImg = null;
+    JLabel playerPicLabel;
 
-    private void updateNameAndHP() {
-        if (combatNameAndHPfield != null && myEnemies != null && myChar != null) {
-            combatNameAndHPfield.setText(
-                "Monster: " + myEnemies.getName() + " | HP: " + myEnemies.getHitPoints() +
-                "\nHero: " + myChar.getName() + " | HP: " + myChar.getHitPoints()
-            );
-        }
+try {
+    String playerClass = myChar.getClassName();
+    String imagePath;
+    switch (playerClass) {
+        case "Bard":
+            imagePath = GameSettings.ClassImagesPath + "bard.png";
+            break;
+        case "Cleric":
+            imagePath = GameSettings.ClassImagesPath + "cleric.png";
+            break;
+        case "Hunter":
+            imagePath = GameSettings.ClassImagesPath + "hunter.png";
+            break;
+        case "Paladin":
+            imagePath = GameSettings.ClassImagesPath + "paladin.png";
+            break;
+        case "Rogue":
+            imagePath = GameSettings.ClassImagesPath + "rogue.png";
+            break;
+        case "Warrior":
+            imagePath = GameSettings.ClassImagesPath + "warrior.png";
+            break;
+        case "Wizard":
+            imagePath = GameSettings.ClassImagesPath + "wizard.png";
+            break;
+        default:
+            imagePath = GameSettings.ClassImagesPath + "default.png";
+            break;
     }
+    playerImg = ImageIO.read(new File(imagePath));
+    playerPicLabel = (playerImg == null) ? new JLabel("Image not found") : new JLabel(new ImageIcon(playerImg));
+} catch (IOException e) {
+    playerPicLabel = new JLabel("Image not found");
+}
+
+    playerPicLabel.setPreferredSize(new Dimension(150, 200));
+    playerPanel.add(playerPicLabel);
+
+    JTextArea playerInfo = new JTextArea(
+        myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+    );
+    playerInfo.setEditable(false);
+    playerInfo.setBackground(new Color(255, 255, 220));
+    playerPanel.add(playerInfo);
+
+    JPanel enemyPanel = new JPanel();
+    enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
+    BufferedImage enemyImg = null;
+    JLabel enemyPicLabel;
+    try {
+        enemyImg = ImageIO.read(new File(myEnemies.getImagePath()));
+        enemyPicLabel = (enemyImg == null) ? new JLabel("Image not found") : new JLabel(new ImageIcon(enemyImg));
+    } catch (IOException e) {
+        enemyPicLabel = new JLabel("Image not found");
+    }
+    enemyPicLabel.setPreferredSize(new Dimension(150, 200));
+    enemyPanel.add(enemyPicLabel);
+
+    JTextArea enemyInfo = new JTextArea(
+        myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
+    );
+    enemyInfo.setEditable(false);
+    enemyInfo.setBackground(new Color(255, 255, 220));
+    enemyPanel.add(enemyInfo);
+
+    combatPanelButtons = new JPanel(new FlowLayout());
+    combatAttackButton = new JButton("Attack");
+    castSelectedSpellButton = new JButton("Cast Selected Spell");
+    selectSpellButton = new JButton("Select Spell to Cast");
+    combatRunButton = new JButton("Run Away!");
+    combatPanelButtons.add(combatAttackButton);
+    combatPanelButtons.add(castSelectedSpellButton);
+    combatPanelButtons.add(selectSpellButton);
+    combatPanelButtons.add(combatRunButton);
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(10, 10, 10, 10);
+
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.NORTH;
+    combatPanel.add(playerPanel, gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.NORTH;
+    combatPanel.add(enemyPanel, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    gbc.gridwidth = 2;
+    gbc.anchor = GridBagConstraints.CENTER;
+    combatPanel.add(combatPanelButtons, gbc);
+
+    combatPanel.revalidate();
+    combatPanel.repaint();
+
+    combatAttackButton.addActionListener(_ -> handleAttack());
+    selectSpellButton.addActionListener(_ -> handleSelectSpell());
+    castSelectedSpellButton.addActionListener(_ -> handleCastSpell());
+    combatRunButton.addActionListener(_ -> handleRun());
+}
+
 
 
 private void handleAttack() {
@@ -142,7 +175,13 @@ private void handleAttack() {
 }
 
 
-    private void handleSelectSpell() {
+    private void updateNameAndHP() {
+	// TODO Auto-generated method stub
+	
+}
+
+
+	private void handleSelectSpell() {
         combatMessageArea.append("Select Spell button pressed.\n");
     }
 

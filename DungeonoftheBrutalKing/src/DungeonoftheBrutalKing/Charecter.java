@@ -7,10 +7,12 @@ import Effect.EffectManager;
 import Quests.Quest;
 import Spells.SpellList;
 import Spells.Spells;
+import Status.Status;
 
 public class Charecter {
 
     private static final int NAME_IDX = 0;
+    private static final int CLASS_IDX = 1;
     private static final int RACE_IDX = 2;
     private static final int LEVEL_IDX = 3;
     private static final int EXP_IDX = 4;
@@ -36,6 +38,7 @@ public class Charecter {
     private static final int Z_IDX = 24;
     private static final int DIRECTION_IDX = 25;
     private static final int DEFENSE_IDX = 26;
+    private static final int ATTACK_IDX = 27;
 
     private static Charecter instance;
     private EffectManager effectManager = new EffectManager();
@@ -109,7 +112,8 @@ public class Charecter {
     public double getDirection() { return Double.parseDouble(getStr(DIRECTION_IDX)); }
     public int getDefense() { return getInt(DEFENSE_IDX, 0); }
     public void setDefense(int defense) { setInt(DEFENSE_IDX, defense); }
-
+    public void setAttack(int attack) { setInt(STRENGTH_IDX, attack); }
+    public int getAttack() {return getInt(ATTACK_IDX, 0);    }
     public int getActionPoints() { return actionPoints; }
     public void setActionPoints(int points) { actionPoints = points; }
     public boolean consumeSkillPoints(int cost) {
@@ -130,7 +134,14 @@ public class Charecter {
         pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
     }
 
-    public ArrayList<String> getCharInventory() { return charInventory; }
+    public ArrayList<String> getCharInventory() {
+        return charInventory;
+    }
+
+    public void setCharInventory(ArrayList<String> inventory) {
+        this.charInventory = inventory;
+    }
+
     public void addToInventory(String item) {
         if (!charInventory.contains(item)) charInventory.add(item);
     }
@@ -148,11 +159,27 @@ public class Charecter {
     public EffectManager getEffectManager() { return effectManager; }
     public void setEffectManager(EffectManager em) { effectManager = em; }
 
-    public int getAttackDamage() {
-        int strength = getStrength();
-        int weaponDamage = 0;
-        try { weaponDamage = Integer.parseInt(getWeapon()); } catch (Exception e) {}
-        return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+
+public int getAttackDamage() {
+    int strength = getStrength();
+    int weaponDamage = 0;
+    // Replace this with your actual weapon damage lookup if needed
+    try { 
+        weaponDamage = Integer.parseInt(getWeapon()); 
+    } catch (Exception e) {
+        weaponDamage = 0; // or look up weapon damage by name
+    }
+    return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+}
+
+
+    public void calculateAndSetAttack() {
+        int baseAttack = 5;
+        int strMod = (int) ((getStrength() - 10) / 2.0);
+        int weaponBonus = 0;
+        try { weaponBonus = Integer.parseInt(getWeapon()); } catch (Exception e) {}
+        int attack = baseAttack + strMod + weaponBonus;
+        setInt(ATTACK_IDX, attack);
     }
 
     public void reduceHitPoints(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
@@ -214,7 +241,7 @@ public class Charecter {
     }
 
     public String getClassName() {
-        return getStr(RACE_IDX);
+        return getStr(CLASS_IDX);
     }
 
     public String getEquippedWeapon() {
@@ -228,4 +255,19 @@ public class Charecter {
     public String getEquippedShield() {
         return getStr(SHIELD_IDX);
     }
+
+    public void setCanAct(boolean b) {
+        // TODO Auto-generated method stub
+    }
+
+	public void addStatus(Status status) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
+public void takeDamage(int amount) {
+    reduceHitPoints(amount);
+}
+
 }

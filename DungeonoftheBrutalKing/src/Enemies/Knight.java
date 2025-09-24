@@ -1,4 +1,3 @@
-
 // src/Enemies/Knight.java
 package Enemies;
 
@@ -17,7 +16,9 @@ public class Knight extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Knight.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Knight.png",
+            /* isMagicUser: Knight is not a magic user */ false,
+            /* spellStrength: Knight has no spell strength */ 0
         );
     }
 
@@ -40,6 +41,17 @@ public class Knight extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+    }
+
+    // Defend method: reduces incoming damage based on agility and a base defense
+    public int defend(int incomingDamage) {
+        int baseDefense = 12;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override

@@ -1,8 +1,8 @@
 
-// src/Enemies/Ghost.java
 package Enemies;
 
 import SharedData.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Ghost extends Enemies {
 
@@ -11,13 +11,15 @@ public class Ghost extends Enemies {
         super(
             /* name: The type or identifier of the enemy */ "Ghost",
             /* level: The enemy's experience or difficulty level */ 1,
-            /* hitPoints: The enemy's health value */ 30,
-            /* strength: Physical attack power */ 8,
-            /* charisma: Social or persuasive ability */ 5,
-            /* agility: Speed and evasion capability */ 7,
-            /* intelligence: Problem-solving or magical ability */ 6,
-            /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Ghost.png"
+            /* hitPoints: The enemy's health value */ 20,
+            /* strength: Physical attack power */ 5,
+            /* charisma: Social or persuasive ability */ 4,
+            /* agility: Speed and evasion capability */ 10,
+            /* intelligence: Problem-solving or magical ability */ 8,
+            /* wisdom: Decision-making or resistance to effects */ 7,
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Ghost.png",
+            /* isMagicUser: Ghost is not a magic user */ false,
+            /* spellStrength: Ghost has no spell strength */ 0
         );
     }
 
@@ -28,7 +30,7 @@ public class Ghost extends Enemies {
             setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -38,8 +40,16 @@ public class Ghost extends Enemies {
     }
 
     @Override
+    public int getAttackDamage() {
+        return (int) ((getStrength() * 1.2) + (getAgility() * 0.8));
+    }
+
+    // Implementation of the abstract attack() method
+    @Override
     public int attack() {
-        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+        int damage = getAttackDamage();
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks with a chilling touch for " + damage + " damage!");
+        return damage;
     }
 
     @Override

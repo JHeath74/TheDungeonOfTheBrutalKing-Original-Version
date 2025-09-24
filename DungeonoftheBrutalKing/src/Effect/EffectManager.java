@@ -7,7 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
+import Status.Fire;
+import Status.Status;
 
 /*Effect: Represents temporary changes (buffs, debuffs) with duration and expiration logic.
 EffectManager: Handles registration, updating, and removal of effects.*/
@@ -102,6 +105,14 @@ public class EffectManager {
          }
      }
  }
+
+
+//EffectManager.java
+public void addStatus(Status status, Charecter target) {
+  target.addStatus(status);      // Store the status on the character
+  status.applyEffect(target);    // Apply the effect (attack reduction, fire damage)
+}
+
 
 
 

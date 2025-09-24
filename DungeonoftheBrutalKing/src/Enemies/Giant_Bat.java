@@ -1,7 +1,7 @@
 
-// src/Enemies/Giant_bat.java
 package Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class Giant_Bat extends Enemies {
@@ -17,7 +17,9 @@ public class Giant_Bat extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Giant_bat.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Giant_bat.png",
+            /* isMagicUser: Giant Bat is not a magic user */ false,
+            /* spellStrength: Giant Bat has no spell strength */ 0
         );
     }
 
@@ -46,10 +48,23 @@ public class Giant_Bat extends Enemies {
     public String getImagePath() {
         return super.getImagePath();
     }
+    
+
+@Override
+public int defend(int incomingDamage) {
+    int baseDefense = 5;
+    int agility = getAgility();
+    int reductionPercent = baseDefense + agility;
+    if (reductionPercent > 60) reductionPercent = 60; // Cap at 60%
+    int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+    MainGameScreen.appendToMessageTextPane(getName() + " dodges and reduces damage to " + reducedDamage + ".");
+    return reducedDamage;
+}
+
 
     @Override
     public String toString() {
-        return "Giant_bat{" +
+        return "Giant_Bat{" +
                 "name='" + getName() + '\'' +
                 ", level=" + getLevel() +
                 ", hitPoints=" + getHitPoints() +

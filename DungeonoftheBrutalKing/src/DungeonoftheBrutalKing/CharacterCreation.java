@@ -68,6 +68,22 @@ public class CharacterCreation {
 
     public CharacterCreation() throws IOException, InterruptedException {}
 
+    // Method to set stats, calculate defense and attack, and return them
+    private int[] setAndCalculateStats(Integer[] stat, String armour, String shield, String weapon) {
+        myChar.setAgility(stat[5]);
+        myChar.setStrength(stat[2]);
+        myChar.setArmour(armour);
+        myChar.setShield(shield);
+        myChar.setWeapon(weapon);
+
+        myChar.calculateAndSetDefense();
+        myChar.calculateAndSetAttack();
+
+        int defense = myChar.getDefense();
+        int attack = myChar.getAttackDamage();
+        return new int[] { defense, attack };
+    }
+
     public void createCharector() {
         size = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) size.getWidth();
@@ -229,27 +245,31 @@ public class CharacterCreation {
                     saveData.add("");   // 18: Character's equipped weapon (String)
                     saveData.add("");   // 19: Character's equipped armor (String)
                     saveData.add("");   // 20: Character's equipped shield (String)
-                    saveData.add("0");  // 21: Character's alignment (int as String)                   
+                    saveData.add("0");  // 21: Character's alignment (int as String)
                     saveData.add("2"); // 22: Character's X position (int as String)
                     saveData.add("3"); // 23: Character's Y position (int as String)
                     saveData.add("1"); // 24: Character's Z position (int as String)
                     saveData.add("180.0"); // 25: Character's starting orientation (double as String)
 
+                    // Calculate defense and attack using the helper method
+                    int[] results = setAndCalculateStats(stat, "", "", "");
+                    int defense = results[0];
+                    int attack = results[1];
 
-                    
+                    saveData.add(String.valueOf(defense)); // 26: Defense
+                    saveData.add(String.valueOf(attack));  // 27: Attack
+
                     System.out.println("Final Save Data:");
-                    
+
                     for (int i = 0; i < saveData.size(); i++) {
                         System.out.println("Index " + i + ": " + saveData.get(i));
                     }
-                    
+
                     // Write to file
                     for (String str : saveData) {
                         writer.write(str + System.lineSeparator());
                     }
                     writer.close();
-
-                 //   
 
                     CharecterCreationFrame.dispose();
                     new MainGameScreen();
