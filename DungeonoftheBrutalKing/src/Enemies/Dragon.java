@@ -3,7 +3,7 @@ package Enemies;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
-import Status.Fire;
+import Status.FireStatus;
 
 public class Dragon extends Enemies {
 
@@ -39,7 +39,7 @@ public class Dragon extends Enemies {
         target.takeDamage(damage);
         if (Math.random() < finalBurnChance) {
             MainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.\n");
-            Fire fireStatus = new Fire();
+            FireStatus fireStatus = new FireStatus();
             target.getEffectManager().addStatus(fireStatus, target);
         }
         return damage;

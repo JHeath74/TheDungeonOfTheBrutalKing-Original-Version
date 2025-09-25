@@ -3,10 +3,10 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class Poison extends Status {
+public class PoisonStatus extends Status {
     private static final int POISON_DAMAGE = 5; // HP lost per turn
 
-    public Poison(int duration) {
+    public PoisonStatus(int duration) {
         super("Poison", duration);
     }
 

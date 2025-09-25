@@ -4,10 +4,10 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class Frozen extends Status {
+public class IceStatus extends Status {
     private static final int DURATION_MINUTES = 5; // set your desired duration
 
-    public Frozen() {
+    public IceStatus() {
         super("Frozen", DURATION_MINUTES);
     }
 

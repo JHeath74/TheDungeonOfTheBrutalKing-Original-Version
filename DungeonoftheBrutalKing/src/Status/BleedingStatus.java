@@ -4,11 +4,11 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class Bleeding extends Status {
+public class BleedingStatus extends Status {
     private static final int DURATION_MINUTES = 5; // example duration
     private static final int HP_LOSS_PER_TURN = 5;
 
-    public Bleeding() {
+    public BleedingStatus() {
         super("Bleeding", DURATION_MINUTES);
     }
 

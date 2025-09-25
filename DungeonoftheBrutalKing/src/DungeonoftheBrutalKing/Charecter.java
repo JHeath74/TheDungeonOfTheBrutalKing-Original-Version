@@ -39,6 +39,11 @@ public class Charecter {
     private static final int DIRECTION_IDX = 25;
     private static final int DEFENSE_IDX = 26;
     private static final int ATTACK_IDX = 27;
+    
+
+    private double hitChance = 1.0;
+    private double originalHitChance = 1.0;
+
 
     private static Charecter instance;
     private EffectManager effectManager = new EffectManager();
@@ -269,5 +274,43 @@ public int getAttackDamage() {
 public void takeDamage(int amount) {
     reduceHitPoints(amount);
 }
+
+public double getHitChance() {
+    return hitChance;
+}
+
+public void setHitChance(double hitChance) {
+    this.hitChance = Math.max(0.0, Math.min(1.0, hitChance));
+}
+
+//src/DungeonoftheBrutalKing/Charecter.java
+public double calculateHitChance(boolean isMagicUser) {
+    if (isMagicUser) {
+        double wis = getWisdom();
+        double intel = getIntelligence();
+        return Math.max(0.1, Math.min(1.0, (wis + intel) / 40.0));
+    } else {
+        double agi = getAgility();
+        double str = getStrength();
+        return Math.max(0.1, Math.min(1.0, (agi + str) / 40.0));
+    }
+}
+
+// Updates and stores the base hit chance
+public void updateOriginalHitChance(boolean isMagicUser) {
+    originalHitChance = calculateHitChance(isMagicUser);
+    setHitChance(originalHitChance);
+}
+
+// Applies a status effect modifier to hit chance
+public void applyStatusToHitChance(double modifier) {
+    setHitChance(originalHitChance * modifier);
+}
+
+// Resets hit chance to the original value
+public void resetHitChance() {
+    setHitChance(originalHitChance);
+}
+
 
 }

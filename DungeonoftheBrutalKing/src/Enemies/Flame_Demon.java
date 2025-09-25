@@ -4,7 +4,7 @@ package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
-import Status.Fire;
+import Status.FireStatus;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Flame_Demon extends Enemies {
@@ -56,7 +56,7 @@ public class Flame_Demon extends Enemies {
         boolean fireStatusApplied = Math.random() < 0.3; // 30% chance
         if (fireStatusApplied) {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks with Fire Sword and applies fire status!");
-            target.addStatus(new Fire());
+            target.addStatus(new FireStatus());
         } else {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks with Fire Sword.");
         }

@@ -9,7 +9,7 @@ import java.util.Map;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
-import Status.Fire;
+import Status.FireStatus;
 import Status.Status;
 
 /*Effect: Represents temporary changes (buffs, debuffs) with duration and expiration logic.

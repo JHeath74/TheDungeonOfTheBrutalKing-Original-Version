@@ -29,7 +29,7 @@ public class Horned_Devil extends Enemies {
             setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(getName() + " has died.");
+        	MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 

@@ -13,6 +13,7 @@ public abstract class Enemies {
     private String imagePath;
     private boolean isMagicUser;
     private int spellStrength;
+    protected int maxHitPoints;
 
     public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath, boolean isMagicUser, int spellStrength) {
         this.name = name;
@@ -26,6 +27,8 @@ public abstract class Enemies {
         this.imagePath = imagePath;
         this.isMagicUser = isMagicUser;
         this.spellStrength = spellStrength;
+        this.hitPoints = hitPoints;
+        this.maxHitPoints = hitPoints;
     }
 
     public String getName() { return name; }
@@ -59,9 +62,18 @@ public abstract class Enemies {
     public boolean isDead() {
         return hitPoints <= 0;
     }
+    
+    public int getMaxHitPoints() {
+        return maxHitPoints;
+    }
 
-	public int getAttackDamage() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
+public int getAttackDamage() {
+    int baseDamage = (int) ((strength * 1.5) + (agility * 0.5));
+    if (isMagicUser) {
+        baseDamage += spellStrength;
+    }
+    return baseDamage;
+}
+
 }

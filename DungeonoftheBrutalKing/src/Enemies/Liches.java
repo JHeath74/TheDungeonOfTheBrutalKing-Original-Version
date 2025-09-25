@@ -2,6 +2,7 @@
 // src/Enemies/Liches.java
 package Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class Liches extends Enemies {
@@ -17,7 +18,9 @@ public class Liches extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Liches.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Liches.png",
+            /* isMagicUser: Liches are magic users */ true,
+            /* spellStrength: Liches have spell strength */ 10
         );
     }
 
@@ -28,7 +31,7 @@ public class Liches extends Enemies {
             setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(getName() + " has died.");
+        	MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -39,7 +42,18 @@ public class Liches extends Enemies {
 
     @Override
     public int attack() {
-        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5) + (isMagicUser() ? getSpellStrength() : 0));
+    }
+
+    // Defend method: reduces incoming damage based on agility and a base defense
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -59,6 +73,8 @@ public class Liches extends Enemies {
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 }

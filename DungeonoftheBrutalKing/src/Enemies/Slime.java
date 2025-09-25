@@ -3,6 +3,9 @@
 package Enemies;
 
 import SharedData.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
+import Status.PoisonStatus;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Slime extends Enemies {
 
@@ -17,7 +20,9 @@ public class Slime extends Enemies {
             /* agility: Speed and evasion capability */ 2,
             /* intelligence: Problem-solving or magical ability */ 1,
             /* wisdom: Decision-making or resistance to effects */ 1,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Slime.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Slime.png",
+            /* isMagicUser: Slime is not a magic user */ false,
+            /* spellStrength: Slime has no spell strength */ 0
         );
     }
 
@@ -28,7 +33,7 @@ public class Slime extends Enemies {
             setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -40,6 +45,29 @@ public class Slime extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.2) + (getAgility() * 0.4));
+    }
+
+    // Attack with a chance to apply poison status effect
+    public int attack(Charecter target) {
+        boolean poisonApplied = Math.random() < 0.2; // 20% chance
+        if (poisonApplied) {
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies poison!");
+            target.addStatus(new PoisonStatus(2)); // Poison for 2 turns
+        } else {
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks.");
+        }
+        return attack();
+    }
+
+    // Defend method: reduces incoming damage based on agility and a base defense
+    public int defend(int incomingDamage) {
+        int baseDefense = 8;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -59,6 +87,8 @@ public class Slime extends Enemies {
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 }

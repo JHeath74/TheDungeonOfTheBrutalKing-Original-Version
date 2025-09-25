@@ -4,10 +4,10 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class ReduceDefense extends Status {
+public class ReduceDefenseStatus extends Status {
     private static final int DURATION_MINUTES = 3; // example duration
 
-    public ReduceDefense() {
+    public ReduceDefenseStatus() {
         super("ReduceDefense", DURATION_MINUTES);
     }
 

@@ -1,5 +1,5 @@
 
-// src/Enemies/Waith.java
+// src/Enemies/Wraith.java
 package Enemies;
 
 import SharedData.GameSettings;
@@ -9,7 +9,7 @@ public class Wraith extends Enemies {
     // Constructor with comments for each variable
     public Wraith() {
         super(
-            /* name: The type or identifier of the enemy */ "Waith",
+            /* name: The type or identifier of the enemy */ "Wraith",
             /* level: The enemy's experience or difficulty level */ 1,
             /* hitPoints: The enemy's health value */ 26,
             /* strength: Physical attack power */ 5,
@@ -17,7 +17,9 @@ public class Wraith extends Enemies {
             /* agility: Speed and evasion capability */ 6,
             /* intelligence: Problem-solving or magical ability */ 8,
             /* wisdom: Decision-making or resistance to effects */ 4,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Waith.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Wraith.png",
+            /* isMagicUser: Wraith is a magic user */ true,
+            /* spellStrength: Wraith's spell strength */ 5
         );
     }
 
@@ -39,8 +41,19 @@ public class Wraith extends Enemies {
 
     @Override
     public int attack() {
-        // Waith relies more on intelligence and charisma for attack
-        return (int) ((getIntelligence() * 1.0) + (getCharisma() * 1.0));
+        // Wraith relies more on intelligence and charisma for attack
+        return (int) ((getIntelligence() * 1.0) + (getCharisma() * 1.0) + getSpellStrength());
+    }
+
+    // Defend method: reduces incoming damage based on agility and a base defense
+    public int defend(int incomingDamage) {
+        int baseDefense = 8;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -50,7 +63,7 @@ public class Wraith extends Enemies {
 
     @Override
     public String toString() {
-        return "Waith{" +
+        return "Wraith{" +
                 "name='" + getName() + '\'' +
                 ", level=" + getLevel() +
                 ", hitPoints=" + getHitPoints() +
@@ -60,6 +73,8 @@ public class Wraith extends Enemies {
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 }

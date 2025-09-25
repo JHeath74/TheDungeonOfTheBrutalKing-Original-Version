@@ -1,8 +1,10 @@
 
-// src/Enemies/Mage.java
 package Enemies;
 
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
+import Status.Status;
 
 public class Mage extends Enemies {
 
@@ -17,7 +19,9 @@ public class Mage extends Enemies {
             /* agility: Speed and evasion capability */ 8,
             /* intelligence: Problem-solving or magical ability */ 10,
             /* wisdom: Decision-making or resistance to effects */ 7,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Mage.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Mage.png",
+            /* isMagicUser: Mage is a magic user */ true,
+            /* spellStrength: Mage has spell strength */ 12
         );
     }
 
@@ -37,9 +41,30 @@ public class Mage extends Enemies {
         return getHitPoints() <= 0;
     }
 
+    // Required override: returns attack damage
     @Override
     public int attack() {
-        return (int) ((getIntelligence() * 1.5) + (getAgility() * 0.5));
+        return (int) ((getIntelligence() * 1.5) + (getAgility() * 0.5) + (isMagicUser() ? getSpellStrength() : 0));
+    }
+
+    // Custom attack with fireball and status effect
+    public void attack(Charecter target, Status fireStatus) {
+        int spellDamage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks with a fireball for " + spellDamage + " damage!");
+        target.takeDamage(spellDamage);
+        fireStatus.applyEffect(target);
+        MainGameScreen.appendToMessageTextPane(getName() + " attempts to apply " + fireStatus.getName() + " effect!");
+    }
+
+    // Defend method: reduces incoming damage based on agility and a base defense
+    public int defend(int incomingDamage) {
+        int baseDefense = 8;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -59,6 +84,8 @@ public class Mage extends Enemies {
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 }

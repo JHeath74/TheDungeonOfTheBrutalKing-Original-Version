@@ -38,4 +38,13 @@ public abstract class Status {
     public String toString() {
         return name + " (" + duration + ")";
     }
+
+
+ // src/Status/Status.java
+ public void expireEffect(Charecter character) {
+     character.resetHitChance();
+     // Reset other attributes if they were modified by this status
+     // e.g., character.resetDefense(), character.resetAttack(), etc.
+ }
+
 }

@@ -1,13 +1,12 @@
 
-// src/Enemies/Whirlwind.java
+// Whirlwind.java
 package Enemies;
 
 import SharedData.GameSettings;
 
 public class Whirlwind extends Enemies {
 
-    // Constructor with comments for each variable
-    public Whirlwind() {
+	public Whirlwind() {
         super(
             /* name: The type or identifier of the enemy */ "Whirlwind",
             /* level: The enemy's experience or difficulty level */ 1,
@@ -17,9 +16,12 @@ public class Whirlwind extends Enemies {
             /* agility: Speed and evasion capability */ 9,
             /* intelligence: Problem-solving or magical ability */ 5,
             /* wisdom: Decision-making or resistance to effects */ 2,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Whirlwind.png"
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Whirlwind.png",
+            /* isMagicUser: Whirlwind is not a magic user */ false,
+            /* spellStrength: Whirlwind has no spell strength */ 0
         );
     }
+
 
     @Override
     public void takeDamage(int damage) {
@@ -39,7 +41,6 @@ public class Whirlwind extends Enemies {
 
     @Override
     public int attack() {
-        // Whirlwind relies more on agility for attack
         return (int) ((getStrength() * 1.0) + (getAgility() * 1.0));
     }
 
