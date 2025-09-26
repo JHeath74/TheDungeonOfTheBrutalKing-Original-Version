@@ -174,16 +174,20 @@ public void render() {
 
 
 private void initializeTextures() {
-    textures.add(Texture.brick);      // 1
+	textures.add(Texture.GreyDungeonWall); // 1
+    
     textures.add(Texture.stone);      // 2
     textures.add(Texture.wood);       // 3
     textures.add(Texture.bluestone);  // 4
-    textures.add(Texture.door);       // 5
+    textures.add(Texture.GreyDungeonDoor); //5
+    
     textures.add(Texture.door2);      // 6
     textures.add(Texture.stairsup);   // 7
     textures.add(Texture.stairsdown); // 8
     textures.add(Texture.stairsdownwithgate); // 9
     textures.add(Texture.downstairsdownwithgateandtorches);//10
+    textures.add(Texture.door);         // 11
+    textures.add(Texture.brick);      // 12
 }
 
 }

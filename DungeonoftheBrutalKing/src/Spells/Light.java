@@ -12,8 +12,8 @@ public abstract class Light implements Spell {
         int requiredint = 30;
         int requiredwis = 30;
 
-        String charintelligence = Charecter.Singleton().getCharInfo().get(8).toString();
-        String charwisdom = Charecter.Singleton().getCharInfo().get(9).toString();
+        String charintelligence = Charecter.getInstance().getCharInfo().get(8).toString();
+        String charwisdom = Charecter.getInstance().getCharInfo().get(9).toString();
     }
 
     @Override

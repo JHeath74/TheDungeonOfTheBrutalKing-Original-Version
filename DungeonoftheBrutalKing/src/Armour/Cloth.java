@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Cloth extends ArmourManager {
 
-    private static Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 

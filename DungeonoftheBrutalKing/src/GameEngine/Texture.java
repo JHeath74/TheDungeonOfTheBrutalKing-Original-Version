@@ -48,5 +48,7 @@ public class Texture {
     public static Texture stairsup = new Texture(GameSettings.DungeonStairsTexturePath+"stairsup.png", 64); // map value 7
     public static Texture stairsdown = new Texture(GameSettings.DungeonStairsTexturePath+"stairsdown.png", 64); // map value 8
     public static Texture stairsdownwithgate = new Texture(GameSettings.DungeonStairsTexturePath+"downstairswithgate.png", 64); // map value 9
-    public static Texture downstairsdownwithgateandtorches = new Texture(GameSettings.DungeonStairsTexturePath+"downstairswithgateandtorches.png", 64); // map value 0
+    public static Texture downstairsdownwithgateandtorches = new Texture(GameSettings.DungeonStairsTexturePath+"downstairswithgateandtorches.png", 64); // map value 10
+    public static Texture GreyDungeonDoor = new Texture(GameSettings.DungeonDoorTexturePath +"GreyDungeonDoor.png", 64); // map value 11
+    public static Texture GreyDungeonWall = new Texture(GameSettings.DungeonWallTexturePath +"GreyDungeonWall.png", 64); // map value 12
 }

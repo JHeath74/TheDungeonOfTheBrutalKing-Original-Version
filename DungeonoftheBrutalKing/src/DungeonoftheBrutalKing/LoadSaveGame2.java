@@ -13,7 +13,7 @@ import SharedData.GameSettings;
 
 public class LoadSaveGame2 {
 
-    Charecter myChar = Charecter.Singleton();
+    Charecter myChar = Charecter.getInstance();
     GameSettings myGameSettings = GameSettings.Singleton();
 
     public void saveGameWithEncryption() throws IOException {

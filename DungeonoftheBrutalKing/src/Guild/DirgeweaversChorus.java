@@ -32,7 +32,7 @@ public class DirgeweaversChorus extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Dirgeweavers Chorus Guild Ring")) {
@@ -105,7 +105,7 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -164,7 +164,7 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
@@ -174,12 +174,12 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         return character.getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
@@ -189,7 +189,7 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         return new ArrayList<>(character.getGuildSpells());
     }
 }

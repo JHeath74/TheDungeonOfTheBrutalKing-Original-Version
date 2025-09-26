@@ -6,6 +6,8 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class WarNet extends WeaponManager {
 
+	private static Charecter myChar = Charecter.getInstance();
+	
     private static final int WEIGHT = 25;
     private static final int REQUIRED_STRENGTH = 30;
 

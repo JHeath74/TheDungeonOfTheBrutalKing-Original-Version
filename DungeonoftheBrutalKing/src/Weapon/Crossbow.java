@@ -5,7 +5,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Crossbow extends WeaponManager {
 
-    private static Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static final int REQUIRED_STRENGTH = 15;
     private static int weight = 20;

@@ -1,13 +1,8 @@
-
 package DungeonoftheBrutalKing;
 
 import java.util.*;
 
-import Effect.EffectManager;
 import Quests.Quest;
-import Spells.SpellList;
-import Spells.Spells;
-import Status.Status;
 
 public class Charecter {
 
@@ -39,14 +34,12 @@ public class Charecter {
     private static final int DIRECTION_IDX = 25;
     private static final int DEFENSE_IDX = 26;
     private static final int ATTACK_IDX = 27;
-    
 
     private double hitChance = 1.0;
     private double originalHitChance = 1.0;
 
-
     private static Charecter instance;
-    private EffectManager effectManager = new EffectManager();
+    private Object effectManager = null; // Replace with EffectManager when available
     private List<String> activeEffects = new ArrayList<>();
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(27, "0"));
     private ArrayList<String> spellsLearned = new ArrayList<>();
@@ -55,12 +48,14 @@ public class Charecter {
     private List<Quest> activeQuests = new ArrayList<>();
     private int actionPoints = 100;
 
-    public static Charecter Singleton() {
-        if (instance == null) instance = new Charecter();
+    public Charecter() {}
+
+    public static Charecter getInstance() {
+        if (instance == null) {
+            instance = new Charecter();
+        }
         return instance;
     }
-
-    public Charecter() {}
 
     private int getInt(int idx, int def) {
         try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; }
@@ -118,7 +113,7 @@ public class Charecter {
     public int getDefense() { return getInt(DEFENSE_IDX, 0); }
     public void setDefense(int defense) { setInt(DEFENSE_IDX, defense); }
     public void setAttack(int attack) { setInt(STRENGTH_IDX, attack); }
-    public int getAttack() {return getInt(ATTACK_IDX, 0);    }
+    public int getAttack() { return getInt(ATTACK_IDX, 0); }
     public int getActionPoints() { return actionPoints; }
     public void setActionPoints(int points) { actionPoints = points; }
     public boolean consumeSkillPoints(int cost) {
@@ -156,27 +151,31 @@ public class Charecter {
     public ArrayList<String> getGuildSpells() { return guildSpells; }
     public void setGuildSpells(ArrayList<String> spells) { guildSpells = spells; }
     public List<String> getActiveEffects() { return activeEffects; }
+    public void setActiveEffects(List<String> activeEffects) { this.activeEffects = activeEffects; }
+    public Object getEffectManager() { return effectManager; }
+    public void setEffectManager(Object em) { effectManager = em; }
+
     public List<Quest> getActiveQuests() { return activeQuests; }
-    public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
-    public boolean removeActiveQuest(Quest quest) { return activeQuests.remove(quest); }
-    public void addEffect(String effect) { if (!activeEffects.contains(effect)) activeEffects.add(effect); }
-    public void removeEffect(String effect) { activeEffects.remove(effect); }
-    public EffectManager getEffectManager() { return effectManager; }
-    public void setEffectManager(EffectManager em) { effectManager = em; }
-
-
-public int getAttackDamage() {
-    int strength = getStrength();
-    int weaponDamage = 0;
-    // Replace this with your actual weapon damage lookup if needed
-    try { 
-        weaponDamage = Integer.parseInt(getWeapon()); 
-    } catch (Exception e) {
-        weaponDamage = 0; // or look up weapon damage by name
+    public void addActiveQuest(Quest quest) {
+        if (!activeQuests.contains(quest)) activeQuests.add(quest);
     }
-    return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
-}
+    public boolean removeActiveQuest(Quest quest) {
+        return activeQuests.remove(quest);
+    }
+    public void setActiveQuests(List<Quest> activeQuests) {
+        this.activeQuests = activeQuests;
+    }
 
+    public int getAttackDamage() {
+        int strength = getStrength();
+        int weaponDamage = 0;
+        try {
+            weaponDamage = Integer.parseInt(getWeapon());
+        } catch (Exception e) {
+            weaponDamage = 0;
+        }
+        return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+    }
 
     public void calculateAndSetAttack() {
         int baseAttack = 5;
@@ -209,9 +208,9 @@ public int getAttackDamage() {
         return (int)(1000 * Math.pow(1.5, level - 1));
     }
     public String[] getKnownSpells() { return spellsLearned.toArray(new String[0]); }
-    public Spells getSpellByName(String name) {
+    public Object getSpellByName(String name) {
         for (String spell : spellsLearned)
-            if (spell.equalsIgnoreCase(name)) return SpellList.getSpells(spell);
+            if (spell.equalsIgnoreCase(name)) return null; // Replace with SpellList.getSpells(spell) when available
         return null;
     }
     public void calculateAndSetDefense() {
@@ -229,16 +228,8 @@ public int getAttackDamage() {
         else if (index == charInfo.size()) charInfo.add(value);
     }
 
-    public void setActiveEffects(List<String> activeEffects) {
-        this.activeEffects = activeEffects;
-    }
-
     public void setCharInfo(ArrayList<String> charInfo) {
         this.charInfo = charInfo;
-    }
-
-    public void setActiveQuests(List<Quest> activeQuests) {
-        this.activeQuests = activeQuests;
     }
 
     public ArrayList<String> getCharInfo() {
@@ -265,52 +256,48 @@ public int getAttackDamage() {
         // TODO Auto-generated method stub
     }
 
-	public void addStatus(Status status) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
-public void takeDamage(int amount) {
-    reduceHitPoints(amount);
-}
-
-public double getHitChance() {
-    return hitChance;
-}
-
-public void setHitChance(double hitChance) {
-    this.hitChance = Math.max(0.0, Math.min(1.0, hitChance));
-}
-
-//src/DungeonoftheBrutalKing/Charecter.java
-public double calculateHitChance(boolean isMagicUser) {
-    if (isMagicUser) {
-        double wis = getWisdom();
-        double intel = getIntelligence();
-        return Math.max(0.1, Math.min(1.0, (wis + intel) / 40.0));
-    } else {
-        double agi = getAgility();
-        double str = getStrength();
-        return Math.max(0.1, Math.min(1.0, (agi + str) / 40.0));
+    public void addStatus(Object status) {
+        // TODO: implement when Status is available
     }
-}
 
-// Updates and stores the base hit chance
-public void updateOriginalHitChance(boolean isMagicUser) {
-    originalHitChance = calculateHitChance(isMagicUser);
-    setHitChance(originalHitChance);
-}
+    public void takeDamage(int amount) {
+        reduceHitPoints(amount);
+    }
 
-// Applies a status effect modifier to hit chance
-public void applyStatusToHitChance(double modifier) {
-    setHitChance(originalHitChance * modifier);
-}
+    public double getHitChance() {
+        return hitChance;
+    }
 
-// Resets hit chance to the original value
-public void resetHitChance() {
-    setHitChance(originalHitChance);
-}
+    public void setHitChance(double hitChance) {
+        this.hitChance = Math.max(0.0, Math.min(1.0, hitChance));
+    }
 
+    public double calculateHitChance(boolean isMagicUser) {
+        if (isMagicUser) {
+            double wis = getWisdom();
+            double intel = getIntelligence();
+            return Math.max(0.1, Math.min(1.0, (wis + intel) / 40.0));
+        } else {
+            double agi = getAgility();
+            double str = getStrength();
+            return Math.max(0.1, Math.min(1.0, (agi + str) / 40.0));
+        }
+    }
 
+    public void updateOriginalHitChance(boolean isMagicUser) {
+        originalHitChance = calculateHitChance(isMagicUser);
+        setHitChance(originalHitChance);
+    }
+
+    public void applyStatusToHitChance(double modifier) {
+        setHitChance(originalHitChance * modifier);
+    }
+
+    public void resetHitChance() {
+        setHitChance(originalHitChance);
+    }
+    
+    public boolean removeEffect(String effect) {
+        return activeEffects.remove(effect);
+    }
 }

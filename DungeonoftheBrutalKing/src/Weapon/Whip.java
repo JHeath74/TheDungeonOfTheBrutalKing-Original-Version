@@ -4,7 +4,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Whip extends WeaponManager {
 
-    private static Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static final int REQUIRED_STRENGTH = 30;
     private static int weight = 25;

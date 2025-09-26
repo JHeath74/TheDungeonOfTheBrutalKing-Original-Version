@@ -6,7 +6,7 @@ import SharedData.Alignment;
 
 public abstract class Heal implements Spell {
 
-    private static Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
     String name = null;
 
     public Heal() {

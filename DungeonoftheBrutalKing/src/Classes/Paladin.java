@@ -14,7 +14,7 @@ public class Paladin extends Class
 
     int Herolevel;
 
-    Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
 
     public static String charClass = "Paladin";
     public static String ClassDescription;

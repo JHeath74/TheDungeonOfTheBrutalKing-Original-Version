@@ -19,6 +19,9 @@ public class ThingsToWorkOn {
 		// Create Quests
 		// Information Listener needs an image to display
 		//Guild Class
+		//update Weapon Information
+		//update Armour Information
+		//update Spell Information
 
 		//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
 		//https://stackoverflow.com/questions/13590002/understand-bufferstrategy

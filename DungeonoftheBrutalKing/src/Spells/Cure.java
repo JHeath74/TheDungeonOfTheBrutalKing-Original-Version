@@ -11,7 +11,7 @@ public abstract class Cure implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
-    private static Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
     private String name = "Cure";

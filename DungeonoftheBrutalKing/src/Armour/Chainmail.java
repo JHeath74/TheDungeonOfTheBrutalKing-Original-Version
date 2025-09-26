@@ -11,7 +11,7 @@ public class Chainmail extends ArmourManager {
         // TODO Auto-generated constructor stub
     }
 
-    private static Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 

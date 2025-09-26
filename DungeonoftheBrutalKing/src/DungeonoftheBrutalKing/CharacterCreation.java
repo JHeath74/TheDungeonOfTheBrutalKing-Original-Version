@@ -27,7 +27,7 @@ public class CharacterCreation {
 
     static LoadSaveGame myGameState = new LoadSaveGame();
     static GameSettings myGameSettings = new GameSettings();
-    Charecter myChar = Charecter.Singleton();
+    Charecter myChar = Charecter.getInstance();
 
     static String InitialCharecterSave = " ";
     static String toonClass, charName = " ";

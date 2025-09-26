@@ -17,7 +17,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
     private static MainGameScreen instance;
 
-    private final Charecter myChar = Charecter.Singleton();
+    private final Charecter myChar = Charecter.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();

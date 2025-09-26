@@ -1,27 +1,29 @@
+
 package Enemies;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
+import Effect.EffectManager;
 import SharedData.GameSettings;
 import Status.FireStatus;
 
 public class Dragon extends Enemies {
 
-	public Dragon() {
-	    super(
-	        "Dragon",                  // Name
-	        1,                         // Level
-	        30,                        // Hit Points
-	        8,                         // Strength
-	        5,                         // Charisma
-	        7,                         // Agility
-	        6,                         // Intelligence
-	        3,                         // Wisdom
-	        GameSettings.MonsterImagePath + "Dragon.png", // Image path
-	        false,                     // Is boss
-	        0                          // Experience reward
-	    );
-	}
+    public Dragon() {
+        super(
+            "Dragon",
+            1,
+            30,
+            8,
+            5,
+            7,
+            6,
+            3,
+            GameSettings.MonsterImagePath + "Dragon.png",
+            false,
+            0
+        );
+    }
 
     @Override
     public void takeDamage(int damage) {
@@ -40,7 +42,9 @@ public class Dragon extends Enemies {
         if (Math.random() < finalBurnChance) {
             MainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.\n");
             FireStatus fireStatus = new FireStatus();
-            target.getEffectManager().addStatus(fireStatus, target);
+
+((EffectManager) target.getEffectManager()).addStatus(fireStatus, target);
+
         }
         return damage;
     }
@@ -79,12 +83,12 @@ public class Dragon extends Enemies {
     public int attack() {
         throw new UnsupportedOperationException("Use attack(Charecter target) instead.");
     }
-    
+
     public int defend(int incomingDamage) {
         int baseDefense = 10;
         int agility = getAgility();
         int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".\n");
         return reducedDamage;

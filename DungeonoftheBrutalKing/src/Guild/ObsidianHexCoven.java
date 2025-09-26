@@ -30,7 +30,7 @@ public class ObsidianHexCoven extends JPanel {
         this.description = "The Obsidian Hex Coven is a guild of dark magic users who embrace chaos and power.";
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Obsidian Hex Coven Guild Ring")) {
@@ -103,7 +103,7 @@ public class ObsidianHexCoven extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -162,12 +162,12 @@ public class ObsidianHexCoven extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         return character.getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
@@ -177,7 +177,7 @@ public class ObsidianHexCoven extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
@@ -187,7 +187,7 @@ public class ObsidianHexCoven extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         return new ArrayList<>(character.getGuildSpells());
     }
 }

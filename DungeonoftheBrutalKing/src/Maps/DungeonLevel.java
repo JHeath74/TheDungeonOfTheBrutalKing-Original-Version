@@ -1,6 +1,10 @@
 
 // src/Maps/DungeonLevel.java
 package Maps;
+//0 is floor
+//1 is wall
+
+
 
 public abstract class DungeonLevel {
     protected static final int mapWidth = 128;

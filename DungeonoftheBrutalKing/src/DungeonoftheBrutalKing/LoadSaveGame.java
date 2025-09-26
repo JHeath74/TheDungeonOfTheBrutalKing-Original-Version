@@ -26,7 +26,7 @@ import SharedData.GameSettings;
 
 public class LoadSaveGame {
 
-    Charecter myChar = Charecter.Singleton();
+    Charecter myChar = Charecter.getInstance();
     GameSettings myGameSettings = new GameSettings();
     ArrayList<ArrayList<?>> GameState = new ArrayList<>();
     int width, height = 0;

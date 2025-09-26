@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Charecter;
 public class Rogue extends Class
 {
 
-    Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
 
     int sta; //Stamina
     int chr; //Charisma

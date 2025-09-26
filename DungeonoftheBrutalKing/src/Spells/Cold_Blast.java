@@ -9,7 +9,7 @@ import SharedData.Alignment;
 public abstract class Cold_Blast implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
-    private static Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
 
     private static final Alignment SPELL_ALIGNMENT = SharedData.Alignment.NOT_ALIGNED; // Non-aligned spell type
 

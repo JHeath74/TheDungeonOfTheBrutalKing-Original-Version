@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Sword extends WeaponManager {
 
-    private static Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static int weight = 25;
     private static int damage = 35;

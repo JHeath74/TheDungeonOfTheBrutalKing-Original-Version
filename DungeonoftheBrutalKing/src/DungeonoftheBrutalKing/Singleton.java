@@ -33,7 +33,7 @@ public class Singleton
         return charInfo[index];
     }
 
-    private static Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
 
     private static WeaponManager myWeapon = WeaponManager.Singleton();
 

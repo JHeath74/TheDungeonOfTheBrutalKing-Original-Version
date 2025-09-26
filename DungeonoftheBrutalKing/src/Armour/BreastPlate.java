@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class BreastPlate extends ArmourManager {
 
-    private static Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
 
     public BreastPlate(int requiredStrength, int armourDefense, String effect) {
         super("Breast Plate", requiredStrength, armourDefense, effect);

@@ -34,7 +34,7 @@ public class AuroraArcanum extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Aurora Arcanum Guild Ring")) {
@@ -107,7 +107,7 @@ public class AuroraArcanum extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -175,11 +175,11 @@ public class AuroraArcanum extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        return Charecter.Singleton().getGuildSpells().size();
+        return Charecter.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        ArrayList<String> guildSpells = Charecter.Singleton().getGuildSpells();
+        ArrayList<String> guildSpells = Charecter.getInstance().getGuildSpells();
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
         } else {
@@ -188,6 +188,6 @@ public class AuroraArcanum extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.Singleton().getGuildSpells());
+        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
     }
 }

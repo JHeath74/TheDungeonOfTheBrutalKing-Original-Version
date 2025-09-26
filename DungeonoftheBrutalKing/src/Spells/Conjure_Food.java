@@ -10,7 +10,7 @@ public abstract class Conjure_Food implements Spell {
     // Minimum Wisdom and Intelligence required to cast the spell
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
-    private static Charecter myChar = Charecter.Singleton();
+    private static Charecter myChar = Charecter.getInstance();
 
     public Conjure_Food() {
         super(); // Explicitly call the constructor of the Spells class

@@ -31,7 +31,7 @@ public class SilverwardSentinels extends JPanel {
         this.description = "The Silverward Sentinels are a guild of noble warriors dedicated to justice and protection.";
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
 
         if (!isMember && !inventory.contains("Silverward Sentinels Guild Ring")) {
@@ -104,7 +104,7 @@ public class SilverwardSentinels extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = character.getCharInventory();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -163,12 +163,12 @@ public class SilverwardSentinels extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();;
         return character.getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.size() < 6) {
             guildSpells.add(spell);
@@ -178,7 +178,7 @@ public class SilverwardSentinels extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         ArrayList<String> guildSpells = character.getGuildSpells();
         if (guildSpells.contains(spell)) {
             guildSpells.remove(spell);
@@ -188,7 +188,7 @@ public class SilverwardSentinels extends JPanel {
     }
 
     public ArrayList<String> getGuildSpells() {
-        Charecter character = Charecter.Singleton();
+    	Charecter character = Charecter.getInstance();
         return new ArrayList<>(character.getGuildSpells());
     }
 }

@@ -16,7 +16,7 @@ public abstract class Shield implements Spell {
 
     public void cast() {
         int startTime = timeClock.getCurrentHour();
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));
@@ -33,7 +33,7 @@ public abstract class Shield implements Spell {
     }
 
     private void removeSpellEffect() {
-        Charecter character = Charecter.Singleton();
+        Charecter character = Charecter.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));

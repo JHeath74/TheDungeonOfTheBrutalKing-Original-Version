@@ -113,7 +113,7 @@ public class Effect {
      * Removes the effect from the character.
      */
     public void removeFromCharacter() {
-        Charecter character = Charecter.Singleton(); // Get the singleton instance of Charecter
+        Charecter character = Charecter.getInstance(); // Get the singleton instance of Charecter
         character.removeEffect(name); // Remove the effect by name
     }
 }

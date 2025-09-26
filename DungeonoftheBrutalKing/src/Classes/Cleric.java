@@ -5,7 +5,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Cleric extends Class {
 
-    Charecter myChar = Charecter.Singleton();
+	private static Charecter myChar = Charecter.getInstance();
 
     int sta; //Stamina
     int chr; //Charisma
