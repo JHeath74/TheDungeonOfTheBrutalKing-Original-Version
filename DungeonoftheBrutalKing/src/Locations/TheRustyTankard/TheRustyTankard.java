@@ -1,6 +1,6 @@
 
 // src/NPC/DerRathskellerBarAndGrille/DerRathskellerBarAndGrille.java
-package NPC.DerRathskellerBarAndGrille;
+package Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -23,19 +23,23 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 import SharedData.MusicPlayer;
 
-public class DerRathskellerBarAndGrille extends JFrame {
+public class TheRustyTankard extends JFrame {
     private static final long serialVersionUID = 1L;
     public JPanel mainPanel;
     private JTextArea displayArea;
 
     GameSettings myGameSettings = new GameSettings();
     MainGameScreen myMainGameScreen;
+    
+    private final int x = 2;
+    private final int y = 4;
+    private final int z = 1;
 
-    public DerRathskellerBarAndGrille(JPanel mainPanel2) {
+    public TheRustyTankard(JPanel mainPanel2) {
         mainPanel = mainPanel2;
         mainPanel.setLayout(new BorderLayout());
 
-        setTitle("DerRathskellerBarAndGrille");
+        setTitle("The Rusty Tankard");
         setPreferredSize(new Dimension(800, 600));
 
         displayImage();
@@ -48,7 +52,7 @@ public class DerRathskellerBarAndGrille extends JFrame {
     }
 
     public static void main(String[] args) {
-        new DerRathskellerBarAndGrille(new JPanel());
+        new TheRustyTankard(new JPanel());
     }
 
     private void displayImage() {

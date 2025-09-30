@@ -1,5 +1,5 @@
 
-package NPC.DerRathskellerBarAndGrille;
+package Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

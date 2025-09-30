@@ -1,5 +1,5 @@
 
-package NPC.DerRathskellerBarAndGrille;
+package Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -98,7 +98,7 @@ void setupUI() {
     exitButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            new DerRathskellerBarAndGrille(mainPanel);
+            new TheRustyTankard(mainPanel);
         }
     });
 

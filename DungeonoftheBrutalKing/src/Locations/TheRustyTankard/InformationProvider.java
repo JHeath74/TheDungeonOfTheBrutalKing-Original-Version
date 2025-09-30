@@ -1,5 +1,5 @@
 
-package NPC.DerRathskellerBarAndGrille;
+package Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -25,7 +25,7 @@ public class InformationProvider extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private String[] randomInfo = {
         "The sky is blue.",
-        "Water boils at 100°C.",
+        "Water boils at 100ï¿½C.",
         "Cats sleep for 70% of their lives.",
         "The Eiffel Tower can be 15 cm taller during the summer.",
         "Bananas are berries, but strawberries are not.",
@@ -64,7 +64,7 @@ public InformationProvider() throws InterruptedException {
   //  JScrollPane scrollPane = new JScrollPane(displayArea);
 
     JButton listenButton = new JButton("Listen for Information");
-    JButton exitButton = new JButton("Exit to DerRathskellerBarAndGrille");
+    JButton exitButton = new JButton("Exit to The Rusty Tankard");
 
     // Add action listeners
     listenButton.addActionListener(new ActionListener() {
@@ -81,7 +81,7 @@ public InformationProvider() throws InterruptedException {
         public void actionPerformed(ActionEvent e) {
             dispose(); // Close the current frame
             JPanel mainPanel = new JPanel(); // Initialize a new main panel
-            new DerRathskellerBarAndGrille(mainPanel).setVisible(true); // Navigate back
+            new TheRustyTankard(mainPanel).setVisible(true); // Navigate back
         }
     });
 

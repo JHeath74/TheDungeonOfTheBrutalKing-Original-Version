@@ -1,27 +1,32 @@
-
-// Represents a bank vault location in the dungeon
 package Locations;
 
-
 public class BankVaults {
-    // Stores the location of the bank vault (name, x, y)
-    private Location vaultLocation = new Location("Bank Vaults", 10, 20);
-    // Stores the dungeon level where the vault is located
-    private int dungeonLevel = 3;
+    private int dungeonLevel = 2;
+    private int x = 5;
+    private int y = 22;
+	private String name = "Bank Vault";
+    
 
-    // Constructor to initialize the vault's name, dungeon level, and coordinates
-    public BankVaults(String name, int dungeonLevel, int x, int y) {
-        this.vaultLocation = new Location(name, x, y);
+    // Constructor to initialize all fields
+    public BankVaults(int x, int y, int dungeonLevel, String name) {
+        
+    	this.name = name;
+    	this.x = x;
+        this.y = y;
         this.dungeonLevel = dungeonLevel;
     }
 
-    // Returns the vault's location object
-    public Location getVaultLocation() {
-        return vaultLocation;
-    }
+    // Setters
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
+    public void setDungeonLevel(int dungeonLevel) { this.dungeonLevel = dungeonLevel; }
 
-    // Returns the dungeon level of the vault
-    public int getDungeonLevel() {
-        return dungeonLevel;
-    }
+    // Getters
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public int getDungeonLevel() { return dungeonLevel; }
+
+	public String getName() {
+		return name;
+	}
 }
