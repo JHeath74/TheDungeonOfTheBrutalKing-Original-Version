@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import Enemies.Enemies;
 import Enemies.MonsterSelector;
+import GameEngine.Camera;
 import SharedData.GameSettings;
 
 public class Combat {
@@ -26,8 +27,10 @@ private final Charecter myChar = Charecter.getInstance();
 
     private JPanel combatPanel, combatPanelButtons;
     private JButton combatAttackButton, castSelectedSpellButton, selectSpellButton, combatRunButton;
+	private Camera camera;
 
-    public Combat() throws IOException {
+    public Combat(Camera camera) throws IOException {
+    	this.camera = camera;
         int heroHP = myChar.getHitPoints();
         myChar.setHitPoints(heroHP);
     }
@@ -36,7 +39,6 @@ private final Charecter myChar = Charecter.getInstance();
         combatPanel = new JPanel(new GridBagLayout());
         MainGameScreen.replaceWithAnyPanel(combatPanel);
 
-        myEnemies = MonsterSelector.selectRandomMonster();
         if (myEnemies == null) {
             JOptionPane.showMessageDialog(combatPanel, "No monster found!");
             combatPanel.setVisible(true);
@@ -162,6 +164,7 @@ private final Charecter myChar = Charecter.getInstance();
 
             if (isMonsterDead()) {
                 MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
+                Camera.getInstance().endCombat();
             } else {
                 int monsterDamage = myEnemies.getAttackDamage();
                 int playerDefense = myChar.getDefense();
@@ -184,6 +187,7 @@ private final Charecter myChar = Charecter.getInstance();
 
     private void handleRun() {
         MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
+        Camera.getInstance().endCombat();
     }
 
     private void updateNameAndHP() {

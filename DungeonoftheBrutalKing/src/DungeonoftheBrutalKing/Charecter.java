@@ -261,7 +261,10 @@ public class Charecter {
     }
 
     public void takeDamage(int amount) {
+        System.out.println("Before damage: HP = " + getHitPoints() + ", Damage = " + amount);
         reduceHitPoints(amount);
+        System.out.println("After damage: HP = " + getHitPoints());
+        
     }
 
     public double getHitChance() {

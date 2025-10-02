@@ -53,6 +53,4 @@ public class Texture {
     public static Texture GreyDungeonDoor = new Texture(GameSettings.DungeonDoorTexturePath + "GreyDungeonDoor.png", 64);
     public static Texture GreyDungeonWall = new Texture(GameSettings.DungeonWallTexturePath + "GreyDungeonWall.png", 64);
 
-    // Placeholder texture for unused slots
-    public static Texture PLACEHOLDER = new Texture(GameSettings.DungeonWallTexturePath + "placeholder.png", 64);
 }

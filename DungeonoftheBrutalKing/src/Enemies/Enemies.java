@@ -49,8 +49,8 @@ public abstract class Enemies {
 
     public abstract int attack();
 
-    public void takeDamage(int amount) {
-        hitPoints = Math.max(0, hitPoints - amount);
+    public void takeDamage(int damage) {
+        this.hitPoints = Math.max(0, this.hitPoints - damage);
     }
 
     public int defend(int incomingDamage) {

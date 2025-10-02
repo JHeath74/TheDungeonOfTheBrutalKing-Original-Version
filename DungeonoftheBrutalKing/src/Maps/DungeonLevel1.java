@@ -9,6 +9,8 @@ public class DungeonLevel1 extends DungeonLevel{
     private static int MAP_WIDTH;
     private static int MAP_HEIGHT;
     private static final int DUNGEON_LEVEL = 1;
+    
+    
 
     private final int[][] map = {
     		{1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
