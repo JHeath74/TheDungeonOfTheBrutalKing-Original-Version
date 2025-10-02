@@ -19,7 +19,8 @@ public class Combat {
 
 
 private final Charecter myChar = Charecter.getInstance();
-
+private JTextArea playerInfo;
+private JTextArea enemyInfo;
 
 
     private Enemies myEnemies;
@@ -88,12 +89,13 @@ private final Charecter myChar = Charecter.getInstance();
         playerPicLabel.setPreferredSize(new Dimension(300, 400));
         playerPanel.add(playerPicLabel);
 
-        JTextArea playerInfo = new JTextArea(
-            myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
-        );
-        playerInfo.setEditable(false);
-        playerInfo.setBackground(new Color(255, 255, 220));
-        playerPanel.add(playerInfo);
+        playerInfo = new JTextArea(
+        	    myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+        	);
+        	playerInfo.setEditable(false);
+        	playerInfo.setBackground(new Color(255, 255, 220));
+        	playerPanel.add(playerInfo);
+
 
         JPanel enemyPanel = new JPanel();
         enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
@@ -108,12 +110,12 @@ private final Charecter myChar = Charecter.getInstance();
         enemyPicLabel.setPreferredSize(new Dimension(300, 400));
         enemyPanel.add(enemyPicLabel);
 
-        JTextArea enemyInfo = new JTextArea(
-            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
-        );
-        enemyInfo.setEditable(false);
-        enemyInfo.setBackground(new Color(255, 255, 220));
-        enemyPanel.add(enemyInfo);
+        enemyInfo = new JTextArea(
+        	    myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
+        	);
+        	enemyInfo.setEditable(false);
+        	enemyInfo.setBackground(new Color(255, 255, 220));
+        	enemyPanel.add(enemyInfo);
 
         combatPanelButtons = new JPanel(new FlowLayout());
         combatAttackButton = new JButton("Attack");
@@ -191,7 +193,12 @@ private final Charecter myChar = Charecter.getInstance();
     }
 
     private void updateNameAndHP() {
-        // TODO Auto-generated method stub
+        playerInfo.setText(
+            myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+        );
+        enemyInfo.setText(
+            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
+        );
     }
 
     public Enemies getMyEnemies() {
