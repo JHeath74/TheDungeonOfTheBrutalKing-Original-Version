@@ -62,8 +62,19 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
         updateCombatMessageArea(clock.getCurrentTimeString());
 
-        Game game = new Game();
-        renderPanel = game.getRenderPanel();
+        Game game = null;
+        try {
+            game = new Game();
+            renderPanel = game.getRenderPanel();
+            if (renderPanel != null) {
+                renderPanel.addKeyListener(game.getCamera());
+            } else {
+                throw new IllegalStateException("Game renderPanel is null after construction.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            // Optionally show an error dialog or handle gracefully
+        }
         camera = game.getCamera();
 
         double startX = myChar.getX();

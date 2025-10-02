@@ -23,7 +23,22 @@ public class Camera implements KeyListener {
         yDir = yd;
         xPlane = xp;
         yPlane = yp;
+        
+        
     }
+    
+
+ // src/GameEngine/Camera.java
+
+ public void setX(double x) {
+     this.xPos = x;
+ }
+
+ public void setY(double y) {
+     this.yPos = y;
+ }
+
+    
 
     @Override
     public void keyPressed(KeyEvent key) {

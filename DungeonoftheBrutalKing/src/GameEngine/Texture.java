@@ -39,16 +39,20 @@ public class Texture {
         }
     }
 
-    public static Texture wood = new Texture(GameSettings.DungeonWallTexturePath+"wood.png", 64); // map value 1
-    public static Texture brick = new Texture(GameSettings.DungeonWallTexturePath+"redbrick.png", 64); // map value 2
-    public static Texture bluestone = new Texture(GameSettings.DungeonWallTexturePath+"bluestone.png", 64); // map value 3
-    public static Texture stone = new Texture(GameSettings.DungeonWallTexturePath+"greystone.png", 64); // map value 4
-    public static Texture door = new Texture(GameSettings.DungeonDoorTexturePath+"door.png", 64); // map value 5
-    public static Texture door2 = new Texture(GameSettings.DungeonDoorTexturePath+"door2.png", 64); // map value 6
-    public static Texture stairsup = new Texture(GameSettings.DungeonStairsTexturePath+"stairsup.png", 64); // map value 7
-    public static Texture stairsdown = new Texture(GameSettings.DungeonStairsTexturePath+"stairsdown.png", 64); // map value 8
-    public static Texture stairsdownwithgate = new Texture(GameSettings.DungeonStairsTexturePath+"downstairswithgate.png", 64); // map value 9
-    public static Texture downstairsdownwithgateandtorches = new Texture(GameSettings.DungeonStairsTexturePath+"downstairswithgateandtorches.png", 64); // map value 10
-    public static Texture GreyDungeonDoor = new Texture(GameSettings.DungeonDoorTexturePath +"GreyDungeonDoor.png", 64); // map value 11
-    public static Texture GreyDungeonWall = new Texture(GameSettings.DungeonWallTexturePath +"GreyDungeonWall.png", 64); // map value 12
+    
+  
+    // Other textures
+    public static Texture wood = new Texture(GameSettings.DungeonWallTexturePath + "wood.png", 64);
+    public static Texture brick = new Texture(GameSettings.DungeonWallTexturePath + "redbrick.png", 64);
+    public static Texture bluestone = new Texture(GameSettings.DungeonWallTexturePath + "bluestone.png", 64);
+    public static Texture stone = new Texture(GameSettings.DungeonWallTexturePath + "greystone.png", 64);
+    public static Texture stairsup = new Texture(GameSettings.DungeonStairsTexturePath + "stairsup.png", 64);
+    public static Texture stairsdown = new Texture(GameSettings.DungeonStairsTexturePath + "stairsdown.png", 64);
+    public static Texture stairsdownwithgate = new Texture(GameSettings.DungeonStairsTexturePath + "downstairswithgate.png", 64);
+    public static Texture downstairsdownwithgateandtorches = new Texture(GameSettings.DungeonStairsTexturePath + "downstairswithgateandtorches.png", 64);
+    public static Texture GreyDungeonDoor = new Texture(GameSettings.DungeonDoorTexturePath + "GreyDungeonDoor.png", 64);
+    public static Texture GreyDungeonWall = new Texture(GameSettings.DungeonWallTexturePath + "GreyDungeonWall.png", 64);
+
+    // Placeholder texture for unused slots
+    public static Texture PLACEHOLDER = new Texture(GameSettings.DungeonWallTexturePath + "placeholder.png", 64);
 }
