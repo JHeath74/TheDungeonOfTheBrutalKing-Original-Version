@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Random;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -24,6 +25,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 =======
+=======
+>>>>>>> Stashed changes
 import javax.imageio.ImageIO;
 import javax.swing.*;
 >>>>>>> Stashed changes
@@ -33,6 +36,7 @@ import SharedData.GameSettings;
 public class Combat extends JFrame {
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private static final long serialVersionUID = 1L;
 
     Singleton myCharSingleton = new Singleton();
@@ -41,6 +45,8 @@ public class Combat extends JFrame {
     Charecter myChar = new Charecter();
     Enemies myEnemies = new Enemies();
 =======
+=======
+>>>>>>> Stashed changes
     private final Charecter myChar = Charecter.getInstance();
     private JTextArea playerInfo;
     private JTextArea enemyInfo;
@@ -117,6 +123,9 @@ public class Combat extends JFrame {
                 case "Warrior": imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
                 case "Wizard":  imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
                 default:        imagePath = GameSettings.ClassImagesPath + "default.png"; break;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
             }
             picLabel = new JLabel(new ImageIcon(myPictureBufferedImage));
@@ -153,10 +162,13 @@ public class Combat extends JFrame {
         playerInfo.setEditable(false);
         playerInfo.setBackground(new Color(255, 255, 220));
         playerPanel.add(playerInfo);
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
         CombatImageAndCombatUpdatesStatsSplitPane.setDividerLocation(0.5);
         CombatCombatUpdatesAndStatsSplitPane.setDividerLocation(0.25);
+=======
+>>>>>>> Stashed changes
 
         CombatNameAndHPfield.setLineWrap(false);
         CombatNameAndHPfield.setEditable(false);

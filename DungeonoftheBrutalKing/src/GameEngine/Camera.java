@@ -270,6 +270,9 @@ public class Camera implements KeyListener {
 		activeCombat = null;
 		
 	}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 

@@ -55,6 +55,9 @@ public class MainGameScreen extends JFrame {
 =======
     private Camera camera;
     private static JPanel renderPanel;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 	JMenuBar menuBar = null;
@@ -852,5 +855,8 @@ helpMenuItem.addActionListener(e -> {
     }
     
     
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
