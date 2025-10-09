@@ -119,7 +119,7 @@ public class Camera implements KeyListener {
             xPlane = xPlane * Math.cos(ROTATION_SPEED) - yPlane * Math.sin(ROTATION_SPEED);
             yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
         }
-        randomCombat(moved);
+      //  randomCombat(moved);
     }
 
     @Override

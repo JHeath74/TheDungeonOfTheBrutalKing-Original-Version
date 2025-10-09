@@ -76,21 +76,28 @@ public class LoadSaveGame {
         }
     }
 
-    public void StartGameLoadCharecter() throws IOException {
-        ArrayList<String> SaveLoadChar = new ArrayList<>();
-        File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
-        try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
-            String line;
-            while ((line = bufReader.readLine()) != null) {
-                SaveLoadChar.add(line);
-            }
-        }
+public void StartGameLoadCharecter() throws IOException {
+    ArrayList<String> SaveLoadChar = new ArrayList<>();
+    File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
 
-        myChar.getCharInfo().addAll(SaveLoadChar);
-
-        myChar.getDirection();
+    if (chosenFile == null || !chosenFile.exists()) {
+        JOptionPane.showMessageDialog(null, "No valid save file found to load the character.");
+        return;
     }
+
+    try (BufferedReader bufReader = new BufferedReader(new FileReader(chosenFile))) {
+        String line;
+        while ((line = bufReader.readLine()) != null) {
+            SaveLoadChar.add(line);
+        }
+    }
+
+    myChar.getCharInfo().addAll(SaveLoadChar);
+
+    myChar.getDirection();
+}
+
 
     public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {
         ArrayList<String> SaveLoadChar = new ArrayList<>();

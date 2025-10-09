@@ -84,7 +84,7 @@ public class GameSettings {
 		DungeonWallTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Wall/";
 		DungeonStairsTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Stairs/";
 		DungeonDoorTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Door/";
-		SavedGameDirectory = "src/DungeonoftheBrutalKing/SaveGame/";
+		SavedGameDirectory = "src/DungeonoftheBrutalKing/SaveGame";
 		StoryIntroductionPath = "Messages/StoryIntroduction/";
 		StartMenuPath = "Program/StartMenu/";
 		ClassImagesPath = "src/DungeonoftheBrutalKing/Images/Classes/";

@@ -50,17 +50,27 @@ public class Charecter {
 
     public Charecter() {}
 
+    
+    
     public static Charecter getInstance() {
         if (instance == null) {
             instance = new Charecter();
         }
         return instance;
     }
+    
+    
 
     private int getInt(int idx, int def) {
         try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; }
     }
-    private void setInt(int idx, int val) { charInfo.set(idx, String.valueOf(val)); }
+    private void setInt(int idx, int val) {
+        if (idx >= 0 && idx < charInfo.size()) {
+            charInfo.set(idx, String.valueOf(val));
+        } else {
+            // Optionally log or handle the out-of-bounds case
+        }
+    }
     private String getStr(int idx) { return charInfo.get(idx); }
     private void setStr(int idx, String val) { charInfo.set(idx, val); }
 
@@ -229,7 +239,11 @@ public class Charecter {
     }
 
     public void setCharInfo(ArrayList<String> charInfo) {
-        this.charInfo = charInfo;
+        if (charInfo == null || charInfo.size() < 27) {
+            this.charInfo = new ArrayList<>(Collections.nCopies(27, "0"));
+        } else {
+            this.charInfo = charInfo;
+        }
     }
 
     public ArrayList<String> getCharInfo() {

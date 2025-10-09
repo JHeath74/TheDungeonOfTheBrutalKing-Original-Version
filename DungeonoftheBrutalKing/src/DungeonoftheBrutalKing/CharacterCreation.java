@@ -220,8 +220,16 @@ public class CharacterCreation {
                     JOptionPane.showMessageDialog(null, "Please select both a race and a class before saving.");
                     return;
                 }
+                File saveDir = new File("src/DungeonoftheBrutalKing/SaveGame");
+                if (!saveDir.exists()) {
+                    saveDir.mkdirs();
+                }
+                File saveFile = new File(saveDir, "InitialCharecterSave.txt");
                 try {
-                    FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt");
+                    if (!saveFile.exists()) {
+                        saveFile.createNewFile();
+                    }
+                    FileWriter writer = new FileWriter(saveFile);
                     ArrayList<String> saveData = new ArrayList<>();
 
                     saveData.add(charName);                // 0: Name
@@ -242,16 +250,18 @@ public class CharacterCreation {
                     saveData.add("3");                     // 15: Water
                     saveData.add("3");                     // 16: Torches
                     saveData.add("0");                     // 17: Gems
-                    saveData.add("");   // 18: Character's equipped weapon (String)
-                    saveData.add("");   // 19: Character's equipped armor (String)
-                    saveData.add("");   // 20: Character's equipped shield (String)
+
+                 // Java
+                 saveData.add(myChar.getWeapon() != null ? myChar.getWeapon() : "None");   // 18: Weapon
+                 saveData.add(myChar.getArmour() != null ? myChar.getArmour() : "None");   // 19: Armor
+                 saveData.add(myChar.getShield() != null ? myChar.getShield() : "None");   // 20: Shield
+
                     saveData.add("0");  // 21: Character's alignment (int as String)
                     saveData.add("2"); // 22: Character's X position (int as String)
                     saveData.add("3"); // 23: Character's Y position (int as String)
                     saveData.add("1"); // 24: Character's Z position (int as String)
                     saveData.add("180.0"); // 25: Character's starting orientation (double as String)
 
-                    // Calculate defense and attack using the helper method
                     int[] results = setAndCalculateStats(stat, "", "", "");
                     int defense = results[0];
                     int attack = results[1];
@@ -259,13 +269,6 @@ public class CharacterCreation {
                     saveData.add(String.valueOf(defense)); // 26: Defense
                     saveData.add(String.valueOf(attack));  // 27: Attack
 
-                    System.out.println("Final Save Data:");
-
-                    for (int i = 0; i < saveData.size(); i++) {
-                        System.out.println("Index " + i + ": " + saveData.get(i));
-                    }
-
-                    // Write to file
                     for (String str : saveData) {
                         writer.write(str + System.lineSeparator());
                     }
@@ -274,7 +277,7 @@ public class CharacterCreation {
                     CharecterCreationFrame.dispose();
                     new MainGameScreen();
                 } catch (IOException e1) {
-                    JOptionPane.showMessageDialog(null, "Error:\n " + e1);
+                    JOptionPane.showMessageDialog(null, "Error writing save file:\n" + e1.getMessage());
                     e1.printStackTrace();
                 } catch (InterruptedException | ParseException e1) {
                     e1.printStackTrace();
