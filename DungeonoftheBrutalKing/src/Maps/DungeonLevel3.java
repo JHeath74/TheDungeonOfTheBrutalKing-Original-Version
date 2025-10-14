@@ -5,11 +5,11 @@ import java.awt.Point;
 
 import GameEngine.LocationType;
 
-public class DungeonLevel2 extends DungeonLevel {
+public class DungeonLevel3 extends DungeonLevel {
 
     private static final int MAP_WIDTH = 128;
     private static final int MAP_HEIGHT = 128;
-    private static final int DUNGEON_LEVEL = 2;
+    private static final int DUNGEON_LEVEL = 3;
     
     //0 = Path
     //1 = Wall
@@ -148,26 +148,28 @@ public class DungeonLevel2 extends DungeonLevel {
     		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
     		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 
-    public DungeonLevel2() {
+    public DungeonLevel3() {
         for (int[] row : map) {
             if (row.length != MAP_WIDTH) {
                 throw new IllegalStateException("All rows must have " + MAP_WIDTH + " columns.");
             }
         }
         
-        specialLocations.put(new Point(2, 97), LocationType.STAIRS_DOWN);
-        specialLocations.put(new Point(2, 98), LocationType.STAIRS_UP);
+        specialLocations.put(new Point(98, 2), LocationType.STAIRS_UP);
+        // Add more as needed
     }
     
-  
+    private static final int[] upStairsLocation = null; // Location of upstairs to level 2
+    private static final int[] downStairsLocation = null; // Location of downstairs to level 4
+
     @Override
     public DungeonLevel goDown() {
-        return new DungeonLevel3();
+        return null; // return new DungeonLevel4();
     }
 
     @Override
     public DungeonLevel goUp() {
-        return new DungeonLevel1();
+        return new DungeonLevel2();
     }
 
     public int[][] getMap() {
@@ -185,6 +187,5 @@ public class DungeonLevel2 extends DungeonLevel {
     public int getDungeonLevelNumber() {
         return DUNGEON_LEVEL;
     }
-
 
 }

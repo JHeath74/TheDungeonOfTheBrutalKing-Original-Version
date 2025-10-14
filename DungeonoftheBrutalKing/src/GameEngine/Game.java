@@ -15,6 +15,7 @@ import GameEngine.Texture;
 import Maps.DungeonLevel;
 import Maps.DungeonLevel1;
 import Maps.DungeonLevel2;
+import Maps.DungeonLevel3;
 
 public class Game implements Runnable {
 
@@ -214,6 +215,18 @@ public class Game implements Runnable {
         textures.add(Texture.downstairsdownwithgateandtorches); // index 10 - stairs down with gate and torches
     }
 
-    
+    public LocationType detectLocation(int x, int y) {
+        if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight) {
+            return LocationType.OTHER;
+        }
+        int tile = map[y][x];
+        switch (tile) {
+            case 0: return LocationType.EMPTY;
+            case 5: return LocationType.STAIRS_DOWN;
+            case 6: return LocationType.STAIRS_UP;
+            case 7: return LocationType.INN;
+            default: return LocationType.OTHER;
+        }
+    }
 
 }
