@@ -6,6 +6,12 @@ public class DungeonLevel2 extends DungeonLevel {
     private static final int MAP_WIDTH = 128;
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 2;
+    
+  //0 = Path
+    //1 = Wall
+    //5 = Door
+    //11 = Upstairs to first level
+    //12 = Downstair to third level
 
     
     int[][] map = {
@@ -144,6 +150,17 @@ public class DungeonLevel2 extends DungeonLevel {
                 throw new IllegalStateException("All rows must have " + MAP_WIDTH + " columns.");
             }
         }
+    }
+    
+    private static final int[] upStairsLocation = {2, 97};
+    private static final int[] downStairsLocation = {105, 3};
+    
+    public int[] getUpStairsLocation() {
+        return upStairsLocation;
+    }
+    
+    public int[] getDownStairsLocation() {
+        return downStairsLocation;
     }
 
     public int[][] getMap() {
