@@ -1,10 +1,9 @@
 
 package Maps;
 
-// DungeonLevel1 class representing the first level of a dungeon.  Used for training a new player.
-
-import GameEngine.LocationType;
 import java.awt.Point;
+
+import SharedData.LocationType;
 
 public class DungeonLevel1 extends DungeonLevel{
 
@@ -22,7 +21,7 @@ public class DungeonLevel1 extends DungeonLevel{
     private final int[][] map = {
     		{1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     		{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,1},
-    		{1,1,0,1,1,0,1,1,1,0,1,1,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,8,0,1,0,0,0,1,1,0,1},
+    		{1,0,0,0,1,0,1,1,1,0,1,1,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,1,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,8,0,1,0,0,0,1,1,0,1},
     		{1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,1,1,0,0,0,1,1,1,1,1,0,0,0,0,0,1,1,1,1,0,1,0,0,1,0,1,1,0,0,1,1,1,0,0,0,0,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,1,1,1,0,1},
     		{1,1,2,1,1,0,1,0,1,1,1,0,0,0,0,1,0,0,1,0,1,0,0,0,1,1,1,1,0,1,1,1,1,1,0,1,0,1,0,0,0,1,1,0,0,1,0,0,0,1,0,1,1,1,0,1,0,0,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,1,0,1,0,0,0,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,0,1},
     		{1,1,1,0,0,0,1,0,1,0,1,0,1,1,0,1,1,0,0,0,1,0,1,0,1,0,0,1,0,0,0,1,0,1,0,1,0,0,0,0,0,1,1,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,1,0,1,1,1,0,1,0,0,1,1,1,0,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,0,1,0,1},
@@ -158,16 +157,25 @@ public class DungeonLevel1 extends DungeonLevel{
     }
 
     // Constructor
-    public DungeonLevel1() {
-        MAP_HEIGHT = map.length;
-        MAP_WIDTH = map[0].length;
-        if (map.length != MAP_HEIGHT || map[0].length != MAP_WIDTH) {
-            throw new IllegalStateException("Map dimensions do not match constants.");
-        }
-        // Populate specialLocations
-        specialLocations.put(new Point(2, 97), LocationType.STAIRS_DOWN);
-        // Add more as needed (inns, shops, etc.)
-    }
+
+ // Java
+ public DungeonLevel1() {
+     setSpecialLocation(2, 97, LocationType.STAIRS_DOWN);
+     setSpecialLocation(4, 2, LocationType.THE_RUSTY_TANKARD);
+     setSpecialLocation(45, 16, LocationType.DOOR);
+     setSpecialLocation(44, 99, LocationType.DOOR);
+     setSpecialLocation(54, 112, LocationType.DOOR);
+     setSpecialLocation(59, 94, LocationType.DOOR);
+     setSpecialLocation(66, 56, LocationType.DOOR);
+     setSpecialLocation(81, 112, LocationType.DOOR);
+     setSpecialLocation(3, 2, LocationType.WELCOME_MESSAGE_RUSTY_TANKARD);
+
+
+
+
+
+
+ }
 
     @Override
     public DungeonLevel goDown() {
@@ -176,7 +184,7 @@ public class DungeonLevel1 extends DungeonLevel{
 
     @Override
     public DungeonLevel goUp() {
-        return null; // No upstairs in level 1
+        return null;
     }
 
     @Override
@@ -184,16 +192,38 @@ public class DungeonLevel1 extends DungeonLevel{
         return map;
     }
 
-    public static int getMapWidth() {
-        return MAP_WIDTH;
-    }
-
-    public static int getMapHeight() {
-        return MAP_HEIGHT;
-    }
-
     @Override
     public int getDungeonLevelNumber() {
         return DUNGEON_LEVEL;
     }
+
+    public void setSpecialLocation(int x, int y, LocationType type) {
+        specialLocations.put(new Point(x, y), type);
+    }
+
+
+@Override
+public LocationType getSpecialLocation(int x, int y) {
+    return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
+}
+    @Override
+    public Point getStairsDownLocation() {
+        for (var entry : specialLocations.entrySet()) {
+            if (entry.getValue() == LocationType.STAIRS_DOWN) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public Point getStairsUpLocation() {
+        for (var entry : specialLocations.entrySet()) {
+            if (entry.getValue() == LocationType.STAIRS_UP) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
+    
 }

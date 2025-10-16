@@ -3,7 +3,7 @@ package Maps;
 
 import java.awt.Point;
 
-import GameEngine.LocationType;
+import SharedData.LocationType;
 
 public class DungeonLevel2 extends DungeonLevel {
 
@@ -185,6 +185,14 @@ public class DungeonLevel2 extends DungeonLevel {
     public int getDungeonLevelNumber() {
         return DUNGEON_LEVEL;
     }
+
+
+
+@Override
+public LocationType getSpecialLocation(int x, int y) {
+    return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
+}
+
 
 
 }

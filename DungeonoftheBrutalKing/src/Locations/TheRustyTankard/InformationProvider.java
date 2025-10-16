@@ -81,7 +81,7 @@ public InformationProvider() throws InterruptedException {
         public void actionPerformed(ActionEvent e) {
             dispose(); // Close the current frame
             JPanel mainPanel = new JPanel(); // Initialize a new main panel
-            new TheRustyTankard(mainPanel).setVisible(true); // Navigate back
+            new TheRustyTankard(mainPanel, myMainGameScreen).setVisible(true); // Navigate back
         }
     });
 

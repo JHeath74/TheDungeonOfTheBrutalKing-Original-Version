@@ -1,12 +1,13 @@
 
-// Java
+// LocationType.java
 package SharedData;
 
 public enum LocationType {
-    STATIC, DYNAMIC, INTERACTIVE, HIDDEN;
-
-    @Override
-    public String toString() {
-        return name().toLowerCase();
-    }
+    EMPTY,
+    STAIRS_UP,
+    STAIRS_DOWN,
+    THE_RUSTY_TANKARD,
+    WELCOME_MESSAGE_RUSTY_TANKARD,
+    DOOR,
+    OTHER
 }

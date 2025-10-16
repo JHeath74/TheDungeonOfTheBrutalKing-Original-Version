@@ -166,7 +166,7 @@ private JTextArea enemyInfo;
 
             if (isMonsterDead()) {
                 MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
-                Camera.getInstance().endCombat();
+                camera.endCombat();
             } else {
                 int monsterDamage = myEnemies.getAttackDamage();
                 int playerDefense = myChar.getDefense();
@@ -189,7 +189,7 @@ private JTextArea enemyInfo;
 
     private void handleRun() {
         MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
-        Camera.getInstance().endCombat();
+        camera.endCombat();
     }
 
     private void updateNameAndHP() {

@@ -9,6 +9,7 @@ import java.util.Random;
 
 import DungeonoftheBrutalKing.Combat;
 import Enemies.MonsterSelector;
+import SharedData.LocationType;
 
 public class Camera implements KeyListener {
     public double xPos, yPos, xDir, yDir, xPlane, yPlane;
@@ -18,14 +19,17 @@ public class Camera implements KeyListener {
     private final Random random = new Random();
     private Combat activeCombat = null;
     private static Camera instance;
+    
+    private Game game;
 
-    public Camera(double x, double y, double xd, double yd, double xp, double yp) {
+    public Camera(double x, double y, double xd, double yd, double xp, double yp, Game game) {
         xPos = x;
         yPos = y;
         xDir = xd;
         yDir = yd;
         xPlane = xp;
         yPlane = yp;
+        this.game = game;
         
         
     }
@@ -81,11 +85,11 @@ public class Camera implements KeyListener {
             int nextX = (int)(xPos + xDir * MOVE_SPEED);
             int nextY = (int)(yPos + yDir * MOVE_SPEED);
 
-            if (map[nextX][(int)yPos] == 0) {
+            if (map[nextX][(int)yPos] != 1) { // 1 = wall, allow events
                 xPos += xDir * MOVE_SPEED;
                 moved = true;
             }
-            if (map[(int)xPos][nextY] == 0) {
+            if (map[(int)xPos][nextY] != 1) {
                 yPos += yDir * MOVE_SPEED;
                 moved = true;
             }
@@ -119,8 +123,13 @@ public class Camera implements KeyListener {
             xPlane = xPlane * Math.cos(ROTATION_SPEED) - yPlane * Math.sin(ROTATION_SPEED);
             yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
         }
-      //  randomCombat(moved);
-    }
+        if (moved) {
+            LocationType type = game.detectLocation(getX(), getY());
+            game.handleLocationEvent(type); // Make sure handleLocationEvent accepts LocationType
+         //   randomCombat(moved);
+        }
+        }
+    
 
     @Override
     public void keyTyped(KeyEvent arg0) {
@@ -163,11 +172,5 @@ public class Camera implements KeyListener {
     }
 
 
-    public static Camera getInstance() {
-        if (instance == null) {
-            // You may want to initialize with default values or parameters
-            instance = new Camera(0, 0, 1, 0, 0, 0);
-        }
-        return instance;
-    }
+
 }

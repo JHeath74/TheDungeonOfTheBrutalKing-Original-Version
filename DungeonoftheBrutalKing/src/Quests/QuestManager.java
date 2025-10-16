@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.LocationType;
+import SharedData.QuestLocationType;
 
 public class QuestManager {
     private List<Quest> availableQuests;
@@ -27,7 +27,7 @@ public class QuestManager {
 
     private void initializeQuests() {
         for (int i = 1; i <= 50; i++) {
-            availableQuests.add(new Quest1("Quest " + i, "Description for Quest " + i, i, "Default conversation", LocationType.STATIC));
+            availableQuests.add(new Quest1("Quest " + i, "Description for Quest " + i, i, "Default conversation", QuestLocationType.STATIC));
         }
     }
 

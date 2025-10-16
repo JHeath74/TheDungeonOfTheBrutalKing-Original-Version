@@ -2,10 +2,11 @@
 // src/Maps/DungeonLevel.java
 package Maps;
 
-import GameEngine.LocationType;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
+
+import SharedData.LocationType;
 
 public abstract class DungeonLevel {
     protected static final int mapWidth = 128;
@@ -29,7 +30,12 @@ public abstract class DungeonLevel {
     public DungeonLevel goUp() {
         return null;
     }
-	public int[] getDownStairsLocation() {
+    public int[] getDownStairsLocation() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public abstract LocationType getSpecialLocation(int x, int y);
+	public Point getStairsDownLocation() {
 		// TODO Auto-generated method stub
 		return null;
 	}

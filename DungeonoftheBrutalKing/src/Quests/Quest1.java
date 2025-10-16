@@ -8,14 +8,14 @@ import javax.swing.JPanel;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.LocationType;
+import SharedData.QuestLocationType;
 
 public class Quest1 implements Quest {
     private String name;
     private String description;
     private boolean completed;
     private int rewardGold;
-    private LocationType locationType;
+    private QuestLocationType locationType;
 
     private int dungeonLevel; // The dungeon level where the quest appears
     private int locationX;    // X-coordinate of the quest location
@@ -24,11 +24,11 @@ public class Quest1 implements Quest {
     Charecter myChar = new Charecter();
     int charLevel = 0;
 
-    public Quest1(String name, String description, int i, String conversation, LocationType locationType) {
+    public Quest1(String name, String description, int i, String conversation, QuestLocationType locationType) {
         this.name = name;
         this.description = description;
         this.rewardGold = calculateGoldReward();
-        this.locationType = LocationType.STATIC;
+        this.locationType = QuestLocationType.STATIC;
         this.completed = false;
         assignRandomLocation(); // Call the method to assign a random location
     }
@@ -72,7 +72,7 @@ public class Quest1 implements Quest {
         MainGameScreen.replaceWithAnyPanel(panel);
     }
 
-    public LocationType getLocationType() {
+    public QuestLocationType getLocationType() {
         return locationType;
     }
 
