@@ -1,5 +1,4 @@
 
-// src/Locations/TheRustyTankard/TheRustyTankard.java
 package Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
@@ -18,23 +17,24 @@ import javax.swing.SwingUtilities;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
-public class TheRustyTankard extends JPanel {
-    private static final long serialVersionUID = 1L;
+public class TheRustyTankard {
     private final JPanel mainPanel;
     private final MainGameScreen myMainGameScreen;
 
     public TheRustyTankard(JPanel mainPanel2, MainGameScreen mainGameScreen) {
-        mainPanel = mainPanel2;
-        myMainGameScreen = mainGameScreen;
-        mainPanel.setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(800, 600));
+        this.myMainGameScreen = mainGameScreen;
+        this.mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(800, 600));
         displayImage();
         promptWhereToSit();
-        add(mainPanel);
+        MainGameScreen.replaceWithAnyPanel(mainPanel);
     }
 
     private void displayImage() {
-        ImageIcon icon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - DerRathskellerBarAndGrille.jpeg");
+
+System.out.println(GameSettings.NPCImagePath + "Innkeeper - TheRustyTankard.jpeg");
+
+        ImageIcon icon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - TheRustyTankard.jpeg");
         Image scaledImage = icon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(scaledImage));
         mainPanel.add(label, BorderLayout.NORTH);
@@ -47,20 +47,27 @@ public class TheRustyTankard extends JPanel {
         JButton leaveButton = new JButton("Leave the inn");
         JButton backroomButton = new JButton("Go to the backroom");
 
-        barButton.addActionListener(_ -> loadInnkeeper());
+        barButton.addActionListener(_ -> new Innkeeper(mainPanel, myMainGameScreen));
         tableButton.addActionListener(_ -> loadInformationProvider());
         backroomButton.addActionListener(_ -> {
             try {
-                loadInnBackroom();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+                InnBackroom.loadBackroom(mainPanel, myMainGameScreen);
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
             }
         });
-        leaveButton.addActionListener(_ -> {
-            if (myMainGameScreen != null) {
-                myMainGameScreen.setMessageTextPane("You leave the inn.\n");
-            }
+
+leaveButton.addActionListener(_ -> {
+    if (myMainGameScreen != null) {
+        myMainGameScreen.setMessageTextPane("You leave the inn.\n");
+        myMainGameScreen.restoreOriginalPanel();
+        SwingUtilities.invokeLater(() -> {
+            myMainGameScreen.getGameImagesAndCombatPanel().revalidate();
+            myMainGameScreen.getGameImagesAndCombatPanel().repaint();
         });
+    }
+});
+
 
         buttonPanel.add(barButton);
         buttonPanel.add(tableButton);
@@ -75,22 +82,11 @@ public class TheRustyTankard extends JPanel {
         mainPanel.repaint();
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+
     private void loadInformationProvider() {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new InformationProvider().setVisible(true);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    private void loadInnkeeper() {
-        Innkeeper innkeeper = new Innkeeper(mainPanel, myMainGameScreen);
-        innkeeper.setupUI();
-    }
-
-    private void loadInnBackroom() throws IOException, InterruptedException, ParseException {
-        InnBackroom.loadBackroom(mainPanel, myMainGameScreen);
+        MainGameScreen.replaceWithAnyPanel(new InformationProvider(myMainGameScreen));
     }
 }

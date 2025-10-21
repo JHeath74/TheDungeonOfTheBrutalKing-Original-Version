@@ -261,7 +261,10 @@ public class Game implements Runnable {
             case THE_RUSTY_TANKARD:
                 System.out.println("THE_RUSTY_TANKARD event handled");
                 appendToMessageTextPane("You have entered The Rusty Tankard.");
-                MainGameScreen.replaceWithAnyPanel(new TheRustyTankard(new JPanel(), MainGameScreen.getInstance()));
+
+                TheRustyTankard rustyTankard = new TheRustyTankard(new JPanel(), MainGameScreen.getInstance());
+                MainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
+
                 break;
             default:
                 System.out.println("Other location event handled");

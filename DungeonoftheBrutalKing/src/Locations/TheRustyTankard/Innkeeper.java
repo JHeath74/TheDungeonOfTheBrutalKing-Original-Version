@@ -1,5 +1,4 @@
 
-// src/Locations/TheRustyTankard/Innkeeper.java
 package Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
@@ -23,18 +22,17 @@ import SharedData.GameSettings;
 import Status.StatusManager;
 
 public class Innkeeper {
-    private Map<String, Integer> foodItems;
-    private Map<String, Integer> drinkItems;
-    private JPanel mainPanel;
+    private final Map<String, Integer> foodItems;
+    private final Map<String, Integer> drinkItems;
+    private final JPanel mainPanel;
+    private final StatusManager statusManager = new StatusManager();
+    private final Charecter myChar = new Charecter();
+    private final MainGameScreen myMainGameScreen;
+    private final GameSettings myGameSettings = new GameSettings();
 
-    StatusManager statusManager = new StatusManager();
-    Charecter myChar = new Charecter();
-    MainGameScreen myMainGameScreen;
-    GameSettings myGameSettings = new GameSettings();
-
-    public Innkeeper(JPanel mainPanel, MainGameScreen myMainGameScreen2) {
+    public Innkeeper(JPanel mainPanel, MainGameScreen myMainGameScreen) {
         this.mainPanel = mainPanel;
-        this.myMainGameScreen = myMainGameScreen2;
+        this.myMainGameScreen = myMainGameScreen;
 
         foodItems = Map.of(
             "Bread", 5,
@@ -57,7 +55,7 @@ public class Innkeeper {
         setupUI();
     }
 
-    void setupUI() {
+    public void setupUI() {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
 
