@@ -44,6 +44,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private Camera camera;
     private JPanel renderPanel;
 
+    private JMenu devToolsMenu;
+    private JMenuItem devToolsMenuItem;
+
     public static MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
         if (instance == null) {
             instance = new MainGameScreen();
@@ -56,6 +59,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         setupPanels();
         setupMenuBar();
         setupMenusAndItems();
+        setupDevToolsMenu();
         setupSplitPane();
         setupTimer();
         setupClock();
@@ -73,7 +77,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            // Optionally show an error dialog or handle gracefully
         }
         camera = game.getCamera();
 
@@ -277,6 +280,44 @@ public class MainGameScreen extends JFrame implements KeyListener {
         menuBar.add(characterMenu);
         menuBar.add(settingsMenu);
         menuBar.add(helpMenu);
+    }
+
+    private void setupDevToolsMenu() {
+        devToolsMenu = new JMenu("Dev Tools");
+        devToolsMenu.setMnemonic(KeyEvent.VK_D);
+
+        devToolsMenuItem = new JMenuItem("Open Dev Tools");
+        devToolsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
+        devToolsMenuItem.getAccessibleContext().setAccessibleDescription("Open developer tools");
+        devToolsMenuItem.addActionListener(_ -> showDevToolsDialog());
+
+        devToolsMenu.add(devToolsMenuItem);
+        menuBar.add(devToolsMenu);
+    }
+
+    private void showDevToolsDialog() {
+        JDialog devDialog = new JDialog(mainFrame, "Developer Tools", true);
+        devDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JButton teleportButton = new JButton("Teleport Charecter");
+        teleportButton.addActionListener(_ -> {
+            JOptionPane.showMessageDialog(devDialog, "Teleport Charecter tool launched.");
+        });
+
+        panel.add(teleportButton);
+
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(_ -> devDialog.dispose());
+        panel.add(Box.createVerticalStrut(20));
+        panel.add(closeButton);
+
+        devDialog.getContentPane().add(panel);
+        devDialog.pack();
+        devDialog.setLocationRelativeTo(mainFrame);
+        devDialog.setVisible(true);
     }
 
     private void handleNewGame() {
