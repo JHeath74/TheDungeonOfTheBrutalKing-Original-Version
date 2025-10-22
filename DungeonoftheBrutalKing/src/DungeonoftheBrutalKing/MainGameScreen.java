@@ -556,4 +556,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public static void main(String[] args) throws IOException, InterruptedException, ParseException {
         MainGameScreen.getInstance();
     }
+    
+    public Charecter getPlayer() {
+        return myChar;
+    }
 }

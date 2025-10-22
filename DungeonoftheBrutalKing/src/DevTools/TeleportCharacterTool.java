@@ -1,3 +1,4 @@
+
 package DevTools;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ public class TeleportCharacterTool extends JDialog {
 
     public TeleportCharacterTool(JFrame parent) {
         super(parent, "Teleport Character", true);
+        System.out.println("TeleportCharacterTool dialog created");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
@@ -36,6 +38,5 @@ public class TeleportCharacterTool extends JDialog {
         getContentPane().add(panel);
         pack();
         setLocationRelativeTo(parent);
-        setVisible(true); // Ensure the dialog is shown
     }
 }

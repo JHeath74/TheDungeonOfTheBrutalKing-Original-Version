@@ -56,6 +56,12 @@ System.out.println(GameSettings.NPCImagePath + "Innkeeper - TheRustyTankard.jpeg
                 e.printStackTrace();
             }
         });
+        
+        JButton getRoomButton = new JButton("Get a Room");
+        getRoomButton.addActionListener(_ -> {
+            MainGameScreen.replaceWithAnyPanel(new GetARoom(myMainGameScreen));
+        });
+        buttonPanel.add(getRoomButton);
 
 leaveButton.addActionListener(_ -> {
     if (myMainGameScreen != null) {

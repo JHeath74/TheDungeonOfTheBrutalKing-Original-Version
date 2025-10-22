@@ -14,8 +14,10 @@ public class DevToolsDialog extends JDialog {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JButton teleportButton = new JButton("Teleport Character");
+        
         teleportButton.addActionListener(_ -> {
-            TeleportCharacterTool tool = new TeleportCharacterTool(parent);
+            System.out.println("Teleport Character Tool Launched");
+            TeleportCharacterTool tool = new TeleportCharacterTool((JFrame) getParent());
             tool.setVisible(true);
         });
 

@@ -117,7 +117,7 @@ public class CharacterCreation {
         CharecterCreationSplitPane.setLeftComponent(NameAndStatsPanel);
 
         String[] raceList = Arrays.stream(RaceEnum.values())
-                .map(Enum::name)
+                .map(RaceEnum::name)
                 .toArray(String[]::new);
         Arrays.sort(raceList);
         raceComboBox = new JComboBox<>(raceList);
@@ -268,7 +268,8 @@ public class CharacterCreation {
 
                     saveData.add(String.valueOf(defense)); // 26: Defense
                     saveData.add(String.valueOf(attack));  // 27: Attack
-
+                    saveData.add(String.valueOf(ToonHP(stat, saveData)));
+                  
                     for (String str : saveData) {
                         writer.write(str + System.lineSeparator());
                     }
