@@ -29,6 +29,8 @@ public class Game implements Runnable {
     public ArrayList<Texture> textures;
     private Camera camera;
     public Screen screen;
+    
+    private static boolean rustyInnWelcomeShown = false;
 
     private Canvas renderCanvas;
     private JPanel renderPanel;
@@ -100,15 +102,24 @@ public class Game implements Runnable {
         return map[y][x] == 0;
     }
 
-    public void changeLevel(int levelIndex) {
-        if (levelIndex < 0 || levelIndex >= levels.size()) return;
-        DungeonLevel level = levels.get(levelIndex);
-        map = level.getMap();
-        mapWidth = DungeonLevel.getMapWidth();
-        mapHeight = DungeonLevel.getMapHeight();
-        currentLevelIndex = levelIndex;
-        screen = new Screen(map, mapWidth, mapHeight, textures, image.getWidth(), image.getHeight());
+
+public void changeLevel(int levelIndex) {
+    if (levelIndex < 0 || levelIndex >= levels.size()) return;
+    DungeonLevel level = levels.get(levelIndex);
+    map = level.getMap();
+    mapWidth = DungeonLevel.getMapWidth();
+    mapHeight = DungeonLevel.getMapHeight();
+    currentLevelIndex = levelIndex;
+    screen = new Screen(map, mapWidth, mapHeight, textures, image.getWidth(), image.getHeight());
+
+    // Set camera to stairs up location if available
+    Point stairsUp = level.getStairsUpLocation();
+    if (stairsUp != null) {
+        camera.setX(stairsUp.x + 0.5);
+        camera.setY(stairsUp.y + 0.5);
     }
+}
+
 
     public void goToNextLevel() {
         if (currentLevelIndex < levels.size() - 1) {
@@ -256,7 +267,10 @@ public class Game implements Runnable {
                 break;
             case WELCOME_MESSAGE_RUSTY_TANKARD:
                 System.out.println("WELCOME_MESSAGE_RUSTY_TANKARD event handled");
-                appendToMessageTextPane("Welcome to Rusty Tankard");
+                if (!rustyInnWelcomeShown) {
+                    appendToMessageTextPane("Welcome to the Rusty Inn");
+                    rustyInnWelcomeShown = true;
+                }
                 break;
             case THE_RUSTY_TANKARD:
                 System.out.println("THE_RUSTY_TANKARD event handled");
@@ -276,7 +290,8 @@ public class Game implements Runnable {
         MainGameScreen.appendToMessageTextPane(message);
     }
 
-    // Only handle event once per tile and location type
+
+
 
 
 
@@ -290,12 +305,13 @@ public void checkLocationEvent() throws IOException, InterruptedException, Parse
     if (playerX != lastEventX || playerY != lastEventY) {
         if (type != lastEventType) {
             handleLocationEvent(type);
+            lastEventType = type; // Move this here
         }
         lastEventX = playerX;
         lastEventY = playerY;
-        lastEventType = type;
     }
 }
+
 
 
 }

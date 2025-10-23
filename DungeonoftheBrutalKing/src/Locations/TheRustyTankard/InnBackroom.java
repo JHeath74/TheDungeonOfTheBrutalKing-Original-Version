@@ -24,7 +24,7 @@ public class InnBackroom {
         mainPanel.setLayout(new BorderLayout());
 
         ImageIcon originalIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - Backroom.jpeg");
-        Image resizedImage = originalIcon.getImage().getScaledInstance(640, 480, Image.SCALE_SMOOTH);
+        Image resizedImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
         JLabel pictureLabel = new JLabel(resizedIcon);
         pictureLabel.setHorizontalAlignment(SwingConstants.CENTER);

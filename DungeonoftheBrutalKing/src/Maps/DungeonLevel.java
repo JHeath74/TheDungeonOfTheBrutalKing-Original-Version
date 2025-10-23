@@ -30,13 +30,25 @@ public abstract class DungeonLevel {
     public DungeonLevel goUp() {
         return null;
     }
-    public int[] getDownStairsLocation() {
-        // TODO Auto-generated method stub
+    
+    public Point getStairsUpLocation() {
+        for (Map.Entry<Point, LocationType> entry : specialLocations.entrySet()) {
+            if (entry.getValue() == LocationType.STAIRS_UP) {
+                return entry.getKey();
+            }
+        }
         return null;
     }
+
+    public Point getStairsDownLocation() {
+        for (Map.Entry<Point, LocationType> entry : specialLocations.entrySet()) {
+            if (entry.getValue() == LocationType.STAIRS_DOWN) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
     public abstract LocationType getSpecialLocation(int x, int y);
-	public Point getStairsDownLocation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }

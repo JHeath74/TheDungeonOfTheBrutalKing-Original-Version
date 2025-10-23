@@ -31,11 +31,8 @@ public class TheRustyTankard {
     }
 
     private void displayImage() {
-
-System.out.println(GameSettings.NPCImagePath + "Innkeeper - TheRustyTankard.jpeg");
-
         ImageIcon icon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - TheRustyTankard.jpeg");
-        Image scaledImage = icon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(scaledImage));
         mainPanel.add(label, BorderLayout.NORTH);
     }

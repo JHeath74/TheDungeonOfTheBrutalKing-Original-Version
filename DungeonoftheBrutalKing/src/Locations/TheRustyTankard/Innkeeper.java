@@ -60,7 +60,7 @@ public class Innkeeper {
         mainPanel.setLayout(new BorderLayout());
 
         ImageIcon originalIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
-        Image scaledImage = originalIcon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         JLabel imageLabel = new JLabel(scaledIcon);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);

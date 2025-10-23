@@ -37,7 +37,7 @@ public class InformationProvider extends JPanel {
         
         String imagePath = GameSettings.NPCImagePath + "Innkeeper - InformationProvider.png";
         ImageIcon icon = new ImageIcon(imagePath);
-        Image scaledImage = icon.getImage().getScaledInstance(400, 300, java.awt.Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(800, 600, java.awt.Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
         add(imageLabel, BorderLayout.NORTH);
 
