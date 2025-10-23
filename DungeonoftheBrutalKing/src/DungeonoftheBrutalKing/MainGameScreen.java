@@ -539,7 +539,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     public void restoreOriginalPanel() {
         if (originalPanel != null && picturesAndTextUpdatesPane != null) {
-            picturesAndTextUpdatesPane.setLeftComponent(originalPanel);
+            picturesAndTextUpdatesPane.setLeftComponent(renderPanel);
             picturesAndTextUpdatesPane.revalidate();
             picturesAndTextUpdatesPane.repaint();
         }

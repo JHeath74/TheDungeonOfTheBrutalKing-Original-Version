@@ -22,14 +22,15 @@ public class GameSettings {
 
 
 
-	public static final String RoomImagePath = null;
+
 
 	//*********************************************************************************
 	//--------------------------- Static Fields ---------------------------------------
 	//*********************************************************************************
 	public static String MenuBarImagePath, MonsterImagePath, FontPath, DungeonFloorTexturePath,
 	DungeonWallTexturePath, StartMenuPath, StoryIntroductionPath, ClassImagesPath,
-	SoundEffectsPath, SavedGameDirectory, NPCImagePath, DungeonStairsTexturePath, DungeonDoorTexturePath;
+	SoundEffectsPath, SavedGameDirectory, NPCImagePath, DungeonStairsTexturePath,
+	DungeonDoorTexturePath, RoomImagePath;
 
 	//*********************************************************************************
 	//--------------------------- Instance Variables ----------------------------------

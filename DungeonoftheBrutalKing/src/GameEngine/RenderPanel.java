@@ -8,6 +8,11 @@ import javax.swing.JPanel;
 
 //Define a custom JPanel with rendering logic
 public class RenderPanel extends JPanel {
+ /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
  @Override
  protected void paintComponent(Graphics g) {
      super.paintComponent(g); // Clear the panel

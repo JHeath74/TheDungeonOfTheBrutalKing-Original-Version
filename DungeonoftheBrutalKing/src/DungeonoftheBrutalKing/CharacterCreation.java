@@ -268,7 +268,7 @@ public class CharacterCreation {
 
                     saveData.add(String.valueOf(defense)); // 26: Defense
                     saveData.add(String.valueOf(attack));  // 27: Attack
-                    saveData.add(String.valueOf(ToonHP(stat, saveData)));
+                    saveData.add(String.valueOf(ToonHP(stat, saveData))); // 28: Max HP
                   
                     for (String str : saveData) {
                         writer.write(str + System.lineSeparator());

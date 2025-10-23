@@ -14,8 +14,8 @@ public class GetARoom extends JPanel {
         setLayout(new BorderLayout());
 
         // Image
-        ImageIcon icon = new ImageIcon(GameSettings.RoomImagePath + "InnRoom.jpg");
-        Image scaledImage = icon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - Lodging.png");
+        Image scaledImage = icon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         JLabel imageLabel = new JLabel(new ImageIcon(scaledImage));
         add(imageLabel, BorderLayout.NORTH);
 
@@ -26,13 +26,15 @@ public class GetARoom extends JPanel {
 
         roomButton.addActionListener(_ -> {
             Charecter player = mainGameScreen.getPlayer();
-            int currentHP = player.getHitPoints();
+            int gold = player.getGold();
             int maxHP = player.getMaxHitPoints();
-            if (currentHP < maxHP) {
+
+            if (gold >= 50) {
+                player.setGold(gold - 50);
                 player.setHitPoints(maxHP);
-                mainGameScreen.setMessageTextPane("You rest and recover to full health.");
+                mainGameScreen.setMessageTextPane("You pay 50 gold, rest, and recover to full health.");
             } else {
-                mainGameScreen.setMessageTextPane("You are already at full health.");
+                mainGameScreen.setMessageTextPane("You don't have enough gold for a room.");
             }
         });
 
