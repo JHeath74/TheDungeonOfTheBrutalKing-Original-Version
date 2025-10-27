@@ -126,7 +126,7 @@ public class Camera implements KeyListener {
         if (moved) {
             LocationType type = game.detectLocation(getX(), getY());
             game.handleLocationEvent(type); // Make sure handleLocationEvent accepts LocationType
-         //   randomCombat(moved);
+            randomCombat(moved);
         }
         }
     

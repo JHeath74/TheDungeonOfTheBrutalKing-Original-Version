@@ -16,6 +16,7 @@ import java.awt.event.ComponentEvent;
 import Maps.DungeonLevel;
 import Maps.DungeonLevel1;
 import Maps.DungeonLevel2;
+import Maps.DungeonLevel3;
 import SharedData.LocationType;
 
 public class Game implements Runnable {
@@ -93,6 +94,7 @@ public class Game implements Runnable {
     private void initializeLevels() {
         levels.add(new DungeonLevel1());
         levels.add(new DungeonLevel2());
+        levels.add(new DungeonLevel3());
     }
 
     public boolean isWalkable(int x, int y) {

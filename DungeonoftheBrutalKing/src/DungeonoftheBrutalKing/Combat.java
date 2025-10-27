@@ -92,6 +92,13 @@ private JTextArea enemyInfo;
         playerInfo = new JTextArea(
         	    myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
         	);
+            playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
+            playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
+
+            playerPanel.add(Box.createRigidArea(new Dimension(24, 0))); // ~1/3 inch (adjust as needed)
+            playerInfo.setAlignmentX(Component.LEFT_ALIGNMENT); // Optional: aligns to left after the strut
+            playerPanel.add(playerInfo);
+
         	playerInfo.setEditable(false);
         	playerInfo.setBackground(new Color(255, 255, 220));
         	playerPanel.add(playerInfo);
@@ -113,6 +120,12 @@ private JTextArea enemyInfo;
         enemyInfo = new JTextArea(
         	    myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
         	);
+        
+        enemyPanel.add(Box.createRigidArea(new Dimension(24, 0))); // ~1/3 inch (adjust as needed)
+        enemyInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        enemyPanel.add(enemyInfo);
+        enemyInfo.setMaximumSize(new Dimension(300, enemyInfo.getPreferredSize().height));
+        enemyInfo.setPreferredSize(new Dimension(300, enemyInfo.getPreferredSize().height));
         	enemyInfo.setEditable(false);
         	enemyInfo.setBackground(new Color(255, 255, 220));
         	enemyPanel.add(enemyInfo);
@@ -155,29 +168,45 @@ private JTextArea enemyInfo;
         combatRunButton.addActionListener(_ -> handleRun());
     }
 
-    private void handleAttack() {
-        if (myEnemies != null && myChar != null) {
-            int playerDamage = myChar.getAttackDamage();
-            int reducedDamage = monsterDefend(playerDamage);
-            monsterTakeDamage(reducedDamage);
 
-            MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
-                " for " + reducedDamage + " damage.\n");
+ // In your combat handler (e.g., when Attack button is pressed)
+ private void handleAttack() {
+     if (myEnemies != null && myChar != null) {
+         int playerDamage = myChar.getAttackDamage();
+         int reducedDamage = monsterDefend(playerDamage);
+         monsterTakeDamage(reducedDamage);
 
-            if (isMonsterDead()) {
-                MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
-                camera.endCombat();
-            } else {
-                int monsterDamage = myEnemies.getAttackDamage();
-                int playerDefense = myChar.getDefense();
-                int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
-                myChar.takeDamage(damageToPlayer);
-                MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
-                    " attacks you for " + damageToPlayer + " damage.\n");
-            }
-            updateNameAndHP();
-        }
-    }
+         MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
+             " for " + reducedDamage + " damage.\n");
+
+
+if (isMonsterDead()) {
+    MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
+    // Remove monster from map here
+    
+    camera.endCombat();
+}
+
+         } else {
+             // Disable attack button, wait, then monster attacks
+             combatAttackButton.setEnabled(false);
+             Timer timer = new Timer(1000, e -> {
+                 int monsterDamage = myEnemies.getAttackDamage();
+                 int playerDefense = myChar.getDefense();
+                 int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
+                 myChar.takeDamage(damageToPlayer);
+                 MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
+                     " attacks you for " + damageToPlayer + " damage.\n");
+                 updateNameAndHP();
+                 combatAttackButton.setEnabled(true);
+             });
+             timer.setRepeats(false);
+             timer.start();
+         }
+         updateNameAndHP();
+     }
+ 
+
 
     private void handleSelectSpell() {
         MainGameScreen.appendToMessageTextPane("Select Spell button pressed.\n");
