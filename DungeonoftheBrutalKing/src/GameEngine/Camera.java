@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Combat;
+import DungeonoftheBrutalKing.MainGameScreen;
 import Enemies.MonsterSelector;
 import SharedData.LocationType;
 
@@ -18,11 +19,11 @@ public class Camera implements KeyListener {
     public final double ROTATION_SPEED = .045;
     private final Random random = new Random();
     private Combat activeCombat = null;
-    private static Camera instance;
-    
-    private Game game;
 
-    public Camera(double x, double y, double xd, double yd, double xp, double yp, Game game) {
+    private Game game;
+    private MainGameScreen mainGameScreen; // Added field
+
+    public Camera(double x, double y, double xd, double yd, double xp, double yp, Game game, MainGameScreen mainGameScreen) {
         xPos = x;
         yPos = y;
         xDir = xd;
@@ -30,22 +31,16 @@ public class Camera implements KeyListener {
         xPlane = xp;
         yPlane = yp;
         this.game = game;
-        
-        
+        this.mainGameScreen = mainGameScreen; // Assign instance
     }
-    
 
- // src/GameEngine/Camera.java
+    public void setX(double x) {
+        this.xPos = x;
+    }
 
- public void setX(double x) {
-     this.xPos = x;
- }
-
- public void setY(double y) {
-     this.yPos = y;
- }
-
-    
+    public void setY(double y) {
+        this.yPos = y;
+    }
 
     @Override
     public void keyPressed(KeyEvent key) {
@@ -85,13 +80,19 @@ public class Camera implements KeyListener {
             int nextX = (int)(xPos + xDir * MOVE_SPEED);
             int nextY = (int)(yPos + yDir * MOVE_SPEED);
 
-            if (map[nextX][(int)yPos] != 1) { // 1 = wall, allow events
-                xPos += xDir * MOVE_SPEED;
-                moved = true;
+            // Check bounds for nextX and (int)yPos
+            if (nextX >= 0 && nextX < map.length && (int)yPos >= 0 && (int)yPos < map[0].length) {
+                if (map[nextX][(int)yPos] != 1) {
+                    xPos += xDir * MOVE_SPEED;
+                    moved = true;
+                }
             }
-            if (map[(int)xPos][nextY] != 1) {
-                yPos += yDir * MOVE_SPEED;
-                moved = true;
+            // Check bounds for (int)xPos and nextY
+            if ((int)xPos >= 0 && (int)xPos < map.length && nextY >= 0 && nextY < map[0].length) {
+                if (map[(int)xPos][nextY] != 1) {
+                    yPos += yDir * MOVE_SPEED;
+                    moved = true;
+                }
             }
         }
         if (back) {
@@ -125,11 +126,10 @@ public class Camera implements KeyListener {
         }
         if (moved) {
             LocationType type = game.detectLocation(getX(), getY());
-            game.handleLocationEvent(type); // Make sure handleLocationEvent accepts LocationType
+            game.handleLocationEvent(type);
             randomCombat(moved);
         }
-        }
-    
+    }
 
     @Override
     public void keyTyped(KeyEvent arg0) {
@@ -161,16 +161,31 @@ public class Camera implements KeyListener {
 
     public void randomCombat(boolean moved) throws IOException, InterruptedException, ParseException {
         if (moved && random.nextDouble() < 0.1 && activeCombat == null) {
-            activeCombat = new Combat(this); // Pass Camera instance
+            activeCombat = new Combat(this, game.getMainGamePanel());
+            mainGameScreen.savePreCombatPosition();
             activeCombat.setMyEnemies(MonsterSelector.selectRandomMonster());
             activeCombat.combatEncounter();
         }
     }
-    
-    public void endCombat() {
-        activeCombat = null;
+
+    public void resetMovementFlags() {
+        forward = false;
+        back = false;
+        left = false;
+        right = false;
     }
 
 
+public void endCombat() {
+    System.out.println("endCombat called, restoring panel");
+    mainGameScreen.savePostCombatPosition();
+    mainGameScreen.restoreOriginalPanel();
+    activeCombat = null;
+    
+    System.out.println("Pre-combat position: " + mainGameScreen.getPreCombatPosition());
+    System.out.println("Post-combat position: " + mainGameScreen.getPostCombatPosition());
+    
+    resetMovementFlags();
+}
 
 }

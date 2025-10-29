@@ -123,7 +123,7 @@ public void StartGameLoadCharecter() throws IOException {
             throw e;
         }
 
-        new MainGameScreen();
+        MainGameScreen.getInstance();
     }
 
     public void LoadGame() {

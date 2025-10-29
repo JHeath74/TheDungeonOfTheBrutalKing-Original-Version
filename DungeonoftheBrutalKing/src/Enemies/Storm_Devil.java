@@ -18,7 +18,7 @@ public class Storm_Devil extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Storm_Devil.png",
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Storm Devil.png",
             /* isMagicUser: Storm Devil is not a magic user */ false,
             /* spellStrength: Storm Devil has no spell strength */ 0
         );

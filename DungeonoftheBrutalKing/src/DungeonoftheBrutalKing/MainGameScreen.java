@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -9,6 +8,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 
 import GameEngine.Game;
+import Maps.DungeonLevel;
 import GameEngine.Camera;
 import SharedData.GameSettings;
 import SharedData.SettingsAndPreferences;
@@ -16,12 +16,24 @@ import SharedData.SettingsAndPreferences;
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
     private static MainGameScreen instance;
+    
+ // Add these fields to MainGameScreen
+    private double preCombatX, preCombatY;
+    private double postCombatX, postCombatY;
 
     private final Charecter myChar = Charecter.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
-    private CharacterCreation myCharacterCreation = new CharacterCreation();
+    private CharacterCreation myCharacterCreation;
+    {
+        try {
+            myCharacterCreation = new CharacterCreation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            myCharacterCreation = null;
+        }
+    }
 
     private JFrame mainFrame;
     private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel, originalPanel;
@@ -35,6 +47,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private TimeClock clock;
     private Canvas gameImagesAndCombatCanvas;
     public static JTextArea combatMessageArea = new JTextArea();
+    private JScrollPane combatMessageScrollPane;
 
     private JMenu gameMenu, characterMenu, settingsMenu, helpMenu;
     private JMenuItem newGameMenuItem, loadSavedGameMenuItem, saveMenuItem, exitGameMenuItem;
@@ -43,18 +56,25 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     private Camera camera;
     private JPanel renderPanel;
+    private Game game;
+    private DungeonLevel currentDungeonLevel;
 
     private JMenu devToolsMenu;
     private JMenuItem devToolsMenuItem;
 
+    private double savedPlayerX;
+    private double savedPlayerY;
+    private int savedDungeonLevel;
+
     public static MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
         if (instance == null) {
             instance = new MainGameScreen();
+            instance.initGame();
         }
         return instance;
     }
 
-    public MainGameScreen() throws IOException, InterruptedException, ParseException {
+    private MainGameScreen() throws IOException {
         setupFrame();
         setupPanels();
         setupMenuBar();
@@ -63,30 +83,27 @@ public class MainGameScreen extends JFrame implements KeyListener {
         setupSplitPane();
         setupTimer();
         setupClock();
-
         updateCombatMessageArea(clock.getCurrentTimeString());
+    }
 
-        Game game = null;
-        try {
-            game = new Game();
-            renderPanel = game.getRenderPanel();
-            if (renderPanel != null) {
-                renderPanel.addKeyListener(game.getCamera());
-            } else {
-                throw new IllegalStateException("Game renderPanel is null after construction.");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+private void initGame() {
+    try {
+        game = new Game();
+        renderPanel = game.getRenderPanel();
+        if (renderPanel != null) {
+            renderPanel.addKeyListener(game.getCamera());
+        } else {
+            throw new IllegalStateException("Game renderPanel is null after construction.");
         }
         camera = game.getCamera();
+        currentDungeonLevel = game.getCurrentDungeonLevelInstance();
 
         double startX = myChar.getX();
         double startY = myChar.getY();
-
         camera.setPosition(startX, startY);
 
         replaceWithAnyPanel(renderPanel);
-
         renderPanel.addKeyListener(this);
         renderPanel.setFocusable(true);
         renderPanel.requestFocusInWindow();
@@ -96,7 +113,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
         mainFrame.setVisible(true);
         game.start();
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+}
+
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -452,11 +473,14 @@ public class MainGameScreen extends JFrame implements KeyListener {
         picturesAndTextUpdatesPane.setLeftComponent(gameImagesAndCombatPanel);
 
         JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setPreferredSize(new Dimension(600, 200));
+        rightPanel.setMinimumSize(new Dimension(600, 200));
         rightPanel.add(new JScrollPane(messageTextPane), BorderLayout.CENTER);
 
-        JScrollPane combatScrollPane = new JScrollPane(combatMessageArea);
-        combatScrollPane.setPreferredSize(new Dimension(0, 75));
-        rightPanel.add(combatScrollPane, BorderLayout.SOUTH);
+        combatMessageScrollPane = new JScrollPane(combatMessageArea);
+        combatMessageScrollPane.setPreferredSize(new Dimension(600, 75));
+        combatMessageScrollPane.setMinimumSize(new Dimension(600, 75));
+        rightPanel.add(combatMessageScrollPane, BorderLayout.SOUTH);
 
         picturesAndTextUpdatesPane.setRightComponent(rightPanel);
 
@@ -537,9 +561,42 @@ public class MainGameScreen extends JFrame implements KeyListener {
         }
     }
 
+    public void savePlayerPosition() {
+        savedPlayerX = myChar.getX();
+        savedPlayerY = myChar.getY();
+        savedDungeonLevel = currentDungeonLevel.getCurrentDungeonLevel();
+    }
+
+    public void restorePlayerPosition() {
+        // Only restore if saved position is valid (not 0,0)
+        if ((savedPlayerX != 0 || savedPlayerY != 0) &&
+            !(Double.isNaN(savedPlayerX) || Double.isNaN(savedPlayerY))) {
+            if (currentDungeonLevel.getCurrentDungeonLevel() != savedDungeonLevel) {
+                // Optionally restore dungeon level here
+                 currentDungeonLevel.setCurrentDungeonLevel(savedDungeonLevel);
+            }
+            camera.setPosition(savedPlayerX, savedPlayerY);
+        }
+        // else: do nothing, prevents sending player to (0,0)
+    }
+
     public void restoreOriginalPanel() {
         if (originalPanel != null && picturesAndTextUpdatesPane != null) {
             picturesAndTextUpdatesPane.setLeftComponent(renderPanel);
+            restorePlayerPosition();
+            if (combatMessageScrollPane != null) {
+                combatMessageScrollPane.setPreferredSize(new Dimension(600, 75));
+                combatMessageScrollPane.setMinimumSize(new Dimension(600, 75));
+                Container parent = combatMessageScrollPane.getParent();
+                if (parent instanceof JPanel) {
+                    parent.setPreferredSize(new Dimension(600, 200));
+                    parent.setMinimumSize(new Dimension(600, 200));
+                    parent.revalidate();
+                    parent.repaint();
+                }
+                combatMessageScrollPane.revalidate();
+                combatMessageScrollPane.repaint();
+            }
             picturesAndTextUpdatesPane.revalidate();
             picturesAndTextUpdatesPane.repaint();
         }
@@ -556,8 +613,27 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public static void main(String[] args) throws IOException, InterruptedException, ParseException {
         MainGameScreen.getInstance();
     }
-    
+
     public Charecter getPlayer() {
         return myChar;
+    }
+    
+ // Call this before entering combat
+    public void savePreCombatPosition() {
+        preCombatX = camera.xPos;
+        preCombatY = camera.yPos;
+    }
+
+    public void savePostCombatPosition() {
+        postCombatX = camera.xPos;
+        postCombatY = camera.yPos;
+    }
+
+    public String getPreCombatPosition() {
+        return "(" + preCombatX + ", " + preCombatY + ")";
+    }
+
+    public String getPostCombatPosition() {
+        return "(" + postCombatX + ", " + postCombatY + ")";
     }
 }

@@ -276,7 +276,7 @@ public class CharacterCreation {
                     writer.close();
 
                     CharecterCreationFrame.dispose();
-                    new MainGameScreen();
+                    MainGameScreen.getInstance();;
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(null, "Error writing save file:\n" + e1.getMessage());
                     e1.printStackTrace();

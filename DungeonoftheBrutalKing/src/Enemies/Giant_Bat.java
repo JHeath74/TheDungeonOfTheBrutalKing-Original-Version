@@ -17,7 +17,7 @@ public class Giant_Bat extends Enemies {
             /* agility: Speed and evasion capability */ 7,
             /* intelligence: Problem-solving or magical ability */ 6,
             /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Giant_bat.png",
+            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Giant Bat.png",
             /* isMagicUser: Giant Bat is not a magic user */ false,
             /* spellStrength: Giant Bat has no spell strength */ 0
         );

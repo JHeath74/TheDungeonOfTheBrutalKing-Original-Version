@@ -16,22 +16,21 @@ import SharedData.GameSettings;
 
 public class Combat {
 
-
-
-private final Charecter myChar = Charecter.getInstance();
-private JTextArea playerInfo;
-private JTextArea enemyInfo;
-
+    private final Charecter myChar = Charecter.getInstance();
+    private JTextArea playerInfo;
+    private JTextArea enemyInfo;
 
     private Enemies myEnemies;
     private String selectedSpell = null;
 
     private JPanel combatPanel, combatPanelButtons;
     private JButton combatAttackButton, castSelectedSpellButton, selectSpellButton, combatRunButton;
-	private Camera camera;
+    private Camera camera;
+    private JPanel mainGamePanel; // Added field
 
-    public Combat(Camera camera) throws IOException {
-    	this.camera = camera;
+    public Combat(Camera camera, JPanel mainGamePanel) throws IOException {
+        this.camera = camera;
+        this.mainGamePanel = mainGamePanel;
         int heroHP = myChar.getHitPoints();
         myChar.setHitPoints(heroHP);
     }
@@ -90,19 +89,18 @@ private JTextArea enemyInfo;
         playerPanel.add(playerPicLabel);
 
         playerInfo = new JTextArea(
-        	    myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
-        	);
-            playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
-            playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
+            myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+        );
+        playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
+        playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
 
-            playerPanel.add(Box.createRigidArea(new Dimension(24, 0))); // ~1/3 inch (adjust as needed)
-            playerInfo.setAlignmentX(Component.LEFT_ALIGNMENT); // Optional: aligns to left after the strut
-            playerPanel.add(playerInfo);
+        playerPanel.add(Box.createRigidArea(new Dimension(24, 0)));
+        playerInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        playerPanel.add(playerInfo);
 
-        	playerInfo.setEditable(false);
-        	playerInfo.setBackground(new Color(255, 255, 220));
-        	playerPanel.add(playerInfo);
-
+        playerInfo.setEditable(false);
+        playerInfo.setBackground(new Color(255, 255, 220));
+        // Removed duplicate add
 
         JPanel enemyPanel = new JPanel();
         enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
@@ -118,17 +116,17 @@ private JTextArea enemyInfo;
         enemyPanel.add(enemyPicLabel);
 
         enemyInfo = new JTextArea(
-        	    myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
-        	);
-        
-        enemyPanel.add(Box.createRigidArea(new Dimension(24, 0))); // ~1/3 inch (adjust as needed)
+            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
+        );
+
+        enemyPanel.add(Box.createRigidArea(new Dimension(24, 0)));
         enemyInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
         enemyPanel.add(enemyInfo);
         enemyInfo.setMaximumSize(new Dimension(300, enemyInfo.getPreferredSize().height));
         enemyInfo.setPreferredSize(new Dimension(300, enemyInfo.getPreferredSize().height));
-        	enemyInfo.setEditable(false);
-        	enemyInfo.setBackground(new Color(255, 255, 220));
-        	enemyPanel.add(enemyInfo);
+        enemyInfo.setEditable(false);
+        enemyInfo.setBackground(new Color(255, 255, 220));
+        // Removed duplicate add
 
         combatPanelButtons = new JPanel(new FlowLayout());
         combatAttackButton = new JButton("Attack");
@@ -169,56 +167,86 @@ private JTextArea enemyInfo;
     }
 
 
- // In your combat handler (e.g., when Attack button is pressed)
- private void handleAttack() {
-     if (myEnemies != null && myChar != null) {
-         int playerDamage = myChar.getAttackDamage();
-         int reducedDamage = monsterDefend(playerDamage);
-         monsterTakeDamage(reducedDamage);
-
-         MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
-             " for " + reducedDamage + " damage.\n");
 
 
-if (isMonsterDead()) {
-    MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
-    // Remove monster from map here
-    
-    camera.endCombat();
+
+
+private void handleAttack() {
+    if (myEnemies != null && myChar != null) {
+        int playerDamage = myChar.getAttackDamage();
+        int reducedDamage = monsterDefend(playerDamage);
+        monsterTakeDamage(reducedDamage);
+
+        MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
+            " for " + reducedDamage + " damage.\n");
+
+        updateNameAndHP();
+
+        if (isMonsterDead()) {
+            MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
+            myEnemies = null; // Prevent immediate re-entry into combat
+            MainGameScreen.replaceWithAnyPanel(mainGamePanel);
+            camera.endCombat();
+            return;
+        }
+
+        // Monster attacks back if still alive
+        combatAttackButton.setEnabled(false);
+        Timer timer = new Timer(1000, e -> {
+            int monsterDamage = myEnemies.getAttackDamage();
+            int playerDefense = myChar.getDefense();
+            int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
+            myChar.takeDamage(damageToPlayer);
+            MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
+                " attacks you for " + damageToPlayer + " damage.\n");
+            updateNameAndHP();
+            combatAttackButton.setEnabled(true);
+        });
+        timer.setRepeats(false);
+        timer.start();
+    } else {
+        combatAttackButton.setEnabled(false);
+    }
 }
 
-         } else {
-             // Disable attack button, wait, then monster attacks
-             combatAttackButton.setEnabled(false);
-             Timer timer = new Timer(1000, e -> {
-                 int monsterDamage = myEnemies.getAttackDamage();
-                 int playerDefense = myChar.getDefense();
-                 int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
-                 myChar.takeDamage(damageToPlayer);
-                 MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
-                     " attacks you for " + damageToPlayer + " damage.\n");
-                 updateNameAndHP();
-                 combatAttackButton.setEnabled(true);
-             });
-             timer.setRepeats(false);
-             timer.start();
-         }
-         updateNameAndHP();
-     }
- 
 
 
-    private void handleSelectSpell() {
-        MainGameScreen.appendToMessageTextPane("Select Spell button pressed.\n");
+
+
+private void handleSelectSpell() {
+    java.util.List<String> allSpells = new java.util.ArrayList<>();
+    allSpells.addAll(myChar.getSpellsLearned());
+    allSpells.addAll(myChar.getGuildSpells());
+
+    if (allSpells.isEmpty()) {
+        MainGameScreen.appendToMessageTextPane("You don't know any spells or actions.\n");
+        return;
     }
+
+    String selected = (String) JOptionPane.showInputDialog(
+        combatPanel,
+        "Select a spell or action:",
+        "Spell Selection",
+        JOptionPane.PLAIN_MESSAGE,
+        null,
+        allSpells.toArray(),
+        allSpells.get(0)
+    );
+
+    if (selected != null) {
+        setSelectedSpell(selected);
+        MainGameScreen.appendToMessageTextPane("Selected: " + selected + "\n");
+    }
+}
 
     private void handleCastSpell() {
         MainGameScreen.appendToMessageTextPane("Cast Selected Spell button pressed.\n");
     }
 
     private void handleRun() {
-        MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
-        camera.endCombat();
+    	 MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
+    	    camera.endCombat(); // Do not reset camera position here
+    	    MainGameScreen.replaceWithAnyPanel(mainGamePanel);
     }
 
     private void updateNameAndHP() {
@@ -263,4 +291,6 @@ if (isMonsterDead()) {
     public boolean isMonsterDead() {
         return (myEnemies != null) && myEnemies.isDead();
     }
+    
+    
 }

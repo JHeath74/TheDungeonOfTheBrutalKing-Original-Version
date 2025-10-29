@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JPanel;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Locations.TheRustyTankard.TheRustyTankard;
-
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import Maps.DungeonLevel;
@@ -30,7 +29,7 @@ public class Game implements Runnable {
     public ArrayList<Texture> textures;
     private Camera camera;
     public Screen screen;
-    
+
     private static boolean rustyInnWelcomeShown = false;
 
     private Canvas renderCanvas;
@@ -40,12 +39,13 @@ public class Game implements Runnable {
     private List<DungeonLevel> levels = new ArrayList<>();
     public int[][] map;
 
-    // Track last event position and type
+    private DungeonLevel currentDungeonLevel;
+
     private int lastEventX = -1;
     private int lastEventY = -1;
     private LocationType lastEventType = LocationType.OTHER;
 
-    public Game() throws IOException, InterruptedException {
+    public Game() throws IOException, InterruptedException, ParseException {
         renderCanvas = new Canvas();
         renderCanvas.setSize(640, 480);
         renderPanel = new JPanel();
@@ -57,20 +57,11 @@ public class Game implements Runnable {
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         textures = new ArrayList<>();
         initializeTextures();
-        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66, this);
+
+        camera = new Camera(4.5, 4.5, 1, 0, 0, -.66, this, MainGameScreen.getInstance());
 
         initializeLevels();
         changeLevel(currentLevelIndex);
-
-        for (int y = 0; y < mapHeight; y++) {
-            for (int x = 0; x < mapWidth; x++) {
-                if (isWalkable(x, y)) {
-                    camera.setX(x + 0.5);
-                    camera.setY(y + 0.5);
-                    break;
-                }
-            }
-        }
 
         renderCanvas.setFocusable(false);
         renderPanel.setFocusable(true);
@@ -104,24 +95,37 @@ public class Game implements Runnable {
         return map[y][x] == 0;
     }
 
-
-public void changeLevel(int levelIndex) {
-    if (levelIndex < 0 || levelIndex >= levels.size()) return;
-    DungeonLevel level = levels.get(levelIndex);
-    map = level.getMap();
-    mapWidth = DungeonLevel.getMapWidth();
-    mapHeight = DungeonLevel.getMapHeight();
-    currentLevelIndex = levelIndex;
-    screen = new Screen(map, mapWidth, mapHeight, textures, image.getWidth(), image.getHeight());
-
-    // Set camera to stairs up location if available
-    Point stairsUp = level.getStairsUpLocation();
-    if (stairsUp != null) {
-        camera.setX(stairsUp.x + 0.5);
-        camera.setY(stairsUp.y + 0.5);
+    public JPanel getMainGamePanel() {
+        return renderPanel;
     }
-}
 
+    public void changeLevel(int levelIndex) {
+        if (levelIndex < 0 || levelIndex >= levels.size()) return;
+        DungeonLevel level = levels.get(levelIndex);
+        map = level.getMap();
+        mapWidth = DungeonLevel.getMapWidth();
+        mapHeight = DungeonLevel.getMapHeight();
+        currentLevelIndex = levelIndex;
+        currentDungeonLevel = level;
+        screen = new Screen(map, mapWidth, mapHeight, textures, image.getWidth(), image.getHeight());
+
+        Point stairsUp = level.getStairsUpLocation();
+        if (stairsUp != null) {
+            camera.setX(stairsUp.x + 0.5);
+            camera.setY(stairsUp.y + 0.5);
+        } else {
+        	outer:
+        		for (int y = 0; y < mapHeight; y++) {
+        		    for (int x = 0; x < mapWidth; x++) {
+        		        if ((x != 0 || y != 0) && isWalkable(x, y)) {
+        		            camera.setX(x + 0.5);
+        		            camera.setY(y + 0.5);
+        		            break outer;
+        		        }
+        		    }
+        		}
+        }
+    }
 
     public void goToNextLevel() {
         if (currentLevelIndex < levels.size() - 1) {
@@ -192,31 +196,25 @@ public void changeLevel(int levelIndex) {
             lastTime = now;
             while (delta >= 1) {
                 try {
-					camera.update(map);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    camera.update(map);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 screen.update(camera, pixels);
                 checkLevelTransition();
                 try {
-					checkLocationEvent();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} // Correct method call
+                    checkLocationEvent();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 delta--;
             }
             render();
@@ -277,10 +275,8 @@ public void changeLevel(int levelIndex) {
             case THE_RUSTY_TANKARD:
                 System.out.println("THE_RUSTY_TANKARD event handled");
                 appendToMessageTextPane("You have entered The Rusty Tankard.");
-
                 TheRustyTankard rustyTankard = new TheRustyTankard(new JPanel(), MainGameScreen.getInstance());
                 MainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
-
                 break;
             default:
                 System.out.println("Other location event handled");
@@ -292,28 +288,23 @@ public void changeLevel(int levelIndex) {
         MainGameScreen.appendToMessageTextPane(message);
     }
 
+    public void checkLocationEvent() throws IOException, InterruptedException, ParseException {
+        int playerX = (int) camera.getX();
+        int playerY = (int) camera.getY();
+        LocationType type = detectLocation(playerX, playerY);
+        System.out.println("Player at: " + playerX + "," + playerY + " type: " + type);
 
-
-
-
-
-public void checkLocationEvent() throws IOException, InterruptedException, ParseException {
-    int playerX = (int) camera.getX();
-    int playerY = (int) camera.getY();
-    LocationType type = detectLocation(playerX, playerY);
-    System.out.println("Player at: " + playerX + "," + playerY + " type: " + type);
-
-    // Only handle event if entering a new tile AND the location type is different
-    if (playerX != lastEventX || playerY != lastEventY) {
-        if (type != lastEventType) {
-            handleLocationEvent(type);
-            lastEventType = type; // Move this here
+        if (playerX != lastEventX || playerY != lastEventY) {
+            if (type != lastEventType) {
+                handleLocationEvent(type);
+                lastEventType = type;
+            }
+            lastEventX = playerX;
+            lastEventY = playerY;
         }
-        lastEventX = playerX;
-        lastEventY = playerY;
     }
-}
 
-
-
+    public DungeonLevel getCurrentDungeonLevelInstance() {
+        return currentDungeonLevel;
+    }
 }
