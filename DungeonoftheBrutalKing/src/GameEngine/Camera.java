@@ -19,6 +19,8 @@ public class Camera implements KeyListener {
     public final double ROTATION_SPEED = .045;
     private final Random random = new Random();
     private Combat activeCombat = null;
+    
+    private int stepsSinceLastCombat = 0; // New field to track steps
 
     private Game game;
     private MainGameScreen mainGameScreen; // Added field
@@ -127,7 +129,8 @@ public class Camera implements KeyListener {
         if (moved) {
             LocationType type = game.detectLocation(getX(), getY());
             game.handleLocationEvent(type);
-            randomCombat(moved);
+            onPlayerStep();
+           // randomCombat(moved);
         }
     }
 
@@ -158,16 +161,7 @@ public class Camera implements KeyListener {
         xPlane = -yDir * fov;
         yPlane = xDir * fov;
     }
-
-    public void randomCombat(boolean moved) throws IOException, InterruptedException, ParseException {
-        if (moved && random.nextDouble() < 0.1 && activeCombat == null) {
-            activeCombat = new Combat(this, game.getMainGamePanel());
-            mainGameScreen.savePreCombatPosition();
-            activeCombat.setMyEnemies(MonsterSelector.selectRandomMonster());
-            activeCombat.combatEncounter();
-        }
-    }
-
+    
     public void resetMovementFlags() {
         forward = false;
         back = false;
@@ -175,17 +169,54 @@ public class Camera implements KeyListener {
         right = false;
     }
 
+    public void randomCombat() throws IOException, InterruptedException, ParseException {
+        if (getActiveCombat() == null) {
+            setActiveCombat(new Combat(this, game.getMainGamePanel()));
+            mainGameScreen.savePreCombatPosition();
+            getActiveCombat().setMyEnemies(MonsterSelector.selectRandomMonster());
+            getActiveCombat().combatEncounter();
+        }
+    }
+
+
+
 
 public void endCombat() {
     System.out.println("endCombat called, restoring panel");
     mainGameScreen.savePostCombatPosition();
     mainGameScreen.restoreOriginalPanel();
-    activeCombat = null;
+    setActiveCombat(null);
     
     System.out.println("Pre-combat position: " + mainGameScreen.getPreCombatPosition());
     System.out.println("Post-combat position: " + mainGameScreen.getPostCombatPosition());
     
     resetMovementFlags();
 }
+
+
+public void onPlayerStep() throws IOException, InterruptedException, ParseException {
+    stepsSinceLastCombat++;
+    mainGameScreen.setMessageTextPane("Steps since last combat: " + stepsSinceLastCombat);
+    if (stepsSinceLastCombat >= 150) {
+        // Force combat at 150 steps
+        randomCombat();
+        stepsSinceLastCombat = 0;
+    } else if (stepsSinceLastCombat >= 100) {
+        // 1% chance per step after 100 steps, up to 149
+        if (random.nextInt(75) == 0) {
+            randomCombat();
+            stepsSinceLastCombat = 0;
+        }
+    }
+}
+
+public Combat getActiveCombat() {
+	return activeCombat;
+}
+
+public void setActiveCombat(Combat activeCombat) {
+	this.activeCombat = activeCombat;
+}
+
 
 }

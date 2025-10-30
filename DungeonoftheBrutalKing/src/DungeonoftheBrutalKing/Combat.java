@@ -171,6 +171,7 @@ public class Combat {
 
 
 
+
 private void handleAttack() {
     if (myEnemies != null && myChar != null) {
         int playerDamage = myChar.getAttackDamage();
@@ -187,10 +188,10 @@ private void handleAttack() {
             myEnemies = null; // Prevent immediate re-entry into combat
             MainGameScreen.replaceWithAnyPanel(mainGamePanel);
             camera.endCombat();
+            camera.getActiveCombat();
             return;
         }
 
-        // Monster attacks back if still alive
         combatAttackButton.setEnabled(false);
         Timer timer = new Timer(1000, e -> {
             int monsterDamage = myEnemies.getAttackDamage();
@@ -200,6 +201,27 @@ private void handleAttack() {
             MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
                 " attacks you for " + damageToPlayer + " damage.\n");
             updateNameAndHP();
+
+            if (myChar.getHitPoints() <= 0) {
+                int choice = JOptionPane.showOptionDialog(
+                    combatPanel,
+                    "You have been defeated!\nWhat would you like to do?",
+                    "Game Over",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    new String[]{"Exit Game", "Load Save"},
+                    "Exit Game"
+                );
+                if (choice == 0) {
+                    System.exit(0);
+                } else if (choice == 1) {
+                    LoadSaveGame loadSaveGame = new LoadSaveGame();
+                    loadSaveGame.LoadGame();
+                }
+                return;
+            }
+
             combatAttackButton.setEnabled(true);
         });
         timer.setRepeats(false);
@@ -208,6 +230,7 @@ private void handleAttack() {
         combatAttackButton.setEnabled(false);
     }
 }
+
 
 
 
