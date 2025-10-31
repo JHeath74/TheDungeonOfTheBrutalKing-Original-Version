@@ -26,7 +26,7 @@ public class Combat {
     private JPanel combatPanel, combatPanelButtons;
     private JButton combatAttackButton, castSelectedSpellButton, selectSpellButton, combatRunButton;
     private Camera camera;
-    private JPanel mainGamePanel; // Added field
+    private JPanel mainGamePanel;
 
     public Combat(Camera camera, JPanel mainGamePanel) throws IOException {
         this.camera = camera;
@@ -93,14 +93,11 @@ public class Combat {
         );
         playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
         playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
-
         playerPanel.add(Box.createRigidArea(new Dimension(24, 0)));
         playerInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
         playerPanel.add(playerInfo);
-
         playerInfo.setEditable(false);
         playerInfo.setBackground(new Color(255, 255, 220));
-        // Removed duplicate add
 
         JPanel enemyPanel = new JPanel();
         enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
@@ -118,7 +115,6 @@ public class Combat {
         enemyInfo = new JTextArea(
             myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
         );
-
         enemyPanel.add(Box.createRigidArea(new Dimension(24, 0)));
         enemyInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
         enemyPanel.add(enemyInfo);
@@ -126,12 +122,19 @@ public class Combat {
         enemyInfo.setPreferredSize(new Dimension(300, enemyInfo.getPreferredSize().height));
         enemyInfo.setEditable(false);
         enemyInfo.setBackground(new Color(255, 255, 220));
-        // Removed duplicate add
 
         combatPanelButtons = new JPanel(new FlowLayout());
         combatAttackButton = new JButton("Attack");
-        castSelectedSpellButton = new JButton("Cast Selected Spell");
-        selectSpellButton = new JButton("Select Spell to Cast");
+        selectSpellButton = new JButton();
+        castSelectedSpellButton = new JButton();
+        String className = myChar.getClassName();
+        if (!"Mage".equals(className) && !"Wizard".equals(className)) {
+            selectSpellButton.setText("Select Action to Use");
+            castSelectedSpellButton.setText("Use Selected Action");
+        } else {
+            selectSpellButton.setText("Select Spell to Cast");
+            castSelectedSpellButton.setText("Cast Selected Spell");
+        }
         combatRunButton = new JButton("Run Away!");
         combatPanelButtons.add(combatAttackButton);
         combatPanelButtons.add(castSelectedSpellButton);
@@ -166,110 +169,110 @@ public class Combat {
         combatRunButton.addActionListener(_ -> handleRun());
     }
 
+    private void handleAttack() {
+        if (myEnemies != null && myChar != null) {
+            int playerDamage = myChar.getAttackDamage();
+            int reducedDamage = monsterDefend(playerDamage);
+            monsterTakeDamage(reducedDamage);
 
+            MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
+                " for " + reducedDamage + " damage.\n");
 
-
-
-
-
-private void handleAttack() {
-    if (myEnemies != null && myChar != null) {
-        int playerDamage = myChar.getAttackDamage();
-        int reducedDamage = monsterDefend(playerDamage);
-        monsterTakeDamage(reducedDamage);
-
-        MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
-            " for " + reducedDamage + " damage.\n");
-
-        updateNameAndHP();
-
-        if (isMonsterDead()) {
-            MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
-            myEnemies = null; // Prevent immediate re-entry into combat
-            MainGameScreen.replaceWithAnyPanel(mainGamePanel);
-            camera.endCombat();
-            camera.getActiveCombat();
-            return;
-        }
-
-        combatAttackButton.setEnabled(false);
-        Timer timer = new Timer(1000, e -> {
-            int monsterDamage = myEnemies.getAttackDamage();
-            int playerDefense = myChar.getDefense();
-            int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
-            myChar.takeDamage(damageToPlayer);
-            MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
-                " attacks you for " + damageToPlayer + " damage.\n");
             updateNameAndHP();
 
-            if (myChar.getHitPoints() <= 0) {
-                int choice = JOptionPane.showOptionDialog(
-                    combatPanel,
-                    "You have been defeated!\nWhat would you like to do?",
-                    "Game Over",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    new String[]{"Exit Game", "Load Save"},
-                    "Exit Game"
-                );
-                if (choice == 0) {
-                    System.exit(0);
-                } else if (choice == 1) {
-                    LoadSaveGame loadSaveGame = new LoadSaveGame();
-                    loadSaveGame.LoadGame();
-                }
+            if (isMonsterDead()) {
+                MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
+                handleRewards();
+                myEnemies = null;
+                MainGameScreen.replaceWithAnyPanel(mainGamePanel);
+                camera.endCombat();
+                camera.getActiveCombat();
                 return;
             }
 
-            combatAttackButton.setEnabled(true);
-        });
-        timer.setRepeats(false);
-        timer.start();
-    } else {
-        combatAttackButton.setEnabled(false);
+            combatAttackButton.setEnabled(false);
+            Timer timer = new Timer(1000, e -> {
+                int monsterDamage = myEnemies.getAttackDamage();
+                int playerDefense = myChar.getDefense();
+                int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
+                myChar.takeDamage(damageToPlayer);
+                MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
+                    " attacks you for " + damageToPlayer + " damage.\n");
+                updateNameAndHP();
+
+                if (myChar.getHitPoints() <= 0) {
+                    int choice = JOptionPane.showOptionDialog(
+                        combatPanel,
+                        "You have been defeated!\nWhat would you like to do?",
+                        "Game Over",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null,
+                        new String[]{"Exit Game", "Load Save"},
+                        "Exit Game"
+                    );
+                    if (choice == 0) {
+                        System.exit(0);
+                    } else if (choice == 1) {
+                        LoadSaveGame loadSaveGame = new LoadSaveGame();
+                        loadSaveGame.LoadGame();
+                    }
+                    return;
+                }
+
+                combatAttackButton.setEnabled(true);
+            });
+            timer.setRepeats(false);
+            timer.start();
+        } else {
+            combatAttackButton.setEnabled(false);
+        }
     }
-}
 
-
-
-
-
-
-private void handleSelectSpell() {
-    java.util.List<String> allSpells = new java.util.ArrayList<>();
-    allSpells.addAll(myChar.getSpellsLearned());
-    allSpells.addAll(myChar.getGuildSpells());
-
-    if (allSpells.isEmpty()) {
-        MainGameScreen.appendToMessageTextPane("You don't know any spells or actions.\n");
-        return;
+    private void handleRewards() {
+        if (myEnemies != null) {
+            int exp = myEnemies.getExperienceReward();
+            int gold = myEnemies.getGoldReward();
+            myChar.rewardExperience(exp);
+            myChar.setGold(myChar.getGold() + gold);
+            MainGameScreen.appendToMessageTextPane("You gained " + exp + " EXP and " + gold + " gold!\n");
+        }
     }
 
-    String selected = (String) JOptionPane.showInputDialog(
-        combatPanel,
-        "Select a spell or action:",
-        "Spell Selection",
-        JOptionPane.PLAIN_MESSAGE,
-        null,
-        allSpells.toArray(),
-        allSpells.get(0)
-    );
+    private void handleSelectSpell() {
+        java.util.List<String> allSpells = new java.util.ArrayList<>();
+        allSpells.addAll(myChar.getSpellsLearned());
+        allSpells.addAll(myChar.getGuildSpells());
 
-    if (selected != null) {
-        setSelectedSpell(selected);
-        MainGameScreen.appendToMessageTextPane("Selected: " + selected + "\n");
+        if (allSpells.isEmpty()) {
+            MainGameScreen.appendToMessageTextPane("You don't know any spells or actions.\n");
+            return;
+        }
+
+        String selected = (String) JOptionPane.showInputDialog(
+            combatPanel,
+            "Select a spell or action:",
+            "Spell Selection",
+            JOptionPane.PLAIN_MESSAGE,
+            null,
+            allSpells.toArray(),
+            allSpells.get(0)
+        );
+
+        if (selected != null) {
+            setSelectedSpell(selected);
+            MainGameScreen.appendToMessageTextPane("Selected: " + selected + "\n");
+        }
     }
-}
 
     private void handleCastSpell() {
         MainGameScreen.appendToMessageTextPane("Cast Selected Spell button pressed.\n");
     }
 
     private void handleRun() {
-    	 MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
-    	    camera.endCombat(); // Do not reset camera position here
-    	    MainGameScreen.replaceWithAnyPanel(mainGamePanel);
+        MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
+        camera.endCombat();
+        MainGameScreen.replaceWithAnyPanel(mainGamePanel);
     }
 
     private void updateNameAndHP() {
@@ -314,6 +317,4 @@ private void handleSelectSpell() {
     public boolean isMonsterDead() {
         return (myEnemies != null) && myEnemies.isDead();
     }
-    
-    
 }

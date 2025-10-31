@@ -76,4 +76,14 @@ public int getAttackDamage() {
     return baseDamage;
 }
 
+public int getExperienceReward() {
+	// TODO Auto-generated method stub
+	return level * 10;
+}
+
+public int getGoldReward() {
+	// TODO Auto-generated method stub
+	return level * 5;
+}
+
 }

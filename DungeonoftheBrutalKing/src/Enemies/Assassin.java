@@ -4,21 +4,24 @@ import SharedData.GameSettings;
 
 public class Assassin extends Enemies {
 
+	private int level;;
+	
 	public Assassin() {
-        super(
-            /* name: The type or identifier of the enemy */ "Assassin",
-            /* level: The enemy's experience or difficulty level */ 1,
-            /* hitPoints: The enemy's health value */ 30,
-            /* strength: Physical attack power */ 8,
-            /* charisma: Social or persuasive ability */ 5,
-            /* agility: Speed and evasion capability */ 7,
-            /* intelligence: Problem-solving or magical ability */ 6,
-            /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Assassin.png",
-            /* isMagicUser: Assassin is not a magic user */ false,
-            /* spellStrength: Assassin has no spell strength */ 0
-        );
-    }
+	    super(
+	        /* name: The type or identifier of the enemy */ "Assassin",
+	        /* level: The enemy's experience or difficulty level */ 5,
+	        /* hitPoints: The enemy's health value */ 30,
+	        /* strength: Physical attack power */ 8,
+	        /* charisma: Social or persuasive ability */ 5,
+	        /* agility: Speed and evasion capability */ 7,
+	        /* intelligence: Problem-solving or magical ability */ 6,
+	        /* wisdom: Decision-making or resistance to effects */ 3,
+	        /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Assassin.png",
+	        /* isMagicUser: Assassin is not a magic user */ false,
+	        /* spellStrength: Assassin has no spell strength */ 0
+	    );
+	    this.level = 5;
+	}
 
     @Override
     public void takeDamage(int damage) {
@@ -60,6 +63,10 @@ public class Assassin extends Enemies {
     public int getAttackDamage() {
         return attack();
     }
+    
+    public int getLevel() {
+        return level;
+    }
 
     @Override
     public String getImagePath() {
@@ -67,6 +74,15 @@ public class Assassin extends Enemies {
             return GameSettings.MonsterImagePath + "Assassin_injured.png";
         }
         return super.getImagePath();
+    }
+    
+    public int getExperienceReward() {
+        return level * 10;
+    }
+
+    @Override
+    public int getGoldReward() {
+        return level * 5;
     }
 
     @Override

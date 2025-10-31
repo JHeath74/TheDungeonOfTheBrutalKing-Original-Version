@@ -508,18 +508,24 @@ private void initGame() {
                 "Stamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
             );
             charStats2Field.setText(
-                myChar.getCharInfo().get(7) + "\t\t" +
-                myChar.getCharInfo().get(8) + "\t\t" +
-                myChar.getCharInfo().get(9) + "\t\t" +
-                myChar.getCharInfo().get(10) + "\t\t" +
-                myChar.getCharInfo().get(11) + "\t\t" +
-                myChar.getCharInfo().get(12)
-            );
-            charXPHPGoldField.setText(
-                "Hit Points: " + myChar.getCharInfo().get(5) + "\t\t" +
-                mpOrApLabel + myChar.getCharInfo().get(6) + "\t\t" +
-                "Gold: " + myChar.getCharInfo().get(9) + "\t\t"
-            );
+       		// Display character stats: Stamina, Charisma, Strength, Intelligence, Wisdom, Agility
+            		myChar.getCharInfo().get(7) + "\t\t" +
+            		myChar.getCharInfo().get(8) + "\t\t" +
+            		myChar.getCharInfo().get(9) + "\t\t" +
+            		myChar.getCharInfo().get(10) + "\t\t" +
+            		myChar.getCharInfo().get(11) + "\t\t" +
+            		myChar.getCharInfo().get(12)
+            		);
+
+            		// Display resources: Hit Points, Magic/Action Points, and Gold
+            		charXPHPGoldField.setText(
+            		    "Hit Points: " + myChar.getCharInfo().get(5) + "\t\t" + // HP
+
+mpOrApLabel + getMagicOrActionPoints() + "\t\t" +
+    // MP or AP
+            		    "Gold: " + myChar.getGold() + "\t\t"         // Gold
+            		);
+
         };
 
         timer = new Timer(1000, task);
@@ -560,6 +566,17 @@ private void initGame() {
             }
         }
     }
+    
+
+public int getMagicOrActionPoints() {
+    String className = myChar.getClassName();
+    if ("Mage".equals(className) || "Wizard".equals(className)) {
+        return myChar.getMagicPoints();
+    } else {
+        return myChar.getActionPoints();
+    }
+}
+
 
     public void savePlayerPosition() {
         savedPlayerX = myChar.getX();

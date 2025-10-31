@@ -182,21 +182,21 @@ public class Camera implements KeyListener {
 
 
 public void endCombat() {
-    System.out.println("endCombat called, restoring panel");
-    mainGameScreen.savePostCombatPosition();
-    mainGameScreen.restoreOriginalPanel();
-    setActiveCombat(null);
-    
-    System.out.println("Pre-combat position: " + mainGameScreen.getPreCombatPosition());
-    System.out.println("Post-combat position: " + mainGameScreen.getPostCombatPosition());
-    
-    resetMovementFlags();
+
+	mainGameScreen.restoreOriginalPanel();
+	setActiveCombat(null);
+
+	// Request focus for the main game panel to restore keyboard input
+	game.getRenderPanel().requestFocusInWindow();
+
+	resetMovementFlags();
 }
 
 
+
 public void onPlayerStep() throws IOException, InterruptedException, ParseException {
-    stepsSinceLastCombat++;
-    mainGameScreen.setMessageTextPane("Steps since last combat: " + stepsSinceLastCombat);
+    stepsSinceLastCombat++; // Increment step counter
+
     if (stepsSinceLastCombat >= 150) {
         // Force combat at 150 steps
         randomCombat();
@@ -209,6 +209,7 @@ public void onPlayerStep() throws IOException, InterruptedException, ParseExcept
         }
     }
 }
+
 
 public Combat getActiveCombat() {
 	return activeCombat;
