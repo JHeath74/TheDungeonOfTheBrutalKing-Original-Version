@@ -77,6 +77,7 @@ public class LoadSaveGame {
     }
 
 
+
 public void StartGameLoadCharecter() throws IOException {
     ArrayList<String> SaveLoadChar = new ArrayList<>();
     File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
@@ -93,10 +94,12 @@ public void StartGameLoadCharecter() throws IOException {
         }
     }
 
+    myChar.getCharInfo().clear(); // Clear previous character info
     myChar.getCharInfo().addAll(SaveLoadChar);
 
     myChar.getDirection();
 }
+
 
 
     public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {

@@ -1,8 +1,6 @@
 
 package Shields;
 
-import DungeonoftheBrutalKing.ShieldManager;
-
 public class Wooden_Shield extends ShieldManager {
 
     private int requiredStrength;

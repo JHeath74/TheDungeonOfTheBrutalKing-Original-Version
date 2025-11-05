@@ -2,7 +2,6 @@
 package Shields;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.ShieldManager;
 
 public class Magical_Shield extends ShieldManager {
 

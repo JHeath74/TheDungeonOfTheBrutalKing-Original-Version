@@ -132,7 +132,7 @@ public class GameStart extends JFrame {
     private void setupButtonActions(RoundedButton continueBtn, RoundedButton newGameBtn, RoundedButton loadBtn, RoundedButton settingsBtn, RoundedButton exitBtn) {
         newGameBtn.addActionListener(e -> {
             MusicPlayer.stopMidi();
-            File saveFile = new File(GameSettings.SavedGameDirectory + "/InitlaCharecterSave.txt");
+            File saveFile = new File(GameSettings.SavedGameDirectory + "/InitialCharecterSave.txt");
             if (saveFile.exists()) {
                 int response = JOptionPane.showConfirmDialog(null,
                         "InitalCharecterSave.txt exists. Do you want to delete it and start a new game?",

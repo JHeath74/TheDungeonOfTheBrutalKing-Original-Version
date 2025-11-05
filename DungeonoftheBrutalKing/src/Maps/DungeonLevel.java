@@ -4,7 +4,10 @@ package Maps;
 
 import java.awt.Point;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import Maps.MapEntity;
 
 import SharedData.LocationType;
 
@@ -14,6 +17,12 @@ public abstract class DungeonLevel {
     protected int[][] map;
     protected Map<Point, LocationType> specialLocations = new HashMap<>();
     protected int dungeonLevelNumber; // Add this field
+    
+
+ // Add to DungeonLevel.java
+ public abstract List<? extends MapEntity> getEntities();
+
+
 
     public int[][] getMap() { return map; }
     public static int getMapWidth() { return mapWidth; }

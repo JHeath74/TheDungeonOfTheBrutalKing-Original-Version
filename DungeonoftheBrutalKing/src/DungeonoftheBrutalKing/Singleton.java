@@ -6,6 +6,7 @@ import java.util.List;
 
 import Armour.ArmourManager;
 import Enemies.Enemies;
+import Shields.ShieldManager;
 import Spells.Spells;
 import Weapon.WeaponManager;
 

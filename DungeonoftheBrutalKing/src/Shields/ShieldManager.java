@@ -1,8 +1,10 @@
 
-package DungeonoftheBrutalKing;
+package Shields;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import DungeonoftheBrutalKing.Singleton;
 
 public class ShieldManager {
 

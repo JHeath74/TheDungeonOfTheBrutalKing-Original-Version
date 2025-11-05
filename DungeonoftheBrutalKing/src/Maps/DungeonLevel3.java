@@ -2,6 +2,7 @@
 package Maps;
 
 import java.awt.Point;
+import java.util.List;
 
 import SharedData.LocationType;
 
@@ -196,5 +197,14 @@ public class DungeonLevel3 extends DungeonLevel {
     public LocationType getSpecialLocation(int x, int y) {
         return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
     }
+
+
+
+	@Override
+	public List<? extends MapEntity> getEntities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

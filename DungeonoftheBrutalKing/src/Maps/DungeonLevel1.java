@@ -2,6 +2,7 @@
 package Maps;
 
 import java.awt.Point;
+import java.util.List;
 
 import SharedData.LocationType;
 
@@ -228,4 +229,12 @@ public class DungeonLevel1 extends DungeonLevel{
      }
      return null;
  }
+
+ @Override
+ public List<? extends MapEntity> getEntities() {
+	// TODO Auto-generated method stub
+	return null;
+ }
+
+
 }
