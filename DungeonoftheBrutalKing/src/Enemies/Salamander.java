@@ -13,7 +13,7 @@ public class Salamander extends Enemies {
     public Salamander() {
         super(
             /* name: The type or identifier of the enemy */ "Salamander",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 2,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -45,6 +45,20 @@ public class Salamander extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     // Attack with poison status effect

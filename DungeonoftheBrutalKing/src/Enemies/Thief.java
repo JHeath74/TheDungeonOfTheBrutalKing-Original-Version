@@ -11,7 +11,7 @@ public class Thief extends Enemies {
     public Thief() {
         super(
             /* name: The type or identifier of the enemy */ "Thief",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 4,
             /* hitPoints: The enemy's health value */ 22,
             /* strength: Physical attack power */ 6,
             /* charisma: Social or persuasive ability */ 4,
@@ -22,6 +22,7 @@ public class Thief extends Enemies {
             /* isMagicUser: Thief is not a magic user */ false,
             /* spellStrength: Thief has no spell strength */ 0
         );
+        this.level = 4;
     }
 
     @Override
@@ -38,6 +39,20 @@ public class Thief extends Enemies {
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

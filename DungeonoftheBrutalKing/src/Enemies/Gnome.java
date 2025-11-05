@@ -2,9 +2,7 @@
 // src/Enemies/Gnome.java
 package Enemies;
 
-import java.util.ArrayList;
 
-import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -14,7 +12,7 @@ public class Gnome extends Enemies {
     public Gnome() {
         super(
             /* name: The type or identifier of the enemy */ "Gnome",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 2,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -25,6 +23,7 @@ public class Gnome extends Enemies {
             /* isMagicUser: Gnome is not a magic user */ false,
             /* spellStrength: Gnome has no spell strength */ 0
         );
+        this.level = 2;
     }
 
     @Override
@@ -82,5 +81,19 @@ public class Gnome extends Enemies {
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 }

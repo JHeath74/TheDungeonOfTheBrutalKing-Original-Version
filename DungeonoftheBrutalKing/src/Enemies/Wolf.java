@@ -10,7 +10,7 @@ public class Wolf extends Enemies {
     public Wolf() {
         super(
             /* name: The type or identifier of the enemy */ "Wolf",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 2,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -21,6 +21,7 @@ public class Wolf extends Enemies {
             /* isMagicUser: Wolf is not a magic user */ false,
             /* spellStrength: Wolf has no spell strength */ 0
         );
+        this.level = 2;
     }
 
     @Override
@@ -37,6 +38,20 @@ public class Wolf extends Enemies {
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

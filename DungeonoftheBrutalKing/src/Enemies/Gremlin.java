@@ -20,6 +20,7 @@ public class Gremlin extends Enemies {
             /* isMagicUser: Gremlin is not a magic user */ false,
             /* spellStrength: Gremlin has no spell strength */ 0
         );
+        this.level = 1;
     }
     
 
@@ -73,5 +74,19 @@ public int defend(int incomingDamage) {
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 }

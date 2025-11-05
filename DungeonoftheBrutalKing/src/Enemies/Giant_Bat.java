@@ -21,6 +21,7 @@ public class Giant_Bat extends Enemies {
             /* isMagicUser: Giant Bat is not a magic user */ false,
             /* spellStrength: Giant Bat has no spell strength */ 0
         );
+        this.level = 1;
     }
 
     @Override
@@ -75,5 +76,19 @@ public int defend(int incomingDamage) {
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 }

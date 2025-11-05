@@ -22,6 +22,7 @@ public class Skeleton extends Enemies {
             /* isMagicUser: Skeleton is not a magic user */ false,
             /* spellStrength: Skeleton has no spell strength */ 0
         );
+        this.level = 1;
     }
 
     @Override
@@ -59,6 +60,20 @@ public class Skeleton extends Enemies {
     @Override
     public String getImagePath() {
         return super.getImagePath();
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class Assassin extends Enemies {
@@ -35,15 +36,18 @@ public class Assassin extends Enemies {
             setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getImagePath());
         }
     }
-
-    @Override
-    public int defend(int damage) {
-        double reduction = getAgility() * 0.07;
-        int reducedDamage = (int) (damage * (1 - reduction));
-        return Math.max(reducedDamage, 0);
+@Override
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -76,13 +80,18 @@ public class Assassin extends Enemies {
         return super.getImagePath();
     }
     
+    @Override
     public int getExperienceReward() {
-        return level * 10;
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
-        return level * 5;
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

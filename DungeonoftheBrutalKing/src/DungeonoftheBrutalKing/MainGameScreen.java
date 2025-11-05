@@ -74,7 +74,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         return instance;
     }
 
-    private MainGameScreen() throws IOException {
+    public MainGameScreen() throws IOException {
         setupFrame();
         setupPanels();
         setupMenuBar();

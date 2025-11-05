@@ -47,4 +47,29 @@ public abstract class Status {
      // e.g., character.resetDefense(), character.resetAttack(), etc.
  }
 
+ public boolean canAct() {
+	// TODO Auto-generated method stub
+	return false;
+ }
+
+ public boolean canCastSpells() {
+	// TODO Auto-generated method stub
+	return false;
+ }
+
+ public boolean canAttack() {
+	// TODO Auto-generated method stub
+	return false;
+ }
+
+ public void remove(Charecter character) {
+	// TODO Auto-generated method stub
+	
+ }
+
+ public void apply(Charecter character) {
+	// TODO Auto-generated method stub
+	
+ }
+
 }

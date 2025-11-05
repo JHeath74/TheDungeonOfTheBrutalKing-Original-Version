@@ -10,7 +10,7 @@ public class Wizard extends Enemies {
     public Wizard() {
         super(
             /* name: The type or identifier of the enemy */ "Wizard",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 6,
             /* hitPoints: The enemy's health value */ 24,
             /* strength: Physical attack power */ 4,
             /* charisma: Social or persuasive ability */ 6,
@@ -21,6 +21,8 @@ public class Wizard extends Enemies {
             /* isMagicUser: Wizard is a magic user */ true,
             /* spellStrength: Wizard's spell strength */ 7
         );
+        
+        this.level = 6;
     }
 
     @Override
@@ -43,6 +45,20 @@ public class Wizard extends Enemies {
     public int attack() {
         // Wizard relies more on intelligence, wisdom, and spell strength for attack
         return (int) ((getIntelligence() * 1.2) + (getWisdom() * 0.8) + getSpellStrength());
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     // Defend method: reduces incoming damage based on agility and a base defense

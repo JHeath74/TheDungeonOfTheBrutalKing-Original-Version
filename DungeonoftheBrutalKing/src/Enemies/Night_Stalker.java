@@ -9,7 +9,7 @@ public class Night_Stalker extends Enemies {
     public Night_Stalker() {
         super(
             /* name: The type or identifier of the enemy */ "Night Stalker",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 5,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -20,6 +20,7 @@ public class Night_Stalker extends Enemies {
             /* isMagicUser: Night Stalker is not a magic user */ false,
             /* spellStrength: Night Stalker has no spell strength */ 0
         );
+        this.level = 5;
     }
 
     @Override
@@ -41,6 +42,20 @@ public class Night_Stalker extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     // Defend method: reduces incoming damage based on agility and a base defense

@@ -12,7 +12,7 @@ public class Mage extends Enemies {
     public Mage() {
         super(
             /* name: The type or identifier of the enemy */ "Mage",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 5,
             /* hitPoints: The enemy's health value */ 25,
             /* strength: Physical attack power */ 5,
             /* charisma: Social or persuasive ability */ 6,
@@ -23,6 +23,7 @@ public class Mage extends Enemies {
             /* isMagicUser: Mage is a magic user */ true,
             /* spellStrength: Mage has spell strength */ 12
         );
+        this.level = 5;
     }
 
     @Override
@@ -65,6 +66,20 @@ public class Mage extends Enemies {
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

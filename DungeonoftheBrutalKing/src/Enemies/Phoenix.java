@@ -19,7 +19,7 @@ public class Phoenix extends Enemies {
     public Phoenix() {
         super(
             /* name: The type or identifier of the enemy */ "Phoenix",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 9,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -30,6 +30,7 @@ public class Phoenix extends Enemies {
             /* isMagicUser: Phoenix is a magic user */ true,
             /* spellStrength: Phoenix has spell strength */ 10
         );
+        this.level = 9;
     }
 
     @Override
@@ -49,14 +50,6 @@ public class Phoenix extends Enemies {
         return (int) ((getStrength() * 1.5) + (getAgility() * 0.5) + getSpellStrength());
     }
 
-    // Default attack (no target)
-    @Override
-    public int attack() {
-        int phoenixFlameAttack = 12 + getStrength() + getSpellStrength();
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks with Phoenix Flame.");
-        return phoenixFlameAttack;
-    }
-
     // Attack with fire status effect
     public int attack(Charecter target) {
         int phoenixFlameAttack = 12 + getStrength() + getSpellStrength();
@@ -72,7 +65,23 @@ public class Phoenix extends Enemies {
 
     @Override
     public String getImagePath() {
-        return super.getImagePath();
+        return super.getImagePath(
+        		
+        		);
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override
@@ -102,4 +111,10 @@ public class Phoenix extends Enemies {
         System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
+
+	@Override
+	public int attack() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

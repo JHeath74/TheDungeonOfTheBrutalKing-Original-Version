@@ -9,7 +9,7 @@ public class Orc extends Enemies {
     public Orc() {
         super(
             /* name: The type or identifier of the enemy */ "Orc",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 4,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -20,6 +20,7 @@ public class Orc extends Enemies {
             /* isMagicUser: Orc is not a magic user */ false,
             /* spellStrength: Orc has no spell strength */ 0
         );
+        this.level = 4;
     }
 
     @Override

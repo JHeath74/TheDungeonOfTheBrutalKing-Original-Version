@@ -1,6 +1,8 @@
 package Enemies;
 
 import SharedData.GameSettings;
+import Status.PoisonStatus;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Mold extends Enemies {
@@ -20,6 +22,7 @@ public class Mold extends Enemies {
             /* isMagicUser: Mold is not a magic user */ false,
             /* spellStrength: Mold has no spell strength */ 0
         );
+        this.level = 1;
     }
 
     @Override
@@ -38,10 +41,22 @@ public class Mold extends Enemies {
         return getHitPoints() <= 0;
     }
 
+
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 1.2) + (getAgility() * 0.3));
+    public int attack(Charecter target) {
+        int poisonAttack = 12 + getStrength() + getSpellStrength();
+        boolean poisonStatusApplied = Math.random() < 0.3; // 30% chance
+        if (poisonStatusApplied) {
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies poison status!");
+            target.addStatus(new PoisonStatus(poisonAttack));
+        } else {
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks.");
+        }
+        return poisonAttack;
     }
+
+
+
 
     // Defend method: reduces incoming damage based on agility and a base defense
     public int defend(int incomingDamage) {
@@ -57,6 +72,20 @@ public class Mold extends Enemies {
     @Override
     public String getImagePath() {
         return super.getImagePath();
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override
@@ -75,4 +104,6 @@ public class Mold extends Enemies {
                 ", spellStrength=" + getSpellStrength() +
                 '}';
     }
+
+
 }

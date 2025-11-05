@@ -2,9 +2,6 @@
 // src/Enemies/Gnoll.java
 package Enemies;
 
-import java.util.ArrayList;
-
-import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -25,6 +22,7 @@ public class Gnoll extends Enemies {
             /* isMagicUser: Gnoll is not a magic user */ false,
             /* spellStrength: Gnoll has no spell strength */ 0
         );
+        this.level = 3;
     }
 
     @Override
@@ -83,5 +81,19 @@ public class Gnoll extends Enemies {
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 }

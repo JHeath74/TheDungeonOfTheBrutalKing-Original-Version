@@ -11,7 +11,7 @@ public class Liches extends Enemies {
     public Liches() {
         super(
             /* name: The type or identifier of the enemy */ "Liches",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 2,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -22,6 +22,7 @@ public class Liches extends Enemies {
             /* isMagicUser: Liches are magic users */ true,
             /* spellStrength: Liches have spell strength */ 10
         );
+        this.level = 2;
     }
 
     @Override
@@ -59,6 +60,20 @@ public class Liches extends Enemies {
     @Override
     public String getImagePath() {
         return super.getImagePath();
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

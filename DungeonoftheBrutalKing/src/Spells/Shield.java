@@ -1,8 +1,8 @@
+
 package Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
-import Effect.EffectManager;
 import SharedData.Alignment;
 
 public abstract class Shield implements Spell {
@@ -10,7 +10,6 @@ public abstract class Shield implements Spell {
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED;
     private int duration = 12;
     private TimeClock timeClock = TimeClock.Singleton();
-    private EffectManager effectManager = EffectManager.Singleton();
 
     public Shield() {}
 
@@ -29,10 +28,11 @@ public abstract class Shield implements Spell {
         int totalDefense = baseDefense + dexterityModifier + armorBonus + shieldBonus + extraDefense;
         character.setDefense(totalDefense);
 
-        effectManager.registerEffect("Shield", startTime, duration, this::removeSpellEffect);
+        // TODO: Implement effect duration tracking and removal if needed
     }
 
-    private void removeSpellEffect() {
+    // Call this method when the shield effect should end
+    protected void removeSpellEffect() {
         Charecter character = Charecter.getInstance();
 
         int baseDefense = 10;

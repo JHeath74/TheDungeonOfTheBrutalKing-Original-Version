@@ -9,12 +9,7 @@ import SharedData.Alignment;
 
 public abstract class Cure implements Spell {
 
-    private static final int MINIMUM_WISDOM = 10;
-    private static final int MINIMUM_INTELLIGENCE = 10;
-    private static Charecter myChar = Charecter.getInstance();
-
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
-    private String name = "Cure";
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED;
 
     public Cure() {
         super();
@@ -27,9 +22,10 @@ public abstract class Cure implements Spell {
         Random random = new Random();
 
         // Attempt to remove negative effects from the character
+        Charecter character = Singleton.myCharSingleton();
         for (String effect : negativeEffects) {
             if (random.nextDouble() < 0.75) { // 75% chance to remove the effect
-                Singleton.myCharSingleton().removeEffect(effect);
+                character.getStatusManager().removeStatusByName(effect);
                 System.out.println("Cured " + effect + "!");
             } else {
                 System.out.println("Failed to cure " + effect + ".");
@@ -43,7 +39,7 @@ public abstract class Cure implements Spell {
     }
 
     @Override
-	public SharedData.Alignment getSpellAlignment() {
-        return getSpellAlignment(); // Getter for the spell type
+    public Alignment getSpellAlignment() {
+        return SPELL_ALIGNMENT;
     }
 }

@@ -2,6 +2,7 @@
 // src/Enemies/Wraith.java
 package Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class Wraith extends Enemies {
@@ -10,7 +11,7 @@ public class Wraith extends Enemies {
     public Wraith() {
         super(
             /* name: The type or identifier of the enemy */ "Wraith",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 6,
             /* hitPoints: The enemy's health value */ 26,
             /* strength: Physical attack power */ 5,
             /* charisma: Social or persuasive ability */ 7,
@@ -21,6 +22,7 @@ public class Wraith extends Enemies {
             /* isMagicUser: Wraith is a magic user */ true,
             /* spellStrength: Wraith's spell strength */ 5
         );
+        this.level = 7;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class Wraith extends Enemies {
             setHitPoints(0);
         }
         if (isDead()) {
-            System.out.println(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -54,6 +56,20 @@ public class Wraith extends Enemies {
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

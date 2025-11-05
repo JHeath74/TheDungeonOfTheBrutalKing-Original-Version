@@ -11,7 +11,7 @@ public class Vampire extends Enemies {
     public Vampire() {
         super(
             /* name: The type or identifier of the enemy */ "Vampire",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 5,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -22,6 +22,7 @@ public class Vampire extends Enemies {
             /* isMagicUser: Vampire is not a magic user */ false,
             /* spellStrength: Vampire has no spell strength */ 0
         );
+        this.level = 5;
     }
 
     @Override
@@ -33,6 +34,20 @@ public class Vampire extends Enemies {
         if (isDead()) {
             MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

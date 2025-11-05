@@ -8,7 +8,7 @@ public class Imp extends Enemies {
     public Imp() {
         super(
             /* name: The type or identifier of the enemy */ "Imp",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 4,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -19,6 +19,7 @@ public class Imp extends Enemies {
             /* isMagicUser: Imp is not a magic user */ false,
             /* spellStrength: Imp has no spell strength */ 0
         );
+        this.level = 4;
     }
 
     @Override
@@ -56,6 +57,20 @@ public class Imp extends Enemies {
     @Override
     public String getImagePath() {
         return super.getImagePath();
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

@@ -169,65 +169,62 @@ public class Combat {
         combatRunButton.addActionListener(_ -> handleRun());
     }
 
-    private void handleAttack() {
-        if (myEnemies != null && myChar != null) {
-            int playerDamage = myChar.getAttackDamage();
-            int reducedDamage = monsterDefend(playerDamage);
-            monsterTakeDamage(reducedDamage);
 
-            MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
-                " for " + reducedDamage + " damage.\n");
+private void handleAttack() {
+    if (myEnemies != null && myChar != null) {
+        int playerDamage = myChar.getAttackDamage();
+        int reducedDamage = monsterDefend(playerDamage);
+        monsterTakeDamage(reducedDamage);
 
+        MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
+            " for " + reducedDamage + " damage.\n");
+
+        updateNameAndHP();
+
+        if (isMonsterDead()) {
+            MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
+            handleRewards();
+            myEnemies = null;
+            MainGameScreen.replaceWithAnyPanel(mainGamePanel);
+            camera.endCombat();
+            camera.getActiveCombat();
+            return;
+        }
+
+        combatAttackButton.setEnabled(false);
+        Timer timer = new Timer(1000, e -> {
+            enemyAttemptApplyEffect(); // Handles both attack and effect
             updateNameAndHP();
 
-            if (isMonsterDead()) {
-                MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
-                handleRewards();
-                myEnemies = null;
-                MainGameScreen.replaceWithAnyPanel(mainGamePanel);
-                camera.endCombat();
-                camera.getActiveCombat();
+            if (myChar.getHitPoints() <= 0) {
+                int choice = JOptionPane.showOptionDialog(
+                    combatPanel,
+                    "You have been defeated!\nWhat would you like to do?",
+                    "Game Over",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    new String[]{"Exit Game", "Load Save"},
+                    "Exit Game"
+                );
+                if (choice == 0) {
+                    System.exit(0);
+                } else if (choice == 1) {
+                    LoadSaveGame loadSaveGame = new LoadSaveGame();
+                    loadSaveGame.LoadGame();
+                }
                 return;
             }
 
-            combatAttackButton.setEnabled(false);
-            Timer timer = new Timer(1000, e -> {
-                int monsterDamage = myEnemies.getAttackDamage();
-                int playerDefense = myChar.getDefense();
-                int damageToPlayer = Math.max(0, monsterDamage - playerDefense);
-                myChar.takeDamage(damageToPlayer);
-                MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
-                    " attacks you for " + damageToPlayer + " damage.\n");
-                updateNameAndHP();
-
-                if (myChar.getHitPoints() <= 0) {
-                    int choice = JOptionPane.showOptionDialog(
-                        combatPanel,
-                        "You have been defeated!\nWhat would you like to do?",
-                        "Game Over",
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.WARNING_MESSAGE,
-                        null,
-                        new String[]{"Exit Game", "Load Save"},
-                        "Exit Game"
-                    );
-                    if (choice == 0) {
-                        System.exit(0);
-                    } else if (choice == 1) {
-                        LoadSaveGame loadSaveGame = new LoadSaveGame();
-                        loadSaveGame.LoadGame();
-                    }
-                    return;
-                }
-
-                combatAttackButton.setEnabled(true);
-            });
-            timer.setRepeats(false);
-            timer.start();
-        } else {
-            combatAttackButton.setEnabled(false);
-        }
+            combatAttackButton.setEnabled(true);
+        });
+        timer.setRepeats(false);
+        timer.start();
+    } else {
+        combatAttackButton.setEnabled(false);
     }
+}
+
 
     private void handleRewards() {
         if (myEnemies != null) {
@@ -283,6 +280,21 @@ public class Combat {
             myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
         );
     }
+    
+    private void enemyAttemptApplyEffect() {
+        if (myEnemies != null && myChar != null) {
+        	if (myEnemies != null) {
+        	    int damage = myEnemies.getAttackDamage();
+        	    myChar.takeDamage(damage);
+        	}
+            	int damage = myEnemies.getAttackDamage();
+            	myChar.takeDamage(damage);
+            } else {
+                int damage = myEnemies.getAttackDamage();
+                myChar.takeDamage(damage);
+            }
+        }
+    
 
     public Enemies getMyEnemies() {
         return myEnemies;

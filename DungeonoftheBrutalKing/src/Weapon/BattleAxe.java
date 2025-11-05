@@ -1,7 +1,6 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Effect.EffectManager;
 
 public class BattleAxe extends WeaponManager {
 
@@ -9,11 +8,6 @@ public class BattleAxe extends WeaponManager {
     private static int weight = 25;
     private static int damage = 35;
     private static final int REQUIRED_STRENGTH = 30;
-    private EffectManager effectManager = new EffectManager();
-
-    public EffectManager getEffectManager() {
-        return effectManager;
-    }
 
     public BattleAxe(int damage, String effect, int weight) {
         super("Battle Axe", REQUIRED_STRENGTH, damage, effect, weight);
@@ -25,7 +19,7 @@ public class BattleAxe extends WeaponManager {
         BattleAxe.weight = weight;
     }
 
-    public static BattleAxe createBattleAxe(Character character, int damage, String effect) throws NumberFormatException {
+    public static BattleAxe createBattleAxe(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

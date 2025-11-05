@@ -2,6 +2,7 @@
 // Whirlwind.java
 package Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class Whirlwind extends Enemies {
@@ -9,7 +10,7 @@ public class Whirlwind extends Enemies {
 	public Whirlwind() {
         super(
             /* name: The type or identifier of the enemy */ "Whirlwind",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 3,
             /* hitPoints: The enemy's health value */ 28,
             /* strength: Physical attack power */ 7,
             /* charisma: Social or persuasive ability */ 4,
@@ -20,18 +21,33 @@ public class Whirlwind extends Enemies {
             /* isMagicUser: Whirlwind is not a magic user */ false,
             /* spellStrength: Whirlwind has no spell strength */ 0
         );
+        this.level = 3;
     }
 
 
+	@Override
+	public void takeDamage(int damage) {
+	    setHitPoints(getHitPoints() - damage);
+	    if (getHitPoints() < 0) {
+	        setHitPoints(0);
+	    }
+	    if (isDead()) {
+	        MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+	    }
+	}
+    
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) {
-            setHitPoints(0);
-        }
-        if (isDead()) {
-            System.out.println(getName() + " has died.");
-        }
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

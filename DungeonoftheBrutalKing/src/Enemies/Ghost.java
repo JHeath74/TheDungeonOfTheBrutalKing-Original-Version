@@ -10,7 +10,7 @@ public class Ghost extends Enemies {
     public Ghost() {
         super(
             /* name: The type or identifier of the enemy */ "Ghost",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 3,
             /* hitPoints: The enemy's health value */ 20,
             /* strength: Physical attack power */ 5,
             /* charisma: Social or persuasive ability */ 4,
@@ -21,6 +21,7 @@ public class Ghost extends Enemies {
             /* isMagicUser: Ghost is not a magic user */ false,
             /* spellStrength: Ghost has no spell strength */ 0
         );
+        this.level = 3;
     }
 
     @Override
@@ -70,5 +71,19 @@ public class Ghost extends Enemies {
                 ", wisdom=" + getWisdom() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 }

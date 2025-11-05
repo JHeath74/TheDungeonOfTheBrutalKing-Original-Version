@@ -9,7 +9,7 @@ public class Noblemen extends Enemies {
     public Noblemen() {
         super(
             /* name: The type or identifier of the enemy */ "Noblemen",
-            /* level: The enemy's experience or difficulty level */ 1,
+            /* level: The enemy's experience or difficulty level */ 4,
             /* hitPoints: The enemy's health value */ 30,
             /* strength: Physical attack power */ 8,
             /* charisma: Social or persuasive ability */ 5,
@@ -20,6 +20,7 @@ public class Noblemen extends Enemies {
             /* isMagicUser: Noblemen is not a magic user */ false,
             /* spellStrength: Noblemen has no spell strength */ 0
         );
+        this.level = 4;
     }
 
     @Override
@@ -52,6 +53,20 @@ public class Noblemen extends Enemies {
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     @Override

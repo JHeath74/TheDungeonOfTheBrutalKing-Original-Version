@@ -1,9 +1,11 @@
 
 package Enemies;
 
+import DungeonoftheBrutalKing.Charecter;
+
 public abstract class Enemies {
     private String name;
-    private int level;
+    protected int level;
     private int hitPoints;
     private int strength;
     private int charisma;
@@ -47,8 +49,6 @@ public abstract class Enemies {
     public void setMagicUser(boolean isMagicUser) { this.isMagicUser = isMagicUser; }
     public void setSpellStrength(int spellStrength) { this.spellStrength = spellStrength; }
 
-    public abstract int attack();
-
     public void takeDamage(int damage) {
         this.hitPoints = Math.max(0, this.hitPoints - damage);
     }
@@ -84,6 +84,21 @@ public int getExperienceReward() {
 public int getGoldReward() {
 	// TODO Auto-generated method stub
 	return level * 5;
+}
+
+public void attemptApplyEffect(Charecter target) {
+	// TODO Auto-generated method stub
+	
+}
+
+public int attack(Charecter target) {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+public int attack() {
+	// TODO Auto-generated method stub
+	return 0;
 }
 
 }

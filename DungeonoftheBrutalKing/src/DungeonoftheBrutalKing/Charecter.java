@@ -3,6 +3,7 @@ package DungeonoftheBrutalKing;
 
 import java.util.*;
 import Quests.Quest;
+import Status.StatusManager;
 
 public class Charecter {
 
@@ -40,8 +41,7 @@ public class Charecter {
     private double originalHitChance = 1.0;
 
     private static Charecter instance;
-    private Object effectManager = null;
-    private List<String> activeEffects = new ArrayList<>();
+
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
     private ArrayList<String> spellsLearned = new ArrayList<>();
     private ArrayList<String> charInventory = new ArrayList<>();
@@ -50,6 +50,9 @@ public class Charecter {
     private int actionPoints = 100;
 
     public Charecter() {}
+    
+    private StatusManager statusManager = new StatusManager();
+
 
     public static Charecter getInstance() {
         if (instance == null) {
@@ -149,10 +152,7 @@ public class Charecter {
     public void setSpellsLearned(ArrayList<String> spells) { spellsLearned = spells; }
     public ArrayList<String> getGuildSpells() { return guildSpells; }
     public void setGuildSpells(ArrayList<String> spells) { guildSpells = spells; }
-    public List<String> getActiveEffects() { return activeEffects; }
-    public void setActiveEffects(List<String> activeEffects) { this.activeEffects = activeEffects; }
-    public Object getEffectManager() { return effectManager; }
-    public void setEffectManager(Object em) { effectManager = em; }
+
 
     public List<Quest> getActiveQuests() { return activeQuests; }
     public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
@@ -262,7 +262,14 @@ public class Charecter {
     public void resetHitChance() {
         setHitChance(originalHitChance);
     }
-    public boolean removeEffect(String effect) {
-        return activeEffects.remove(effect);
+     
+
+    public void setStatusManager(StatusManager statusManager) {
+        this.statusManager = statusManager;
     }
+    
+    public StatusManager getStatusManager() {
+        return statusManager;
+    }
+
 }

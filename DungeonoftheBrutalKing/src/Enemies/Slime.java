@@ -24,6 +24,7 @@ public class Slime extends Enemies {
             /* isMagicUser: Slime is not a magic user */ false,
             /* spellStrength: Slime has no spell strength */ 0
         );
+        this.level = 1;
     }
 
     @Override
@@ -45,6 +46,20 @@ public class Slime extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.2) + (getAgility() * 0.4));
+    }
+    
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
     }
 
     // Attack with a chance to apply poison status effect
