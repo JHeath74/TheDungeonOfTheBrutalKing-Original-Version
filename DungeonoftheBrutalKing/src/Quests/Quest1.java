@@ -2,108 +2,99 @@
 // src/Quests/Quest1.java
 package Quests;
 
-import java.util.Random;
 import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.GameSettings;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Quest1 implements Quest {
-    private String name;
-    private String description;
+    private final String name = "Rescue the Forgotten Prisoner";
+    private final String prisonerName = "George";
+    private final String description = "Free a starving NPC named " + prisonerName + ", locked in a hidden cell. No reward, just gratitude.";
     private boolean completed;
-    private int rewardGold;
-    private Alignment alignment;
-    private String conversation;
-    private EncounterType encounterType;
-    private String encounterTarget;
-    Charecter myChar = new Charecter();
+    private final int rewardGold = 0;
+    private final Alignment alignment;
+    private final String conversation = "Thank you, stranger! I thought I would never see the light of day again. I was imprisoned here for refusing to betray my friends.";
+    private final String imprisonmentReason = "Imprisoned for refusing to betray his friends.";
+    private final QuestType questType = QuestType.RESCUE;
+    private final EncounterType encounterType = EncounterType.STATIC_PERSON;
+    private final String descriptionForEncounter = "A frail and desperate prisoner named " + prisonerName + " is locked in a hidden cell, pleading for help.";
+    private final String encounterTarget = prisonerName;
 
-    public Quest1(String name, String description, int i, String conversation, Alignment alignment) {
-        this.name = name;
-        this.description = description;
-        this.rewardGold = calculateGoldReward();
+    public Quest1(Alignment alignment) {
         this.completed = false;
         this.alignment = alignment;
-        this.conversation = conversation;
-        this.encounterType = getRandomEncounterType();
-        this.encounterTarget = null;
     }
 
-    private EncounterType getRandomEncounterType() {
-        EncounterType[] types = EncounterType.values();
-        Random random = new Random();
-        return types[random.nextInt(types.length)];
-    }
+    public String getPrisonerName() { return prisonerName; }
+    public String getImprisonmentReason() { return imprisonmentReason; }
+    public Alignment getAlignment() { return alignment; }
+    public QuestType getQuestType() { return questType; }
+    @Override public String getName() { return name; }
+    @Override public String getDescription() { return description; }
+    @Override public boolean isCompleted() { return completed; }
+    @Override public void completeQuest() { this.completed = true; }
+    public void giveReward(Charecter character) {}
+    public int getRewardGold() { return rewardGold; }
+    public String getConversation() { return conversation; }
+    public EncounterType getEncounterType() { return encounterType; }
+    public String getEncounterTarget() { return encounterTarget; }
+    public String getDescriptionForEncounter() { return descriptionForEncounter; }
 
-    private int calculateGoldReward() {
-        if (myChar.getCharInfo() == null || myChar.getCharInfo().size() <= 2) {
-            throw new IllegalStateException();
-        }
-        Random random = new Random();
-        int goldMultiplier = random.nextInt(41) + 10;
-
-int charLevel = myChar.getLevel();
-
-        return goldMultiplier * charLevel;
-    }
-
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    @Override
-    public void completeQuest() {
+    public void releasePrisoner(Charecter player) {
+        player.setAlignment(3);
         this.completed = true;
     }
 
-    public void giveReward(Charecter character) {
-        int currentGold = character.getGold();
-        character.setGold(currentGold + rewardGold);
+    public void ignorePrisoner(Charecter player) {
+        player.setAlignment(-3);
+        this.completed = false;
     }
 
-    public int getRewardGold() {
-        return rewardGold;
+    public JPanel createEncounterPanel(Charecter player, MainGameScreen mainGameScreen) {
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.QuestImagesPath + "/Prisoner.png"));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(imageLabel, BorderLayout.NORTH);
+
+        JLabel descLabel = new JLabel(getDescriptionForEncounter());
+        descLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(descLabel, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel();
+        JButton freeButton = new JButton("Free");
+        JButton ignoreButton = new JButton("Ignore");
+
+        freeButton.addActionListener(_ -> {
+            releasePrisoner(player);
+            MainGameScreen.replaceWithAnyPanel(new JPanel());
+        });
+        ignoreButton.addActionListener(_ -> {
+            ignorePrisoner(player);
+            MainGameScreen.replaceWithAnyPanel(new JPanel());
+        });
+
+        buttonPanel.add(freeButton);
+        buttonPanel.add(ignoreButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        return mainPanel;
     }
 
-
-public String getConversation() {
-    return this.conversation;
-}
-
-
-    public EncounterType getEncounterType() {
-        return encounterType;
+    @Override
+    public String serialize() {
+        return name + "|" +
+               description + "|" +
+               completed + "|" +
+               rewardGold + "|" +
+               (alignment != null ? alignment.name() : "null") + "|" +
+               (conversation != null ? conversation : "null") + "|" +
+               (questType != null ? questType.name() : "null") + "|" +
+               (encounterType != null ? encounterType.name() : "null") + "|" +
+               (encounterTarget != null ? encounterTarget : "null") + "|" +
+               imprisonmentReason;
     }
-
-    public String getEncounterTarget() {
-        return encounterTarget;
-    }
-
-
-@Override
-public String serialize() {
-    return name + "|" +
-           description + "|" +
-           completed + "|" +
-           rewardGold + "|" +
-           (alignment != null ? alignment.name() : "null") + "|" +
-           (conversation != null ? conversation : "null") + "|" +
-           (encounterType != null ? encounterType.name() : "null") + "|" +
-           (encounterTarget != null ? encounterTarget : "null");
-}
-
 }

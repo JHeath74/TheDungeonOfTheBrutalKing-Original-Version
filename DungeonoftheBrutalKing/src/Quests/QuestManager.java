@@ -28,7 +28,9 @@ public class QuestManager {
 
     private void initializeQuests() {
         for (int i = 1; i <= 50; i++) {
-            availableQuests.add(new Quest1("Quest " + i, "Description for Quest " + i, i, "Default conversation", Alignment.POSITIVE)); // Make sure Alignment.POSITIVE exists
+
+availableQuests.add(new Quest1(Alignment.POSITIVE));
+
         }
     }
 

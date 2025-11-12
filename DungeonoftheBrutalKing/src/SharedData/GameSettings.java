@@ -30,7 +30,7 @@ public class GameSettings {
 	public static String MenuBarImagePath, MonsterImagePath, FontPath, DungeonFloorTexturePath,
 	DungeonWallTexturePath, StartMenuPath, StoryIntroductionPath, ClassImagesPath,
 	SoundEffectsPath, SavedGameDirectory, NPCImagePath, DungeonStairsTexturePath,
-	DungeonDoorTexturePath, RoomImagePath;
+	DungeonDoorTexturePath, RoomImagePath, QuestImagesPath;
 
 	//*********************************************************************************
 	//--------------------------- Instance Variables ----------------------------------
@@ -94,7 +94,7 @@ public class GameSettings {
 		SoundEffectsPath = "src/DungeonoftheBrutalKing/SoundEffects/"; // Updated path
 		NPCImagePath = "src/DungeonoftheBrutalKing/Images/NPC/";
 		RaceImagesPath = "src/DungeonoftheBrutalKing/Images/Race/";
-
+		QuestImagesPath = "src/DungeonoftheBrutalKing/Images/Quests/";
 	}
 
 
@@ -179,6 +179,10 @@ public class GameSettings {
 
 	public static String getFontPath() {
 		return FontPath;
+	}
+	
+	public static String getQuestImagesPath() {
+	    return QuestImagesPath;
 	}
 
 	public static String getDungeonFloorTexturePath() {
