@@ -6,11 +6,11 @@ import java.util.List;
 
 import SharedData.LocationType;
 
-public class DungeonLevel3 extends DungeonLevel {
+public class DungeonLevel4 extends DungeonLevel {
 
     private static final int MAP_WIDTH = 128;
     private static final int MAP_HEIGHT = 128;
-    private static final int DUNGEON_LEVEL = 3;
+    private static final int DUNGEON_LEVEL = 4;
     
     //0 = Path
     //1 = Wall
@@ -20,7 +20,7 @@ public class DungeonLevel3 extends DungeonLevel {
 
     
    
-    public DungeonLevel3() {
+    public DungeonLevel4() {
     	
     	 this.map = new int [][] {
     	    		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -160,8 +160,8 @@ public class DungeonLevel3 extends DungeonLevel {
     	    		    }
     	    		}
         
-        specialLocations.put(new Point(118, 2), LocationType.STAIRS_UP);
-        specialLocations.put(new Point(77, 100), LocationType.STAIRS_DOWN);
+        specialLocations.put(new Point(77, 100), LocationType.STAIRS_UP);
+        specialLocations.put(new Point(15, 22), LocationType.STAIRS_DOWN);
         // Add more as needed
     }
     
@@ -169,12 +169,12 @@ public class DungeonLevel3 extends DungeonLevel {
 
     @Override
     public DungeonLevel goDown() {
-       return new DungeonLevel4();
+        return null; // return new DungeonLevel4();
     }
 
     @Override
     public DungeonLevel goUp() {
-        return new DungeonLevel2();
+        return new DungeonLevel3();
     }
 
     public int[][] getMap() {
@@ -206,6 +206,17 @@ public class DungeonLevel3 extends DungeonLevel {
 		return null;
 	}
 	
+
+public void printNumberCoordinates() {
+    for (int y = 0; y < map.length; y++) {
+        for (int x = 0; x < map[y].length; x++) {
+            int value = map[y][x];
+            if (value > 1) {
+                System.out.println("Level: " + DUNGEON_LEVEL + " Number: " + value + " at (" + x + ", " + y + ")");
+            }
+        }
+    }
+}
 
 
 }

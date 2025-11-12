@@ -1,79 +1,53 @@
 
+// src/Quests/Quest1.java
 package Quests;
 
 import java.util.Random;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.QuestLocationType;
 
 public class Quest1 implements Quest {
     private String name;
     private String description;
     private boolean completed;
     private int rewardGold;
-    private QuestLocationType locationType;
-
-    private int dungeonLevel; // The dungeon level where the quest appears
-    private int locationX;    // X-coordinate of the quest location
-    private int locationY;    // Y-coordinate of the quest location
-
+    private Alignment alignment;
+    private String conversation;
+    private EncounterType encounterType;
+    private String encounterTarget;
     Charecter myChar = new Charecter();
-    int charLevel = 0;
 
-    public Quest1(String name, String description, int i, String conversation, QuestLocationType locationType) {
+    public Quest1(String name, String description, int i, String conversation, Alignment alignment) {
         this.name = name;
         this.description = description;
         this.rewardGold = calculateGoldReward();
-        this.locationType = QuestLocationType.STATIC;
         this.completed = false;
-        assignRandomLocation(); // Call the method to assign a random location
+        this.alignment = alignment;
+        this.conversation = conversation;
+        this.encounterType = getRandomEncounterType();
+        this.encounterTarget = null;
+    }
+
+    private EncounterType getRandomEncounterType() {
+        EncounterType[] types = EncounterType.values();
+        Random random = new Random();
+        return types[random.nextInt(types.length)];
     }
 
     private int calculateGoldReward() {
         if (myChar.getCharInfo() == null || myChar.getCharInfo().size() <= 2) {
-            throw new IllegalStateException("CharInfo is not properly initialized or loaded from the save game.");
+            throw new IllegalStateException();
         }
-
         Random random = new Random();
-        int goldMultiplier = random.nextInt(41) + 10; // Random value between 10 and 50
-        int charLevel = Integer.parseInt(myChar.getCharInfo().get(2));
+        int goldMultiplier = random.nextInt(41) + 10;
+
+int charLevel = myChar.getLevel();
+
         return goldMultiplier * charLevel;
     }
 
-    public void giveExperienceReward(Charecter character) {
-        int charLevel = Integer.parseInt(character.getCharInfo().get(2)); // Get character level
-        int experienceMultiplier = 100; // Define a base multiplier for experience
-        int experienceReward = charLevel * experienceMultiplier; // Calculate experience reward
-
-        int currentExperience = Integer.parseInt(character.getCharInfo().get(11)); // Get current experience
-        character.setExperience(currentExperience + experienceReward); // Update experience in CharInfo index 11
-    }
-
-    public void checkQuestCompletion(Charecter character) {
-        int charLevel = Integer.parseInt(character.getCharInfo().get(2)); // Get character level
-        if (charLevel >= 10) { // Example condition for quest completion
-            this.completed = true;
-        }
-    }
-
-    public void displayQuestDetails(Quest quest, MainGameScreen mainGameScreen) {
-        // Display the quest description in the MessageTextPane
-        MainGameScreen.appendToMessageTextPane("New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n");
-
-        // Display the quest image in the GameImagesAndCombatPanel
-        ImageIcon questImage = new ImageIcon("path/to/quest/image.png"); // Replace with the actual image path
-        JLabel imageLabel = new JLabel(questImage);
-        JPanel panel = new JPanel();
-        panel.add(imageLabel);
-        MainGameScreen.replaceWithAnyPanel(panel);
-    }
-
-    public QuestLocationType getLocationType() {
-        return locationType;
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     @Override
@@ -97,26 +71,39 @@ public class Quest1 implements Quest {
     }
 
     public void giveReward(Charecter character) {
-        int currentGold = Integer.parseInt(character.getCharInfo().get(12)); // Get current gold
-        character.setGold(currentGold + rewardGold); // Update gold in CharInfo index 12
+        int currentGold = character.getGold();
+        character.setGold(currentGold + rewardGold);
     }
 
-    private void assignRandomLocation() {
-        Random random = new Random();
-        this.dungeonLevel = random.nextInt(4) + 1; // Randomly choose a level between 1 and 4
-        this.locationX = random.nextInt(100);     // Random X-coordinate (adjust range as needed)
-        this.locationY = random.nextInt(100);     // Random Y-coordinate (adjust range as needed)
+    public int getRewardGold() {
+        return rewardGold;
     }
 
-    public int getDungeonLevel() {
-        return dungeonLevel;
+
+public String getConversation() {
+    return this.conversation;
+}
+
+
+    public EncounterType getEncounterType() {
+        return encounterType;
     }
 
-    public int getLocationX() {
-        return locationX;
+    public String getEncounterTarget() {
+        return encounterTarget;
     }
 
-    public int getLocationY() {
-        return locationY;
-    }
+
+@Override
+public String serialize() {
+    return name + "|" +
+           description + "|" +
+           completed + "|" +
+           rewardGold + "|" +
+           (alignment != null ? alignment.name() : "null") + "|" +
+           (conversation != null ? conversation : "null") + "|" +
+           (encounterType != null ? encounterType.name() : "null") + "|" +
+           (encounterTarget != null ? encounterTarget : "null");
+}
+
 }

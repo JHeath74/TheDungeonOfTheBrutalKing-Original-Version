@@ -1,7 +1,7 @@
 package Spells;
 
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Alignment;
 
 public abstract class Light implements Spell {
 

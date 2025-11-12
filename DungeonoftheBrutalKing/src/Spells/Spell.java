@@ -2,7 +2,7 @@
 // File: Spells.java
 package Spells;
 
-import SharedData.Alignment;
+import Alignment.Alignment;
 
 public interface Spell {
     void cast();

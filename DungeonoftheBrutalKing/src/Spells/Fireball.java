@@ -2,8 +2,9 @@
 package Spells;
 
 import java.util.Random;
+
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Alignment;
 
 public abstract class Fireball implements Spell {
 

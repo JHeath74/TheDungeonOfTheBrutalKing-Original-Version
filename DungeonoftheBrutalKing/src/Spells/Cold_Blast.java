@@ -3,15 +3,15 @@ package Spells;
 
 import java.util.Random;
 
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Alignment;
 
 public abstract class Cold_Blast implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
     private static Charecter myChar = Charecter.getInstance();
 
-    private static final Alignment SPELL_ALIGNMENT = SharedData.Alignment.NOT_ALIGNED; // Non-aligned spell type
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Non-aligned spell type
 
     String wisdomValue = myChar.getCharInfo().get(10);
     int attackerWisdom = (wisdomValue != null) ? Integer.parseInt(wisdomValue) : 0;
@@ -32,7 +32,7 @@ public abstract class Cold_Blast implements Spell {
         return false; // Explicitly mark this as a non-guild spell
     }
 
-    public SharedData.Alignment getSpellAlignment() {
+    public Alignment getSpellAlignment() {
         return getSpellAlignment(); // Getter for the spell type
     }
 }

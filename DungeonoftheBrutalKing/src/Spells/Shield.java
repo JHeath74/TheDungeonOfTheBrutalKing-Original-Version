@@ -1,9 +1,9 @@
 
 package Spells;
 
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
-import SharedData.Alignment;
 
 public abstract class Shield implements Spell {
 

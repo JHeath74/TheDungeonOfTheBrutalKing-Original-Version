@@ -3,9 +3,9 @@ package Spells;
 
 import java.util.Random;
 
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
-import SharedData.Alignment;
 
 public abstract class Cure implements Spell {
 

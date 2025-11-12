@@ -1,7 +1,7 @@
 package Spells;
 
+import Alignment.Alignment;
 import DungeonoftheBrutalKing.Singleton;
-import SharedData.Alignment;
 
 public abstract class Location implements Spell {
 

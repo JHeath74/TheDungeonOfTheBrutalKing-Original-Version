@@ -14,10 +14,10 @@ public class DungeonLevel1 extends DungeonLevel{
     //0 = Path
     //1 = Wall
     //2 = Door
-    // 10 = Downstairs with gate
+    //10 = Downstairs with gate
     
-//    Found value 10 at (2, 0)  Downstairs with gate
-  //  Found value 2 at (118, 2)
+//    Found value 10 at (2, 0)  Downstairs with gate from outside dungegon
+  //  Found value 2 at (118, 2) Down to Dungeon Level 2
     //Found value 2 at (2, 4)
     //Found value 2 at (121, 12)
    // Found value 2 at (45, 16)
@@ -180,7 +180,6 @@ public class DungeonLevel1 extends DungeonLevel{
      setSpecialLocation(66, 56, LocationType.DOOR);
      setSpecialLocation(81, 112, LocationType.DOOR);
      setSpecialLocation(3, 2, LocationType.WELCOME_MESSAGE_RUSTY_TANKARD);
-
 
 
 
