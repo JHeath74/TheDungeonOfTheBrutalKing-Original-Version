@@ -1,0 +1,72 @@
+package Quests;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.io.IOException;
+import java.text.ParseException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.GameSettings;
+
+public class QuestCleanseCursedShrine extends JPanel {
+
+    private static final long serialVersionUID = 1L;
+    private static final int ALIGNMENT_DELTA = 3;
+
+    public QuestCleanseCursedShrine() {
+        setLayout(new BorderLayout());
+
+        JLabel descLabel = new JLabel(
+            "<html><center><b>Wounded Adventurer</b><br>"
+            + "You encounter a wounded adventurer lying on the dungeon floor. He begs for help, offering nothing in return.</center></html>",
+            JLabel.CENTER
+        );
+        add(descLabel, BorderLayout.NORTH);
+
+        String imagePath = GameSettings.getQuestImagesPath() + "WoundedAdventurer.png";
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+        JLabel imageLabel = new JLabel(imageIcon);
+        add(imageLabel, BorderLayout.CENTER);
+
+        JPanel choicePanel = new JPanel(new GridLayout(0, 1, 10, 10));
+        JButton helpButton = new JButton("Help the adventurer to safety");
+        JButton ignoreButton = new JButton("Ignore him and continue onward");
+
+        choicePanel.add(helpButton);
+        choicePanel.add(ignoreButton);
+
+        add(choicePanel, BorderLayout.SOUTH);
+
+        helpButton.addActionListener(e -> {
+            int current = Charecter.getInstance().getAlignment();
+            Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+            try {
+                MainGameScreen.getInstance().setMessageTextPane(
+                    "Compassion and selflessness strengthen your moral standing."
+                );
+            } catch (IOException | InterruptedException | ParseException e1) {
+                e1.printStackTrace();
+            }
+            helpButton.setEnabled(false);
+            ignoreButton.setEnabled(false);
+        });
+
+        ignoreButton.addActionListener(e -> {
+            int current = Charecter.getInstance().getAlignment();
+            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            try {
+                MainGameScreen.getInstance().setMessageTextPane(
+                    "Choosing survival over mercy hardens your character toward darkness."
+                );
+            } catch (IOException | InterruptedException | ParseException e1) {
+                e1.printStackTrace();
+            }
+            helpButton.setEnabled(false);
+            ignoreButton.setEnabled(false);
+        });
+    }
+}

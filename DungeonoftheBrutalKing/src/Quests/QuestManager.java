@@ -2,6 +2,8 @@
 // src/Quests/QuestManager.java
 package Quests;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,18 +21,21 @@ public class QuestManager {
     private final List<Quest> activeQuests;
     private final Charecter character;
 
-    public QuestManager(Charecter character) {
+    public QuestManager(Charecter character) throws IOException, InterruptedException, ParseException {
         this.availableQuests = new ArrayList<>();
         this.activeQuests = character.getActiveQuests();
         this.character = character;
         initializeQuests();
     }
 
-    private void initializeQuests() {
+    private void initializeQuests() throws IOException, InterruptedException, ParseException {
         for (int i = 1; i <= 50; i++) {
-
-availableQuests.add(new Quest1(Alignment.POSITIVE));
-
+            availableQuests.add(
+                new QuestRescuetheForgottenPrisoner(
+                    Alignment.POSITIVE,
+                    MainGameScreen.getInstance() // or pass the correct instance as needed
+                )
+            );
         }
     }
 

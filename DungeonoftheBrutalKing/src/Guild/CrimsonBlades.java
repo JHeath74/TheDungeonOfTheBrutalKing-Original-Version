@@ -1,4 +1,3 @@
-
 package Guild;
 
 import java.awt.BorderLayout;
@@ -34,7 +33,7 @@ public class CrimsonBlades extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
-        ArrayList<String> inventory = character.getCharInventory();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!isMember && !inventory.contains("Crimson Blades Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -50,7 +49,7 @@ public class CrimsonBlades extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                inventory.add("Crimson Blades Guild Ring");
+                character.addToInventory("Crimson Blades Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades and received the Crimson Blades Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
@@ -75,7 +74,7 @@ public class CrimsonBlades extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                inventory.add("Crimson Blades Guild Ring");
+                Charecter.getInstance().addToInventory("Crimson Blades Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades!");
                 try {
                     reloadPanel();
@@ -105,7 +104,6 @@ public class CrimsonBlades extends JPanel {
         });
     }
 
-   
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
         revalidate();
@@ -126,55 +124,43 @@ public class CrimsonBlades extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-        Charecter character = Charecter.getInstance();
-        ArrayList<String> guildSpells = character.getGuildSpells();
-        if (guildSpells.contains(spell)) {
-            guildSpells.remove(spell);
-            return true;
-        }
-        return false;
+        return Charecter.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
-        Charecter character = Charecter.getInstance();
-        return character.getGuildSpells().size();
+        return Charecter.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        Charecter character = Charecter.getInstance();
-        ArrayList<String> guildSpells = character.getGuildSpells();
-        if (guildSpells.size() < 6) {
-            guildSpells.add(spell);
+        if (Charecter.getInstance().getGuildSpells().size() < 6) {
+            Charecter.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public ArrayList<String> getGuildSpells() {
+        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
+    }
+
+    private void useSkill() {
         Charecter character = Charecter.getInstance();
-        return new ArrayList<>(character.getGuildSpells());
+        int actionPoints = character.getActionPoints();
+        int magicPoints = character.getMagicPoints();
+
+        if (!isMember) {
+            JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to use skills.");
+            return;
+        }
+
+        if (actionPoints >= 10) {
+            character.setActionPoints(actionPoints - 10);
+            JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + (actionPoints - 10));
+        } else if (magicPoints >= 10) {
+            character.setMagicPoints(magicPoints - 10);
+            JOptionPane.showMessageDialog(this, "You used a skill! Remaining Magic Points: " + (magicPoints - 10));
+        } else {
+            JOptionPane.showMessageDialog(this, "Not enough Action Points or Magic Points to use a skill!");
+        }
     }
-    
-
-private void useSkill() {
-    Charecter character = Charecter.getInstance();
-    int actionPoints = character.getActionPoints();
-    int magicPoints = character.getMagicPoints();
-
-    if (!isMember) {
-        JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to use skills.");
-        return;
-    }
-
-    if (actionPoints >= 10) {
-        character.setActionPoints(actionPoints - 10);
-        JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + (actionPoints - 10));
-    } else if (magicPoints >= 10) {
-        character.setMagicPoints(magicPoints - 10);
-        JOptionPane.showMessageDialog(this, "You used a skill! Remaining Magic Points: " + (magicPoints - 10));
-    } else {
-        JOptionPane.showMessageDialog(this, "Not enough Action Points or Magic Points to use a skill!");
-    }
-}
-
 }

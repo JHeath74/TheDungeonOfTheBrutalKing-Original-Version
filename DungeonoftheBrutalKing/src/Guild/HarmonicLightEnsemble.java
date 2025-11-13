@@ -1,4 +1,3 @@
-
 package Guild;
 
 import java.awt.BorderLayout;
@@ -22,7 +21,7 @@ public class HarmonicLightEnsemble extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final int BASE_SPELL_LIMIT = 0;
     private static final int MAX_SPELL_LIMIT = 6;
-    private static final int SPELL_COST = 50; // Cost of each spell in gold
+    private static final int SPELL_COST = 50;
 
     private final String guildName = "Harmonic Light Ensemble";
     private boolean isMember;
@@ -36,7 +35,7 @@ public class HarmonicLightEnsemble extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
-        ArrayList<String> inventory = character.getCharInventory();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!isMember && !inventory.contains("Harmonic Light Ensemble Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -52,7 +51,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                inventory.add("Harmonic Light Ensemble Guild Ring");
+                character.addToInventory("Harmonic Light Ensemble Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble and received the Harmonic Light Ensemble Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
@@ -77,7 +76,7 @@ public class HarmonicLightEnsemble extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                character.getCharInventory().add("Harmonic Light Ensemble Guild Ring");
+                Charecter.getInstance().addToInventory("Harmonic Light Ensemble Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble!");
                 try {
                     reloadPanel();
@@ -108,8 +107,8 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     private void buyGuildSpell() {
-    	Charecter character = Charecter.getInstance();
-        ArrayList<String> spells = character.getGuildSpells();
+        Charecter character = Charecter.getInstance();
+        ArrayList<String> spells = new ArrayList<>(character.getGuildSpells());
         int wisdom = character.getWisdom();
         int gold = character.getGold();
 
@@ -137,7 +136,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
         String newSpell = JOptionPane.showInputDialog(this, "Enter the name of the spell to buy:");
         if (newSpell != null && !newSpell.isEmpty()) {
-            spells.add(newSpell);
+            character.getGuildSpells().add(newSpell);
             character.setGold(gold - SPELL_COST);
             JOptionPane.showMessageDialog(this, "You purchased the spell: " + newSpell);
         }
@@ -163,32 +162,22 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-    	Charecter character = Charecter.getInstance();
-        return character.getGuildSpells().size();
+        return Charecter.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-    	Charecter character = Charecter.getInstance();
-        ArrayList<String> guildSpells = character.getGuildSpells();
-        if (guildSpells.size() < MAX_SPELL_LIMIT) {
-            guildSpells.add(spell);
+        if (Charecter.getInstance().getGuildSpells().size() < MAX_SPELL_LIMIT) {
+            Charecter.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than " + MAX_SPELL_LIMIT + " guild spells.");
         }
     }
 
     public boolean removeGuildSpell(String spell) {
-    	Charecter character = Charecter.getInstance();
-        ArrayList<String> guildSpells = character.getGuildSpells();
-        if (guildSpells.contains(spell)) {
-            guildSpells.remove(spell);
-            return true;
-        }
-        return false;
+        return Charecter.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {
-    	Charecter character = Charecter.getInstance();
-        return new ArrayList<>(character.getGuildSpells());
+        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
     }
 }

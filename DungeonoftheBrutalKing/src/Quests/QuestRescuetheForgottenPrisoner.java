@@ -1,5 +1,4 @@
 
-// src/Quests/Quest1.java
 package Quests;
 
 import Alignment.Alignment;
@@ -9,8 +8,10 @@ import SharedData.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.text.ParseException;
 
-public class Quest1 implements Quest {
+public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String name = "Rescue the Forgotten Prisoner";
     private final String prisonerName = "George";
     private final String description = "Free a starving NPC named " + prisonerName + ", locked in a hidden cell. No reward, just gratitude.";
@@ -23,10 +24,12 @@ public class Quest1 implements Quest {
     private final EncounterType encounterType = EncounterType.STATIC_PERSON;
     private final String descriptionForEncounter = "A frail and desperate prisoner named " + prisonerName + " is locked in a hidden cell, pleading for help.";
     private final String encounterTarget = prisonerName;
+    private final MainGameScreen mainGameScreen;
 
-    public Quest1(Alignment alignment) {
+    public QuestRescuetheForgottenPrisoner(Alignment alignment, MainGameScreen mainGameScreen) {
         this.completed = false;
         this.alignment = alignment;
+        this.mainGameScreen = mainGameScreen;
     }
 
     public String getPrisonerName() { return prisonerName; }
@@ -44,17 +47,19 @@ public class Quest1 implements Quest {
     public String getEncounterTarget() { return encounterTarget; }
     public String getDescriptionForEncounter() { return descriptionForEncounter; }
 
-    public void releasePrisoner(Charecter player) {
+    public void releasePrisoner(Charecter player) throws IOException, InterruptedException, ParseException {
         player.setAlignment(3);
         this.completed = true;
+        mainGameScreen.setMessageTextPane(conversation);
     }
 
-    public void ignorePrisoner(Charecter player) {
+    public void ignorePrisoner(Charecter player) throws IOException, InterruptedException, ParseException {
         player.setAlignment(-3);
         this.completed = false;
+        mainGameScreen.setMessageTextPane("You ignore the prisoner. He looks at you with despair.");
     }
 
-    public JPanel createEncounterPanel(Charecter player, MainGameScreen mainGameScreen) {
+    public JPanel createEncounterPanel(Charecter player) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.QuestImagesPath + "/Prisoner.png"));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -69,11 +74,19 @@ public class Quest1 implements Quest {
         JButton ignoreButton = new JButton("Ignore");
 
         freeButton.addActionListener(_ -> {
-            releasePrisoner(player);
+            try {
+                releasePrisoner(player);
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
             MainGameScreen.replaceWithAnyPanel(new JPanel());
         });
         ignoreButton.addActionListener(_ -> {
-            ignorePrisoner(player);
+            try {
+                ignorePrisoner(player);
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
             MainGameScreen.replaceWithAnyPanel(new JPanel());
         });
 

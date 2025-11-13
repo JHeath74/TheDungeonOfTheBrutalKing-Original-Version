@@ -167,10 +167,16 @@ public class LoadSaveGame {
         StringBuilder encryptedContent = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             salt = reader.readLine();
+            if (salt == null || salt.isEmpty()) {
+                throw new IOException("Decryption failed: Invalid encrypted data format (missing salt)");
+            }
             String line;
             while ((line = reader.readLine()) != null) {
                 encryptedContent.append(line).append(System.lineSeparator());
             }
+        }
+        if (encryptedContent.length() == 0) {
+            throw new IOException("Decryption failed: Invalid encrypted data format (empty content)");
         }
         String userName = myChar.getName();
         String decrypted;

@@ -33,7 +33,7 @@ public class DirgeweaversChorus extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
-        ArrayList<String> inventory = character.getCharInventory();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!isMember && !inventory.contains("Dirgeweavers Chorus Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
@@ -49,7 +49,7 @@ public class DirgeweaversChorus extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                inventory.add("Dirgeweavers Chorus Guild Ring");
+                character.addToInventory("Dirgeweavers Chorus Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus and received the Dirgeweavers Chorus Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
@@ -74,7 +74,7 @@ public class DirgeweaversChorus extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                character.getCharInventory().add("Dirgeweavers Chorus Guild Ring");
+                Charecter.getInstance().addToInventory("Dirgeweavers Chorus Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus!");
                 try {
                     reloadPanel();
@@ -105,8 +105,8 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     private void buyGuildSpell() {
-    	Charecter character = Charecter.getInstance();
-        ArrayList<String> inventory = character.getCharInventory();
+        Charecter character = Charecter.getInstance();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
         int maxSpells = 6;
@@ -164,32 +164,22 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-    	Charecter character = Charecter.getInstance();
-        ArrayList<String> guildSpells = character.getGuildSpells();
-        if (guildSpells.contains(spell)) {
-            guildSpells.remove(spell);
-            return true;
-        }
-        return false;
+        return Charecter.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
-    	Charecter character = Charecter.getInstance();
-        return character.getGuildSpells().size();
+        return Charecter.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-    	Charecter character = Charecter.getInstance();
-        ArrayList<String> guildSpells = character.getGuildSpells();
-        if (guildSpells.size() < 6) {
-            guildSpells.add(spell);
+        if (Charecter.getInstance().getGuildSpells().size() < 6) {
+            Charecter.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public ArrayList<String> getGuildSpells() {
-    	Charecter character = Charecter.getInstance();
-        return new ArrayList<>(character.getGuildSpells());
+        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
     }
 }

@@ -7,6 +7,7 @@ import Status.StatusManager;
 
 public class Charecter {
 
+    // --- Stat Index Constants ---
     private static final int NAME_IDX = 0;
     private static final int CLASS_IDX = 1;
     private static final int RACE_IDX = 2;
@@ -37,23 +38,21 @@ public class Charecter {
     private static final int ATTACK_IDX = 27;
     private static final int MAX_HP_IDX = 28;
 
-    private double hitChance = 1.0;
-    private double originalHitChance = 1.0;
-
+    // --- Singleton Instance ---
     private static Charecter instance;
 
+    // --- Character Data ---
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
-    private ArrayList<String> spellsLearned = new ArrayList<>();
-    private ArrayList<String> charInventory = new ArrayList<>();
-    private ArrayList<String> guildSpells = new ArrayList<>();
+    private Set<String> spellsLearned = new HashSet<>();
+    private Set<String> charInventory = new HashSet<>();
+    private Set<String> guildSpells = new HashSet<>();
     private List<Quest> activeQuests = new ArrayList<>();
     private int actionPoints = 100;
-
-    public Charecter() {}
-    
+    private double hitChance = 1.0;
+    private double originalHitChance = 1.0;
     private StatusManager statusManager = new StatusManager();
 
-
+    // --- Singleton Access ---
     public static Charecter getInstance() {
         if (instance == null) {
             instance = new Charecter();
@@ -61,6 +60,10 @@ public class Charecter {
         return instance;
     }
 
+    // --- Constructors ---
+    public Charecter() {}
+
+    // --- Stat Getters/Setters ---
     private int getInt(int idx, int def) {
         try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; }
     }
@@ -69,7 +72,12 @@ public class Charecter {
             charInfo.set(idx, String.valueOf(val));
         }
     }
-    private String getStr(int idx) { return charInfo.get(idx); }
+    private String getStr(int idx) {
+        if (charInfo == null || idx < 0 || idx >= charInfo.size()) {
+            return "";
+        }
+        return charInfo.get(idx);
+    }
     private void setStr(int idx, String val) { charInfo.set(idx, val); }
 
     public String getName() { return getStr(NAME_IDX); }
@@ -116,16 +124,50 @@ public class Charecter {
     public void setShield(String shield) { setStr(SHIELD_IDX, shield); }
     public int getAlignment() { return getInt(ALIGNMENT_IDX, 0); }
     public void setAlignment(int alignment) { setInt(ALIGNMENT_IDX, alignment); }
-    public double getX() { return Double.parseDouble(getStr(X_IDX)); }
-    public double getY() { return Double.parseDouble(getStr(Y_IDX)); }
-    public double getZ() { return Double.parseDouble(getStr(Z_IDX)); }
-    public double getDirection() { return Double.parseDouble(getStr(DIRECTION_IDX)); }
+
+    // --- Defensive Double Parsing for Position ---
+    public double getX() { return parseDoubleSafe(getStr(X_IDX)); }
+    public double getY() { return parseDoubleSafe(getStr(Y_IDX)); }
+    public double getZ() { return parseDoubleSafe(getStr(Z_IDX)); }
+    public double getDirection() { return parseDoubleSafe(getStr(DIRECTION_IDX)); }
+    private double parseDoubleSafe(String s) {
+        if (s == null || s.isEmpty()) return 0.0;
+        try { return Double.parseDouble(s); } catch (NumberFormatException e) { return 0.0; }
+    }
+
     public int getDefense() { return getInt(DEFENSE_IDX, 0); }
     public void setDefense(int defense) { setInt(DEFENSE_IDX, defense); }
-    public void setAttack(int attack) { setInt(STRENGTH_IDX, attack); }
+    public void setAttack(int attack) { setInt(ATTACK_IDX, attack); }
     public int getAttack() { return getInt(ATTACK_IDX, 0); }
     public int getActionPoints() { return actionPoints; }
     public void setActionPoints(int points) { actionPoints = points; }
+
+    // --- Inventory and Spells ---
+    public Set<String> getCharInventory() { return charInventory; }
+    public void setCharInventory(Set<String> inventory) { this.charInventory = inventory; }
+    public void addToInventory(String item) { charInventory.add(item); }
+    public boolean removeFromInventory(String item) { return charInventory.remove(item); }
+
+    public Set<String> getSpellsLearned() { return spellsLearned; }
+    public void setSpellsLearned(Set<String> spells) { spellsLearned = spells; }
+    public Set<String> getGuildSpells() { return guildSpells; }
+    public void setGuildSpells(Set<String> spells) { guildSpells = spells; }
+
+    // --- Quests ---
+    public List<Quest> getActiveQuests() { return activeQuests; }
+    public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
+    public boolean removeActiveQuest(Quest quest) { return activeQuests.remove(quest); }
+    public void setActiveQuests(List<Quest> activeQuests) { this.activeQuests = activeQuests; }
+
+    // --- Position ---
+    public void setPosition(int x, int y, int z) {
+        setInt(X_IDX, x); setInt(Y_IDX, y); setInt(Z_IDX, z);
+    }
+    public void getPosition(int[] pos) {
+        pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
+    }
+
+    // --- Combat and Stats ---
     public boolean consumeSkillPoints(int cost) {
         if (actionPoints >= cost) {
             actionPoints -= cost;
@@ -136,28 +178,6 @@ public class Charecter {
         }
         return false;
     }
-
-    public void setPosition(int x, int y, int z) {
-        setInt(X_IDX, x); setInt(Y_IDX, y); setInt(Z_IDX, z);
-    }
-    public void getPosition(int[] pos) {
-        pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
-    }
-
-    public ArrayList<String> getCharInventory() { return charInventory; }
-    public void setCharInventory(ArrayList<String> inventory) { this.charInventory = inventory; }
-    public void addToInventory(String item) { if (!charInventory.contains(item)) charInventory.add(item); }
-    public boolean removeFromInventory(String item) { return charInventory.remove(item); }
-    public ArrayList<String> getSpellsLearned() { return spellsLearned; }
-    public void setSpellsLearned(ArrayList<String> spells) { spellsLearned = spells; }
-    public ArrayList<String> getGuildSpells() { return guildSpells; }
-    public void setGuildSpells(ArrayList<String> spells) { guildSpells = spells; }
-
-
-    public List<Quest> getActiveQuests() { return activeQuests; }
-    public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
-    public boolean removeActiveQuest(Quest quest) { return activeQuests.remove(quest); }
-    public void setActiveQuests(List<Quest> activeQuests) { this.activeQuests = activeQuests; }
 
     public int getAttackDamage() {
         int strength = getStrength();
@@ -173,6 +193,15 @@ public class Charecter {
         try { weaponBonus = Integer.parseInt(getWeapon()); } catch (Exception e) {}
         int attack = baseAttack + strMod + weaponBonus;
         setInt(ATTACK_IDX, attack);
+    }
+
+    public void calculateAndSetDefense() {
+        int baseDefense = 10;
+        int dexMod = (getAgility() - 10) / 2;
+        int armorBonus = 0, shieldBonus = 0;
+        try { armorBonus = Integer.parseInt(getArmour()); } catch (Exception e) {}
+        try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) {}
+        setDefense(baseDefense + dexMod + armorBonus + shieldBonus);
     }
 
     public void reduceHitPoints(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
@@ -200,45 +229,8 @@ public class Charecter {
     public int getExperienceRequiredForLevel(int level) {
         return (int)(1000 * Math.pow(1.5, level - 1));
     }
-    public String[] getKnownSpells() { return spellsLearned.toArray(new String[0]); }
-    public Object getSpellByName(String name) {
-        for (String spell : spellsLearned)
-            if (spell.equalsIgnoreCase(name)) return null;
-        return null;
-    }
-    public void calculateAndSetDefense() {
-        int baseDefense = 10;
-        int dexMod = (getAgility() - 10) / 2;
-        int armorBonus = 0, shieldBonus = 0;
-        try { armorBonus = Integer.parseInt(getArmour()); } catch (Exception e) {}
-        try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) {}
-        setDefense(baseDefense + dexMod + armorBonus + shieldBonus);
-    }
 
-    public void updateCharInfo(int index, String value) {
-        if (charInfo == null) return;
-        if (index >= 0 && index < charInfo.size()) charInfo.set(index, value);
-        else if (index == charInfo.size()) charInfo.add(value);
-    }
-
-    public void setCharInfo(ArrayList<String> charInfo) {
-        if (charInfo == null || charInfo.size() < 29) {
-            this.charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
-        } else {
-            this.charInfo = charInfo;
-        }
-    }
-
-    public ArrayList<String> getCharInfo() { return charInfo; }
-    public String getClassName() { return getStr(CLASS_IDX); }
-    public String getEquippedWeapon() { return getStr(WEAPON_IDX); }
-    public String getEquippedArmor() { return getStr(ARMOR_IDX); }
-    public String getEquippedShield() { return getStr(SHIELD_IDX); }
-    public void setCanAct(boolean b) {}
-    public void addStatus(Object status) {}
-    public void takeDamage(int amount) {
-        reduceHitPoints(amount);
-    }
+    // --- Hit Chance ---
     public double getHitChance() { return hitChance; }
     public void setHitChance(double hitChance) { this.hitChance = Math.max(0.0, Math.min(1.0, hitChance)); }
     public double calculateHitChance(boolean isMagicUser) {
@@ -262,14 +254,34 @@ public class Charecter {
     public void resetHitChance() {
         setHitChance(originalHitChance);
     }
-     
 
+    // --- Status Manager ---
     public void setStatusManager(StatusManager statusManager) {
         this.statusManager = statusManager;
     }
-    
     public StatusManager getStatusManager() {
         return statusManager;
     }
 
+    // --- Miscellaneous ---
+    public void updateCharInfo(int index, String value) {
+        if (charInfo == null) return;
+        if (index >= 0 && index < charInfo.size()) charInfo.set(index, value);
+        else if (index == charInfo.size()) charInfo.add(value);
+    }
+    public void setCharInfo(ArrayList<String> charInfo) {
+        if (charInfo == null || charInfo.size() < 29) {
+            this.charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
+        } else {
+            this.charInfo = charInfo;
+        }
+    }
+    public ArrayList<String> getCharInfo() { return charInfo; }
+    public String getClassName() { return getStr(CLASS_IDX); }
+    public String getEquippedWeapon() { return getStr(WEAPON_IDX); }
+    public String getEquippedArmor() { return getStr(ARMOR_IDX); }
+    public String getEquippedShield() { return getStr(SHIELD_IDX); }
+    public void setCanAct(boolean b) {}
+    public void addStatus(Object status) {}
+    public void takeDamage(int amount) { reduceHitPoints(amount); }
 }

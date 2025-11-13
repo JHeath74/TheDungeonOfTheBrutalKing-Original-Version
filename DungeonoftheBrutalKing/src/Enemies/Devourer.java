@@ -117,10 +117,13 @@ public class Devourer extends Enemies {
      */
     public void tryStealItem(Charecter player) {
         double stealChance = 0.2; // 20% chance
-        ArrayList<String> inventory = player.getCharInventory();
+        // Convert Set to List for indexed access
+        ArrayList<String> inventory = new ArrayList<>(player.getCharInventory());
         if (!inventory.isEmpty() && Math.random() < stealChance) {
             int index = (int) (Math.random() * inventory.size());
-            String stolen = inventory.remove(index);
+            String stolen = inventory.get(index);
+            // Remove from both the player's inventory set and the local list
+            player.removeFromInventory(stolen);
             MainGameScreen.appendToMessageTextPane(getName() + " has stolen " + stolen + "!");
         }
     }
