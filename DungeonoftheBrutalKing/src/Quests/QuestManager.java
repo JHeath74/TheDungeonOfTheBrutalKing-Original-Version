@@ -29,14 +29,8 @@ public class QuestManager {
     }
 
     private void initializeQuests() throws IOException, InterruptedException, ParseException {
-        for (int i = 1; i <= 50; i++) {
-            availableQuests.add(
-                new QuestRescuetheForgottenPrisoner(
-                    Alignment.POSITIVE,
-                    MainGameScreen.getInstance() // or pass the correct instance as needed
-                )
-            );
-        }
+        availableQuests.add(new QuestRescuetheForgottenPrisoner(MainGameScreen.getInstance()));
+        availableQuests.add(new QuestForgiveBetrayer(MainGameScreen.getInstance()));
     }
 
     public void addActiveQuest(Quest quest) {

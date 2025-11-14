@@ -17,7 +17,6 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String description = "Free a starving NPC named " + prisonerName + ", locked in a hidden cell. No reward, just gratitude.";
     private boolean completed;
     private final int rewardGold = 0;
-    private final Alignment alignment;
     private final String conversation = "Thank you, stranger! I thought I would never see the light of day again. I was imprisoned here for refusing to betray my friends.";
     private final String imprisonmentReason = "Imprisoned for refusing to betray his friends.";
     private final QuestType questType = QuestType.RESCUE;
@@ -26,15 +25,13 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String encounterTarget = prisonerName;
     private final MainGameScreen mainGameScreen;
 
-    public QuestRescuetheForgottenPrisoner(Alignment alignment, MainGameScreen mainGameScreen) {
+    public QuestRescuetheForgottenPrisoner(MainGameScreen mainGameScreen) {
         this.completed = false;
-        this.alignment = alignment;
         this.mainGameScreen = mainGameScreen;
     }
 
     public String getPrisonerName() { return prisonerName; }
     public String getImprisonmentReason() { return imprisonmentReason; }
-    public Alignment getAlignment() { return alignment; }
     public QuestType getQuestType() { return questType; }
     @Override public String getName() { return name; }
     @Override public String getDescription() { return description; }
@@ -103,7 +100,6 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
                description + "|" +
                completed + "|" +
                rewardGold + "|" +
-               (alignment != null ? alignment.name() : "null") + "|" +
                (conversation != null ? conversation : "null") + "|" +
                (questType != null ? questType.name() : "null") + "|" +
                (encounterType != null ? encounterType.name() : "null") + "|" +

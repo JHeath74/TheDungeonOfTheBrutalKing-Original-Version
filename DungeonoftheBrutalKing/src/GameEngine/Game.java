@@ -82,7 +82,7 @@ public class Game implements Runnable {
         });
     }
 
-    private void initializeLevels() {
+    private void initializeLevels() throws IOException, InterruptedException, ParseException {
         levels.add(new DungeonLevel1());
         levels.add(new DungeonLevel2());
         levels.add(new DungeonLevel3());

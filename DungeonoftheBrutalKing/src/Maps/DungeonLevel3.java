@@ -2,6 +2,8 @@
 package Maps;
 
 import java.awt.Point;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import SharedData.LocationType;
@@ -20,7 +22,7 @@ public class DungeonLevel3 extends DungeonLevel {
 
     
    
-    public DungeonLevel3() {
+    public DungeonLevel3() throws IOException, InterruptedException, ParseException {
     	
     	 this.map = new int [][] {
     	    		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -163,17 +165,22 @@ public class DungeonLevel3 extends DungeonLevel {
         specialLocations.put(new Point(118, 2), LocationType.STAIRS_UP);
         specialLocations.put(new Point(77, 100), LocationType.STAIRS_DOWN);
         // Add more as needed
+        
+     // Assign quests to doors
+        assignRandomQuestsToDoors(getDoorLocations(), getAvailableQuests());
+    
+        
     }
     
    
 
     @Override
-    public DungeonLevel goDown() {
+    public DungeonLevel goDown() throws IOException, InterruptedException, ParseException {
        return new DungeonLevel4();
     }
 
     @Override
-    public DungeonLevel goUp() {
+    public DungeonLevel goUp() throws IOException, InterruptedException, ParseException {
         return new DungeonLevel2();
     }
 

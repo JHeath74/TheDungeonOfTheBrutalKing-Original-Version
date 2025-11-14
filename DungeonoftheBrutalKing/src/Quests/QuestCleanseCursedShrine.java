@@ -12,12 +12,13 @@ import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
-public class QuestCleanseCursedShrine extends JPanel {
+public class QuestCleanseCursedShrine extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
-
-    public QuestCleanseCursedShrine() {
+    private boolean completed = false;
+    
+    public QuestCleanseCursedShrine(MainGameScreen mainGameScreen) {
         setLayout(new BorderLayout());
 
         JLabel descLabel = new JLabel(
@@ -69,4 +70,28 @@ public class QuestCleanseCursedShrine extends JPanel {
             ignoreButton.setEnabled(false);
         });
     }
+
+
+@Override
+public String getDescription() {
+    return "Wounded Adventurer: Help or ignore a wounded adventurer in the dungeon.";
+}
+
+
+
+@Override
+public boolean isCompleted() {
+    return completed;
+}
+
+@Override
+public void completeQuest() {
+    completed = true;
+}
+
+@Override
+public String serialize() {
+    return "QuestCleanseCursedShrine:" + (completed ? "completed" : "not_completed");
+}
+
 }

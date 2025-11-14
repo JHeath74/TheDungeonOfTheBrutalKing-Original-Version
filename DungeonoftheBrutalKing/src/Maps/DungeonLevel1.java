@@ -2,7 +2,10 @@
 package Maps;
 
 import java.awt.Point;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
+
 
 import SharedData.LocationType;
 
@@ -39,7 +42,7 @@ public class DungeonLevel1 extends DungeonLevel{
     // Constructor
 
  // Java
- public DungeonLevel1() {
+ public DungeonLevel1() throws IOException, InterruptedException, ParseException {
 	 this.map  = new int[][] {
 	    		{1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 	    		{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,1},
@@ -171,69 +174,67 @@ public class DungeonLevel1 extends DungeonLevel{
 	    		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 
 	 
-     setSpecialLocation(118, 2, LocationType.STAIRS_DOWN);
-     setSpecialLocation(4, 2, LocationType.THE_RUSTY_TANKARD);
-     setSpecialLocation(45, 16, LocationType.DOOR);
-     setSpecialLocation(44, 99, LocationType.DOOR);
-     setSpecialLocation(54, 112, LocationType.DOOR);
-     setSpecialLocation(59, 94, LocationType.DOOR);
-     setSpecialLocation(66, 56, LocationType.DOOR);
-     setSpecialLocation(81, 112, LocationType.DOOR);
-     setSpecialLocation(3, 2, LocationType.WELCOME_MESSAGE_RUSTY_TANKARD);
+	    		setSpecialLocation(118, 2, LocationType.STAIRS_DOWN);
+	            setSpecialLocation(4, 2, LocationType.THE_RUSTY_TANKARD);
+	            setSpecialLocation(45, 16, LocationType.DOOR);
+	            setSpecialLocation(44, 99, LocationType.DOOR);
+	            setSpecialLocation(54, 112, LocationType.DOOR);
+	            setSpecialLocation(59, 94, LocationType.DOOR);
+	            setSpecialLocation(66, 56, LocationType.DOOR);
+	            setSpecialLocation(81, 112, LocationType.DOOR);
+	            setSpecialLocation(3, 2, LocationType.WELCOME_MESSAGE_RUSTY_TANKARD);
 
-
-
-
+	         // Assign quests to doors
+	            assignRandomQuestsToDoors(getDoorLocations(), getAvailableQuests());
+	        
+	            
  }
 
- @Override
- public DungeonLevel goDown() {
-     return new DungeonLevel2();
- }
+	        @Override
+	        public DungeonLevel goDown() throws IOException, InterruptedException, ParseException {
+	            return new DungeonLevel2();
+	        }
 
- @Override
- public DungeonLevel goUp() {
-     return null;
- }
+	        @Override
+	        public DungeonLevel goUp() {
+	            return null;
+	        }
 
- @Override
- public int getDungeonLevelNumber() {
-     return 1;
- }
+	        @Override
+	        public int getDungeonLevelNumber() {
+	            return 1;
+	        }
 
- public void setSpecialLocation(int x, int y, LocationType type) {
-     specialLocations.put(new Point(x, y), type);
- }
+	        public void setSpecialLocation(int x, int y, LocationType type) {
+	            specialLocations.put(new Point(x, y), type);
+	        }
 
- @Override
- public LocationType getSpecialLocation(int x, int y) {
-     return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
- }
+	        @Override
+	        public LocationType getSpecialLocation(int x, int y) {
+	            return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
+	        }
 
- @Override
- public Point getStairsDownLocation() {
-     for (var entry : specialLocations.entrySet()) {
-         if (entry.getValue() == LocationType.STAIRS_DOWN) {
-             return entry.getKey();
-         }
-     }
-     return null;
- }
+	        @Override
+	        public Point getStairsDownLocation() {
+	            for (var entry : specialLocations.entrySet()) {
+	                if (entry.getValue() == LocationType.STAIRS_DOWN) {
+	                    return entry.getKey();
+	                }
+	            }
+	            return null;
+	        }
 
- public Point getStairsUpLocation() {
-     for (var entry : specialLocations.entrySet()) {
-         if (entry.getValue() == LocationType.STAIRS_UP) {
-             return entry.getKey();
-         }
-     }
-     return null;
- }
+	        public Point getStairsUpLocation() {
+	            for (var entry : specialLocations.entrySet()) {
+	                if (entry.getValue() == LocationType.STAIRS_UP) {
+	                    return entry.getKey();
+	                }
+	            }
+	            return null;
+	        }
 
- @Override
- public List<? extends MapEntity> getEntities() {
-	// TODO Auto-generated method stub
-	return null;
- }
-
-
-}
+	        @Override
+	        public List<? extends MapEntity> getEntities() {
+	            return null;
+	        }
+	    }
