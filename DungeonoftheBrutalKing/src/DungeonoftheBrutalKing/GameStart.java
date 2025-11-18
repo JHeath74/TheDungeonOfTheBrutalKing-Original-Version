@@ -56,7 +56,7 @@ public class GameStart extends JFrame {
         StartMenuFrame.setLocationRelativeTo(null);
         StartMenuFrame.setVisible(true);
 
-        setupMusic();
+      //  setupMusic();
     }
 
     private void setupFrame() {
@@ -194,18 +194,13 @@ public class GameStart extends JFrame {
         myCharacterCreation.createCharector();
     }
 
-    private void setupMusic() {
-        MusicPlayer.stopMidi();
-        Thread musicThread = new Thread(() -> {
-            MusicPlayer soundplayer = new MusicPlayer();
-            try {
-                soundplayer.midiPlayer("Stones.mid");
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
-            }
-        });
-        musicThread.start();
-    }
+	/*
+	 * private void setupMusic() { MusicPlayer.stopMidi(); Thread musicThread = new
+	 * Thread(() -> { MusicPlayer soundplayer = new MusicPlayer(); try {
+	 * soundplayer.midiPlayer("Stones.mid"); } catch (UnsupportedAudioFileException
+	 * | IOException | LineUnavailableException e) { e.printStackTrace(); } });
+	 * musicThread.start(); }
+	 */
 
     public JFrame getStartMenuFrame() {
         return StartMenuFrame;

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
@@ -68,17 +67,14 @@ public class CharacterCreation {
 
     public CharacterCreation() throws IOException, InterruptedException {}
 
-    // Method to set stats, calculate defense and attack, and return them
     private int[] setAndCalculateStats(Integer[] stat, String armour, String shield, String weapon) {
         myChar.setAgility(stat[5]);
         myChar.setStrength(stat[2]);
         myChar.setArmour(armour);
         myChar.setShield(shield);
         myChar.setWeapon(weapon);
-
         myChar.calculateAndSetDefense();
         myChar.calculateAndSetAttack();
-
         int defense = myChar.getDefense();
         int attack = myChar.getAttackDamage();
         return new int[] { defense, attack };
@@ -224,63 +220,45 @@ public class CharacterCreation {
                 if (!saveDir.exists()) {
                     saveDir.mkdirs();
                 }
-                File saveFile = new File(saveDir, "InitialCharecterSave.txt");
+                ArrayList<String> saveData = new ArrayList<>();
+                saveData.add(charName);
+                saveData.add(toonClass);
+                saveData.add(selectedRace);
+                saveData.add("1");
+                saveData.add("0");
+                saveData.add(String.valueOf(ToonHP(stat, saveData)));
+                saveData.add(String.valueOf(ToonMP(stat, saveData)));
+                saveData.add(String.valueOf(stat[0]));
+                saveData.add(String.valueOf(stat[1]));
+                saveData.add(String.valueOf(stat[2]));
+                saveData.add(String.valueOf(stat[3]));
+                saveData.add(String.valueOf(stat[4]));
+                saveData.add(String.valueOf(stat[5]));
+                saveData.add(gold().toString());
+                saveData.add("3");
+                saveData.add("3");
+                saveData.add("3");
+                saveData.add("0");
+                saveData.add(myChar.getWeapon() != null ? myChar.getWeapon() : "None");
+                saveData.add(myChar.getArmour() != null ? myChar.getArmour() : "None");
+                saveData.add(myChar.getShield() != null ? myChar.getShield() : "None");
+                saveData.add("0");
+                saveData.add("2");
+                saveData.add("3");
+                saveData.add("1");
+                saveData.add("180.0");
+                int[] results = setAndCalculateStats(stat, "", "", "");
+                int defense = results[0];
+                int attack = results[1];
+                saveData.add(String.valueOf(defense));
+                saveData.add(String.valueOf(attack));
+                saveData.add(String.valueOf(ToonHP(stat, saveData)));
                 try {
-                    if (!saveFile.exists()) {
-                        saveFile.createNewFile();
-                    }
-                    FileWriter writer = new FileWriter(saveFile);
-                    ArrayList<String> saveData = new ArrayList<>();
-
-                    saveData.add(charName);                // 0: Name
-                    saveData.add(toonClass);               // 1: Class/Type
-                    saveData.add(selectedRace);            // 2: Race
-                    saveData.add("1");                     // 3: Level (default 1)
-                    saveData.add("0");                     // 4: Experience points
-                    saveData.add(String.valueOf(ToonHP(stat, saveData))); // 5: HP
-                    saveData.add(String.valueOf(ToonMP(stat, saveData))); // 6: MP
-                    saveData.add(String.valueOf(stat[0])); // 7: Stamina
-                    saveData.add(String.valueOf(stat[1])); // 8: Charisma
-                    saveData.add(String.valueOf(stat[2])); // 9: Strength
-                    saveData.add(String.valueOf(stat[3])); // 10: Intelligence
-                    saveData.add(String.valueOf(stat[4])); // 11: Wisdom
-                    saveData.add(String.valueOf(stat[5])); // 12: Agility
-                    saveData.add(gold().toString());       // 13: Gold
-                    saveData.add("3");                     // 14: Food
-                    saveData.add("3");                     // 15: Water
-                    saveData.add("3");                     // 16: Torches
-                    saveData.add("0");                     // 17: Gems
-
-                 // Java
-                 saveData.add(myChar.getWeapon() != null ? myChar.getWeapon() : "None");   // 18: Weapon
-                 saveData.add(myChar.getArmour() != null ? myChar.getArmour() : "None");   // 19: Armor
-                 saveData.add(myChar.getShield() != null ? myChar.getShield() : "None");   // 20: Shield
-
-                    saveData.add("0");  // 21: Character's alignment (int as String)
-                    saveData.add("2"); // 22: Character's X position (int as String)
-                    saveData.add("3"); // 23: Character's Y position (int as String)
-                    saveData.add("1"); // 24: Character's Z position (int as String)
-                    saveData.add("180.0"); // 25: Character's starting orientation (double as String)
-
-                    int[] results = setAndCalculateStats(stat, "", "", "");
-                    int defense = results[0];
-                    int attack = results[1];
-
-                    saveData.add(String.valueOf(defense)); // 26: Defense
-                    saveData.add(String.valueOf(attack));  // 27: Attack
-                    saveData.add(String.valueOf(ToonHP(stat, saveData))); // 28: Max HP
-                  
-                    for (String str : saveData) {
-                        writer.write(str + System.lineSeparator());
-                    }
-                    writer.close();
-
+                    myGameState.saveAllEncrypted(saveData, "InitialCharecterSave.txt");
                     CharecterCreationFrame.dispose();
-                    MainGameScreen.getInstance();;
-                } catch (IOException e1) {
-                    JOptionPane.showMessageDialog(null, "Error writing save file:\n" + e1.getMessage());
-                    e1.printStackTrace();
-                } catch (InterruptedException | ParseException e1) {
+                    MainGameScreen.getInstance();
+                } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
                     e1.printStackTrace();
                 }
             }
@@ -464,10 +442,8 @@ public class CharacterCreation {
         classImagePanel.removeAll();
         ClassImagePicture = ImageIO.read(new File(GameSettings.ClassImagesPath + classImage + ".png"));
         classImageLabel = new JLabel();
-
         int panelWidth = classImagePanel.getWidth() > 0 ? classImagePanel.getWidth() : 640;
         int panelHeight = classImagePanel.getHeight() > 0 ? classImagePanel.getHeight() : 480;
-
         Image scaledImage = ClassImagePicture.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
         ImageIcon img = new ImageIcon(scaledImage);
         classImageLabel.setIcon(img);

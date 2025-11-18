@@ -230,4 +230,20 @@ public class LoadSaveGame {
         }
         return count;
     }
+    
+    public void saveAllEncrypted(ArrayList<String> data, String filename) throws IOException {
+        String filePath = GameSettings.SavedGameDirectory + filename;
+        StringBuilder sb = new StringBuilder();
+        for (String line : data) {
+            sb.append(line).append(System.lineSeparator());
+        }
+        String userName = myChar.getName();
+        String salt = EncryptionUtil.generateSalt();
+        try (FileWriter writer = new FileWriter(filePath)) {
+            String encrypted = EncryptionUtil.encrypt(sb.toString(), userName, salt);
+            writer.write(salt + System.lineSeparator() + encrypted);
+        } catch (Exception e) {
+            throw new IOException("Encryption failed: " + e.getMessage(), e);
+        }
+    }
 }

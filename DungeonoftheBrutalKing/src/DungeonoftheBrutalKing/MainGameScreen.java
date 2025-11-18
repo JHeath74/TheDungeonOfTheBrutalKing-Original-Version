@@ -11,6 +11,7 @@ import GameEngine.Game;
 import Maps.DungeonLevel;
 import GameEngine.Camera;
 import SharedData.GameSettings;
+import SharedData.MusicPlayer;
 import SharedData.SettingsAndPreferences;
 
 public class MainGameScreen extends JFrame implements KeyListener {
@@ -113,6 +114,7 @@ private void initGame() {
 
         mainFrame.setVisible(true);
         game.start();
+        MusicPlayer.playMP3("Dark Dungeon Ambience.mp3");
     } catch (Exception ex) {
         ex.printStackTrace();
     }
