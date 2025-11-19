@@ -5,7 +5,7 @@ import java.util.*;
 import Quests.Quest;
 import Status.StatusManager;
 
-public class Charecter {
+public class Character {
 
     // --- Stat Index Constants ---
     private static final int NAME_IDX = 0;
@@ -39,7 +39,7 @@ public class Charecter {
     private static final int MAX_HP_IDX = 28;
 
     // --- Singleton Instance ---
-    private static Charecter instance;
+    private static Character instance;
 
     // --- Character Data ---
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
@@ -53,15 +53,15 @@ public class Charecter {
     private StatusManager statusManager = new StatusManager();
 
     // --- Singleton Access ---
-    public static Charecter getInstance() {
+    public static Character getInstance() {
         if (instance == null) {
-            instance = new Charecter();
+            instance = new Character();
         }
         return instance;
     }
 
     // --- Constructors ---
-    public Charecter() {}
+    public Character() {}
 
     // --- Stat Getters/Setters ---
     private int getInt(int idx, int def) {
@@ -78,7 +78,13 @@ public class Charecter {
         }
         return charInfo.get(idx);
     }
-    private void setStr(int idx, String val) { charInfo.set(idx, val); }
+    public void setStr(int idx, String value) {
+        // Ensure the list is large enough
+        while (charInfo.size() <= idx) {
+            charInfo.add("");
+        }
+        charInfo.set(idx, value);
+    }
 
     public String getName() { return getStr(NAME_IDX); }
     public void setName(String name) { setStr(NAME_IDX, name); }

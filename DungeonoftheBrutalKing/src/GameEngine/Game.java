@@ -292,7 +292,7 @@ public class Game implements Runnable {
         int playerX = (int) camera.getX();
         int playerY = (int) camera.getY();
         LocationType type = detectLocation(playerX, playerY);
-        System.out.println("Player at: " + playerX + "," + playerY + " type: " + type);
+       
 
         if (playerX != lastEventX || playerY != lastEventY) {
             if (type != lastEventType) {

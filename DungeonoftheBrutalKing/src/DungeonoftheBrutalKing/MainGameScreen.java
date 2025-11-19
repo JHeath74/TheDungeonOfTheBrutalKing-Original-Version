@@ -22,7 +22,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private double preCombatX, preCombatY;
     private double postCombatX, postCombatY;
 
-    private final Charecter myChar = Charecter.getInstance();
+    private final Character myChar = Character.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
@@ -114,7 +114,7 @@ private void initGame() {
 
         mainFrame.setVisible(true);
         game.start();
-        MusicPlayer.playMP3("Dark Dungeon Ambience.mp3");
+        MusicPlayer.mp3Player("Dark_Dungeon_Ambience.mp3");
     } catch (Exception ex) {
         ex.printStackTrace();
     }
@@ -177,7 +177,9 @@ private void initGame() {
         combatMessageArea.setWrapStyleWord(true);
 
         try {
-            myGameState.StartGameLoadCharecter();
+        	
+        	myChar.setName(myChar.getCharInfo().get(0));
+            myGameState.StartGameLoadCharacter();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,7 +235,7 @@ private void initGame() {
         saveMenuItem.getAccessibleContext().setAccessibleDescription("Save the current game");
         saveMenuItem.addActionListener(_ -> {
             try {
-                myGameState.SaveGame();
+                myGameState.SaveGame(null);
             } catch (IOException | ParseException ex) {
                 ex.printStackTrace();
             }
@@ -492,6 +494,10 @@ private void initGame() {
 
     private void setupTimer() {
         ActionListener task = _ -> {
+            // Prevent IndexOutOfBoundsException
+            if (myChar.getCharInfo().size() < 13) {
+                return;
+            }
             String mpOrApLabel;
             if (myChar.getCharInfo().get(1).equals("Mage") || myChar.getCharInfo().get(1).equals("Wizard")) {
                 mpOrApLabel = "Magic Points: ";
@@ -633,7 +639,7 @@ public int getMagicOrActionPoints() {
         MainGameScreen.getInstance();
     }
 
-    public Charecter getPlayer() {
+    public Character getPlayer() {
         return myChar;
     }
     

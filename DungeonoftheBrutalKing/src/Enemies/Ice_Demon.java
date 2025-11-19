@@ -3,7 +3,7 @@ package Enemies;
 
 import SharedData.GameSettings;
 import Status.IceStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import java.util.Random;
 
@@ -49,7 +49,7 @@ public class Ice_Demon extends Enemies {
     }
 
     // Attack with frozen status effect
-    public int attack(Charecter target) {
+    public int attack(Character target) {
         int baseAttack = attack();
         if (new Random().nextInt(100) < 25) {
             MainGameScreen.appendToMessageTextPane(getName() + " uses icy power! The target is frozen!");

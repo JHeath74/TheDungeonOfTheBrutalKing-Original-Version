@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Salamander extends Enemies {
 
@@ -62,7 +62,7 @@ public class Salamander extends Enemies {
     }
 
     // Attack with poison status effect
-    public int attack(Charecter target) {
+    public int attack(Character target) {
         boolean poisonApplied = Math.random() < 0.25; // 25% chance
         if (poisonApplied) {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies poison!");

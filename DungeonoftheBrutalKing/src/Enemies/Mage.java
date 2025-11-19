@@ -1,7 +1,7 @@
 
 package Enemies;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 import Status.Status;
@@ -49,7 +49,7 @@ public class Mage extends Enemies {
     }
 
     // Custom attack with fireball and status effect
-    public void attack(Charecter target, Status fireStatus) {
+    public void attack(Character target, Status fireStatus) {
         int spellDamage = attack();
         MainGameScreen.appendToMessageTextPane(getName() + " attacks with a fireball for " + spellDamage + " damage!");
         target.takeDamage(spellDamage);

@@ -16,7 +16,7 @@ import SharedData.GameSettings;
 
 public class Combat {
 
-    private final Charecter myChar = Charecter.getInstance();
+    private final Character myChar = Character.getInstance();
     private JTextArea playerInfo;
     private JTextArea enemyInfo;
 
@@ -304,7 +304,7 @@ private void handleAttack() {
         this.myEnemies = enemies;
     }
 
-    public Charecter getMyChar() {
+    public Character getMyChar() {
         return myChar;
     }
 

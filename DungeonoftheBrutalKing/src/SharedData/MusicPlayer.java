@@ -12,7 +12,7 @@ import javazoom.jl.player.Player;
 public class MusicPlayer {
 
     // Path to the directory containing sound files
-    static String SoundEffectsPath;
+    GameSettings gameSettings = new GameSettings();
 
     // Clip object to play audio
     private static Clip clip;
@@ -31,7 +31,7 @@ public class MusicPlayer {
     public void midiPlayer(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         new Thread(() -> {
             try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundEffectsPath + soundType).getAbsoluteFile());
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(gameSettings.SoundEffectsPath.trim() + soundType).getAbsoluteFile());
                 clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -47,22 +47,17 @@ public class MusicPlayer {
         }
     }
 
-    public void mp3Player(String soundType) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public static void mp3Player(String soundType) {
         new Thread(() -> {
             try {
-                System.out.println("SoundEffectsPath: " + SoundEffectsPath);
-                System.out.println("soundType: " + soundType);
-                InputStream inputStream = getClass().getClassLoader().getResourceAsStream(SoundEffectsPath + soundType);
-                System.out.println("Working: " + inputStream);
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
-                AudioFormat audioFormat = audioStream.getFormat();
-                DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
-                Clip audioClip = (Clip) AudioSystem.getLine(info);
-                audioClip.addLineListener((LineListener) this);
-                audioClip.open(audioStream);
-                audioClip.start();
-                audioClip.close();
-                audioStream.close();
+                if (GameSettings.SoundEffectsPath == null) {
+                    throw new IllegalStateException("SoundEffectsPath is not set.");
+                }
+                String filePath = GameSettings.SoundEffectsPath.trim() + soundType.trim();
+                try (FileInputStream fis = new FileInputStream(filePath)) {
+                    Player player = new Player(fis);
+                    player.play();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,7 +73,7 @@ public class MusicPlayer {
     public static void wavePlayer(String soundFileName) {
         new Thread(() -> {
             try {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(SoundEffectsPath + soundFileName).getAbsoluteFile());
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(GameSettings.SoundEffectsPath.trim() + soundFileName).getAbsoluteFile());
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
@@ -100,14 +95,5 @@ public class MusicPlayer {
         }
     }
     
-    public static void playMP3(String fileName) {
-        new Thread(() -> {
-            try (FileInputStream fis = new FileInputStream(SoundEffectsPath + fileName)) {
-                Player player = new Player(fis);
-                player.play();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
+  
 }

@@ -12,16 +12,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Alignment.Alignment; // Ensure this import exists and is correct
 
 public class QuestManager {
     private final List<Quest> availableQuests;
     private final List<Quest> activeQuests;
-    private final Charecter character;
+    private final Character character;
 
-    public QuestManager(Charecter character) throws IOException, InterruptedException, ParseException {
+    public QuestManager(Character character) throws IOException, InterruptedException, ParseException {
         this.availableQuests = new ArrayList<>();
         this.activeQuests = character.getActiveQuests();
         this.character = character;

@@ -1,7 +1,7 @@
 
 package Enemies;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public abstract class Enemies {
     private String name;
@@ -86,12 +86,12 @@ public int getGoldReward() {
 	return level * 5;
 }
 
-public void attemptApplyEffect(Charecter target) {
+public void attemptApplyEffect(Character target) {
 	// TODO Auto-generated method stub
 	
 }
 
-public int attack(Charecter target) {
+public int attack(Character target) {
 	// TODO Auto-generated method stub
 	return 0;
 }

@@ -2,11 +2,11 @@
 // src/Weapon/Club.java
 package Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Club extends WeaponManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     private static final int REQUIRED_STRENGTH = 15;
     private static int weight = 20;

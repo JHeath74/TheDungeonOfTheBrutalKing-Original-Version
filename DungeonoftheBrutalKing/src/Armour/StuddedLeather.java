@@ -1,11 +1,11 @@
 
 package Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class StuddedLeather extends ArmourManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 
@@ -19,7 +19,7 @@ public class StuddedLeather extends ArmourManager {
         StuddedLeather.armourDefense = 15;
     }
 
-    public static StuddedLeather createSkin(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
+    public static StuddedLeather createSkin(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = myChar.getStrength();

@@ -15,7 +15,7 @@ import SharedData.GameSettings;
 
 public class GameMenuItems {
 
-    Charecter myChar = Charecter.getInstance();
+    Character myChar = Character.getInstance();
     GameSettings myGamePreferences = new GameSettings();
 
     public void Stats() {

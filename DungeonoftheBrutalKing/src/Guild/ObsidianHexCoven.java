@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class ObsidianHexCoven extends JPanel {
@@ -30,7 +30,7 @@ public class ObsidianHexCoven extends JPanel {
         this.description = "The Obsidian Hex Coven is a guild of dark magic users who embrace chaos and power.";
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!isMember && !inventory.contains("Obsidian Hex Coven Guild Ring")) {
@@ -72,7 +72,7 @@ public class ObsidianHexCoven extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Obsidian Hex Coven Guild Ring");
+                Character.getInstance().addToInventory("Obsidian Hex Coven Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Obsidian Hex Coven!");
                 try {
                     reloadPanel();
@@ -103,7 +103,7 @@ public class ObsidianHexCoven extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -162,22 +162,22 @@ public class ObsidianHexCoven extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        return Charecter.getInstance().getGuildSpells().size();
+        return Character.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public boolean removeGuildSpell(String spell) {
-        return Charecter.getInstance().getGuildSpells().remove(spell);
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
+        return new ArrayList<>(Character.getInstance().getGuildSpells());
     }
 }

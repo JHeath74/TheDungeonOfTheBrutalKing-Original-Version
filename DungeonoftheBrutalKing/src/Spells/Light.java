@@ -1,7 +1,7 @@
 package Spells;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public abstract class Light implements Spell {
 
@@ -12,8 +12,8 @@ public abstract class Light implements Spell {
         int requiredint = 30;
         int requiredwis = 30;
 
-        String charintelligence = Charecter.getInstance().getCharInfo().get(8).toString();
-        String charwisdom = Charecter.getInstance().getCharInfo().get(9).toString();
+        String charintelligence = Character.getInstance().getCharInfo().get(8).toString();
+        String charwisdom = Character.getInstance().getCharInfo().get(9).toString();
     }
 
     @Override

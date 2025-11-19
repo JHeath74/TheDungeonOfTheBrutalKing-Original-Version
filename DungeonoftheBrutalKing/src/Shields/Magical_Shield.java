@@ -1,14 +1,14 @@
 
 package Shields;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Magical_Shield extends ShieldManager {
 
     private int requiredStrength;
    	private int defenseProvided;
 
-   	private static Charecter myChar = Charecter.getInstance();
+   	private static Character myChar = Character.getInstance();
 
     public Magical_Shield(int requiredStrength, int defenseProvided ) {
         super("Magical Shield", requiredStrength, defenseProvided); // Initialize with name, required strength, and defense provided

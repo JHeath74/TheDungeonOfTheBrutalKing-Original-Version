@@ -1,12 +1,12 @@
 package Spells;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 
 public abstract class Heal implements Spell {
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
     String name = null;
 
     public Heal() {

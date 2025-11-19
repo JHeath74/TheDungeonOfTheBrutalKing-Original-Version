@@ -2,18 +2,18 @@
 // src/Armour/BreastPlate.java
 package Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class BreastPlate extends ArmourManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     public BreastPlate(int requiredStrength, int armourDefense, String effect) {
         super("Breast Plate", requiredStrength, armourDefense, effect);
         allArmour.add(this);
     }
 
-    public static BreastPlate createBreastPlate(Charecter character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
+    public static BreastPlate createBreastPlate(Character character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
         try {
             int strength = myChar.getStrength();
             if (strength >= requiredStrength) {

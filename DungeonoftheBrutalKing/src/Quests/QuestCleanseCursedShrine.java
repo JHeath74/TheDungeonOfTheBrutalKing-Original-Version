@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -43,8 +43,8 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
         add(choicePanel, BorderLayout.SOUTH);
 
         helpButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "Compassion and selflessness strengthen your moral standing."
@@ -57,8 +57,8 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
         });
 
         ignoreButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "Choosing survival over mercy hardens your character toward darkness."

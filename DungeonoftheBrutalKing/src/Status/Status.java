@@ -1,7 +1,7 @@
 
 package Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * Represents a status effect that can be applied to a character.
@@ -32,7 +32,7 @@ public abstract class Status {
         return duration <= 0;
     }
 
-    public abstract void applyEffect(Charecter character);
+    public abstract void applyEffect(Character character);
 
     @Override
     public String toString() {
@@ -41,7 +41,7 @@ public abstract class Status {
 
 
  // src/Status/Status.java
- public void expireEffect(Charecter character) {
+ public void expireEffect(Character character) {
      character.resetHitChance();
      // Reset other attributes if they were modified by this status
      // e.g., character.resetDefense(), character.resetAttack(), etc.
@@ -62,12 +62,12 @@ public abstract class Status {
 	return false;
  }
 
- public void remove(Charecter character) {
+ public void remove(Character character) {
 	// TODO Auto-generated method stub
 	
  }
 
- public void apply(Charecter character) {
+ public void apply(Character character) {
 	// TODO Auto-generated method stub
 	
  }

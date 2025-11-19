@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,7 +25,7 @@ public class CharacterCreation {
 
     static LoadSaveGame myGameState = new LoadSaveGame();
     static GameSettings myGameSettings = new GameSettings();
-    Charecter myChar = Charecter.getInstance();
+    Character myChar = Character.getInstance();
 
     static String InitialCharecterSave = " ";
     static String toonClass, charName = " ";
@@ -81,6 +80,10 @@ public class CharacterCreation {
     }
 
     public void createCharector() {
+        while (charName == null || charName.trim().isEmpty()) {
+            charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
+        }
+
         size = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) size.getWidth();
         height = (int) size.getHeight();
@@ -304,9 +307,6 @@ public class CharacterCreation {
         CharecterCreationFrame.requestFocus();
         CharecterCreationFrame.setVisible(true);
 
-        while (charName == null || charName.trim().isEmpty()) {
-            charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
-        }
         tooncreationTextField.setText("Name: " + charName);
         new GameMenuItems();
     }

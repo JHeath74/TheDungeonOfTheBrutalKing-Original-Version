@@ -2,11 +2,11 @@
 // src/Weapon/WarNet.java
 package Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class WarNet extends WeaponManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 	
     private static final int WEIGHT = 25;
     private static final int REQUIRED_STRENGTH = 30;
@@ -19,7 +19,7 @@ public class WarNet extends WeaponManager {
         super("WarNet", requiredStrength, damage, effect, WEIGHT);
     }
 
-    public static WarNet createWarNet(Charecter character, int damage, String effect) throws NumberFormatException {
+    public static WarNet createWarNet(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(character.getCharInfo().get(8));

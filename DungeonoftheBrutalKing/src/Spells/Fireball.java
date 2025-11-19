@@ -4,13 +4,13 @@ package Spells;
 import java.util.Random;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public abstract class Fireball implements Spell {
 
     // Minimum Wisdom required to cast the spell
     private static final int MINIMUM_WISDOM = 10;
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     @Override
     public void cast() {

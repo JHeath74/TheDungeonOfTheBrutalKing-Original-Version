@@ -4,7 +4,7 @@ package Enemies;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 import Status.FireStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * Phoenix enemy class.
@@ -51,7 +51,7 @@ public class Phoenix extends Enemies {
     }
 
     // Attack with fire status effect
-    public int attack(Charecter target) {
+    public int attack(Character target) {
         int phoenixFlameAttack = 12 + getStrength() + getSpellStrength();
         boolean fireStatusApplied = Math.random() < 0.3; // 30% chance
         if (fireStatusApplied) {

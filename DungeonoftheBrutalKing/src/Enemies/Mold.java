@@ -2,7 +2,7 @@ package Enemies;
 
 import SharedData.GameSettings;
 import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Mold extends Enemies {
@@ -43,7 +43,7 @@ public class Mold extends Enemies {
 
 
     @Override
-    public int attack(Charecter target) {
+    public int attack(Character target) {
         int poisonAttack = 12 + getStrength() + getSpellStrength();
         boolean poisonStatusApplied = Math.random() < 0.3; // 30% chance
         if (poisonStatusApplied) {

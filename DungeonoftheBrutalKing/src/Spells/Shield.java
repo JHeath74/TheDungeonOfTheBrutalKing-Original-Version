@@ -2,7 +2,7 @@
 package Spells;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.TimeClock;
 
 public abstract class Shield implements Spell {
@@ -15,7 +15,7 @@ public abstract class Shield implements Spell {
 
     public void cast() {
         int startTime = timeClock.getCurrentHour();
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));
@@ -33,7 +33,7 @@ public abstract class Shield implements Spell {
 
     // Call this method when the shield effect should end
     protected void removeSpellEffect() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));

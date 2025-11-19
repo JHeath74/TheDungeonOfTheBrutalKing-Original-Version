@@ -2,7 +2,7 @@
 // src/Status/ReduceStrength.java
 package Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class ReduceStrengthStatus extends Status {
     private static final int DURATION_MINUTES = 3; // example duration
@@ -12,7 +12,7 @@ public class ReduceStrengthStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         character.setStrength(character.getStrength() - 10); // reduce strength by 10
     }
 }

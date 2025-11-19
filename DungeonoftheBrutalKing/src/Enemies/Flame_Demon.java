@@ -4,7 +4,7 @@ package Enemies;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 import Status.FireStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * Represents a Flame Demon enemy with fire-based attacks.
@@ -81,7 +81,7 @@ public class Flame_Demon extends Enemies {
      * @param target The character being attacked.
      * @return The attack damage.
      */
-    public int attack(Charecter target) {
+    public int attack(Character target) {
         int fireSwordAttack = 10 + getStrength();
         boolean fireStatusApplied = Math.random() < 0.3; // 30% chance
         if (fireStatusApplied) {
@@ -170,7 +170,7 @@ public class Flame_Demon extends Enemies {
     
 @Override
 //Add this if Flame_Demon should apply an effect as part of its attack
-public void attemptApplyEffect(Charecter target) {
+public void attemptApplyEffect(Character target) {
  int damage = attack(target); // This already applies fire status with a chance
  target.takeDamage(damage);
 }

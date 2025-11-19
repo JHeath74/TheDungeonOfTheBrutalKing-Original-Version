@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /*Status: Represents persistent or current state (e.g., poisoned, stunned, healthy).
 StatusManager: Manages the set of statuses for an entity (add, remove, query).*/
@@ -29,7 +29,7 @@ public class StatusManager {
     /**
      * Updates all statuses: reduces duration, applies effect, removes expired.
      */
-    public void updateStatuses(Charecter character, int timeElapsed) {
+    public void updateStatuses(Character character, int timeElapsed) {
         Iterator<Status> iterator = activeStatuses.iterator();
         while (iterator.hasNext()) {
             Status status = iterator.next();

@@ -4,12 +4,12 @@ package Spells;
 import java.util.Random;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public abstract class Cold_Blast implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Non-aligned spell type
 

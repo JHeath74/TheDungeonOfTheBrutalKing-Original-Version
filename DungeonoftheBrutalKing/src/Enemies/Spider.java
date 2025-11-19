@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Spider extends Enemies {
 
@@ -49,7 +49,7 @@ public class Spider extends Enemies {
     }
 
     // Attack with a chance to apply poison status effect
-    public int attack(Charecter target) {
+    public int attack(Character target) {
         boolean poisonApplied = Math.random() < 0.2; // 20% chance
         if (poisonApplied) {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies poison!");

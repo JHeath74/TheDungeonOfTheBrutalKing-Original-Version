@@ -1,11 +1,11 @@
 
 package Classes;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Hunter extends Class
 {
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     int sta; //Stamina
     int chr; //Charisma

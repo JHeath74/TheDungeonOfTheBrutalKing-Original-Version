@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 import Status.StatusManager;
@@ -26,7 +26,7 @@ public class Innkeeper {
     private final Map<String, Integer> drinkItems;
     private final JPanel mainPanel;
     private final StatusManager statusManager = new StatusManager();
-    private final Charecter myChar = new Charecter();
+    private final Character myChar = new Character();
     private final MainGameScreen myMainGameScreen;
     private final GameSettings myGameSettings = new GameSettings();
 

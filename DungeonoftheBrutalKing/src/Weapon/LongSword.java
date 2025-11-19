@@ -2,11 +2,11 @@
 // src/Weapon/LongSword.java
 package Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class LongSword extends WeaponManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     private static int weight = 25;
     private static int damage = 35;

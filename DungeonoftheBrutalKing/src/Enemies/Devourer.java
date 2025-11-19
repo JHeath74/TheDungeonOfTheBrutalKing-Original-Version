@@ -2,7 +2,7 @@ package Enemies;
 
 import java.util.ArrayList;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -115,7 +115,7 @@ public class Devourer extends Enemies {
      * Attempts to steal an item from the player.
      * @param player The player character.
      */
-    public void tryStealItem(Charecter player) {
+    public void tryStealItem(Character player) {
         double stealChance = 0.2; // 20% chance
         // Convert Set to List for indexed access
         ArrayList<String> inventory = new ArrayList<>(player.getCharInventory());

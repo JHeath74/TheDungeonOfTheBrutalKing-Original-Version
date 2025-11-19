@@ -2,7 +2,7 @@
 package Quests;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -37,26 +37,26 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     @Override public String getDescription() { return description; }
     @Override public boolean isCompleted() { return completed; }
     @Override public void completeQuest() { this.completed = true; }
-    public void giveReward(Charecter character) {}
+    public void giveReward(Character character) {}
     public int getRewardGold() { return rewardGold; }
     public String getConversation() { return conversation; }
     public EncounterType getEncounterType() { return encounterType; }
     public String getEncounterTarget() { return encounterTarget; }
     public String getDescriptionForEncounter() { return descriptionForEncounter; }
 
-    public void releasePrisoner(Charecter player) throws IOException, InterruptedException, ParseException {
+    public void releasePrisoner(Character player) throws IOException, InterruptedException, ParseException {
         player.setAlignment(3);
         this.completed = true;
         mainGameScreen.setMessageTextPane(conversation);
     }
 
-    public void ignorePrisoner(Charecter player) throws IOException, InterruptedException, ParseException {
+    public void ignorePrisoner(Character player) throws IOException, InterruptedException, ParseException {
         player.setAlignment(-3);
         this.completed = false;
         mainGameScreen.setMessageTextPane("You ignore the prisoner. He looks at you with despair.");
     }
 
-    public JPanel createEncounterPanel(Charecter player) {
+    public JPanel createEncounterPanel(Character player) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.QuestImagesPath + "/Prisoner.png"));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);

@@ -1,10 +1,10 @@
 package Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Whip extends WeaponManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     private static final int REQUIRED_STRENGTH = 30;
     private static int weight = 25;

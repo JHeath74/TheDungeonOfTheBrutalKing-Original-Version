@@ -1,7 +1,7 @@
 
 package Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class PoisonStatus extends Status {
     private static final int POISON_DAMAGE = 5; // HP lost per turn
@@ -11,7 +11,7 @@ public class PoisonStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         character.reduceHitPoints(POISON_DAMAGE);
     }
 }

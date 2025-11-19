@@ -1,7 +1,7 @@
 
 package Classes;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Paladin extends Class
 {
@@ -14,7 +14,7 @@ public class Paladin extends Class
 
     int Herolevel;
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public static String charClass = "Paladin";
     public static String ClassDescription;

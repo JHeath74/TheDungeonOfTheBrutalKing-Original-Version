@@ -4,7 +4,7 @@ package Spells;
 import java.util.Random;
 
 import Alignment.Alignment;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 
 public abstract class Cure implements Spell {
@@ -22,7 +22,7 @@ public abstract class Cure implements Spell {
         Random random = new Random();
 
         // Attempt to remove negative effects from the character
-        Charecter character = Singleton.myCharSingleton();
+        Character character = Singleton.myCharSingleton();
         for (String effect : negativeEffects) {
             if (random.nextDouble() < 0.75) { // 75% chance to remove the effect
                 character.getStatusManager().removeStatusByName(effect);

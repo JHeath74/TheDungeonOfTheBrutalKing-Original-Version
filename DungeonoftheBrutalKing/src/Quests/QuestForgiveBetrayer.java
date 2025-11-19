@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -42,8 +42,8 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
         add(choicePanel, BorderLayout.SOUTH);
 
         releaseButton.addActionListener(_ -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You release the betrayer. Mercy may bring future rewards."
@@ -62,8 +62,8 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
         });
 
         killButton.addActionListener(_ -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You kill the betrayer. Justice is served, but at a cost."
