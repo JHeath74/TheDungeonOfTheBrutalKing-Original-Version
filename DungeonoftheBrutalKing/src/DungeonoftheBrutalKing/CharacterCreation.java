@@ -195,6 +195,7 @@ public class CharacterCreation {
                     info.append("No description available.");
                 }
                 toonclassDescriptionTextArea.setText(info.toString());
+                displayStats(stat);
             }
         });
 
@@ -352,16 +353,35 @@ public class CharacterCreation {
         }
     }
 
-    private static void displayStats(Integer[] stat) {
-        toonstatsTextArea.setText("Charecter Stats\n");
-        toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
-        toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
-        toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[2]);
-        toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
-        toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
-        toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
-        toonstatsTextArea.setEditable(false);
+
+
+private static void displayStats(Integer[] stat) {
+    toonstatsTextArea.setText("Charecter Stats\n");
+    toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
+    toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
+    toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[2]);
+    toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
+    toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
+    toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
+
+    // Only show points if a class is selected
+    String className = toonClass != null ? toonClass : "";
+    if (!className.isEmpty()) {
+        if (isMagicUser(className)) {
+            int mp = calculateMagicPoints(stat, className);
+            toonstatsTextArea.append("\nMAGIC POINTS: \t" + mp);
+        } else {
+            Random rand = new Random();
+            double multiplier = 1.0 + (0.5 * rand.nextDouble()); // 1.0 to 1.5
+            int actionPoints = (int) Math.round((stat[2] + stat[5]) * multiplier);
+            toonstatsTextArea.append("\nACTION POINTS: \t" + actionPoints);
+        }
     }
+
+    toonstatsTextArea.setEditable(false);
+}
+
+
 
     public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {
         boolean inputAccepted = false;
