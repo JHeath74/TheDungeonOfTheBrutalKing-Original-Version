@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing;
 
 import java.awt.BorderLayout;
@@ -12,6 +13,7 @@ import javax.swing.*;
 import Quests.Quest;
 import Quests.QuestImpl;
 import SharedData.GameSettings;
+import SharedData.KeyManager;
 import SharedData.EncryptionUtil;
 
 public class LoadSaveGame {
@@ -36,53 +38,32 @@ public class LoadSaveGame {
         }
     }
 
-    public void SaveGame(String fileName) throws IOException, ParseException {
-        String saveFileName;
-        if ("InitialCharecterSave.txt".equals(fileName)) {
-            saveFileName = fileName;
-        } else {
-            Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-            String datetime = dateFormat.format(date).replaceAll(":", ".");
-            saveFileName = "SavedGame" + datetime + ".txt";
-        }
-        String fullPath = GameSettings.SavedGameDirectory + File.separator + saveFileName;
-        try (FileWriter writer = new FileWriter(fullPath)) {
-            saveAllEncrypted(writer);
-        }
-        JOptionPane.showMessageDialog(null, "Game Saved: " + saveFileName);
-    }
 
-    private void saveAllEncrypted(FileWriter writer) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        for (String info : myChar.getCharInfo()) {
-            sb.append("CHARINFO:").append(info).append(System.lineSeparator());
-        }
-        for (String spell : myChar.getSpellsLearned()) {
-            sb.append("SPELL:").append(spell).append(System.lineSeparator());
-        }
-        for (String guildSpell : myChar.getGuildSpells()) {
-            sb.append("GUILDSPELL:").append(guildSpell).append(System.lineSeparator());
-        }
-        for (String item : myChar.getCharInventory()) {
-            sb.append("INVENTORY:").append(item).append(System.lineSeparator());
-        }
-        for (Quest quest : myChar.getActiveQuests()) {
-            sb.append("QUEST:").append(quest.serialize()).append(System.lineSeparator());
-        }
-        String userName = myChar.getName();
-        String salt = EncryptionUtil.generateSalt();
-        try {
-            String encrypted = EncryptionUtil.encrypt(sb.toString(), userName, salt);
-            writer.write(userName + System.lineSeparator());
-            writer.write(salt + System.lineSeparator());
-            writer.write(encrypted);
-        } catch (Exception e) {
-            throw new IOException("Encryption failed: " + e.getMessage(), e);
-        }
+public void SaveGame(String fileName) throws IOException, ParseException {
+    String saveFileName;
+    if ("InitialCharecterSave.txt".equals(fileName)) {
+        // Always use saveAllEncrypted to ensure prefixes are added
+        saveFileName = fileName;
+    } else {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        String datetime = dateFormat.format(date).replaceAll(":", ".");
+        saveFileName = "SavedGame" + datetime + ".txt";
     }
+    String fullPath = GameSettings.SavedGameDirectory + File.separator + saveFileName;
+    try (FileWriter writer = new FileWriter(fullPath)) {
+        saveAllEncrypted(writer); // This method adds prefixes to every line
+    }
+    JOptionPane.showMessageDialog(null, "Game Saved: " + saveFileName);
+}
+
+
+  
 
     public void StartGameLoadCharacter() throws IOException {
+    	
+    	
+    	
         File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
         if (chosenFile == null || !chosenFile.exists()) {
             JOptionPane.showMessageDialog(null, "No valid save file found to load the charecter.");
@@ -154,53 +135,113 @@ public class LoadSaveGame {
         loadGame.setSize(640, 480);
         loadGame.setVisible(true);
     }
-    
 
 
 
-private void loadAllEncrypted(File file) throws IOException {
-    myChar.getCharInfo().clear();
-    myChar.getSpellsLearned().clear();
-    myChar.getGuildSpells().clear();
-    myChar.getCharInventory().clear();
-    myChar.getActiveQuests().clear();
+ // In LoadSaveGame.java
 
-    String userName, salt;
-    StringBuilder encryptedContent = new StringBuilder();
-    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-        userName = reader.readLine();
-        if (userName == null || userName.isEmpty()) {
-            throw new IOException("Invalid save file: missing username");
-        }
-        myChar.setName(userName);
 
-        salt = reader.readLine();
-        if (salt == null || salt.isEmpty()) {
-            throw new IOException("Invalid save file: missing salt");
-        }
-        String line;
-        while ((line = reader.readLine()) != null) {
-            encryptedContent.append(line);
-        }
+
+void saveAllEncrypted(FileWriter writer) throws IOException {
+    StringBuilder sb = new StringBuilder();
+
+    // Collect all character data with prefixes
+    for (String info : myChar.getCharInfo()) {
+        sb.append("CHARINFO:").append(info).append(System.lineSeparator());
     }
-    if (encryptedContent.length() == 0) {
-        throw new IOException("Invalid save file: empty encrypted content");
+    for (String spell : myChar.getSpellsLearned()) {
+        sb.append("SPELL:").append(spell).append(System.lineSeparator());
     }
-    String decrypted;
+    for (String guildSpell : myChar.getGuildSpells()) {
+        sb.append("GUILDSPELL:").append(guildSpell).append(System.lineSeparator());
+    }
+    for (String item : myChar.getCharInventory()) {
+        sb.append("INVENTORY:").append(item).append(System.lineSeparator());
+    }
+    for (Quest quest : myChar.getActiveQuests()) {
+        sb.append("QUEST:").append(quest.serialize()).append(System.lineSeparator());
+    }
+
+    // Debug: print what will be saved
+    System.out.println("Saving data (before encryption):");
+    System.out.println(sb);
+
+    if (sb.length() == 0) {
+        throw new IOException("No data to save.");
+    }
+
+    String salt = EncryptionUtil.generateSalt();
+    String encryptionKey = KeyManager.getOrCreateKey();
     try {
-        decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), myChar.getName(), salt);
+        String encrypted = EncryptionUtil.encrypt(sb.toString(), encryptionKey, salt);
+        writer.write(salt + System.lineSeparator());
+        writer.write(encrypted);
+        writer.flush();
     } catch (Exception e) {
-        throw new IOException("Decryption failed: " + e.getMessage(), e);
-    }
-    try (BufferedReader reader = new BufferedReader(new StringReader(decrypted))) {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.startsWith("CHARINFO:")) {
-                myChar.getCharInfo().add(line.substring(9));
-            }
-        }
+        throw new IOException("Encryption failed: " + e.getMessage(), e);
     }
 }
+
+
+ private void loadAllEncrypted(File file) throws IOException {
+     myChar.getCharInfo().clear();
+     myChar.getSpellsLearned().clear();
+     myChar.getGuildSpells().clear();
+     myChar.getCharInventory().clear();
+     myChar.getActiveQuests().clear();
+
+     String salt;
+     StringBuilder encryptedContent = new StringBuilder();
+     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+         salt = reader.readLine();
+         if (salt == null || salt.isEmpty()) {
+             throw new IOException("Invalid save file: missing salt");
+         }
+         String line;
+         while ((line = reader.readLine()) != null) {
+             encryptedContent.append(line);
+         }
+     }
+     if (encryptedContent.length() == 0) {
+         throw new IOException("Invalid save file: empty encrypted content");
+     }
+     String encryptionKey = KeyManager.getOrCreateKey();
+     String decrypted;
+     try {
+         decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), encryptionKey, salt);
+     } catch (Exception e) {
+         throw new IOException("Decryption failed: " + e.getMessage(), e);
+     }
+
+     // Print what was loaded (after decryption)
+     System.out.println("Loaded data (after decryption):");
+     System.out.println(decrypted);
+
+     try (BufferedReader reader = new BufferedReader(new StringReader(decrypted))) {
+         String line;
+         while ((line = reader.readLine()) != null) {
+             if (line.startsWith("CHARINFO:")) {
+                 myChar.getCharInfo().add(line.substring(9));
+             } else if (line.startsWith("SPELL:")) {
+                 myChar.getSpellsLearned().add(line.substring(6));
+             } else if (line.startsWith("GUILDSPELL:")) {
+                 myChar.getGuildSpells().add(line.substring(11));
+             } else if (line.startsWith("INVENTORY:")) {
+                 myChar.getCharInventory().add(line.substring(10));
+             } else if (line.startsWith("QUEST:")) {
+                 myChar.getActiveQuests().add(QuestImpl.deserialize(line.substring(6)));
+             }
+         }
+     }
+
+     // Print the loaded collections for verification
+     System.out.println("charInfo: " + myChar.getCharInfo());
+     System.out.println("spellsLearned: " + myChar.getSpellsLearned());
+     System.out.println("guildSpells: " + myChar.getGuildSpells());
+     System.out.println("charInventory: " + myChar.getCharInventory());
+     System.out.println("activeQuests: " + myChar.getActiveQuests());
+ }
+
 
     public static File getLastModified(String SavedGameDirectory) {
         File directory = new File(SavedGameDirectory);
@@ -231,40 +272,45 @@ private void loadAllEncrypted(File file) throws IOException {
     }
 
     public void saveAllEncrypted(ArrayList<String> data, String filename) throws IOException {
-        
-    	
-    	String filePath = GameSettings.SavedGameDirectory + File.separator + filename;
+        String filePath = GameSettings.SavedGameDirectory + File.separator + filename;
         StringBuilder sb = new StringBuilder();
         for (String line : data) {
             sb.append(line).append(System.lineSeparator());
         }
-        String userName = myChar.getName();
         String salt = EncryptionUtil.generateSalt();
+        String encryptionKey = KeyManager.getOrCreateKey();
         try (FileWriter writer = new FileWriter(filePath)) {
-            String encrypted = EncryptionUtil.encrypt(sb.toString(), userName, salt);
-            writer.write(userName + System.lineSeparator());
+            String encrypted = EncryptionUtil.encrypt(sb.toString(), encryptionKey, salt);
             writer.write(salt + System.lineSeparator());
             writer.write(encrypted);
         } catch (Exception e) {
             throw new IOException("Encryption failed: " + e.getMessage(), e);
         }
     }
-    
-    public void readSaveFileDemo() {
-        File file = new File("C:\\Backup\\Github\\TheDungeonOfTheBrutalKing-Original-Version\\DungeonoftheBrutalKing\\src\\DungeonoftheBrutalKing\\SaveGame\\InitialCharecterSave.txt");
+
+    public static void readSaveFileDemo() {
+        File file = new File(GameSettings.SavedGameDirectory + "InitialCharecterSave.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String userName = reader.readLine();
             String salt = reader.readLine();
             StringBuilder encryptedContent = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 encryptedContent.append(line);
             }
-            String decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), userName, salt);
+            String encryptionKey = KeyManager.getOrCreateKey();
+            String decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), encryptionKey, salt);
             System.out.println(decrypted); // Print the decrypted content
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
 
+
+	public void setCharecterData(ArrayList<String> saveData) {
+		 myChar.getCharInfo().clear();
+		    myChar.getCharInfo().addAll(saveData);
+		
+	}
+    
+    
+}

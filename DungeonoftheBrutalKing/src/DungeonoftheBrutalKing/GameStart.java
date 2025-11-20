@@ -56,7 +56,7 @@ public class GameStart extends JFrame {
         StartMenuFrame.setLocationRelativeTo(null);
         StartMenuFrame.setVisible(true);
 
-      //  setupMusic();
+        //LoadSaveGame.readSaveFileDemo();
     }
 
     private void setupFrame() {

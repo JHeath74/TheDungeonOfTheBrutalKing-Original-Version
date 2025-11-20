@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import javax.imageio.ImageIO;
@@ -256,14 +257,19 @@ public class CharacterCreation {
                 saveData.add(String.valueOf(defense));
                 saveData.add(String.valueOf(attack));
                 saveData.add(String.valueOf(ToonHP(stat, saveData)));
-                try {
-                    myGameState.saveAllEncrypted(saveData, "InitialCharecterSave.txt");
+
+                System.out.println("Saving data: " + saveData);
+                myGameState.setCharecterData(saveData);
+
+                try (FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt")) {
+                    myGameState.saveAllEncrypted(writer);
                     CharecterCreationFrame.dispose();
                     MainGameScreen.getInstance();
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
                     e1.printStackTrace();
                 }
+
             }
         });
 
