@@ -2,12 +2,13 @@
 package Enemies;
 
 import DungeonoftheBrutalKing.Character;
+import SharedData.Alignment;
 
 public abstract class Enemies {
     private String name;
     protected int level;
     private int hitPoints;
-    private int strength;
+    protected int strength;
     private int charisma;
     private int agility;
     private int intelligence;
@@ -97,6 +98,16 @@ public int attack(Character target) {
 }
 
 public int attack() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+public Alignment getAlignment() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public int getAlignmentImpact() {
 	// TODO Auto-generated method stub
 	return 0;
 }

@@ -1,6 +1,6 @@
 package Spells;
 
-import Alignment.Alignment;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Character;
 
 public abstract class Light implements Spell {
@@ -29,6 +29,6 @@ public abstract class Light implements Spell {
 
     @Override
     public Alignment getSpellAlignment() {
-        return Alignment.NOT_ALIGNED;
+        return Alignment.NEUTRAL;
     }
 }

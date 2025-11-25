@@ -2,8 +2,7 @@
 package Spells;
 
 import java.util.Random;
-
-import Alignment.Alignment;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Character;
 
 public abstract class Fireball implements Spell {
@@ -38,6 +37,6 @@ public abstract class Fireball implements Spell {
 
     @Override
     public Alignment getSpellAlignment() {
-        return Alignment.NOT_ALIGNED;
+        return Alignment.NEUTRAL;
     }
 }

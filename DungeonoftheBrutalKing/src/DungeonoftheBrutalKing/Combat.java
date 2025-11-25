@@ -226,15 +226,20 @@ private void handleAttack() {
 }
 
 
-    private void handleRewards() {
-        if (myEnemies != null) {
-            int exp = myEnemies.getExperienceReward();
-            int gold = myEnemies.getGoldReward();
-            myChar.rewardExperience(exp);
-            myChar.setGold(myChar.getGold() + gold);
-            MainGameScreen.appendToMessageTextPane("You gained " + exp + " EXP and " + gold + " gold!\n");
-        }
+private void handleRewards() {
+    if (myEnemies != null) {
+        int exp = myEnemies.getExperienceReward();
+        int gold = myEnemies.getGoldReward();
+        myChar.rewardExperience(exp);
+        myChar.setGold(myChar.getGold() + gold);
+        MainGameScreen.appendToMessageTextPane("You gained " + exp + " EXP and " + gold + " gold!\n");
+
+        // Alignment check and update
+        int impact = myEnemies.getAlignmentImpact();
+        myChar.setAlignment(impact); // Assumes this method exists in Character
+        MainGameScreen.appendToMessageTextPane("Your alignment changed by " + impact + ".\n");
     }
+}
 
     private void handleSelectSpell() {
         java.util.List<String> allSpells = new java.util.ArrayList<>();

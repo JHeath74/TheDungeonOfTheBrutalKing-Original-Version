@@ -1,9 +1,11 @@
 
-package Quests;
+package Quests.Quests;
 
-import Alignment.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import Quests.EncounterType;
+import Quests.Quest;
+import Quests.QuestType;
 import SharedData.GameSettings;
 
 import javax.swing.*;

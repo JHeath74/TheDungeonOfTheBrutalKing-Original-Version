@@ -1,13 +1,13 @@
 
 package Spells;
 
-import Alignment.Alignment;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.TimeClock;
 
 public abstract class Shield implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED;
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NEUTRAL;
     private int duration = 12;
     private TimeClock timeClock = TimeClock.Singleton();
 

@@ -1,6 +1,6 @@
 
 // File: src/Quests/QuestForgiveBetrayer.java
-package Quests;
+package Quests.Quests;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import Quests.Quest;
 import SharedData.GameSettings;
 
 public class QuestForgiveBetrayer extends JPanel implements Quest {

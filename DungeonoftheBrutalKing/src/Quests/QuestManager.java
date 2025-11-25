@@ -14,7 +14,8 @@ import javax.swing.JPanel;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
-import Alignment.Alignment; // Ensure this import exists and is correct
+import Quests.Quests.QuestForgiveBetrayer;
+import Quests.Quests.QuestRescuetheForgottenPrisoner;
 
 public class QuestManager {
     private final List<Quest> availableQuests;

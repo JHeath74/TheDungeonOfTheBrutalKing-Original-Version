@@ -3,50 +3,78 @@
 package Enemies;
 
 import SharedData.GameSettings;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
+/**
+ * Represents a Rat enemy with basic combat abilities and alignment.
+ */
 public class Rat extends Enemies {
 
-    // Constructor with comments for each variable
+    // --- Fields ---
+    private int level; // Used for rewards and scaling
+    private final Alignment alignment = Alignment.EVIL;
+    private final int alignmentImpact = 1;
+
+    // --- Constructor ---
+    /**
+     * Constructs a Rat enemy with predefined stats and image.
+     */
     public Rat() {
         super(
-            /* name: The type or identifier of the enemy */ "Rat",
-            /* level: The enemy's experience or difficulty level */ 1,
-            /* hitPoints: The enemy's health value */ 10,
-            /* strength: Physical attack power */ 2,
-            /* charisma: Social or persuasive ability */ 1,
-            /* agility: Speed and evasion capability */ 5,
-            /* intelligence: Problem-solving or magical ability */ 1,
-            /* wisdom: Decision-making or resistance to effects */ 1,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Rat.png",
-            /* isMagicUser: Rat is not a magic user */ false,
-            /* spellStrength: Rat has no spell strength */ 0
+            "Rat",                                   // Name
+            1,                                       // Level (used in superclass, overridden below)
+            10,                                      // Hit points
+            2,                                       // Strength
+            1,                                       // Charisma
+            5,                                       // Agility
+            1,                                       // Intelligence
+            1,                                       // Wisdom
+            GameSettings.MonsterImagePath + "Rat.png", // Image path
+            false,                                   // Is magic user
+            0                                        // Spell strength
         );
-        this.level = 1;
+        this.level = 1; // Set actual level for this instance
     }
 
+    // --- Combat Methods ---
+    /**
+     * Reduces hit points by the given damage amount.
+     * If hit points drop below zero, sets them to zero.
+     * Prints a message if the Rat dies.
+     * @param damage The amount of damage to take.
+     */
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) {
-            setHitPoints(0);
-        }
-        if (isDead()) {
-            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
-        }
+        if (getHitPoints() < 0) setHitPoints(0);
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
     }
 
+    /**
+     * Checks if the Rat is dead (hit points <= 0).
+     * @return true if dead, false otherwise.
+     */
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
     }
 
+    /**
+     * Calculates the Rat's attack damage based on strength and agility.
+     * @return The calculated attack damage.
+     */
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.1) + (getAgility() * 0.6));
     }
 
-    // Defend method: reduces incoming damage based on agility and a base defense
+    /**
+     * Calculates reduced damage when defending, based on base defense and agility.
+     * Caps reduction at 80%. Displays a message with the reduced damage.
+     * @param incomingDamage The original damage to be reduced.
+     * @return The reduced damage after defense.
+     */
     public int defend(int incomingDamage) {
         int baseDefense = 8;
         int agility = getAgility();
@@ -56,26 +84,21 @@ public class Rat extends Enemies {
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
-    
-    @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
 
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
+    // --- Utility Methods ---
+    /**
+     * Returns the image path for the Rat.
+     * @return The image path.
+     */
     @Override
     public String getImagePath() {
         return super.getImagePath();
     }
 
+    /**
+     * Returns a string representation of the Rat's stats.
+     * @return String with all key attributes.
+     */
     @Override
     public String toString() {
         return "Rat{" +
@@ -91,5 +114,53 @@ public class Rat extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 ", spellStrength=" + getSpellStrength() +
                 '}';
+    }
+
+    // --- Getters and Alignment Methods ---
+    /**
+     * Gets the level of the Rat.
+     * @return the level.
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Gets the experience reward for defeating the Rat.
+     * @return experience points.
+     */
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    /**
+     * Gets the gold reward for defeating the Rat.
+     * @return gold amount.
+     */
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    /**
+     * Gets the alignment impact value.
+     * @return alignment impact.
+     */
+    @Override
+    public int getAlignmentImpact() {
+        return alignmentImpact;
+    }
+
+    /**
+     * Gets the alignment of the Rat.
+     * @return alignment.
+     */
+    public Alignment getAlignment() {
+        return alignment;
     }
 }

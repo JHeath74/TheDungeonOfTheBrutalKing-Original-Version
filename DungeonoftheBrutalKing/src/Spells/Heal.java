@@ -1,6 +1,6 @@
 package Spells;
 
-import Alignment.Alignment;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 
@@ -41,6 +41,6 @@ public abstract class Heal implements Spell {
 
     @Override
     public Alignment getSpellAlignment() {
-        return Alignment.NOT_ALIGNED;
+        return Alignment.NEUTRAL;
     }
 }

@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Alignment.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class DirgeweaversChorus extends JPanel {
 
@@ -23,11 +23,11 @@ public class DirgeweaversChorus extends JPanel {
     private final String guildName = "Dirgeweavers Chorus";
     private boolean isMember;
     private String description = "";
-    private Alignment alignment;
+    private SharedData.Alignment alignment;
 
     public DirgeweaversChorus(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = Alignment.POSITIVE;
+        this.alignment = SharedData.Alignment.GOOD;
         this.description = "Dirgeweavers Chorus is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
 
         setLayout(new BorderLayout());

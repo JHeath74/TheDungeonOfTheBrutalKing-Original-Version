@@ -1,11 +1,11 @@
 package Spells;
 
-import Alignment.Alignment;
+import SharedData.Alignment;
 import DungeonoftheBrutalKing.Singleton;
 
 public abstract class Port implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED; // Alignment of the spell
+    private static final Alignment SPELL_ALIGNMENT = Alignment.NEUTRAL; // Alignment of the spell
     String name = null;
     int Wisdom = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(10));
     int Intelligence = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(9));

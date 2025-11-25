@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Alignment.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class ObsidianHexCoven extends JPanel {
 
@@ -22,7 +22,7 @@ public class ObsidianHexCoven extends JPanel {
 
     private final String guildName = "Obsidian Hex Coven";
     private boolean isMember;
-    private final Alignment alignment = Alignment.NEGATIVE;
+    private final Alignment alignment = Alignment.EVIL;
     private final String description;
 
     public ObsidianHexCoven(boolean isMember) throws IOException, InterruptedException, ParseException {

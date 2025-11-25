@@ -3,13 +3,14 @@ package Spells;
 
 import java.util.Random;
 
-import Alignment.Alignment;
+
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
+import SharedData.Alignment;
 
 public abstract class Cure implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NOT_ALIGNED;
+    private static final SharedData.Alignment SPELL_ALIGNMENT = SharedData.Alignment.NEUTRAL;
 
     public Cure() {
         super();

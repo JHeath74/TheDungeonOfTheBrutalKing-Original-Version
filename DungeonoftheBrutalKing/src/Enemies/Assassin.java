@@ -1,50 +1,72 @@
+
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 import SharedData.GameSettings;
 
 public class Assassin extends Enemies {
 
-	private int level;;
-	
-	public Assassin() {
-	    super(
-	        /* name: The type or identifier of the enemy */ "Assassin",
-	        /* level: The enemy's experience or difficulty level */ 5,
-	        /* hitPoints: The enemy's health value */ 30,
-	        /* strength: Physical attack power */ 8,
-	        /* charisma: Social or persuasive ability */ 5,
-	        /* agility: Speed and evasion capability */ 7,
-	        /* intelligence: Problem-solving or magical ability */ 6,
-	        /* wisdom: Decision-making or resistance to effects */ 3,
-	        /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Assassin.png",
-	        /* isMagicUser: Assassin is not a magic user */ false,
-	        /* spellStrength: Assassin has no spell strength */ 0
-	    );
-	    this.level = 5;
-	}
+    private int level;
+    private final Alignment alignment = Alignment.EVIL;
+    private final int alignmentImpact = 2;
+    
+ //   private static final int BASE_HP = 20;
+ //   private static final int HP_PER_LEVEL = 5;
+ //   private static final int HP_PER_STRENGTH = 2;
+ 
+  //  int HP = BASE_HP + (level * HP_PER_LEVEL) + (strength * HP_PER_STRENGTH);
+
+
+    public Assassin() {
+        // Calls the superclass constructor to set up the Assassin's attributes:
+        // name, level, hitPoints, strength, charisma, agility, intelligence, wisdom, imagePath, isMagicUser, spellStrength
+        super(
+            "Assassin",                // Enemy name
+            5,                         // Level
+            30,                        // Hit points
+            8,                         // Strength
+            5,                         // Charisma
+            7,                         // Agility
+            6,                         // Intelligence
+            3,                         // Wisdom
+            GameSettings.MonsterImagePath + "Assassin.png", // Image path
+            false,                     // Not a magic user
+            0                          // Spell strength
+        );
+        this.level = 5; // Sets the Assassin's level field
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        return alignmentImpact;
+    }
 
     @Override
     public void takeDamage(int damage) {
         int dodgeChance = 20;
         if (Math.random() * 100 < dodgeChance) {
-            System.out.println(getName() + " dodged the attack!");
+            MainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (getHitPoints() < 0) {
-            setHitPoints(0);
-        }
+        if (getHitPoints() < 0) setHitPoints(0);
         if (isDead()) {
             MainGameScreen.appendToMessageTextPane(getImagePath());
         }
     }
-@Override
+
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 10;
         int agility = getAgility();
         int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
@@ -52,10 +74,9 @@ public class Assassin extends Enemies {
 
     @Override
     public boolean isDead() {
-        return getHitPoints() < 0;
+        return getHitPoints() <= 0;
     }
 
-    // Implement the required attack() method
     @Override
     public int attack() {
         boolean critical = Math.random() < 0.2;
@@ -63,11 +84,10 @@ public class Assassin extends Enemies {
         return critical ? base * 2 : base;
     }
 
-    // This is a helper, not an override
     public int getAttackDamage() {
         return attack();
     }
-    
+
     public int getLevel() {
         return level;
     }
@@ -79,7 +99,7 @@ public class Assassin extends Enemies {
         }
         return super.getImagePath();
     }
-    
+
     @Override
     public int getExperienceReward() {
         int base = level * 10;

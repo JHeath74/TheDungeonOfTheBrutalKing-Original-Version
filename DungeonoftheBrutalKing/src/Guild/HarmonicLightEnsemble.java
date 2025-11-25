@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Alignment.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class HarmonicLightEnsemble extends JPanel {
 
@@ -30,7 +30,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
     public HarmonicLightEnsemble(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = Alignment.POSITIVE;
+        this.alignment = Alignment.GOOD;
 
         setLayout(new BorderLayout());
 

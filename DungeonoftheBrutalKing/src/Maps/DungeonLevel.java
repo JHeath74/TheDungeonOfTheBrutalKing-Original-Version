@@ -13,11 +13,10 @@ import java.util.Random;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import Quests.Quest;
+import Quests.Quests.QuestCleanseCursedShrine;
+import Quests.Quests.QuestForgiveBetrayer;
+import Quests.Quests.QuestRescuetheForgottenPrisoner;
 import SharedData.LocationType;
-//Quests
-import Quests.QuestForgiveBetrayer;
-import Quests.QuestCleanseCursedShrine;
-import Quests.QuestRescuetheForgottenPrisoner;
 
 
 public abstract class DungeonLevel {

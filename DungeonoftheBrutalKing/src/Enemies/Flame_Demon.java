@@ -1,39 +1,45 @@
 
+// src/Enemies/Flame_Demon.java
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
+import SharedData.Alignment;
 import Status.FireStatus;
 import DungeonoftheBrutalKing.Character;
 
 /**
- * Represents a Flame Demon enemy with fire-based attacks.
+ * Represents a Flame Demon enemy with fire-based attacks and alignment.
  */
 public class Flame_Demon extends Enemies {
 
-    // The level of the Flame Demon, used for rewards and scaling
-    private int level;
+    // --- Fields ---
+    private int level; // Used for rewards and scaling
+    private final Alignment alignment = Alignment.EVIL;
+    private final int alignmentImpact = 4;
 
+    // --- Constructor ---
     /**
      * Constructs a Flame Demon enemy with predefined stats and image.
      */
     public Flame_Demon() {
         super(
-            /* name: The type or identifier of the enemy */ "Flame Demon",
-            /* level: The enemy's experience or difficulty level */ 6,
-            /* hitPoints: The enemy's health value */ 30,
-            /* strength: Physical attack power */ 8,
-            /* charisma: Social or persuasive ability */ 5,
-            /* agility: Speed and evasion capability */ 7,
-            /* intelligence: Problem-solving or magical ability */ 6,
-            /* wisdom: Decision-making or resistance to effects */ 3,
-            /* imagePath: Path to the enemy's image asset */ GameSettings.MonsterImagePath + "Flame_Demon.png",
-            /* isMagicUser: Flame Demon is not a magic user */ false,
-            /* spellStrength: Flame Demon has no spell strength */ 0
+            "Flame Demon",                          // Name
+            6,                                      // Level (used in superclass, overridden below)
+            30,                                     // Hit points
+            8,                                      // Strength
+            5,                                      // Charisma
+            7,                                      // Agility
+            6,                                      // Intelligence
+            3,                                      // Wisdom
+            GameSettings.MonsterImagePath + "Flame_Demon.png", // Image path
+            false,                                  // Is magic user
+            0                                       // Spell strength
         );
         this.level = 6; // Set actual level for this instance
     }
 
+    // --- Combat Methods ---
     /**
      * Reduces hit points by the given damage amount.
      * If hit points drop below zero, sets them to zero.
@@ -94,6 +100,34 @@ public class Flame_Demon extends Enemies {
     }
 
     /**
+     * Calculates reduced damage when defending, based on base defense and agility.
+     * Caps reduction at 80%. Displays a message with the reduced damage.
+     * @param incomingDamage The original damage to be reduced.
+     * @return The reduced damage after defense.
+     */
+    @Override
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    /**
+     * Applies the Flame Demon's effect as part of its attack.
+     * @param target The character being attacked.
+     */
+    @Override
+    public void attemptApplyEffect(Character target) {
+        int damage = attack(target); // This already applies fire status with a chance
+        target.takeDamage(damage);
+    }
+
+    // --- Utility Methods ---
+    /**
      * Returns the image path for the Flame Demon.
      * Shows an injured image if hit points are low.
      * @return The image path.
@@ -125,23 +159,7 @@ public class Flame_Demon extends Enemies {
                 '}';
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
-    }
-
+    // --- Getters and Alignment Methods ---
     /**
      * Gets the level of the Flame Demon.
      * @return the level.
@@ -161,19 +179,31 @@ public class Flame_Demon extends Enemies {
         return Math.max(base + offset, 0);
     }
 
+    /**
+     * Gets the gold reward for defeating the Flame Demon.
+     * @return gold amount.
+     */
     @Override
     public int getGoldReward() {
         int base = level * 5;
         int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
-    
-@Override
-//Add this if Flame_Demon should apply an effect as part of its attack
-public void attemptApplyEffect(Character target) {
- int damage = attack(target); // This already applies fire status with a chance
- target.takeDamage(damage);
-}
-}
 
+    /**
+     * Gets the alignment impact value.
+     * @return alignment impact.
+     */
+    @Override
+    public int getAlignmentImpact() {
+        return alignmentImpact;
+    }
 
+    /**
+     * Gets the alignment of the Flame Demon.
+     * @return alignment.
+     */
+    public Alignment getAlignment() {
+        return alignment;
+    }
+}

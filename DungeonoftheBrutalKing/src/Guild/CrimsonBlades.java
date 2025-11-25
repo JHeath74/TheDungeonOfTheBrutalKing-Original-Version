@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Alignment.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class CrimsonBlades extends JPanel {
 
@@ -23,11 +23,11 @@ public class CrimsonBlades extends JPanel {
     private final String guildName = "Crimson Blades";
     private boolean isMember;
     private String description = "";
-    private Alignment alignment;
+    private SharedData.Alignment alignment;
 
     public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = Alignment.NEGATIVE;
+        this.alignment = SharedData.Alignment.EVIL;
         this.description = "The Crimson Blades is a guild of skilled warriors who thrive on combat and power.";
 
         setLayout(new BorderLayout());

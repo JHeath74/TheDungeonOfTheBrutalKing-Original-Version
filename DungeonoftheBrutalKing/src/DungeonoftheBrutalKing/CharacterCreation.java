@@ -81,9 +81,7 @@ public class CharacterCreation {
     }
 
     public void createCharector() {
-        while (charName == null || charName.trim().isEmpty()) {
-            charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
-        }
+       
 
         size = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) size.getWidth();
@@ -314,6 +312,10 @@ public class CharacterCreation {
         CharecterCreationFrame.requestFocus();
         CharecterCreationFrame.setVisible(true);
 
+        while (charName == null || charName.trim().isEmpty()) {
+            charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
+        }
+        
         tooncreationTextField.setText("Name: " + charName);
         new GameMenuItems();
     }
@@ -439,23 +441,32 @@ private static void displayStats(Integer[] stat) {
         return points;
     }
 
-    static boolean isMagicUser(String characterClass) {
-        return Arrays.asList("Cleric", "Paladin", "Bard").contains(characterClass);
-    }
 
-    private static int calculateMagicPoints(Integer[] stat, String characterClass) {
-        int baseMP = switch (characterClass) {
-            case "Paladin" -> 14;
-            case "Cleric" -> 20;
-            case "Bard" -> 12;
-            default -> 1;
-        };
-        return baseMP + ((stat[3] * 2) + stat[4]);
-    }
+static boolean isMagicUser(String characterClass) {
+    return Arrays.asList("Cleric", "Paladin", "Bard", "Wizard").contains(characterClass);
+}
 
-    public static int ToonActionPoints(Integer[] stat) {
-        return (stat[2] * 2) + stat[5];
-    }
+
+private static int calculateMagicPoints(Integer[] stat, String characterClass) {
+    int baseMP = switch (characterClass) {
+        case "Paladin" -> 14;
+        case "Cleric" -> 20;
+        case "Bard" -> 12;
+        case "Wizard" -> 25;
+        default -> 1;
+    };
+    Random rand = new Random();
+    int randomBonus = rand.nextInt(6); // 0-5 extra points
+    return baseMP + ((stat[3] * 2) + stat[4]) + randomBonus;
+}
+
+// Add randomness to action points
+public static int ToonActionPoints(Integer[] stat) {
+    Random rand = new Random();
+    double multiplier = 1.0 + (rand.nextDouble() * 0.5); // 1.0 to 1.5
+    int randomBonus = rand.nextInt(4); // 0-3 extra points
+    return (int) Math.round(((stat[2] * 2) + stat[5]) * multiplier) + randomBonus;
+}
 
     public static Integer gold() {
         Random random = new Random();

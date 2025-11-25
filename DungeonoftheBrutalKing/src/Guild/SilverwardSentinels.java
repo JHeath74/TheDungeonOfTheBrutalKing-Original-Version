@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Alignment.Alignment;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 
 public class SilverwardSentinels extends JPanel {
 
@@ -22,7 +22,7 @@ public class SilverwardSentinels extends JPanel {
 
     private final String guildName = "Silverward Sentinels";
     private boolean isMember;
-    private final Alignment alignment = Alignment.POSITIVE;
+    private final Alignment alignment = Alignment.GOOD;
     private final String description;
 
     public SilverwardSentinels(boolean isMember) throws IOException, InterruptedException, ParseException {

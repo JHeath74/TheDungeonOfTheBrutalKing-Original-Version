@@ -1,7 +1,10 @@
+
+// src/Enemies/Dragon.java
 package Enemies;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 import SharedData.GameSettings;
 import Status.FireStatus;
 import Status.StatusManager;
@@ -11,9 +14,12 @@ import Status.StatusManager;
  */
 public class Dragon extends Enemies {
 
-    // The level of the Dragon, used for rewards and scaling
-    private int level;
+    // --- Fields ---
+    private int level; // Used for rewards and scaling
+    private final Alignment alignment = Alignment.EVIL;
+    private final int alignmentImpact = 5;
 
+    // --- Constructor ---
     /**
      * Constructs a Dragon with predefined stats and image.
      */
@@ -34,6 +40,7 @@ public class Dragon extends Enemies {
         this.level = 9; // Set actual level for this instance
     }
 
+    // --- Combat Methods ---
     /**
      * Reduces hit points by the given damage amount.
      * If hit points drop below zero, sets them to zero.
@@ -68,14 +75,31 @@ public class Dragon extends Enemies {
     }
 
     /**
-     * Throws an exception; use attack(Charecter target) instead.
+     * Throws an exception; use attack(Character target) instead.
      * @throws UnsupportedOperationException Always thrown to enforce correct usage.
      */
     @Override
     public int attack() {
-        throw new UnsupportedOperationException("Use attack(Charecter target) instead.");
+        throw new UnsupportedOperationException("Use attack(Character target) instead.");
     }
 
+    /**
+     * Calculates reduced damage when defending, based on base defense and agility.
+     * Caps reduction at 80%. Displays a message with the reduced damage.
+     * @param incomingDamage The original damage to be reduced.
+     * @return The reduced damage after defense.
+     */
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int agility = getAgility();
+        int reductionPercent = (baseDefense + agility) / 2;
+        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".\n");
+        return reducedDamage;
+    }
+
+    // --- Utility Methods ---
     /**
      * Checks if the Dragon is dead (hit points <= 0).
      * @return true if dead, false otherwise.
@@ -126,22 +150,7 @@ public class Dragon extends Enemies {
                 '}';
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
-    public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".\n");
-        return reducedDamage;
-    }
-
+    // --- Getters and Alignment Methods ---
     /**
      * Gets the level of the Dragon.
      * @return the level.
@@ -150,6 +159,10 @@ public class Dragon extends Enemies {
         return level;
     }
 
+    /**
+     * Gets the experience reward for defeating the Dragon.
+     * @return experience points.
+     */
     @Override
     public int getExperienceReward() {
         int base = level * 10;
@@ -157,10 +170,31 @@ public class Dragon extends Enemies {
         return Math.max(base + offset, 0);
     }
 
+    /**
+     * Gets the gold reward for defeating the Dragon.
+     * @return gold amount.
+     */
     @Override
     public int getGoldReward() {
         int base = level * 5;
         int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
+    }
+
+    /**
+     * Gets the alignment impact value.
+     * @return alignment impact.
+     */
+    @Override
+    public int getAlignmentImpact() {
+        return alignmentImpact;
+    }
+
+    /**
+     * Gets the alignment of the Dragon.
+     * @return alignment.
+     */
+    public Alignment getAlignment() {
+        return alignment;
     }
 }

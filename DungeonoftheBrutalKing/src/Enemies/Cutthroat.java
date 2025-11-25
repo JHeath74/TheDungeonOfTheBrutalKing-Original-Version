@@ -1,6 +1,7 @@
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
 import SharedData.GameSettings;
 
 /**
@@ -8,28 +9,37 @@ import SharedData.GameSettings;
  */
 public class Cutthroat extends Enemies {
 
-    private int level;
+	 private int level;
+	 private final Alignment alignment = Alignment.EVIL;
+	 private final int alignmentImpact = 2;
+	 
+	//    private static final int BASE_HP = 20;
+//	    private static final int HP_PER_LEVEL = 5;
+	//    private static final int HP_PER_STRENGTH = 2;
+	 
+//	 int HP = BASE_HP + (level * HP_PER_LEVEL) + (strength * HP_PER_STRENGTH);
+
 
     /**
      * Constructs a Cutthroat enemy with predefined stats and image.
      * Sets the enemy's name, level, attributes, image path, and other flags.
      */
-    public Cutthroat() {
-        super(
-            "Cutthroat",                // Enemy name
-            4,                          // Level
-            30,                         // Hit points
-            8,                          // Strength
-            5,                          // Charisma
-            7,                          // Agility
-            6,                          // Intelligence
-            3,                          // Wisdom
-            GameSettings.MonsterImagePath + "Cutthroat.png", // Image path
-            false,                      // Is boss
-            0                           // Special ability code
-        );
-        this.level = 4; // Set level for reference
-    }
+	  public Cutthroat() {
+	        super(
+	            "Cutthroat",                // Enemy name
+	            4,                          // Level
+	            30,                         // Hit points
+	            8,                          // Strength
+	            5,                          // Charisma
+	            7,                          // Agility
+	            6,                          // Intelligence
+	            3,                          // Wisdom
+	            GameSettings.MonsterImagePath + "Cutthroat.png", // Image path
+	            false,                      // Is boss
+	            0                           // Special ability code
+	        );
+	        this.level = 4; // Set level for reference
+	    }
 
     /**
      * Reduces hit points by the given damage amount.
@@ -143,4 +153,14 @@ public class Cutthroat extends Enemies {
         int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
+    
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+    
+	@Override
+	public int getAlignmentImpact() {
+	    return alignmentImpact;
+	}
 }
