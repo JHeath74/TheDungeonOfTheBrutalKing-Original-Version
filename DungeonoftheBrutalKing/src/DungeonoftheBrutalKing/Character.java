@@ -172,6 +172,8 @@ public class Character {
     public void getPosition(int[] pos) {
         pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
     }
+    
+    
 
     // --- Combat and Stats ---
     public boolean consumeSkillPoints(int cost) {

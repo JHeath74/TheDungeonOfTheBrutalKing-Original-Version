@@ -279,7 +279,7 @@ public class Game implements Runnable {
                 MainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
                 break;
             default:
-                System.out.println("Other location event handled");
+             //   System.out.println("Other location event handled");
                 break;
         }
     }

@@ -535,7 +535,7 @@ private void initGame() {
             	);
         };
 
-        timer = new Timer(1000, task);
+        timer = new Timer(100, task);
         timer.setRepeats(true);
         timer.start();
     }

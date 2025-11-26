@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Random;
+import DungeonoftheBrutalKing.Character;
 
 import DungeonoftheBrutalKing.Combat;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -127,6 +128,10 @@ public class Camera implements KeyListener {
             yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
         }
         if (moved) {
+
+        	// Java
+        	Character.getInstance().setPosition(getX(), getY(), 0);
+
             LocationType type = game.detectLocation(getX(), getY());
             game.handleLocationEvent(type);
             onPlayerStep();
