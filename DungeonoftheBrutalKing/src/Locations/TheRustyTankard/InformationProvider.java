@@ -14,7 +14,11 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
 public class InformationProvider extends JPanel {
-    private final String[] randomInfo = {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final String[] randomInfo = {
         "The sky is blue.",
         "Water boils at 100°C.",
         "Cats sleep for 70% of their lives.",

@@ -14,7 +14,7 @@ public class Valkyrie extends Enemies {
     // --- Fields ---
     private int level; // Used for rewards and scaling
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = 2;
+    private final int alignmentImpact = -2;
 
     // --- Constructor ---
     /**

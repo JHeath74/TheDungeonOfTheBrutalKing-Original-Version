@@ -526,14 +526,13 @@ private void initGame() {
             		);
 
             		// Display resources: Hit Points, Magic/Action Points, and Gold
-            		charXPHPGoldField.setText(
-            		    "Hit Points: " + myChar.getCharInfo().get(5) + "\t\t" + // HP
-
-mpOrApLabel + getMagicOrActionPoints() + "\t\t" +
-    // MP or AP
-            		    "Gold: " + myChar.getGold() + "\t\t"         // Gold
-            		);
-
+            charXPHPGoldField.setText(
+            	    "Hit Points: " + myChar.getCharInfo().get(5) + "\t\t" + // HP
+            	    mpOrApLabel + getMagicOrActionPoints() + "\t\t" +       // MP or AP
+            	    "Gold: " + myChar.getGold() + "\t\t" +                  // Gold
+            	    "Alignment: " + myChar.getAlignment() + "\t\t" +        // Alignment
+            	    "X: " + (int) Math.round(myChar.getX()) + "\t Y: " + (int) Math.round(myChar.getY())          // Coordinates
+            	);
         };
 
         timer = new Timer(1000, task);

@@ -1,0 +1,116 @@
+
+// Sage.java
+package Enemies;
+
+import SharedData.GameSettings;
+import SharedData.Alignment;
+import DungeonoftheBrutalKing.MainGameScreen;
+
+/**
+ * Represents a Sage enemy with good alignment and magic abilities.
+ */
+public class Sage extends Enemies {
+
+    // --- Fields ---
+    private int level;
+    private final Alignment alignment = Alignment.GOOD;
+    private final int alignmentImpact = -5;
+
+    // --- Constructor ---
+    public Sage() {
+        super(
+            "Sage",             // Enemy name
+            11,                 // Level
+            42,                 // Hit points
+            6,                  // Strength
+            13,                 // Charisma
+            9,                  // Agility
+            15,                 // Intelligence
+            17,                 // Wisdom
+            GameSettings.MonsterImagePath + "Sage.png", // Image path
+            true,               // Is magic user
+            21                  // Spell strength
+        );
+        this.level = 11;
+    }
+
+    // --- Combat Methods ---
+    @Override
+    public void takeDamage(int damage) {
+        setHitPoints(getHitPoints() - damage);
+        if (getHitPoints() < 0) setHitPoints(0);
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " fades away in a cloud of ancient wisdom.");
+    }
+
+    @Override
+    public boolean isDead() {
+        return getHitPoints() <= 0;
+    }
+
+    @Override
+    public int attack() {
+        return (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.6) + getSpellStrength());
+    }
+
+    public int defend(int incomingDamage) {
+        int baseDefense = 10;
+        int wisdom = getWisdom();
+        int reductionPercent = (baseDefense + wisdom) / 2;
+        if (reductionPercent > 85) reductionPercent = 85;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " predicts the attack, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    // --- Utility Methods ---
+    @Override
+    public String getImagePath() {
+        return super.getImagePath();
+    }
+
+    @Override
+    public String toString() {
+        return "Sage{" +
+                "name='" + getName() + '\'' +
+                ", level=" + getLevel() +
+                ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() +
+                ", charisma=" + getCharisma() +
+                ", agility=" + getAgility() +
+                ", intelligence=" + getIntelligence() +
+                ", wisdom=" + getWisdom() +
+                ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                ", spellStrength=" + getSpellStrength() +
+                '}';
+    }
+
+    // --- Getters and Alignment Methods ---
+    public int getLevel() {
+        return level;
+    }
+
+    @Override
+    public int getExperienceReward() {
+        int base = level * 20;
+        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 12;
+        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        return alignmentImpact;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+}
