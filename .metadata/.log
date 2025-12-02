@@ -1009,3 +1009,279 @@ org.eclipse.jface.resource.DeviceResourceException: Unable to create resource UR
 
 !ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:29:07.758
 !MESSAGE [Info]	[streamChoices] solution 2 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:08.240
+!MESSAGE [Info]	[fetchChat] Request 85c5ec5b-1ff0-457c-a770-7cbd74ec9c01 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 861.2272000000812ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:08.337
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:09.263
+!MESSAGE [Info]	[fetchChat] Request b65bf564-3e71-4f90-b6a1-b28e7776d39d at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 862.9949000002816ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:10.353
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:11.000
+!MESSAGE [Info]	[fetchChat] Request 4815c411-b15c-42c8-b672-0f379845b69f at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 618.7680999999866ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:11.083
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:44.587
+!MESSAGE [Info]	[fetchChat] Request 5a9fcabf-4c3a-4384-92c2-c257146ad4f4 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 548.9673000001349ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:44.587
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:45.408
+!MESSAGE [Info]	[fetchChat] Request b1bd80bd-f048-44c5-a8fc-6308b54d8a5a at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 788.1208999999799ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:46.931
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:47.449
+!MESSAGE [Info]	[fetchChat] Request 044c1b6e-02ab-4f8c-939f-9be5c1f40f42 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 499.03839999996126ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:36:47.622
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:38:27.821
+!MESSAGE [Info]	[fetchChat] Request 8c20feea-e8b8-458c-a901-aba4661b2cd5 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 653.7102000000887ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:38:27.821
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:38:28.405
+!MESSAGE [Info]	[fetchChat] Request 0e8d8d57-7008-4f11-94da-516dbdb166c0 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 554.3799999998882ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:38:29.141
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:38:29.638
+!MESSAGE [Info]	[fetchChat] Request 85dc392b-74a8-4c1e-badc-e79cba727fe5 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 477.4587999996729ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:38:29.785
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:05.588
+!MESSAGE [Info]	[fetchChat] Request 6a21732c-1266-4cdb-bb35-6202a22d2134 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 522.625800000038ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:05.588
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:06.393
+!MESSAGE [Info]	[fetchChat] Request f6f81e8a-4a62-4f77-9739-13a6b3bfc096 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 781.5093000000343ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:06.817
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:09.681
+!MESSAGE [Info]	[fetchChat] Request b866ef46-7932-46c1-a503-158b0d214fab at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 2803.968899999745ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:10.405
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:38.872
+!MESSAGE [Info]	[fetchChat] Request b67fd385-f7f9-4a7d-854e-d73d2e889c15 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 449.46100000012666ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:38.927
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:39.604
+!MESSAGE [Info]	[fetchChat] Request 977c808b-1050-46a4-8c57-112d06b9a9d8 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 654.2366999997757ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:41.125
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:41.526
+!MESSAGE [Info]	[fetchChat] Request f1b0b3e8-e0a9-4809-94be-b142870759de at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 388.51860000006855ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:40:41.646
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:11.948
+!MESSAGE [Info]	[fetchChat] Request a0a68b57-d479-4d5f-bac7-b1c0d25aa0a8 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 382.57720000017434ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:11.950
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:12.464
+!MESSAGE [Info]	[fetchChat] Request adbf5d52-88e7-4e5b-ab7e-f2c89df213ad at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 472.7701000003144ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:13.824
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:14.196
+!MESSAGE [Info]	[fetchChat] Request 1d5d6ecb-557f-416c-b1c3-7091d5a59c92 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 357.7748000002466ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:14.363
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:33.549
+!MESSAGE [Info]	[fetchChat] Request 6c8b2c73-4850-45fc-9373-9219fc1f3447 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 393.37320000026375ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:33.566
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:34.169
+!MESSAGE [Info]	[fetchChat] Request c232646a-dca1-4422-a7d6-cc3eb5acd494 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 564.9761999999173ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:35.668
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:36.109
+!MESSAGE [Info]	[fetchChat] Request 068ab17d-059e-49a5-a527-d80e389081be at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 424.19719999982044ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:41:36.201
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:42:17.273
+!MESSAGE [Info]	[fetchCompletions] Request 296fb282-c838-4687-b3c6-1af467775871 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 299.16330000013113ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:42:17.274
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:42:17.276
+!MESSAGE [Info]	[streamChoices] solution 1 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:42:17.280
+!MESSAGE [Info]	[streamChoices] solution 2 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:43:18.215
+!MESSAGE [Info]	[fetchChat] Request c902271f-1e97-422d-9361-312e0fffa509 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 493.92269999999553ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:43:18.217
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:43:18.824
+!MESSAGE [Info]	[fetchChat] Request f317d1d7-8bac-4c89-b467-fff06a6b3200 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 580.1131000001915ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:43:22.652
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:43:23.132
+!MESSAGE [Info]	[fetchChat] Request 0b01120a-67ce-47d5-953c-aa1b84dd1150 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 460.3549999999814ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:43:23.437
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:44:39.920
+!MESSAGE [Info]	[fetchChat] Request 3ac1b4c5-5428-45b3-a643-08b718b3d582 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 421.09299999987707ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:44:39.921
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:44:40.739
+!MESSAGE [Info]	[fetchChat] Request ebf91475-102d-4429-8ccc-b0dbb11192d0 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 795.9131000000052ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:11.497
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:12.069
+!MESSAGE [Info]	[fetchChat] Request 050d6082-7742-4a4e-8c54-70fd5fd5ce19 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 559.0965999998152ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:12.369
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:57.434
+!MESSAGE [Info]	[fetchCompletions] Request 9ad92630-477b-4d8c-89db-cd229e6ead3b at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 356.6612999998033ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:57.434
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:57.435
+!MESSAGE [Info]	[streamChoices] solution 2 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:45:57.435
+!MESSAGE [Info]	[streamChoices] solution 1 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:47:12.804
+!MESSAGE [Info]	[fetchChat] Request e3f3088f-0ded-49bf-96e3-9b4eefff266d at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 629.4166999999434ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:47:12.805
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:47:13.509
+!MESSAGE [Info]	[fetchChat] Request 0befecdc-850a-4022-924b-1bd7df0bf4ae at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 672.2532999999821ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:47:14.440
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:47:14.947
+!MESSAGE [Info]	[fetchChat] Request a3a2d06f-aa3b-4590-9bc1-bb87a2c767d9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 489.23080000001937ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:47:15.095
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:49:36.258
+!MESSAGE [Info]	[fetchChat] Request e836e66e-2167-432c-b643-5043ec50c443 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 798.8529999996535ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:49:36.265
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:49:36.977
+!MESSAGE [Info]	[fetchChat] Request ba0ea86e-8ca9-469b-8598-8c39c38e855d at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 649.4591999999247ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:49:38.370
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:49:38.921
+!MESSAGE [Info]	[fetchChat] Request ae017bec-ca17-4a8a-b821-76e32a9b5c83 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 532.8360999999568ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:49:39.094
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:12.104
+!MESSAGE [Info]	[fetchCompletions] Request 99c77414-9b4b-46cc-99e5-f68d01fb6610 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 428.09999999962747ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:12.105
+!MESSAGE [Info]	[streamChoices] solution 2 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:12.106
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:12.106
+!MESSAGE [Info]	[streamChoices] solution 1 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:57.966
+!MESSAGE [Info]	[fetchCompletions] Request c612e109-2315-475a-9ef0-3fe938ea9a56 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 290.80180000001565ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:58.019
+!MESSAGE [Info]	[streamChoices] solution 2 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:58.020
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:50:58.021
+!MESSAGE [Info]	[streamChoices] solution 1 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:54:38.488
+!MESSAGE [Info]	[fetchChat] Request 707b228b-add7-4b25-a430-10eb6e103dee at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 828.9945999998599ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:54:38.598
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:54:39.455
+!MESSAGE [Info]	[fetchChat] Request 484d8991-b53d-4398-8fea-8ad1b65581b9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 811.1081999996677ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:54:40.140
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:54:40.579
+!MESSAGE [Info]	[fetchChat] Request 1877bdbb-9bf7-49ec-b106-d6afec06cdab at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 425.462599999737ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 17:54:40.744
+!MESSAGE [Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 18:17:04.616
+!MESSAGE [Info]	[fetchCompletions] Request 6a3597c4-2b68-42b8-bf2b-b0e973464057 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 335.3635999998078ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 18:17:04.689
+!MESSAGE [Info]	[streamChoices] solution 2 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 18:17:04.689
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2025-12-01 18:17:04.690
+!MESSAGE [Info]	[streamChoices] solution 1 returned. finish reason: [stop]

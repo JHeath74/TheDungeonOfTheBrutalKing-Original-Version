@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Character.java
 package DungeonoftheBrutalKing;
 
 import java.util.*;
@@ -37,22 +38,28 @@ public class Character {
     private static final int DEFENSE_IDX = 26;
     private static final int ATTACK_IDX = 27;
     private static final int MAX_HP_IDX = 28;
+    private static final int BASE_STRENGTH_IDX = 29;
+    private static final int BASE_INTELLIGENCE_IDX = 30;
+    private static final int BASE_WISDOM_IDX = 31;
+    private static final int BASE_AGILITY_IDX = 32;
 
-    // --- Singleton Instance ---
     private static Character instance;
 
-    // --- Character Data ---
-    private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
+    private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(33, "0"));
     private Set<String> spellsLearned = new HashSet<>();
     private Set<String> charInventory = new HashSet<>();
     private Set<String> guildSpells = new HashSet<>();
     private List<Quest> activeQuests = new ArrayList<>();
-    private int actionPoints = 100;
     private double hitChance = 1.0;
     private double originalHitChance = 1.0;
     private StatusManager statusManager = new StatusManager();
+    private int actionPoints;
 
-    // --- Singleton Access ---
+    private int baseStrength;
+    private int baseIntelligence;
+    private int baseWisdom;
+    private int baseAgility;
+
     public static Character getInstance() {
         if (instance == null) {
             instance = new Character();
@@ -60,10 +67,28 @@ public class Character {
         return instance;
     }
 
-    // --- Constructors ---
-    public Character() {}
+    public Character() {
+        this.baseStrength = 8 + new Random().nextInt(7);
+        this.baseIntelligence = 8 + new Random().nextInt(7);
+        this.baseWisdom = 8 + new Random().nextInt(7);
+        this.baseAgility = 8 + new Random().nextInt(7);
 
-    // --- Stat Getters/Setters ---
+        setInt(BASE_STRENGTH_IDX, baseStrength);
+        setInt(BASE_INTELLIGENCE_IDX, baseIntelligence);
+        setInt(BASE_WISDOM_IDX, baseWisdom);
+        setInt(BASE_AGILITY_IDX, baseAgility);
+
+        setStrength(baseStrength);
+        setIntelligence(baseIntelligence);
+        setWisdom(baseWisdom);
+        setAgility(baseAgility);
+    }
+
+    public int getBaseStrength() { return baseStrength; }
+    public int getBaseIntelligence() { return baseIntelligence; }
+    public int getBaseWisdom() { return baseWisdom; }
+    public int getBaseAgility() { return baseAgility; }
+
     private int getInt(int idx, int def) {
         try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; }
     }
@@ -79,7 +104,6 @@ public class Character {
         return charInfo.get(idx);
     }
     public void setStr(int idx, String value) {
-        // Ensure the list is large enough
         while (charInfo.size() <= idx) {
             charInfo.add("");
         }
@@ -91,7 +115,10 @@ public class Character {
     public String getRace() { return getStr(RACE_IDX); }
     public void setRace(String race) { setStr(RACE_IDX, race); }
     public int getLevel() { return getInt(LEVEL_IDX, 1); }
-    public void setLevel(int level) { setInt(LEVEL_IDX, level); }
+    public void setLevel(int level) {
+        int cappedLevel = Math.min(level, 50);
+        setInt(LEVEL_IDX, cappedLevel);
+    }
     public int getExperience() { return getInt(EXP_IDX, 0); }
     public void setExperience(int exp) { setInt(EXP_IDX, exp); }
     public int getHitPoints() { return getInt(HP_IDX, 0); }
@@ -131,7 +158,6 @@ public class Character {
     public int getAlignment() { return getInt(ALIGNMENT_IDX, 0); }
     public void setAlignment(int alignment) { setInt(ALIGNMENT_IDX, alignment); }
 
-    // --- Defensive Double Parsing for Position ---
     public double getX() { return parseDoubleSafe(getStr(X_IDX)); }
     public double getY() { return parseDoubleSafe(getStr(Y_IDX)); }
     public double getZ() { return parseDoubleSafe(getStr(Z_IDX)); }
@@ -148,7 +174,6 @@ public class Character {
     public int getActionPoints() { return actionPoints; }
     public void setActionPoints(int points) { actionPoints = points; }
 
-    // --- Inventory and Spells ---
     public Set<String> getCharInventory() { return charInventory; }
     public void setCharInventory(Set<String> inventory) { this.charInventory = inventory; }
     public void addToInventory(String item) { charInventory.add(item); }
@@ -159,23 +184,18 @@ public class Character {
     public Set<String> getGuildSpells() { return guildSpells; }
     public void setGuildSpells(Set<String> spells) { guildSpells = spells; }
 
-    // --- Quests ---
     public List<Quest> getActiveQuests() { return activeQuests; }
     public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
     public boolean removeActiveQuest(Quest quest) { return activeQuests.remove(quest); }
     public void setActiveQuests(List<Quest> activeQuests) { this.activeQuests = activeQuests; }
 
-    // --- Position ---
     public void setPosition(int x, int y, int z) {
         setInt(X_IDX, x); setInt(Y_IDX, y); setInt(Z_IDX, z);
     }
     public void getPosition(int[] pos) {
         pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
     }
-    
-    
 
-    // --- Combat and Stats ---
     public boolean consumeSkillPoints(int cost) {
         if (actionPoints >= cost) {
             actionPoints -= cost;
@@ -228,7 +248,7 @@ public class Character {
     }
     private void checkLevelUp() {
         int lvl = getLevel();
-        if (getExperience() >= getExperienceRequiredForLevel(lvl + 1)) {
+        if (lvl < 50 && getExperience() >= getExperienceRequiredForLevel(lvl + 1)) {
             setLevel(lvl + 1);
             setMaxHitPoints(getMaxHitPoints() + 10);
             setHitPoints(getMaxHitPoints());
@@ -238,7 +258,6 @@ public class Character {
         return (int)(1000 * Math.pow(1.5, level - 1));
     }
 
-    // --- Hit Chance ---
     public double getHitChance() { return hitChance; }
     public void setHitChance(double hitChance) { this.hitChance = Math.max(0.0, Math.min(1.0, hitChance)); }
     public double calculateHitChance(boolean isMagicUser) {
@@ -263,7 +282,6 @@ public class Character {
         setHitChance(originalHitChance);
     }
 
-    // --- Status Manager ---
     public void setStatusManager(StatusManager statusManager) {
         this.statusManager = statusManager;
     }
@@ -271,15 +289,14 @@ public class Character {
         return statusManager;
     }
 
-    // --- Miscellaneous ---
     public void updateCharInfo(int index, String value) {
         if (charInfo == null) return;
         if (index >= 0 && index < charInfo.size()) charInfo.set(index, value);
         else if (index == charInfo.size()) charInfo.add(value);
     }
     public void setCharInfo(ArrayList<String> charInfo) {
-        if (charInfo == null || charInfo.size() < 29) {
-            this.charInfo = new ArrayList<>(Collections.nCopies(29, "0"));
+        if (charInfo == null || charInfo.size() < 33) {
+            this.charInfo = new ArrayList<>(Collections.nCopies(33, "0"));
         } else {
             this.charInfo = charInfo;
         }
