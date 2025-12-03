@@ -6,40 +6,70 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
-/**
- * Represents a Virtuoso enemy with good alignment and magic abilities.
- */
 public class Virtuoso extends Enemies {
-
-    // --- Fields ---
     private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -5;
 
-    // --- Constructor ---
     public Virtuoso() {
-        super(
-            "Virtuoso",         // Enemy name
-            11,                 // Level
-            42,                 // Hit points
-            6,                  // Strength
-            15,                 // Charisma
-            10,                 // Agility
-            18,                 // Intelligence
-            17,                 // Wisdom
-            GameSettings.MonsterImagePath + "Virtuoso.png", // Image path
-            true,               // Is magic user
-            23                  // Spell strength
-        );
-        this.level = 11;
+        this(randomLevel(), 6, 13, 8, 12, 13, 7); // Default stats
     }
 
-    // --- Combat Methods ---
+    public Virtuoso(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Virtuoso",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Virtuoso.png",
+            true
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " fades in a final, haunting melody.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, the music fades.");
+    }
+
+    @Override
+    public int getSpellStrength() {
+        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -49,20 +79,18 @@ public class Virtuoso extends Enemies {
 
     @Override
     public int attack() {
-        return (int) ((getCharisma() * 1.3) + (getIntelligence() * 1.4) + getSpellStrength());
+        return (int) ((getStrength() * 0.7) + (getWisdom() * 2.0) + getSpellStrength());
     }
 
     public int defend(int incomingDamage) {
-        int baseDefense = 12;
-        int wisdom = getWisdom();
-        int reductionPercent = (baseDefense + wisdom) / 2;
-        if (reductionPercent > 85) reductionPercent = 85;
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " weaves a magical harmony, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " plays a protective melody, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
     @Override
     public String getImagePath() {
         return super.getImagePath();
@@ -79,34 +107,35 @@ public class Virtuoso extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 
-    // --- Getters and Alignment Methods ---
-    public int getLevel() {
-        return level;
-    }
-
     @Override
     public int getExperienceReward() {
-        int base = level * 21;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int base = level * 15;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
-        int base = level * 13;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int base = level * 8;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 1 + (int) (Math.random() * 5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -(level + offset);
     }
 
     @Override

@@ -1,45 +1,75 @@
 
-// Healer.java
+// src/Enemies/Healer.java
 package Enemies;
 
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
-/**
- * Represents a Healer enemy with good alignment and magic abilities.
- */
 public class Healer extends Enemies {
-
-    // --- Fields ---
     private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -4;
 
-    // --- Constructor ---
     public Healer() {
-        super(
-            "Healer",           // Enemy name
-            9,                  // Level
-            38,                 // Hit points
-            5,                  // Strength
-            12,                 // Charisma
-            10,                 // Agility
-            13,                 // Intelligence
-            18,                 // Wisdom
-            GameSettings.MonsterImagePath + "Healer.png", // Image path
-            true,               // Is magic user
-            19                  // Spell strength
-        );
-        this.level = 9;
+        this(randomLevel(), 4, 10, 6, 10, 13, 7); // Default stats
     }
 
-    // --- Combat Methods ---
+    public Healer(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Healer",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Healer.png",
+            true
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " vanishes in a gentle glow.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, healing light fades.");
+    }
+
+    @Override
+    public int getSpellStrength() {
+        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -49,26 +79,18 @@ public class Healer extends Enemies {
 
     @Override
     public int attack() {
-        return (int) ((getWisdom() * 1.5) + (getCharisma() * 1.2) + getSpellStrength());
-    }
-
-    public void healSelf() {
-        int healAmount = (int) (getWisdom() * 1.3 + getSpellStrength() * 0.7);
-        setHitPoints(getHitPoints() + healAmount);
-        MainGameScreen.appendToMessageTextPane(getName() + " heals for " + healAmount + " hit points.");
+        return (int) ((getStrength() * 0.6) + (getWisdom() * 2.0) + getSpellStrength());
     }
 
     public int defend(int incomingDamage) {
-        int baseDefense = 8;
-        int wisdom = getWisdom();
-        int reductionPercent = (baseDefense + wisdom) / 2;
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " invokes healing aura, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " channels restorative energy, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
     @Override
     public String getImagePath() {
         return super.getImagePath();
@@ -85,34 +107,35 @@ public class Healer extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 
-    // --- Getters and Alignment Methods ---
-    public int getLevel() {
-        return level;
-    }
-
     @Override
     public int getExperienceReward() {
-        int base = level * 16;
+        int base = level * 15;
         int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
-        int base = level * 10;
+        int base = level * 8;
         int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
+    private static int randomLevel() {
+        return 1 + (int) (Math.random() * 5);
+    }
+
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -(level + offset);
     }
 
     @Override

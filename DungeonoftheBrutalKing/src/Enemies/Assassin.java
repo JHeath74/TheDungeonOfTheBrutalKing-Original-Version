@@ -1,40 +1,47 @@
 
+// src/Enemies/Assassin.java
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GameSettings;
 
+/**
+ * Represents an Assassin enemy with vitality stat for hit points.
+ */
 public class Assassin extends Enemies {
 
     private int level;
+    private final int vitality; // Vitality stat used for hit points
     private final Alignment alignment = Alignment.EVIL;
     private final int alignmentImpact = 2;
-    
- //   private static final int BASE_HP = 20;
- //   private static final int HP_PER_LEVEL = 5;
- //   private static final int HP_PER_STRENGTH = 2;
- 
-  //  int HP = BASE_HP + (level * HP_PER_LEVEL) + (strength * HP_PER_STRENGTH);
 
-
+    /**
+     * Default constructor. Initializes Assassin with preset stats.
+     */
     public Assassin() {
-        // Calls the superclass constructor to set up the Assassin's attributes:
-        // name, level, hitPoints, strength, charisma, agility, intelligence, wisdom, imagePath, isMagicUser, spellStrength
-        super(
-            "Assassin",                // Enemy name
-            5,                         // Level
-            30,                        // Hit points
-            8,                         // Strength
-            5,                         // Charisma
-            7,                         // Agility
-            6,                         // Intelligence
-            3,                         // Wisdom
-            GameSettings.MonsterImagePath + "Assassin.png", // Image path
-            false,                     // Not a magic user
-            0                          // Spell strength
-        );
-        this.level = 5; // Sets the Assassin's level field
+        this(5, 8, 5, 7, 6, 3, 6); // Default vitality = 6
+    }
+
+    /**
+     * Constructs an Assassin with specified stats.
+     * Hit points are determined by level and vitality only.
+     */
+    public Assassin(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+    	super(
+    		    "Assassin",
+    		    level,
+    		    (level * 5) + (vitality * 7), // HP uses only level and vitality
+    		    strength,
+    		    charisma,
+    		    agility,
+    		    intelligence,
+    		    wisdom,
+    		    GameSettings.MonsterImagePath + "Assassin.png",
+    		    false
+    		);
+        this.level = level;
+        this.vitality = vitality;
     }
 
     @Override
@@ -44,7 +51,8 @@ public class Assassin extends Enemies {
 
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -(level + offset);
     }
 
     @Override
@@ -92,6 +100,10 @@ public class Assassin extends Enemies {
         return level;
     }
 
+    public int getVitality() {
+        return vitality;
+    }
+
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
@@ -125,6 +137,7 @@ public class Assassin extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 '}';
     }

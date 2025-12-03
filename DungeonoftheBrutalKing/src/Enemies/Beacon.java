@@ -8,37 +8,43 @@ import DungeonoftheBrutalKing.MainGameScreen;
 
 /**
  * Represents a Beacon enemy with good alignment and no magic abilities.
+ * Uses vitality for hit points calculation.
  */
 public class Beacon extends Enemies {
 
-    // --- Fields ---
     private int level;
+    private final int vitality; // Vitality stat used for hit points
     private final Alignment alignment = Alignment.GOOD;
     private final int alignmentImpact = -3;
 
-    // --- Constructor ---
     /**
-     * Creates a Beacon enemy with specific stats and good alignment.
-     * Sets name, level, hit points, attributes, image path, magic user status, and spell strength.
+     * Default constructor. Initializes Beacon with preset stats.
      */
     public Beacon() {
-        super(
-            "Beacon",           // Enemy name
-            8,                  // Level
-            51,                 // Hit points
-            8,                  // Strength
-            9,                  // Charisma
-            7,                  // Agility
-            7,                  // Intelligence
-            9,                  // Wisdom
-            GameSettings.MonsterImagePath + "Beacon.png", // Image path
-            false,              // Is magic user
-            0                   // Spell strength
-        );
-        this.level = 8;         // Set level field
+        this(8, 8, 9, 7, 7, 9, 7); // Default vitality = 7
     }
 
-    // --- Combat Methods ---
+    /**
+     * Constructs a Beacon with specified stats.
+     * Hit points are determined by level and vitality only.
+     */
+    public Beacon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Beacon",
+            level,
+            (level * 5) + (vitality * 7), // HP uses only level and vitality
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Beacon.png",
+            false
+        );
+        this.level = level;
+        this.vitality = vitality;
+    }
+
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
@@ -66,7 +72,6 @@ public class Beacon extends Enemies {
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
     @Override
     public String getImagePath() {
         return super.getImagePath();
@@ -83,15 +88,19 @@ public class Beacon extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 
-    // --- Getters and Alignment Methods ---
     public int getLevel() {
         return level;
+    }
+
+    public int getVitality() {
+        return vitality;
     }
 
     @Override

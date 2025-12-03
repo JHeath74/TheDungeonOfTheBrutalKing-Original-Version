@@ -6,40 +6,70 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
-/**
- * Represents an Archon enemy with good alignment and magic abilities.
- */
 public class Archon extends Enemies {
-
-    // --- Fields ---
     private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -5;
 
-    // --- Constructor ---
     public Archon() {
-        super(
-            "Archon",           // Enemy name
-            11,                 // Level
-            42,                 // Hit points
-            8,                  // Strength
-            10,                 // Charisma
-            8,                  // Agility
-            10,                 // Intelligence
-            12,                 // Wisdom
-            GameSettings.MonsterImagePath + "Archon.png", // Image path
-            true,               // Is magic user
-            18                  // Spell strength
-        );
-        this.level = 11;
+        this(randomLevel(), 8, 8, 8, 9, 10, 9); // Default stats
     }
 
-    // --- Combat Methods ---
+    public Archon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Archon",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Archon.png",
+            true
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " ascends, leaving a trail of justice.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
+    }
+
+    @Override
+    public int getSpellStrength() {
+        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -49,20 +79,18 @@ public class Archon extends Enemies {
 
     @Override
     public int attack() {
-        return (int) ((getStrength() * 1.4) + (getWisdom() * 1.6) + getSpellStrength());
+        return (int) ((getStrength() * 1.3) + (getWisdom() * 1.6) + getSpellStrength());
     }
 
     public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int wisdom = getWisdom();
-        int reductionPercent = (baseDefense + wisdom) / 2;
-        if (reductionPercent > 85) reductionPercent = 85;
+        int baseDefense = 9;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " invokes celestial barrier, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
     @Override
     public String getImagePath() {
         return super.getImagePath();
@@ -79,34 +107,35 @@ public class Archon extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 ", spellStrength=" + getSpellStrength() +
                 '}';
     }
 
-    // --- Getters and Alignment Methods ---
-    public int getLevel() {
-        return level;
-    }
-
     @Override
     public int getExperienceReward() {
-        int base = level * 20;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int base = level * 18;
+        int offset = (int) ((Math.random() * (2 * level * 9 + 1)) - (level * 9));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
-        int base = level * 12;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 9 + 1)) - (level * 9));
         return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 1 + (int) (Math.random() * 5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -(level + offset);
     }
 
     @Override

@@ -213,10 +213,6 @@ void saveAllEncrypted(FileWriter writer) throws IOException {
          throw new IOException("Decryption failed: " + e.getMessage(), e);
      }
 
-     // Print what was loaded (after decryption)
-     System.out.println("Loaded data (after decryption):");
-     System.out.println(decrypted);
-
      try (BufferedReader reader = new BufferedReader(new StringReader(decrypted))) {
          String line;
          while ((line = reader.readLine()) != null) {

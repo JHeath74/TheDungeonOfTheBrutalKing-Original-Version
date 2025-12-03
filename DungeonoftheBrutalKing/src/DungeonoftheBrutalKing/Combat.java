@@ -6,6 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -34,140 +38,139 @@ public class Combat {
         int heroHP = myChar.getHitPoints();
         myChar.setHitPoints(heroHP);
     }
+    
 
-    public void combatEncounter() throws IOException, InterruptedException, ParseException {
-        combatPanel = new JPanel(new GridBagLayout());
-        MainGameScreen.replaceWithAnyPanel(combatPanel);
-
-        if (myEnemies == null) {
-            JOptionPane.showMessageDialog(combatPanel, "No monster found!");
-            combatPanel.setVisible(true);
-            return;
-        }
-
-        JPanel playerPanel = new JPanel();
-        playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-        JLabel playerPicLabel;
-
-        try {
-            String playerClass = myChar.getClassName();
-            String imagePath;
-            switch (playerClass) {
-                case "Bard":
-                    imagePath = GameSettings.ClassImagesPath + "bard.png";
-                    break;
-                case "Cleric":
-                    imagePath = GameSettings.ClassImagesPath + "cleric.png";
-                    break;
-                case "Hunter":
-                    imagePath = GameSettings.ClassImagesPath + "hunter.png";
-                    break;
-                case "Paladin":
-                    imagePath = GameSettings.ClassImagesPath + "paladin.png";
-                    break;
-                case "Rogue":
-                    imagePath = GameSettings.ClassImagesPath + "rogue.png";
-                    break;
-                case "Warrior":
-                    imagePath = GameSettings.ClassImagesPath + "warrior.png";
-                    break;
-                case "Wizard":
-                    imagePath = GameSettings.ClassImagesPath + "wizard.png";
-                    break;
-                default:
-                    imagePath = GameSettings.ClassImagesPath + "default.png";
-                    break;
+ // src/DungeonoftheBrutalKing/Combat.java
+    public Enemies getRandomEnemyForLevel(int playerLevel, List<Enemies> allEnemies) {
+        List<Enemies> eligible = new ArrayList<>();
+        for (Enemies enemy : allEnemies) {
+            int level = enemy.getLevel();
+            if (level >= playerLevel - 5 && level <= playerLevel + 5) {
+                eligible.add(enemy);
             }
-            BufferedImage playerImg = ImageIO.read(new File(imagePath));
-            Image scaledPlayerImg = playerImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
-            playerPicLabel = new JLabel(new ImageIcon(scaledPlayerImg));
-        } catch (IOException e) {
-            playerPicLabel = new JLabel("Image not found");
         }
-
-        playerPicLabel.setPreferredSize(new Dimension(300, 400));
-        playerPanel.add(playerPicLabel);
-
-        playerInfo = new JTextArea(
-            myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
-        );
-        playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
-        playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
-        playerPanel.add(Box.createRigidArea(new Dimension(24, 0)));
-        playerInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
-        playerPanel.add(playerInfo);
-        playerInfo.setEditable(false);
-        playerInfo.setBackground(new Color(255, 255, 220));
-
-        JPanel enemyPanel = new JPanel();
-        enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
-        JLabel enemyPicLabel;
-        try {
-            BufferedImage enemyImg = ImageIO.read(new File(myEnemies.getImagePath()));
-            Image scaledEnemyImg = enemyImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
-            enemyPicLabel = new JLabel(new ImageIcon(scaledEnemyImg));
-        } catch (IOException e) {
-            enemyPicLabel = new JLabel("Image not found");
-        }
-        enemyPicLabel.setPreferredSize(new Dimension(300, 400));
-        enemyPanel.add(enemyPicLabel);
-
-        enemyInfo = new JTextArea(
-            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
-        );
-        enemyPanel.add(Box.createRigidArea(new Dimension(24, 0)));
-        enemyInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
-        enemyPanel.add(enemyInfo);
-        enemyInfo.setMaximumSize(new Dimension(300, enemyInfo.getPreferredSize().height));
-        enemyInfo.setPreferredSize(new Dimension(300, enemyInfo.getPreferredSize().height));
-        enemyInfo.setEditable(false);
-        enemyInfo.setBackground(new Color(255, 255, 220));
-
-        combatPanelButtons = new JPanel(new FlowLayout());
-        combatAttackButton = new JButton("Attack");
-        selectSpellButton = new JButton();
-        castSelectedSpellButton = new JButton();
-        String className = myChar.getClassName();
-        if (!"Mage".equals(className) && !"Wizard".equals(className)) {
-            selectSpellButton.setText("Select Action to Use");
-            castSelectedSpellButton.setText("Use Selected Action");
-        } else {
-            selectSpellButton.setText("Select Spell to Cast");
-            castSelectedSpellButton.setText("Cast Selected Spell");
-        }
-        combatRunButton = new JButton("Run Away!");
-        combatPanelButtons.add(combatAttackButton);
-        combatPanelButtons.add(castSelectedSpellButton);
-        combatPanelButtons.add(selectSpellButton);
-        combatPanelButtons.add(combatRunButton);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-        combatPanel.add(playerPanel, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-        combatPanel.add(enemyPanel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        combatPanel.add(combatPanelButtons, gbc);
-
-        combatPanel.revalidate();
-        combatPanel.repaint();
-
-        combatAttackButton.addActionListener(_ -> handleAttack());
-        selectSpellButton.addActionListener(_ -> handleSelectSpell());
-        castSelectedSpellButton.addActionListener(_ -> handleCastSpell());
-        combatRunButton.addActionListener(_ -> handleRun());
+        if (eligible.isEmpty()) return null;
+        return eligible.get(new Random().nextInt(eligible.size()));
     }
+
+
+
+public void combatEncounter() throws IOException, InterruptedException, ParseException {
+    combatPanel = new JPanel(new GridBagLayout());
+    MainGameScreen.replaceWithAnyPanel(combatPanel);
+
+    if (myEnemies == null) {
+        JOptionPane.showMessageDialog(combatPanel, "No monster found!");
+        combatPanel.setVisible(true);
+        return;
+    }
+
+    JPanel playerPanel = new JPanel();
+    playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
+    JLabel playerPicLabel;
+    try {
+        String playerClass = myChar.getClassName();
+        String imagePath;
+        switch (playerClass) {
+            case "Bard": imagePath = GameSettings.ClassImagesPath + "bard.png"; break;
+            case "Cleric": imagePath = GameSettings.ClassImagesPath + "cleric.png"; break;
+            case "Hunter": imagePath = GameSettings.ClassImagesPath + "hunter.png"; break;
+            case "Paladin": imagePath = GameSettings.ClassImagesPath + "paladin.png"; break;
+            case "Rogue": imagePath = GameSettings.ClassImagesPath + "rogue.png"; break;
+            case "Warrior": imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
+            case "Wizard": imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
+            default: imagePath = GameSettings.ClassImagesPath + "default.png"; break;
+        }
+        BufferedImage playerImg = ImageIO.read(new File(imagePath));
+        Image scaledPlayerImg = playerImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
+        playerPicLabel = new JLabel(new ImageIcon(scaledPlayerImg));
+    } catch (IOException e) {
+        playerPicLabel = new JLabel("Image not found");
+    }
+    playerPicLabel.setPreferredSize(new Dimension(300, 400));
+    playerPanel.add(playerPicLabel);
+
+    playerInfo = new JTextArea(
+        myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+    );
+    playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
+    playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
+    playerPanel.add(Box.createRigidArea(new Dimension(24, 0)));
+    playerInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
+    playerPanel.add(playerInfo);
+    playerInfo.setEditable(false);
+    playerInfo.setBackground(new Color(255, 255, 220));
+
+    JPanel enemyPanel = new JPanel();
+    enemyPanel.setLayout(new BoxLayout(enemyPanel, BoxLayout.Y_AXIS));
+    JLabel enemyPicLabel;
+    try {
+        BufferedImage enemyImg = ImageIO.read(new File(myEnemies.getImagePath()));
+        Image scaledEnemyImg = enemyImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
+        enemyPicLabel = new JLabel(new ImageIcon(scaledEnemyImg));
+    } catch (IOException e) {
+        enemyPicLabel = new JLabel("Image not found");
+    }
+    enemyPicLabel.setPreferredSize(new Dimension(300, 400));
+    enemyPanel.add(enemyPicLabel);
+
+    String alignmentText = myEnemies.getAlignment().equals("Good") ? "Good" : "Evil";
+    enemyInfo = new JTextArea(
+        myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() + "\nAlignment: " + alignmentText
+    );
+    enemyPanel.add(Box.createRigidArea(new Dimension(24, 0)));
+    enemyInfo.setAlignmentX(Component.LEFT_ALIGNMENT);
+    enemyPanel.add(enemyInfo);
+    enemyInfo.setMaximumSize(new Dimension(300, enemyInfo.getPreferredSize().height));
+    enemyInfo.setPreferredSize(new Dimension(300, enemyInfo.getPreferredSize().height));
+    enemyInfo.setEditable(false);
+    enemyInfo.setBackground(new Color(255, 255, 220));
+
+    combatPanelButtons = new JPanel(new FlowLayout());
+    combatAttackButton = new JButton("Attack");
+    selectSpellButton = new JButton();
+    castSelectedSpellButton = new JButton();
+    String className = myChar.getClassName();
+    if (!"Mage".equals(className) && !"Wizard".equals(className)) {
+        selectSpellButton.setText("Select Action to Use");
+        castSelectedSpellButton.setText("Use Selected Action");
+    } else {
+        selectSpellButton.setText("Select Spell to Cast");
+        castSelectedSpellButton.setText("Cast Selected Spell");
+    }
+    combatRunButton = new JButton("Run Away!");
+    combatPanelButtons.add(combatAttackButton);
+    combatPanelButtons.add(castSelectedSpellButton);
+    combatPanelButtons.add(selectSpellButton);
+    combatPanelButtons.add(combatRunButton);
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(10, 10, 10, 10);
+
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.NORTH;
+    combatPanel.add(playerPanel, gbc);
+
+    gbc.gridx = 1;
+    gbc.gridy = 0;
+    gbc.anchor = GridBagConstraints.NORTH;
+    combatPanel.add(enemyPanel, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    gbc.gridwidth = 2;
+    gbc.anchor = GridBagConstraints.CENTER;
+    combatPanel.add(combatPanelButtons, gbc);
+
+    combatPanel.revalidate();
+    combatPanel.repaint();
+
+    combatAttackButton.addActionListener(_ -> handleAttack());
+    selectSpellButton.addActionListener(_ -> handleSelectSpell());
+    castSelectedSpellButton.addActionListener(_ -> handleCastSpell());
+    combatRunButton.addActionListener(_ -> handleRun());
+}
 
 
 
@@ -293,8 +296,9 @@ private void handleRewards() {
         playerInfo.setText(
             myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
         );
+        String alignmentText = myEnemies.getAlignment().toString().equals("Good") ? "Good" : "Evil";
         enemyInfo.setText(
-            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints()
+            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() + "\nAlignment: " + alignmentText
         );
     }
     

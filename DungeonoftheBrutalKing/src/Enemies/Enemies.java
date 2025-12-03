@@ -18,7 +18,7 @@ public abstract class Enemies {
     private int spellStrength;
     protected int maxHitPoints;
 
-    public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath, boolean isMagicUser, int spellStrength) {
+    public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath, boolean isMagicUser) {
         this.name = name;
         this.level = level;
         this.hitPoints = hitPoints;
@@ -110,6 +110,11 @@ public Alignment getAlignment() {
 public int getAlignmentImpact() {
 	// TODO Auto-generated method stub
 	return 0;
+}
+
+public void setLevel(int level) {
+	// TODO Auto-generated method stub
+	
 }
 
 }
