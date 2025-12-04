@@ -1,56 +1,75 @@
+
+// src/Enemies/Brigand.java
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GameSettings;
 
-/**
- * Represents a Brigand enemy with basic combat abilities.
- */
 public class Brigand extends Enemies {
-
     private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
-    private final int alignmentImpact = 2;
 
-    /**
-     * Constructs a Brigand with predefined stats and image.
-     */
     public Brigand() {
+        this(randomLevel(), 7, 4, 10, 5, 2, 7); // Example default stats for Brigand
+    }
+
+    public Brigand(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            /* name: The enemy's type or identifier */ "Brigand",
-            /* level: Difficulty or experience level (unused, see field below) */ 1,
-            /* hitPoints: Starting health value */ 30,
-            /* strength: Physical attack power */ 8,
-            /* charisma: Social/persuasive ability */ 5,
-            /* agility: Speed and evasion */ 7,
-            /* intelligence: Problem-solving/magic ability */ 6,
-            /* wisdom: Decision-making/resistance */ 3,
-            /* imagePath: Path to Brigand's image asset */ GameSettings.MonsterImagePath + "Brigand.png",
-            /* isMagicUser: Brigand does not use magic */ false,
-            /* spellStrength: No spell strength */ 0
+            "Brigand",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Brigand.png",
+            false
         );
-        // Sets the Brigand's level field (used for rewards)
-        this.level = 3;
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
-    @Override
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) {
-            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        int dodgeChance = 15;
+        if (Math.random() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
+            return;
         }
+        setHitPoints(getHitPoints() - defend(damage));
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, loot scattered.");
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -59,37 +78,16 @@ public class Brigand extends Enemies {
     }
 
     @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    @Override
     public int attack() {
-        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
-    }
-
-    public int getAttackDamage() {
-        return attack();
+        boolean critical = Math.random() < 0.15;
+        int base = (int) ((getStrength() * 1.3) + (getAgility() * 0.7));
+        return critical ? base * 2 : base;
     }
 
     @Override
-    public String getImagePath() {
-        return super.getImagePath();
-    }
-
     public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
+        int baseDefense = 8;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
@@ -97,17 +95,56 @@ public class Brigand extends Enemies {
     }
 
     @Override
+    public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.MonsterImagePath + "Brigand_injured.png";
+        }
+        return super.getImagePath();
+    }
+
+    @Override
+    public int getExperienceReward() {
+        int base = level * 15;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 8;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 1 + (int) (Math.random() * 5);
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return level + offset;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    @Override
     public String toString() {
         return "Brigand{" +
                 "name='" + getName() + '\'' +
-                ", level=" + level +
+                ", level=" + getLevel() +
                 ", hitPoints=" + getHitPoints() +
                 ", strength=" + getStrength() +
                 ", charisma=" + getCharisma() +
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
                 '}';
     }
 }

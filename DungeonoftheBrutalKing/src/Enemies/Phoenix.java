@@ -3,131 +3,157 @@
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.GameSettings;
 import SharedData.Alignment;
+import SharedData.GameSettings;
 import Status.FireStatus;
 import DungeonoftheBrutalKing.Character;
 
-/**
- * Represents a Phoenix enemy with fire attack and alignment.
- */
 public class Phoenix extends Enemies {
-
-    // --- Fields ---
-    private int level; // Used for rewards and scaling
+    private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
+    private final int spellStrength;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -3;
 
-    // --- Constructor ---
-    /**
-     * Constructs a Phoenix enemy with predefined stats and image.
-     */
     public Phoenix() {
-        super(
-            "Phoenix",                                   // Name
-            9,                                           // Level (used in superclass, overridden below)
-            30,                                          // Hit points
-            8,                                           // Strength
-            5,                                           // Charisma
-            7,                                           // Agility
-            6,                                           // Intelligence
-            3,                                           // Wisdom
-            GameSettings.MonsterImagePath + "Phoenix.png", // Image path
-            true,                                        // Is magic user
-            10                                           // Spell strength
-        );
-        this.level = 9; // Set actual level for this instance
+        this(randomLevel(), 8, 5, 7, 6, 3, 6, 10); // Example default stats
     }
 
-    // --- Combat Methods ---
-    /**
-     * Reduces hit points by the given damage amount.
-     * If hit points drop below zero, sets them to zero.
-     * Prints a message if the Phoenix dies.
-     * @param damage The amount of damage to take.
-     */
+  
+    	public Phoenix(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality, int spellStrength) {
+    	    super(
+    	        "Phoenix",
+    	        level,
+    	        (level * 6) + (vitality * 6),
+    	        strength,
+    	        charisma,
+    	        agility,
+    	        intelligence,
+    	        wisdom,
+    	        GameSettings.MonsterImagePath + "Phoenix.png",
+    	        true // isMagicUser
+    	    );
+    	    this.level = level;
+    	    this.strength = strength;
+    	    this.charisma = charisma;
+    	    this.agility = agility;
+    	    this.intelligence = intelligence;
+    	    this.wisdom = wisdom;
+    	    this.vitality = vitality;
+    	    this.hitPoints = (level * 6) + (vitality * 6);
+    	    this.spellStrength = spellStrength;
+    	}
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+    public int getSpellStrength() { return spellStrength; }
+
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        int dodgeChance = 12;
+        if (Math.random() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " bursts into flame and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage));
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " is reduced to ashes.");
     }
 
-    /**
-     * Checks if the Phoenix is dead (hit points <= 0).
-     * @return true if dead, false otherwise.
-     */
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 6) + (vitality * 6);
+    }
+
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
     }
 
-    /**
-     * Calculates the Phoenix's attack damage based on strength, agility, and spell strength.
-     * @return The calculated attack damage.
-     */
-    @Override
-    public int getAttackDamage() {
-        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5) + getSpellStrength());
-    }
-
-    /**
-     * Performs a fire attack on the target, with a chance to apply fire status.
-     * @param target The character being attacked.
-     * @return The fire attack damage.
-     */
+    // Phoenix attack applies fire status with 30% chance
     public int attack(Character target) {
-        int phoenixFlameAttack = 12 + getStrength() + getSpellStrength();
-        boolean fireStatusApplied = Math.random() < 0.3; // 30% chance
+        boolean critical = Math.random() < 0.18;
+        int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
+        int damage = critical ? base * 2 : base;
+        boolean fireStatusApplied = Math.random() < 0.3;
         if (fireStatusApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks with Phoenix Flame and applies fire status!");
+            MainGameScreen.appendToMessageTextPane(getName() + " engulfs the target in flames and applies fire status!");
             target.addStatus(new FireStatus());
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks with Phoenix Flame.");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks with blazing fire for " + damage + " damage!");
         }
-        return phoenixFlameAttack;
+        return damage;
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
+    @Override
+    public int attack() {
+        boolean critical = Math.random() < 0.18;
+        int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks with blazing fire for " + damage + " damage!");
+        return damage;
+    }
+
     @Override
     public int defend(int incomingDamage) {
         int baseDefense = 12;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends with fiery wings, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    /**
-     * Default attack method (not used for Phoenix).
-     * @return 0.
-     */
-    @Override
-    public int attack() {
-        return 0;
-    }
-
-    // --- Utility Methods ---
-    /**
-     * Returns the image path for the Phoenix.
-     * @return The image path.
-     */
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 12) {
+            return GameSettings.MonsterImagePath + "Phoenix_injured.png";
+        }
         return super.getImagePath();
     }
 
-    /**
-     * Returns a string representation of the Phoenix's stats.
-     * @return String with all key attributes.
-     */
+    @Override
+    public int getExperienceReward() {
+        int base = level * 12;
+        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 6;
+        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 8 + (int) (Math.random() * 2); // Phoenix is high-level
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -level + offset;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
     @Override
     public String toString() {
         return "Phoenix{" +
@@ -139,57 +165,10 @@ public class Phoenix extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
+                ", spellStrength=" + getSpellStrength() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
                 '}';
-    }
-
-    // --- Getters and Alignment Methods ---
-    /**
-     * Gets the level of the Phoenix.
-     * @return the level.
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Gets the experience reward for defeating the Phoenix.
-     * @return experience points.
-     */
-    @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the gold reward for defeating the Phoenix.
-     * @return gold amount.
-     */
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the alignment impact value.
-     * @return alignment impact.
-     */
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
-
-    /**
-     * Gets the alignment of the Phoenix.
-     * @return alignment.
-     */
-    public Alignment getAlignment() {
-        return alignment;
     }
 }

@@ -2,48 +2,74 @@
 // src/Enemies/Herald.java
 package Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
+import SharedData.GameSettings;
 
-/**
- * Represents a Herald enemy with good alignment and no magic abilities.
- */
 public class Herald extends Enemies {
-
-    // --- Fields ---
     private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -3;
 
-    // --- Constructor ---
-    /**
-     * Creates a Herald enemy with specific stats and good alignment.
-     * Sets name, level, hit points, attributes, image path, magic user status, and spell strength.
-     */
     public Herald() {
-        super(
-            "Herald",           // Enemy name
-            8,                  // Level
-            50,                 // Hit points
-            8,                  // Strength
-            9,                  // Charisma
-            7,                  // Agility
-            7,                  // Intelligence
-            8,                  // Wisdom
-            GameSettings.MonsterImagePath + "Herald.png", // Image path
-            false,              // Is magic user
-            0                   // Spell strength
-        );
-        this.level = 8;         // Set level field
+        this(randomLevel(), 8, 10, 7, 8, 9, 7); // Example default stats
     }
 
-    // --- Combat Methods ---
+    public Herald(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Herald",
+            level,
+            (level * 6) + (vitality * 8),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Herald.png",
+            false
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 6) + (vitality * 8);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
+        int dodgeChance = 12;
+        if (Math.random() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " gracefully avoids the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage));
         if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, message undelivered.");
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
     @Override
@@ -53,45 +79,29 @@ public class Herald extends Enemies {
 
     @Override
     public int attack() {
-        return (int) ((getStrength() * 1.2) + (getCharisma() * 1.4));
+        boolean critical = Math.random() < 0.14;
+        int base = (int) ((getStrength() * 1.1) + (getCharisma() * 1.4));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " proclaims a mighty challenge for " + damage + " damage!");
+        return damage;
     }
 
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 12;
-        int charisma = getCharisma();
-        int reductionPercent = (baseDefense + charisma) / 2;
-        if (reductionPercent > 75) reductionPercent = 75;
+        int reductionPercent = (baseDefense + getCharisma()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " inspires allies, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 15) {
+            return GameSettings.MonsterImagePath + "Herald_injured.png";
+        }
         return super.getImagePath();
-    }
-
-    @Override
-    public String toString() {
-        return "Herald{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
-    }
-
-    // --- Getters and Alignment Methods ---
-    public int getLevel() {
-        return level;
     }
 
     @Override
@@ -108,13 +118,35 @@ public class Herald extends Enemies {
         return Math.max(base + offset, 0);
     }
 
+    private static int randomLevel() {
+        return 7 + (int) (Math.random() * 3); // Example: Herald is high-level
+    }
+
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -level + offset;
     }
 
     @Override
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    @Override
+    public String toString() {
+        return "Herald{" +
+                "name='" + getName() + '\'' +
+                ", level=" + getLevel() +
+                ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() +
+                ", charisma=" + getCharisma() +
+                ", agility=" + getAgility() +
+                ", intelligence=" + getIntelligence() +
+                ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
+                ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                '}';
     }
 }

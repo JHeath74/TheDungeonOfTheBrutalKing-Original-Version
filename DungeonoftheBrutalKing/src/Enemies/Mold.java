@@ -2,114 +2,152 @@
 // src/Enemies/Mold.java
 package Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
-import Status.PoisonStatus;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.Alignment;
+import SharedData.GameSettings;
+import Status.PoisonStatus;
 
-/**
- * Represents a Mold enemy with poison attack and alignment.
- */
 public class Mold extends Enemies {
-
-    // --- Fields ---
-    private int level; // Used for rewards and scaling
+    private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
-    private final int alignmentImpact = 1;
 
-    // --- Constructor ---
-    /**
-     * Constructs a Mold enemy with predefined stats and image.
-     */
     public Mold() {
-        super(
-            "Mold",                                   // Name
-            1,                                        // Level (used in superclass, overridden below)
-            20,                                       // Hit points
-            4,                                        // Strength
-            2,                                        // Charisma
-            3,                                        // Agility
-            1,                                        // Intelligence
-            1,                                        // Wisdom
-            GameSettings.MonsterImagePath + "Mold.png", // Image path
-            false,                                    // Is magic user
-            0                                         // Spell strength
-        );
-        this.level = 1; // Set actual level for this instance
+        this(randomLevel(), 4, 2, 3, 1, 1, 5); // Example default stats
     }
 
-    // --- Combat Methods ---
-    /**
-     * Reduces hit points by the given damage amount.
-     * If hit points drop below zero, sets them to zero.
-     * Prints a message if the Mold dies.
-     * @param damage The amount of damage to take.
-     */
+    public Mold(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Mold",
+            level,
+            (level * 4) + (vitality * 6),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Mold.png",
+            false
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 4) + (vitality * 6);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        int dodgeChance = 8;
+        if (Math.random() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " oozes away and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage));
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has dried up and died.");
     }
 
-    /**
-     * Checks if the Mold is dead (hit points <= 0).
-     * @return true if dead, false otherwise.
-     */
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 4) + (vitality * 6);
+    }
+
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
     }
 
-    /**
-     * Performs a poison attack on the target, with a chance to apply poison status.
-     * @param target The character being attacked.
-     * @return The poison attack damage.
-     */
     @Override
-    public int attack(Character target) {
-        int poisonAttack = 12 + getStrength() + getSpellStrength();
-        boolean poisonStatusApplied = Math.random() < 0.3; // 30% chance
-        if (poisonStatusApplied) {
+    public int attack() {
+        boolean critical = Math.random() < 0.12;
+        int base = (int) ((getStrength() * 1.2) + (getVitality() * 0.7));
+        int damage = critical ? base * 2 : base;
+        if (Math.random() < 0.3) {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies poison status!");
-            target.addStatus(new PoisonStatus(poisonAttack));
+            // PoisonStatus should be applied to the target in the actual game logic
         } else {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks.");
         }
-        return poisonAttack;
+        return damage;
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
+    public int attack(Character target) {
+        int damage = attack();
+        if (Math.random() < 0.3) {
+            target.addStatus(new PoisonStatus(damage));
+        }
+        return damage;
+    }
+
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 10;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
-    /**
-     * Returns the image path for the Mold.
-     * @return The image path.
-     */
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 8) {
+            return GameSettings.MonsterImagePath + "Mold_injured.png";
+        }
         return super.getImagePath();
     }
 
-    /**
-     * Returns a string representation of the Mold's stats.
-     * @return String with all key attributes.
-     */
+    @Override
+    public int getExperienceReward() {
+        int base = level * 7;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 3;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 1 + (int) (Math.random() * 2); // Mold is low-level
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return level + offset;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
     @Override
     public String toString() {
         return "Mold{" +
@@ -121,57 +159,9 @@ public class Mold extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
                 '}';
-    }
-
-    // --- Getters and Alignment Methods ---
-    /**
-     * Gets the level of the Mold.
-     * @return the level.
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Gets the experience reward for defeating the Mold.
-     * @return experience points.
-     */
-    @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the gold reward for defeating the Mold.
-     * @return gold amount.
-     */
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the alignment impact value.
-     * @return alignment impact.
-     */
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
-
-    /**
-     * Gets the alignment of the Mold.
-     * @return alignment.
-     */
-    public Alignment getAlignment() {
-        return alignment;
     }
 }
