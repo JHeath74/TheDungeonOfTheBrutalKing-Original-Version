@@ -1,37 +1,44 @@
 
+// src/Spells/Shield.java
 package Spells;
 
-import SharedData.Alignment;
+import SharedData.Guild;
 import DungeonoftheBrutalKing.Character;
-import DungeonoftheBrutalKing.TimeClock;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public abstract class Shield implements Spell {
+public class Shield implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NEUTRAL;
-    private int duration = 12;
-    private TimeClock timeClock = TimeClock.Singleton();
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final int REQUIRED_MAGIC_POINTS = 8;
+    private static final int SHIELD_DURATION_MS = 30_000; // 30 seconds
 
     public Shield() {}
 
     public void cast() {
-        int startTime = timeClock.getCurrentHour();
         Character character = Character.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));
         int dexterityModifier = (agility - 10) / 2;
 
-        int armorBonus = Integer.parseInt(character.getCharInfo().get(19));
-        int shieldBonus = Integer.parseInt(character.getCharInfo().get(20));
+        int armorBonus = Integer.parseInt(character.getArmour());
+        int shieldBonus = Integer.parseInt(character.getShield());
         int extraDefense = 10;
 
         int totalDefense = baseDefense + dexterityModifier + armorBonus + shieldBonus + extraDefense;
         character.setDefense(totalDefense);
 
-        // TODO: Implement effect duration tracking and removal if needed
+        // Schedule removal after 30 seconds
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                removeSpellEffect();
+            }
+        }, SHIELD_DURATION_MS);
     }
 
-    // Call this method when the shield effect should end
     protected void removeSpellEffect() {
         Character character = Character.getInstance();
 
@@ -39,8 +46,8 @@ public abstract class Shield implements Spell {
         int agility = Integer.parseInt(character.getCharInfo().get(10));
         int dexterityModifier = (agility - 10) / 2;
 
-        int armorBonus = Integer.parseInt(character.getCharInfo().get(19));
-        int shieldBonus = Integer.parseInt(character.getCharInfo().get(20));
+        int armorBonus = Integer.parseInt(character.getArmour());
+        int shieldBonus = Integer.parseInt(character.getShield());
         int extraDefense = 0;
 
         int totalDefense = baseDefense + dexterityModifier + armorBonus + shieldBonus + extraDefense;
@@ -49,10 +56,24 @@ public abstract class Shield implements Spell {
 
     @Override
     public boolean isGuildSpell() {
-        return false;
+        return SPELL_GUILD != Guild.NON_GUILD;
     }
 
-    public Alignment getSpellAlignment() {
-        return SPELL_ALIGNMENT;
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
+    }
+
+
+    public void cast(int attackerWisdom) {
+        // Not used for this spell
+    }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
     }
 }

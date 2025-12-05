@@ -1,11 +1,14 @@
 
-// File: Spells.java
+// src/Spells/Spell.java
 package Spells;
+
+import SharedData.Guild;
 
 public interface Spell {
     void cast();
     boolean isGuildSpell();
     void cast(int attackerWisdom);
-    SharedData.Alignment getSpellAlignment();
-    int getRequiredMagicPoints(); // Added method
+    Guild getSpellGuild();
+    int getRequiredMagicPoints();
+	void cast(int toonWisdom, int toonIntelligence);
 }

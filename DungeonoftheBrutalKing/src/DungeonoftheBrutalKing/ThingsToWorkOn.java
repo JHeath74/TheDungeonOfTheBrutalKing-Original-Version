@@ -3,25 +3,8 @@ package DungeonoftheBrutalKing;
 public class ThingsToWorkOn {
 
 	public ThingsToWorkOn() {
-		// Need to work on the following:
-		// Combat System
-		// Spell System
-		// Status Effects
-		// Inventory System
-		// Loading/Saving Game
-		// Effects on Weapons and Armor
-		// Effects from Spells
-		// Effects from Potions
-		// Effects from Status Ailments
-		// Effects from Monsters
-		// MovementAndLevels   Need to get the levels integrated and completed.
-		// Create NCPS
-		// Create Quests
-		// Information Listener needs an image to display
-		//Guild Class
-		//update Weapon Information
-		//update Armour Information
-		//update Spell Information
+		//update game to only display out 3-5 cells
+		//update light spell to display further
 
 		//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
 		//https://stackoverflow.com/questions/13590002/understand-bufferstrategy

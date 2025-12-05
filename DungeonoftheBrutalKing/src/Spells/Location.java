@@ -1,11 +1,14 @@
+
+// src/Spells/Location.java
 package Spells;
 
-import SharedData.Alignment;
+import SharedData.Guild;
 import DungeonoftheBrutalKing.Singleton;
 
-public abstract class Location implements Spell {
+public class Location implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NEUTRAL; // Alignment of the spell
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final int REQUIRED_MAGIC_POINTS = 6;
     String name = null;
     int minWisdom = 30;
     int minIntelligence = 30;
@@ -19,7 +22,7 @@ public abstract class Location implements Spell {
         int Intelligence = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(9));
         int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(5));
 
-        if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
+        if ((Wisdom > minWisdom || Intelligence > minIntelligence) && MagicPoints > 5) {
             int[] position = new int[3];
             Singleton.myCharSingleton().getPosition(position);
             int currentX = position[0];
@@ -39,11 +42,33 @@ public abstract class Location implements Spell {
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
     }
 
-    @Override
-    public Alignment getSpellAlignment() {
-        return SPELL_ALIGNMENT; // Getter for the spell alignment
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
     }
+
+	@Override
+	public void cast() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void cast(int attackerWisdom) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	  @Override
+	    public int getRequiredMagicPoints() {
+	        return REQUIRED_MAGIC_POINTS;
+	    }
+
+
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
 }

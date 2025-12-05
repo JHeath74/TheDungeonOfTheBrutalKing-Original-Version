@@ -1,31 +1,28 @@
 
+// src/Spells/Cure.java
 package Spells;
 
 import java.util.Random;
-
-
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
-import SharedData.Alignment;
+import SharedData.Guild;
 
-public abstract class Cure implements Spell {
+public class Cure implements Spell {
 
-    private static final SharedData.Alignment SPELL_ALIGNMENT = SharedData.Alignment.NEUTRAL;
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final int REQUIRED_MAGIC_POINTS = 5;
 
     public Cure() {
-        super();
+        // No need for super()
     }
 
     @Override
     public void cast() {
-        // List of negative effects to be cured
         String[] negativeEffects = {"Poison", "Blindness", "Paralysis"};
         Random random = new Random();
-
-        // Attempt to remove negative effects from the character
         Character character = Singleton.myCharSingleton();
         for (String effect : negativeEffects) {
-            if (random.nextDouble() < 0.75) { // 75% chance to remove the effect
+            if (random.nextDouble() < 0.75) {
                 character.getStatusManager().removeStatusByName(effect);
                 System.out.println("Cured " + effect + "!");
             } else {
@@ -36,11 +33,26 @@ public abstract class Cure implements Spell {
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
+    }
+
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
     }
 
     @Override
-    public Alignment getSpellAlignment() {
-        return SPELL_ALIGNMENT;
+    public void cast(int attackerWisdom) {
+        // Not used for this spell
     }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+	
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
 }

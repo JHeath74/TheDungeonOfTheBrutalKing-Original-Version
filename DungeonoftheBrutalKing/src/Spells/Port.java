@@ -1,28 +1,31 @@
+
+// src/Spells/Port.java
 package Spells;
 
-import SharedData.Alignment;
+import SharedData.Guild;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 
-public abstract class Port implements Spell {
+public class Port implements Spell {
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NEUTRAL; // Alignment of the spell
-    String name = null;
-    int Wisdom = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(10));
-    int Intelligence = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(9));
-    int MagicPoints = Integer.parseInt(Singleton.myCharSingleton().getCharInfo().get(5));
-
-    int minWisdom = 30;
-    int minIntelligence = 30;
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final int REQUIRED_MAGIC_POINTS = 6;
+    private static final int MIN_WISDOM = 30;
+    private static final int MIN_INTELLIGENCE = 30;
 
     public Port() {
-        this.name = "Teleport";
+        // No need for name field
     }
 
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
-        if (Wisdom > minWisdom || Intelligence > minIntelligence && MagicPoints > 5) {
+        Character character = Singleton.myCharSingleton();
+        int wisdom = character.getWisdom();
+        int intelligence = character.getIntelligence();
+        int magicPoints = character.getMagicPoints();
 
+        if ((wisdom >= MIN_WISDOM || intelligence >= MIN_INTELLIGENCE) && magicPoints >= REQUIRED_MAGIC_POINTS) {
             int[] position = new int[3];
-            Singleton.myCharSingleton().getPosition(position);
+            character.getPosition(position);
 
             int currentX = position[0];
             int currentY = position[1];
@@ -31,21 +34,40 @@ public abstract class Port implements Spell {
             dungeon[currentZ][currentY][currentX] = 0; // Clear current position
             dungeon[targetZ][targetY][targetX] = 1; // Set new position
 
-            Singleton.myCharSingleton().setPosition(targetX, targetY, targetZ);
+            character.setPosition(targetX, targetY, targetZ);
 
-            System.out.println("Teleported to (" + targetX + ", " + targetY + ", 0)!");
+            System.out.println("Teleported to (" + targetX + ", " + targetY + ", " + targetZ + ")!");
         } else {
-            System.out.println("You Don't have enough Magic Points, or either Wisdom or Intelligence to Cast this spell");
+            System.out.println("You don't have enough Magic Points, or either Wisdom or Intelligence to cast this spell.");
         }
     }
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
+    }
+
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
+    }
+
+
+    public void cast() {
+        // Not used for this spell
+    }
+
+
+    public void cast(int attackerWisdom) {
+        // Not used for this spell
     }
 
     @Override
-    public Alignment getSpellAlignment() {
-        return SPELL_ALIGNMENT;
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+ 
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
     }
 }

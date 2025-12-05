@@ -1,14 +1,15 @@
 
+// src/Spells/Fireball.java
 package Spells;
 
 import java.util.Random;
-import SharedData.Alignment;
+import SharedData.Guild;
 import DungeonoftheBrutalKing.Character;
 
-public abstract class Fireball implements Spell {
+public class Fireball implements Spell {
 
-    // Minimum Wisdom required to cast the spell
     private static final int MINIMUM_WISDOM = 10;
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
     private static Character myChar = Character.getInstance();
 
     @Override
@@ -23,20 +24,36 @@ public abstract class Fireball implements Spell {
         if (attackerWisdom < MINIMUM_WISDOM) {
             System.out.println("You lack the necessary Wisdom to cast Fireball!");
         } else {
-            // Calculate random damage based on attacker's Wisdom
             Random random = new Random();
-            int damage = random.nextInt(attackerWisdom) + 1; // Random value from 1 to attacker's Wisdom
+            int damage = random.nextInt(attackerWisdom) + 1;
             System.out.println("Fireball deals " + damage + " fire damage!");
         }
     }
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
     }
 
-    @Override
-    public Alignment getSpellAlignment() {
-        return Alignment.NEUTRAL;
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
     }
+
+	
+	public void cast(int attackerWisdom) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getRequiredMagicPoints() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
 }

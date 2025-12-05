@@ -1,19 +1,19 @@
 
+// src/Spells/Cold_Blast.java
 package Spells;
 
 import java.util.Random;
-import SharedData.Alignment;
 import DungeonoftheBrutalKing.Character;
+import SharedData.Guild;
 
-public abstract class Cold_Blast implements Spell {
+public class Cold_Blast implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
+    private static final int REQUIRED_MAGIC_POINTS = 8;
     private static Character myChar = Character.getInstance();
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
 
-    private static final Alignment SPELL_ALIGNMENT = Alignment.NEUTRAL; // Non-aligned spell type
-
-    String wisdomValue = myChar.getCharInfo().get(10);
-    int attackerWisdom = (wisdomValue != null) ? Integer.parseInt(wisdomValue) : 0;
+    int attackerWisdom = myChar.getWisdom();
 
     @Override
     public void cast(int attackerWisdom) {
@@ -28,11 +28,20 @@ public abstract class Cold_Blast implements Spell {
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
+    }
+
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
     }
 
     @Override
-    public Alignment getSpellAlignment() {
-        return SPELL_ALIGNMENT;
+    public void cast() {
+        // TODO: Implement if needed
+    }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
     }
 }

@@ -1,13 +1,17 @@
+
+// src/Spells/Heal.java
 package Spells;
 
-import SharedData.Alignment;
+import SharedData.Guild;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 
-public abstract class Heal implements Spell {
+public class Heal implements Spell {
 
+    private static final int REQUIRED_MAGIC_POINTS = 8;
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
     private static Character myChar = Character.getInstance();
-    String name = null;
+    private String name;
 
     public Heal() {
         this.name = "Heal";
@@ -15,20 +19,13 @@ public abstract class Heal implements Spell {
 
     @Override
     public void cast() {
-        int intelligence = Integer.parseInt(myChar.getCharInfo().get(8));
-        int maxHealth = Integer.parseInt(myChar.getCharInfo().get(10));
-        int currentHealth = Integer.parseInt(myChar.getCharInfo().get(11));
+        int intelligence = myChar.getIntelligence();
+        int maxHealth = myChar.getMaxHitPoints();
+        int currentHealth = myChar.getHitPoints();
 
-        // Minimum health restored
-        int healthRestored = 10;
-
-        // Additional health based on intelligence
-        healthRestored += intelligence;
-
-        // Ensure health does not exceed max health
+        int healthRestored = 10 + intelligence;
         int newHealth = Math.min(currentHealth + healthRestored, maxHealth);
 
-        // Update character's health
         Singleton.myCharSingleton().setHitPoints(newHealth);
 
         System.out.println("Restored " + (newHealth - currentHealth) + " health points!");
@@ -36,11 +33,25 @@ public abstract class Heal implements Spell {
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
+    }
+
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
+    }
+
+    
+    public void cast(int attackerWisdom) {
+        // Not used for this spell
     }
 
     @Override
-    public Alignment getSpellAlignment() {
-        return Alignment.NEUTRAL;
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+    
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
     }
 }

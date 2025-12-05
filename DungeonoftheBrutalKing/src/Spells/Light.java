@@ -1,19 +1,16 @@
+
+// src/Spells/Light.java
 package Spells;
 
-import SharedData.Alignment;
-import DungeonoftheBrutalKing.Character;
+import SharedData.Guild;
 
-public abstract class Light implements Spell {
+public class Light implements Spell {
+
+    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final int REQUIRED_MAGIC_POINTS = 10;
 
     public Light() {
         super();
-
-        String name = "Light";
-        int requiredint = 30;
-        int requiredwis = 30;
-
-        String charintelligence = Character.getInstance().getCharInfo().get(8).toString();
-        String charwisdom = Character.getInstance().getCharInfo().get(9).toString();
     }
 
     @Override
@@ -24,11 +21,26 @@ public abstract class Light implements Spell {
 
     @Override
     public boolean isGuildSpell() {
-        return false; // Explicitly mark this as a non-guild spell
+        return SPELL_GUILD != Guild.NON_GUILD;
+    }
+
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
     }
 
     @Override
-    public Alignment getSpellAlignment() {
-        return Alignment.NEUTRAL;
+    public void cast(int attackerWisdom) {
+        // Not used for this spell
     }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+	
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
 }
