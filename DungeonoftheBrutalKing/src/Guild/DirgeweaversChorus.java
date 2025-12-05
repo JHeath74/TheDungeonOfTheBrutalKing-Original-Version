@@ -1,3 +1,5 @@
+
+// src/Guild/DirgeweaversChorus.java
 package Guild;
 
 import java.awt.BorderLayout;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
+import SharedData.GuildType;
 
 public class DirgeweaversChorus extends JPanel {
 
@@ -22,14 +25,13 @@ public class DirgeweaversChorus extends JPanel {
 
     private final String guildName = "Dirgeweavers Chorus";
     private boolean isMember;
-    private String description = "";
-    private SharedData.Alignment alignment;
+    private final Alignment alignment = Alignment.EVIL;
+    private final String description;
+    private final GuildType guildType = GuildType.THIEF;
 
     public DirgeweaversChorus(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = SharedData.Alignment.GOOD;
-        this.description = "Dirgeweavers Chorus is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
-
+        this.description = "Dirgeweavers Chorus is a guild of cunning thieves who thrive in the shadows and embrace evil for personal gain.";
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
@@ -65,7 +67,7 @@ public class DirgeweaversChorus extends JPanel {
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        JButton buySpellsButton = new JButton("Buy Spells");
+        JButton useSkillsButton = new JButton("Use Skills");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Enter Storage");
         JButton exitRoomButton = new JButton("Exit Room");
@@ -84,7 +86,7 @@ public class DirgeweaversChorus extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
+            buttonPanel.add(useSkillsButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
         }
@@ -92,7 +94,7 @@ public class DirgeweaversChorus extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
+        useSkillsButton.addActionListener(event -> useSkill());
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
         exitRoomButton.addActionListener(event -> {
@@ -104,44 +106,22 @@ public class DirgeweaversChorus extends JPanel {
         });
     }
 
-    private void buyGuildSpell() {
+    private void useSkill() {
         Character character = Character.getInstance();
-        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
-        int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
-        int maxSpells = 6;
-        int currentGuildSpells = getGuildSpellsCount();
+        int agility = character.getAgility();
+        int actionPoints = character.getActionPoints();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Dirgeweavers Chorus to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Dirgeweavers Chorus to use thief skills.");
             return;
         }
 
-        if (!inventory.contains("Dirgeweavers Chorus Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Dirgeweavers Chorus Guild Ring to buy guild spells.");
-            return;
+        if (agility >= 10 && actionPoints >= 5) {
+            character.setActionPoints(actionPoints - 5);
+            JOptionPane.showMessageDialog(this, "You used a thief skill! Remaining Action Points: " + (actionPoints - 5));
+        } else {
+            JOptionPane.showMessageDialog(this, "Not enough Agility or Action Points to use a thief skill!");
         }
-
-        if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
-            return;
-        }
-
-        if (wisdom <= 0) {
-            JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
-            return;
-        }
-
-        if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
-        } else if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
-            return;
-        }
-
-        String newSpell = "New Guild Spell";
-        addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
@@ -161,6 +141,10 @@ public class DirgeweaversChorus extends JPanel {
 
     public String getGuildName() {
         return guildName;
+    }
+
+    public GuildType getGuildType() {
+        return guildType;
     }
 
     public boolean removeGuildSpell(String spell) {

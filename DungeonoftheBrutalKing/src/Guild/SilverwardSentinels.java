@@ -1,3 +1,5 @@
+
+// src/Guild/SilverwardSentinels.java
 package Guild;
 
 import java.awt.BorderLayout;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
+import SharedData.GuildType; // Add import
 
 public class SilverwardSentinels extends JPanel {
 
@@ -24,6 +27,7 @@ public class SilverwardSentinels extends JPanel {
     private boolean isMember;
     private final Alignment alignment = Alignment.GOOD;
     private final String description;
+    private final GuildType guildType = GuildType.WARRIOR; // Add field
 
     public SilverwardSentinels(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
@@ -159,6 +163,10 @@ public class SilverwardSentinels extends JPanel {
 
     public String getGuildName() {
         return guildName;
+    }
+
+    public GuildType getGuildType() { // Add getter
+        return guildType;
     }
 
     public int getGuildSpellsCount() {

@@ -1,3 +1,4 @@
+
 package Guild;
 
 import java.awt.BorderLayout;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
+import SharedData.GuildType;
 
 public class ObsidianHexCoven extends JPanel {
 
@@ -24,6 +26,7 @@ public class ObsidianHexCoven extends JPanel {
     private boolean isMember;
     private final Alignment alignment = Alignment.EVIL;
     private final String description;
+    private final GuildType guildType = GuildType.MAGIC;
 
     public ObsidianHexCoven(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
@@ -159,6 +162,10 @@ public class ObsidianHexCoven extends JPanel {
 
     public String getGuildName() {
         return guildName;
+    }
+
+    public GuildType getGuildType() {
+        return guildType;
     }
 
     public int getGuildSpellsCount() {

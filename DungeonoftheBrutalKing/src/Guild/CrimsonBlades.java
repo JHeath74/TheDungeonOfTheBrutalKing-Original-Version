@@ -1,3 +1,5 @@
+
+// src/Guild/CrimsonBlades.java
 package Guild;
 
 import java.awt.BorderLayout;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
+import SharedData.GuildType; // Add import
 
 public class CrimsonBlades extends JPanel {
 
@@ -24,10 +27,12 @@ public class CrimsonBlades extends JPanel {
     private boolean isMember;
     private String description = "";
     private SharedData.Alignment alignment;
+    private GuildType guildType; // Add field
 
     public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
         this.alignment = SharedData.Alignment.EVIL;
+        this.guildType = GuildType.WARRIOR; // Set guild type
         this.description = "The Crimson Blades is a guild of skilled warriors who thrive on combat and power.";
 
         setLayout(new BorderLayout());
@@ -121,6 +126,10 @@ public class CrimsonBlades extends JPanel {
 
     public String getGuildName() {
         return guildName;
+    }
+
+    public GuildType getGuildType() { // Add getter
+        return guildType;
     }
 
     public boolean removeGuildSpell(String spell) {

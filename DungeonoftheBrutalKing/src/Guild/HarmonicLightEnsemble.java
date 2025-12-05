@@ -1,3 +1,4 @@
+
 package Guild;
 
 import java.awt.BorderLayout;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
+import SharedData.GuildType;
 
 public class HarmonicLightEnsemble extends JPanel {
 
@@ -25,12 +27,12 @@ public class HarmonicLightEnsemble extends JPanel {
 
     private final String guildName = "Harmonic Light Ensemble";
     private boolean isMember;
-    private String description = "The Harmonic Light Ensemble is a guild of celestial sorcerers who bring balance and harmony to the realm.";
-    private Alignment alignment;
+    private String description = "The Harmonic Light Ensemble is a guild of celestial thieves who bring balance and harmony to the realm.";
+    private final Alignment alignment = Alignment.GOOD;
+    private final GuildType guildType = GuildType.THIEF;
 
     public HarmonicLightEnsemble(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = Alignment.GOOD;
 
         setLayout(new BorderLayout());
 
@@ -67,7 +69,7 @@ public class HarmonicLightEnsemble extends JPanel {
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        JButton buySpellsButton = new JButton("Buy Spells");
+        JButton useSkillsButton = new JButton("Use Skills");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Enter Storage");
         JButton exitRoomButton = new JButton("Exit Room");
@@ -86,7 +88,7 @@ public class HarmonicLightEnsemble extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
+            buttonPanel.add(useSkillsButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
         }
@@ -94,7 +96,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
+        useSkillsButton.addActionListener(event -> useSkill());
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
         exitRoomButton.addActionListener(event -> {
@@ -106,39 +108,21 @@ public class HarmonicLightEnsemble extends JPanel {
         });
     }
 
-    private void buyGuildSpell() {
+    private void useSkill() {
         Character character = Character.getInstance();
-        ArrayList<String> spells = new ArrayList<>(character.getGuildSpells());
-        int wisdom = character.getWisdom();
-        int gold = character.getGold();
+        int agility = character.getAgility();
+        int actionPoints = character.getActionPoints();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Harmonic Light Ensemble to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Harmonic Light Ensemble to use thief skills.");
             return;
         }
 
-        if (!character.getCharInventory().contains("Harmonic Light Ensemble Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Harmonic Light Ensemble Guild Ring to buy guild spells.");
-            return;
-        }
-
-        if (gold < SPELL_COST) {
-            JOptionPane.showMessageDialog(this, "You do not have enough gold to buy a spell.");
-            return;
-        }
-
-        int spellLimit = BASE_SPELL_LIMIT + Math.min(wisdom / 8, MAX_SPELL_LIMIT - BASE_SPELL_LIMIT);
-
-        if (spells.size() >= spellLimit) {
-            JOptionPane.showMessageDialog(this, "You cannot carry more spells.");
-            return;
-        }
-
-        String newSpell = JOptionPane.showInputDialog(this, "Enter the name of the spell to buy:");
-        if (newSpell != null && !newSpell.isEmpty()) {
-            character.getGuildSpells().add(newSpell);
-            character.setGold(gold - SPELL_COST);
-            JOptionPane.showMessageDialog(this, "You purchased the spell: " + newSpell);
+        if (agility >= 10 && actionPoints >= 5) {
+            character.setActionPoints(actionPoints - 5);
+            JOptionPane.showMessageDialog(this, "You used a thief skill! Remaining Action Points: " + (actionPoints - 5));
+        } else {
+            JOptionPane.showMessageDialog(this, "Not enough Agility or Action Points to use a thief skill!");
         }
     }
 
@@ -159,6 +143,10 @@ public class HarmonicLightEnsemble extends JPanel {
 
     public String getGuildName() {
         return guildName;
+    }
+
+    public GuildType getGuildType() {
+        return guildType;
     }
 
     public int getGuildSpellsCount() {

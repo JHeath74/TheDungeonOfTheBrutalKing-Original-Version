@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
+import SharedData.GuildType;
 
 public class AuroraArcanum extends JPanel {
 
@@ -28,6 +29,7 @@ public class AuroraArcanum extends JPanel {
     public AuroraArcanum(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
         this.alignment = SharedData.Alignment.GOOD;
+        GuildType guildType = GuildType.MAGIC;
 
         this.description = "The Aurora Arcanum is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
 
