@@ -59,6 +59,8 @@ public class Character {
     private int baseIntelligence;
     private int baseWisdom;
     private int baseAgility;
+    
+    private boolean stunned = false;
 
     public static Character getInstance() {
         if (instance == null) {
@@ -309,4 +311,24 @@ public class Character {
     public void setCanAct(boolean b) {}
     public void addStatus(Object status) {}
     public void takeDamage(int amount) { reduceHitPoints(amount); }
+
+	
+
+public void restoreHitPoints(int amount) {
+    setHitPoints(Math.min(getHitPoints() + amount, getMaxHitPoints()));
 }
+
+// Update setStunned method
+public void setStunned(boolean b) {
+    this.stunned = b;
+}
+
+// Optional: Add a getter
+public boolean isStunned() {
+    return stunned;
+}
+	
+}
+
+
+

@@ -72,4 +72,9 @@ public abstract class Status {
 	
  }
 
+ public void onExpire(Character character) {
+	// TODO Auto-generated method stub
+	
+ }
+
 }

@@ -5,100 +5,151 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Character;
+import Status.DazeStatus; // Example status effect
 
-/**
- * Represents a Whirlwind enemy with high agility and alignment.
- */
 public class Whirlwind extends Enemies {
-
-    // --- Fields ---
-    private int level; // Used for rewards and scaling
+    private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
-    private final int alignmentImpact = 1;
 
-    // --- Constructor ---
-    /**
-     * Constructs a Whirlwind enemy with predefined stats and image.
-     */
     public Whirlwind() {
-        super(
-            "Whirlwind",                                   // Name
-            3,                                             // Level (used in superclass, overridden below)
-            28,                                            // Hit points
-            7,                                             // Strength
-            4,                                             // Charisma
-            9,                                             // Agility
-            5,                                             // Intelligence
-            2,                                             // Wisdom
-            GameSettings.MonsterImagePath + "Whirlwind.png", // Image path
-            false,                                         // Is magic user
-            0                                              // Spell strength
-        );
-        this.level = 3; // Set actual level for this instance
+        this(randomLevel(), 7, 4, 9, 5, 2, 6); // Example default stats
     }
 
-    // --- Combat Methods ---
-    /**
-     * Reduces hit points by the given damage amount.
-     * If hit points drop below zero, sets them to zero.
-     * Prints a message if the Whirlwind dies.
-     * @param damage The amount of damage to take.
-     */
+    public Whirlwind(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Whirlwind",
+            level,
+            (level * 6) + (vitality * 4),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Whirlwind.png",
+            false // isMagicUser
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 6) + (vitality * 4);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        int dodgeChance = 22;
+        if (Math.random() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " whirls away and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage));
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " dissipates into the air.");
     }
 
-    /**
-     * Checks if the Whirlwind is dead (hit points <= 0).
-     * @return true if dead, false otherwise.
-     */
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 6) + (vitality * 4);
+    }
+
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
     }
 
-    /**
-     * Calculates the Whirlwind's attack damage based on strength and agility.
-     * @return The calculated attack damage.
-     */
-    @Override
-    public int attack() {
-        return (int) ((getStrength() * 1.0) + (getAgility() * 1.0));
+    // Whirlwind attack applies daze status with 15% chance
+    public int attack(Character target) {
+        boolean critical = Math.random() < 0.15;
+        int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.4));
+        int damage = critical ? base * 2 : base;
+        boolean dazeApplied = Math.random() < 0.15;
+        if (dazeApplied) {
+            MainGameScreen.appendToMessageTextPane(getName() + " spins violently, dazing the target!");
+            target.addStatus(new DazeStatus(2)); // Example: daze status for 2 rounds
+        } else {
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+        }
+        return damage;
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
+    @Override
+    public int attack() {
+        boolean critical = Math.random() < 0.15;
+        int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.4));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+        return damage;
+    }
+
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 8;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " whirls defensively, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
-    /**
-     * Returns the image path for the Whirlwind.
-     * @return The image path.
-     */
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.MonsterImagePath + "Whirlwind_injured.png";
+        }
         return super.getImagePath();
     }
 
-    /**
-     * Returns a string representation of the Whirlwind's stats.
-     * @return String with all key attributes.
-     */
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 3 + (int) (Math.random() * 2); // Whirlwind is mid-level
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return 1 + offset;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
     @Override
     public String toString() {
         return "Whirlwind{" +
@@ -110,58 +161,9 @@ public class Whirlwind extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
                 '}';
-    }
-
-    // --- Getters and Alignment Methods ---
-    /**
-     * Gets the level of the Whirlwind.
-     * @return the level.
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Gets the experience reward for defeating the Whirlwind.
-     * @return experience points.
-     */
-    @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the gold reward for defeating the Whirlwind.
-     * @return gold amount.
-     */
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the alignment impact value.
-     * @return alignment impact.
-     */
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
-
-    /**
-     * Gets the alignment of the Whirlwind.
-     * @return alignment.
-     */
-    @Override
-    public Alignment getAlignment() {
-        return alignment;
     }
 }

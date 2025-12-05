@@ -5,100 +5,144 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Character;
 
-/**
- * Represents a Troll enemy with basic combat abilities and alignment.
- */
 public class Troll extends Enemies {
-
-    // --- Fields ---
-    private int level; // Used for rewards and scaling
+    private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
-    private final int alignmentImpact = 2;
 
-    // --- Constructor ---
-    /**
-     * Constructs a Troll enemy with predefined stats and image.
-     */
     public Troll() {
-        super(
-            "Troll",                                   // Name
-            7,                                         // Level (used in superclass, overridden below)
-            30,                                        // Hit points
-            8,                                         // Strength
-            5,                                         // Charisma
-            7,                                         // Agility
-            6,                                         // Intelligence
-            3,                                         // Wisdom
-            GameSettings.MonsterImagePath + "Troll.png", // Image path
-            false,                                     // Is magic user
-            0                                          // Spell strength
-        );
-        this.level = 7; // Set actual level for this instance
+        this(randomLevel(), 8, 5, 7, 6, 3, 7); // Example default stats
     }
 
-    // --- Combat Methods ---
-    /**
-     * Reduces hit points by the given damage amount.
-     * If hit points drop below zero, sets them to zero.
-     * Prints a message if the Troll dies.
-     * @param damage The amount of damage to take.
-     */
+    public Troll(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Troll",
+            level,
+            (level * 6) + (vitality * 5),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Troll.png",
+            false // isMagicUser
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 6) + (vitality * 5);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
+        int dodgeChance = 10;
+        if (Math.random() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " lumbers aside and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage));
         if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
     }
 
-    /**
-     * Checks if the Troll is dead (hit points <= 0).
-     * @return true if dead, false otherwise.
-     */
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 6) + (vitality * 5);
+    }
+
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
     }
 
-    /**
-     * Calculates the Troll's attack damage based on strength and agility.
-     * @return The calculated attack damage.
-     */
-    @Override
-    public int attack() {
-        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+    // Troll attack is physical, no status effect
+    public int attack(Character target) {
+        boolean critical = Math.random() < 0.15;
+        int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " smashes for " + damage + " damage!");
+        return damage;
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
+    @Override
+    public int attack() {
+        boolean critical = Math.random() < 0.15;
+        int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+        return damage;
+    }
+
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 8;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
-    /**
-     * Returns the image path for the Troll.
-     * @return The image path.
-     */
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.MonsterImagePath + "Troll_injured.png";
+        }
         return super.getImagePath();
     }
 
-    /**
-     * Returns a string representation of the Troll's stats.
-     * @return String with all key attributes.
-     */
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 7 + (int) (Math.random() * 2); // Troll is mid-high level
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        return 2 + offset;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
     @Override
     public String toString() {
         return "Troll{" +
@@ -110,58 +154,9 @@ public class Troll extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
                 '}';
-    }
-
-    // --- Getters and Alignment Methods ---
-    /**
-     * Gets the level of the Troll.
-     * @return the level.
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Gets the experience reward for defeating the Troll.
-     * @return experience points.
-     */
-    @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the gold reward for defeating the Troll.
-     * @return gold amount.
-     */
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the alignment impact value.
-     * @return alignment impact.
-     */
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
-
-    /**
-     * Gets the alignment of the Troll.
-     * @return alignment.
-     */
-    @Override
-    public Alignment getAlignment() {
-        return alignment;
     }
 }
