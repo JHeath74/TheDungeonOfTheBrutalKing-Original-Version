@@ -25,13 +25,14 @@ public class DirgeweaversChorus extends JPanel {
 
     private final String guildName = "Dirgeweavers Chorus";
     private boolean isMember;
-    private final Alignment alignment = Alignment.EVIL;
     private final String description;
+    private final Alignment alignment = Alignment.EVIL;
     private final GuildType guildType = GuildType.BARD;
 
     public DirgeweaversChorus(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "Dirgeweavers Chorus is a guild of cunning thieves who thrive in the shadows and embrace evil for personal gain.";
+        this.description = "The Dirgeweavers Chorus is a guild of bards who weave haunting melodies and dark magic to sway the fate of the realm.";
+
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
@@ -66,10 +67,14 @@ public class DirgeweaversChorus extends JPanel {
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/DirgeweaversChorus.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        JButton useSkillsButton = new JButton("Use Skills");
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
+        JButton buySpellsButton = new JButton("Buy Spells");
+        JButton weaveDirgeButton = new JButton("Weave Dirge");
+        JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
+        JButton enterStorageButton = new JButton("Guild Storage");
+        JButton eatFoodButton = new JButton("Eat Food");
+        JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
         if (!isMember) {
@@ -86,17 +91,28 @@ public class DirgeweaversChorus extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(useSkillsButton);
+            buttonPanel.add(buySpellsButton);
+            buttonPanel.add(weaveDirgeButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
+            buttonPanel.add(eatFoodButton);
+            buttonPanel.add(sleepBedButton);
         }
         buttonPanel.add(exitRoomButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        useSkillsButton.addActionListener(event -> useSkill());
+        buySpellsButton.addActionListener(event -> buyGuildSpell());
+        weaveDirgeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You weave a haunting dirge, empowering your allies and cursing your foes! (Dirgeweavers Chorus exclusive service)"));
+        removeCurseButton.addActionListener(event -> {
+            removeCursesAndEffects();
+            JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
+        });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a somber meal and feel restored."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a shadowy bed and recover your strength."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
@@ -106,22 +122,50 @@ public class DirgeweaversChorus extends JPanel {
         });
     }
 
-    private void useSkill() {
+    private void removeCursesAndEffects() {
         Character character = Character.getInstance();
-        int agility = character.getAgility();
-        int actionPoints = character.getActionPoints();
+        character.clearCurses();
+        character.clearNegativeEffects();
+    }
+
+    private void buyGuildSpell() {
+        Character character = Character.getInstance();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
+        int wisdom = character.getWisdom();
+        int alignmentValue = character.getAlignment();
+        int maxSpells = 6;
+        int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Dirgeweavers Chorus to use thief skills.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Dirgeweavers Chorus to buy guild spells.");
             return;
         }
 
-        if (agility >= 10 && actionPoints >= 5) {
-            character.setActionPoints(actionPoints - 5);
-            JOptionPane.showMessageDialog(this, "You used a thief skill! Remaining Action Points: " + (actionPoints - 5));
-        } else {
-            JOptionPane.showMessageDialog(this, "Not enough Agility or Action Points to use a thief skill!");
+        if (!inventory.contains("Dirgeweavers Chorus Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Dirgeweavers Chorus Guild Ring to buy guild spells.");
+            return;
         }
+
+        if (currentGuildSpells >= maxSpells) {
+            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
+        }
+
+        if (wisdom <= 0) {
+            JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
+            return;
+        }
+
+        if (alignmentValue < 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
+        } else if (alignmentValue > 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
+            return;
+        }
+
+        String newSpell = "New Guild Spell";
+        addGuildSpell(newSpell);
+        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

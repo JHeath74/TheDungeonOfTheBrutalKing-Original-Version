@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
-import SharedData.GuildType; // Add import
+import SharedData.GuildType;
 
 public class SilverwardSentinels extends JPanel {
 
@@ -27,11 +27,12 @@ public class SilverwardSentinels extends JPanel {
     private boolean isMember;
     private final Alignment alignment = Alignment.GOOD;
     private final String description;
-    private final GuildType guildType = GuildType.WARRIOR; // Add field
+    private final GuildType guildType = GuildType.WARRIOR;
 
     public SilverwardSentinels(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
         this.description = "The Silverward Sentinels are a guild of noble warriors dedicated to justice and protection.";
+
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
@@ -66,10 +67,14 @@ public class SilverwardSentinels extends JPanel {
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/SilverwardSentinels.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(8, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
+        JButton removeCurseButton = new JButton("Remove Curse");
         JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
+        JButton enterStorageButton = new JButton("Guild Storage");
+        JButton eatFoodButton = new JButton("Eat Food");
+        JButton sleepBedButton = new JButton("Sleep in Bed");
+        JButton trainButton = new JButton("Train Skills");
         JButton exitRoomButton = new JButton("Exit Room");
 
         if (!isMember) {
@@ -87,16 +92,27 @@ public class SilverwardSentinels extends JPanel {
             buttonPanel.add(joinGuildButton);
         } else {
             buttonPanel.add(buySpellsButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
+            buttonPanel.add(eatFoodButton);
+            buttonPanel.add(sleepBedButton);
+            buttonPanel.add(trainButton);
         }
         buttonPanel.add(exitRoomButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
+        removeCurseButton.addActionListener(event -> {
+            removeCursesAndEffects();
+            JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
+        });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel renewed."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
+        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train with fellow Sentinels, improving your skills."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
@@ -153,6 +169,12 @@ public class SilverwardSentinels extends JPanel {
         add(new SilverwardSentinels(isMember));
     }
 
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
+    }
+
     public Alignment getAlignment() {
         return alignment;
     }
@@ -165,7 +187,7 @@ public class SilverwardSentinels extends JPanel {
         return guildName;
     }
 
-    public GuildType getGuildType() { // Add getter
+    public GuildType getGuildType() {
         return guildType;
     }
 

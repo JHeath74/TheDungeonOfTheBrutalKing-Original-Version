@@ -4,68 +4,29 @@ package DungeonoftheBrutalKing;
 
 import java.util.*;
 import Quests.Quest;
+import SharedData.GuildMembershipStatus;
+import SharedData.GuildType;
 import Status.StatusManager;
 
 public class Character {
 
-    // --- Stat Index Constants ---
-    private static final int NAME_IDX = 0;
-    private static final int CLASS_IDX = 1;
-    private static final int RACE_IDX = 2;
-    private static final int LEVEL_IDX = 3;
-    private static final int EXP_IDX = 4;
-    private static final int HP_IDX = 5;
-    private static final int MP_IDX = 6;
-    private static final int STAMINA_IDX = 7;
-    private static final int CHARISMA_IDX = 8;
-    private static final int STRENGTH_IDX = 9;
-    private static final int INTELLIGENCE_IDX = 10;
-    private static final int WISDOM_IDX = 11;
-    private static final int AGILITY_IDX = 12;
-    private static final int GOLD_IDX = 13;
-    private static final int FOOD_IDX = 14;
-    private static final int WATER_IDX = 15;
-    private static final int TORCHES_IDX = 16;
-    private static final int GEMS_IDX = 17;
-    private static final int WEAPON_IDX = 18;
-    private static final int ARMOR_IDX = 19;
-    private static final int SHIELD_IDX = 20;
-    private static final int ALIGNMENT_IDX = 21;
-    private static final int X_IDX = 22;
-    private static final int Y_IDX = 23;
-    private static final int Z_IDX = 24;
-    private static final int DIRECTION_IDX = 25;
-    private static final int DEFENSE_IDX = 26;
-    private static final int ATTACK_IDX = 27;
-    private static final int MAX_HP_IDX = 28;
-    private static final int BASE_STRENGTH_IDX = 29;
-    private static final int BASE_INTELLIGENCE_IDX = 30;
-    private static final int BASE_WISDOM_IDX = 31;
-    private static final int BASE_AGILITY_IDX = 32;
-
     private static Character instance;
-
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(33, "0"));
     private Set<String> spellsLearned = new HashSet<>();
     private Set<String> charInventory = new HashSet<>();
     private Set<String> guildSpells = new HashSet<>();
     private List<Quest> activeQuests = new ArrayList<>();
-    private double hitChance = 1.0;
-    private double originalHitChance = 1.0;
     private StatusManager statusManager = new StatusManager();
     private int actionPoints;
-
-    private int baseStrength;
-    private int baseIntelligence;
-    private int baseWisdom;
-    private int baseAgility;
-    
+    private int baseStrength, baseIntelligence, baseWisdom, baseAgility;
     private boolean stunned = false;
+    private GuildType currentGuild;
+    private GuildMembershipStatus currentGuildStatus;
+
+    private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
 
     public static Character getInstance() {
-        if (instance == null) {
-            instance = new Character();
-        }
+        if (instance == null) instance = new Character();
         return instance;
     }
 
@@ -74,157 +35,122 @@ public class Character {
         this.baseIntelligence = 8 + new Random().nextInt(7);
         this.baseWisdom = 8 + new Random().nextInt(7);
         this.baseAgility = 8 + new Random().nextInt(7);
-
-        setInt(BASE_STRENGTH_IDX, baseStrength);
-        setInt(BASE_INTELLIGENCE_IDX, baseIntelligence);
-        setInt(BASE_WISDOM_IDX, baseWisdom);
-        setInt(BASE_AGILITY_IDX, baseAgility);
-
+        setInt(29, baseStrength);
+        setInt(30, baseIntelligence);
+        setInt(31, baseWisdom);
+        setInt(32, baseAgility);
         setStrength(baseStrength);
         setIntelligence(baseIntelligence);
         setWisdom(baseWisdom);
         setAgility(baseAgility);
     }
 
-    public int getBaseStrength() { return baseStrength; }
-    public int getBaseIntelligence() { return baseIntelligence; }
-    public int getBaseWisdom() { return baseWisdom; }
-    public int getBaseAgility() { return baseAgility; }
-
-    private int getInt(int idx, int def) {
-        try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; }
-    }
-    private void setInt(int idx, int val) {
-        if (idx >= 0 && idx < charInfo.size()) {
-            charInfo.set(idx, String.valueOf(val));
-        }
-    }
-    private String getStr(int idx) {
-        if (charInfo == null || idx < 0 || idx >= charInfo.size()) {
-            return "";
-        }
-        return charInfo.get(idx);
-    }
-    public void setStr(int idx, String value) {
-        while (charInfo.size() <= idx) {
-            charInfo.add("");
-        }
-        charInfo.set(idx, value);
-    }
-
-    public String getName() { return getStr(NAME_IDX); }
-    public void setName(String name) { setStr(NAME_IDX, name); }
-    public String getRace() { return getStr(RACE_IDX); }
-    public void setRace(String race) { setStr(RACE_IDX, race); }
-    public int getLevel() { return getInt(LEVEL_IDX, 1); }
-    public void setLevel(int level) {
-        int cappedLevel = Math.min(level, 50);
-        setInt(LEVEL_IDX, cappedLevel);
-    }
-    public int getExperience() { return getInt(EXP_IDX, 0); }
-    public void setExperience(int exp) { setInt(EXP_IDX, exp); }
-    public int getHitPoints() { return getInt(HP_IDX, 0); }
-    public void setHitPoints(int hp) { setInt(HP_IDX, hp); }
-    public int getMaxHitPoints() { return getInt(MAX_HP_IDX, 0); }
-    public void setMaxHitPoints(int maxHitPoints) { setInt(MAX_HP_IDX, maxHitPoints); }
-    public int getMagicPoints() { return getInt(MP_IDX, 0); }
-    public void setMagicPoints(int mp) { setInt(MP_IDX, mp); }
-    public int getStamina() { return getInt(STAMINA_IDX, 0); }
-    public void setStamina(int stamina) { setInt(STAMINA_IDX, stamina); }
-    public int getCharisma() { return getInt(CHARISMA_IDX, 0); }
-    public void setCharisma(int charisma) { setInt(CHARISMA_IDX, charisma); }
-    public int getStrength() { return getInt(STRENGTH_IDX, 0); }
-    public void setStrength(int strength) { setInt(STRENGTH_IDX, strength); }
-    public int getIntelligence() { return getInt(INTELLIGENCE_IDX, 0); }
-    public void setIntelligence(int intelligence) { setInt(INTELLIGENCE_IDX, intelligence); }
-    public int getWisdom() { return getInt(WISDOM_IDX, 0); }
-    public void setWisdom(int wisdom) { setInt(WISDOM_IDX, wisdom); }
-    public int getAgility() { return getInt(AGILITY_IDX, 0); }
-    public void setAgility(int agility) { setInt(AGILITY_IDX, agility); }
-    public int getGold() { return getInt(GOLD_IDX, 0); }
-    public void setGold(int gold) { setInt(GOLD_IDX, gold); }
-    public int getFood() { return getInt(FOOD_IDX, 0); }
-    public void setFood(int food) { setInt(FOOD_IDX, food); }
-    public int getWater() { return getInt(WATER_IDX, 0); }
-    public void setWater(int water) { setInt(WATER_IDX, water); }
-    public int getTorches() { return getInt(TORCHES_IDX, 0); }
-    public void setTorches(int torches) { setInt(TORCHES_IDX, torches); }
-    public int getGems() { return getInt(GEMS_IDX, 0); }
-    public void setGems(int gems) { setInt(GEMS_IDX, gems); }
-    public String getWeapon() { return getStr(WEAPON_IDX); }
-    public void setWeapon(String weapon) { setStr(WEAPON_IDX, weapon); }
-    public String getArmour() { return getStr(ARMOR_IDX); }
-    public void setArmour(String armour) { setStr(ARMOR_IDX, armour); }
-    public String getShield() { return getStr(SHIELD_IDX); }
-    public void setShield(String shield) { setStr(SHIELD_IDX, shield); }
-    public int getAlignment() { return getInt(ALIGNMENT_IDX, 0); }
-    public void setAlignment(int alignment) { setInt(ALIGNMENT_IDX, alignment); }
-
-    public double getX() { return parseDoubleSafe(getStr(X_IDX)); }
-    public double getY() { return parseDoubleSafe(getStr(Y_IDX)); }
-    public double getZ() { return parseDoubleSafe(getStr(Z_IDX)); }
-    public double getDirection() { return parseDoubleSafe(getStr(DIRECTION_IDX)); }
-    private double parseDoubleSafe(String s) {
-        if (s == null || s.isEmpty()) return 0.0;
-        try { return Double.parseDouble(s); } catch (NumberFormatException e) { return 0.0; }
-    }
-
-    public int getDefense() { return getInt(DEFENSE_IDX, 0); }
-    public void setDefense(int defense) { setInt(DEFENSE_IDX, defense); }
-    public void setAttack(int attack) { setInt(ATTACK_IDX, attack); }
-    public int getAttack() { return getInt(ATTACK_IDX, 0); }
+    // --- Stat Getters/Setters ---
+    private int getInt(int idx, int def) { try { return Integer.parseInt(charInfo.get(idx)); } catch (Exception e) { return def; } }
+    private void setInt(int idx, int val) { if (idx >= 0 && idx < charInfo.size()) charInfo.set(idx, String.valueOf(val)); }
+    private String getStr(int idx) { if (charInfo == null || idx < 0 || idx >= charInfo.size()) return ""; return charInfo.get(idx); }
+    public void setStr(int idx, String value) { while (charInfo.size() <= idx) charInfo.add(""); charInfo.set(idx, value); }
+    public String getName() { return getStr(0); }
+    public void setName(String name) { setStr(0, name); }
+    public String getRace() { return getStr(2); }
+    public void setRace(String race) { setStr(2, race); }
+    public int getLevel() { return getInt(3, 1); }
+    public void setLevel(int level) { setInt(3, Math.min(level, 50)); }
+    public int getExperience() { return getInt(4, 0); }
+    public void setExperience(int exp) { setInt(4, exp); }
+    public int getHitPoints() { return getInt(5, 0); }
+    public void setHitPoints(int hp) { setInt(5, hp); }
+    public int getMaxHitPoints() { return getInt(28, 0); }
+    public void setMaxHitPoints(int maxHitPoints) { setInt(28, maxHitPoints); }
+    public int getMagicPoints() { return getInt(6, 0); }
+    public void setMagicPoints(int mp) { setInt(6, mp); }
+    public int getStamina() { return getInt(7, 0); }
+    public void setStamina(int stamina) { setInt(7, stamina); }
+    public int getCharisma() { return getInt(8, 0); }
+    public void setCharisma(int charisma) { setInt(8, charisma); }
+    public int getStrength() { return getInt(9, 0); }
+    public void setStrength(int strength) { setInt(9, strength); }
+    public int getIntelligence() { return getInt(10, 0); }
+    public void setIntelligence(int intelligence) { setInt(10, intelligence); }
+    public int getWisdom() { return getInt(11, 0); }
+    public void setWisdom(int wisdom) { setInt(11, wisdom); }
+    public int getAgility() { return getInt(12, 0); }
+    public void setAgility(int agility) { setInt(12, agility); }
+    public int getGold() { return getInt(13, 0); }
+    public void setGold(int gold) { setInt(13, gold); }
+    public int getFood() { return getInt(14, 0); }
+    public void setFood(int food) { setInt(14, food); }
+    public int getWater() { return getInt(15, 0); }
+    public void setWater(int water) { setInt(15, water); }
+    public int getTorches() { return getInt(16, 0); }
+    public void setTorches(int torches) { setInt(16, torches); }
+    public int getGems() { return getInt(17, 0); }
+    public void setGems(int gems) { setInt(17, gems); }
+    public String getWeapon() { return getStr(18); }
+    public void setWeapon(String weapon) { setStr(18, weapon); }
+    public String getArmour() { return getStr(19); }
+    public void setArmour(String armour) { setStr(19, armour); }
+    public String getShield() { return getStr(20); }
+    public void setShield(String shield) { setStr(20, shield); }
+    public int getAlignment() { return getInt(21, 0); }
+    public void setAlignment(int alignment) { setInt(21, alignment); }
+    public int getDefense() { return getInt(26, 0); }
+    public void setDefense(int defense) { setInt(26, defense); }
+    public void setAttack(int attack) { setInt(27, attack); }
+    public int getAttack() { return getInt(27, 0); }
     public int getActionPoints() { return actionPoints; }
     public void setActionPoints(int points) { actionPoints = points; }
-
     public Set<String> getCharInventory() { return charInventory; }
     public void setCharInventory(Set<String> inventory) { this.charInventory = inventory; }
     public void addToInventory(String item) { charInventory.add(item); }
     public boolean removeFromInventory(String item) { return charInventory.remove(item); }
-
     public Set<String> getSpellsLearned() { return spellsLearned; }
     public void setSpellsLearned(Set<String> spells) { spellsLearned = spells; }
     public Set<String> getGuildSpells() { return guildSpells; }
     public void setGuildSpells(Set<String> spells) { guildSpells = spells; }
-
     public List<Quest> getActiveQuests() { return activeQuests; }
     public void addActiveQuest(Quest quest) { if (!activeQuests.contains(quest)) activeQuests.add(quest); }
     public boolean removeActiveQuest(Quest quest) { return activeQuests.remove(quest); }
     public void setActiveQuests(List<Quest> activeQuests) { this.activeQuests = activeQuests; }
-
-    public void setPosition(int x, int y, int z) {
-        setInt(X_IDX, x); setInt(Y_IDX, y); setInt(Z_IDX, z);
-    }
-    public void getPosition(int[] pos) {
-        pos[0] = getInt(X_IDX, 0); pos[1] = getInt(Y_IDX, 0); pos[2] = getInt(Z_IDX, 0);
-    }
-
+    public void setPosition(int x, int y, int z) { setInt(22, x); setInt(23, y); setInt(24, z); }
+    public void getPosition(int[] pos) { pos[0] = getInt(22, 0); pos[1] = getInt(23, 0); pos[2] = getInt(24, 0); }
+    public GuildType getCurrentGuild() { return currentGuild; }
+    public void setCurrentGuild(GuildType guild) { this.currentGuild = guild; }
+    public GuildMembershipStatus getCurrentGuildStatus() { return currentGuildStatus; }
+    public void setCurrentGuildStatus(GuildMembershipStatus status) { this.currentGuildStatus = status; }
+    
     public boolean consumeSkillPoints(int cost) {
-        if (actionPoints >= cost) {
-            actionPoints -= cost;
-            return true;
-        } else if (getMagicPoints() >= cost) {
-            setMagicPoints(getMagicPoints() - cost);
-            return true;
-        }
+        if (actionPoints >= cost) { actionPoints -= cost; return true; }
+        else if (getMagicPoints() >= cost) { setMagicPoints(getMagicPoints() - cost); return true; }
         return false;
     }
+    
+    public int getDirection() {
+        return getInt(25, 0);
+    }
 
+    public void setDirection(int degrees) {
+        setInt(25, degrees);
+    }
+    
+    public ArrayList<String> getCharInfo() {
+        return charInfo;
+    }
+    
     public int getAttackDamage() {
         int strength = getStrength();
         int weaponDamage = 0;
         try { weaponDamage = Integer.parseInt(getWeapon()); } catch (Exception e) { weaponDamage = 0; }
         return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
     }
-
     public void calculateAndSetAttack() {
         int baseAttack = 5;
         int strMod = (int) ((getStrength() - 10) / 2.0);
         int weaponBonus = 0;
         try { weaponBonus = Integer.parseInt(getWeapon()); } catch (Exception e) {}
         int attack = baseAttack + strMod + weaponBonus;
-        setInt(ATTACK_IDX, attack);
+        setInt(27, attack);
     }
-
     public void calculateAndSetDefense() {
         int baseDefense = 10;
         int dexMod = (getAgility() - 10) / 2;
@@ -233,21 +159,11 @@ public class Character {
         try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) {}
         setDefense(baseDefense + dexMod + armorBonus + shieldBonus);
     }
-
     public void reduceHitPoints(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
     public void reduceDefense(int amount) { setDefense(Math.max(0, getDefense() - amount)); }
-    public boolean removeFood(int amount) {
-        if (getFood() >= amount) { setFood(getFood() - amount); return true; }
-        return false;
-    }
-    public boolean removeGold(int amount) {
-        if (getGold() >= amount) { setGold(getGold() - amount); return true; }
-        return false;
-    }
-    public void rewardExperience(int xp) {
-        setExperience(getExperience() + xp);
-        checkLevelUp();
-    }
+    public boolean removeFood(int amount) { if (getFood() >= amount) { setFood(getFood() - amount); return true; } return false; }
+    public boolean removeGold(int amount) { if (getGold() >= amount) { setGold(getGold() - amount); return true; } return false; }
+    public void rewardExperience(int xp) { setExperience(getExperience() + xp); checkLevelUp(); }
     private void checkLevelUp() {
         int lvl = getLevel();
         if (lvl < 50 && getExperience() >= getExperienceRequiredForLevel(lvl + 1)) {
@@ -256,79 +172,26 @@ public class Character {
             setHitPoints(getMaxHitPoints());
         }
     }
-    public int getExperienceRequiredForLevel(int level) {
-        return (int)(1000 * Math.pow(1.5, level - 1));
+    public int getExperienceRequiredForLevel(int level) { return (int)(1000 * Math.pow(1.5, level - 1)); }
+    public void restoreHitPoints(int amount) { setHitPoints(Math.min(getHitPoints() + amount, getMaxHitPoints())); }
+    public void setStunned(boolean b) { this.stunned = b; }
+    public boolean isStunned() { return stunned; }
+    public void clearCurses() {}
+    public void clearNegativeEffects() {}
+
+    // --- Guild Membership Methods ---
+    public void setGuildStatus(GuildType guildType, GuildMembershipStatus status) {
+        if (guildType == null || status == null) return;
+        guildStatusMap.put(guildType, status);
     }
 
-    public double getHitChance() { return hitChance; }
-    public void setHitChance(double hitChance) { this.hitChance = Math.max(0.0, Math.min(1.0, hitChance)); }
-    public double calculateHitChance(boolean isMagicUser) {
-        if (isMagicUser) {
-            double wis = getWisdom();
-            double intel = getIntelligence();
-            return Math.max(0.1, Math.min(1.0, (wis + intel) / 40.0));
-        } else {
-            double agi = getAgility();
-            double str = getStrength();
-            return Math.max(0.1, Math.min(1.0, (agi + str) / 40.0));
-        }
+    public GuildMembershipStatus getGuildStatus(GuildType guildType) {
+        return guildStatusMap.getOrDefault(guildType, GuildMembershipStatus.NOT_MEMBER);
     }
-    public void updateOriginalHitChance(boolean isMagicUser) {
-        originalHitChance = calculateHitChance(isMagicUser);
-        setHitChance(originalHitChance);
-    }
-    public void applyStatusToHitChance(double modifier) {
-        setHitChance(originalHitChance * modifier);
-    }
-    public void resetHitChance() {
-        setHitChance(originalHitChance);
+    
+    public Map<GuildType, GuildMembershipStatus> getGuildStatusMap() {
+        return guildStatusMap;
     }
 
-    public void setStatusManager(StatusManager statusManager) {
-        this.statusManager = statusManager;
-    }
-    public StatusManager getStatusManager() {
-        return statusManager;
-    }
 
-    public void updateCharInfo(int index, String value) {
-        if (charInfo == null) return;
-        if (index >= 0 && index < charInfo.size()) charInfo.set(index, value);
-        else if (index == charInfo.size()) charInfo.add(value);
-    }
-    public void setCharInfo(ArrayList<String> charInfo) {
-        if (charInfo == null || charInfo.size() < 33) {
-            this.charInfo = new ArrayList<>(Collections.nCopies(33, "0"));
-        } else {
-            this.charInfo = charInfo;
-        }
-    }
-    public ArrayList<String> getCharInfo() { return charInfo; }
-    public String getClassName() { return getStr(CLASS_IDX); }
-    public String getEquippedWeapon() { return getStr(WEAPON_IDX); }
-    public String getEquippedArmor() { return getStr(ARMOR_IDX); }
-    public String getEquippedShield() { return getStr(SHIELD_IDX); }
-    public void setCanAct(boolean b) {}
-    public void addStatus(Object status) {}
-    public void takeDamage(int amount) { reduceHitPoints(amount); }
-
-	
-
-public void restoreHitPoints(int amount) {
-    setHitPoints(Math.min(getHitPoints() + amount, getMaxHitPoints()));
 }
-
-// Update setStunned method
-public void setStunned(boolean b) {
-    this.stunned = b;
-}
-
-// Optional: Add a getter
-public boolean isStunned() {
-    return stunned;
-}
-	
-}
-
-
-

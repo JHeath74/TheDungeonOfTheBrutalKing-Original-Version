@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
-import SharedData.GuildType; // Add import
+import SharedData.GuildType;
 
 public class CrimsonBlades extends JPanel {
 
@@ -25,15 +25,13 @@ public class CrimsonBlades extends JPanel {
 
     private final String guildName = "Crimson Blades";
     private boolean isMember;
-    private String description = "";
-    private SharedData.Alignment alignment;
-    private GuildType guildType; // Add field
+    private final String description;
+    private final Alignment alignment = Alignment.NEUTRAL;
+    private final GuildType guildType = GuildType.WARRIOR;
 
     public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.alignment = SharedData.Alignment.EVIL;
-        this.guildType = GuildType.ROGUE; // Set guild type
-        this.description = "The Crimson Blades is a guild of skilled warriors who thrive on combat and power.";
+        this.description = "The Crimson Blades are a fierce guild of warriors, renowned for their skill and honor in battle.";
 
         setLayout(new BorderLayout());
 
@@ -69,10 +67,15 @@ public class CrimsonBlades extends JPanel {
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        JButton useSkillsButton = new JButton("Use Skills");
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
+        JButton buySpellsButton = new JButton("Buy Spells");
+        JButton sharpenBladeButton = new JButton("Sharpen Blade");
+        JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
+        JButton enterStorageButton = new JButton("Guild Storage");
+        JButton eatFoodButton = new JButton("Eat Food");
+        JButton sleepBedButton = new JButton("Sleep in Bed");
+        JButton trainButton = new JButton("Train Skills");
         JButton exitRoomButton = new JButton("Exit Room");
 
         if (!isMember) {
@@ -89,17 +92,30 @@ public class CrimsonBlades extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(useSkillsButton);
+            buttonPanel.add(buySpellsButton);
+            buttonPanel.add(sharpenBladeButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
+            buttonPanel.add(eatFoodButton);
+            buttonPanel.add(sleepBedButton);
+            buttonPanel.add(trainButton);
         }
         buttonPanel.add(exitRoomButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        useSkillsButton.addActionListener(event -> useSkill());
+        buySpellsButton.addActionListener(event -> buyGuildSpell());
+        sharpenBladeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You sharpen your blade, ready for battle! (Crimson Blades exclusive service)"));
+        removeCurseButton.addActionListener(event -> {
+            removeCursesAndEffects();
+            JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
+        });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel invigorated."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a sturdy bed and recover your strength."));
+        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train rigorously, improving your skills."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
@@ -107,6 +123,45 @@ public class CrimsonBlades extends JPanel {
                 ex.printStackTrace();
             }
         });
+    }
+
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
+    }
+
+    private void buyGuildSpell() {
+        Character character = Character.getInstance();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
+        int wisdom = character.getWisdom();
+        int alignmentValue = character.getAlignment();
+        int maxSpells = 6;
+        int currentGuildSpells = getGuildSpellsCount();
+
+        if (!isMember) {
+            JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to buy guild spells.");
+            return;
+        }
+
+        if (!inventory.contains("Crimson Blades Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Crimson Blades Guild Ring to buy guild spells.");
+            return;
+        }
+
+        if (currentGuildSpells >= maxSpells) {
+            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
+        }
+
+        if (wisdom <= 0) {
+            JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
+            return;
+        }
+
+        String newSpell = "New Guild Spell";
+        addGuildSpell(newSpell);
+        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
@@ -128,7 +183,7 @@ public class CrimsonBlades extends JPanel {
         return guildName;
     }
 
-    public GuildType getGuildType() { // Add getter
+    public GuildType getGuildType() {
         return guildType;
     }
 
@@ -150,26 +205,5 @@ public class CrimsonBlades extends JPanel {
 
     public ArrayList<String> getGuildSpells() {
         return new ArrayList<>(Character.getInstance().getGuildSpells());
-    }
-
-    private void useSkill() {
-        Character character = Character.getInstance();
-        int actionPoints = character.getActionPoints();
-        int magicPoints = character.getMagicPoints();
-
-        if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to use skills.");
-            return;
-        }
-
-        if (actionPoints >= 10) {
-            character.setActionPoints(actionPoints - 10);
-            JOptionPane.showMessageDialog(this, "You used a skill! Remaining Action Points: " + (actionPoints - 10));
-        } else if (magicPoints >= 10) {
-            character.setMagicPoints(magicPoints - 10);
-            JOptionPane.showMessageDialog(this, "You used a skill! Remaining Magic Points: " + (magicPoints - 10));
-        } else {
-            JOptionPane.showMessageDialog(this, "Not enough Action Points or Magic Points to use a skill!");
-        }
     }
 }

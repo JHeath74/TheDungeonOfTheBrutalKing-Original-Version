@@ -13,6 +13,8 @@ import javax.swing.*;
 import Quests.Quest;
 import Quests.QuestImpl;
 import SharedData.GameSettings;
+import SharedData.GuildMembershipStatus;
+import SharedData.GuildType;
 import SharedData.KeyManager;
 import SharedData.EncryptionUtil;
 
@@ -161,6 +163,16 @@ void saveAllEncrypted(FileWriter writer) throws IOException {
     for (Quest quest : myChar.getActiveQuests()) {
         sb.append("QUEST:").append(quest.serialize()).append(System.lineSeparator());
     }
+    for (Map.Entry<GuildType, GuildMembershipStatus> entry : myChar.getGuildStatusMap().entrySet()) {
+        sb.append("GUILDINFO:")
+          .append(entry.getKey().name())
+          .append(":")
+          .append(entry.getValue().name())
+          .append(System.lineSeparator());
+    }
+    for (String guildSpell : myChar.getGuildSpells()) {
+        sb.append("GUILDSPELL:").append(guildSpell).append(System.lineSeparator());
+    }
 
     // Debug: print what will be saved
     System.out.println("Saving data (before encryption):");
@@ -227,6 +239,14 @@ void saveAllEncrypted(FileWriter writer) throws IOException {
              } else if (line.startsWith("QUEST:")) {
                  myChar.getActiveQuests().add(QuestImpl.deserialize(line.substring(6)));
              }
+             else if (line.startsWith("GUILDINFO:")) {
+            	    String[] parts = line.substring(10).split(":");
+            	    if (parts.length == 2) {
+            	        GuildType guildType = GuildType.valueOf(parts[0]);
+            	        GuildMembershipStatus status = GuildMembershipStatus.valueOf(parts[1]);
+            	        myChar.getGuildStatusMap().put(guildType, status);
+            	    }
+            	}
          }
      }
 

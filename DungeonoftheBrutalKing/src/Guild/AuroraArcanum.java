@@ -1,147 +1,122 @@
+
+// src/Guild/AuroraArcanum.java
 package Guild;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
+import SharedData.GuildMembershipStatus;
 
 public class AuroraArcanum extends JPanel {
 
     private static final long serialVersionUID = 1L;
-
     private final String guildName = "Aurora Arcanum";
-    private boolean isMember;
-    private String description = "";
-    private SharedData.Alignment alignment;
+    private final String description = "The Aurora Arcanum is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
+    private final Alignment alignment = Alignment.GOOD;
 
-    public AuroraArcanum(boolean isMember) throws IOException, InterruptedException, ParseException {
-        this.isMember = isMember;
-        this.alignment = SharedData.Alignment.GOOD;
-        GuildType guildType = GuildType.WIZARD;
-
-        this.description = "The Aurora Arcanum is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
-
+    public AuroraArcanum() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
-
+        GuildType guildType = GuildType.WIZARD;
         Character character = Character.getInstance();
-        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
-
-        if (!isMember && !inventory.contains("Aurora Arcanum Guild Ring")) {
-            int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Aurora Arcanum. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
-            );
-
-            if (choice == JOptionPane.YES_OPTION) {
-                this.isMember = true;
-                character.addToInventory("Aurora Arcanum Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Aurora Arcanum and received the Aurora Arcanum Guild Ring!");
-            } else {
-                JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
-                return;
-            }
-        }
-
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
+        GuildMembershipStatus status = character.getGuildStatus(guildType);
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
+        JButton enchantItemButton = new JButton("Enchant Item");
+        JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
+        JButton enterStorageButton = new JButton("Guild Storage");
+        JButton eatFoodButton = new JButton("Eat Food");
+        JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
-            JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
-                this.isMember = true;
-                Character.getInstance().addToInventory("Aurora Arcanum Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Aurora Arcanum!");
-                try {
-                    reloadPanel();
-                } catch (IOException | InterruptedException | ParseException ex) {
-                    ex.printStackTrace();
-                }
+        if (status == GuildMembershipStatus.NOT_MEMBER) {
+            JButton questButton = new JButton("Start Guild Quest");
+            questButton.addActionListener(event -> {
+                character.setGuildStatus(guildType, GuildMembershipStatus.INITIATE);
+                JOptionPane.showMessageDialog(this, "Quest complete! You are now an Initiate.");
+                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
             });
-            buttonPanel.add(joinGuildButton);
-        } else {
+            buttonPanel.add(questButton);
+        } else if (status == GuildMembershipStatus.INITIATE) {
+            JButton initiationButton = new JButton("Complete Initiation Task");
+            initiationButton.addActionListener(event -> {
+                character.setGuildStatus(guildType, GuildMembershipStatus.FULL_MEMBER);
+                character.addToInventory("Aurora Arcanum Guild Ring");
+                JOptionPane.showMessageDialog(this, "You are now a full member and received the Guild Ring!");
+                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+            });
+            buttonPanel.add(initiationButton);
+        } else if (status == GuildMembershipStatus.FULL_MEMBER) {
             buttonPanel.add(buySpellsButton);
+            buttonPanel.add(enchantItemButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
+            buttonPanel.add(eatFoodButton);
+            buttonPanel.add(sleepBedButton);
         }
         buttonPanel.add(exitRoomButton);
-
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
+        enchantItemButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Enchanting item..."));
+        removeCurseButton.addActionListener(event -> { removeCursesAndEffects(); JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!"); });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
-        exitRoomButton.addActionListener(event -> {
-            try {
-                MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException ex) {
-                ex.printStackTrace();
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(event -> {
+            int currentFood = character.getFood();
+            if (currentFood > 0) {
+                character.setFood(currentFood - 1);
+                JOptionPane.showMessageDialog(this, "You eat a hearty meal. Food left: " + character.getFood());
+            } else {
+                JOptionPane.showMessageDialog(this, "You have no food to eat.");
             }
         });
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
+        exitRoomButton.addActionListener(event -> {
+            try { MainGameScreen.getInstance().restoreOriginalPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+        });
+    }
+
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
         Character character = Character.getInstance();
-        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
-        if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Aurora Arcanum to buy guild spells.");
-            return;
-        }
-
-        if (!inventory.contains("Aurora Arcanum Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Aurora Arcanum Guild Ring to buy guild spells.");
-            return;
-        }
-
         if (currentGuildSpells >= maxSpells) {
             JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
-
         if (wisdom <= 0) {
             JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
             return;
         }
-
-        if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
-        } else if (alignmentValue < 100) {
+        if (alignmentValue < 100) {
             JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
             return;
         }
-
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
         JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
@@ -151,41 +126,19 @@ public class AuroraArcanum extends JPanel {
         removeAll();
         revalidate();
         repaint();
-        add(new AuroraArcanum(isMember));
+        add(new AuroraArcanum());
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
-    public String getGuildName() {
-        return guildName;
-    }
-
-    public boolean removeGuildSpell(String spell) {
-        if (Character.getInstance().getGuildSpells().remove(spell)) {
-            return true;
-        }
-        return false;
-    }
-
-    public int getGuildSpellsCount() {
-        return Character.getInstance().getGuildSpells().size();
-    }
-
+    public String getDescription() { return description; }
+    public Alignment getAlignment() { return alignment; }
+    public String getGuildName() { return guildName; }
+    public boolean removeGuildSpell(String spell) { return Character.getInstance().getGuildSpells().remove(spell); }
+    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
     public void addGuildSpell(String spell) {
         if (Character.getInstance().getGuildSpells().size() < 6) {
             Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
-    }
-
-    public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Character.getInstance().getGuildSpells());
     }
 }

@@ -1,5 +1,5 @@
 
-// src/Guild/NightshadeHunters.java
+// src/Guild/NightShadeHunters.java
 package Guild;
 
 import java.awt.BorderLayout;
@@ -19,28 +19,29 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
 
-public class NightshadeHunters extends JPanel {
+public class NightShadeHunters extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final String guildName = "Nightshade Hunters";
+    private final String guildName = "NightShade Hunters";
     private boolean isMember;
-    private final Alignment alignment = Alignment.EVIL;
     private final String description;
-    private final GuildType guildType = GuildType.HUNTER;
+    private final Alignment alignment = Alignment.EVIL;
+    private final GuildType guildType = GuildType.RANGER;
 
-    public NightshadeHunters(boolean isMember) throws IOException, InterruptedException, ParseException {
+    public NightShadeHunters(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Nightshade Hunters are a secretive guild of assassins and trackers who thrive in darkness.";
+        this.description = "The NightShade Hunters are a secretive guild of rangers who master the shadows and hunt in darkness.";
+
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Nightshade Hunters Guild Ring")) {
+        if (!isMember && !inventory.contains("NightShade Hunters Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
-                "You are not a member of the Nightshade Hunters. Would you like to join?",
+                "You are not a member of the NightShade Hunters. Would you like to join?",
                 "Join Guild",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -51,8 +52,8 @@ public class NightshadeHunters extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                character.addToInventory("Nightshade Hunters Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Nightshade Hunters and received the Nightshade Hunters Guild Ring!");
+                character.addToInventory("NightShade Hunters Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the NightShade Hunters and received the NightShade Hunters Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -63,45 +64,63 @@ public class NightshadeHunters extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/NightshadeHunters.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/NightShadeHunters.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
+        JButton shadowMeldButton = new JButton("Shadow Meld");
+        JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
+        JButton enterStorageButton = new JButton("Guild Storage");
+        JButton eatFoodButton = new JButton("Eat Food");
+        JButton sleepBedButton = new JButton("Sleep in Bed");
+        JButton trainButton = new JButton("Train Skills");
         JButton exitRoomButton = new JButton("Exit Room");
 
         if (!isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Character.getInstance().addToInventory("Nightshade Hunters Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Nightshade Hunters!");
+                Character.getInstance().addToInventory("NightShade Hunters Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the NightShade Hunters!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
                 }
             });
             buttonPanel.add(joinGuildButton);
         } else {
             buttonPanel.add(buySpellsButton);
+            buttonPanel.add(shadowMeldButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
+            buttonPanel.add(eatFoodButton);
+            buttonPanel.add(sleepBedButton);
+            buttonPanel.add(trainButton);
         }
         buttonPanel.add(exitRoomButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
+        shadowMeldButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You meld with the shadows, becoming nearly invisible! (NightShade Hunters exclusive service)"));
+        removeCurseButton.addActionListener(event -> {
+            removeCursesAndEffects();
+            JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
+        });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a wild meal and feel energized."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a hidden bed and recover your strength."));
+        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train in the shadows, improving your skills."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
         });
     }
@@ -115,12 +134,12 @@ public class NightshadeHunters extends JPanel {
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Nightshade Hunters to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the NightShade Hunters to buy guild spells.");
             return;
         }
 
-        if (!inventory.contains("Nightshade Hunters Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Nightshade Hunters Guild Ring to buy guild spells.");
+        if (!inventory.contains("NightShade Hunters Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the NightShade Hunters Guild Ring to buy guild spells.");
             return;
         }
 
@@ -150,15 +169,21 @@ public class NightshadeHunters extends JPanel {
         removeAll();
         revalidate();
         repaint();
-        add(new NightshadeHunters(isMember));
+        add(new NightShadeHunters(isMember));
     }
 
-    public Alignment getAlignment() {
-        return alignment;
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     public String getGuildName() {
@@ -167,6 +192,10 @@ public class NightshadeHunters extends JPanel {
 
     public GuildType getGuildType() {
         return guildType;
+    }
+
+    public boolean removeGuildSpell(String spell) {
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
@@ -179,10 +208,6 @@ public class NightshadeHunters extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
-    }
-
-    public boolean removeGuildSpell(String spell) {
-        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {

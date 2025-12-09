@@ -1,4 +1,5 @@
 
+// src/Guild/DawnwardPaladins.java
 package Guild;
 
 import java.awt.BorderLayout;
@@ -24,13 +25,14 @@ public class DawnwardPaladins extends JPanel {
 
     private final String guildName = "Dawnward Paladins";
     private boolean isMember;
-    private final Alignment alignment = Alignment.GOOD;
     private final String description;
+    private final Alignment alignment = Alignment.GOOD;
     private final GuildType guildType = GuildType.PALADIN;
 
     public DawnwardPaladins(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Dawnward Paladins are a guild of holy warriors sworn to defend the realm from darkness.";
+        this.description = "The Dawnward Paladins are a noble order dedicated to justice, protection, and the light of dawn.";
+
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
@@ -65,10 +67,14 @@ public class DawnwardPaladins extends JPanel {
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/DawnwardPaladins.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
+        JButton blessWeaponButton = new JButton("Bless Weapon");
+        JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Enter Storage");
+        JButton enterStorageButton = new JButton("Guild Storage");
+        JButton eatFoodButton = new JButton("Eat Food");
+        JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
         if (!isMember) {
@@ -79,30 +85,47 @@ public class DawnwardPaladins extends JPanel {
                 JOptionPane.showMessageDialog(this, "You have joined the Dawnward Paladins!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
                 }
             });
             buttonPanel.add(joinGuildButton);
         } else {
             buttonPanel.add(buySpellsButton);
+            buttonPanel.add(blessWeaponButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
+            buttonPanel.add(eatFoodButton);
+            buttonPanel.add(sleepBedButton);
         }
         buttonPanel.add(exitRoomButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
+        blessWeaponButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)"));
+        removeCurseButton.addActionListener(event -> {
+            removeCursesAndEffects();
+            JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
+        });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
+        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a wholesome meal and feel renewed."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a peaceful bed and recover your strength."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
         });
+    }
+
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
@@ -152,12 +175,12 @@ public class DawnwardPaladins extends JPanel {
         add(new DawnwardPaladins(isMember));
     }
 
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     public String getGuildName() {
@@ -166,6 +189,10 @@ public class DawnwardPaladins extends JPanel {
 
     public GuildType getGuildType() {
         return guildType;
+    }
+
+    public boolean removeGuildSpell(String spell) {
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
@@ -178,10 +205,6 @@ public class DawnwardPaladins extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
-    }
-
-    public boolean removeGuildSpell(String spell) {
-        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {

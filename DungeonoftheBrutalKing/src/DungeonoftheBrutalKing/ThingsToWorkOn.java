@@ -3,9 +3,13 @@ package DungeonoftheBrutalKing;
 public class ThingsToWorkOn {
 
 	public ThingsToWorkOn() {
-		//update game to only display out 3-5 cells
-		//update light spell to display further
-
+		//update game to only display out 2 cells
+		//update light spell to display 5 cells
+		//Join Quest for each Guild.
+		//Second quest to be a full member of the guild.
+		//Have sleep for each guild to restore hit points and magic points to full.
+		
+		
 		//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
 		//https://stackoverflow.com/questions/13590002/understand-bufferstrategy
 
