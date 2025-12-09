@@ -26,7 +26,7 @@ public class ObsidianHexCoven extends JPanel {
     private boolean isMember;
     private final Alignment alignment = Alignment.EVIL;
     private final String description;
-    private final GuildType guildType = GuildType.MAGIC;
+    private final GuildType guildType = GuildType.MAGE;
 
     public ObsidianHexCoven(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;

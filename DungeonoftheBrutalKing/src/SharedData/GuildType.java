@@ -1,7 +1,13 @@
 package SharedData;
 
 public enum GuildType {
-    MAGIC,
+    CLERIC,
     WARRIOR,
-    THIEF
+    THIEF,
+    MAGE,
+    WIZARD,
+    BARD,
+    ROGUE,
+    HUNTER,
+    PALADIN,
 }

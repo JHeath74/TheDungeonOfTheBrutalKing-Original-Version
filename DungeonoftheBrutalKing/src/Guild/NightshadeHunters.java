@@ -1,4 +1,5 @@
 
+// src/Guild/NightshadeHunters.java
 package Guild;
 
 import java.awt.BorderLayout;
@@ -18,31 +19,28 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
 
-public class HarmonicLightEnsemble extends JPanel {
+public class NightshadeHunters extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private static final int BASE_SPELL_LIMIT = 0;
-    private static final int MAX_SPELL_LIMIT = 6;
-    private static final int SPELL_COST = 50;
 
-    private final String guildName = "Harmonic Light Ensemble";
+    private final String guildName = "Nightshade Hunters";
     private boolean isMember;
-    private String description = "The Harmonic Light Ensemble is a guild of celestial thieves who bring balance and harmony to the realm.";
-    private final Alignment alignment = Alignment.GOOD;
-    private final GuildType guildType = GuildType.THIEF;
+    private final Alignment alignment = Alignment.EVIL;
+    private final String description;
+    private final GuildType guildType = GuildType.HUNTER;
 
-    public HarmonicLightEnsemble(boolean isMember) throws IOException, InterruptedException, ParseException {
+    public NightshadeHunters(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-
+        this.description = "The Nightshade Hunters are a secretive guild of assassins and trackers who thrive in darkness.";
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Harmonic Light Ensemble Guild Ring")) {
+        if (!isMember && !inventory.contains("Nightshade Hunters Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
-                "You are not a member of the Harmonic Light Ensemble. Would you like to join?",
+                "You are not a member of the Nightshade Hunters. Would you like to join?",
                 "Join Guild",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -53,8 +51,8 @@ public class HarmonicLightEnsemble extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                character.addToInventory("Harmonic Light Ensemble Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble and received the Harmonic Light Ensemble Guild Ring!");
+                character.addToInventory("Nightshade Hunters Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Nightshade Hunters and received the Nightshade Hunters Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -65,11 +63,11 @@ public class HarmonicLightEnsemble extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/HarmonicLightEnsemble.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/NightshadeHunters.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
-        JButton useSkillsButton = new JButton("Use Skills");
+        JButton buySpellsButton = new JButton("Buy Spells");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Enter Storage");
         JButton exitRoomButton = new JButton("Exit Room");
@@ -78,17 +76,17 @@ public class HarmonicLightEnsemble extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Character.getInstance().addToInventory("Harmonic Light Ensemble Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Harmonic Light Ensemble!");
+                Character.getInstance().addToInventory("Nightshade Hunters Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Nightshade Hunters!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException ex) {
-                    ex.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException e1) {
+                    e1.printStackTrace();
                 }
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(useSkillsButton);
+            buttonPanel.add(buySpellsButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
         }
@@ -96,49 +94,71 @@ public class HarmonicLightEnsemble extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        useSkillsButton.addActionListener(event -> useSkill());
+        buySpellsButton.addActionListener(event -> buyGuildSpell());
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering storage..."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException ex) {
-                ex.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException e1) {
+                e1.printStackTrace();
             }
         });
     }
 
-    private void useSkill() {
+    private void buyGuildSpell() {
         Character character = Character.getInstance();
-        int agility = character.getAgility();
-        int actionPoints = character.getActionPoints();
+        ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
+        int wisdom = character.getWisdom();
+        int alignmentValue = character.getAlignment();
+        int maxSpells = 6;
+        int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Harmonic Light Ensemble to use thief skills.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Nightshade Hunters to buy guild spells.");
             return;
         }
 
-        if (agility >= 10 && actionPoints >= 5) {
-            character.setActionPoints(actionPoints - 5);
-            JOptionPane.showMessageDialog(this, "You used a thief skill! Remaining Action Points: " + (actionPoints - 5));
-        } else {
-            JOptionPane.showMessageDialog(this, "Not enough Agility or Action Points to use a thief skill!");
+        if (!inventory.contains("Nightshade Hunters Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Nightshade Hunters Guild Ring to buy guild spells.");
+            return;
         }
+
+        if (currentGuildSpells >= maxSpells) {
+            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
+        }
+
+        if (wisdom <= 0) {
+            JOptionPane.showMessageDialog(this, "You need sufficient wisdom to buy guild spells.");
+            return;
+        }
+
+        if (alignmentValue < 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
+        } else if (alignmentValue > 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
+            return;
+        }
+
+        String newSpell = "New Guild Spell";
+        addGuildSpell(newSpell);
+        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
         revalidate();
         repaint();
-        add(new HarmonicLightEnsemble(isMember));
-    }
-
-    public String getDescription() {
-        return description;
+        add(new NightshadeHunters(isMember));
     }
 
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getGuildName() {
@@ -154,10 +174,10 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     public void addGuildSpell(String spell) {
-        if (Character.getInstance().getGuildSpells().size() < MAX_SPELL_LIMIT) {
+        if (Character.getInstance().getGuildSpells().size() < 6) {
             Character.getInstance().getGuildSpells().add(spell);
         } else {
-            JOptionPane.showMessageDialog(this, "You cannot add more than " + MAX_SPELL_LIMIT + " guild spells.");
+            JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 

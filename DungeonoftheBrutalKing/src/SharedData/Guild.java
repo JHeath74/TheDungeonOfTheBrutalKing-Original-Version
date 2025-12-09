@@ -1,11 +1,11 @@
 package SharedData;
 
 public enum Guild {
-    AuroraArcnum,
-    CrimsonBlades,
-    DirgeweaversChorus,
-    HarmonicLightEnsemble,
-    ObsidianHexCoven,
-    SilverwardSentinels,
+    AURORA_ARCNUM,
+    CRIMSON_BLADES,
+    DIRGEWEAVERS_CHORUS,
+    CELESTIAL_ARCANE_ORDER,
+    OBSIDIAN_HEX_COVEN,
+    SILVERWARD_SENTINELS,
     NON_GUILD
 }

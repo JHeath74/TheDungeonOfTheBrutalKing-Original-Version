@@ -32,7 +32,7 @@ public class CrimsonBlades extends JPanel {
     public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
         this.alignment = SharedData.Alignment.EVIL;
-        this.guildType = GuildType.WARRIOR; // Set guild type
+        this.guildType = GuildType.ROGUE; // Set guild type
         this.description = "The Crimson Blades is a guild of skilled warriors who thrive on combat and power.";
 
         setLayout(new BorderLayout());
