@@ -1,8 +1,9 @@
 
 // src/Spells/Shield.java
-package Spells;
+package Guild.DawnwardPaladins.Spells;
 
 import SharedData.Guild;
+import Spells.Spell;
 import DungeonoftheBrutalKing.Character;
 import java.util.Timer;
 import java.util.TimerTask;

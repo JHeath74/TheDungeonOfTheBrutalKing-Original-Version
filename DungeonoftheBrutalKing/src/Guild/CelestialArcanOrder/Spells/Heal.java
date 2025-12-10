@@ -1,8 +1,9 @@
 
 // src/Spells/Heal.java
-package Spells;
+package Guild.CelestialArcanOrder.Spells;
 
 import SharedData.Guild;
+import Spells.Spell;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 

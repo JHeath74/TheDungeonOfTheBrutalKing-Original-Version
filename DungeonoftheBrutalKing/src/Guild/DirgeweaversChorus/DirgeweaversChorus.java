@@ -1,6 +1,6 @@
 
-// src/Guild/ObsidianHexCoven.java
-package Guild;
+// src/Guild/DirgeweaversChorus.java
+package Guild.DirgeweaversChorus;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,29 +19,29 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
 
-public class ObsidianHexCoven extends JPanel {
+public class DirgeweaversChorus extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final String guildName = "Obsidian Hex Coven";
+    private final String guildName = "Dirgeweavers Chorus";
     private boolean isMember;
     private final String description;
     private final Alignment alignment = Alignment.EVIL;
-    private final GuildType guildType = GuildType.MAGE;
+    private final GuildType guildType = GuildType.BARD;
 
-    public ObsidianHexCoven(boolean isMember) throws IOException, InterruptedException, ParseException {
+    public DirgeweaversChorus(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Obsidian Hex Coven is a guild of dark magic users who embrace chaos and power.";
+        this.description = "The Dirgeweavers Chorus is a guild of bards who weave haunting melodies and dark magic to sway the fate of the realm.";
 
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Obsidian Hex Coven Guild Ring")) {
+        if (!isMember && !inventory.contains("Dirgeweavers Chorus Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
-                "You are not a member of the Obsidian Hex Coven. Would you like to join?",
+                "You are not a member of the Dirgeweavers Chorus. Would you like to join?",
                 "Join Guild",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -52,8 +52,8 @@ public class ObsidianHexCoven extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                character.addToInventory("Obsidian Hex Coven Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Obsidian Hex Coven and received the Obsidian Hex Coven Guild Ring!");
+                character.addToInventory("Dirgeweavers Chorus Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus and received the Dirgeweavers Chorus Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -64,13 +64,13 @@ public class ObsidianHexCoven extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/ObsidianHexCovenRoom.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/DirgeweaversChorus.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
-        JButton castHexButton = new JButton("Cast Hex"); // Guild-specific
-        JButton removeCurseButton = new JButton("Remove Curse"); // New service
+        JButton weaveDirgeButton = new JButton("Weave Dirge");
+        JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Guild Storage");
         JButton eatFoodButton = new JButton("Eat Food");
@@ -81,8 +81,8 @@ public class ObsidianHexCoven extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Character.getInstance().addToInventory("Obsidian Hex Coven Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Obsidian Hex Coven!");
+                Character.getInstance().addToInventory("Dirgeweavers Chorus Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus!");
                 try {
                     reloadPanel();
                 } catch (IOException | InterruptedException | ParseException ex) {
@@ -92,8 +92,8 @@ public class ObsidianHexCoven extends JPanel {
             buttonPanel.add(joinGuildButton);
         } else {
             buttonPanel.add(buySpellsButton);
-            buttonPanel.add(castHexButton); // Guild-specific
-            buttonPanel.add(removeCurseButton); // Add here
+            buttonPanel.add(weaveDirgeButton);
+            buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
             buttonPanel.add(eatFoodButton);
@@ -104,14 +104,14 @@ public class ObsidianHexCoven extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
-        castHexButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You cast a powerful hex, warping fate in your favor! (Obsidian Hex Coven exclusive service)"));
+        weaveDirgeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You weave a haunting dirge, empowering your allies and cursing your foes! (Dirgeweavers Chorus exclusive service)"));
         removeCurseButton.addActionListener(event -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a mysterious meal and feel your power grow."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a somber meal and feel restored."));
         sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a shadowy bed and recover your strength."));
         exitRoomButton.addActionListener(event -> {
             try {
@@ -120,6 +120,12 @@ public class ObsidianHexCoven extends JPanel {
                 ex.printStackTrace();
             }
         });
+    }
+
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
@@ -131,12 +137,12 @@ public class ObsidianHexCoven extends JPanel {
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Obsidian Hex Coven to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Dirgeweavers Chorus to buy guild spells.");
             return;
         }
 
-        if (!inventory.contains("Obsidian Hex Coven Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Obsidian Hex Coven Guild Ring to buy guild spells.");
+        if (!inventory.contains("Dirgeweavers Chorus Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Dirgeweavers Chorus Guild Ring to buy guild spells.");
             return;
         }
 
@@ -166,13 +172,7 @@ public class ObsidianHexCoven extends JPanel {
         removeAll();
         revalidate();
         repaint();
-        add(new ObsidianHexCoven(isMember));
-    }
-
-    private void removeCursesAndEffects() {
-        Character character = Character.getInstance();
-        character.clearCurses(); // Implement in Character class
-        character.clearNegativeEffects(); // Implement in Character class
+        add(new DirgeweaversChorus(isMember));
     }
 
     public String getDescription() {

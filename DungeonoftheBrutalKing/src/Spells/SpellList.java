@@ -4,6 +4,15 @@ package Spells;
 
 import java.util.Hashtable;
 
+import Guild.CelestialArcanOrder.CelestialArcanOrder.Spells.Conjure_Food;
+import Guild.CelestialArcanOrder.CelestialArcanOrder.Spells.Heal;
+import Guild.DawnwardPaladins.DawnwardPaladins.Spells.Shield;
+import Guild.ObsidianHexCoven.ObsidianHexCoven.Spells.Cold_Blast;
+import Guild.ObsidianHexCoven.ObsidianHexCoven.Spells.Fireball;
+import Guild.ObsidianHexCoven.ObsidianHexCoven.Spells.Light;
+import Guild.SilverwardSentinels.SilverwardSentinels.Spells.Location;
+import Guild.SilverwardSentinels.SilverwardSentinels.Spells.Port;
+
 public class SpellList {
 
     private static final Hashtable<String, Spell> spellList = new Hashtable<>();

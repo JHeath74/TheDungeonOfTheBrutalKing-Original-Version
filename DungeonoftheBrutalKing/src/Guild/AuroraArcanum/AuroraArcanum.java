@@ -1,6 +1,6 @@
 
 // src/Guild/AuroraArcanum.java
-package Guild;
+package Guild.AuroraArcanum;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -23,10 +23,11 @@ public class AuroraArcanum extends JPanel {
     private final String guildName = "Aurora Arcanum";
     private final String description = "The Aurora Arcanum is a guild of enlightened sorcerers who harness the power of celestial magic to bring balance and wisdom to the realm.";
     private final Alignment alignment = Alignment.GOOD;
+    GuildType guildType = GuildType.WIZARD;
 
     public AuroraArcanum() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
-        GuildType guildType = GuildType.WIZARD;
+        
         Character character = Character.getInstance();
         GuildMembershipStatus status = character.getGuildStatus(guildType);
 

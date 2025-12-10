@@ -1,11 +1,12 @@
 
 // src/Spells/Cure.java
-package Spells;
+package Guild.CelestialArcanOrder.Spells;
 
 import java.util.Random;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Guild;
+import Spells.Spell;
 
 public class Cure implements Spell {
 

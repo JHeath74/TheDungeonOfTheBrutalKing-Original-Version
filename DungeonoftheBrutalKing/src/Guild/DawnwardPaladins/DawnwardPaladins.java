@@ -1,6 +1,6 @@
 
 // src/Guild/DawnwardPaladins.java
-package Guild;
+package Guild.DawnwardPaladins;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

@@ -1,9 +1,10 @@
 
 // src/Spells/Fireball.java
-package Spells;
+package Guild.ObsidianHexCoven.Spells;
 
 import java.util.Random;
 import SharedData.Guild;
+import Spells.Spell;
 import DungeonoftheBrutalKing.Character;
 
 public class Fireball implements Spell {

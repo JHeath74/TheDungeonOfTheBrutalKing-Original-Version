@@ -1,6 +1,6 @@
 
-// src/Guild/CrimsonBlades.java
-package Guild;
+// src/Guild/SilverwardSentinels.java
+package Guild.SilverwardSentinels;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,29 +19,29 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
 
-public class CrimsonBlades extends JPanel {
+public class SilverwardSentinels extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final String guildName = "Crimson Blades";
+    private final String guildName = "Silverward Sentinels";
     private boolean isMember;
+    private final Alignment alignment = Alignment.GOOD;
     private final String description;
-    private final Alignment alignment = Alignment.NEUTRAL;
-    private final GuildType guildType = GuildType.WARRIOR;
+    private final GuildType guildType = GuildType.RANGER;
 
-    public CrimsonBlades(boolean isMember) throws IOException, InterruptedException, ParseException {
+    public SilverwardSentinels(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Crimson Blades are a fierce guild of warriors, renowned for their skill and honor in battle.";
+        this.description = "The Silverward Sentinels are a guild of noble warriors dedicated to justice and protection.";
 
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Crimson Blades Guild Ring")) {
+        if (!isMember && !inventory.contains("Silverward Sentinels Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
-                "You are not a member of the Crimson Blades. Would you like to join?",
+                "You are not a member of the Silverward Sentinels. Would you like to join?",
                 "Join Guild",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -52,8 +52,8 @@ public class CrimsonBlades extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                character.addToInventory("Crimson Blades Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades and received the Crimson Blades Guild Ring!");
+                character.addToInventory("Silverward Sentinels Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Silverward Sentinels and received the Silverward Sentinels Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -64,13 +64,12 @@ public class CrimsonBlades extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/SilverwardSentinels.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(8, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
-        JButton sharpenBladeButton = new JButton("Sharpen Blade");
-        JButton removeCurseButton = new JButton("Remove Curses/Effects");
+        JButton removeCurseButton = new JButton("Remove Curse");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Guild Storage");
         JButton eatFoodButton = new JButton("Eat Food");
@@ -82,18 +81,17 @@ public class CrimsonBlades extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Character.getInstance().addToInventory("Crimson Blades Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades!");
+                Character.getInstance().addToInventory("Silverward Sentinels Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Silverward Sentinels!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException ex) {
-                    ex.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException e1) {
+                    e1.printStackTrace();
                 }
             });
             buttonPanel.add(joinGuildButton);
         } else {
             buttonPanel.add(buySpellsButton);
-            buttonPanel.add(sharpenBladeButton);
             buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
@@ -106,29 +104,22 @@ public class CrimsonBlades extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
-        sharpenBladeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You sharpen your blade, ready for battle! (Crimson Blades exclusive service)"));
         removeCurseButton.addActionListener(event -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel invigorated."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a sturdy bed and recover your strength."));
-        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train rigorously, improving your skills."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel renewed."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
+        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train with fellow Sentinels, improving your skills."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException ex) {
-                ex.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException e1) {
+                e1.printStackTrace();
             }
         });
-    }
-
-    private void removeCursesAndEffects() {
-        Character character = Character.getInstance();
-        character.clearCurses();
-        character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
@@ -140,12 +131,12 @@ public class CrimsonBlades extends JPanel {
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Silverward Sentinels to buy guild spells.");
             return;
         }
 
-        if (!inventory.contains("Crimson Blades Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Crimson Blades Guild Ring to buy guild spells.");
+        if (!inventory.contains("Silverward Sentinels Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Silverward Sentinels Guild Ring to buy guild spells.");
             return;
         }
 
@@ -159,6 +150,13 @@ public class CrimsonBlades extends JPanel {
             return;
         }
 
+        if (alignmentValue > 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
+        } else if (alignmentValue < 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
+            return;
+        }
+
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
         JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
@@ -168,15 +166,21 @@ public class CrimsonBlades extends JPanel {
         removeAll();
         revalidate();
         repaint();
-        add(new CrimsonBlades(isMember));
+        add(new SilverwardSentinels(isMember));
     }
 
-    public String getDescription() {
-        return description;
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getGuildName() {
@@ -185,10 +189,6 @@ public class CrimsonBlades extends JPanel {
 
     public GuildType getGuildType() {
         return guildType;
-    }
-
-    public boolean removeGuildSpell(String spell) {
-        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
@@ -201,6 +201,10 @@ public class CrimsonBlades extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
+    }
+
+    public boolean removeGuildSpell(String spell) {
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {

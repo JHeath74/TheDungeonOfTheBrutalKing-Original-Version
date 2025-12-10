@@ -1,6 +1,6 @@
 
-// src/Guild/CelestialArcanOrder.java
-package Guild;
+// src/Guild/NightShadeHunters.java
+package Guild.NightShadeHunters;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,29 +19,29 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
 
-public class CelestialArcanOrder extends JPanel {
+public class NightShadeHunters extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final String guildName = "Celestial Arcan Order";
+    private final String guildName = "NightShade Hunters";
     private boolean isMember;
     private final String description;
-    private final Alignment alignment = Alignment.GOOD;
-    private final GuildType guildType = GuildType.MAGE;
+    private final Alignment alignment = Alignment.EVIL;
+    private final GuildType guildType = GuildType.ROGUE;
 
-    public CelestialArcanOrder(boolean isMember) throws IOException, InterruptedException, ParseException {
+    public NightShadeHunters(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Celestial Arcan Order is a guild of mages who study the stars and wield cosmic magic for the good of the realm.";
+        this.description = "The NightShade Hunters are a secretive guild of rangers who master the shadows and hunt in darkness.";
 
         setLayout(new BorderLayout());
 
         Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Celestial Arcan Order Guild Ring")) {
+        if (!isMember && !inventory.contains("NightShade Hunters Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
-                "You are not a member of the Celestial Arcan Order. Would you like to join?",
+                "You are not a member of the NightShade Hunters. Would you like to join?",
                 "Join Guild",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -52,8 +52,8 @@ public class CelestialArcanOrder extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                character.addToInventory("Celestial Arcan Order Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcan Order and received the Celestial Arcan Order Guild Ring!");
+                character.addToInventory("NightShade Hunters Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the NightShade Hunters and received the NightShade Hunters Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -64,25 +64,26 @@ public class CelestialArcanOrder extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CelestialArcanOrder.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/NightShadeHunters.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
-        JButton stargazeButton = new JButton("Stargaze (Celestial Insight)");
+        JButton shadowMeldButton = new JButton("Shadow Meld");
         JButton removeCurseButton = new JButton("Remove Curses/Effects");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Guild Storage");
         JButton eatFoodButton = new JButton("Eat Food");
         JButton sleepBedButton = new JButton("Sleep in Bed");
+        JButton trainButton = new JButton("Train Skills");
         JButton exitRoomButton = new JButton("Exit Room");
 
         if (!isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Character.getInstance().addToInventory("Celestial Arcan Order Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcan Order!");
+                Character.getInstance().addToInventory("NightShade Hunters Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the NightShade Hunters!");
                 try {
                     reloadPanel();
                 } catch (IOException | InterruptedException | ParseException ex) {
@@ -92,27 +93,29 @@ public class CelestialArcanOrder extends JPanel {
             buttonPanel.add(joinGuildButton);
         } else {
             buttonPanel.add(buySpellsButton);
-            buttonPanel.add(stargazeButton);
+            buttonPanel.add(shadowMeldButton);
             buttonPanel.add(removeCurseButton);
             buttonPanel.add(sellItemsButton);
             buttonPanel.add(enterStorageButton);
             buttonPanel.add(eatFoodButton);
             buttonPanel.add(sleepBedButton);
+            buttonPanel.add(trainButton);
         }
         buttonPanel.add(exitRoomButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         buySpellsButton.addActionListener(event -> buyGuildSpell());
-        stargazeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You gaze at the stars and gain cosmic insight. (Celestial Arcan Order exclusive service)"));
+        shadowMeldButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You meld with the shadows, becoming nearly invisible! (NightShade Hunters exclusive service)"));
         removeCurseButton.addActionListener(event -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
         sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
         enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
+        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a wild meal and feel energized."));
+        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a hidden bed and recover your strength."));
+        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train in the shadows, improving your skills."));
         exitRoomButton.addActionListener(event -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
@@ -120,12 +123,6 @@ public class CelestialArcanOrder extends JPanel {
                 ex.printStackTrace();
             }
         });
-    }
-
-    private void removeCursesAndEffects() {
-        Character character = Character.getInstance();
-        character.clearCurses();
-        character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
@@ -137,12 +134,12 @@ public class CelestialArcanOrder extends JPanel {
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Celestial Arcan Order to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the NightShade Hunters to buy guild spells.");
             return;
         }
 
-        if (!inventory.contains("Celestial Arcan Order Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Celestial Arcan Order Guild Ring to buy guild spells.");
+        if (!inventory.contains("NightShade Hunters Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the NightShade Hunters Guild Ring to buy guild spells.");
             return;
         }
 
@@ -156,10 +153,10 @@ public class CelestialArcanOrder extends JPanel {
             return;
         }
 
-        if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
-        } else if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
+        if (alignmentValue < 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
+        } else if (alignmentValue > 100) {
+            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
             return;
         }
 
@@ -172,15 +169,21 @@ public class CelestialArcanOrder extends JPanel {
         removeAll();
         revalidate();
         repaint();
-        add(new CelestialArcanOrder(isMember));
+        add(new NightShadeHunters(isMember));
     }
 
-    public Alignment getAlignment() {
-        return alignment;
+    private void removeCursesAndEffects() {
+        Character character = Character.getInstance();
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     public String getGuildName() {
@@ -189,6 +192,10 @@ public class CelestialArcanOrder extends JPanel {
 
     public GuildType getGuildType() {
         return guildType;
+    }
+
+    public boolean removeGuildSpell(String spell) {
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
@@ -201,10 +208,6 @@ public class CelestialArcanOrder extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
-    }
-
-    public boolean removeGuildSpell(String spell) {
-        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {

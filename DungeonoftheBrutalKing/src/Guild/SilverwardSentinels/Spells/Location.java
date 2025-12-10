@@ -1,8 +1,9 @@
 
 // src/Spells/Location.java
-package Spells;
+package Guild.SilverwardSentinels.Spells;
 
 import SharedData.Guild;
+import Spells.Spell;
 import DungeonoftheBrutalKing.Singleton;
 
 public class Location implements Spell {

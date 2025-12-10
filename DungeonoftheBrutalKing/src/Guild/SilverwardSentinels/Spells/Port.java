@@ -1,8 +1,9 @@
 
 // src/Spells/Port.java
-package Spells;
+package Guild.SilverwardSentinels.Spells;
 
 import SharedData.Guild;
+import Spells.Spell;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 

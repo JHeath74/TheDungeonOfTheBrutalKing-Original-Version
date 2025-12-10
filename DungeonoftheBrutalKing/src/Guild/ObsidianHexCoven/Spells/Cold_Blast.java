@@ -1,10 +1,11 @@
 
 // src/Spells/Cold_Blast.java
-package Spells;
+package Guild.ObsidianHexCoven.Spells;
 
 import java.util.Random;
 import DungeonoftheBrutalKing.Character;
 import SharedData.Guild;
+import Spells.Spell;
 
 public class Cold_Blast implements Spell {
 

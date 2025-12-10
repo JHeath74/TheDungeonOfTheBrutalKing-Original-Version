@@ -64,6 +64,11 @@ public class Character {
     public void setMaxHitPoints(int maxHitPoints) { setInt(28, maxHitPoints); }
     public int getMagicPoints() { return getInt(6, 0); }
     public void setMagicPoints(int mp) { setInt(6, mp); }
+    public int getMaxMagicPoints() { return getInt(33, 0); }
+    public void setMaxMagicPoints(int maxMP) { setInt(33, maxMP); }
+
+    public int getMaxActionPoints() { return getInt(34, 0); }
+    public void setMaxActionPoints(int maxAP) { setInt(34, maxAP); }
     public int getStamina() { return getInt(7, 0); }
     public void setStamina(int stamina) { setInt(7, stamina); }
     public int getCharisma() { return getInt(8, 0); }

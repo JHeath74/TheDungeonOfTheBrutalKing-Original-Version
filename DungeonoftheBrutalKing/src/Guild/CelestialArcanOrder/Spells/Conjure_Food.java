@@ -1,10 +1,11 @@
 
 // src/Spells/Conjure_Food.java
-package Spells;
+package Guild.CelestialArcanOrder.Spells;
 
 import java.util.Random;
 import DungeonoftheBrutalKing.Character;
 import SharedData.Guild;
+import Spells.Spell;
 
 public class Conjure_Food implements Spell {
 

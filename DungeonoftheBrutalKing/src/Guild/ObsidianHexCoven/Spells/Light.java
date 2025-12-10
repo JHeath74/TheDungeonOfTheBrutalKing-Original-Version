@@ -1,8 +1,9 @@
 
 // src/Spells/Light.java
-package Spells;
+package Guild.ObsidianHexCoven.Spells;
 
 import SharedData.Guild;
+import Spells.Spell;
 
 public class Light implements Spell {
 

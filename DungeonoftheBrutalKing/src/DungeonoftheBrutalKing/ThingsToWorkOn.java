@@ -8,7 +8,7 @@ public class ThingsToWorkOn {
 		//Join Quest for each Guild.
 		//Second quest to be a full member of the guild.
 		//Have sleep for each guild to restore hit points and magic points to full.
-		
+		//Action points for each guild.
 		
 		//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
 		//https://stackoverflow.com/questions/13590002/understand-bufferstrategy
