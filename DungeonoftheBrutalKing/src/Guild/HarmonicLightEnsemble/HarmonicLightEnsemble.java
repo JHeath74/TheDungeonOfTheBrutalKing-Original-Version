@@ -1,6 +1,6 @@
 
 // src/Guild/HarmonicLightEnsemble.java
-package Guild;
+package Guild.HarmonicLightEnsemble;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -23,7 +23,7 @@ public class HarmonicLightEnsemble extends JPanel {
     private final String guildName = "Harmonic Light Ensemble";
     private final String description = "A guild of bards whose melodies heal, uplift, and rally the forces of good.";
     private final Alignment alignment = Alignment.GOOD;
-    GuildType guildType = GuildType.BARD;
+    GuildType guildType = GuildType.MINSTREL;
 
     public HarmonicLightEnsemble() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());

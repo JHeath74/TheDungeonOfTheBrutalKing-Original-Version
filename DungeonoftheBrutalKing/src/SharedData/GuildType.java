@@ -11,4 +11,5 @@ public enum GuildType {
     HUNTER,
     PALADIN,
     RANGER,
+    MINSTREL,
 }
