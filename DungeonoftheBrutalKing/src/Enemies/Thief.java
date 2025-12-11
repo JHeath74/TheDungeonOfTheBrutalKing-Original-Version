@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Thief extends Enemies {
     private int level;
@@ -79,7 +79,7 @@ public class Thief extends Enemies {
     }
 
     // Thief attack is physical, no status effect
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getStrength() * 1.0) + (getAgility() * 1.4));
         int damage = critical ? base * 2 : base;

@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GameSettings;
 import Status.FireStatus;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Phoenix extends Enemies {
     private int level;
@@ -84,7 +84,7 @@ public class Phoenix extends Enemies {
     }
 
     // Phoenix attack applies fire status with 30% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
         int damage = critical ? base * 2 : base;

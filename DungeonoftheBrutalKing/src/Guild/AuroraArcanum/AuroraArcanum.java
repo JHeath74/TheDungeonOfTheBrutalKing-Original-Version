@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
@@ -28,7 +28,7 @@ public class AuroraArcanum extends JPanel {
     public AuroraArcanum() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
         
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         GuildMembershipStatus status = character.getGuildStatus(guildType);
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
@@ -94,13 +94,13 @@ public class AuroraArcanum extends JPanel {
     }
 
     private void removeCursesAndEffects() {
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         character.clearCurses();
         character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
         int maxSpells = 6;
@@ -133,11 +133,11 @@ public class AuroraArcanum extends JPanel {
     public String getDescription() { return description; }
     public Alignment getAlignment() { return alignment; }
     public String getGuildName() { return guildName; }
-    public boolean removeGuildSpell(String spell) { return Character.getInstance().getGuildSpells().remove(spell); }
-    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
+    public boolean removeGuildSpell(String spell) { return Charecter.getInstance().getGuildSpells().remove(spell); }
+    public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
     public void addGuildSpell(String spell) {
-        if (Character.getInstance().getGuildSpells().size() < 6) {
-            Character.getInstance().getGuildSpells().add(spell);
+        if (Charecter.getInstance().getGuildSpells().size() < 6) {
+            Charecter.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }

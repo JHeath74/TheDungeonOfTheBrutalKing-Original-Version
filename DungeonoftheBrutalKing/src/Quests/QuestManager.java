@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Quests.Quests.QuestForgiveBetrayer;
 import Quests.Quests.QuestRescuetheForgottenPrisoner;
@@ -20,9 +20,9 @@ import Quests.Quests.QuestRescuetheForgottenPrisoner;
 public class QuestManager {
     private final List<Quest> availableQuests;
     private final List<Quest> activeQuests;
-    private final Character character;
+    private final Charecter character;
 
-    public QuestManager(Character character) throws IOException, InterruptedException, ParseException {
+    public QuestManager(Charecter character) throws IOException, InterruptedException, ParseException {
         this.availableQuests = new ArrayList<>();
         this.activeQuests = character.getActiveQuests();
         this.character = character;

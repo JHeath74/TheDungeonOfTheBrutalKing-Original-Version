@@ -3,7 +3,7 @@
 package Guild.ObsidianHexCoven.Spells;
 
 import java.util.Random;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
 
@@ -11,7 +11,7 @@ public class Cold_Blast implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
     private static final int REQUIRED_MAGIC_POINTS = 8;
-    private static Character myChar = Character.getInstance();
+    private static Charecter myChar = Charecter.getInstance();
     private static final Guild SPELL_GUILD = Guild.NON_GUILD;
 
     int attackerWisdom = myChar.getWisdom();

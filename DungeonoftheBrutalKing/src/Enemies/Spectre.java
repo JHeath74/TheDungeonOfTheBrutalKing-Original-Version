@@ -6,7 +6,7 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Spectre extends Enemies {
     private int level;
@@ -80,7 +80,7 @@ public class Spectre extends Enemies {
     }
 
     // Spectre attack applies poison status with 30% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getIntelligence() * 1.5) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;

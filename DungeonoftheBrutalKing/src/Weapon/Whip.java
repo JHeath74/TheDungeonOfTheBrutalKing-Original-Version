@@ -1,10 +1,10 @@
 package Weapon;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Whip extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static final int REQUIRED_STRENGTH = 30;
     private static int weight = 25;
@@ -18,7 +18,7 @@ public class Whip extends WeaponManager {
         super("Whip", requiredStrength, damage, effect, weight);
     }
 
-    public static Whip createWhip(Character character, int damage, String effect) throws NumberFormatException {
+    public static Whip createWhip(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

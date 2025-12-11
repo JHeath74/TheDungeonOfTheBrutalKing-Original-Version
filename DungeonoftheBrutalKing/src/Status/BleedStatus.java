@@ -2,7 +2,7 @@
 // src/Status/Bleeding.java
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class BleedStatus extends Status {
     private static final int DURATION_MINUTES = 5; // example duration
@@ -13,7 +13,7 @@ public class BleedStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Character character) {
+    public void applyEffect(Charecter character) {
         character.setHitPoints(character.getHitPoints() - HP_LOSS_PER_TURN);
     }
 }

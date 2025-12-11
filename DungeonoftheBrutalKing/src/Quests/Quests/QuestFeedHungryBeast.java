@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Quests.Quest;
 import SharedData.GameSettings;
@@ -49,11 +49,11 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
         add(choicePanel, BorderLayout.SOUTH);
 
         feedButton.addActionListener(e -> {
-            int food = Character.getInstance().getFood();
+            int food = Charecter.getInstance().getFood();
             if (food > 0) {
-                Character.getInstance().setFood(food - 1);
-                int current = Character.getInstance().getAlignment();
-                Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+                Charecter.getInstance().setFood(food - 1);
+                int current = Charecter.getInstance().getAlignment();
+                Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
                 try {
                     MainGameScreen.getInstance().setMessageTextPane(
                         "You feed the beast. It devours the food gratefully. Your compassion increases your alignment."
@@ -63,8 +63,8 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
                 }
                 completeQuest();
             } else {
-                int current = Character.getInstance().getAlignment();
-                Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+                int current = Charecter.getInstance().getAlignment();
+                Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
                 try {
                     MainGameScreen.getInstance().setMessageTextPane(
                         "You have no food. Forced to defend yourself, you attack and kill the beast. Your alignment decreases."
@@ -79,8 +79,8 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
         });
 
         attackButton.addActionListener(e -> {
-            int current = Character.getInstance().getAlignment();
-            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            int current = Charecter.getInstance().getAlignment();
+            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You attack and kill the beast. Your alignment decreases."

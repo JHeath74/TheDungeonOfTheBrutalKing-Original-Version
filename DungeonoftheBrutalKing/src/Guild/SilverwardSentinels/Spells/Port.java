@@ -4,7 +4,7 @@ package Guild.SilverwardSentinels.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 
 public class Port implements Spell {
@@ -19,7 +19,7 @@ public class Port implements Spell {
     }
 
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
-        Character character = Singleton.myCharSingleton();
+        Charecter character = Singleton.myCharSingleton();
         int wisdom = character.getWisdom();
         int intelligence = character.getIntelligence();
         int magicPoints = character.getMagicPoints();

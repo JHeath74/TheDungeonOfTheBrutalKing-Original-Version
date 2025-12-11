@@ -2,7 +2,7 @@
 // src/Status/Frozen.java
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class IceStatus extends Status {
     private static final int DURATION_MINUTES = 5; // set your desired duration
@@ -12,7 +12,7 @@ public class IceStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Character character) {
+    public void applyEffect(Charecter character) {
         character.setCanAct(false);
     }
 }

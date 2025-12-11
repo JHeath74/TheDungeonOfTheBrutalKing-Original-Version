@@ -1,11 +1,11 @@
 
 package Classes;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Wizard extends Class {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     int sta; //Stamina
     int chr; //Charisma

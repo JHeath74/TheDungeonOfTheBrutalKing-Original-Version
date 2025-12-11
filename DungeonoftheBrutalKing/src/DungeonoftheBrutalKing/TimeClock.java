@@ -23,8 +23,9 @@ public class TimeClock {
     private MainGameScreen myMainGameScreen;
 
     int startTime;
+    private long startMillis = 0;
 
-    TimeClock(Month startMonth, JTextPane messageTextPane, MainGameScreen mainGameScreen) {
+    public TimeClock(Month startMonth, JTextPane messageTextPane, MainGameScreen mainGameScreen) {
         this.currentMonth = startMonth;
         this.currentDay = 1;
         this.currentTime = LocalTime.of(0, 0);
@@ -32,7 +33,6 @@ public class TimeClock {
         this.myMainGameScreen = mainGameScreen;
     }
 
-    // For singleton compatibility
     TimeClock(Month startMonth, JTextPane messageTextPane) {
         this(startMonth, messageTextPane, null);
     }
@@ -41,6 +41,7 @@ public class TimeClock {
         if (timer != null && timer.isRunning()) {
             timer.stop();
         }
+        startMillis = System.currentTimeMillis();
         timer = new Timer(300000, e -> advanceTime()); // 5 minutes
         timer.setRepeats(true);
         timer.start();
@@ -70,7 +71,6 @@ public class TimeClock {
         return Month.values()[index];
     }
 
-
     private void updateOutputField() {
         try {
             if (myMainGameScreen == null) {
@@ -81,7 +81,6 @@ public class TimeClock {
             e.printStackTrace();
         }
     }
-
 
     public synchronized void stopClock() {
         if (timer != null) {
@@ -114,12 +113,14 @@ public class TimeClock {
     public static TimeClock Singleton() {
         return timeClock;
     }
-    
 
+    public String getCurrentTimeString() {
+        return String.format("Time: %s\nDay: %d\nMonth: %s", currentTime, currentDay, currentMonth);
+    }
 
-public String getCurrentTimeString() {
-    return String.format("Time: %s\nDay: %d\nMonth: %s", currentTime, currentDay, currentMonth);
-}
-
-
+    public int getElapsedSeconds() {
+        if (startMillis == 0) return 0;
+        long now = System.currentTimeMillis();
+        return (int)((now - startMillis) / 1000);
+    }
 }

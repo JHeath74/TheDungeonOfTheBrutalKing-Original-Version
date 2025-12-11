@@ -2,11 +2,11 @@
 // src/Weapon/Longbow.java
 package Weapon;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Longbow extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static int weight = 25;
     private static int damage = 35;
@@ -20,7 +20,7 @@ public class Longbow extends WeaponManager {
         super("Long bow", requiredStrength, damage, effect, weight);
     }
 
-    public static Longbow createLongbow(Character character, int damage, String effect) throws NumberFormatException {
+    public static Longbow createLongbow(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

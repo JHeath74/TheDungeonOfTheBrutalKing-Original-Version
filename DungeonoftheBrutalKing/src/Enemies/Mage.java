@@ -2,7 +2,7 @@
 // src/Enemies/Mage.java
 package Enemies;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GameSettings;
@@ -91,7 +91,7 @@ public class Mage extends Enemies {
         return damage;
     }
 
-    public int attack(Character target, Status statusEffect) {
+    public int attack(Charecter target, Status statusEffect) {
         int spellDamage = attack();
         if (Math.random() < 0.25) {
             MainGameScreen.appendToMessageTextPane(getName() + " unleashes a magical effect! The target is afflicted!");

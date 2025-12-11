@@ -3,7 +3,7 @@
 package Guild.CelestialArcanOrder.Spells;
 
 import java.util.Random;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
 
@@ -12,7 +12,7 @@ public class Conjure_Food implements Spell {
     private static final int MINIMUM_WISDOM = 10;
     private static final int MINIMUM_INTELLIGENCE = 10;
     private static final int REQUIRED_MAGIC_POINTS = 6;
-    private static Character myChar = Character.getInstance();
+    private static Charecter myChar = Charecter.getInstance();
     private static final Guild SPELL_GUILD = Guild.NON_GUILD;
 
     public Conjure_Food() {

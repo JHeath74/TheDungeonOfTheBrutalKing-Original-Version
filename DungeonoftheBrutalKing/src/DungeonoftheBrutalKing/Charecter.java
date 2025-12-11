@@ -8,9 +8,9 @@ import SharedData.GuildMembershipStatus;
 import SharedData.GuildType;
 import Status.StatusManager;
 
-public class Character {
+public class Charecter {
 
-    private static Character instance;
+    private static Charecter instance;
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(33, "0"));
     private Set<String> spellsLearned = new HashSet<>();
     private Set<String> charInventory = new HashSet<>();
@@ -25,12 +25,12 @@ public class Character {
 
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
 
-    public static Character getInstance() {
-        if (instance == null) instance = new Character();
+    public static Charecter getInstance() {
+        if (instance == null) instance = new Charecter();
         return instance;
     }
 
-    public Character() {
+    public Charecter() {
         this.baseStrength = 8 + new Random().nextInt(7);
         this.baseIntelligence = 8 + new Random().nextInt(7);
         this.baseWisdom = 8 + new Random().nextInt(7);

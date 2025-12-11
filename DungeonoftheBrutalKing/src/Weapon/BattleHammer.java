@@ -1,11 +1,11 @@
 
 package Weapon;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class BattleHammer extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static int weight = 25;
     private static int damage = 25;
@@ -20,7 +20,7 @@ public class BattleHammer extends WeaponManager {
         super("BattleHammer", requiredStrength, damage, effect, weight );
     }
 
-    public static BattleHammer createBattleHammer(Character character, int damage, String effect) throws NumberFormatException {
+    public static BattleHammer createBattleHammer(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

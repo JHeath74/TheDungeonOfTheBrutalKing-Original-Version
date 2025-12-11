@@ -3,7 +3,7 @@
 package Guild.CelestialArcanOrder.Spells;
 
 import java.util.Random;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 import SharedData.Guild;
 import Spells.Spell;
@@ -21,7 +21,7 @@ public class Cure implements Spell {
     public void cast() {
         String[] negativeEffects = {"Poison", "Blindness", "Paralysis"};
         Random random = new Random();
-        Character character = Singleton.myCharSingleton();
+        Charecter character = Singleton.myCharSingleton();
         for (String effect : negativeEffects) {
             if (random.nextDouble() < 0.75) {
                 character.getStatusManager().removeStatusByName(effect);

@@ -20,7 +20,7 @@ import SharedData.EncryptionUtil;
 
 public class LoadSaveGame {
 
-    Character myChar = Character.getInstance();
+    Charecter myChar = Charecter.getInstance();
     int width, height = 0;
 
     public void AutoSaveGame() throws IOException {

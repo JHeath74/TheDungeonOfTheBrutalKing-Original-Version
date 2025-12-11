@@ -1,7 +1,7 @@
 
 package Enemies;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
 
 public abstract class Enemies {
@@ -87,12 +87,12 @@ public int getGoldReward() {
 	return level * 5;
 }
 
-public void attemptApplyEffect(Character target) {
+public void attemptApplyEffect(Charecter target) {
 	// TODO Auto-generated method stub
 	
 }
 
-public int attack(Character target) {
+public int attack(Charecter target) {
 	// TODO Auto-generated method stub
 	return 0;
 }

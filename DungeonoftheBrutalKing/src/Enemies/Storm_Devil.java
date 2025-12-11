@@ -6,7 +6,7 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Status.StunStatus;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Storm_Devil extends Enemies {
     private int level;
@@ -80,7 +80,7 @@ public class Storm_Devil extends Enemies {
     }
 
     // Storm Devil attack applies stun status with 25% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.20;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 1.2) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;

@@ -2,11 +2,11 @@
 // src/Weapon/Sling.java
 package Weapon;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Sling extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static int weight = 25;
     private static int damage = 35;
@@ -20,7 +20,7 @@ public class Sling extends WeaponManager {
         super("Sling", requiredStrength, damage, effect, weight);
     }
 
-    public static Sling createSling(Character character, int damage, String effect) throws NumberFormatException {
+    public static Sling createSling(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

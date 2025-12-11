@@ -2,7 +2,7 @@
 // src/Status/StunStatus.java
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class StunStatus extends Status {
     public StunStatus(int duration) {
@@ -10,12 +10,12 @@ public class StunStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Character character) {
+    public void applyEffect(Charecter character) {
         character.setStunned(true);
     }
 
     @Override
-    public void onExpire(Character character) {
+    public void onExpire(Charecter character) {
         character.setStunned(false);
     }
 }

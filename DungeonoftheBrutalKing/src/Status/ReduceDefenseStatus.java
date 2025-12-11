@@ -2,7 +2,7 @@
 // src/Status/ReduceDefense.java
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class ReduceDefenseStatus extends Status {
     private static final int DURATION_MINUTES = 3; // example duration
@@ -12,7 +12,7 @@ public class ReduceDefenseStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Character character) {
+    public void applyEffect(Charecter character) {
         character.setDefense(character.getDefense() - 10); // reduce defense by 10
     }
 }

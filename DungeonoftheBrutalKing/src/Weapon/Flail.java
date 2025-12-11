@@ -1,11 +1,11 @@
 
 package Weapon;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Flail extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static final int REQUIRED_STRENGTH = 15;
     private static int weight = 20;
@@ -19,7 +19,7 @@ public class Flail extends WeaponManager {
         super("Flail", requiredStrength, damage, effect, weight);
     }
 
-    public static Flail createLongbow(Character character, int damage, String effect) throws NumberFormatException {
+    public static Flail createLongbow(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

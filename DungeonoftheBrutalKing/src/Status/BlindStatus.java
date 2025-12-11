@@ -2,7 +2,7 @@
 // src/Status/Blind.java
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class BlindStatus extends Status {
     private static final int DURATION_MINUTES = 3; // Example duration
@@ -15,14 +15,14 @@ public class BlindStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Character character) {
+    public void applyEffect(Charecter character) {
         // Store original hit chance if available
         originalHitChance = character.getHitChance();
         character.setHitChance(originalHitChance * HIT_CHANCE_REDUCTION);
     }
 
     @Override
-    public void expireEffect(Character character) {
+    public void expireEffect(Charecter character) {
         // Restore original hit chance
         character.setHitChance(originalHitChance);
     }

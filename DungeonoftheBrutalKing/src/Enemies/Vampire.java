@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import Status.DrainStatus; // Example status effect
 
 public class Vampire extends Enemies {
@@ -80,7 +80,7 @@ public class Vampire extends Enemies {
     }
 
     // Vampire attack applies drain status with 15% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;

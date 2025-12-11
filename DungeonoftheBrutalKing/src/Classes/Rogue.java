@@ -1,12 +1,12 @@
 
 package Classes;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Rogue extends Class
 {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     int sta; //Stamina
     int chr; //Charisma

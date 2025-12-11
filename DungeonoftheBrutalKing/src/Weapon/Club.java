@@ -2,11 +2,11 @@
 // src/Weapon/Club.java
 package Weapon;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Club extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
+	private static Charecter myChar = Charecter.getInstance();
 
     private static final int REQUIRED_STRENGTH = 15;
     private static int weight = 20;
@@ -20,7 +20,7 @@ public class Club extends WeaponManager {
         super("Club", requiredStrength, damage, effect, weight);
     }
 
-    public static Club createClub(Character character, int damage, String effect) throws NumberFormatException {
+    public static Club createClub(Charecter character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

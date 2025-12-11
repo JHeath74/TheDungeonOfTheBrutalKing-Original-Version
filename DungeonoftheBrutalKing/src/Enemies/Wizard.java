@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import Status.StunStatus; // Example status effect
 
 public class Wizard extends Enemies {
@@ -80,7 +80,7 @@ public class Wizard extends Enemies {
     }
 
     // Wizard attack applies stun status with 15% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;

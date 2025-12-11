@@ -26,7 +26,7 @@ public class CharacterCreation {
 
     static LoadSaveGame myGameState = new LoadSaveGame();
     static GameSettings myGameSettings = new GameSettings();
-    Character myChar = Character.getInstance();
+    Charecter myChar = Charecter.getInstance();
 
     static String InitialCharecterSave = " ";
     static String toonClass, charName = " ";

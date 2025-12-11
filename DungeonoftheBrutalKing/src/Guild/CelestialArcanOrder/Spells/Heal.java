@@ -4,14 +4,14 @@ package Guild.CelestialArcanOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 
 public class Heal implements Spell {
 
     private static final int REQUIRED_MAGIC_POINTS = 8;
     private static final Guild SPELL_GUILD = Guild.NON_GUILD;
-    private static Character myChar = Character.getInstance();
+    private static Charecter myChar = Charecter.getInstance();
     private String name;
 
     public Heal() {

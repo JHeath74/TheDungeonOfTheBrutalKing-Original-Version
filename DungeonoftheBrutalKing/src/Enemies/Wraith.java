@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import Status.DrainStatus; // Example status effect
 
 public class Wraith extends Enemies {
@@ -80,7 +80,7 @@ public class Wraith extends Enemies {
     }
 
     // Wraith attack applies drain status with 15% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getIntelligence() * 1.3) + (getCharisma() * 1.1) + (getAgility() * 0.8));
         int damage = critical ? base * 2 : base;

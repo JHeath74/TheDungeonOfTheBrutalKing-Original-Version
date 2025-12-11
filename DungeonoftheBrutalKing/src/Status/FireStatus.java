@@ -2,7 +2,7 @@
 // src/Status/Burned.java
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class FireStatus extends Status {
     private static final int DURATION_MINUTES = 4; // example duration
@@ -15,10 +15,10 @@ public class FireStatus extends Status {
 
 
  // Fire.java
- @Override
- public void applyEffect(Character character) {
-     character.setAttack(character.getAttackDamage() - ATTACK_REDUCTION);
-     character.setHitPoints(character.getHitPoints() - FIRE_DAMAGE_PER_TURN);
- }
+    @Override
+    public void applyEffect(Charecter character) {
+        character.setAttack(character.getAttackDamage() - ATTACK_REDUCTION);
+        character.setHitPoints(character.getHitPoints() - FIRE_DAMAGE_PER_TURN);
+    }
 
 }

@@ -4,7 +4,7 @@ package Guild.DawnwardPaladins.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +17,7 @@ public class Shield implements Spell {
     public Shield() {}
 
     public void cast() {
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));
@@ -41,7 +41,7 @@ public class Shield implements Spell {
     }
 
     protected void removeSpellEffect() {
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
 
         int baseDefense = 10;
         int agility = Integer.parseInt(character.getCharInfo().get(10));

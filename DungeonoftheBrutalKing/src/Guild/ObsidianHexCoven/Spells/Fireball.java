@@ -5,13 +5,13 @@ package Guild.ObsidianHexCoven.Spells;
 import java.util.Random;
 import SharedData.Guild;
 import Spells.Spell;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Fireball implements Spell {
 
     private static final int MINIMUM_WISDOM = 10;
     private static final Guild SPELL_GUILD = Guild.NON_GUILD;
-    private static Character myChar = Character.getInstance();
+    private static Charecter myChar = Charecter.getInstance();
 
     @Override
     public void cast() {

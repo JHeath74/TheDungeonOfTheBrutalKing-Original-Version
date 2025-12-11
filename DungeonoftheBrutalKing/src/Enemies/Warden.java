@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Warden extends Enemies {
     private int level;
@@ -79,7 +79,7 @@ public class Warden extends Enemies {
     }
 
     // Warden attack is physical, no status effect
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getIntelligence() * 1.2));
         int damage = critical ? base * 2 : base;

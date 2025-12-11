@@ -22,7 +22,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private double preCombatX, preCombatY;
     private double postCombatX, postCombatY;
 
-    private final Character myChar = Character.getInstance();
+    private final Charecter myChar = Charecter.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
@@ -638,7 +638,7 @@ public int getMagicOrActionPoints() {
         MainGameScreen.getInstance();
     }
 
-    public Character getPlayer() {
+    public Charecter getPlayer() {
         return myChar;
     }
     

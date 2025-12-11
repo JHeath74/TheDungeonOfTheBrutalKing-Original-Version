@@ -2,7 +2,7 @@
 // src/Enemies/Mold.java
 package Enemies;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GameSettings;
@@ -93,7 +93,7 @@ public class Mold extends Enemies {
         return damage;
     }
 
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         int damage = attack();
         if (Math.random() < 0.3) {
             target.addStatus(new PoisonStatus(damage));

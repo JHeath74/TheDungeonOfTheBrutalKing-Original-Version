@@ -6,7 +6,7 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Spider extends Enemies {
     private int level;
@@ -80,7 +80,7 @@ public class Spider extends Enemies {
     }
 
     // Spider attack applies poison status with 20% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;

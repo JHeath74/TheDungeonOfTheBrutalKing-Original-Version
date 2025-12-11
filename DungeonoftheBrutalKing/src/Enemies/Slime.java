@@ -6,7 +6,7 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class Slime extends Enemies {
     private int level;
@@ -80,7 +80,7 @@ public class Slime extends Enemies {
     }
 
     // Slime attack applies poison status with 20% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.10;
         int base = (int) ((getStrength() * 1.1) + (getAgility() * 0.8));
         int damage = critical ? base * 2 : base;

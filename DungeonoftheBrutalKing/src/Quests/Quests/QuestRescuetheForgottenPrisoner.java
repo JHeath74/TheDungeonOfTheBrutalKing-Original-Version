@@ -1,7 +1,7 @@
 
 package Quests.Quests;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Quests.EncounterType;
 import Quests.Quest;
@@ -39,26 +39,26 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     @Override public String getDescription() { return description; }
     @Override public boolean isCompleted() { return completed; }
     @Override public void completeQuest() { this.completed = true; }
-    public void giveReward(Character character) {}
+    public void giveReward(Charecter character) {}
     public int getRewardGold() { return rewardGold; }
     public String getConversation() { return conversation; }
     public EncounterType getEncounterType() { return encounterType; }
     public String getEncounterTarget() { return encounterTarget; }
     public String getDescriptionForEncounter() { return descriptionForEncounter; }
 
-    public void releasePrisoner(Character player) throws IOException, InterruptedException, ParseException {
+    public void releasePrisoner(Charecter player) throws IOException, InterruptedException, ParseException {
         player.setAlignment(3);
         this.completed = true;
         mainGameScreen.setMessageTextPane(conversation);
     }
 
-    public void ignorePrisoner(Character player) throws IOException, InterruptedException, ParseException {
+    public void ignorePrisoner(Charecter player) throws IOException, InterruptedException, ParseException {
         player.setAlignment(-3);
         this.completed = false;
         mainGameScreen.setMessageTextPane("You ignore the prisoner. He looks at you with despair.");
     }
 
-    public JPanel createEncounterPanel(Character player) {
+    public JPanel createEncounterPanel(Charecter player) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.QuestImagesPath + "/Prisoner.png"));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);

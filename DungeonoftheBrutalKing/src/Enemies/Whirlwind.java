@@ -5,7 +5,7 @@ package Enemies;
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import Status.DazeStatus; // Example status effect
 
 public class Whirlwind extends Enemies {
@@ -80,7 +80,7 @@ public class Whirlwind extends Enemies {
     }
 
     // Whirlwind attack applies daze status with 15% chance
-    public int attack(Character target) {
+    public int attack(Charecter target) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.4));
         int damage = critical ? base * 2 : base;

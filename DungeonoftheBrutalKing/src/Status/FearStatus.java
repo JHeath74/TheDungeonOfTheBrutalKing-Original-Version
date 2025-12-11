@@ -1,7 +1,7 @@
 
 package Status;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 
 public class FearStatus extends Status {
     private static final double DEFENSE_REDUCTION = 0.3; // 30% defense reduction
@@ -13,7 +13,7 @@ public class FearStatus extends Status {
     }
 
     @Override
-    public void apply(Character character) {
+    public void apply(Charecter character) {
         if (!applied) {
             originalDefense = character.getDefense();
             int reducedDefense = (int) (originalDefense * (1 - DEFENSE_REDUCTION));
@@ -23,7 +23,7 @@ public class FearStatus extends Status {
     }
 
     @Override
-    public void remove(Character character) {
+    public void remove(Charecter character) {
         if (applied) {
             character.setDefense(originalDefense);
             applied = false;
@@ -46,7 +46,7 @@ public class FearStatus extends Status {
     }
 
 	@Override
-	public void applyEffect(Character character) {
+	public void applyEffect(Charecter character) {
 		// TODO Auto-generated method stub
 		
 	}

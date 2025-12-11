@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
@@ -35,7 +35,7 @@ public class CelestialArcanOrder extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!isMember && !inventory.contains("Celestial Arcan Order Guild Ring")) {
@@ -81,7 +81,7 @@ public class CelestialArcanOrder extends JPanel {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(event -> {
                 this.isMember = true;
-                Character.getInstance().addToInventory("Celestial Arcan Order Guild Ring");
+                Charecter.getInstance().addToInventory("Celestial Arcan Order Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcan Order!");
                 try {
                     reloadPanel();
@@ -123,13 +123,13 @@ public class CelestialArcanOrder extends JPanel {
     }
 
     private void removeCursesAndEffects() {
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         character.clearCurses();
         character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -192,22 +192,22 @@ public class CelestialArcanOrder extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        return Character.getInstance().getGuildSpells().size();
+        return Charecter.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        if (Character.getInstance().getGuildSpells().size() < 6) {
-            Character.getInstance().getGuildSpells().add(spell);
+        if (Charecter.getInstance().getGuildSpells().size() < 6) {
+            Charecter.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public boolean removeGuildSpell(String spell) {
-        return Character.getInstance().getGuildSpells().remove(spell);
+        return Charecter.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Character.getInstance().getGuildSpells());
+        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
     }
 }

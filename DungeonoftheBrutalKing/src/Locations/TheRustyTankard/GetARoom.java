@@ -3,7 +3,7 @@ package Locations.TheRustyTankard;
 import javax.swing.*;
 import java.awt.*;
 
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.GameSettings;
 
@@ -25,7 +25,7 @@ public class GetARoom extends JPanel {
         JButton exitButton = new JButton("Exit");
 
         roomButton.addActionListener(_ -> {
-            Character player = mainGameScreen.getPlayer();
+            Charecter player = mainGameScreen.getPlayer();
             int gold = player.getGold();
             int maxHP = player.getMaxHitPoints();
 
