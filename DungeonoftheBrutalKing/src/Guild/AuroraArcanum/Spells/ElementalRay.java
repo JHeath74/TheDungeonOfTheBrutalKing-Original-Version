@@ -2,6 +2,9 @@
 package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.FireStatus;
+import Status.IceStatus;
+import Status.StunStatus;
 import java.util.Random;
 
 public class ElementalRay {
@@ -20,22 +23,19 @@ public class ElementalRay {
     private void applyEffect(Charecter caster, Charecter target, Element element) {
         switch (element) {
             case FIRE:
-                // Example: deal extra fire damage
                 int fireDamage = 15 + caster.getIntelligence();
                 target.setHitPoints(target.getHitPoints() - fireDamage);
-                Status.FireStatus.applyEffect(target);
+                new FireStatus().applyEffect(target);
                 break;
             case ICE:
-                // Example: deal ice damage and slow target
                 int iceDamage = 10 + (int)(caster.getIntelligence() * 0.8);
                 target.setHitPoints(target.getHitPoints() - iceDamage);
-                // Optionally, set a "frozen" or "slowed" status here
+                new IceStatus().applyEffect(target);
                 break;
             case LIGHTNING:
-                // Example: deal lightning damage and stun target
                 int lightningDamage = 12 + (int)(caster.getIntelligence() * 1.2);
                 target.setHitPoints(target.getHitPoints() - lightningDamage);
-                // Optionally, set a "stunned" status here
+                new StunStatus(lightningDamage).applyEffect(target);
                 break;
         }
     }

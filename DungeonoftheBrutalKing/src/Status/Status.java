@@ -48,9 +48,8 @@ public abstract class Status {
  }
 
  public boolean canAct() {
-	// TODO Auto-generated method stub
-	return false;
- }
+	    return true;
+	}
 
  public boolean canCastSpells() {
 	// TODO Auto-generated method stub
@@ -62,17 +61,27 @@ public abstract class Status {
 	return false;
  }
 
- public void remove(Charecter character) {
+ public boolean blocksAttack() {
 	// TODO Auto-generated method stub
-	
+	return false;
  }
 
- public void apply(Charecter character) {
+ public boolean blocksSpellcasting() {
 	// TODO Auto-generated method stub
-	
+	return false;
+ }
+
+ public double damageTakenMultiplier() {
+	// TODO Auto-generated method stub
+	return 0;
  }
 
  public void onExpire(Charecter character) {
+	// TODO Auto-generated method stub
+	
+ }
+
+ public void onApply(Charecter character) {
 	// TODO Auto-generated method stub
 	
  }

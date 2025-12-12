@@ -6,6 +6,7 @@ import java.util.*;
 import Quests.Quest;
 import SharedData.GuildMembershipStatus;
 import SharedData.GuildType;
+import Status.Status;
 import Status.StatusManager;
 
 public class Charecter {
@@ -22,6 +23,9 @@ public class Charecter {
     private boolean stunned = false;
     private GuildType currentGuild;
     private GuildMembershipStatus currentGuildStatus;
+    private List<Status> statuses = new ArrayList<>();
+    private double hasteModifier = 0.0;
+
 
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
 
@@ -124,10 +128,36 @@ public class Charecter {
     public GuildMembershipStatus getCurrentGuildStatus() { return currentGuildStatus; }
     public void setCurrentGuildStatus(GuildMembershipStatus status) { this.currentGuildStatus = status; }
     
+    
+
+public void addHasteModifier(double hasteBonus) {
+    hasteModifier += hasteBonus;
+}
+
+public double getHasteModifier() {
+    return hasteModifier;
+}
+
+    
     public boolean consumeSkillPoints(int cost) {
         if (actionPoints >= cost) { actionPoints -= cost; return true; }
         else if (getMagicPoints() >= cost) { setMagicPoints(getMagicPoints() - cost); return true; }
         return false;
+    }
+    
+    public double getEvadeChance() {
+        // If you store evadeChance in index 35, use it; otherwise, calculate from agility
+        int stored = getInt(35, -1);
+        if (stored >= 0) {
+            return Math.min(stored / 100.0, 0.75);
+        }
+        double chance = getAgility() * 0.01;
+        return Math.min(chance, 0.75);
+    }
+    
+    public void setEvadeChance(double evadeChance) {
+        // Optionally, clamp the value between 0 and 1
+        setInt(35, (int)(Math.max(0, Math.min(evadeChance, 1.0) * 100)));
     }
     
     public int getDirection() {
@@ -183,6 +213,11 @@ public class Charecter {
     public boolean isStunned() { return stunned; }
     public void clearCurses() {}
     public void clearNegativeEffects() {}
+    
+    public void addStatus(Status status) {
+        statuses.add(status);
+        status.applyEffect(this);
+    }
 
     // --- Guild Membership Methods ---
     public void setGuildStatus(GuildType guildType, GuildMembershipStatus status) {
@@ -197,6 +232,17 @@ public class Charecter {
     public Map<GuildType, GuildMembershipStatus> getGuildStatusMap() {
         return guildStatusMap;
     }
+
+    public void resetHitChance() {
+        double evadeChance = getAgility() * 0.01;
+        setEvadeChance(Math.min(evadeChance, 0.75));
+    }
+
+
+public void removeHasteModifier(double hasteBonus) {
+    hasteModifier = Math.max(0.0, hasteModifier - hasteBonus);
+}
+
 
 
 }
