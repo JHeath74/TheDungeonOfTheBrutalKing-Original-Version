@@ -32,6 +32,7 @@ public class Wizard extends Class {
             + Wizard.charClass + " thrive in roles requiring control, damage, or problem-solving, "
             + "prowess and boosting their effectiveness in arcane knowledge and skill checks."
             + "While physically frail, their mental acuity and deep magical expertise make them "
-            + "an indispensable asset to any adventuring party.";
+            + "an indispensable asset to any adventuring party."
+            + "\n\nMain Stat: INTELLIGENCE (INTI).";
     }
 }

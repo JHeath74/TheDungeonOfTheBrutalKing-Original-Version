@@ -49,7 +49,11 @@ public class ArmourManager {
         }
     }
 
-    // Enum to define possible status effects
+    public ArmourManager(String string, String effect2, int weight) {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Enum to define possible status effects
     public enum StatusEffect {
         NONE,    // No effect
         POISON,  // Poison effect
@@ -98,4 +102,19 @@ public class ArmourManager {
         // TODO Auto-generated method stub
         return null;
     }
+
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public double getDefense() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public double getWeight() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

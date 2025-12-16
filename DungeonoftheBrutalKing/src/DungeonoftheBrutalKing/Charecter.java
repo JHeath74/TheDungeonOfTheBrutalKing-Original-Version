@@ -25,6 +25,7 @@ public class Charecter {
     private GuildMembershipStatus currentGuildStatus;
     private List<Status> statuses = new ArrayList<>();
     private double hasteModifier = 0.0;
+    private int spellResistanceBonus = 0;
 
 
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
@@ -104,7 +105,7 @@ public class Charecter {
     public int getAlignment() { return getInt(21, 0); }
     public void setAlignment(int alignment) { setInt(21, alignment); }
     public int getDefense() { return getInt(26, 0); }
-    public void setDefense(int defense) { setInt(26, defense); }
+    public void setDefense(int d) { setInt(26, d); }
     public void setAttack(int attack) { setInt(27, attack); }
     public int getAttack() { return getInt(27, 0); }
     public int getActionPoints() { return actionPoints; }
@@ -243,6 +244,25 @@ public void removeHasteModifier(double hasteBonus) {
     hasteModifier = Math.max(0.0, hasteModifier - hasteBonus);
 }
 
+public int getSpellResistance() {
+    // Base: Intelligence + Wisdom, plus any bonus
+    return getIntelligence() + getWisdom() + spellResistanceBonus;
+}
+
+public void setSpellResistanceBonus(int bonus) {
+    this.spellResistanceBonus = Math.max(0, bonus);
+}
+
+public int getSpellResistanceBonus() {
+    return spellResistanceBonus;
+}
+
 
 
 }
+
+
+
+
+
+
