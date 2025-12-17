@@ -27,6 +27,7 @@ public class Charecter {
     private double hasteModifier = 0.0;
     private int spellResistanceBonus = 0;
 
+    private Set<String> resistances = new HashSet<>();
 
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
 
@@ -256,6 +257,33 @@ public void setSpellResistanceBonus(int bonus) {
 public int getSpellResistanceBonus() {
     return spellResistanceBonus;
 }
+
+public void addResistance(String elementType) {
+    if (elementType != null && !elementType.isEmpty()) {
+        resistances.add(elementType.toLowerCase());
+    }
+}
+
+public void removeResistance(String elementType) {
+    if (elementType != null && !elementType.isEmpty()) {
+        resistances.remove(elementType.toLowerCase());
+    }
+}
+
+public boolean hasResistance(String elementType) {
+    return elementType != null && resistances.contains(elementType.toLowerCase());
+}
+
+public Set<String> getResistances() {
+    return new HashSet<>(resistances);
+}
+
+
+public int getSpellPower() {
+    // Example: Intelligence + level + any spell power bonus
+    return getIntelligence() + getLevel() + getWisdom() / 2;
+}
+
 
 
 

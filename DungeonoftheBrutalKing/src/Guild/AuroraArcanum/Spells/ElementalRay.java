@@ -2,12 +2,14 @@
 package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.Guild;
+import Spells.Spell;
 import Status.FireStatus;
 import Status.IceStatus;
 import Status.StunStatus;
 import java.util.Random;
 
-public class ElementalRay {
+public class ElementalRay implements Spell {
     public enum Element { FIRE, ICE, LIGHTNING }
 
     private Element currentElement;
@@ -43,4 +45,46 @@ public class ElementalRay {
     public Element getCurrentElement() {
         return currentElement;
     }
+
+	@Override
+	public boolean isGuildSpell() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Guild getSpellGuild() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getRequiredMagicPoints() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void cast(int toonWisdom) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

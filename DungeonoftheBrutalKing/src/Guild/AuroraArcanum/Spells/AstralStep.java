@@ -2,9 +2,12 @@
 package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.Guild;
+import Spells.Spell;
+
 import java.util.Random;
 
-public class AstralStep {
+public class AstralStep implements Spell {
     private static final int MAX_DISTANCE = 3;
     private static final int DUNGEON_WIDTH = 128;
     private static final int DUNGEON_HEIGHT = 128;
@@ -38,4 +41,46 @@ public class AstralStep {
         }
         // Optionally, add visual or log effect here
     }
+
+	@Override
+	public boolean isGuildSpell() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Guild getSpellGuild() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getRequiredMagicPoints() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void cast(int toonWisdom) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -3,8 +3,10 @@ package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
+import SharedData.Guild;
+import Spells.Spell;
 
-public class CelestialWard {
+public class CelestialWard implements Spell {
     private int baseDefense = 8;
     SharedData.GuildType guildType = SharedData.GuildType.CLERIC;
     private TimeClock timer;
@@ -29,4 +31,46 @@ public class CelestialWard {
         }
         return active;
     }
+
+	@Override
+	public boolean isGuildSpell() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Guild getSpellGuild() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getRequiredMagicPoints() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void cast(int toonWisdom) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

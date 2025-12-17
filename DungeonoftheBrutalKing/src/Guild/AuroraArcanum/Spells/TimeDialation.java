@@ -1,11 +1,12 @@
 
-java
 package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
+import SharedData.Guild;
+import Spells.Spell;
 
-public class TimeDilation {
+public class TimeDialation implements Spell {
     private int baseSlowPercent = 20; // slows by 20% base
     SharedData.GuildType guildType = SharedData.GuildType.MAGE;
     private TimeClock timer;
@@ -54,4 +55,46 @@ public class TimeDilation {
         }
         return originalSpeed;
     }
+
+	@Override
+	public boolean isGuildSpell() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Guild getSpellGuild() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getRequiredMagicPoints() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void cast(int toonWisdom) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
