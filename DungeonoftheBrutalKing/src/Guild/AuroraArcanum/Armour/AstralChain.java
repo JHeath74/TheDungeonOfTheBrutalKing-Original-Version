@@ -12,7 +12,7 @@ public class AstralChain extends ArmourManager {
     private static final int REQUIRED_STRENGTH = 10;
     private static final int ARMOUR_DEFENSE = 3;
     private static final int WEIGHT = 2;
-    private static final Guild GUILDname = Guild.AURORA_ARCNUM;
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;

@@ -6,10 +6,11 @@ import java.util.*;
 import Quests.Quest;
 import SharedData.GuildMembershipStatus;
 import SharedData.GuildType;
+import Status.HasHitPoints;
 import Status.Status;
 import Status.StatusManager;
 
-public class Charecter {
+public class Charecter implements HasHitPoints {
 
     private static Charecter instance;
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(33, "0"));
@@ -17,6 +18,7 @@ public class Charecter {
     private Set<String> charInventory = new HashSet<>();
     private Set<String> guildSpells = new HashSet<>();
     private List<Quest> activeQuests = new ArrayList<>();
+    private Set<String> protectedEffects = new HashSet<>();
     private StatusManager statusManager = new StatusManager();
     private int actionPoints;
     private int baseStrength, baseIntelligence, baseWisdom, baseAgility;
@@ -282,6 +284,20 @@ public Set<String> getResistances() {
 public int getSpellPower() {
     // Example: Intelligence + level + any spell power bonus
     return getIntelligence() + getLevel() + getWisdom() / 2;
+}
+
+public void setEffectProtection(String effect, boolean enabled) {
+    if (effect == null) return;
+    String key = effect.toLowerCase();
+    if (enabled) {
+        protectedEffects.add(key);
+    } else {
+        protectedEffects.remove(key);
+    }
+}
+
+public boolean hasEffectProtection(String effect) {
+    return effect != null && protectedEffects.contains(effect.toLowerCase());
 }
 
 

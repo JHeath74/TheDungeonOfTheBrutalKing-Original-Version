@@ -2,7 +2,9 @@
 // Weapons.java
 package Weapon;
 
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
+import Status.HasHitPoints;
 
 public class WeaponManager {
 
@@ -85,5 +87,25 @@ public class WeaponManager {
 	public String getDescription() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void applyCombatEffect(Charecter target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void applyCombatEffect(HasHitPoints target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean equip(Charecter wearer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void unequip(Charecter wearer) {
+		// TODO Auto-generated method stub
+		
 	}
 }

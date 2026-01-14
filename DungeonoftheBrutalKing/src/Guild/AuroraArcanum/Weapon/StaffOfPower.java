@@ -16,7 +16,7 @@ public class StaffOfPower extends WeaponManager {
     private static final int ATTACK_DAMAGE = 5;
     private static final int WEIGHT = 10;
 
-    private static final Guild GUILDname = Guild.AURORA_ARCNUM;
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;

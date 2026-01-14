@@ -1,22 +1,26 @@
 
-// src/Statuses/LifeStealStatus.java
+// src/Status/LifeStealStatus.java
 package Status;
 
-import Enemies.Enemies;
-
-public class LifeStealStatus {
+public class LifeStealStatus extends Status {
     private final int amount;
 
     public LifeStealStatus(int amount) {
+        super("LifeSteal", amount);
         this.amount = amount;
     }
 
-    // Applies life steal: takes hit points from target, gives to caster (up to caster's max HP)
-    public void apply(Enemies caster, Enemies target) {
+    public void apply(HasHitPoints caster, HasHitPoints target) {
         int stealAmount = Math.min(amount, target.getHitPoints());
         target.setHitPoints(target.getHitPoints() - stealAmount);
 
         int casterNewHP = Math.min(caster.getHitPoints() + stealAmount, caster.getMaxHitPoints());
         caster.setHitPoints(casterNewHP);
+    }
+
+    @Override
+    public void applyEffect(HasHitPoints entity) {
+        int stealAmount = Math.min(amount, entity.getHitPoints());
+        entity.setHitPoints(entity.getHitPoints() - stealAmount);
     }
 }

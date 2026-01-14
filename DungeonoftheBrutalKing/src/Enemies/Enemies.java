@@ -1,10 +1,15 @@
 
 package Enemies;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Alignment;
+import Status.HasHitPoints;
+import Status.Status;
 
-public abstract class Enemies {
+public abstract class Enemies implements HasHitPoints {
     private String name;
     protected int level;
     private int hitPoints;
@@ -34,6 +39,8 @@ public abstract class Enemies {
         this.maxHitPoints = hitPoints;
     }
 
+    private List<Status> statuses = new ArrayList<>();
+    
     public String getName() { return name; }
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
@@ -115,6 +122,14 @@ public int getAlignmentImpact() {
 public void setLevel(int level) {
 	// TODO Auto-generated method stub
 	
+}
+
+// Update addStatus method
+@Override
+public void addStatus(Status status) {
+    if (status != null) {
+        statuses.add(status);
+    }
 }
 
 }

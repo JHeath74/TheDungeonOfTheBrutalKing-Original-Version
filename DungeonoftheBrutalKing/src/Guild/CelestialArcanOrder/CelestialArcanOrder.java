@@ -31,7 +31,7 @@ public class CelestialArcanOrder extends JPanel {
 
     public CelestialArcanOrder(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Celestial Arcan Order is a guild of mages who study the stars and wield cosmic magic for the good of the realm.";
+        this.description = "The Celestial Arcan Order is a guild of clerics who study the stars and wield cosmic magic for the good of the realm.";
 
         setLayout(new BorderLayout());
 
