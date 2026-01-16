@@ -34,8 +34,7 @@ public class Dragon extends Enemies {
             6,        // Intelligence
             3,        // Wisdom
             GameSettings.MonsterImagePath + "Dragon.png", // Image path
-            false,    // Is magic user
-            0         // Spell strength
+            false
         );
         this.level = 9; // Set actual level for this instance
     }

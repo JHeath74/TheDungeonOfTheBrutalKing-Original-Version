@@ -300,6 +300,11 @@ public boolean hasEffectProtection(String effect) {
     return effect != null && protectedEffects.contains(effect.toLowerCase());
 }
 
+public Charecter getStatusManager() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 
 
 

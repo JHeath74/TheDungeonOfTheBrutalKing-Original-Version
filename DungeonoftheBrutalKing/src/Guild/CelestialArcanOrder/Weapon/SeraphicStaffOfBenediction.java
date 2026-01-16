@@ -3,6 +3,7 @@ package Guild.CelestialArcanOrder.Weapon;
 
 import Weapon.WeaponManager;
 import Status.DrainStatus;
+import Status.StatusManager;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import SharedData.GuildType;
@@ -43,7 +44,7 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
         if (target instanceof Charecter) {
             Charecter character = (Charecter) target;
             // Apply DrainStatus for 2 turns
-            character.addStatus(new DrainStatus(null, 2, requiredStrength));
+            character.addStatus(new DrainStatus(2));
         }
     }
 

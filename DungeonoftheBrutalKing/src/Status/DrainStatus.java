@@ -2,7 +2,9 @@
 // src/Status/DrainStatus.java
 package Status;
 
-public class DrainStatus {
+import DungeonoftheBrutalKing.Charecter;
+
+public class DrainStatus extends Status {
     public enum DrainType { MAGIC, ACTION }
 
     private final double percent; // Percent to drain each turn (e.g., 0.10 for 10%)
@@ -10,6 +12,7 @@ public class DrainStatus {
     private final DrainType type;
 
     public DrainStatus(DrainType type, double percent, int duration) {
+        super("Drain", duration); // Call the parent constructor
         this.type = type;
         this.percent = percent;
         this.duration = duration;
@@ -40,4 +43,10 @@ public class DrainStatus {
     public DrainType getType() {
         return type;
     }
+
+	@Override
+	public void applyEffect(Charecter character) {
+		// TODO Auto-generated method stub
+		
+	}
 }

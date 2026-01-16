@@ -10,6 +10,7 @@ import DungeonoftheBrutalKing.Charecter;
 public abstract class Status {
     protected String name; // Name of the status (e.g., "Poison", "Hunger")
     protected int duration; // Duration of the status in time units
+    
 
     public Status(String name, int duration) {
         this.name = name;
@@ -20,7 +21,7 @@ public abstract class Status {
         return name;
     }
 
-    public final int getDuration() {
+    public int getDuration() {
         return duration;
     }
 
