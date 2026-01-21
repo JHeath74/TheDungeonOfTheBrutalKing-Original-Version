@@ -1,5 +1,5 @@
 
-// File: src/Guild/CelestialArcanOrder/Armour/ReliquaryWardmail.java
+// src/Guild/CelestialArcanOrder/Armour/ReliquaryWardmail.java
 
 package Guild.CelestialArcanOrder.Armour;
 
@@ -22,6 +22,7 @@ public class ReliquaryWardmail extends ArmourManager {
         super("Reliquary Wardmail", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
     }
 
+    @Override
     public void equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
@@ -31,6 +32,7 @@ public class ReliquaryWardmail extends ArmourManager {
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);

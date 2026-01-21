@@ -1,3 +1,6 @@
+
+// src/Guild/CelestialArcanOrder/Weapon/OathboundWarhammer.java
+
 package Guild.CelestialArcanOrder.Weapon;
 
 import Weapon.WeaponManager;
@@ -21,15 +24,17 @@ public class OathboundWarhammer extends WeaponManager {
         super("Oathbound Warhammer", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
     }
 
+    @Override
     public boolean equip(Charecter wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
             wearer.setWeapon(getName());
-            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus
+            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus\
             return true;
         }
-        return false;
+		return false;
     }
 
+    @Override
     public void unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
@@ -37,8 +42,6 @@ public class OathboundWarhammer extends WeaponManager {
         }
     }
 
-
- // src/Guild/CelestialArcanOrder/Weapon/OathboundWarhammer.java
     @Override
     public void applyCombatEffect(HasHitPoints target) {
         if (target != null) {
@@ -53,7 +56,6 @@ public class OathboundWarhammer extends WeaponManager {
             }
         }
     }
-
 
     public Guild getGuild() {
         return GUILDname;

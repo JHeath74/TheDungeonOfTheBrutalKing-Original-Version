@@ -20,14 +20,14 @@ public class AstralChain extends ArmourManager {
     public AstralChain(String effect) {
         super("Astral Chain", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
     }
-
+@Override
     public void equip(Charecter wearer) {
         if (!isEquipped) {
             // No penalty to spellcasting; just mark as equipped
             isEquipped = true;
         }
     }
-
+@Override
     public void unequip(Charecter wearer) {
         if (isEquipped) {
             isEquipped = false;

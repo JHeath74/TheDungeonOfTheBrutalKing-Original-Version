@@ -1,3 +1,4 @@
+
 package Guild.AuroraArcanum.Armour;
 
 import Armour.ArmourManager;
@@ -12,8 +13,9 @@ public class RunedVestments extends ArmourManager {
     private static final int REQUIRED_STRENGTH = 8;
     private static final int ARMOUR_DEFENSE = 3;
     private static final int WEIGHT = 2;
-    private static final Guild GUILDname = Guild.AURORA_ARCNUM;
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM; // Fixed typo
     private static final GuildType GUILDtype = GuildType.WIZARD;
+    private boolean isEquipped = false;
 
     // Map of rune name to remaining charges
     private final Map<String, Integer> runeCharges;
@@ -23,6 +25,22 @@ public class RunedVestments extends ArmourManager {
         super("Runed Vestments", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
         this.runeCharges = new HashMap<>(initialRunes);
         this.maxChargesPerRune = maxChargesPerRune;
+    }
+    
+    @Override
+    public void equip(Charecter wearer) {
+        if (!isEquipped) {
+            wearer.setDefense(wearer.getDefense() + ARMOUR_DEFENSE);
+            isEquipped = true;
+        }
+    }
+
+    @Override
+    public void unequip(Charecter wearer) {
+        if (isEquipped) {
+            wearer.setDefense(wearer.getDefense() - ARMOUR_DEFENSE);
+            isEquipped = false;
+        }
     }
 
     // Absorb magical damage using available runes

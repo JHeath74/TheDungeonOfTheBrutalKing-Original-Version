@@ -10,7 +10,7 @@ public class ElementalMantle extends ArmourManager {
     private static final int REQUIRED_INTELLIGENCE = 14;
     private static final int ARMOUR_DEFENSE = 2;
     private static final int WEIGHT = 1;
-    private static final Guild GUILDname = Guild.AURORA_ARCNUM;
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private final String elementType; // e.g., "fire", "frost", "lightning"
@@ -20,14 +20,14 @@ public class ElementalMantle extends ArmourManager {
         super("Elemental Mantle", REQUIRED_INTELLIGENCE, ARMOUR_DEFENSE, effect);
         this.elementType = elementType.toLowerCase();
     }
-
+@Override
     public void equip(Charecter wearer) {
         if (!isEquipped) {
             wearer.addResistance(elementType); // Assumes Charecter has addResistance
             isEquipped = true;
         }
     }
-
+@Override
     public void unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.removeResistance(elementType); // Assumes Charecter has removeResistance

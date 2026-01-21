@@ -1,4 +1,6 @@
 
+// src/Guild/CelestialArcanOrder/Weapon/ReliquarySpear.java
+
 package Guild.CelestialArcanOrder.Weapon;
 
 import Weapon.WeaponManager;
@@ -20,6 +22,7 @@ public class ReliquarySpear extends WeaponManager {
         super("Reliquary Spear", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
     }
 
+    @Override
     public boolean equip(Charecter wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
             wearer.setWeapon(getName());
@@ -30,14 +33,15 @@ public class ReliquarySpear extends WeaponManager {
         return false;
     }
 
+    @Override
     public void unequip(Charecter wearer) {
-        if (wearer != null) {
+        if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat boost
             wearer.setEffectProtection("curse", false); // Remove protection
         }
     }
-    
+
     @Override
     public void applyCombatEffect(HasHitPoints target) {
         if (target instanceof Charecter) {

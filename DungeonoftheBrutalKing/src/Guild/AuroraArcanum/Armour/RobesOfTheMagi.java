@@ -1,4 +1,5 @@
 
+// src/Guild/AuroraArcanum/Armour/RobesOfTheMagi.java
 package Guild.AuroraArcanum.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -13,35 +14,38 @@ public class RobesOfTheMagi extends ArmourManager {
     private static final int SPELL_RESISTANCE_BONUS = 10; // percent
     private static final int WEIGHT = 2;
 
-    private static final Guild GUILDname = Guild.AURORA_ARCNUM;
+    private boolean isEquipped = false;
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;
 
-    public RobesOfTheMagi(int requiredIntelligence, int spellResistance, String effect, int weight) {
-        super("Robes of the Magi", requiredIntelligence, spellResistance, effect, weight);
+    public RobesOfTheMagi(int requiredIntelligence, String effect, int weight) {
+        super("Robes of the Magi", requiredIntelligence, weight, effect);
     }
 
-    public static RobesOfTheMagi createRobes(Charecter character, int spellResistance, String effect) {
+    public static RobesOfTheMagi createRobes(Charecter character, String effect) {
         int intelligence = character.getIntelligence();
         if (intelligence >= REQUIRED_INTELLIGENCE) {
-            return new RobesOfTheMagi(REQUIRED_INTELLIGENCE, spellResistance, effect, WEIGHT);
+            return new RobesOfTheMagi(REQUIRED_INTELLIGENCE, effect, WEIGHT);
         }
         throw new IllegalArgumentException("Character does not have the required intelligence to wear the Robes of the Magi.");
     }
 
+    @Override
     public void equip(Charecter wearer) {
         if (!isEquipped) {
             wearer.setIntelligence(wearer.getIntelligence() + INTELLIGENCE_BONUS);
-            wearer.setSpellResistance(wearer.getSpellResistance() + SPELL_RESISTANCE_BONUS);
+            // wearer.setSpellResistance(wearer.getSpellResistance() + SPELL_RESISTANCE_BONUS); // Uncomment if supported
             isEquipped = true;
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.setIntelligence(wearer.getIntelligence() - INTELLIGENCE_BONUS);
-            wearer.setSpellResistance(wearer.getSpellResistance() - SPELL_RESISTANCE_BONUS);
+            // wearer.setSpellResistance(wearer.getSpellResistance() - SPELL_RESISTANCE_BONUS); // Uncomment if supported
             isEquipped = false;
         }
     }

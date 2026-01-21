@@ -5,6 +5,7 @@ package Armour;
 import java.util.ArrayList;
 import java.util.List;
 
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 
 public class ArmourManager {
@@ -116,5 +117,15 @@ public class ArmourManager {
 	public double getWeight() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void equip(Charecter wearer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void unequip(Charecter wearer) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,15 +1,20 @@
+
+java
 package Guild.CelestialArcanOrder.Weapon;
 
 import Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import SharedData.GuildType;
+import Status.HasHitPoints;
+import Status.Status;
 
 public class VigilantCenserFlail extends WeaponManager {
 
     private static final int REQUIRED_WISDOM = 13;
     private static final int DAMAGE = 7;
     private static final int WEIGHT = 3;
+    private static final int BONUS_WISDOM = 2;
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
@@ -17,16 +22,29 @@ public class VigilantCenserFlail extends WeaponManager {
         super("Vigilant Censer‐Flail", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
     }
 
+    @Override
     public boolean equip(Charecter wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
             wearer.setWeapon(getName());
+            wearer.setWisdom(wearer.getWisdom() + BONUS_WISDOM);
             return true;
         }
         return false;
     }
 
+    @Override
     public void unequip(Charecter wearer) {
-        // Unequip logic here
+        if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
+            wearer.setWeapon(null);
+            wearer.setWisdom(wearer.getWisdom() - BONUS_WISDOM);
+        }
+    }
+
+    public void applyEffect(HasHitPoints target) {
+        if (target != null && getStatusEffect() != null) {
+            Status effectStatus = Status.createFromEffect(getStatusEffect());
+            target.addStatus(effectStatus);
+        }
     }
 
     public Guild getGuild() {

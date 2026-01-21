@@ -11,10 +11,10 @@ public class DrainStatus extends Status {
     private int duration;
     private final DrainType type;
 
-    public DrainStatus(DrainType type, double percent, int duration) {
-        super("Drain", duration); // Call the parent constructor
-        this.type = type;
-        this.percent = percent;
+    public DrainStatus(int duration) {
+        super("Drain", duration);
+        this.type = DrainType.MAGIC; // Default type
+        this.percent = 0.10; // Default percent (10%)
         this.duration = duration;
     }
 

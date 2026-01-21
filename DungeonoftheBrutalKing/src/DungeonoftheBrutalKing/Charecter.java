@@ -28,6 +28,7 @@ public class Charecter implements HasHitPoints {
     private List<Status> statuses = new ArrayList<>();
     private double hasteModifier = 0.0;
     private int spellResistanceBonus = 0;
+    private int critChance = 0;
 
     private Set<String> resistances = new HashSet<>();
 
@@ -300,9 +301,21 @@ public boolean hasEffectProtection(String effect) {
     return effect != null && protectedEffects.contains(effect.toLowerCase());
 }
 
-public Charecter getStatusManager() {
-	// TODO Auto-generated method stub
-	return null;
+public StatusManager getStatusManager() {
+    return statusManager;
+}
+
+public int getCritChance() {
+    // Example: base crit chance is 5%, plus 1% per 5 agility, plus 1% per 10 levels
+    int base = 5;
+    int fromAgility = getAgility() / 5;
+    int fromLevel = getLevel() / 10;
+    return base + fromAgility + fromLevel + critChance;
+}
+
+public void setCritChance(int bonus) {
+    // This sets a bonus to crit chance (e.g., from equipment)
+    this.critChance = bonus;
 }
 
 

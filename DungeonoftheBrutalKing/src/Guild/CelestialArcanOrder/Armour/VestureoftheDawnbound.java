@@ -1,4 +1,6 @@
 
+// src/Guild/CelestialArcanOrder/Armour/VestureoftheDawnbound.java
+
 package Guild.CelestialArcanOrder.Armour;
 
 import Armour.ArmourManager;
@@ -20,6 +22,7 @@ public class VestureoftheDawnbound extends ArmourManager {
         super("Vesture of the Dawnbound", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
     }
 
+    @Override
     public void equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
@@ -29,6 +32,7 @@ public class VestureoftheDawnbound extends ArmourManager {
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);

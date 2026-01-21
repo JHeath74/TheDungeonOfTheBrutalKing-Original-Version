@@ -1,5 +1,6 @@
 
-package Guild.AuroraArcanum.Weapon;
+// src/Guild/CrimsonBlades/Weapon/IronfangBattlehammer.java
+package Guild.CrimsonBlades.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
 import Enemies.Enemies;
@@ -8,36 +9,35 @@ import SharedData.GuildType;
 import Weapon.WeaponManager;
 import java.util.Random;
 
-public class DaggerOfSpellcraft extends WeaponManager {
+public class IronfangBattlehammer extends WeaponManager {
 
-    private static final int REQUIRED_INTELLIGENCE = 14;
-    private static final int INTELLIGENCE_BONUS = 1;
-    private static final int AGILITY_BONUS = 2;
-    private static final double DEFENSE_BONUS = 0.03;
-    private static final int ATTACK_DAMAGE = 2;
-    private static final int WEIGHT = 1;
+    private static final int REQUIRED_STRENGTH = 17;
+    private static final int STRENGTH_BONUS = 4;
+    private static final int AGILITY_BONUS = 0;
+    private static final double DEFENSE_BONUS = 0.08;
+    private static final int ATTACK_DAMAGE = 7;
+    private static final int WEIGHT = 5;
 
-    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
-    private static final GuildType GUILDtype = GuildType.WIZARD;
+    private static final Guild GUILDname = Guild.CRIMSON_BLADES;
+    private static final GuildType GUILDtype = GuildType.WARRIOR;
 
     private boolean isEquipped = false;
 
-    public DaggerOfSpellcraft(int requiredIntelligence, int damage, String effect, int weight) {
-        super("Dagger of Spellcraft", requiredIntelligence, damage, effect, weight);
+    public IronfangBattlehammer(int requiredStrength, int damage, String effect, int weight) {
+        super("Ironfang Battlehammer", requiredStrength, damage, effect, weight);
     }
 
-    public static DaggerOfSpellcraft createDaggerOfSpellcraft(Charecter character, int damage, String effect) {
-        int intelligence = Integer.parseInt(character.getCharInfo().get(6));
-        if (intelligence >= REQUIRED_INTELLIGENCE) {
-            return new DaggerOfSpellcraft(REQUIRED_INTELLIGENCE, damage, effect, WEIGHT);
+    public static IronfangBattlehammer createIronfangBattlehammer(Charecter character, int damage, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(2));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new IronfangBattlehammer(REQUIRED_STRENGTH, damage, effect, WEIGHT);
         }
-        throw new IllegalArgumentException("Character does not have the required intelligence to wield the Dagger of Spellcraft.");
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Ironfang Battlehammer.");
     }
 
-    @Override
     public boolean equip(Charecter wielder) {
         if (!isEquipped) {
-            wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
+            wielder.setStrength(wielder.getStrength() + STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
             wielder.setDefense(newDefense);
@@ -47,10 +47,9 @@ public class DaggerOfSpellcraft extends WeaponManager {
         return false;
     }
 
-    @Override
     public void unequip(Charecter wielder) {
         if (isEquipped) {
-            wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
+            wielder.setStrength(wielder.getStrength() - STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
             int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
             wielder.setDefense(newDefense);
@@ -59,9 +58,9 @@ public class DaggerOfSpellcraft extends WeaponManager {
     }
 
     public void attackDamage(Charecter wielder, Enemies enemy) {
-        int intelligence = Integer.parseInt(wielder.getCharInfo().get(6));
+        int strength = Integer.parseInt(wielder.getCharInfo().get(2));
         Random rand = new Random();
-        int bonus = rand.nextInt((intelligence / 4) + 1);
+        int bonus = rand.nextInt((strength / 3) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
         enemy.takeDamage(totalDamage);
     }
@@ -96,6 +95,6 @@ public class DaggerOfSpellcraft extends WeaponManager {
 
     @Override
     public String getDescription() {
-        return "Dagger of Spellcraft: A swift, enchanted dagger designed for quick magical strikes and agile spellcasters.";
+        return "Ironfang Battlehammer: A brutal hammer forged for the Crimson Blades, delivering crushing blows and bolstering the wielder's strength and defense.";
     }
 }

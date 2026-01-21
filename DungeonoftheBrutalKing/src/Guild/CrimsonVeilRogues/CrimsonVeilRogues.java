@@ -1,6 +1,6 @@
 
 // src/Guild/CrimsonVeilRogues/CrimsonVeilRogues.java
-package Guild.Crimson_Veil_Rogues;
+package Guild.CrimsonVeilRogues;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
@@ -28,7 +28,7 @@ public class CrimsonVeilRogues extends JPanel {
     public CrimsonVeilRogues() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
-        Character character = Character.getInstance();
+        Charecter character = Charecter.getInstance();
         GuildMembershipStatus status = character.getGuildStatus(guildType);
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonVeilRogues.jpg")));

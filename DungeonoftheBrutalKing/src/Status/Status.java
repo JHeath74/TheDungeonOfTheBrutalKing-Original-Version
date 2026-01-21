@@ -2,6 +2,7 @@
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
+import Weapon.WeaponManager.StatusEffect;
 
 /**
  * Represents a status effect that can be applied to a character.
@@ -85,6 +86,11 @@ public abstract class Status {
  public void onApply(Charecter character) {
 	// TODO Auto-generated method stub
 	
+ }
+
+ public static Status createFromEffect(StatusEffect statusEffect) {
+	// TODO Auto-generated method stub
+	return null;
  }
 
 }

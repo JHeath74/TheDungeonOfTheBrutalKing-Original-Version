@@ -17,7 +17,7 @@ public class MagicalRod extends WeaponManager {
     private static final int ATTACK_DAMAGE = 4;
     private static final int WEIGHT = 4;
 
-    private static final Guild GUILDname = Guild.AURORA_ARCNUM;
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;
@@ -34,25 +34,31 @@ public class MagicalRod extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required intelligence to wield the Magical Rod.");
     }
 
-    public void equip(Charecter wielder) {
-        if (!isEquipped) {
-            wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
-            wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
-            int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
-            isEquipped = true;
-        }
-    }
 
-    public void unequip(Charecter wielder) {
-        if (isEquipped) {
-            wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
-            wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
-            int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
-            isEquipped = false;
-        }
+@Override
+public boolean equip(Charecter wielder) {
+    if (!isEquipped) {
+        wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
+        wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
+        int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
+        wielder.setDefense(newDefense);
+        isEquipped = true;
+        return true;
     }
+    return false;
+}
+
+@Override
+public void unequip(Charecter wielder) {
+    if (isEquipped) {
+        wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
+        wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
+        int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
+        wielder.setDefense(newDefense);
+        isEquipped = false;
+    }
+}
+
 
     public void attackDamage(Charecter wielder, Enemies enemy) {
         int intelligence = wielder.getIntelligence();

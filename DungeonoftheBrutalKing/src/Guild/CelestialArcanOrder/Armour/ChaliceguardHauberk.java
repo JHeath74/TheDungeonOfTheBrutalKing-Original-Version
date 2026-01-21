@@ -1,5 +1,5 @@
 
-// File: src/Guild/CelestialArcanOrder/Armour/ChaliceguardHauberk.java
+// src/Guild/CelestialArcanOrder/Armour/ChaliceguardHauberk.java
 
 package Guild.CelestialArcanOrder.Armour;
 
@@ -22,6 +22,7 @@ public class ChaliceguardHauberk extends ArmourManager {
         super("Chaliceguard Hauberk", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
     }
 
+    @Override
     public void equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
@@ -31,6 +32,7 @@ public class ChaliceguardHauberk extends ArmourManager {
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);

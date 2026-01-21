@@ -33,16 +33,20 @@ public class StaffOfPower extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required intelligence to wield the Staff of Power.");
     }
 
-    public void equip(Charecter wielder) {
+    @Override
+    public boolean equip(Charecter wielder) {
         if (!isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
             int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
             wielder.setDefense(newDefense);
             isEquipped = true;
+            return true;
         }
+        return false;
     }
 
+    @Override
     public void unequip(Charecter wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);

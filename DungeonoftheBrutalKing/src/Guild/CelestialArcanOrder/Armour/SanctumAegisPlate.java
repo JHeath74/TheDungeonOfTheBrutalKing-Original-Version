@@ -20,6 +20,7 @@ public class SanctumAegisPlate extends ArmourManager {
         super("Sanctum Aegis Plate", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
     }
 
+    @Override
     public void equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
@@ -29,6 +30,7 @@ public class SanctumAegisPlate extends ArmourManager {
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);
