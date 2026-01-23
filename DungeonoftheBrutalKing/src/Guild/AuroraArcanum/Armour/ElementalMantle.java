@@ -2,14 +2,13 @@ package Guild.AuroraArcanum.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.EquipmentRequirement;
 import SharedData.Guild;
 import SharedData.GuildType;
 
 public class ElementalMantle extends ArmourManager {
 
-    private static final int REQUIRED_INTELLIGENCE = 14;
-    private static final int ARMOUR_DEFENSE = 2;
-    private static final int WEIGHT = 1;
+    private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.ELEMENTAL_MANTLE;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
@@ -17,27 +16,27 @@ public class ElementalMantle extends ArmourManager {
     private boolean isEquipped = false;
 
     public ElementalMantle(String elementType, String effect) {
-        super("Elemental Mantle", REQUIRED_INTELLIGENCE, ARMOUR_DEFENSE, effect);
+        super("Elemental Mantle", REQUIREMENT.getIntelligence(), REQUIREMENT.getDefense(), effect);
         this.elementType = elementType.toLowerCase();
     }
-@Override
+
+    @Override
     public void equip(Charecter wearer) {
         if (!isEquipped) {
-            wearer.addResistance(elementType); // Assumes Charecter has addResistance
+            wearer.addResistance(elementType);
             isEquipped = true;
         }
     }
-@Override
+
+    @Override
     public void unequip(Charecter wearer) {
         if (isEquipped) {
-            wearer.removeResistance(elementType); // Assumes Charecter has removeResistance
+            wearer.removeResistance(elementType);
             isEquipped = false;
         }
     }
 
-    // Channel the element offensively (stub, implement as needed)
     public void channelElement(Charecter caster, Charecter target) {
-        // Example: deal elemental damage to target
         target.takeElementalDamage(elementType, caster.getSpellPower());
     }
 
@@ -60,7 +59,7 @@ public class ElementalMantle extends ArmourManager {
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return (double) REQUIREMENT.getWeight();
     }
 
     @Override

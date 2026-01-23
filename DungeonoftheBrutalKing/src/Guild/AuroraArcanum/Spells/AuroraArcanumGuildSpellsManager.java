@@ -1,4 +1,5 @@
 
+// src/Guild/AuroraArcanum/Spells/AuroraArcanumGuildSpellsManager.java
 package Guild.AuroraArcanum.Spells;
 
 import SharedData.Guild;
@@ -28,17 +29,24 @@ public class AuroraArcanumGuildSpellsManager {
         return new HashMap<>(guildSpells);
     }
 
-
-public void registerDefaultSpells() {
-    String[] defaultSpells = {
-        "ArcaneMissile", "AstralStep", "CelestialWard", "EchoOfEternity",
-        "ElementalRay", "EtherealChains", "IllusoryDouble", "ManaSurge",
-        "MindProbe", "Starfall", "TimeDilation", "VoidEcho"
-    };
-    for (String spellName : defaultSpells) {
-        Spell spell = Spell.createGuildSpell(spellName, guild); // Adjust if needed
-        registerSpell(spell);
+    public void registerDefaultSpells() {
+        String[] defaultSpells = {
+            "ArcaneMissile",
+            "AstralStep",
+            "CelestialWard",
+            "EchoOfEternity",
+            "ElementalRay",
+            "EtherealChains",
+            "IllusoryDouble",
+            "ManaSurge",
+            "MindProbe",
+            "Starfall",
+            "TimeDilation",
+            "VoidEcho",
+        };
+        for (String spellName : defaultSpells) {
+            Spell spell = Spell.createGuildSpell(spellName, guild);
+            registerSpell(spell);
+        }
     }
-}
-
 }

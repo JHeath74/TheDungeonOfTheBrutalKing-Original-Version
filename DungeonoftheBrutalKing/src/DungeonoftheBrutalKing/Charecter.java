@@ -318,6 +318,20 @@ public void setCritChance(int bonus) {
     this.critChance = bonus;
 }
 
+public void takeElementalDamage(String elementType, int spellPower) {
+    if (elementType == null || spellPower <= 0) return;
+
+    int damage = spellPower;
+    // If character has resistance, halve the damage
+    if (hasResistance(elementType)) {
+        damage = Math.max(1, damage / 2);
+    }
+    // Reduce damage by spell resistance (but not below 1)
+    damage = Math.max(1, damage - getSpellResistance() / 10);
+
+    reduceHitPoints(damage);
+}
+
 
 
 

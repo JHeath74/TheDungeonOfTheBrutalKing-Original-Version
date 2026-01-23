@@ -39,8 +39,8 @@ public class DaggerOfSpellcraft extends WeaponManager {
         if (!isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
-            int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
+            int bonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS);
+            wielder.setDefense(wielder.getDefense() + bonus);
             isEquipped = true;
             return true;
         }
@@ -52,8 +52,8 @@ public class DaggerOfSpellcraft extends WeaponManager {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
-            int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
+            int bonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS / (1 + DEFENSE_BONUS));
+            wielder.setDefense(wielder.getDefense() - bonus);
             isEquipped = false;
         }
     }

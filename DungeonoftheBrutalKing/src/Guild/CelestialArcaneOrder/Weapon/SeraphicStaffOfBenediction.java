@@ -1,5 +1,5 @@
 
-package Guild.CelestialArcanOrder.Weapon;
+package Guild.CelestialArcaneOrder.Weapon;
 
 import Weapon.WeaponManager;
 import Status.DrainStatus;
@@ -23,8 +23,8 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null 
-            && wearer.getCurrentGuild() == GUILDtype 
+        if (wearer != null
+            && wearer.getCurrentGuild() == GUILDtype
             && wearer.getWisdom() >= REQUIRED_WISDOM) {
             wearer.setWeapon(getName());
             return true;
@@ -38,7 +38,7 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
             wearer.setWeapon(null);
         }
     }
-    
+
     @Override
     public void applyCombatEffect(HasHitPoints target) {
         if (target instanceof Charecter) {

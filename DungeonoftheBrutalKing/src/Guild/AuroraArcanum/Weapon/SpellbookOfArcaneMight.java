@@ -20,6 +20,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;
+    private int lastDefenseBonus = 0;
 
     public SpellbookOfArcaneMight(int requiredIntelligence, int damage, String effect, int weight) {
         super("Spellbook of Arcane Might", requiredIntelligence, damage, effect, weight);
@@ -33,32 +34,28 @@ public class SpellbookOfArcaneMight extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required intelligence to wield the Spellbook of Arcane Might.");
     }
 
-
-
-@Override
-public boolean equip(Charecter wielder) {
-    if (!isEquipped) {
-        wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
-        wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
-        int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
-        wielder.setDefense(newDefense);
-        isEquipped = true;
-        return true;
+    @Override
+    public boolean equip(Charecter wielder) {
+        if (!isEquipped) {
+            wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
+            wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
+            lastDefenseBonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS);
+            wielder.setDefense(wielder.getDefense() + lastDefenseBonus);
+            isEquipped = true;
+            return true;
+        }
+        return false;
     }
-    return false;
-}
 
-@Override
-public void unequip(Charecter wielder) {
-    if (isEquipped) {
-        wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
-        wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
-        int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
-        wielder.setDefense(newDefense);
-        isEquipped = false;
+    @Override
+    public void unequip(Charecter wielder) {
+        if (isEquipped) {
+            wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
+            wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
+            wielder.setDefense(wielder.getDefense() - lastDefenseBonus);
+            isEquipped = false;
+        }
     }
-}
-
 
     public void attackDamage(Charecter wielder, Enemies enemy) {
         int intelligence = wielder.getIntelligence();

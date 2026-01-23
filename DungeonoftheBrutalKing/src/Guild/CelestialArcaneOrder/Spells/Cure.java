@@ -2,6 +2,7 @@
 // src/Spells/Cure.java
 package Guild.CelestialArcanOrder.Spells;
 
+import java.util.List;
 import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
@@ -53,6 +54,30 @@ public class Cure implements Spell {
 
 	
 	public void cast(int toonWisdom, int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void cast(Charecter caster, List<Charecter> allCharacters) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster) {
 		// TODO Auto-generated method stub
 		
 	}

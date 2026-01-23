@@ -1,8 +1,7 @@
-
-// src/Guild/AuroraArcanum/Armour/MysticCloak.java
 package Guild.AuroraArcanum.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.EquipmentRequirement;
 import SharedData.Guild;
 import SharedData.GuildType;
 import Armour.ArmourManager;
@@ -10,8 +9,8 @@ import java.util.Set;
 
 public class MysticCloak extends ArmourManager {
 
+    private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.MYSTIC_CLOAK;
     private static final int CONCEALMENT_BONUS = 15; // percent
-    private static final int WEIGHT = 1;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
@@ -19,10 +18,12 @@ public class MysticCloak extends ArmourManager {
     private boolean isEquipped = false;
 
     public MysticCloak(Set<String> resistanceTypes, String effect) {
-        super("Mystic Cloak", effect, WEIGHT);
+        // Adjust constructor to match ArmourManager's signature
+        super("Mystic Cloak", REQUIREMENT.getIntelligence(), effect, REQUIREMENT.weight); // Use public field if getter is not visible
         this.resistanceTypes = resistanceTypes;
     }
-@Override
+
+    @Override
     public void equip(Charecter wearer) {
         if (!isEquipped) {
             wearer.setEvadeChance(
@@ -34,7 +35,8 @@ public class MysticCloak extends ArmourManager {
             isEquipped = true;
         }
     }
-@Override
+
+    @Override
     public void unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.setEvadeChance(
@@ -64,7 +66,8 @@ public class MysticCloak extends ArmourManager {
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        // Use public field or parse if necessary
+        return REQUIREMENT.weight;
     }
 
     @Override

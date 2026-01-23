@@ -5,13 +5,16 @@ import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
 
+import java.util.List;
 import java.util.Random;
 
 public class AstralStep implements Spell {
     private static final int MAX_DISTANCE = 3;
     private static final int DUNGEON_WIDTH = 128;
     private static final int DUNGEON_HEIGHT = 128;
+    private static final int REQUIRED_MAGIC_POINTS = 7;
 
+    @Override
     public void cast(Charecter caster) {
         int[] pos = new int[3];
         caster.getPosition(pos);
@@ -42,45 +45,49 @@ public class AstralStep implements Spell {
         // Optionally, add visual or log effect here
     }
 
-	@Override
-	public boolean isGuildSpell() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        cast(caster);
+    }
+
+    @Override
+    public boolean isGuildSpell() {
+        return true;
+    }
+
+    @Override
+    public Guild getSpellGuild() {
+        return Guild.AURORA_ARCANUM;
+    }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+    @Override
+    public void cast(int toonWisdom) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
+    }
+
+    @Override
+    public String getName() {
+        return "Astral Step";
+    }
 
 	@Override
-	public Guild getSpellGuild() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getRequiredMagicPoints() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void cast(int toonWisdom) {
+	public void cast() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void castWithIntelligence(int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cast(int toonWisdom, int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

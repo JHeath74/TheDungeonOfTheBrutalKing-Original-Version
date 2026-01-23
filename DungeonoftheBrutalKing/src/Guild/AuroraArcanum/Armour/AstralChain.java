@@ -1,33 +1,38 @@
-
-// src/Guild/AuroraArcanum/Armour/AstralChain.java
 package Guild.AuroraArcanum.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.EquipmentRequirement;
 import SharedData.Guild;
 import SharedData.GuildType;
 
 public class AstralChain extends ArmourManager {
 
-    private static final int REQUIRED_STRENGTH = 10;
-    private static final int ARMOUR_DEFENSE = 3;
-    private static final int WEIGHT = 2;
+    private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.ASTRAL_CHAIN;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;
 
     public AstralChain(String effect) {
-        super("Astral Chain", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super("Astral Chain", REQUIREMENT.getStrength(), REQUIREMENT.getDefense(), effect);
     }
-@Override
+
+    public static AstralChain createAstralChain(Charecter character, String effect) {
+        if (character.getStrength() >= REQUIREMENT.getStrength()) {
+            return new AstralChain(effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wear the Astral Chain.");
+    }
+
+    @Override
     public void equip(Charecter wearer) {
         if (!isEquipped) {
-            // No penalty to spellcasting; just mark as equipped
             isEquipped = true;
         }
     }
-@Override
+
+    @Override
     public void unequip(Charecter wearer) {
         if (isEquipped) {
             isEquipped = false;
@@ -49,7 +54,7 @@ public class AstralChain extends ArmourManager {
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return (double) REQUIREMENT.getWeight();
     }
 
     @Override

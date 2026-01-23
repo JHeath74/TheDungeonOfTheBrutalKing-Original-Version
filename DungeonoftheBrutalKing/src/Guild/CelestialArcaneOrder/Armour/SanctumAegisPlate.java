@@ -1,5 +1,4 @@
-
-package Guild.CelestialArcanOrder.Armour;
+package Guild.CelestialArcaneOrder.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
@@ -11,10 +10,13 @@ public class SanctumAegisPlate extends ArmourManager {
     private static final int REQUIRED_WISDOM = 10;
     private static final int ARMOUR_DEFENSE = 3;
     private static final int WEIGHT = 2;
+    private static final int WISDOM_BONUS = 2;
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
     private boolean isEquipped = false;
+    private boolean curseProtectionApplied = false;
+    private boolean wearerHadCurseProtection = false;
 
     public SanctumAegisPlate(String effect) {
         super("Sanctum Aegis Plate", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
@@ -24,8 +26,12 @@ public class SanctumAegisPlate extends ArmourManager {
     public void equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
-            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus
-            wearer.setEffectProtection("curse", true); // Protection
+            wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+            wearerHadCurseProtection = wearer.hasEffectProtection("curse");
+            if (!wearerHadCurseProtection) {
+                wearer.setEffectProtection("curse", true);
+                curseProtectionApplied = true;
+            }
             isEquipped = true;
         }
     }
@@ -34,8 +40,11 @@ public class SanctumAegisPlate extends ArmourManager {
     public void unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);
-            wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat bonus
-            wearer.setEffectProtection("curse", false); // Remove protection
+            wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+            if (curseProtectionApplied && !wearerHadCurseProtection) {
+                wearer.setEffectProtection("curse", false);
+            }
+            curseProtectionApplied = false;
             isEquipped = false;
         }
     }
@@ -60,6 +69,6 @@ public class SanctumAegisPlate extends ArmourManager {
 
     @Override
     public String getDescription() {
-        return "Celestial Chain: Blessed chainmail infused with radiant energy, designed for clerics. Grants protection while allowing divine magic to flow unhindered.";
+        return "Sanctum Aegis Plate: Blessed plate armour for clerics, offering protection from curses and enhancing divine wisdom.";
     }
 }

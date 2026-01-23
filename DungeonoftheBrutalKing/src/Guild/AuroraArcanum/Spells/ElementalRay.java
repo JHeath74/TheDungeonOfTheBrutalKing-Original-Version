@@ -7,6 +7,8 @@ import Spells.Spell;
 import Status.FireStatus;
 import Status.IceStatus;
 import Status.StunStatus;
+
+import java.util.List;
 import java.util.Random;
 
 public class ElementalRay implements Spell {
@@ -86,5 +88,23 @@ public class ElementalRay implements Spell {
 	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void cast(Charecter caster, List<Charecter> allCharacters) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast() {
+		// TODO Auto-generated method stub
+		
 	}
 }

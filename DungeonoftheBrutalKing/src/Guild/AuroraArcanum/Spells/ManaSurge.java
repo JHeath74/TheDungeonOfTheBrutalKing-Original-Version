@@ -1,21 +1,26 @@
 
 package Guild.AuroraArcanum.Spells;
 
+import java.util.List;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
 import SharedData.Guild;
 import Spells.Spell;
 
 public class ManaSurge implements Spell {
-    private int baseMagicBoost = 10;
-    SharedData.GuildType guildType = SharedData.GuildType.MAGE;
+    private static final int BASE_MAGIC_BOOST = 10;
+    private static final int REQUIRED_MAGIC_POINTS = 8;
+    private static final int DURATION_SECONDS = 15;
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
     private TimeClock timer;
     private boolean active = false;
 
     public int calculateMagicBoost(Charecter charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
-        return baseMagicBoost + (intelligence * 2) + (level * 1);
+        return BASE_MAGIC_BOOST + (intelligence * 2) + (level * 1);
     }
 
     public void activate(Charecter charecter) {
@@ -34,51 +39,61 @@ public class ManaSurge implements Spell {
 
     public boolean isActive() {
         if (!active) return false;
-        if (timer.getElapsedSeconds() >= 15) {
+        if (timer.getElapsedSeconds() >= DURATION_SECONDS) {
             active = false;
         }
         return active;
     }
 
-	@Override
-	public boolean isGuildSpell() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isGuildSpell() {
+        return true;
+    }
+
+    @Override
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
+    }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+    @Override
+    public void cast(int toonWisdom) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
+    }
+
+    @Override
+    public String getName() {
+        return "Mana Surge";
+    }
+
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        cast(caster);
+    }
+
+    @Override
+    public void cast(Charecter caster) {
+        activate(caster);
+        // Optionally, apply magic boost to caster here
+    }
 
 	@Override
-	public Guild getSpellGuild() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getRequiredMagicPoints() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void cast(int toonWisdom) {
+	public void cast() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void castWithIntelligence(int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cast(int toonWisdom, int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

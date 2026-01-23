@@ -18,7 +18,6 @@ public class RobesOfTheMagi extends ArmourManager {
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
-    private boolean isEquipped = false;
 
     public RobesOfTheMagi(int requiredIntelligence, String effect, int weight) {
         super("Robes of the Magi", requiredIntelligence, weight, effect);

@@ -1,7 +1,4 @@
-
-// src/Guild/CelestialArcanOrder/Armour/OathbearersVestment.java
-
-package Guild.CelestialArcanOrder.Armour;
+package Guild.CelestialArcaneOrder.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
@@ -13,10 +10,13 @@ public class OathbearersVestment extends ArmourManager {
     private static final int REQUIRED_WISDOM = 15;
     private static final int ARMOUR_DEFENSE = 7;
     private static final int WEIGHT = 2;
+    private static final int WISDOM_BONUS = 2;
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
     private boolean isEquipped = false;
+    private boolean stunProtectionApplied = false;
+    private boolean wearerHadStunProtection = false;
 
     public OathbearersVestment(String effect) {
         super("Oathbearer’s Vestment", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
@@ -26,8 +26,12 @@ public class OathbearersVestment extends ArmourManager {
     public void equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
-            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus
-            wearer.setEffectProtection("stun", true); // Protection against "stun"
+            wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+            wearerHadStunProtection = wearer.hasEffectProtection("stun");
+            if (!wearerHadStunProtection) {
+                wearer.setEffectProtection("stun", true);
+                stunProtectionApplied = true;
+            }
             isEquipped = true;
         }
     }
@@ -36,8 +40,11 @@ public class OathbearersVestment extends ArmourManager {
     public void unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);
-            wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat bonus
-            wearer.setEffectProtection("stun", false); // Remove protection
+            wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+            if (stunProtectionApplied && !wearerHadStunProtection) {
+                wearer.setEffectProtection("stun", false);
+            }
+            stunProtectionApplied = false;
             isEquipped = false;
         }
     }

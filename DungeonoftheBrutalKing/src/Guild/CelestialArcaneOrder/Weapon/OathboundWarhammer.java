@@ -1,7 +1,6 @@
+// src/Guild/CelestialArcaneOrder/Weapon/OathboundWarhammer.java
 
-// src/Guild/CelestialArcanOrder/Weapon/OathboundWarhammer.java
-
-package Guild.CelestialArcanOrder.Weapon;
+package Guild.CelestialArcaneOrder.Weapon;
 
 import Weapon.WeaponManager;
 import Status.HasHitPoints;
@@ -28,10 +27,10 @@ public class OathboundWarhammer extends WeaponManager {
     public boolean equip(Charecter wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
             wearer.setWeapon(getName());
-            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus\
+            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus
             return true;
         }
-		return false;
+        return false;
     }
 
     @Override

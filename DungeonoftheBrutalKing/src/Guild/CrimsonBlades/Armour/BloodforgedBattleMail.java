@@ -1,6 +1,5 @@
 
-// File: src/Guild/CrimsonBlades/Armour/BloodforgedBattleMail.java
-
+java
 package Guild.CrimsonBlades.Armour;
 
 import Armour.ArmourManager;
@@ -16,31 +15,29 @@ public class BloodforgedBattleMail extends ArmourManager {
     private static final Guild GUILDname = Guild.CRIMSON_BLADES;
     private static final GuildType GUILDtype = GuildType.WARRIOR;
 
-    private boolean isEquipped = false;
-
     public BloodforgedBattleMail(String effect) {
         super("Bloodforged BattleMail", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
     }
 
+    @Override
     public void equip(Charecter wearer) {
-        if (wearer != null && !isEquipped) {
+        if (wearer != null && (wearer.getArmour() == null || !wearer.getArmour().equals(getName()))) {
             wearer.setArmour(getName());
-            wearer.setStrength(wearer.getStrength() + 5); // Greater strength bonus
-            wearer.setCritChance(wearer.getCritChance() + 8); // Higher crit chance
+            wearer.setStrength(wearer.getStrength() + 5);
+            wearer.setCritChance(wearer.getCritChance() + 8);
             wearer.setEffectProtection("bleed", true);
-            wearer.setEffectProtection("curse", true); // Additional protection
-            isEquipped = true;
+            wearer.setEffectProtection("curse", true);
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
-        if (wearer != null && isEquipped) {
+        if (wearer != null && wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
             wearer.setArmour(null);
             wearer.setStrength(wearer.getStrength() - 5);
             wearer.setCritChance(wearer.getCritChance() - 8);
             wearer.setEffectProtection("bleed", false);
             wearer.setEffectProtection("curse", false);
-            isEquipped = false;
         }
     }
 

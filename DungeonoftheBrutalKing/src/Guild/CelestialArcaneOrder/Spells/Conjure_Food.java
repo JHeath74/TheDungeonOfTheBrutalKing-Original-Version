@@ -2,6 +2,7 @@
 // src/Spells/Conjure_Food.java
 package Guild.CelestialArcanOrder.Spells;
 
+import java.util.List;
 import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
@@ -57,4 +58,28 @@ public class Conjure_Food implements Spell {
     public void cast(int attackerWisdom) {
         // Not used for this spell
     }
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void cast(Charecter caster, List<Charecter> allCharacters) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster) {
+		// TODO Auto-generated method stub
+		
+	}
 }

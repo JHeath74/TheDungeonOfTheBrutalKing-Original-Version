@@ -1,7 +1,5 @@
 
-// src/Guild/CelestialArcanOrder/Weapon/SunwardenMace.java
-
-package Guild.CelestialArcanOrder.Weapon;
+package Guild.CelestialArcaneOrder.Weapon;
 
 import Weapon.WeaponManager;
 import SharedData.Guild;

@@ -1,9 +1,12 @@
 
 // src/Spells/Heal.java
-package Guild.CelestialArcanOrder.Spells;
+package Guild.CelestialArcaneOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
+
+import java.util.List;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 
@@ -55,4 +58,28 @@ public class Heal implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) {
         // Not used for this spell
     }
+
+	@Override
+	public void castWithIntelligence(int toonIntelligence) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void cast(Charecter caster, List<Charecter> allCharacters) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster) {
+		// TODO Auto-generated method stub
+		
+	}
 }

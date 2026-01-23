@@ -1,47 +1,44 @@
 
-// src/Guild/CelestialArcanOrder.java
-package Guild.CelestialArcanOrder;
+package Guild.CelestialArcaneOrder;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GuildType;
 
-public class CelestialArcanOrder extends JPanel {
+public class CelestialArcaneOrder extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final String guildName = "Celestial Arcan Order";
+    private final String guildName = "Celestial Arcane Order";
     private boolean isMember;
     private final String description;
     private final Alignment alignment = Alignment.GOOD;
     private final GuildType guildType = GuildType.CLERIC;
 
-    public CelestialArcanOrder(boolean isMember) throws IOException, InterruptedException, ParseException {
+    public CelestialArcaneOrder(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Celestial Arcan Order is a guild of clerics who study the stars and wield cosmic magic for the good of the realm.";
+        this.description = "The Celestial Arcane Order is a guild of clerics who study the stars and wield cosmic magic for the good of the realm.";
 
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Celestial Arcan Order Guild Ring")) {
+        if (!isMember && !inventory.contains("Celestial Arcane Order Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
                 this,
-                "You are not a member of the Celestial Arcan Order. Would you like to join?",
+                "You are not a member of the Celestial Arcane Order. Would you like to join?",
                 "Join Guild",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -52,8 +49,8 @@ public class CelestialArcanOrder extends JPanel {
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
-                character.addToInventory("Celestial Arcan Order Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcan Order and received the Celestial Arcan Order Guild Ring!");
+                character.addToInventory("Celestial Arcane Order Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcane Order and received the Celestial Arcane Order Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -64,7 +61,7 @@ public class CelestialArcanOrder extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CelestialArcanOrder.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CelestialArcaneOrder.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -79,10 +76,10 @@ public class CelestialArcanOrder extends JPanel {
 
         if (!isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
+            joinGuildButton.addActionListener(e -> {
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Celestial Arcan Order Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcan Order!");
+                Charecter.getInstance().addToInventory("Celestial Arcane Order Guild Ring");
+                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcane Order!");
                 try {
                     reloadPanel();
                 } catch (IOException | InterruptedException | ParseException ex) {
@@ -103,17 +100,17 @@ public class CelestialArcanOrder extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
-        stargazeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You gaze at the stars and gain cosmic insight. (Celestial Arcan Order exclusive service)"));
-        removeCurseButton.addActionListener(event -> {
+        buySpellsButton.addActionListener(e -> buyGuildSpell());
+        stargazeButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You gaze at the stars and gain cosmic insight. (Celestial Arcane Order exclusive service)"));
+        removeCurseButton.addActionListener(e -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
-        exitRoomButton.addActionListener(event -> {
+        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
+        sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
+        exitRoomButton.addActionListener(e -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
@@ -137,12 +134,12 @@ public class CelestialArcanOrder extends JPanel {
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Celestial Arcan Order to buy guild spells.");
+            JOptionPane.showMessageDialog(this, "You must be a member of the Celestial Arcane Order to buy guild spells.");
             return;
         }
 
-        if (!inventory.contains("Celestial Arcan Order Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Celestial Arcan Order Guild Ring to buy guild spells.");
+        if (!inventory.contains("Celestial Arcane Order Guild Ring")) {
+            JOptionPane.showMessageDialog(this, "You need the Celestial Arcane Order Guild Ring to buy guild spells.");
             return;
         }
 
@@ -172,7 +169,7 @@ public class CelestialArcanOrder extends JPanel {
         removeAll();
         revalidate();
         repaint();
-        add(new CelestialArcanOrder(isMember));
+        add(new CelestialArcaneOrder(isMember));
     }
 
     public Alignment getAlignment() {

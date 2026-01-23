@@ -63,4 +63,16 @@ public class VoidEcho implements Spell {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void cast(Charecter caster) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,5 +1,5 @@
 
-// File: src/Guild/CrimsonBlades/Armour/CrimonPlateOfValor.java
+// File: src/Guild/CrimsonBlades/Armour/CrimsonPlateOfValor.java
 
 package Guild.CrimsonBlades.Armour;
 
@@ -16,29 +16,27 @@ public class CrimsonPlateOfValor extends ArmourManager {
     private static final Guild GUILDname = Guild.CRIMSON_BLADES;
     private static final GuildType GUILDtype = GuildType.WARRIOR;
 
-    private boolean isEquipped = false;
-
     public CrimsonPlateOfValor(String effect) {
         super("Crimon Plate Of Valor", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
     }
 
+    @Override
     public void equip(Charecter wearer) {
-        if (wearer != null && !isEquipped) {
+        if (wearer != null && (wearer.getArmour() == null || !wearer.getArmour().equals(getName()))) {
             wearer.setArmour(getName());
-            wearer.setStrength(wearer.getStrength() + 4); // Valor stat bonus
-            wearer.setCritChance(wearer.getCritChance() + 6); // Critical hit bonus
-            wearer.setEffectProtection("fear", true); // Protection against "fear"
-            isEquipped = true;
+            wearer.setStrength(wearer.getStrength() + 4);
+            wearer.setCritChance(wearer.getCritChance() + 6);
+            wearer.setEffectProtection("fear", true);
         }
     }
 
+    @Override
     public void unequip(Charecter wearer) {
-        if (wearer != null && isEquipped) {
+        if (wearer != null && wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
             wearer.setArmour(null);
             wearer.setStrength(wearer.getStrength() - 4);
             wearer.setCritChance(wearer.getCritChance() - 6);
             wearer.setEffectProtection("fear", false);
-            isEquipped = false;
         }
     }
 

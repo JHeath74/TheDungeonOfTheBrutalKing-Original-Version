@@ -1,6 +1,8 @@
 
 package Guild.AuroraArcanum.Spells;
 
+import java.util.List;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
 import SharedData.Guild;
@@ -96,5 +98,23 @@ public class TimeDialation implements Spell {
 	public String getName() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void cast(Charecter caster, List<Charecter> allCharacters) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,7 +1,7 @@
 package SharedData;
 
 public enum Guild {
-	AURORA_ARCANUM,
+    AURORA_ARCANUM,
     CELESTIAL_ARCANE_ORDER,
     CRIMSON_BLADES,
     CRIMSON_VEIL_ROGUES,

@@ -1,3 +1,5 @@
+
+// src/Guild/AuroraArcanum/Weapon/StaffOfPower.java
 package Guild.AuroraArcanum.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -20,6 +22,7 @@ public class StaffOfPower extends WeaponManager {
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;
+    private int lastDefenseBonus = 0;
 
     public StaffOfPower(int requiredIntelligence, int damage, String effect, int weight) {
         super("Staff of Power", requiredIntelligence, damage, effect, weight);
@@ -38,8 +41,8 @@ public class StaffOfPower extends WeaponManager {
         if (!isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
-            int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
+            lastDefenseBonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS);
+            wielder.setDefense(wielder.getDefense() + lastDefenseBonus);
             isEquipped = true;
             return true;
         }
@@ -51,8 +54,7 @@ public class StaffOfPower extends WeaponManager {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
-            int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
+            wielder.setDefense(wielder.getDefense() - lastDefenseBonus);
             isEquipped = false;
         }
     }

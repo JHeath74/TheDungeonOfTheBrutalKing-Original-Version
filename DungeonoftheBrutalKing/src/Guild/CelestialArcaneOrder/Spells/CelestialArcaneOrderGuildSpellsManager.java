@@ -1,17 +1,24 @@
 
-package Guild.CelestialArcanOrder.Spells;
+package Guild.CelestialArcaneOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GuildSpellsManager {
+
+
+public class CelestialArcaneOrderGuildSpellsManager {
     private final Guild guild;
     private final Map<String, Spell> guildSpells = new HashMap<>();
 
-    public GuildSpellsManager(Guild guild) {
+    public CelestialArcaneOrderGuildSpellsManager(Guild guild) {
         this.guild = guild;
+        // Register core spells for this guild
+        registerSpell(new Conjure_Food());
+        registerSpell(new Cure());
+        registerSpell(new Heal());
+        registerSpell(new HolyAegis());
     }
 
     public void registerSpell(Spell spell) {

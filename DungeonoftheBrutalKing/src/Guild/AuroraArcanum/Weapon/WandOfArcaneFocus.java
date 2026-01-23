@@ -3,6 +3,7 @@ package Guild.AuroraArcanum.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
 import Enemies.Enemies;
+import SharedData.EquipmentRequirement;
 import SharedData.Guild;
 import SharedData.GuildType;
 import Weapon.WeaponManager;
@@ -10,17 +11,17 @@ import java.util.Random;
 
 public class WandOfArcaneFocus extends WeaponManager {
 
-    private static final int REQUIRED_INTELLIGENCE = 18;
+    private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.WAND_OF_ARCANE_FOCUS;
     private static final int INTELLIGENCE_BONUS = 1;
     private static final int WISDOM_BONUS = 1;
     private static final double DEFENSE_BONUS = 0.05;
     private static final int ATTACK_DAMAGE = 3;
-    private static final int WEIGHT = 3;
 
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
     private boolean isEquipped = false;
+    private int lastDefenseBonus = 0;
 
     public WandOfArcaneFocus(int requiredIntelligence, int damage, String effect, int weight) {
         super("Wand of Arcane Focus", requiredIntelligence, damage, effect, weight);
@@ -28,37 +29,34 @@ public class WandOfArcaneFocus extends WeaponManager {
 
     public static WandOfArcaneFocus createWandOfArcaneFocus(Charecter character, int damage, String effect) {
         int intelligence = character.getIntelligence();
-        if (intelligence >= REQUIRED_INTELLIGENCE) {
-            return new WandOfArcaneFocus(REQUIRED_INTELLIGENCE, damage, effect, WEIGHT);
+        if (intelligence >= REQUIREMENT.getIntelligence()) {
+            return new WandOfArcaneFocus(REQUIREMENT.getIntelligence(), damage, effect, REQUIREMENT.getWeight());
         }
         throw new IllegalArgumentException("Character does not have the required intelligence to wield the Wand of Arcane Focus.");
     }
 
-
-@Override
-public boolean equip(Charecter wielder) {
-    if (!isEquipped) {
-        wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
-        wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
-        int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
-        wielder.setDefense(newDefense);
-        isEquipped = true;
-        return true;
+    @Override
+    public boolean equip(Charecter wielder) {
+        if (!isEquipped) {
+            wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
+            wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
+            lastDefenseBonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS);
+            wielder.setDefense(wielder.getDefense() + lastDefenseBonus);
+            isEquipped = true;
+            return true;
+        }
+        return false;
     }
-    return false;
-}
 
-@Override
-public void unequip(Charecter wielder) {
-    if (isEquipped) {
-        wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
-        wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
-        int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
-        wielder.setDefense(newDefense);
-        isEquipped = false;
+    @Override
+    public void unequip(Charecter wielder) {
+        if (isEquipped) {
+            wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
+            wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
+            wielder.setDefense(wielder.getDefense() - lastDefenseBonus);
+            isEquipped = false;
+        }
     }
-}
-
 
     public void attackDamage(Charecter wielder, Enemies enemy) {
         int intelligence = wielder.getIntelligence();
@@ -83,7 +81,7 @@ public void unequip(Charecter wielder) {
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return (double) REQUIREMENT.getWeight();
     }
 
     @Override
