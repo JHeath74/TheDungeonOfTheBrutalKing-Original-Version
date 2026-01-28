@@ -104,7 +104,8 @@ public class WeaponManager {
 		return false;
 	}
 
-	public void unequip(Charecter wearer) {
+	public boolean unequip(Charecter wearer) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

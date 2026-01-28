@@ -66,6 +66,12 @@ public class AstralStep implements Spell {
     }
 
     @Override
+    public void cast(Charecter caster, Charecter target) {
+        // Astral Step only affects the caster, so just teleport the caster
+        cast(caster);
+    }
+    
+    @Override
     public void cast(int toonWisdom) {
         // Not used for this spell
     }

@@ -139,6 +139,10 @@ public void addHasteModifier(double hasteBonus) {
     hasteModifier += hasteBonus;
 }
 
+public Set<String> getEffectProtection() {
+    return new HashSet<>(protectedEffects);
+}
+
 public double getHasteModifier() {
     return hasteModifier;
 }

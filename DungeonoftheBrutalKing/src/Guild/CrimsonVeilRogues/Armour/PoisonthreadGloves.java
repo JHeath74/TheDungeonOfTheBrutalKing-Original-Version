@@ -8,34 +8,47 @@ import Armour.ArmourManager;
 public class PoisonthreadGloves extends ArmourManager {
     private static final int REQUIRED_AGILITY = 13;
     private static final int AGILITY_BONUS = 1;
-    private static final int DEFENSE_BONUS = 1; // Changed to int
-    private boolean isEquipped = false;
+    private static final int DEFENSE_BONUS = 1;
+    private static final String ARMOUR_NAME = "Poisonthread Gloves";
+    private static final String DESCRIPTION = "Poisonthread Gloves: Gloves laced with toxins, perfect for a rogue's deadly touch and nimble fingers.";
 
-    public PoisonthreadGloves(int requiredAgility, String effect) {
-        super("Poisonthread Gloves", requiredAgility, effect, DEFENSE_BONUS);
+    public PoisonthreadGloves(String effect) {
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
     }
-@Override
+
+    public static PoisonthreadGloves createPoisonthreadGloves(Charecter character, String effect) {
+        if (character == null) throw new IllegalArgumentException("Character cannot be null.");
+        int agility = character.getAgility();
+        if (agility >= REQUIRED_AGILITY) {
+            return new PoisonthreadGloves(effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required agility to wear the Poisonthread Gloves.");
+    }
+
     public boolean equip(Charecter wielder) {
-        if (!isEquipped && wielder.getAgility() >= REQUIRED_AGILITY) {
+        if (wielder == null) return false;
+        if (wielder.getArmour() == null || !wielder.getArmour().equals(getName())) {
+            wielder.setArmour(getName());
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() + DEFENSE_BONUS);
-            isEquipped = true;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean unequip(Charecter wielder) {
+        if (wielder == null) return false;
+        if (wielder.getArmour() != null && wielder.getArmour().equals(getName())) {
+            wielder.setArmour(null);
+            wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
+            wielder.setDefense(wielder.getDefense() - DEFENSE_BONUS);
             return true;
         }
         return false;
     }
 
     @Override
-    public void unequip(Charecter wielder) {
-        if (isEquipped) {
-            wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
-            wielder.setDefense(wielder.getDefense() - DEFENSE_BONUS);
-            isEquipped = false;
-        }
-    }
-
-    @Override
     public String getDescription() {
-        return "Poisonthread Gloves: Gloves laced with toxins, perfect for a rogue's deadly touch and nimble fingers.";
+        return DESCRIPTION;
     }
 }

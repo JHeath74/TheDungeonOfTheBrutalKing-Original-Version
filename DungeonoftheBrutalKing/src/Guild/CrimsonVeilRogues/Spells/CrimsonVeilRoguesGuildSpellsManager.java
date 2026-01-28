@@ -1,16 +1,16 @@
 
-package Guild.CrimsonBlades.Spells;
+package Guild.CrimsonVeilRogues.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GuildSpellsManager {
+public class CrimsonVeilRoguesGuildSpellsManager {
     private final Guild guild;
     private final Map<String, Spell> guildSpells = new HashMap<>();
 
-    public GuildSpellsManager(Guild guild) {
+    public CrimsonVeilRoguesGuildSpellsManager(Guild guild) {
         this.guild = guild;
     }
 

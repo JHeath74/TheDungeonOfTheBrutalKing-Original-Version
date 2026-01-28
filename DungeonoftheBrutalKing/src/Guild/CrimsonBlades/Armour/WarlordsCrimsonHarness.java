@@ -13,57 +13,69 @@ public class WarlordsCrimsonHarness extends ArmourManager {
     private static final int REQUIRED_STRENGTH = 20;
     private static final int ARMOUR_DEFENSE = 16;
     private static final int WEIGHT = 9;
-    private static final Guild GUILDname = Guild.CRIMSON_BLADES;
-    private static final GuildType GUILDtype = GuildType.WARRIOR;
-
-    private boolean isEquipped = false;
+    private static final int BONUS_STRENGTH = 7;
+    private static final int BONUS_CRIT_CHANCE = 12;
+    private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
+    private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
+    private static final String ARMOUR_NAME = "Warlords Crimson Harness";
+    private static final String DESCRIPTION = "Warlords Crimson Harness: The ultimate harness of the Crimson Blades, forged for warlords. Grants immense strength, critical mastery, and protection against bleeding and stunning effects.";
 
     public WarlordsCrimsonHarness(String effect) {
-        super("Warlords Crimson Harness", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
     }
 
-    public void equip(Charecter wearer) {
-        if (wearer != null && !isEquipped) {
+    @Override
+    public boolean equip(Charecter wearer) {
+        if (wearer == null) return false;
+        if (wearer.getArmour() == null || !wearer.getArmour().equals(getName())) {
             wearer.setArmour(getName());
-            wearer.setStrength(wearer.getStrength() + 7); // Warlord strength bonus
-            wearer.setCritChance(wearer.getCritChance() + 12); // High crit bonus
-            wearer.setEffectProtection("bleed", true);
-            wearer.setEffectProtection("stun", true); // Protection against stun
-            isEquipped = true;
+            wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
+            wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
+            if (wearer.getEffectProtection() != null) {
+                wearer.getEffectProtection().add("bleed");
+                wearer.getEffectProtection().add("stun");
+            }
+            return true;
         }
+        return false;
     }
 
-    public void unequip(Charecter wearer) {
-        if (wearer != null && isEquipped) {
+    @Override
+    public boolean unequip(Charecter wearer) {
+        if (wearer == null) return false;
+        if (wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
             wearer.setArmour(null);
-            wearer.setStrength(wearer.getStrength() - 7);
-            wearer.setCritChance(wearer.getCritChance() - 12);
-            wearer.setEffectProtection("bleed", false);
-            wearer.setEffectProtection("stun", false);
-            isEquipped = false;
+            wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
+            wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
+            if (wearer.getEffectProtection() != null) {
+                wearer.getEffectProtection().remove("bleed");
+                wearer.getEffectProtection().remove("stun");
+            }
+            return true;
         }
+        return false;
     }
 
     public Guild getGuild() {
-        return GUILDname;
+        return GUILD_NAME;
     }
 
     public GuildType getGuildType() {
-        return GUILDtype;
+        return GUILD_TYPE;
     }
 
     @Override
     public String getName() {
-        return super.getName();
+        return ARMOUR_NAME;
     }
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return WEIGHT;
     }
 
     @Override
     public String getDescription() {
-        return "Warlords Crimson Harness: The ultimate harness of the Crimson Blades, forged for warlords. Grants immense strength, critical mastery, and protection against bleeding and stunning effects.";
+        return DESCRIPTION;
     }
 }

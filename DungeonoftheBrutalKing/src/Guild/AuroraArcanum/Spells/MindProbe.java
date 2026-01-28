@@ -1,8 +1,6 @@
-
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
@@ -11,70 +9,65 @@ import Status.MindProbeStatus;
 public class MindProbe implements Spell {
     private static final int DURATION = 3; // rounds
     private static final double EVADE_BONUS = 0.15; // 15% increased evade chance
+    private static final int REQUIRED_MAGIC_POINTS = 7;
 
-    // Casts Mind Probe on the caster, after reading the target's thoughts
+    // Main spell logic: applies MindProbeStatus to the caster
+    @Override
     public void cast(Charecter caster, Charecter target) {
-        // Optionally, log or display the target's surface thoughts here
-        caster.addStatus(new MindProbeStatus(DURATION, EVADE_BONUS));
+        if (caster != null) {
+            caster.addStatus(new MindProbeStatus(DURATION, EVADE_BONUS));
+            // Optionally: read/display target's thoughts here
+        }
     }
 
-	@Override
-	public boolean isGuildSpell() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        // Applies to the caster only
+        cast(caster, (Charecter) null);
+    }
 
-	@Override
-	public Guild getSpellGuild() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void cast(Charecter caster) {
+        cast(caster, (Charecter) null);
+    }
 
-	@Override
-	public int getRequiredMagicPoints() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public void cast() {
+        // Not applicable: requires a caster
+    }
 
-	@Override
-	public void cast(int toonWisdom) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(int toonWisdom) {
+        // Not used for this spell
+    }
 
-	@Override
-	public void castWithIntelligence(int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        // Not used for this spell
+    }
 
-	@Override
-	public void cast(int toonWisdom, int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
+    }
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean isGuildSpell() {
+        return true;
+    }
 
-	@Override
-	public void cast(Charecter caster, List<Charecter> allCharacters) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Guild getSpellGuild() {
+        return Guild.AURORA_ARCANUM;
+    }
 
-	@Override
-	public void cast(Charecter caster) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public String getName() {
+        return "Mind Probe";
+    }
 }

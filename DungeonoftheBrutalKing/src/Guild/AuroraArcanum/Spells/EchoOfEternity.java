@@ -13,7 +13,9 @@ public class EchoOfEternity implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
+        if (caster != null) {
+            caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
+        }
     }
 
     @Override
@@ -28,22 +30,22 @@ public class EchoOfEternity implements Spell {
 
     @Override
     public int getRequiredMagicPoints() {
-        return 10; // Example value, adjust as needed
+        return 10;
     }
 
     @Override
     public void cast(int toonWisdom) {
-        // Implement logic if wisdom affects the spell
+        // No effect for wisdom in current implementation
     }
 
     @Override
     public void castWithIntelligence(int toonIntelligence) {
-        // Implement logic if intelligence affects the spell
+        // No effect for intelligence in current implementation
     }
 
     @Override
     public void cast(int toonWisdom, int toonIntelligence) {
-        // Implement logic if both stats affect the spell
+        // No effect for both stats in current implementation
     }
 
     @Override
@@ -51,15 +53,22 @@ public class EchoOfEternity implements Spell {
         return "Echo of Eternity";
     }
 
-	@Override
-	public void cast(Charecter caster) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(Charecter caster) {
+        if (caster != null) {
+            caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
+        }
+    }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast() {
+        // No caster provided, nothing to apply
+    }
+
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        if (target != null) {
+            target.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
+        }
+    }
 }

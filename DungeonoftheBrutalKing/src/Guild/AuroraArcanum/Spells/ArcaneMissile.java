@@ -54,7 +54,7 @@ public class ArcaneMissile implements Spell {
         if (allCharacters != null && !allCharacters.isEmpty()) {
             Charecter target = allCharacters.get(0);
             int damage = calculatePower(caster);
-            target.takeDamage(damage);
+            target.reduceHitPoints(damage);
         }
     }
 

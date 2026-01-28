@@ -1,8 +1,8 @@
 
+// src/Guild/AuroraArcanum/Spells/ManaSurge.java
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
 import SharedData.Guild;
@@ -28,6 +28,7 @@ public class ManaSurge implements Spell {
         timer.startClock();
         healCaster(charecter);
         active = true;
+        // Optionally, apply magic boost to charecter here
     }
 
     private void healCaster(Charecter charecter) {
@@ -82,18 +83,29 @@ public class ManaSurge implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
+        // Applies to the caster only
         cast(caster);
     }
 
     @Override
     public void cast(Charecter caster) {
-        activate(caster);
-        // Optionally, apply magic boost to caster here
+        if (caster != null) {
+            activate(caster);
+        }
     }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast() {
+        // Not applicable: requires a caster
+    }
+
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        // Applies to the target if not null, otherwise to the caster
+        if (target != null) {
+            activate(target);
+        } else if (caster != null) {
+            activate(caster);
+        }
+    }
 }

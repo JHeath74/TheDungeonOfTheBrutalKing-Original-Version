@@ -1,12 +1,11 @@
-
 package Guild.CelestialArcaneOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
+import DungeonoftheBrutalKing.Charecter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-
 
 public class CelestialArcaneOrderGuildSpellsManager {
     private final Guild guild;
@@ -22,12 +21,13 @@ public class CelestialArcaneOrderGuildSpellsManager {
     }
 
     public void registerSpell(Spell spell) {
-        if (spell.isGuildSpell() && spell.getSpellGuild() == guild) {
+        if (spell != null && spell.isGuildSpell() && spell.getSpellGuild() == guild) {
             guildSpells.put(spell.getName().toLowerCase(), spell);
         }
     }
 
     public Spell getSpell(String name) {
+        if (name == null) return null;
         return guildSpells.get(name.toLowerCase());
     }
 
@@ -35,5 +35,53 @@ public class CelestialArcaneOrderGuildSpellsManager {
         return new HashMap<>(guildSpells);
     }
 
-    // Add cast methods as in SpellsManager if needed
+    // Cast spell by name with various overloads
+    public void castSpell(String name, Charecter caster, Charecter target) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.cast(caster, target);
+        }
+    }
+
+    public void castSpell(String name, Charecter caster, List<Charecter> targets) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.cast(caster, targets);
+        }
+    }
+
+    public void castSpell(String name, Charecter caster) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.cast(caster);
+        }
+    }
+
+    public void castSpell(String name) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.cast();
+        }
+    }
+
+    public void castSpell(String name, int toonWisdom) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.cast(toonWisdom);
+        }
+    }
+
+    public void castSpellWithIntelligence(String name, int toonIntelligence) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.castWithIntelligence(toonIntelligence);
+        }
+    }
+
+    public void castSpell(String name, int toonWisdom, int toonIntelligence) {
+        Spell spell = getSpell(name);
+        if (spell != null) {
+            spell.cast(toonWisdom, toonIntelligence);
+        }
+    }
 }

@@ -1,79 +1,72 @@
 
+// src/Guild/AuroraArcanum/Spells/Starfall.java
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
 
 public class Starfall implements Spell {
     private static final int BASE_DAMAGE = 18;
+    private static final int REQUIRED_MAGIC_POINTS = 12;
 
     // Casts Starfall on a single target
+    @Override
     public void cast(Charecter caster, Charecter target) {
-        int radiantDamage = BASE_DAMAGE + (int)(caster.getIntelligence() * 1.3);
-        target.setHitPoints(target.getHitPoints() - radiantDamage);
-        // Optionally, add visual or log effect here
+        if (caster != null && target != null) {
+            int radiantDamage = BASE_DAMAGE + (int)(caster.getIntelligence() * 1.3);
+            int newHP = Math.max(0, target.getHitPoints() - radiantDamage);
+            target.setHitPoints(newHP);
+            // Optionally, add visual or log effect here
+        }
     }
 
-	@Override
-	public boolean isGuildSpell() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    // Casts Starfall on the first character in the list
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        if (allCharacters != null && !allCharacters.isEmpty()) {
+            cast(caster, allCharacters.get(0));
+        }
+    }
 
-	@Override
-	public Guild getSpellGuild() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Casts Starfall on the caster (self-target)
+    @Override
+    public void cast(Charecter caster) {
+        cast(caster, caster);
+    }
 
-	@Override
-	public int getRequiredMagicPoints() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    // Not applicable: requires a caster and target
+    @Override
+    public void cast() {}
 
-	@Override
-	public void cast(int toonWisdom) {
-		// TODO Auto-generated method stub
-		
-	}
+    // Not used for this spell
+    @Override
+    public void cast(int toonWisdom) {}
 
-	@Override
-	public void castWithIntelligence(int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {}
 
-	@Override
-	public void cast(int toonWisdom, int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {}
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public boolean isGuildSpell() {
+        return true;
+    }
 
-	@Override
-	public void cast(Charecter caster, List<Charecter> allCharacters) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public Guild getSpellGuild() {
+        return Guild.AURORA_ARCANUM;
+    }
 
-	@Override
-	public void cast(Charecter caster) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public String getName() {
+        return "Starfall";
+    }
 }

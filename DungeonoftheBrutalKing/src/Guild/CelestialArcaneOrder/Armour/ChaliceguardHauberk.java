@@ -22,32 +22,37 @@ public class ChaliceguardHauberk extends ArmourManager {
         super("Chaliceguard Hauberk", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
     }
 
-    @Override
-    public void equip(Charecter wearer) {
-        if (wearer != null && !isEquipped) {
-            wearer.setArmour(getName());
-            wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
-            wearerHadRadiantProtection = wearer.hasEffectProtection("radiant");
-            if (!wearerHadRadiantProtection) {
-                wearer.setEffectProtection("radiant", true);
-                radiantProtectionApplied = true;
-            }
-            isEquipped = true;
+@Override
+public boolean equip(Charecter wearer) {
+    if (wearer != null && !isEquipped) {
+        wearer.setArmour(getName());
+        wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+        wearerHadRadiantProtection = wearer.hasEffectProtection("radiant");
+        if (!wearerHadRadiantProtection) {
+            wearer.setEffectProtection("radiant", true);
+            radiantProtectionApplied = true;
         }
+        isEquipped = true;
+        return true;
     }
+    return false;
+}
 
-    @Override
-    public void unequip(Charecter wearer) {
-        if (wearer != null && isEquipped) {
-            wearer.setArmour(null);
-            wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
-            if (radiantProtectionApplied && !wearerHadRadiantProtection) {
-                wearer.setEffectProtection("radiant", false);
-            }
-            radiantProtectionApplied = false;
-            isEquipped = false;
+@Override
+public boolean unequip(Charecter wearer) {
+    if (wearer != null && isEquipped) {
+        wearer.setArmour(null);
+        wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+        if (radiantProtectionApplied && !wearerHadRadiantProtection) {
+            wearer.setEffectProtection("radiant", false);
         }
+        radiantProtectionApplied = false;
+        isEquipped = false;
+        return true;
     }
+    return false;
+}
+
 
     public Guild getGuild() {
         return GUILDname;

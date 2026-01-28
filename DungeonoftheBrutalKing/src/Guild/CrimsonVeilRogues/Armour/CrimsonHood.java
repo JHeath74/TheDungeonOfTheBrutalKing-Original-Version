@@ -9,32 +9,46 @@ public class CrimsonHood extends ArmourManager {
     private static final int REQUIRED_AGILITY = 12;
     private static final int AGILITY_BONUS = 1;
     private static final int DEFENSE_BONUS = 1;
-    private boolean isEquipped = false;
+    private static final String ARMOUR_NAME = "Crimson Hood";
+    private static final String DESCRIPTION = "Crimson Hood: A blood-red hood that marks a rogue of the Veil, granting subtle protection and intimidation.";
 
-    public CrimsonHood(int requiredAgility, String effect) {
-        super("Crimson Hood", requiredAgility, DEFENSE_BONUS, effect);
+    public CrimsonHood(String effect) {
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
+    }
+
+    public static CrimsonHood createCrimsonHood(Charecter character, String effect) {
+        if (character == null) throw new IllegalArgumentException("Character cannot be null.");
+        int agility = character.getAgility();
+        if (agility >= REQUIRED_AGILITY) {
+            return new CrimsonHood(effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required agility to wear the Crimson Hood.");
     }
 
     public boolean equip(Charecter wielder) {
-        if (!isEquipped && wielder.getAgility() >= REQUIRED_AGILITY) {
+        if (wielder == null) return false;
+        if (wielder.getArmour() == null || !wielder.getArmour().equals(getName())) {
+            wielder.setArmour(getName());
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() + DEFENSE_BONUS);
-            isEquipped = true;
             return true;
         }
         return false;
     }
 
-    public void unequip(Charecter wielder) {
-        if (isEquipped) {
+    public boolean unequip(Charecter wielder) {
+        if (wielder == null) return false;
+        if (wielder.getArmour() != null && wielder.getArmour().equals(getName())) {
+            wielder.setArmour(null);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() - DEFENSE_BONUS);
-            isEquipped = false;
+            return true;
         }
+        return false;
     }
 
     @Override
     public String getDescription() {
-        return "Crimson Hood: A blood-red hood that marks a rogue of the Veil, granting subtle protection and intimidation.";
+        return DESCRIPTION;
     }
 }

@@ -17,9 +17,11 @@ public class VigilantCenserFlail extends WeaponManager {
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
-    public VigilantCenserFlail(String effect) {
-        super("Vigilant Censer‐Flail", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
-    }
+
+public VigilantCenserFlail(String effect) {
+    super("Vigilant Censer‐Flail", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
+}
+
 
     @Override
     public boolean equip(Charecter wearer) {
@@ -32,11 +34,13 @@ public class VigilantCenserFlail extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - BONUS_WISDOM);
+            return true;
         }
+        return false;
     }
 
     public void applyEffect(HasHitPoints target) {

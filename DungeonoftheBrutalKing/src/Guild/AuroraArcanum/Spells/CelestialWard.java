@@ -1,3 +1,5 @@
+
+// src/Guild/AuroraArcanum/Spells/CelestialWard.java
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
@@ -80,11 +82,22 @@ public class CelestialWard implements Spell {
     public void cast(Charecter caster) {
         activate();
         // Optionally, apply defense boost to caster here
+        int boost = calculateDefenseBoost(caster);
+        caster.setDefense(boost);
     }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast() {
+        activate();
+        // No specific target, so no defense boost applied
+    }
+
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        activate();
+        if (target != null) {
+            int boost = calculateDefenseBoost(target);
+            target.setDefense(boost);
+        }
+    }
 }

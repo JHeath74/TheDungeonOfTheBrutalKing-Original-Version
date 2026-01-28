@@ -18,7 +18,7 @@ public class SunwardenMace extends WeaponManager {
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
     public SunwardenMace(String effect) {
-        super("Sunwarden Mace", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
+        super("Sunwarden Mace", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
     }
 
     @Override
@@ -32,11 +32,12 @@ public class SunwardenMace extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - BONUS_WISDOM);
         }
+		return false;
     }
 
     public void applyEffect(HasHitPoints target) {

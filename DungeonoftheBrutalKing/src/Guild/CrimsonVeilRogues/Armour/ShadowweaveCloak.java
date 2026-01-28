@@ -8,33 +8,47 @@ import Armour.ArmourManager;
 public class ShadowweaveCloak extends ArmourManager {
     private static final int REQUIRED_AGILITY = 14;
     private static final int AGILITY_BONUS = 3;
-    private static final int DEFENSE_BONUS = 1; // Use int for defense bonus
-    private boolean isEquipped = false;
+    private static final int DEFENSE_BONUS = 1;
+    private static final String ARMOUR_NAME = "Shadowweave Cloak";
+    private static final String DESCRIPTION = "Shadowweave Cloak: A cloak woven from darkness, enhancing stealth and agility for the perfect ambush.";
 
-    public ShadowweaveCloak(int requiredAgility, String effect) {
-        super("Shadowweave Cloak", requiredAgility, DEFENSE_BONUS, effect); // Add defense bonus if needed
+    public ShadowweaveCloak(String effect) {
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
+    }
+
+    public static ShadowweaveCloak createShadowweaveCloak(Charecter character, String effect) {
+        if (character == null) throw new IllegalArgumentException("Character cannot be null.");
+        int agility = character.getAgility();
+        if (agility >= REQUIRED_AGILITY) {
+            return new ShadowweaveCloak(effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required agility to wear the Shadowweave Cloak.");
     }
 
     public boolean equip(Charecter wielder) {
-        if (!isEquipped && wielder.getAgility() >= REQUIRED_AGILITY) {
+        if (wielder == null) return false;
+        if (wielder.getArmour() == null || !wielder.getArmour().equals(getName())) {
+            wielder.setArmour(getName());
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() + DEFENSE_BONUS);
-            isEquipped = true;
             return true;
         }
         return false;
     }
 
-    public void unequip(Charecter wielder) {
-        if (isEquipped) {
+    public boolean unequip(Charecter wielder) {
+        if (wielder == null) return false;
+        if (wielder.getArmour() != null && wielder.getArmour().equals(getName())) {
+            wielder.setArmour(null);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() - DEFENSE_BONUS);
-            isEquipped = false;
+            return true;
         }
+        return false;
     }
 
     @Override
     public String getDescription() {
-        return "Shadowweave Cloak: A cloak woven from darkness, enhancing stealth and agility for the perfect ambush.";
+        return DESCRIPTION;
     }
 }

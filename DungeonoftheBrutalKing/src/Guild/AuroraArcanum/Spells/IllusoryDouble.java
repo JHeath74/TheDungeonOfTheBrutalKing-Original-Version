@@ -1,7 +1,8 @@
+
+// src/Guild/AuroraArcanum/Spells/IllusoryDouble.java
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
@@ -14,23 +15,30 @@ public class IllusoryDouble implements Spell {
 
     @Override
     public void cast(Charecter caster) {
-        caster.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
-        // Optionally, add visual or log effect here
+        if (caster != null) {
+            caster.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
+        }
     }
 
     @Override
-    public boolean isGuildSpell() {
-        return true;
+    public void cast(Charecter caster, Charecter target) {
+        // Applies the effect to the target (if not null), otherwise to the caster
+        if (target != null) {
+            target.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
+        } else if (caster != null) {
+            caster.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
+        }
     }
 
     @Override
-    public Guild getSpellGuild() {
-        return Guild.AURORA_ARCANUM;
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        // Applies to the caster only
+        cast(caster);
     }
 
     @Override
-    public int getRequiredMagicPoints() {
-        return REQUIRED_MAGIC_POINTS;
+    public void cast() {
+        // Not applicable: requires a caster
     }
 
     @Override
@@ -49,18 +57,22 @@ public class IllusoryDouble implements Spell {
     }
 
     @Override
-    public String getName() {
-        return "Illusory Double";
+    public boolean isGuildSpell() {
+        return true;
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
-        cast(caster);
+    public Guild getSpellGuild() {
+        return Guild.AURORA_ARCANUM;
     }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+    @Override
+    public String getName() {
+        return "Illusory Double";
+    }
 }

@@ -1,5 +1,6 @@
 
-// src/Guild/CrimsonBlades/Weapon/BladestormsHalbred.java
+// File: src/Guild/CrimsonBlades/Weapon/BladestormsHalbred.java
+
 package Guild.CrimsonBlades.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,7 +10,7 @@ import SharedData.GuildType;
 import Weapon.WeaponManager;
 import java.util.Random;
 
-public class BladestormsHalbred extends WeaponManager {
+public class BladestormHalberd extends WeaponManager {
 
     private static final int REQUIRED_STRENGTH = 16;
     private static final int STRENGTH_BONUS = 3;
@@ -17,48 +18,51 @@ public class BladestormsHalbred extends WeaponManager {
     private static final double DEFENSE_BONUS = 0.07;
     private static final int ATTACK_DAMAGE = 6;
     private static final int WEIGHT = 4;
+    private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
+    private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
+    private static final String WEAPON_NAME = "Bladestorms Halbred";
+    private static final String DESCRIPTION = "Bladestorms Halbred: A mighty halbred forged for the Crimson Blades, unleashing storm-like fury and granting great strength, defense, and agility.";
 
-    private static final Guild GUILDname = Guild.CRIMSON_BLADES;
-    private static final GuildType GUILDtype = GuildType.WARRIOR;
-
-    private boolean isEquipped = false;
-
-    public BladestormsHalbred(int requiredStrength, int damage, String effect, int weight) {
-        super("Bladestorms Halbred", requiredStrength, damage, effect, weight);
+    public BladestormHalberd(String effect) {
+        super(WEAPON_NAME, REQUIRED_STRENGTH, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static BladestormsHalbred createBladestormsHalbred(Charecter character, int damage, String effect) {
-        int strength = Integer.parseInt(character.getCharInfo().get(2));
+    public static BladestormHalberd createBladestormsHalbred(Charecter character, String effect) {
+        if (character == null) throw new IllegalArgumentException("Character cannot be null.");
+        int strength = character.getStrength();
         if (strength >= REQUIRED_STRENGTH) {
-            return new BladestormsHalbred(REQUIRED_STRENGTH, damage, effect, WEIGHT);
+            return new BladestormHalberd(effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Bladestorms Halbred.");
     }
 
     public boolean equip(Charecter wielder) {
-        if (!isEquipped) {
+        if (wielder == null) return false;
+        if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
+            wielder.setWeapon(getName());
             wielder.setStrength(wielder.getStrength() + STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
-            int newDefense = (int) (wielder.getDefense() + DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
-            isEquipped = true;
+            wielder.setDefense((int)(wielder.getDefense() + DEFENSE_BONUS));
             return true;
         }
         return false;
     }
 
-    public void unequip(Charecter wielder) {
-        if (isEquipped) {
+    public boolean unequip(Charecter wielder) {
+        if (wielder == null) return false;
+        if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
+            wielder.setWeapon(null);
             wielder.setStrength(wielder.getStrength() - STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
-            int newDefense = (int) (wielder.getDefense() - DEFENSE_BONUS);
-            wielder.setDefense(newDefense);
-            isEquipped = false;
+            wielder.setDefense((int)(wielder.getDefense() - DEFENSE_BONUS));
+            return true;
         }
+        return false;
     }
 
     public void attackDamage(Charecter wielder, Enemies enemy) {
-        int strength = Integer.parseInt(wielder.getCharInfo().get(2));
+        if (wielder == null || enemy == null) return;
+        int strength = wielder.getStrength();
         Random rand = new Random();
         int bonus = rand.nextInt((strength / 3) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
@@ -66,26 +70,26 @@ public class BladestormsHalbred extends WeaponManager {
     }
 
     public Guild getGuild() {
-        return GUILDname;
+        return GUILD_NAME;
     }
 
     public GuildType getGuildType() {
-        return GUILDtype;
+        return GUILD_TYPE;
     }
 
     @Override
     public String getName() {
-        return super.getName();
+        return WEAPON_NAME;
     }
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return WEIGHT;
     }
 
     @Override
     public double getDamage() {
-        return (double) ATTACK_DAMAGE;
+        return ATTACK_DAMAGE;
     }
 
     @Override
@@ -95,6 +99,6 @@ public class BladestormsHalbred extends WeaponManager {
 
     @Override
     public String getDescription() {
-        return "Bladestorms Halbred: A mighty halbred forged for the Crimson Blades, unleashing storm-like fury and granting great strength, defense, and agility.";
+        return DESCRIPTION;
     }
 }

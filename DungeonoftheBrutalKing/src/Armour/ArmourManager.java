@@ -119,12 +119,14 @@ public class ArmourManager {
 		return 0;
 	}
 
-	public void equip(Charecter wearer) {
+	public boolean equip(Charecter wearer) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void unequip(Charecter wearer) {
+	public boolean unequip(Charecter wearer) {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}

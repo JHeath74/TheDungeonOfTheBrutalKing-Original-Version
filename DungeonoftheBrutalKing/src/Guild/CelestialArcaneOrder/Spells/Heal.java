@@ -1,52 +1,80 @@
-
-// src/Spells/Heal.java
 package Guild.CelestialArcaneOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
-
-import java.util.List;
-
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Singleton;
+import java.util.List;
 
 public class Heal implements Spell {
 
     private static final int REQUIRED_MAGIC_POINTS = 8;
-    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
-    private static Charecter myChar = Charecter.getInstance();
-    private String name;
+    private static final Guild SPELL_GUILD = Guild.CELESTIAL_ARCANE_ORDER;
+    private static final String SPELL_NAME = "Heal";
 
-    public Heal() {
-        this.name = "Heal";
-    }
+    public Heal() {}
 
-    @Override
-    public void cast() {
-        int intelligence = myChar.getIntelligence();
-        int maxHealth = myChar.getMaxHitPoints();
-        int currentHealth = myChar.getHitPoints();
+    // Core spell logic: heals the target character
+    private void healCharacter(Charecter target) {
+        if (target == null) return;
+        int intelligence = target.getIntelligence();
+        int maxHealth = target.getMaxHitPoints();
+        int currentHealth = target.getHitPoints();
 
         int healthRestored = 10 + intelligence;
         int newHealth = Math.min(currentHealth + healthRestored, maxHealth);
 
-        Singleton.myCharSingleton().setHitPoints(newHealth);
+        target.setHitPoints(newHealth);
 
-        System.out.println("Restored " + (newHealth - currentHealth) + " health points!");
+        System.out.println(target.getName() + " restored " + (newHealth - currentHealth) + " health points!");
+    }
+
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        healCharacter(target != null ? target : caster);
+    }
+
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        if (allCharacters != null && !allCharacters.isEmpty()) {
+            for (Charecter ch : allCharacters) {
+                healCharacter(ch);
+            }
+        }
+    }
+
+    @Override
+    public void cast(Charecter caster) {
+        healCharacter(caster);
+    }
+
+    @Override
+    public void cast() {
+        // Not applicable: requires a character
+    }
+
+    @Override
+    public void cast(int toonWisdom) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // Not used for this spell
     }
 
     @Override
     public boolean isGuildSpell() {
-        return SPELL_GUILD != Guild.NON_GUILD;
+        return true;
     }
 
+    @Override
     public Guild getSpellGuild() {
         return SPELL_GUILD;
-    }
-
-    
-    public void cast(int attackerWisdom) {
-        // Not used for this spell
     }
 
     @Override
@@ -54,32 +82,8 @@ public class Heal implements Spell {
         return REQUIRED_MAGIC_POINTS;
     }
 
-    
-    public void cast(int toonWisdom, int toonIntelligence) {
-        // Not used for this spell
+    @Override
+    public String getName() {
+        return SPELL_NAME;
     }
-
-	@Override
-	public void castWithIntelligence(int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void cast(Charecter caster, List<Charecter> allCharacters) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void cast(Charecter caster) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -20,4 +20,5 @@ public interface Spell {
 	void cast(Charecter caster, List<Charecter> allCharacters);
 	void cast(Charecter caster);
 	void cast();
+	void cast(Charecter caster, Charecter target);
 }

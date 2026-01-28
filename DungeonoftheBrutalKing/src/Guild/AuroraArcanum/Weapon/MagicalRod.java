@@ -50,13 +50,14 @@ public class MagicalRod extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wielder) {
+    public boolean unequip(Charecter wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
             wielder.setDefense(wielder.getDefense() - lastDefenseBonus);
             isEquipped = false;
         }
+		return isEquipped;
     }
 
     public void attackDamage(Charecter wielder, Enemies enemy) {

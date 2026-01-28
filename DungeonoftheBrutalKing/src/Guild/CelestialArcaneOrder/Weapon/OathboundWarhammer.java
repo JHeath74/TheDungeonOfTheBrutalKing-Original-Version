@@ -20,7 +20,7 @@ public class OathboundWarhammer extends WeaponManager {
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
     public OathboundWarhammer(String effect) {
-        super("Oathbound Warhammer", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
+        super("Oathbound Warhammer", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
     }
 
     @Override
@@ -34,11 +34,13 @@ public class OathboundWarhammer extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat bonus
+            return true;
         }
+        return false;
     }
 
     @Override

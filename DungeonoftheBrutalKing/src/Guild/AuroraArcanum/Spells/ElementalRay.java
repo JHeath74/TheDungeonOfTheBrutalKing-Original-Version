@@ -1,4 +1,5 @@
 
+// src/Guild/AuroraArcanum/Spells/ElementalRay.java
 package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -17,8 +18,10 @@ public class ElementalRay implements Spell {
     private Element currentElement;
     private final Random random = new Random();
 
-    // Call this to fire the beam at a target
-    public void activate(Charecter caster, Charecter target) {
+    // Main spell logic: fires the beam at a target
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        if (caster == null || target == null) return;
         currentElement = Element.values()[random.nextInt(Element.values().length)];
         applyEffect(caster, target, currentElement);
     }
@@ -48,63 +51,56 @@ public class ElementalRay implements Spell {
         return currentElement;
     }
 
-	@Override
-	public boolean isGuildSpell() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean isGuildSpell() {
+        return true;
+    }
 
-	@Override
-	public Guild getSpellGuild() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Guild getSpellGuild() {
+        return Guild.AURORA_ARCANUM;
+    }
 
-	@Override
-	public int getRequiredMagicPoints() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int getRequiredMagicPoints() {
+        return 10;
+    }
 
-	@Override
-	public void cast(int toonWisdom) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(int toonWisdom) {
+        // No target, so nothing happens
+    }
 
-	@Override
-	public void castWithIntelligence(int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        // No target, so nothing happens
+    }
 
-	@Override
-	public void cast(int toonWisdom, int toonIntelligence) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // No target, so nothing happens
+    }
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName() {
+        return "Elemental Ray";
+    }
 
-	@Override
-	public void cast(Charecter caster, List<Charecter> allCharacters) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        // Cast on the first target in the list (if any)
+        if (caster != null && allCharacters != null && !allCharacters.isEmpty()) {
+            cast(caster, allCharacters.get(0));
+        }
+    }
 
-	@Override
-	public void cast(Charecter caster) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(Charecter caster) {
+        // No target, so nothing happens
+    }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast() {
+        // No caster or target, so nothing happens
+    }
 }

@@ -46,7 +46,9 @@ public class AuroraArcanumGuildSpellsManager {
         };
         for (String spellName : defaultSpells) {
             Spell spell = Spell.createGuildSpell(spellName, guild);
-            registerSpell(spell);
+            if (spell != null) {
+                registerSpell(spell);
+            }
         }
     }
 }

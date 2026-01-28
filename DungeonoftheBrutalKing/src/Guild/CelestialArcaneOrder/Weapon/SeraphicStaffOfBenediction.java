@@ -33,10 +33,11 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (wearer != null && getName().equals(wearer.getWeapon())) {
             wearer.setWeapon(null);
         }
+		return false;
     }
 
     @Override

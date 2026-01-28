@@ -22,14 +22,14 @@ public class DaggerOfSpellcraft extends WeaponManager {
 
     private boolean isEquipped = false;
 
-    public DaggerOfSpellcraft(int requiredIntelligence, int damage, String effect, int weight) {
+    public DaggerOfSpellcraft(int requiredIntelligence, int damage, int weight, String effect) {
         super("Dagger of Spellcraft", requiredIntelligence, damage, effect, weight);
     }
 
     public static DaggerOfSpellcraft createDaggerOfSpellcraft(Charecter character, int damage, String effect) {
         int intelligence = Integer.parseInt(character.getCharInfo().get(6));
         if (intelligence >= REQUIRED_INTELLIGENCE) {
-            return new DaggerOfSpellcraft(REQUIRED_INTELLIGENCE, damage, effect, WEIGHT);
+            return new DaggerOfSpellcraft(REQUIRED_INTELLIGENCE, damage, WEIGHT, effect);
         }
         throw new IllegalArgumentException("Character does not have the required intelligence to wield the Dagger of Spellcraft.");
     }
@@ -48,7 +48,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wielder) {
+    public boolean unequip(Charecter wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
@@ -56,6 +56,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
             wielder.setDefense(wielder.getDefense() - bonus);
             isEquipped = false;
         }
+		return isEquipped;
     }
 
     public void attackDamage(Charecter wielder, Enemies enemy) {

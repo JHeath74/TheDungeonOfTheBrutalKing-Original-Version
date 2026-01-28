@@ -23,7 +23,7 @@ public class ReliquaryWardmail extends ArmourManager {
     }
 
     @Override
-    public void equip(Charecter wearer) {
+    public boolean equip(Charecter wearer) {
         if (wearer != null && !isEquipped) {
             wearer.setArmour(getName());
             wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
@@ -33,11 +33,13 @@ public class ReliquaryWardmail extends ArmourManager {
                 echoProtectionApplied = true;
             }
             isEquipped = true;
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
             wearer.setArmour(null);
             wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
@@ -46,7 +48,9 @@ public class ReliquaryWardmail extends ArmourManager {
             }
             echoProtectionApplied = false;
             isEquipped = false;
+            return true;
         }
+        return false;
     }
 
     public Guild getGuild() {

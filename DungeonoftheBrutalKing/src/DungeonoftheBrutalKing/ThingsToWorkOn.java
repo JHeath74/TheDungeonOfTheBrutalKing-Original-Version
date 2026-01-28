@@ -16,7 +16,8 @@ public class ThingsToWorkOn {
 		//Need Rogue guild spells or abilities.
 		//When eating food in guild, restore hunger and thirst meter.
 		
-		//5 more spells in celestialarcan order
+		//5 more spells in celestialarcaneorder
+		//10 Spells for CrimsonBlades
 	}
 	
 	//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/

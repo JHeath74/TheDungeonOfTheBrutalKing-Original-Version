@@ -17,12 +17,12 @@ public class ReliquarySpear extends WeaponManager {
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
     public ReliquarySpear(String effect) {
-        super("Reliquary Spear", REQUIRED_WISDOM, DAMAGE, effect, DAMAGE);
+        super("Reliquary Spear", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
+        if (wearer != null && wearer.getCurrentGuild() == GUILDtype && (wearer.getWeapon() == null || !wearer.getWeapon().equals(getName()))) {
             wearer.setWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + 2); // Stat boost
             wearer.setEffectProtection("curse", true); // Example protection
@@ -32,12 +32,14 @@ public class ReliquarySpear extends WeaponManager {
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat boost
             wearer.setEffectProtection("curse", false); // Remove protection
+            return true;
         }
+        return false;
     }
 
     @Override

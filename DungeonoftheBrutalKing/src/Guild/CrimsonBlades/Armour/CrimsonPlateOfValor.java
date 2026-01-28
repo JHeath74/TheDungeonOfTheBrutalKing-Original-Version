@@ -13,53 +13,67 @@ public class CrimsonPlateOfValor extends ArmourManager {
     private static final int REQUIRED_STRENGTH = 17;
     private static final int ARMOUR_DEFENSE = 12;
     private static final int WEIGHT = 6;
-    private static final Guild GUILDname = Guild.CRIMSON_BLADES;
-    private static final GuildType GUILDtype = GuildType.WARRIOR;
+    private static final int BONUS_STRENGTH = 4;
+    private static final int BONUS_CRIT_CHANCE = 6;
+    private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
+    private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
+    private static final String ARMOUR_NAME = "Crimson Plate Of Valor";
+    private static final String DESCRIPTION = "Crimson Plate Of Valor: A mighty crimson plate that emboldens its wearer, granting strength, resilience, and protection against fear.";
 
     public CrimsonPlateOfValor(String effect) {
-        super("Crimon Plate Of Valor", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
     }
 
     @Override
-    public void equip(Charecter wearer) {
-        if (wearer != null && (wearer.getArmour() == null || !wearer.getArmour().equals(getName()))) {
+    public boolean equip(Charecter wearer) {
+        if (wearer == null) return false;
+        if (wearer.getArmour() == null || !wearer.getArmour().equals(getName())) {
             wearer.setArmour(getName());
-            wearer.setStrength(wearer.getStrength() + 4);
-            wearer.setCritChance(wearer.getCritChance() + 6);
-            wearer.setEffectProtection("fear", true);
+            wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
+            wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
+            if (wearer.getEffectProtection() != null) {
+                wearer.getEffectProtection().add("fear");
+            }
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
-        if (wearer != null && wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
+    public boolean unequip(Charecter wearer) {
+        if (wearer == null) return false;
+        if (wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
             wearer.setArmour(null);
-            wearer.setStrength(wearer.getStrength() - 4);
-            wearer.setCritChance(wearer.getCritChance() - 6);
-            wearer.setEffectProtection("fear", false);
+            wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
+            wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
+            if (wearer.getEffectProtection() != null) {
+                wearer.getEffectProtection().remove("fear");
+            }
+            return true;
         }
+        return false;
     }
 
     public Guild getGuild() {
-        return GUILDname;
+        return GUILD_NAME;
     }
 
     public GuildType getGuildType() {
-        return GUILDtype;
+        return GUILD_TYPE;
     }
 
     @Override
     public String getName() {
-        return super.getName();
+        return ARMOUR_NAME;
     }
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return WEIGHT;
     }
 
     @Override
     public String getDescription() {
-        return "Crimon Plate Of Valor: A mighty crimson plate that emboldens its wearer, granting strength, resilience, and protection against fear.";
+        return DESCRIPTION;
     }
 }
