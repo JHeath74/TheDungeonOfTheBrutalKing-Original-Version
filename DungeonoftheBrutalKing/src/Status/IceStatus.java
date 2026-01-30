@@ -1,5 +1,3 @@
-
-// src/Status/Frozen.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -8,11 +6,21 @@ public class IceStatus extends Status {
     private static final int DURATION_MINUTES = 5; // set your desired duration
 
     public IceStatus() {
-        super("Frozen", DURATION_MINUTES);
+        super("Frozen", DURATION_MINUTES, true); // true: negative effect
     }
 
     @Override
     public void applyEffect(Charecter character) {
-        character.setCanAct(false);
+       
+    }
+
+    @Override
+    public void expireEffect(Charecter character) {
+       
+    }
+
+    @Override
+    public void removeEffect(Charecter character) {
+       
     }
 }

@@ -6,9 +6,27 @@ import java.util.*;
 import Quests.Quest;
 import SharedData.GuildMembershipStatus;
 import SharedData.GuildType;
+import Status.AccuracyStatus;
+import Status.BleedStatus;
+import Status.BlindStatus;
+import Status.DazeStatus;
+import Status.DrainStatus;
+import Status.EchoOfEternityAuraStatus;
+import Status.EtherealChainsStatus;
+import Status.FearStatus;
+import Status.FireStatus;
 import Status.HasHitPoints;
+import Status.IceStatus;
+import Status.IllusoryDoubleStatus;
+import Status.LifeStealStatus;
+import Status.MindProbeStatus;
+import Status.PoisonStatus;
+import Status.RadiantStatus;
+import Status.ReduceDefenseStatus;
+import Status.ReduceStrengthStatus;
 import Status.Status;
 import Status.StatusManager;
+import Status.StatusType;
 
 public class Charecter implements HasHitPoints {
 
@@ -29,6 +47,7 @@ public class Charecter implements HasHitPoints {
     private double hasteModifier = 0.0;
     private int spellResistanceBonus = 0;
     private int critChance = 0;
+    private double hitChance = 1.0; 
 
     private Set<String> resistances = new HashSet<>();
 
@@ -336,6 +355,122 @@ public void takeElementalDamage(String elementType, int spellPower) {
     reduceHitPoints(damage);
 }
 
+
+//In src/DungeonoftheBrutalKing/Charecter.java
+
+public boolean removeOneNegativeEffect() {
+ for (Iterator<Status> it = statuses.iterator(); it.hasNext(); ) {
+     Status status = it.next();
+     if (status.isNegative()) { // Assumes Status has isNegative()
+         it.remove();
+         status.removeEffect(this); // If you have a cleanup method
+         System.out.println(getName() + " has a negative effect removed: " + status.getName());
+         return true;
+     }
+ }
+ return false;
+}
+
+public List<Status> getNegativeEffects() {
+    List<Status> negatives = new ArrayList<>();
+    for (Status status : statuses) {
+        if (status.isNegative()) {
+            negatives.add(status);
+        }
+    }
+    return negatives;
+}
+
+public double getHitChance() {
+    return hitChance;
+}
+
+public void setHitChance(double hitChance) {
+    this.hitChance = Math.max(0.0, Math.min(hitChance, 1.0)); // Clamp between 0 and 1
+}
+
+
+//In src/DungeonoftheBrutalKing/Charecter.java
+
+public int getAccuracy() {
+    int stored = getInt(36, -1);
+    if (stored >= 0) {
+        return Math.max(0, Math.min(stored, 100));
+    }
+    // Example formula: base 50 + 2 * agility + intelligence
+    int base = 50;
+    int accuracy = base + getAgility() * 2 + getIntelligence();
+    return Math.max(0, Math.min(accuracy, 100));
+}
+
+public void setAccuracy(int accuracy) {
+    setInt(36, Math.max(0, Math.min(accuracy, 100))); // Clamp between 0 and 100
+}
+
+public void applyStatusEffect(StatusType type, int duration, int value, Charecter caster) {
+    Status status;
+
+    switch (type) {
+        case ACCURACY_STATUS:
+            status = new AccuracyStatus(null, duration, stunned, value);
+            break;
+        case BLEED_STATUS:
+            status = new BleedStatus();
+            break;
+        case BLIND_STATUS:
+            status = new BlindStatus();
+            break;
+        case DAZE_STATUS:
+            status = new DazeStatus(duration, value);
+            break;
+        case DRAIN_STATUS:
+            status = new DrainStatus(duration, value, null);
+            break;
+        case ECHO_OF_ETERNITY_STATUS:
+            status = new EchoOfEternityAuraStatus(duration, caster);
+            break;
+        case ETHEREAL_CHAINS_STATUS:
+            status = new EtherealChainsStatus(duration);
+            break;
+        case FEAR_STATUS:
+            status = new FearStatus(duration);
+            break;
+        case FIRE_STATUS:
+            status = new FireStatus();
+            break;
+        case ICE_STATUS:
+            status = new IceStatus();
+            break;
+        case ILLUSORY_DOUBLE_STATUS:
+            status = new IllusoryDoubleStatus(duration, value);
+            break;
+        case LIFE_STEAL_STATUS:
+            status = new LifeStealStatus(duration);
+            break;
+        case MIND_PROBE_STATUS:
+            status = new MindProbeStatus(duration, value);
+            break;
+        case POISON_STATUS:
+            status = new PoisonStatus(duration);
+            break;
+        case RADIANT_STATUS:
+            status = new RadiantStatus(duration);
+            break;
+        case REDUCE_DEFENSE_STATUS:
+            status = new ReduceDefenseStatus();
+            break;
+        case REDUCE_STRENGTH_STATUS:
+            status = new ReduceStrengthStatus();
+            break;
+
+        default:
+            // Fallback for any unimplemented status
+            status = new Status(type.name(), duration, false) {};
+            break;
+    }
+
+    addStatus(status);
+}
 
 
 

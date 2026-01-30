@@ -1,8 +1,10 @@
+
+// src/Status/HasHitPoints.java
 package Status;
 
 public interface HasHitPoints {
     int getHitPoints();
     void setHitPoints(int hp);
     int getMaxHitPoints();
-	void addStatus(Status effectStatus);
+    void addStatus(Status effectStatus);
 }

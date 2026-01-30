@@ -7,12 +7,12 @@ public class VoidEchoStatus extends Status {
     private final boolean extraDamage;
 
     public VoidEchoStatus(int durationSeconds, boolean extraDamage) {
-        super("Void Echo", durationSeconds);
+        super("Void Echo", durationSeconds, true); // true: negative effect
         this.extraDamage = extraDamage;
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Charecter charecter) {
         // No periodic effect needed
     }
 

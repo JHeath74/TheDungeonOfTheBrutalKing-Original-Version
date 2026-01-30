@@ -1,27 +1,8 @@
 
-// src/Status/StatusRegistry.java
 package Status;
 
-import java.util.Map;
 import java.util.HashMap;
-
-// Import all status classes from Status package
-import Status.BleedStatus;
-import Status.BlindStatus;
-import Status.DazeStatus;
-import Status.DrainStatus;
-import Status.EchoOfEternityAuraStatus;
-import Status.EtherealChainsStatus;
-import Status.FearStatus;
-import Status.FireStatus;
-import Status.IceStatus;
-import Status.IllusoryDoubleStatus;
-import Status.LifeStealStatus;
-import Status.MindProbeStatus;
-import Status.PoisonStatus;
-import Status.RadiantStatus;
-import Status.ReduceDefenseStatus;
-import Status.ReduceStrengthStatus;
+import java.util.Map;
 
 public class StatusRegistry {
     private static final Map<String, Class<? extends Status>> statusMap = new HashMap<>();

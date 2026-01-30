@@ -12,10 +12,9 @@ public class ThingsToWorkOn {
 		//Action points for each guild.
 		//Adding a food and water meter showing hunger and thirst.
 		//possible to have 1-3 enemies to combat.
-		//Need thief guild spells or abilities.
-		//Need Rogue guild spells or abilities.
 		//When eating food in guild, restore hunger and thirst meter.
 		
+		//Add EtherealChainsStatus - prevent attacking while active
 		//5 more spells in celestialarcaneorder
 		//10 Spells for CrimsonBlades
 	}

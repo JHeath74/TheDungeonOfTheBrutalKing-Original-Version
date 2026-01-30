@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class StunStatus extends Status {
     public StunStatus(int duration) {
-        super("Stun", duration);
+        super("Stun", duration, negative);
     }
 
     @Override

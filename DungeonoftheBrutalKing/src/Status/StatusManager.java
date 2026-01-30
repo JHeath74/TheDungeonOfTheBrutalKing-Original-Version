@@ -1,5 +1,3 @@
-
-// src/Status/StatusManager.java
 package Status;
 
 import java.util.ArrayList;
@@ -8,56 +6,42 @@ import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
 
-/*Status: Represents persistent or current state (e.g., poisoned, stunned, healthy).
-StatusManager: Manages the set of statuses for an entity (add, remove, query).*/
-
-/**
- * Manages the status effects applied to a character.
- * Handles adding, updating, removing, and retrieving statuses.
- */
 public class StatusManager {
     private List<Status> activeStatuses = new ArrayList<>();
 
-    /**
-     * Adds a new status to the manager.
-     * Use the correct subclass, e.g., new PoisonStatus(duration).
-     */
-    public void addStatus(Status status) {
+    public void addStatus(Status status, Charecter charecter) {
+        status.applyEffect(charecter);
         activeStatuses.add(status);
     }
 
-    /**
-     * Updates all statuses: reduces duration, applies effect, removes expired.
-     */
-    public void updateStatuses(Charecter character, int timeElapsed) {
+    public void updateStatuses(Charecter charecter, int timeElapsed) {
         Iterator<Status> iterator = activeStatuses.iterator();
         while (iterator.hasNext()) {
             Status status = iterator.next();
             status.reduceDuration(timeElapsed);
-            status.applyEffect(character);
             if (status.isExpired()) {
+                status.expireEffect(charecter);
+                status.removeEffect(charecter);
                 iterator.remove();
             }
         }
     }
 
-    /**
-     * Returns a copy of all active statuses.
-     */
     public List<Status> getActiveStatuses() {
         return new ArrayList<>(activeStatuses);
     }
 
-    /**
-     * Removes a status by name.
-     */
-    public void removeStatusByName(String statusName) {
-        activeStatuses.removeIf(status -> status.getName().equals(statusName));
+    public void removeStatusByName(String statusName, Charecter charecter) {
+        Iterator<Status> iterator = activeStatuses.iterator();
+        while (iterator.hasNext()) {
+            Status status = iterator.next();
+            if (status.getName().equals(statusName)) {
+                status.removeEffect(charecter);
+                iterator.remove();
+            }
+        }
     }
 
-    /**
-     * Checks if a status is active by name.
-     */
     public boolean hasStatus(String statusName) {
         return activeStatuses.stream().anyMatch(status -> status.getName().equals(statusName));
     }

@@ -2,36 +2,35 @@
 // src/Status/DazeStatus.java
 package Status;
 
-public class DazeStatus {
-    private final int penalty; // Amount to reduce defense or accuracy
-    private int duration; // Turns remaining
+import DungeonoftheBrutalKing.Charecter;
+
+public class DazeStatus extends Status {
+    private final int penalty;
+    private int originalDefense;
+    private int originalAccuracy;
 
     public DazeStatus(int penalty, int duration) {
+        super("Dazed", duration, true);
         this.penalty = penalty;
-        this.duration = duration;
     }
 
-    public int applyDefensePenalty(int originalDefense) {
-        return Math.max(0, originalDefense - penalty);
+    @Override
+    public void applyEffect(Charecter character) {
+        originalDefense = character.getDefense();
+        originalAccuracy = character.getAccuracy();
+        character.setDefense(Math.max(0, originalDefense - penalty));
+        character.setAccuracy(Math.max(0, originalAccuracy - penalty));
     }
 
-    public int applyAccuracyPenalty(int originalAccuracy) {
-        return Math.max(0, originalAccuracy - penalty);
+    @Override
+    public void expireEffect(Charecter character) {
+        character.setDefense(originalDefense);
+        character.setAccuracy(originalAccuracy);
     }
 
-    public void tick() {
-        if (duration > 0) duration--;
-    }
-
-    public boolean isActive() {
-        return duration > 0;
-    }
-
-    public int getPenalty() {
-        return penalty;
-    }
-
-    public int getDuration() {
-        return duration;
+    @Override
+    public void removeEffect(Charecter character) {
+        character.setDefense(originalDefense);
+        character.setAccuracy(originalAccuracy);
     }
 }

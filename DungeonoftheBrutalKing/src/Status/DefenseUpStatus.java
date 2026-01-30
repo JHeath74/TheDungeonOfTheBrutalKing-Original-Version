@@ -6,20 +6,26 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class DefenseUpStatus extends Status {
     private final int defenseBonus;
+    private int originalDefense;
 
     public DefenseUpStatus(int duration, int defenseBonus) {
-        super("Defense Up", duration);
+        super("Defense Up", duration, false); // false for positive effect
         this.defenseBonus = defenseBonus;
     }
 
     @Override
     public void applyEffect(Charecter character) {
-        character.setDefense(character.getDefense() + defenseBonus);
-        reduceDuration(1);
+        originalDefense = character.getDefense();
+        character.setDefense(originalDefense + defenseBonus);
     }
 
     @Override
-    public void onExpire(Charecter character) {
-        character.setDefense(character.getDefense() - defenseBonus);
+    public void expireEffect(Charecter character) {
+        character.setDefense(originalDefense);
+    }
+
+    @Override
+    public void removeEffect(Charecter character) {
+        character.setDefense(originalDefense);
     }
 }

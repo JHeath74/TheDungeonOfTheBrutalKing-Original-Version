@@ -1,4 +1,3 @@
-
 // src/Status/DrainStatus.java
 package Status;
 
@@ -8,14 +7,12 @@ public class DrainStatus extends Status {
     public enum DrainType { MAGIC, ACTION }
 
     private final double percent; // Percent to drain each turn (e.g., 0.10 for 10%)
-    private int duration;
     private final DrainType type;
 
-    public DrainStatus(int duration) {
-        super("Drain", duration);
-        this.type = DrainType.MAGIC; // Default type
-        this.percent = 0.10; // Default percent (10%)
-        this.duration = duration;
+    public DrainStatus(int duration, double percent, DrainType type) {
+        super("Drain", duration, true); // true for negative effect
+        this.percent = percent;
+        this.type = type;
     }
 
     // Call this each turn to apply the drain effect
@@ -24,29 +21,26 @@ public class DrainStatus extends Status {
         return Math.max(0, currentValue - drainAmount);
     }
 
-    public void tick() {
-        if (duration > 0) duration--;
+    @Override
+    public void applyEffect(Charecter character) {
+        // Effect is applied each turn, so nothing to do here
     }
 
-    public boolean isActive() {
-        return duration > 0;
+    @Override
+    public void expireEffect(Charecter character) {
+        // No stat to restore
+    }
+
+    @Override
+    public void removeEffect(Charecter character) {
+        // No stat to restore
     }
 
     public double getPercent() {
         return percent;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
     public DrainType getType() {
         return type;
     }
-
-	@Override
-	public void applyEffect(Charecter character) {
-		// TODO Auto-generated method stub
-		
-	}
 }
