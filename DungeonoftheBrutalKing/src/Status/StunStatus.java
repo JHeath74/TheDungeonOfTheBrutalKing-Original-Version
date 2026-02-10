@@ -1,12 +1,10 @@
-
-// src/Status/StunStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
 public class StunStatus extends Status {
     public StunStatus(int duration) {
-        super("Stun", duration, negative);
+        super("Stun", duration, true, StatusType.STUN_STATUS);
     }
 
     @Override

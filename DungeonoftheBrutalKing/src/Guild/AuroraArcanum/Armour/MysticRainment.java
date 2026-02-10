@@ -7,7 +7,7 @@ import SharedData.GuildType;
 import Armour.ArmourManager;
 import java.util.Set;
 
-public class MysticCloak extends ArmourManager {
+public class MysticRainment extends ArmourManager {
 
     private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.MYSTIC_CLOAK;
     private static final int CONCEALMENT_BONUS = 15; // percent
@@ -17,14 +17,14 @@ public class MysticCloak extends ArmourManager {
     private final Set<String> resistanceTypes;
     private boolean isEquipped = false;
 
-    public MysticCloak(Set<String> resistanceTypes, String effect) {
+    public MysticRainment(Set<String> resistanceTypes, String effect) {
         // Adjust constructor to match ArmourManager's signature
-        super("Mystic Cloak", REQUIREMENT.getIntelligence(), effect, REQUIREMENT.weight); // Use public field if getter is not visible
+        super("Mystic Raiment", REQUIREMENT.getIntelligence(), REQUIREMENT.weight, effect); // Use public field if getter is not visible
         this.resistanceTypes = resistanceTypes;
     }
 
     @Override
-    public void equip(Charecter wearer) {
+    public boolean equip(Charecter wearer) {
         if (!isEquipped) {
             wearer.setEvadeChance(
                 Math.min(wearer.getEvadeChance() + (CONCEALMENT_BONUS / 100.0), 0.9)
@@ -34,10 +34,11 @@ public class MysticCloak extends ArmourManager {
             }
             isEquipped = true;
         }
+		return isEquipped;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.setEvadeChance(
                 Math.max(wearer.getEvadeChance() - (CONCEALMENT_BONUS / 100.0), 0.0)
@@ -45,6 +46,7 @@ public class MysticCloak extends ArmourManager {
             // Remove resistances from wearer if needed
             isEquipped = false;
         }
+		return isEquipped;
     }
 
     public Set<String> getResistanceTypes() {

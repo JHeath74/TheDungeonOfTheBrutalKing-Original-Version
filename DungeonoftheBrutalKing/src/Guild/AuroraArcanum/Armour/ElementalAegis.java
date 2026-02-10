@@ -6,7 +6,7 @@ import SharedData.EquipmentRequirement;
 import SharedData.Guild;
 import SharedData.GuildType;
 
-public class ElementalMantle extends ArmourManager {
+public class ElementalAegis extends ArmourManager {
 
     private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.ELEMENTAL_MANTLE;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
@@ -15,25 +15,27 @@ public class ElementalMantle extends ArmourManager {
     private final String elementType; // e.g., "fire", "frost", "lightning"
     private boolean isEquipped = false;
 
-    public ElementalMantle(String elementType, String effect) {
+    public ElementalAegis(String elementType, String effect) {
         super("Elemental Mantle", REQUIREMENT.getIntelligence(), REQUIREMENT.getDefense(), effect);
         this.elementType = elementType.toLowerCase();
     }
 
     @Override
-    public void equip(Charecter wearer) {
+    public boolean equip(Charecter wearer) {
         if (!isEquipped) {
             wearer.addResistance(elementType);
             isEquipped = true;
         }
+		return isEquipped;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.removeResistance(elementType);
             isEquipped = false;
         }
+		return isEquipped;
     }
 
     public void channelElement(Charecter caster, Charecter target) {

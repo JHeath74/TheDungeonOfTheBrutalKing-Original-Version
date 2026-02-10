@@ -1,4 +1,3 @@
-
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -7,7 +6,7 @@ public class VoidEchoStatus extends Status {
     private final boolean extraDamage;
 
     public VoidEchoStatus(int durationSeconds, boolean extraDamage) {
-        super("Void Echo", durationSeconds, true); // true: negative effect
+        super("Void Echo", durationSeconds, true, StatusType.VOID_ECHO_STATUS); // true: negative effect
         this.extraDamage = extraDamage;
     }
 

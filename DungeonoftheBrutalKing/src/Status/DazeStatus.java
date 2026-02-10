@@ -1,5 +1,3 @@
-
-// src/Status/DazeStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -10,7 +8,7 @@ public class DazeStatus extends Status {
     private int originalAccuracy;
 
     public DazeStatus(int penalty, int duration) {
-        super("Dazed", duration, true);
+        super("Dazed", duration, true, StatusType.DAZE_STATUS); // Add StatusType.DAZE
         this.penalty = penalty;
     }
 

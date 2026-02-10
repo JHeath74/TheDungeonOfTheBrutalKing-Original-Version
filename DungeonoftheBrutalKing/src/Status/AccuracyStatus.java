@@ -1,5 +1,4 @@
 
-// src/Status/AccuracyStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -8,7 +7,7 @@ public class AccuracyStatus extends Status {
     private int accuracyBonus;
 
     public AccuracyStatus(String name, int duration, boolean negative, int accuracyBonus) {
-        super(name, duration, negative);
+        super(name, duration, negative, StatusType.ACCURACY_STATUS); // Pass the correct StatusType here
         this.accuracyBonus = accuracyBonus;
     }
 

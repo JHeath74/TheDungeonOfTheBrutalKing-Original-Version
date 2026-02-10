@@ -1,5 +1,4 @@
 
-java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -11,7 +10,7 @@ public class FireStatus extends Status {
     private int originalAttack;
 
     public FireStatus() {
-        super("Burned", DURATION_MINUTES, true); // true: negative effect
+        super("Burned", DURATION_MINUTES, true, StatusType.FIRE_STATUS); // Add StatusType
     }
 
     @Override

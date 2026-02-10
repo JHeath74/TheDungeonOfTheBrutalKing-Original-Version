@@ -1,3 +1,4 @@
+
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -6,7 +7,7 @@ public class LifeStealStatus extends Status {
     private final int amount;
 
     public LifeStealStatus(int amount) {
-        super("LifeSteal", 1, false); // 1 turn, not negative
+        super("LifeSteal", 1, false, StatusType.LIFE_STEAL_STATUS); // Added StatusType
         this.amount = amount;
     }
 

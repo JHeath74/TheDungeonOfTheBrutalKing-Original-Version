@@ -465,13 +465,34 @@ public void applyStatusEffect(StatusType type, int duration, int value, Charecte
 
         default:
             // Fallback for any unimplemented status
-            status = new Status(type.name(), duration, false) {};
+            status = new Status(type.name(), duration, false, type) {};
             break;
     }
 
     addStatus(status);
 }
 
+public void removeStatusEffect(StatusType type) {
+    for (Iterator<Status> it = statuses.iterator(); it.hasNext(); ) {
+        Status status = it.next();
+        if (status.getType() == type) {
+            it.remove();
+            status.removeEffect(this); // If your Status class has a cleanup method
+            System.out.println(getName() + " has removed status: " + status.getName());
+            return;
+        }
+    }
+}
+
+public void increaseResilience(int value) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void decreaseResilience(int value) {
+	// TODO Auto-generated method stub
+	
+}
 
 
 }

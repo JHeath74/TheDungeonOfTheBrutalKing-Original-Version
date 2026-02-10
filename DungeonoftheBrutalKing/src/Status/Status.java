@@ -1,4 +1,3 @@
-
 // src/Status/Status.java
 package Status;
 
@@ -10,11 +9,13 @@ public class Status {
     private int durationSeconds;
     private boolean negative;
     private int startTimeSeconds = -1;
+    protected StatusType type;
 
-    public Status(String name, int durationMinutes, boolean negative) {
+    public Status(String name, int durationMinutes, boolean negative, StatusType type) {
         this.name = name;
         this.durationSeconds = durationMinutes * 60;
         this.negative = negative;
+        this.type = type;
     }
 
     public String getName() {
@@ -52,23 +53,35 @@ public class Status {
         return durationSeconds <= 0;
     }
 
-	public void onExpire(Charecter charecter) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void onExpire(Charecter charecter) {
+        // To be overridden by subclasses
+    }
 
-	public boolean blocksSpellcasting() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean blocksSpellcasting() {
+        return false;
+    }
 
-	public double damageTakenMultiplier() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public double damageTakenMultiplier() {
+        return 0;
+    }
 
-	public void applyEffect(Charecter charecter) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void applyEffect(Charecter charecter) {
+        // To be overridden by subclasses
+    }
+
+    public boolean preventsMovement() {
+        return false;
+    }
+
+    public String getDescription() {
+        return null;
+    }
+
+    public boolean preventsActions() {
+        return false;
+    }
+
+    public StatusType getType() {
+        return type;
+    }
 }

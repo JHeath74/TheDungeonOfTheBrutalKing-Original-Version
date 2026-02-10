@@ -21,4 +21,6 @@ public interface Spell {
 	void cast(Charecter caster);
 	void cast();
 	void cast(Charecter caster, Charecter target);
+	String getDescription();
+	void castWithStrength(Charecter enemy, double d);
 }

@@ -1,15 +1,12 @@
-
-// src/Status/EtherealChainsStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
 public class EtherealChainsStatus extends Status {
     public EtherealChainsStatus(int duration) {
-        super("Ethereal Chains", duration, true); // true: negative effect
+        super("Ethereal Chains", duration, true, StatusType.ETHEREAL_CHAINS_STATUS); // Add StatusType
     }
 
-    // Remove @Override since blocksAttack is not in the superclass
     public boolean blocksAttack() {
         return true;
     }

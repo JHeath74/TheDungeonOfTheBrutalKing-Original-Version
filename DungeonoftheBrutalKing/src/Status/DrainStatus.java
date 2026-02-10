@@ -1,4 +1,3 @@
-// src/Status/DrainStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -10,7 +9,7 @@ public class DrainStatus extends Status {
     private final DrainType type;
 
     public DrainStatus(int duration, double percent, DrainType type) {
-        super("Drain", duration, true); // true for negative effect
+        super("Drain", duration, true, StatusType.DRAIN_STATUS); // Pass StatusType.DRAIN
         this.percent = percent;
         this.type = type;
     }
@@ -26,21 +25,27 @@ public class DrainStatus extends Status {
         // Effect is applied each turn, so nothing to do here
     }
 
-    @Override
-    public void expireEffect(Charecter character) {
-        // No stat to restore
-    }
+@Override
+public void expireEffect(Charecter character) {
+    // No persistent stat to restore for DrainStatus
+}
+
+@Override
+public void removeEffect(Charecter character) {
+    // No persistent stat to restore for DrainStatus
+}
+
 
     @Override
-    public void removeEffect(Charecter character) {
-        // No stat to restore
+    public StatusType getType() {
+        return StatusType.DRAIN_STATUS;
     }
 
     public double getPercent() {
         return percent;
     }
 
-    public DrainType getType() {
+    public DrainType getTypeValue() {
         return type;
     }
 }

@@ -1,5 +1,3 @@
-
-// src/Status/DefenseUpStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,7 +7,7 @@ public class DefenseUpStatus extends Status {
     private int originalDefense;
 
     public DefenseUpStatus(int duration, int defenseBonus) {
-        super("Defense Up", duration, false); // false for positive effect
+        super("Defense Up", duration, false, StatusType.DEFENSE_UP_STATUS); // Add StatusType.DEFENSE_UP
         this.defenseBonus = defenseBonus;
     }
 

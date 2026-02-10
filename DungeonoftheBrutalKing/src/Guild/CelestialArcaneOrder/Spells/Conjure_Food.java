@@ -1,5 +1,4 @@
 
-java
 package Guild.CelestialArcaneOrder.Spells;
 
 import java.util.List;

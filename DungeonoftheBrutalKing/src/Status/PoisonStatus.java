@@ -1,3 +1,5 @@
+
+// src/Status/PoisonStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -6,7 +8,7 @@ public class PoisonStatus extends Status {
     private static final int POISON_DAMAGE = 5; // HP lost per turn
 
     public PoisonStatus(int duration) {
-        super("Poison", duration, true); // true: negative effect
+        super("Poison", duration, true, StatusType.POISON_STATUS); // Added StatusType
     }
 
     @Override

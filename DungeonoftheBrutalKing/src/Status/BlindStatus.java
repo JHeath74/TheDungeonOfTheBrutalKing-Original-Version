@@ -1,5 +1,3 @@
-
-// src/Status/BlindStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -11,7 +9,7 @@ public class BlindStatus extends Status {
     private double originalHitChance = 1.0;
 
     public BlindStatus() {
-        super("Blind", DURATION_MINUTES, true); // true for negative
+        super("Blind", DURATION_MINUTES, true, StatusType.BLIND_STATUS); // Add StatusType.BLIND
     }
 
     @Override

@@ -1,5 +1,3 @@
-
-// src/Status/BleedStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,7 +7,7 @@ public class BleedStatus extends Status {
     private static final int HP_LOSS_PER_TURN = 5;
 
     public BleedStatus() {
-        super("Bleeding", DURATION_MINUTES, true);
+        super("Bleeding", DURATION_MINUTES, true, StatusType.BLEED_STATUS); // Add StatusType
     }
 
     @Override

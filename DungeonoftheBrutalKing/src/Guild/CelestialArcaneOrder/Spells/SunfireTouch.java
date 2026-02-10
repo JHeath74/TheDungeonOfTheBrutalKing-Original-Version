@@ -3,6 +3,8 @@ package Guild.CelestialArcaneOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
+import Status.FireStatus;
+import Status.Status;
 import DungeonoftheBrutalKing.Charecter;
 
 public class SunfireTouch implements Spell {
@@ -21,6 +23,10 @@ public class SunfireTouch implements Spell {
         int newHealth = Math.max(currentHealth - DAMAGE, 0);
         target.setHitPoints(newHealth);
         System.out.println(target.getName() + " takes " + DAMAGE + " fire and radiant damage from Sunfire Touch!");
+
+        // Apply burning status effect for 2 minutes
+        Status burning = new FireStatus(); // duration in minutes
+        target.addStatus(burning);
     }
 
     // Other cast methods not used for this spell

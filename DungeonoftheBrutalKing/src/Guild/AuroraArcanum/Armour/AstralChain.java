@@ -26,17 +26,19 @@ public class AstralChain extends ArmourManager {
     }
 
     @Override
-    public void equip(Charecter wearer) {
+    public boolean equip(Charecter wearer) {
         if (!isEquipped) {
             isEquipped = true;
         }
+		return isEquipped;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (isEquipped) {
             isEquipped = false;
         }
+		return isEquipped;
     }
 
     public Guild getGuild() {

@@ -28,7 +28,7 @@ public class HolyAegis implements Spell {
         target.setMagicPoints(target.getMagicPoints() - REQUIRED_MAGIC_POINTS);
         if (target.getStatusManager() != null) {
             Status defenseStatus = new DefenseUpStatus(DURATION, DEFENSE_BONUS);
-            target.getStatusManager().addStatus(defenseStatus);
+            target.getStatusManager().addStatus(defenseStatus, target);
             defenseStatus.applyEffect(target);
             System.out.println(target.getName() + " is shielded by Holy Aegis (+10 defense for 5 turns).");
         }

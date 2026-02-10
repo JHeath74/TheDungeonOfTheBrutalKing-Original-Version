@@ -5,22 +5,22 @@ package Guild.CrimsonVeilRogues.Armour;
 import DungeonoftheBrutalKing.Charecter;
 import Armour.ArmourManager;
 
-public class CrimsonHood extends ArmourManager {
+public class PhantomShroud extends ArmourManager {
     private static final int REQUIRED_AGILITY = 12;
     private static final int AGILITY_BONUS = 1;
     private static final int DEFENSE_BONUS = 1;
-    private static final String ARMOUR_NAME = "Crimson Hood";
-    private static final String DESCRIPTION = "Crimson Hood: A blood-red hood that marks a rogue of the Veil, granting subtle protection and intimidation.";
+    private static final String ARMOUR_NAME = "Phantom Shroud";
+    private static final String DESCRIPTION = "Phantom Shroud: A blood-red hood that marks a rogue of the Veil, granting subtle protection and intimidation.";
 
-    public CrimsonHood(String effect) {
+    public PhantomShroud(String effect) {
         super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
     }
 
-    public static CrimsonHood createCrimsonHood(Charecter character, String effect) {
+    public static PhantomShroud createCrimsonHood(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         int agility = character.getAgility();
         if (agility >= REQUIRED_AGILITY) {
-            return new CrimsonHood(effect);
+            return new PhantomShroud(effect);
         }
         throw new IllegalArgumentException("Character does not have the required agility to wear the Crimson Hood.");
     }

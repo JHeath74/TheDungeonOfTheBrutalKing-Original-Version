@@ -7,6 +7,7 @@ import java.util.Map;
 public class StatusRegistry {
     private static final Map<String, Class<? extends Status>> statusMap = new HashMap<>();
 
+
     static {
         statusMap.put("BleedStatus", BleedStatus.class);
         statusMap.put("BlindStatus", BlindStatus.class);
@@ -24,7 +25,15 @@ public class StatusRegistry {
         statusMap.put("RadiantStatus", RadiantStatus.class);
         statusMap.put("ReduceDefenseStatus", ReduceDefenseStatus.class);
         statusMap.put("ReduceStrengthStatus", ReduceStrengthStatus.class);
+        statusMap.put("ImmobilizedStatus", ImmobilizedStatus.class);
+        statusMap.put("DivineInterventionStatus", DivineInterventionStatus.class);
+        statusMap.put("StunStatus", StunStatus.class);
+        statusMap.put("VoidEchoStatus", VoidEchoStatus.class);
+        statusMap.put("AccuracyStatus", AccuracyStatus.class);
+        statusMap.put("DefenseUpStatus", DefenseUpStatus.class);
+        statusMap.put("ResilienceStatus", ResilienceStatus.class);
     }
+
 
     public static Class<? extends Status> getStatusClass(String name) {
         return statusMap.get(name);

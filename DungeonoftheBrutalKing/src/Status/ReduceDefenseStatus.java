@@ -8,7 +8,7 @@ public class ReduceDefenseStatus extends Status {
     private static final int DEFENSE_REDUCTION = 10;
 
     public ReduceDefenseStatus() {
-        super("ReduceDefense", DURATION_MINUTES, true); // true: negative effect
+        super("ReduceDefense", DURATION_MINUTES, true, StatusType.REDUCE_DEFENSE_STATUS); // Fixed: pass StatusType
     }
 
     @Override

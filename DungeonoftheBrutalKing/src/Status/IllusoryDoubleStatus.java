@@ -1,3 +1,4 @@
+
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -6,7 +7,7 @@ public class IllusoryDoubleStatus extends Status {
     private final double evadeBonus;
 
     public IllusoryDoubleStatus(int duration, double evadeBonus) {
-        super("Illusory Double", duration, false); // false: not a negative effect
+        super("Illusory Double", duration, false, StatusType.ILLUSORY_DOUBLE_STATUS); // Fixed enum constant
         this.evadeBonus = evadeBonus;
     }
 

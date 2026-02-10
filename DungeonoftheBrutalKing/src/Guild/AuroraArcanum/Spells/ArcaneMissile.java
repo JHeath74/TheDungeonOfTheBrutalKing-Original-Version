@@ -75,4 +75,10 @@ public class ArcaneMissile implements Spell {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void cast(Charecter caster, Charecter target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

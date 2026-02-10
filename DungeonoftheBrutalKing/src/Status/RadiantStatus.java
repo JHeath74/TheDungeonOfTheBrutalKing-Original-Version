@@ -7,7 +7,7 @@ public class RadiantStatus extends Status {
     private static final double HEAL_PERCENT = 0.10; // 10% of max HP per turn
 
     public RadiantStatus(int duration) {
-        super("Radiant", duration, false); // false: not a negative effect
+        super("Radiant", duration, false, StatusType.RADIANT_STATUS); // Added StatusType
     }
 
     @Override

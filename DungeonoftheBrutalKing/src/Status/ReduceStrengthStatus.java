@@ -7,7 +7,7 @@ public class ReduceStrengthStatus extends Status {
     private static final int DURATION_MINUTES = 3; // example duration
 
     public ReduceStrengthStatus() {
-        super("ReduceStrength", DURATION_MINUTES, true); // true: negative effect
+        super("ReduceStrength", DURATION_MINUTES, true, StatusType.REDUCE_STRENGTH_STATUS); // true: negative effect
     }
 
     @Override

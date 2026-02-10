@@ -17,6 +17,7 @@ public class ThingsToWorkOn {
 		//Add EtherealChainsStatus - prevent attacking while active
 		//5 more spells in celestialarcaneorder
 		//10 Spells for CrimsonBlades
+		//Fix all Statuses
 	}
 	
 	//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/
