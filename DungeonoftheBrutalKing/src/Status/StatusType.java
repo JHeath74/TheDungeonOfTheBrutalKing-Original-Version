@@ -25,6 +25,7 @@ public enum StatusType {
     RESILIENCE_STATUS,
     STUN_STATUS,
     VOID_ECHO_STATUS,
+    ASTRAL_WARD_STATUS,
    
     // Add more as needed
 }

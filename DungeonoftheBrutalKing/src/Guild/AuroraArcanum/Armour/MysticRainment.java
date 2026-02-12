@@ -25,7 +25,7 @@ public class MysticRainment extends ArmourManager {
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (!isEquipped) {
+        if (!isEquipped && wearer.getGuild() == GUILDname) {
             wearer.setEvadeChance(
                 Math.min(wearer.getEvadeChance() + (CONCEALMENT_BONUS / 100.0), 0.9)
             );
@@ -33,8 +33,9 @@ public class MysticRainment extends ArmourManager {
                 wearer.addResistance(resistance);
             }
             isEquipped = true;
+            return true;
         }
-		return isEquipped;
+        return false;
     }
 
     @Override
@@ -43,10 +44,12 @@ public class MysticRainment extends ArmourManager {
             wearer.setEvadeChance(
                 Math.max(wearer.getEvadeChance() - (CONCEALMENT_BONUS / 100.0), 0.0)
             );
-            // Remove resistances from wearer if needed
+            for (String resistance : resistanceTypes) {
+                wearer.removeResistance(resistance);
+            }
             isEquipped = false;
         }
-		return isEquipped;
+        return !isEquipped;
     }
 
     public Set<String> getResistanceTypes() {

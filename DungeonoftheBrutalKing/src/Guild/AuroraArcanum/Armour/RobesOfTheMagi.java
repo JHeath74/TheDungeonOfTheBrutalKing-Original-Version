@@ -18,7 +18,6 @@ public class RobesOfTheMagi extends ArmourManager {
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
-
     public RobesOfTheMagi(int requiredIntelligence, String effect, int weight) {
         super("Robes of the Magi", requiredIntelligence, weight, effect);
     }
@@ -32,21 +31,25 @@ public class RobesOfTheMagi extends ArmourManager {
     }
 
     @Override
-    public void equip(Charecter wearer) {
-        if (!isEquipped) {
+    public boolean equip(Charecter wearer) {
+        if (!isEquipped && wearer.getGuild() == GUILDname) {
             wearer.setIntelligence(wearer.getIntelligence() + INTELLIGENCE_BONUS);
             // wearer.setSpellResistance(wearer.getSpellResistance() + SPELL_RESISTANCE_BONUS); // Uncomment if supported
             isEquipped = true;
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.setIntelligence(wearer.getIntelligence() - INTELLIGENCE_BONUS);
             // wearer.setSpellResistance(wearer.getSpellResistance() - SPELL_RESISTANCE_BONUS); // Uncomment if supported
             isEquipped = false;
+            return true;
         }
+        return false;
     }
 
     public Guild getGuild() {

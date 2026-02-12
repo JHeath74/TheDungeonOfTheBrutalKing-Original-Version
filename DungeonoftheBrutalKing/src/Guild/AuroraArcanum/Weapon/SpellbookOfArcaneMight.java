@@ -36,7 +36,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
 
     @Override
     public boolean equip(Charecter wielder) {
-        if (!isEquipped) {
+        if (!isEquipped && wielder.getGuild() == GUILDname) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
             lastDefenseBonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS);

@@ -36,7 +36,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
 
     @Override
     public boolean equip(Charecter wielder) {
-        if (!isEquipped) {
+        if (!isEquipped && wielder.getGuild() == GUILDname) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             int bonus = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS);

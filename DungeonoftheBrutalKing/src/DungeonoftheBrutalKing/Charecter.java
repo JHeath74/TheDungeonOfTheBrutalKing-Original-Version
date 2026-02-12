@@ -4,6 +4,7 @@ package DungeonoftheBrutalKing;
 
 import java.util.*;
 import Quests.Quest;
+import SharedData.Guild;
 import SharedData.GuildMembershipStatus;
 import SharedData.GuildType;
 import Status.AccuracyStatus;
@@ -48,6 +49,7 @@ public class Charecter implements HasHitPoints {
     private int spellResistanceBonus = 0;
     private int critChance = 0;
     private double hitChance = 1.0; 
+    private Guild guild;
 
     private Set<String> resistances = new HashSet<>();
 
@@ -151,7 +153,15 @@ public class Charecter implements HasHitPoints {
     public void setCurrentGuild(GuildType guild) { this.currentGuild = guild; }
     public GuildMembershipStatus getCurrentGuildStatus() { return currentGuildStatus; }
     public void setCurrentGuildStatus(GuildMembershipStatus status) { this.currentGuildStatus = status; }
-    
+ // Getter for the specific guild
+    public Guild getGuild() {
+        return guild;
+    }
+
+    // Setter for the specific guild
+    public void setGuild(Guild guild) {
+        this.guild = guild;
+    }
     
 
 public void addHasteModifier(double hasteBonus) {

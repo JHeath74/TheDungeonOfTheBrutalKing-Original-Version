@@ -13,7 +13,7 @@ public class RunedVestments extends ArmourManager {
     private static final int REQUIRED_STRENGTH = 8;
     private static final int ARMOUR_DEFENSE = 3;
     private static final int WEIGHT = 2;
-    private static final Guild GUILDname = Guild.AURORA_ARCANUM; // Fixed typo
+    private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
     private boolean isEquipped = false;
 
@@ -26,21 +26,25 @@ public class RunedVestments extends ArmourManager {
         this.runeCharges = new HashMap<>(initialRunes);
         this.maxChargesPerRune = maxChargesPerRune;
     }
-    
+
     @Override
-    public void equip(Charecter wearer) {
-        if (!isEquipped) {
+    public boolean equip(Charecter wearer) {
+        if (!isEquipped && wearer.getGuild() == GUILDname) {
             wearer.setDefense(wearer.getDefense() + ARMOUR_DEFENSE);
             isEquipped = true;
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void unequip(Charecter wearer) {
+    public boolean unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.setDefense(wearer.getDefense() - ARMOUR_DEFENSE);
             isEquipped = false;
+            return true;
         }
+        return false;
     }
 
     // Absorb magical damage using available runes

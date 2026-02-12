@@ -8,10 +8,10 @@ import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
-import Status.ResurrectionStatus;
+import Status.DivineInterventionStatus;
 
 
-public class Resurrection implements Spell {
+public class DivineIntervention implements Spell {
 	
     private static final int REQUIRED_MAGIC_POINTS = 15;
     private static final Guild SPELL_GUILD = Guild.CELESTIAL_ARCANE_ORDER;
@@ -20,7 +20,7 @@ public class Resurrection implements Spell {
     @Override
     public void cast(Charecter caster, Charecter target) {
         if (target == null) return;
-        ResurrectionStatus status = new ResurrectionStatus(10); // 10 minutes duration
+        DivineInterventionStatus status = new DivineInterventionStatus(10); // 10 minutes duration
         target.addStatus(status); // Apply the status effect
         System.out.println(target.getName() + " is blessed with Resurrection!");
     }
@@ -81,6 +81,18 @@ public class Resurrection implements Spell {
 
 	@Override
 	public void cast() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}

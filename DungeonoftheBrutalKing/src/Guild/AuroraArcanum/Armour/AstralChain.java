@@ -12,7 +12,11 @@ public class AstralChain extends ArmourManager {
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
+    private static final int INTELLIGENCE_BONUS = 5;
+    private static final double DEFENSE_BONUS_PERCENT = 0.15; // 15% defense bonus
+
     private boolean isEquipped = false;
+    private int lastDefenseBonus = 0;
 
     public AstralChain(String effect) {
         super("Astral Chain", REQUIREMENT.getStrength(), REQUIREMENT.getDefense(), effect);
@@ -27,18 +31,25 @@ public class AstralChain extends ArmourManager {
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (!isEquipped) {
+        if (!isEquipped && wearer.getGuild() == GUILDname) {
+            wearer.setIntelligence(wearer.getIntelligence() + INTELLIGENCE_BONUS);
+            lastDefenseBonus = (int) Math.round(wearer.getDefense() * DEFENSE_BONUS_PERCENT);
+            wearer.setDefense(wearer.getDefense() + lastDefenseBonus);
             isEquipped = true;
+            return true;
         }
-		return isEquipped;
+        return false;
     }
 
     @Override
     public boolean unequip(Charecter wearer) {
         if (isEquipped) {
+            wearer.setIntelligence(wearer.getIntelligence() - INTELLIGENCE_BONUS);
+            wearer.setDefense(wearer.getDefense() - lastDefenseBonus);
             isEquipped = false;
+            lastDefenseBonus = 0;
         }
-		return isEquipped;
+        return !isEquipped;
     }
 
     public Guild getGuild() {

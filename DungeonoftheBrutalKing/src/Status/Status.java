@@ -13,7 +13,7 @@ public class Status {
 
     public Status(String name, int durationMinutes, boolean negative, StatusType type) {
         this.name = name;
-        this.durationSeconds = durationMinutes * 60;
+        this.setDurationSeconds(durationMinutes * 60);
         this.negative = negative;
         this.type = type;
     }
@@ -43,14 +43,14 @@ public class Status {
 
     // Reduces duration by timeElapsed (in seconds)
     public void reduceDuration(int timeElapsed) {
-        durationSeconds -= timeElapsed;
+        setDurationSeconds(getDurationSeconds() - timeElapsed);
         if (isExpired()) {
             expireEffect(null); // Pass character if needed
         }
     }
 
     public boolean isExpired() {
-        return durationSeconds <= 0;
+        return getDurationSeconds() <= 0;
     }
 
     public void onExpire(Charecter charecter) {
@@ -84,4 +84,12 @@ public class Status {
     public StatusType getType() {
         return type;
     }
+
+	public int getDurationSeconds() {
+		return durationSeconds;
+	}
+
+	public void setDurationSeconds(int durationSeconds) {
+		this.durationSeconds = durationSeconds;
+	}
 }

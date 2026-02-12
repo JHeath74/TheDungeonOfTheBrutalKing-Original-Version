@@ -33,9 +33,10 @@ public class ArcaneMissile implements Spell {
 
     @Override
     public void castWithIntelligence(int toonIntelligence) {
-        // Example: could be used for direct damage calculation
+        // This method is for direct damage calculation, but no target is provided
+        // Example: could log or return damage if needed
         int damage = BASE_POWER + (toonIntelligence * 2);
-        // Apply damage logic here
+        // No target to apply damage
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ArcaneMissile implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Example: target the first enemy in the list
+        // Target the first enemy in the list (if any)
         if (allCharacters != null && !allCharacters.isEmpty()) {
             Charecter target = allCharacters.get(0);
             int damage = calculatePower(caster);
@@ -60,8 +61,7 @@ public class ArcaneMissile implements Spell {
 
     @Override
     public void cast(Charecter caster) {
-        // Single target version, if needed
-        // Implement logic as appropriate
+        // No target specified, so nothing happens
     }
 
     public int calculatePower(Charecter charecter) {
@@ -70,15 +70,26 @@ public class ArcaneMissile implements Spell {
         return BASE_POWER + (intelligence * 2) + (level * 1);
     }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast() {
+        // No caster or target, so nothing happens
+    }
 
-	@Override
-	public void cast(Charecter caster, Charecter target) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        if (caster != null && target != null) {
+            int damage = calculatePower(caster);
+            target.reduceHitPoints(damage);
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "Arcane Missile: Launches a bolt of magical energy at a target, dealing damage based on the caster's intelligence and level.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not used for this spell
+    }
 }

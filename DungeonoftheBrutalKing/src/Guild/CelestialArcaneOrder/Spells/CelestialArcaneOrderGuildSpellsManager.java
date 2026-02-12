@@ -22,7 +22,8 @@ public class CelestialArcaneOrderGuildSpellsManager {
         registerSpell(new RadiantBolt());
         registerSpell(new StellarFlare());
         registerSpell(new SunfireTouch());
-        registerSpell(new Resurrection());
+        registerSpell(new DivineIntervention());
+        registerSpell(new AstralWard());
         
     }
 
