@@ -7,6 +7,7 @@ import SharedData.Guild;
 import SharedData.GuildType;
 import Status.HasHitPoints;
 import Status.Status;
+import Status.StatusType;
 
 public class VigilantCenserFlail extends WeaponManager {
 
@@ -17,11 +18,9 @@ public class VigilantCenserFlail extends WeaponManager {
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
-
-public VigilantCenserFlail(String effect) {
-    super("Vigilant Censer‐Flail", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
-}
-
+    public VigilantCenserFlail(String effect) {
+        super("Vigilant Censer‐Flail", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
+    }
 
     @Override
     public boolean equip(Charecter wearer) {
@@ -43,10 +42,26 @@ public VigilantCenserFlail(String effect) {
         return false;
     }
 
+    @Override
     public void applyEffect(HasHitPoints target) {
         if (target != null && getStatusEffect() != null) {
-            Status effectStatus = Status.createFromEffect(getStatusEffect());
+            StatusEffect effect = getStatusEffect();
+            StatusType type = mapStatusEffectToType(effect);
+            Status effectStatus = new Status(effect.name(), 1, true, type);
             target.addStatus(effectStatus);
+        }
+    }
+
+    // Only include cases that exist in WeaponManager.StatusEffect
+    private StatusType mapStatusEffectToType(StatusEffect effect) {
+        switch (effect) {
+            case POISON: return StatusType.POISON_STATUS;
+            case STUN: return StatusType.STUN_STATUS;
+            case BLEED: return StatusType.BLEED_STATUS;
+            case FIRE: return StatusType.FIRE_STATUS;
+            case COLD: return StatusType.ICE_STATUS;
+            // Add more cases here if they exist in StatusEffect
+            default: return StatusType.ACCURACY_STATUS;
         }
     }
 

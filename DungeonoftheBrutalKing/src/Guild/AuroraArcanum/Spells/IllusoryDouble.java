@@ -12,28 +12,35 @@ public class IllusoryDouble implements Spell {
     private static final int DURATION = 3; // rounds
     private static final double EVADE_BONUS = 0.25; // 25% increased evade chance
     private static final int REQUIRED_MAGIC_POINTS = 8;
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == SPELL_GUILD;
+    }
 
     @Override
     public void cast(Charecter caster) {
-        if (caster != null) {
+        if (canUseSpell(caster)) {
             caster.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
         }
     }
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        // Applies the effect to the target (if not null), otherwise to the caster
-        if (target != null) {
-            target.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
-        } else if (caster != null) {
-            caster.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
+        if (canUseSpell(caster)) {
+            if (target != null) {
+                target.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
+            } else {
+                caster.addStatus(new IllusoryDoubleStatus(DURATION, EVADE_BONUS));
+            }
         }
     }
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Applies to the caster only
-        cast(caster);
+        if (canUseSpell(caster)) {
+            cast(caster);
+        }
     }
 
     @Override
@@ -63,7 +70,7 @@ public class IllusoryDouble implements Spell {
 
     @Override
     public Guild getSpellGuild() {
-        return Guild.AURORA_ARCANUM;
+        return SPELL_GUILD;
     }
 
     @Override
@@ -75,4 +82,16 @@ public class IllusoryDouble implements Spell {
     public String getName() {
         return "Illusory Double";
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,7 +1,8 @@
+
+// src/Guild/AuroraArcanum/Armour/MysticRainment.java
 package Guild.AuroraArcanum.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.EquipmentRequirement;
 import SharedData.Guild;
 import SharedData.GuildType;
 import Armour.ArmourManager;
@@ -9,8 +10,9 @@ import java.util.Set;
 
 public class MysticRainment extends ArmourManager {
 
-    private static final EquipmentRequirement REQUIREMENT = EquipmentRequirement.MYSTIC_CLOAK;
-    private static final int CONCEALMENT_BONUS = 15; // percent
+    private static final int REQUIRED_INTELLIGENCE = 15; // Example value
+    private static final double CONCEALMENT_BONUS_PERCENT = 0.15; // 15%
+    private static final int WEIGHT = 3;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
@@ -18,17 +20,15 @@ public class MysticRainment extends ArmourManager {
     private boolean isEquipped = false;
 
     public MysticRainment(Set<String> resistanceTypes, String effect) {
-        // Adjust constructor to match ArmourManager's signature
-        super("Mystic Raiment", REQUIREMENT.getIntelligence(), REQUIREMENT.weight, effect); // Use public field if getter is not visible
+        super("Mystic Raiment", REQUIRED_INTELLIGENCE, WEIGHT, effect);
         this.resistanceTypes = resistanceTypes;
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (!isEquipped && wearer.getGuild() == GUILDname) {
-            wearer.setEvadeChance(
-                Math.min(wearer.getEvadeChance() + (CONCEALMENT_BONUS / 100.0), 0.9)
-            );
+        if (!isEquipped && wearer.getGuild() == GUILDname && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
+            double bonus = wearer.getEvadeChance() * CONCEALMENT_BONUS_PERCENT;
+            wearer.setEvadeChance(Math.min(wearer.getEvadeChance() + bonus, 0.9));
             for (String resistance : resistanceTypes) {
                 wearer.addResistance(resistance);
             }
@@ -41,15 +41,15 @@ public class MysticRainment extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (isEquipped) {
-            wearer.setEvadeChance(
-                Math.max(wearer.getEvadeChance() - (CONCEALMENT_BONUS / 100.0), 0.0)
-            );
+            double bonus = wearer.getEvadeChance() / (1 + CONCEALMENT_BONUS_PERCENT) * CONCEALMENT_BONUS_PERCENT;
+            wearer.setEvadeChance(Math.max(wearer.getEvadeChance() - bonus, 0.0));
             for (String resistance : resistanceTypes) {
                 wearer.removeResistance(resistance);
             }
             isEquipped = false;
+            return true;
         }
-        return !isEquipped;
+        return false;
     }
 
     public Set<String> getResistanceTypes() {
@@ -71,12 +71,11 @@ public class MysticRainment extends ArmourManager {
 
     @Override
     public double getWeight() {
-        // Use public field or parse if necessary
-        return REQUIREMENT.weight;
+        return WEIGHT;
     }
 
     @Override
     public String getDescription() {
-        return "Mystic Cloak: A cloak woven from shadow, starlight, or elemental threads. Provides concealment and resistance to certain damage types.";
+        return "Mystic Raiment: A cloak woven from shadow, starlight, or elemental threads. Provides concealment and resistance to certain damage types.";
     }
 }

@@ -17,6 +17,10 @@ public class ManaSurge implements Spell {
     private TimeClock timer;
     private boolean active = false;
 
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == SPELL_GUILD;
+    }
+
     public int calculateMagicBoost(Charecter charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
@@ -83,13 +87,14 @@ public class ManaSurge implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Applies to the caster only
-        cast(caster);
+        if (canUseSpell(caster)) {
+            cast(caster);
+        }
     }
 
     @Override
     public void cast(Charecter caster) {
-        if (caster != null) {
+        if (canUseSpell(caster)) {
             activate(caster);
         }
     }
@@ -101,11 +106,24 @@ public class ManaSurge implements Spell {
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        // Applies to the target if not null, otherwise to the caster
-        if (target != null) {
-            activate(target);
-        } else if (caster != null) {
-            activate(caster);
+        if (canUseSpell(caster)) {
+            if (target != null) {
+                activate(target);
+            } else {
+                activate(caster);
+            }
         }
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
 }

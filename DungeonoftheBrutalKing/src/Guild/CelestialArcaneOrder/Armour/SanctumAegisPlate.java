@@ -8,9 +8,9 @@ import SharedData.GuildType;
 public class SanctumAegisPlate extends ArmourManager {
 
     private static final int REQUIRED_WISDOM = 10;
-    private static final int ARMOUR_DEFENSE = 3;
+    private static final int ARMOUR_DEFENSE = 23;
     private static final int WEIGHT = 2;
-    private static final int WISDOM_BONUS = 2;
+    private static final int WISDOM_BONUS = 23;
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 

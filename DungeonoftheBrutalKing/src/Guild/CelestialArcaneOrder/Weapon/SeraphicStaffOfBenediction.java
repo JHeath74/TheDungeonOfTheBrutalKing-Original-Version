@@ -45,7 +45,7 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
         if (target instanceof Charecter) {
             Charecter character = (Charecter) target;
             // Apply DrainStatus for 2 turns
-            character.addStatus(new DrainStatus(2));
+            character.addStatus(new DrainStatus(2, requiredStrength, null));
         }
     }
 

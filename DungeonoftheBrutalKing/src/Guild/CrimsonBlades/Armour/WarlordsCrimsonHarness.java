@@ -1,12 +1,10 @@
-
-// File: src/Guild/CrimsonBlades/Armour/WarlordsCrimsonHarness.java
-
 package Guild.CrimsonBlades.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import SharedData.GuildType;
+import java.util.Collections;
 
 public class WarlordsCrimsonHarness extends ArmourManager {
 
@@ -19,6 +17,8 @@ public class WarlordsCrimsonHarness extends ArmourManager {
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Warlords Crimson Harness";
     private static final String DESCRIPTION = "Warlords Crimson Harness: The ultimate harness of the Crimson Blades, forged for warlords. Grants immense strength, critical mastery, and protection against bleeding and stunning effects.";
+    private static final String PROTECTION_BLEED = "bleed";
+    private static final String PROTECTION_STUN = "stun";
 
     public WarlordsCrimsonHarness(String effect) {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
@@ -32,8 +32,7 @@ public class WarlordsCrimsonHarness extends ArmourManager {
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().add("bleed");
-                wearer.getEffectProtection().add("stun");
+                Collections.addAll(wearer.getEffectProtection(), PROTECTION_BLEED, PROTECTION_STUN);
             }
             return true;
         }
@@ -48,8 +47,8 @@ public class WarlordsCrimsonHarness extends ArmourManager {
             wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove("bleed");
-                wearer.getEffectProtection().remove("stun");
+                wearer.getEffectProtection().remove(PROTECTION_BLEED);
+                wearer.getEffectProtection().remove(PROTECTION_STUN);
             }
             return true;
         }

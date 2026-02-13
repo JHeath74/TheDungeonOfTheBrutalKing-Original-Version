@@ -1,5 +1,4 @@
-
-// Weapons.java
+// src/Weapon/WeaponManager.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -13,32 +12,32 @@ public class WeaponManager {
     public String name;
     public int requiredStrength;
     public static String charStrength;
-    private static int damage;
-    private static int weight;
-    private static double criticalHitChance;
-    private static StatusEffect statusEffect;
+    private int damage;
+    private int weight;
+    private double criticalHitChance;
+    private StatusEffect statusEffect;
 
     public WeaponManager(String name, int requiredStrength, int damage, String effect, int weight) {
         this.name = name;
         this.requiredStrength = requiredStrength;
-        WeaponManager.damage = damage;
-        WeaponManager.weight = weight;
+        this.damage = damage;
+        this.weight = weight;
         if (effect != null) {
-            WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+            this.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
-            WeaponManager.statusEffect = StatusEffect.NONE;
+            this.statusEffect = StatusEffect.NONE;
         }
     }
 
     public double getWeight() {
-		return weight;
-	}
+        return weight;
+    }
 
-	public void setWeight(int weight) {
-		WeaponManager.weight = weight;
-	}
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 
-	public enum StatusEffect {
+    public enum StatusEffect {
         NONE,
         POISON,
         STUN,
@@ -69,44 +68,45 @@ public class WeaponManager {
 
     public void setEffect(String effect) {
         if (effect != null) {
-            WeaponManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
+            this.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
         } else {
-            WeaponManager.statusEffect = StatusEffect.NONE;
+            this.statusEffect = StatusEffect.NONE;
         }
     }
 
     public void setDamage(int damage) {
-        WeaponManager.damage = damage;
+        this.damage = damage;
     }
 
-	public static WeaponManager Singleton() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public static WeaponManager Singleton() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public String getDescription() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public void applyCombatEffect(Charecter target) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void applyCombatEffect(Charecter target) {
+        // TODO Auto-generated method stub
+    }
 
-	public void applyCombatEffect(HasHitPoints target) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void applyCombatEffect(HasHitPoints target) {
+        // TODO Auto-generated method stub
+    }
 
-	public boolean equip(Charecter wearer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean equip(Charecter wearer) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public boolean unequip(Charecter wearer) {
-		return false;
-		// TODO Auto-generated method stub
-		
-	}
+    public boolean unequip(Charecter wearer) {
+        return false;
+        // TODO Auto-generated method stub
+    }
+
+    public void applyEffect(HasHitPoints target) {
+        // TODO Auto-generated method stub
+    }
 }

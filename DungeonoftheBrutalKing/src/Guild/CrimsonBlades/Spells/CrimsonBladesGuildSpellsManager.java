@@ -1,17 +1,16 @@
-
 package Guild.CrimsonBlades.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class CrimsonBladesGuildSpellsManager {
+public final class CrimsonBladesGuildSpellsManager {
     private final Guild guild;
-    private final Map<String, Spell> guildSpells = new HashMap<>();
+    private final Map<String, Spell> guildSpells = new ConcurrentHashMap<>();
 
     public CrimsonBladesGuildSpellsManager(Guild guild) {
         if (guild == null) throw new IllegalArgumentException("Guild cannot be null.");
@@ -31,10 +30,9 @@ public class CrimsonBladesGuildSpellsManager {
     }
 
     public Map<String, Spell> getAllSpells() {
-        return Collections.unmodifiableMap(new HashMap<>(guildSpells));
+        return Collections.unmodifiableMap(guildSpells);
     }
 
-    // Cast spell by name with caster only
     public void castSpell(String spellName, Charecter caster) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -42,7 +40,6 @@ public class CrimsonBladesGuildSpellsManager {
         }
     }
 
-    // Cast spell by name with caster and target
     public void castSpell(String spellName, Charecter caster, Charecter target) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -50,7 +47,6 @@ public class CrimsonBladesGuildSpellsManager {
         }
     }
 
-    // Cast spell by name with caster and all characters
     public void castSpell(String spellName, Charecter caster, List<Charecter> allCharacters) {
         Spell spell = getSpell(spellName);
         if (spell != null) {

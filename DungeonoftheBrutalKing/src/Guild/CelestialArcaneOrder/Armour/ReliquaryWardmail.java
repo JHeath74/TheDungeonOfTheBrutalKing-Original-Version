@@ -8,9 +8,9 @@ import SharedData.GuildType;
 public class ReliquaryWardmail extends ArmourManager {
 
     private static final int REQUIRED_WISDOM = 13;
-    private static final int ARMOUR_DEFENSE = 5;
+    private static final int ARMOUR_DEFENSE = 25;
     private static final int WEIGHT = 2;
-    private static final int WISDOM_BONUS = 2;
+    private static final int WISDOM_BONUS = 12;
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 

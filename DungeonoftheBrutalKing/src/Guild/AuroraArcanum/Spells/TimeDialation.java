@@ -18,6 +18,10 @@ public class TimeDialation implements Spell {
     private boolean active = false;
     private int enemySilenceRounds = 0;
 
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == SPELL_GUILD;
+    }
+
     public int calculateSlowAmount(Charecter charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
@@ -40,19 +44,16 @@ public class TimeDialation implements Spell {
         return active;
     }
 
-    // Call this at the end of each enemy round
     public void decrementEnemySilence() {
         if (enemySilenceRounds > 0) {
             enemySilenceRounds--;
         }
     }
 
-    // Call this before the enemy tries to attack
     public boolean isEnemySilenced() {
         return enemySilenceRounds > 0;
     }
 
-    // Example: slows enemy speed by the calculated percentage
     public int applySlow(Charecter enemy, int originalSpeed, Charecter caster) {
         if (isActive()) {
             int slowPercent = calculateSlowAmount(caster);
@@ -83,6 +84,11 @@ public class TimeDialation implements Spell {
     }
 
     @Override
+    public String getDescription() {
+        return "Time Dialation: Slows enemies and silences them for 2 rounds. Only available to AuroraArcanum guild members.";
+    }
+
+    @Override
     public void cast(int toonWisdom) {
         // Not used for this spell
     }
@@ -99,13 +105,14 @@ public class TimeDialation implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Applies to the caster only
-        cast(caster);
+        if (canUseSpell(caster)) {
+            cast(caster);
+        }
     }
 
     @Override
     public void cast(Charecter caster) {
-        if (caster != null) {
+        if (canUseSpell(caster)) {
             activate(caster);
         }
     }
@@ -117,11 +124,17 @@ public class TimeDialation implements Spell {
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        // Applies to the target if not null, otherwise to the caster
-        if (target != null) {
-            activate(target);
-        } else if (caster != null) {
-            activate(caster);
+        if (canUseSpell(caster)) {
+            if (target != null) {
+                activate(target);
+            } else {
+                activate(caster);
+            }
         }
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not applicable for this spell, so do nothing
     }
 }

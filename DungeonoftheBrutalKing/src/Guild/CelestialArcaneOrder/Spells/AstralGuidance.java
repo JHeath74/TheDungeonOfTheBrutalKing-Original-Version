@@ -1,9 +1,9 @@
-
 package Guild.CelestialArcaneOrder.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType; // Import the StatusType enum
 
 public class AstralGuidance implements Spell {
 
@@ -18,7 +18,7 @@ public class AstralGuidance implements Spell {
     @Override
     public void cast(Charecter caster, Charecter target) {
         if (target == null) return;
-        target.applyStatusEffect("Increased Accuracy", DURATION, ACCURACY_BONUS);
+        target.applyStatusEffect(StatusType.ACCURACY_STATUS, DURATION, ACCURACY_BONUS, target);
         System.out.println(target.getName() + "'s accuracy is increased by " + ACCURACY_BONUS + " for " + DURATION + " turn by Astral Guidance!");
     }
 
@@ -34,4 +34,14 @@ public class AstralGuidance implements Spell {
     @Override public Guild getSpellGuild() { return SPELL_GUILD; }
     @Override public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
     @Override public String getName() { return SPELL_NAME; }
+
+    @Override
+    public String getDescription() {
+        return "Astral Guidance: Increases a target's accuracy for a short duration.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double d) {
+        // Not used for this spell
+    }
 }

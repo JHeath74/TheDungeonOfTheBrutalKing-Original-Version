@@ -1,8 +1,6 @@
-
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import Spells.Spell;
@@ -10,6 +8,11 @@ import Spells.Spell;
 public class ArcaneMissile implements Spell {
     private static final int BASE_POWER = 10;
     private static final int REQUIRED_MAGIC_POINTS = 6;
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == Guild.AURORA_ARCANUM;
+    }
 
     @Override
     public boolean isGuildSpell() {
@@ -27,22 +30,13 @@ public class ArcaneMissile implements Spell {
     }
 
     @Override
-    public void cast(int toonWisdom) {
-        // Not used for this spell
-    }
+    public void cast(int toonWisdom) { }
 
     @Override
-    public void castWithIntelligence(int toonIntelligence) {
-        // This method is for direct damage calculation, but no target is provided
-        // Example: could log or return damage if needed
-        int damage = BASE_POWER + (toonIntelligence * 2);
-        // No target to apply damage
-    }
+    public void castWithIntelligence(int toonIntelligence) { }
 
     @Override
-    public void cast(int toonWisdom, int toonIntelligence) {
-        // Not used for this spell
-    }
+    public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
     public String getName() {
@@ -51,8 +45,7 @@ public class ArcaneMissile implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Target the first enemy in the list (if any)
-        if (allCharacters != null && !allCharacters.isEmpty()) {
+        if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
             Charecter target = allCharacters.get(0);
             int damage = calculatePower(caster);
             target.reduceHitPoints(damage);
@@ -60,9 +53,7 @@ public class ArcaneMissile implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
-        // No target specified, so nothing happens
-    }
+    public void cast(Charecter caster) { }
 
     public int calculatePower(Charecter charecter) {
         int intelligence = charecter.getIntelligence();
@@ -71,13 +62,11 @@ public class ArcaneMissile implements Spell {
     }
 
     @Override
-    public void cast() {
-        // No caster or target, so nothing happens
-    }
+    public void cast() { }
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        if (caster != null && target != null) {
+        if (canUseSpell(caster) && target != null) {
             int damage = calculatePower(caster);
             target.reduceHitPoints(damage);
         }
@@ -89,7 +78,5 @@ public class ArcaneMissile implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) {
-        // Not used for this spell
-    }
+    public void castWithStrength(Charecter enemy, double strength) { }
 }

@@ -1,4 +1,3 @@
-
 package Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -13,9 +12,15 @@ public class AstralStep implements Spell {
     private static final int DUNGEON_WIDTH = 128;
     private static final int DUNGEON_HEIGHT = 128;
     private static final int REQUIRED_MAGIC_POINTS = 7;
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == Guild.AURORA_ARCANUM;
+    }
 
     @Override
     public void cast(Charecter caster) {
+        if (!canUseSpell(caster)) return;
         int[] pos = new int[3];
         caster.getPosition(pos);
         Random rand = new Random();
@@ -42,7 +47,6 @@ public class AstralStep implements Spell {
         if (found) {
             caster.setPosition(newX, newY, pos[2]);
         }
-        // Optionally, add visual or log effect here
     }
 
     @Override
@@ -67,33 +71,31 @@ public class AstralStep implements Spell {
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        // Astral Step only affects the caster, so just teleport the caster
         cast(caster);
     }
-    
-    @Override
-    public void cast(int toonWisdom) {
-        // Not used for this spell
-    }
 
     @Override
-    public void castWithIntelligence(int toonIntelligence) {
-        // Not used for this spell
-    }
+    public void cast(int toonWisdom) { }
 
     @Override
-    public void cast(int toonWisdom, int toonIntelligence) {
-        // Not used for this spell
-    }
+    public void castWithIntelligence(int toonIntelligence) { }
+
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
     public String getName() {
         return "Astral Step";
     }
 
-	@Override
-	public void cast() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void cast() { }
+
+    @Override
+    public String getDescription() {
+        return "Astral Step: Teleports the caster a short distance within the dungeon. Only available to AuroraArcanum guild members.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double d) { }
 }

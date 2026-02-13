@@ -1,3 +1,5 @@
+
+// src/Guild/AuroraArcanum/Spells/MindProbe.java
 package Guild.AuroraArcanum.Spells;
 
 import java.util.List;
@@ -10,11 +12,15 @@ public class MindProbe implements Spell {
     private static final int DURATION = 3; // rounds
     private static final double EVADE_BONUS = 0.15; // 15% increased evade chance
     private static final int REQUIRED_MAGIC_POINTS = 7;
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
 
-    // Main spell logic: applies MindProbeStatus to the caster
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == SPELL_GUILD;
+    }
+
     @Override
     public void cast(Charecter caster, Charecter target) {
-        if (caster != null) {
+        if (canUseSpell(caster)) {
             caster.addStatus(new MindProbeStatus(DURATION, EVADE_BONUS));
             // Optionally: read/display target's thoughts here
         }
@@ -22,13 +28,16 @@ public class MindProbe implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Applies to the caster only
-        cast(caster, (Charecter) null);
+        if (canUseSpell(caster)) {
+            cast(caster, (Charecter) null);
+        }
     }
 
     @Override
     public void cast(Charecter caster) {
-        cast(caster, (Charecter) null);
+        if (canUseSpell(caster)) {
+            cast(caster, (Charecter) null);
+        }
     }
 
     @Override
@@ -58,7 +67,7 @@ public class MindProbe implements Spell {
 
     @Override
     public Guild getSpellGuild() {
-        return Guild.AURORA_ARCANUM;
+        return SPELL_GUILD;
     }
 
     @Override
@@ -69,5 +78,15 @@ public class MindProbe implements Spell {
     @Override
     public String getName() {
         return "Mind Probe";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Mind Probe: Allows the caster to read thoughts and gain an evade bonus. Only available to AuroraArcanum guild members.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not applicable for this spell, so do nothing
     }
 }

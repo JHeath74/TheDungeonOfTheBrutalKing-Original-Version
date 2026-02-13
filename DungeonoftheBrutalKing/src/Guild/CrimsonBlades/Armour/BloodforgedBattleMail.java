@@ -4,6 +4,7 @@ import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import SharedData.GuildType;
+import java.util.Collections;
 
 public class BloodforgedBattleMail extends ArmourManager {
 
@@ -16,6 +17,8 @@ public class BloodforgedBattleMail extends ArmourManager {
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Bloodforged BattleMail";
     private static final String DESCRIPTION = "Bloodforged BattleMail: Legendary mail infused with the blood of ancient warriors. Grants immense strength, high resilience, and protects against bleeding and curses.";
+    private static final String PROTECTION_BLEED = "bleed";
+    private static final String PROTECTION_CURSE = "curse";
 
     public BloodforgedBattleMail(String effect) {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
@@ -29,8 +32,7 @@ public class BloodforgedBattleMail extends ArmourManager {
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().add("bleed");
-                wearer.getEffectProtection().add("curse");
+                Collections.addAll(wearer.getEffectProtection(), PROTECTION_BLEED, PROTECTION_CURSE);
             }
             return true;
         }
@@ -45,8 +47,8 @@ public class BloodforgedBattleMail extends ArmourManager {
             wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove("bleed");
-                wearer.getEffectProtection().remove("curse");
+                wearer.getEffectProtection().remove(PROTECTION_BLEED);
+                wearer.getEffectProtection().remove(PROTECTION_CURSE);
             }
             return true;
         }

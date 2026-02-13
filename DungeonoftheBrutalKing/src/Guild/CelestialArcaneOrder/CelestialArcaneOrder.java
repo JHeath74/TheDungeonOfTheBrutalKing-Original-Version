@@ -76,7 +76,7 @@ public class CelestialArcaneOrder extends JPanel {
 
         if (!isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(e -> {
+            joinGuildButton.addActionListener(unused -> {
                 this.isMember = true;
                 Charecter.getInstance().addToInventory("Celestial Arcane Order Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcane Order!");
@@ -100,17 +100,17 @@ public class CelestialArcaneOrder extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(e -> buyGuildSpell());
-        stargazeButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You gaze at the stars and gain cosmic insight. (Celestial Arcane Order exclusive service)"));
-        removeCurseButton.addActionListener(e -> {
+        buySpellsButton.addActionListener(unused -> buyGuildSpell());
+        stargazeButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "You gaze at the stars and gain cosmic insight. (Celestial Arcane Order exclusive service)"));
+        removeCurseButton.addActionListener(unused -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
-        sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
-        exitRoomButton.addActionListener(e -> {
+        sellItemsButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
+        sleepBedButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
+        exitRoomButton.addActionListener(unused -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {

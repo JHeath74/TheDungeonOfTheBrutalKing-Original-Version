@@ -1,10 +1,10 @@
-
 package Guild.CrimsonBlades.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import SharedData.GuildType;
+import java.util.Collections;
 
 public class BladewardenCuirass extends ArmourManager {
 
@@ -18,6 +18,8 @@ public class BladewardenCuirass extends ArmourManager {
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Bladewarden Cuirass";
     private static final String DESCRIPTION = "Bladewarden Cuirass: Heavy crimson plate forged for the Crimson Blades. Greatly increases strength, resilience, and defense, and protects against bleeding and stun effects.";
+    private static final String PROTECTION_BLEED = "bleed";
+    private static final String PROTECTION_STUN = "stun";
 
     public BladewardenCuirass(String effect) {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
@@ -32,8 +34,7 @@ public class BladewardenCuirass extends ArmourManager {
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
             wearer.setDefense(wearer.getDefense() + BONUS_DEFENSE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().add("bleed");
-                wearer.getEffectProtection().add("stun");
+                Collections.addAll(wearer.getEffectProtection(), PROTECTION_BLEED, PROTECTION_STUN);
             }
             return true;
         }
@@ -49,8 +50,8 @@ public class BladewardenCuirass extends ArmourManager {
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
             wearer.setDefense(wearer.getDefense() - BONUS_DEFENSE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove("bleed");
-                wearer.getEffectProtection().remove("stun");
+                wearer.getEffectProtection().remove(PROTECTION_BLEED);
+                wearer.getEffectProtection().remove(PROTECTION_STUN);
             }
             return true;
         }

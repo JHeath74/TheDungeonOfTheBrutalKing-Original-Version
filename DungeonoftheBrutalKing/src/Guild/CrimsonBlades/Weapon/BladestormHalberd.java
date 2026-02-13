@@ -1,6 +1,3 @@
-
-// File: src/Guild/CrimsonBlades/Weapon/BladestormsHalbred.java
-
 package Guild.CrimsonBlades.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -15,46 +12,56 @@ public class BladestormHalberd extends WeaponManager {
     private static final int REQUIRED_STRENGTH = 16;
     private static final int STRENGTH_BONUS = 3;
     private static final int AGILITY_BONUS = 1;
-    private static final double DEFENSE_BONUS = 0.07;
+    private static final double DEFENSE_BONUS_PERCENT = 0.07;
     private static final int ATTACK_DAMAGE = 6;
     private static final int WEIGHT = 4;
     private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
-    private static final String WEAPON_NAME = "Bladestorms Halbred";
-    private static final String DESCRIPTION = "Bladestorms Halbred: A mighty halbred forged for the Crimson Blades, unleashing storm-like fury and granting great strength, defense, and agility.";
+    private static final String WEAPON_NAME = "Bladestorm Halberd";
+    private static final String DESCRIPTION = "Bladestorm Halberd: A mighty halberd forged for the Crimson Blades, unleashing storm-like fury and granting great strength, defense, and agility.";
+
+    // Store the last defense bonus applied for correct removal
+    private int lastDefenseBonus = 0;
 
     public BladestormHalberd(String effect) {
         super(WEAPON_NAME, REQUIRED_STRENGTH, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static BladestormHalberd createBladestormsHalbred(Charecter character, String effect) {
+    public static BladestormHalberd createBladestormHalberd(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
-        int strength = character.getStrength();
-        if (strength >= REQUIRED_STRENGTH) {
+        if (character.getGuild() != Guild.CRIMSON_BLADES)
+            throw new IllegalArgumentException("Only Crimson Blades members can wield the Bladestorm Halberd.");
+        if (character.getStrength() >= REQUIRED_STRENGTH) {
             return new BladestormHalberd(effect);
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Bladestorms Halbred.");
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Bladestorm Halberd.");
     }
 
+    @Override
     public boolean equip(Charecter wielder) {
         if (wielder == null) return false;
+        if (wielder.getGuild() != Guild.CRIMSON_BLADES) return false;
         if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
             wielder.setWeapon(getName());
             wielder.setStrength(wielder.getStrength() + STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
-            wielder.setDefense((int)(wielder.getDefense() + DEFENSE_BONUS));
+            int defenseIncrease = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS_PERCENT);
+            wielder.setDefense(wielder.getDefense() + defenseIncrease);
+            lastDefenseBonus = defenseIncrease;
             return true;
         }
         return false;
     }
 
+    @Override
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
         if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
             wielder.setWeapon(null);
             wielder.setStrength(wielder.getStrength() - STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
-            wielder.setDefense((int)(wielder.getDefense() - DEFENSE_BONUS));
+            wielder.setDefense(wielder.getDefense() - lastDefenseBonus);
+            lastDefenseBonus = 0;
             return true;
         }
         return false;

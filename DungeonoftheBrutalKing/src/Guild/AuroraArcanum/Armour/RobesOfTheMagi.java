@@ -7,25 +7,27 @@ import SharedData.Guild;
 import SharedData.GuildType;
 import Armour.ArmourManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RobesOfTheMagi extends ArmourManager {
 
     private static final int REQUIRED_INTELLIGENCE = 20;
-    private static final int INTELLIGENCE_BONUS = 2;
-    private static final int SPELL_RESISTANCE_BONUS = 10; // percent
+    private static final double SPELL_RESISTANCE_BONUS_PERCENT = 0.10; // 10%
     private static final int WEIGHT = 2;
 
     private boolean isEquipped = false;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
 
-    public RobesOfTheMagi(int requiredIntelligence, String effect, int weight) {
-        super("Robes of the Magi", requiredIntelligence, weight, effect);
+    public RobesOfTheMagi(String effect) {
+        super("Robes of the Magi", REQUIRED_INTELLIGENCE, WEIGHT, effect);
     }
 
     public static RobesOfTheMagi createRobes(Charecter character, String effect) {
         int intelligence = character.getIntelligence();
         if (intelligence >= REQUIRED_INTELLIGENCE) {
-            return new RobesOfTheMagi(REQUIRED_INTELLIGENCE, effect, WEIGHT);
+            return new RobesOfTheMagi(effect);
         }
         throw new IllegalArgumentException("Character does not have the required intelligence to wear the Robes of the Magi.");
     }
@@ -33,8 +35,9 @@ public class RobesOfTheMagi extends ArmourManager {
     @Override
     public boolean equip(Charecter wearer) {
         if (!isEquipped && wearer.getGuild() == GUILDname) {
-            wearer.setIntelligence(wearer.getIntelligence() + INTELLIGENCE_BONUS);
-            // wearer.setSpellResistance(wearer.getSpellResistance() + SPELL_RESISTANCE_BONUS); // Uncomment if supported
+            int baseSpellResistance = wearer.getIntelligence() + wearer.getWisdom();
+            int bonus = (int) Math.round(baseSpellResistance * SPELL_RESISTANCE_BONUS_PERCENT);
+            wearer.setSpellResistanceBonus(wearer.getSpellResistanceBonus() + bonus);
             isEquipped = true;
             return true;
         }
@@ -44,8 +47,9 @@ public class RobesOfTheMagi extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (isEquipped) {
-            wearer.setIntelligence(wearer.getIntelligence() - INTELLIGENCE_BONUS);
-            // wearer.setSpellResistance(wearer.getSpellResistance() - SPELL_RESISTANCE_BONUS); // Uncomment if supported
+            int baseSpellResistance = wearer.getIntelligence() + wearer.getWisdom();
+            int bonus = (int) Math.round(baseSpellResistance * SPELL_RESISTANCE_BONUS_PERCENT);
+            wearer.setSpellResistanceBonus(Math.max(0, wearer.getSpellResistanceBonus() - bonus));
             isEquipped = false;
             return true;
         }
@@ -72,7 +76,7 @@ public class RobesOfTheMagi extends ArmourManager {
 
     @Override
     public double getDefense() {
-        return (double) SPELL_RESISTANCE_BONUS;
+        return SPELL_RESISTANCE_BONUS_PERCENT * 100;
     }
 
     @Override

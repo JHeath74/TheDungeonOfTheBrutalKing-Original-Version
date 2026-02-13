@@ -1,4 +1,3 @@
-
 package Guild.CrimsonBlades.Spells;
 
 import java.util.List;
@@ -10,6 +9,8 @@ public class DragonfireLunge implements Spell {
 
     private static final int REQUIRED_MAGIC_POINTS = 10;
     private static final int FIRE_DAMAGE = 15;
+    
+    private static final Guild SPELL_GUILD = Guild.CRIMSON_BLADES;
 
     private final String name = "Dragonfire Lunge";
     private final String description = "A fiery thrust attack, channeling inner fury into a burning strike.";
@@ -19,6 +20,7 @@ public class DragonfireLunge implements Spell {
         return name;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -55,7 +57,10 @@ public class DragonfireLunge implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Example: Attack all enemies with fire damage
+        if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
+            System.out.println("Only members of the Crimson Blades guild can use Dragonfire Lunge.");
+            return;
+        }
         for (Charecter target : allCharacters) {
             if (target != caster) {
                 applyFireDamage(caster, target);
@@ -65,7 +70,10 @@ public class DragonfireLunge implements Spell {
 
     @Override
     public void cast(Charecter caster) {
-        // No target specified
+        if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
+            System.out.println("Only members of the Crimson Blades guild can use Dragonfire Lunge.");
+            return;
+        }
         System.out.println(caster.getName() + " prepares a Dragonfire Lunge, but there is no target.");
     }
 
@@ -76,12 +84,24 @@ public class DragonfireLunge implements Spell {
 
     @Override
     public void cast(Charecter caster, Charecter target) {
+        if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
+            System.out.println("Only members of the Crimson Blades guild can use Dragonfire Lunge.");
+            return;
+        }
         applyFireDamage(caster, target);
     }
 
     private void applyFireDamage(Charecter caster, Charecter target) {
-        target.reduceHitPoints(FIRE_DAMAGE);
+        if (target == null || caster == null) return;
+        int strength = caster.getStrength();
+        int fireDamage = (int) Math.round(strength * 1.5); // Example scaling
+        target.reduceHitPoints(fireDamage);
         System.out.println(caster.getName() + " lunges at " + target.getName() +
-            " with Dragonfire Lunge, dealing " + FIRE_DAMAGE + " fire damage!");
+            " with Dragonfire Lunge, dealing " + fireDamage + " fire damage!");
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double d) {
+        // Not used for this spell
     }
 }

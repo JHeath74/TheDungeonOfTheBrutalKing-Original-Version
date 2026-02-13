@@ -1,6 +1,3 @@
-
-// File: src/Guild/CrimsonBlades/Armour/CrimsonPlateOfValor.java
-
 package Guild.CrimsonBlades.Armour;
 
 import Armour.ArmourManager;
@@ -19,6 +16,7 @@ public class CrimsonPlateOfValor extends ArmourManager {
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Crimson Plate Of Valor";
     private static final String DESCRIPTION = "Crimson Plate Of Valor: A mighty crimson plate that emboldens its wearer, granting strength, resilience, and protection against fear.";
+    private static final String PROTECTION_FEAR = "fear";
 
     public CrimsonPlateOfValor(String effect) {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
@@ -32,7 +30,7 @@ public class CrimsonPlateOfValor extends ArmourManager {
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().add("fear");
+                wearer.getEffectProtection().add(PROTECTION_FEAR);
             }
             return true;
         }
@@ -47,7 +45,7 @@ public class CrimsonPlateOfValor extends ArmourManager {
             wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove("fear");
+                wearer.getEffectProtection().remove(PROTECTION_FEAR);
             }
             return true;
         }

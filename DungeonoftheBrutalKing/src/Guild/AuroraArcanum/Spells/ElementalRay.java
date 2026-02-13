@@ -14,19 +14,22 @@ import java.util.Random;
 
 public class ElementalRay implements Spell {
     public enum Element { FIRE, ICE, LIGHTNING }
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
 
     private Element currentElement;
     private final Random random = new Random();
 
-    // Main spell logic: fires the beam at a target
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == SPELL_GUILD;
+    }
+
     @Override
     public void cast(Charecter caster, Charecter target) {
-        if (caster == null || target == null) return;
+        if (!canUseSpell(caster) || target == null) return;
         currentElement = Element.values()[random.nextInt(Element.values().length)];
         applyEffect(caster, target, currentElement);
     }
 
-    // Applies the effect based on the element
     private void applyEffect(Charecter caster, Charecter target, Element element) {
         switch (element) {
             case FIRE:
@@ -58,7 +61,7 @@ public class ElementalRay implements Spell {
 
     @Override
     public Guild getSpellGuild() {
-        return Guild.AURORA_ARCANUM;
+        return SPELL_GUILD;
     }
 
     @Override
@@ -67,19 +70,13 @@ public class ElementalRay implements Spell {
     }
 
     @Override
-    public void cast(int toonWisdom) {
-        // No target, so nothing happens
-    }
+    public void cast(int toonWisdom) { }
 
     @Override
-    public void castWithIntelligence(int toonIntelligence) {
-        // No target, so nothing happens
-    }
+    public void castWithIntelligence(int toonIntelligence) { }
 
     @Override
-    public void cast(int toonWisdom, int toonIntelligence) {
-        // No target, so nothing happens
-    }
+    public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
     public String getName() {
@@ -88,19 +85,24 @@ public class ElementalRay implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        // Cast on the first target in the list (if any)
-        if (caster != null && allCharacters != null && !allCharacters.isEmpty()) {
+        if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
             cast(caster, allCharacters.get(0));
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
-        // No target, so nothing happens
+    public void cast(Charecter caster) { }
+
+    @Override
+    public void cast() { }
+
+    @Override
+    public String getDescription() {
+        return "Elemental Ray: Fires a random elemental beam (fire, ice, or lightning) at a target. Only available to AuroraArcanum guild members.";
     }
 
     @Override
-    public void cast() {
-        // No caster or target, so nothing happens
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not applicable for this spell, so do nothing
     }
 }

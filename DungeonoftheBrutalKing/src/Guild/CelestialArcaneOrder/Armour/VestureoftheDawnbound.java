@@ -8,9 +8,9 @@ import SharedData.GuildType;
 public class VestureoftheDawnbound extends ArmourManager {
 
     private static final int REQUIRED_WISDOM = 12;
-    private static final int ARMOUR_DEFENSE = 4;
+    private static final int ARMOUR_DEFENSE = 24;
     private static final int WEIGHT = 1;
-    private static final int WISDOM_BONUS = 2;
+    private static final int WISDOM_BONUS = 22;
     private static final Guild GUILD_NAME = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILD_TYPE = GuildType.CLERIC;
 

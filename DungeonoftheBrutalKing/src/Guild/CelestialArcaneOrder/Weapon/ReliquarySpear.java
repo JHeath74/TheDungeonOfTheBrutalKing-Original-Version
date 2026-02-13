@@ -1,4 +1,3 @@
-
 package Guild.CelestialArcaneOrder.Weapon;
 
 import Weapon.WeaponManager;
@@ -16,6 +15,8 @@ public class ReliquarySpear extends WeaponManager {
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
+    private boolean curseProtectionApplied = false;
+
     public ReliquarySpear(String effect) {
         super("Reliquary Spear", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
     }
@@ -24,8 +25,11 @@ public class ReliquarySpear extends WeaponManager {
     public boolean equip(Charecter wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype && (wearer.getWeapon() == null || !wearer.getWeapon().equals(getName()))) {
             wearer.setWeapon(getName());
-            wearer.setWisdom(wearer.getWisdom() + 2); // Stat boost
-            wearer.setEffectProtection("curse", true); // Example protection
+            wearer.setWisdom(wearer.getWisdom() + 2);
+            if (!wearer.hasEffectProtection("curse")) {
+                wearer.setEffectProtection("curse", true);
+                curseProtectionApplied = true;
+            }
             return true;
         }
         return false;
@@ -35,8 +39,12 @@ public class ReliquarySpear extends WeaponManager {
     public boolean unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
-            wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat boost
-            wearer.setEffectProtection("curse", false); // Remove protection
+            int newWisdom = wearer.getWisdom() - 2;
+            wearer.setWisdom(Math.max(newWisdom, 0));
+            if (curseProtectionApplied && wearer.hasEffectProtection("curse")) {
+                wearer.setEffectProtection("curse", false);
+                curseProtectionApplied = false;
+            }
             return true;
         }
         return false;
@@ -45,9 +53,7 @@ public class ReliquarySpear extends WeaponManager {
     @Override
     public void applyCombatEffect(HasHitPoints target) {
         if (target instanceof Charecter) {
-            Charecter character = (Charecter) target;
-            // Apply ReduceDefenseStatus for 2 turns
-            character.addStatus(new ReduceDefenseStatus());
+            ((Charecter) target).addStatus(new ReduceDefenseStatus());
         }
     }
 

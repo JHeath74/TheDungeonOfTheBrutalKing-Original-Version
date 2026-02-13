@@ -1,5 +1,4 @@
 
-// src/Guild/CrimsonBlades/Weapon/IronfangBattlehammer.java
 package Guild.CrimsonBlades.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -14,7 +13,7 @@ public class IronfangBattlehammer extends WeaponManager {
     private static final int REQUIRED_STRENGTH = 17;
     private static final int STRENGTH_BONUS = 4;
     private static final int AGILITY_BONUS = 0;
-    private static final double DEFENSE_BONUS = 0.08;
+    private static final double DEFENSE_BONUS_PERCENT = 0.08;
     private static final int ATTACK_DAMAGE = 7;
     private static final int WEIGHT = 5;
     private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
@@ -22,12 +21,17 @@ public class IronfangBattlehammer extends WeaponManager {
     private static final String WEAPON_NAME = "Ironfang Battlehammer";
     private static final String DESCRIPTION = "Ironfang Battlehammer: A brutal hammer forged for the Crimson Blades, delivering crushing blows and bolstering the wielder's strength and defense.";
 
+    // Track the last defense bonus applied for correct removal
+    private int lastDefenseBonus = 0;
+
     public IronfangBattlehammer(String effect) {
         super(WEAPON_NAME, REQUIRED_STRENGTH, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
     public static IronfangBattlehammer createIronfangBattlehammer(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
+        if (character.getGuild() != Guild.CRIMSON_BLADES)
+            throw new IllegalArgumentException("Only Crimson Blades members can wield the Ironfang Battlehammer.");
         int strength = character.getStrength();
         if (strength >= REQUIRED_STRENGTH) {
             return new IronfangBattlehammer(effect);
@@ -35,25 +39,31 @@ public class IronfangBattlehammer extends WeaponManager {
         throw new IllegalArgumentException("Character does not have the required strength to wield the Ironfang Battlehammer.");
     }
 
+    @Override
     public boolean equip(Charecter wielder) {
         if (wielder == null) return false;
+        if (wielder.getGuild() != Guild.CRIMSON_BLADES) return false;
         if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
             wielder.setWeapon(getName());
             wielder.setStrength(wielder.getStrength() + STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
-            wielder.setDefense((int)(wielder.getDefense() + DEFENSE_BONUS));
+            int defenseIncrease = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS_PERCENT);
+            wielder.setDefense(wielder.getDefense() + defenseIncrease);
+            lastDefenseBonus = defenseIncrease;
             return true;
         }
         return false;
     }
 
+    @Override
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
         if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
             wielder.setWeapon(null);
             wielder.setStrength(wielder.getStrength() - STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
-            wielder.setDefense((int)(wielder.getDefense() - DEFENSE_BONUS));
+            wielder.setDefense(wielder.getDefense() - lastDefenseBonus);
+            lastDefenseBonus = 0;
             return true;
         }
         return false;

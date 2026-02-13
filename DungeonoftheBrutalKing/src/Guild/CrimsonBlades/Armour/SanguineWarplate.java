@@ -1,12 +1,10 @@
-
-// File: src/Guild/CrimsonBlades/Armour/SanguineWarplate.java
-
 package Guild.CrimsonBlades.Armour;
 
 import Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
 import SharedData.Guild;
 import SharedData.GuildType;
+import java.util.Collections;
 
 public class SanguineWarplate extends ArmourManager {
 
@@ -19,6 +17,8 @@ public class SanguineWarplate extends ArmourManager {
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Sanguine Warplate";
     private static final String DESCRIPTION = "Sanguine Warplate: A fearsome crimson warplate pulsing with power. Greatly increases strength, critical prowess, and protects against bleeding and burning.";
+    private static final String PROTECTION_BLEED = "bleed";
+    private static final String PROTECTION_BURN = "burn";
 
     public SanguineWarplate(String effect) {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
@@ -32,8 +32,7 @@ public class SanguineWarplate extends ArmourManager {
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().add("bleed");
-                wearer.getEffectProtection().add("burn");
+                Collections.addAll(wearer.getEffectProtection(), PROTECTION_BLEED, PROTECTION_BURN);
             }
             return true;
         }
@@ -48,8 +47,8 @@ public class SanguineWarplate extends ArmourManager {
             wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove("bleed");
-                wearer.getEffectProtection().remove("burn");
+                wearer.getEffectProtection().remove(PROTECTION_BLEED);
+                wearer.getEffectProtection().remove(PROTECTION_BURN);
             }
             return true;
         }

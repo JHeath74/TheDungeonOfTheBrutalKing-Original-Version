@@ -9,9 +9,9 @@ import SharedData.GuildType;
 public class OathbearersVestment extends ArmourManager {
 
     private static final int REQUIRED_WISDOM = 15;
-    private static final int ARMOUR_DEFENSE = 7;
+    private static final int ARMOUR_DEFENSE = 20;
     private static final int WEIGHT = 2;
-    private static final int WISDOM_BONUS = 2;
+    private static final int WISDOM_BONUS = 15;
     private static final Guild GUILDname = Guild.CELESTIAL_ARCANE_ORDER;
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
@@ -69,7 +69,7 @@ public class OathbearersVestment extends ArmourManager {
 
     @Override
     public double getWeight() {
-        return (double) WEIGHT;
+        return WEIGHT;
     }
 
     @Override

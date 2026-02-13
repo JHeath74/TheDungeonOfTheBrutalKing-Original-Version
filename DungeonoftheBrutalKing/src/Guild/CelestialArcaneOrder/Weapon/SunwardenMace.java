@@ -7,6 +7,7 @@ import SharedData.GuildType;
 import DungeonoftheBrutalKing.Charecter;
 import Status.HasHitPoints;
 import Status.Status;
+import Status.StatusType;
 
 public class SunwardenMace extends WeaponManager {
 
@@ -40,11 +41,12 @@ public class SunwardenMace extends WeaponManager {
 		return false;
     }
 
+    @Override
     public void applyEffect(HasHitPoints target) {
-        // Example: apply the weapon's effect as a Status
-        if (target != null && getStatusEffect() != null) {
-            Status effectStatus = Status.createFromEffect(getStatusEffect());
-            target.addStatus(effectStatus);
+        if (target != null && getStatusEffect() != null && getStatusEffect() != WeaponManager.StatusEffect.NONE) {
+            // Use the enum name as the status name, set default duration and type
+            Status status = new Status(getStatusEffect().name(), 1, true, StatusType.DRAIN_STATUS); // Adjust type if needed
+            target.addStatus(status);
         }
     }
 

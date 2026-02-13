@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class RunedVestments extends ArmourManager {
 
-    private static final int REQUIRED_STRENGTH = 8;
-    private static final int ARMOUR_DEFENSE = 3;
+	private static final int REQUIRED_INTELLIGENCE = 10; // Example value
+    private static final double DEFENSE_BONUS_PERCENT = 0.12; // 12%
     private static final int WEIGHT = 2;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
@@ -22,7 +22,7 @@ public class RunedVestments extends ArmourManager {
     private final int maxChargesPerRune;
 
     public RunedVestments(Map<String, Integer> initialRunes, int maxChargesPerRune, String effect) {
-        super("Runed Vestments", REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super("Runed Vestments", REQUIRED_INTELLIGENCE, 0, effect); // Intelligence as required stat
         this.runeCharges = new HashMap<>(initialRunes);
         this.maxChargesPerRune = maxChargesPerRune;
     }
@@ -30,7 +30,8 @@ public class RunedVestments extends ArmourManager {
     @Override
     public boolean equip(Charecter wearer) {
         if (!isEquipped && wearer.getGuild() == GUILDname) {
-            wearer.setDefense(wearer.getDefense() + ARMOUR_DEFENSE);
+            int bonus = (int) Math.round(wearer.getDefense() * DEFENSE_BONUS_PERCENT);
+            wearer.setDefense(wearer.getDefense() + bonus);
             isEquipped = true;
             return true;
         }
@@ -40,7 +41,8 @@ public class RunedVestments extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (isEquipped) {
-            wearer.setDefense(wearer.getDefense() - ARMOUR_DEFENSE);
+            int bonus = (int) Math.round(wearer.getDefense() / (1 + DEFENSE_BONUS_PERCENT) * DEFENSE_BONUS_PERCENT);
+            wearer.setDefense(wearer.getDefense() - bonus);
             isEquipped = false;
             return true;
         }

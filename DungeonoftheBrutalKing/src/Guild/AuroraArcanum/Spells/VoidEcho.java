@@ -12,11 +12,15 @@ public class VoidEcho implements Spell {
     private static final int INTERRUPT_DURATION = 3; // seconds
     private static final int MANA_RESTORE = 10;
     private static final int REQUIRED_MAGIC_POINTS = 9;
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == SPELL_GUILD;
+    }
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        // Applies VoidEchoStatus to the target and restores mana to the caster
-        if (caster != null && target != null) {
+        if (canUseSpell(caster) && target != null) {
             target.addStatus(new VoidEchoStatus(INTERRUPT_DURATION, false));
             caster.setMagicPoints(caster.getMagicPoints() + MANA_RESTORE);
         }
@@ -24,7 +28,7 @@ public class VoidEcho implements Spell {
 
     @Override
     public void cast(Charecter caster, List<Charecter> enemies) {
-        if (caster != null && enemies != null) {
+        if (canUseSpell(caster) && enemies != null) {
             for (Charecter enemy : enemies) {
                 enemy.addStatus(new VoidEchoStatus(INTERRUPT_DURATION, false));
             }
@@ -34,8 +38,9 @@ public class VoidEcho implements Spell {
 
     @Override
     public void cast(Charecter caster) {
-        // Applies to the caster (self-target)
-        cast(caster, caster);
+        if (canUseSpell(caster)) {
+            cast(caster, caster);
+        }
     }
 
     @Override
@@ -65,7 +70,7 @@ public class VoidEcho implements Spell {
 
     @Override
     public Guild getSpellGuild() {
-        return Guild.AURORA_ARCANUM;
+        return SPELL_GUILD;
     }
 
     @Override
@@ -76,5 +81,15 @@ public class VoidEcho implements Spell {
     @Override
     public String getName() {
         return "Void Echo";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Void Echo: Interrupts a target and restores mana. Only available to AuroraArcanum guild members.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not applicable for this spell, so do nothing
     }
 }

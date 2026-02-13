@@ -10,17 +10,22 @@ import Status.EtherealChainsStatus;
 
 public class EtherealChains implements Spell {
     private static final int DURATION = 3; // rounds
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == Guild.AURORA_ARCANUM;
+    }
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        if (target != null) {
+        if (canUseSpell(caster) && target != null) {
             target.addStatus(new EtherealChainsStatus(DURATION));
         }
     }
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        if (allCharacters != null && !allCharacters.isEmpty()) {
+        if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
             cast(caster, allCharacters.get(0));
         }
     }
@@ -68,5 +73,15 @@ public class EtherealChains implements Spell {
     @Override
     public String getName() {
         return "Ethereal Chains";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Ethereal Chains: Restrains the target for several rounds. Only available to AuroraArcanum guild members.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not applicable for this spell, so do nothing
     }
 }

@@ -1,5 +1,5 @@
-// src/Guild/CelestialArcaneOrder/Weapon/OathboundWarhammer.java
 
+java
 package Guild.CelestialArcaneOrder.Weapon;
 
 import Weapon.WeaponManager;
@@ -27,7 +27,7 @@ public class OathboundWarhammer extends WeaponManager {
     public boolean equip(Charecter wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
             wearer.setWeapon(getName());
-            wearer.setWisdom(wearer.getWisdom() + 2); // Stat bonus
+            wearer.setWisdom(wearer.getWisdom() + 2);
             return true;
         }
         return false;
@@ -37,7 +37,8 @@ public class OathboundWarhammer extends WeaponManager {
     public boolean unequip(Charecter wearer) {
         if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
             wearer.setWeapon(null);
-            wearer.setWisdom(wearer.getWisdom() - 2); // Remove stat bonus
+            int newWisdom = wearer.getWisdom() - 2;
+            wearer.setWisdom(Math.max(newWisdom, 0));
             return true;
         }
         return false;

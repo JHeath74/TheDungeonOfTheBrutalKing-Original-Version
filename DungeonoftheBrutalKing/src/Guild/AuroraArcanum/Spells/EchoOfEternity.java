@@ -10,10 +10,15 @@ import java.util.List;
 
 public class EchoOfEternity implements Spell {
     private static final int DURATION = 8; // seconds
+    private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
+
+    private boolean canUseSpell(Charecter caster) {
+        return caster != null && caster.getGuild() == Guild.AURORA_ARCANUM;
+    }
 
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
-        if (caster != null) {
+        if (canUseSpell(caster)) {
             caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
         }
     }
@@ -55,7 +60,7 @@ public class EchoOfEternity implements Spell {
 
     @Override
     public void cast(Charecter caster) {
-        if (caster != null) {
+        if (canUseSpell(caster)) {
             caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
         }
     }
@@ -67,8 +72,18 @@ public class EchoOfEternity implements Spell {
 
     @Override
     public void cast(Charecter caster, Charecter target) {
-        if (target != null) {
+        if (canUseSpell(caster) && target != null) {
             target.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
         }
+    }
+
+    @Override
+    public String getDescription() {
+        return "Echo of Eternity: Imbues the target with a mystical aura for a short duration. Only available to AuroraArcanum guild members.";
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double strength) {
+        // Not applicable for this spell, so do nothing
     }
 }
