@@ -95,7 +95,7 @@ public class DragonfireLunge implements Spell {
         if (target == null || caster == null) return;
         int strength = caster.getStrength();
         int fireDamage = (int) Math.round(strength * 1.5); // Example scaling
-        target.reduceHitPoints(fireDamage);
+        target.takeDamage(fireDamage);
         System.out.println(caster.getName() + " lunges at " + target.getName() +
             " with Dragonfire Lunge, dealing " + fireDamage + " fire damage!");
     }

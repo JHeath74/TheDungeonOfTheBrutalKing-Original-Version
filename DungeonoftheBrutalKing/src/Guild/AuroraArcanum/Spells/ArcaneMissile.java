@@ -48,7 +48,7 @@ public class ArcaneMissile implements Spell {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
             Charecter target = allCharacters.get(0);
             int damage = calculatePower(caster);
-            target.reduceHitPoints(damage);
+            target.takeDamage(damage);
         }
     }
 
@@ -68,7 +68,7 @@ public class ArcaneMissile implements Spell {
     public void cast(Charecter caster, Charecter target) {
         if (canUseSpell(caster) && target != null) {
             int damage = calculatePower(caster);
-            target.reduceHitPoints(damage);
+            target.takeDamage(damage);
         }
     }
 

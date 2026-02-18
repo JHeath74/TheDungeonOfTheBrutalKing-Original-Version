@@ -13,18 +13,7 @@ public class CelestialArcaneOrderGuildSpellsManager {
 
     public CelestialArcaneOrderGuildSpellsManager(Guild guild) {
         this.guild = guild;
-        // Register core spells for this guild
-        registerSpell(new Conjure_Food());
-        registerSpell(new Cure());
-        registerSpell(new Heal());
-        registerSpell(new HolyAegis());
-        registerSpell(new PurifyingChains());
-        registerSpell(new RadiantBolt());
-        registerSpell(new StellarFlare());
-        registerSpell(new SunfireTouch());
-        registerSpell(new DivineIntervention());
-        registerSpell(new AstralWard());
-        
+        registerDefaultSpells();
     }
 
     public void registerSpell(Spell spell) {
@@ -40,6 +29,27 @@ public class CelestialArcaneOrderGuildSpellsManager {
 
     public Map<String, Spell> getAllSpells() {
         return new HashMap<>(guildSpells);
+    }
+
+    private void registerDefaultSpells() {
+        String[] defaultSpells = {
+            "Conjure_Food",
+            "Cure",
+            "Heal",
+            "HolyAegis",
+            "PurifyingChains",
+            "RadiantBolt",
+            "StellarFlare",
+            "SunfireTouch",
+            "DivineIntervention",
+            "AstralWard"
+        };
+        for (String spellName : defaultSpells) {
+            Spell spell = Spell.createGuildSpell(spellName, guild);
+            if (spell != null) {
+                registerSpell(spell);
+            }
+        }
     }
 
     // Cast spell by name with various overloads

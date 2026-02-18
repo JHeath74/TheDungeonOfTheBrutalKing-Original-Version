@@ -13,7 +13,7 @@ public class PoisonStatus extends Status {
 
     @Override
     public void applyEffect(Charecter character) {
-        character.reduceHitPoints(POISON_DAMAGE);
+        character.takeDamage(POISON_DAMAGE);
     }
 
     @Override

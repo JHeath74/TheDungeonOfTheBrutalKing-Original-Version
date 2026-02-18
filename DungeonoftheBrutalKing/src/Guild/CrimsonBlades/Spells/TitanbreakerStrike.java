@@ -60,7 +60,7 @@ public class TitanbreakerStrike implements Spell {
         }
         for (Charecter target : allCharacters) {
             if (target != caster) {
-                target.reduceHitPoints(STRIKE_DAMAGE);
+                target.takeDamage(STRIKE_DAMAGE);
                 System.out.println(caster.getName() + " smashes " + target.getName() +
                     " with Titanbreaker Strike, dealing " + STRIKE_DAMAGE + " damage and shattering their armor!");
             }
@@ -88,7 +88,7 @@ public class TitanbreakerStrike implements Spell {
             return;
         }
         if (target == null) return;
-        target.reduceHitPoints(STRIKE_DAMAGE);
+        target.takeDamage(STRIKE_DAMAGE);
         System.out.println(caster.getName() + " smashes " + target.getName() +
             " with Titanbreaker Strike, dealing " + STRIKE_DAMAGE + " damage and shattering their armor!");
     }

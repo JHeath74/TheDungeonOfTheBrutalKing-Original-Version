@@ -8,7 +8,8 @@ import Armour.ArmourManager;
 public class NightbladeRaiment extends ArmourManager {
     private static final int REQUIRED_AGILITY = 15;
     private static final int AGILITY_BONUS = 2;
-    private static final int DEFENSE_BONUS = 1;
+    private static final int DEFENSE_BONUS = 4;
+    private static final int WEIGHT = 3;
     private static final String ARMOUR_NAME = "Nightblade Raiment";
     private static final String DESCRIPTION = "Nightblade Raiment: Silent boots that let rogues move unseen, boosting agility and evasion.";
 
@@ -16,7 +17,7 @@ public class NightbladeRaiment extends ArmourManager {
         super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
     }
 
-    public static NightbladeRaiment createNightstalkerBoots(Charecter character, String effect) {
+    public static NightbladeRaiment createNightbladeRaiment(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         int agility = character.getAgility();
         if (agility >= REQUIRED_AGILITY) {
@@ -50,5 +51,9 @@ public class NightbladeRaiment extends ArmourManager {
     @Override
     public String getDescription() {
         return DESCRIPTION;
+    }
+    
+    public double getWeight() {
+        return WEIGHT;
     }
 }

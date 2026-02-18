@@ -13,6 +13,7 @@ public class AuroraArcanumGuildSpellsManager {
 
     public AuroraArcanumGuildSpellsManager(Guild guild) {
         this.guild = guild;
+        registerDefaultSpells();
     }
 
     public void registerSpell(Spell spell) {
@@ -29,7 +30,7 @@ public class AuroraArcanumGuildSpellsManager {
         return new HashMap<>(guildSpells);
     }
 
-    public void registerDefaultSpells() {
+    private void registerDefaultSpells() {
         String[] defaultSpells = {
             "ArcaneMissile",
             "AstralStep",

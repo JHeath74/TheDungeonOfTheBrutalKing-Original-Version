@@ -48,7 +48,7 @@ public void cast(int toonWisdom, int toonIntelligence) { }
 public void cast(Charecter caster, List<Charecter> allCharacters) {
     for (Charecter target : allCharacters) {
         if (target != caster) {
-            target.reduceHitPoints(CHARGE_DAMAGE);
+            target.takeDamage(CHARGE_DAMAGE);
             System.out.println(caster.getName() + " charges through " + target.getName() +
                 " with Stormclad Charge, dealing " + CHARGE_DAMAGE + " damage!");
         }
@@ -67,7 +67,7 @@ public void cast() {
 
 @Override
 public void cast(Charecter caster, Charecter target) {
-    target.reduceHitPoints(CHARGE_DAMAGE);
+    target.takeDamage(CHARGE_DAMAGE);
     System.out.println(caster.getName() + " charges through " + target.getName() +
         " with Stormclad Charge, dealing " + CHARGE_DAMAGE + " damage!");
 }

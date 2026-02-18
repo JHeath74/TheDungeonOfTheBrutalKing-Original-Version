@@ -46,7 +46,7 @@ public class EchoingBladeDance implements Spell {
         int damage = (int) Math.round(caster.getStrength() * DAMAGE_MULTIPLIER);
         for (Charecter target : allCharacters) {
             if (target != caster) {
-                target.reduceHitPoints(damage);
+                target.takeDamage(damage);
                 System.out.println(caster.getName() + " slashes " + target.getName() +
                     " with Echoing Blade Dance, dealing " + damage + " damage!");
             }
@@ -75,7 +75,7 @@ public class EchoingBladeDance implements Spell {
         }
         if (target == null) return;
         int damage = (int) Math.round(caster.getStrength() * DAMAGE_MULTIPLIER);
-        target.reduceHitPoints(damage);
+        target.takeDamage(damage);
         System.out.println(caster.getName() + " slashes " + target.getName() +
             " with Echoing Blade Dance, dealing " + damage + " damage!");
     }

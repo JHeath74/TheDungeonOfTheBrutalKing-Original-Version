@@ -58,7 +58,7 @@ public class RendTheHeavens implements Spell {
         }
         for (Charecter target : allCharacters) {
             if (target != caster) {
-                target.reduceHitPoints(SHOCKWAVE_DAMAGE);
+                target.takeDamage(SHOCKWAVE_DAMAGE);
                 System.out.println(caster.getName() + " unleashes Rend the Heavens on " + target.getName() +
                     ", dealing " + SHOCKWAVE_DAMAGE + " damage!");
             }
@@ -86,7 +86,7 @@ public class RendTheHeavens implements Spell {
             return;
         }
         if (target == null) return;
-        target.reduceHitPoints(SHOCKWAVE_DAMAGE);
+        target.takeDamage(SHOCKWAVE_DAMAGE);
         System.out.println(caster.getName() + " unleashes Rend the Heavens on " + target.getName() +
             ", dealing " + SHOCKWAVE_DAMAGE + " damage!");
     }

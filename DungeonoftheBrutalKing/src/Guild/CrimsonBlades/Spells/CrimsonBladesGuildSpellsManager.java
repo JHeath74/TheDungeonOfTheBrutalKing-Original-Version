@@ -1,3 +1,5 @@
+
+// src/Guild/CrimsonBlades/Spells/CrimsonBladesGuildSpellsManager.java
 package Guild.CrimsonBlades.Spells;
 
 import SharedData.Guild;
@@ -15,6 +17,7 @@ public final class CrimsonBladesGuildSpellsManager {
     public CrimsonBladesGuildSpellsManager(Guild guild) {
         if (guild == null) throw new IllegalArgumentException("Guild cannot be null.");
         this.guild = guild;
+        registerDefaultSpells();
     }
 
     public void registerSpell(Spell spell) {
@@ -53,4 +56,26 @@ public final class CrimsonBladesGuildSpellsManager {
             spell.cast(caster, allCharacters);
         }
     }
+
+
+private void registerDefaultSpells() {
+    String[] defaultSpells = {
+        "BloodboundVow",
+        "DragonfireLunge",
+        "EchoingBladeDance",
+        "IronheartRally",
+        "rendtheevents",
+        "stormcladCharge",
+        "TitanbreakerStrike",
+        "unyieldingspirit",
+        "warlodsCommand"
+    };
+    for (String spellName : defaultSpells) {
+        Spell spell = Spell.createGuildSpell(spellName, guild);
+        if (spell != null) {
+            registerSpell(spell);
+        }
+    }
+}
+
 }

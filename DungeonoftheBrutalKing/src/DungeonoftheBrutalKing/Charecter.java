@@ -47,9 +47,11 @@ public class Charecter implements HasHitPoints {
     private List<Status> statuses = new ArrayList<>();
     private double hasteModifier = 0.0;
     private int spellResistanceBonus = 0;
-    private int critChance = 0;
+    private double critChance = 0;
     private double hitChance = 1.0; 
     private Guild guild;
+    private boolean silenced = false;
+    private boolean hidden = false;
 
     private Set<String> resistances = new HashSet<>();
 
@@ -82,6 +84,9 @@ public class Charecter implements HasHitPoints {
     public void setStr(int idx, String value) { while (charInfo.size() <= idx) charInfo.add(""); charInfo.set(idx, value); }
     public String getName() { return getStr(0); }
     public void setName(String name) { setStr(0, name); }
+    public String getClassName() {
+        return getStr(1); // Assuming class name is stored at index 1
+    }
     public String getRace() { return getStr(2); }
     public void setRace(String race) { setStr(2, race); }
     public int getLevel() { return getInt(3, 1); }
@@ -96,6 +101,10 @@ public class Charecter implements HasHitPoints {
     public void setMagicPoints(int mp) { setInt(6, mp); }
     public int getMaxMagicPoints() { return getInt(33, 0); }
     public void setMaxMagicPoints(int maxMP) { setInt(33, maxMP); }
+    
+    public void setSilenced(boolean b) {
+        this.silenced = b;
+    }
 
     public int getMaxActionPoints() { return getInt(34, 0); }
     public void setMaxActionPoints(int maxAP) { setInt(34, maxAP); }
@@ -232,7 +241,17 @@ public double getHasteModifier() {
         try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) {}
         setDefense(baseDefense + dexMod + armorBonus + shieldBonus);
     }
-    public void reduceHitPoints(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
+    public void takeDamage(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
+    public void takeDamage(int amount, Charecter attacker) {
+        takeDamage(amount); // Call existing method
+        System.out.println(getName() + " takes " + amount + " damage"
+            + (attacker != null ? " from " + attacker.getName() : "") + "!");
+        if (getHitPoints() <= 0) {
+            System.out.println(getName() + " has been defeated.");
+            // Add death handling logic here if needed
+        }
+    }
+    
     public void reduceDefense(int amount) { setDefense(Math.max(0, getDefense() - amount)); }
     public boolean removeFood(int amount) { if (getFood() >= amount) { setFood(getFood() - amount); return true; } return false; }
     public boolean removeGold(int amount) { if (getGold() >= amount) { setGold(getGold() - amount); return true; } return false; }
@@ -338,7 +357,7 @@ public StatusManager getStatusManager() {
     return statusManager;
 }
 
-public int getCritChance() {
+public double getCritChance() {
     // Example: base crit chance is 5%, plus 1% per 5 agility, plus 1% per 10 levels
     int base = 5;
     int fromAgility = getAgility() / 5;
@@ -346,9 +365,9 @@ public int getCritChance() {
     return base + fromAgility + fromLevel + critChance;
 }
 
-public void setCritChance(int bonus) {
+public void setCritChance(double d) {
     // This sets a bonus to crit chance (e.g., from equipment)
-    this.critChance = bonus;
+    this.critChance = d;
 }
 
 public void takeElementalDamage(String elementType, int spellPower) {
@@ -362,7 +381,7 @@ public void takeElementalDamage(String elementType, int spellPower) {
     // Reduce damage by spell resistance (but not below 1)
     damage = Math.max(1, damage - getSpellResistance() / 10);
 
-    reduceHitPoints(damage);
+    takeDamage(damage);
 }
 
 
@@ -502,6 +521,18 @@ public void increaseResilience(int value) {
 public void decreaseResilience(int value) {
 	// TODO Auto-generated method stub
 	
+}
+
+public boolean isSilenced() {
+    return silenced;
+}
+
+public void setHidden(boolean b) {
+    this.hidden = b;
+}
+
+public boolean isHidden() {
+    return hidden;
 }
 
 
