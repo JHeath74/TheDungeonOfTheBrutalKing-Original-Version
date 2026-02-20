@@ -21,7 +21,7 @@ public class BloodforgedBattleMail extends ArmourManager {
     private static final String PROTECTION_CURSE = "curse";
 
     public BloodforgedBattleMail(String effect) {
-        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override

@@ -1,50 +1,38 @@
-
-// src/Enemies/Spectre.java
+// src/Enemies/Spectre.java 
 package Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
-import DungeonoftheBrutalKing.MainGameScreen;
-import Status.PoisonStatus;
-import DungeonoftheBrutalKing.Charecter;
+import SharedData.GameSettings; import SharedData.Alignment; import DungeonoftheBrutalKing.MainGameScreen; import Status.PoisonStatus; import DungeonoftheBrutalKing.Charecter;
 
-public class Spectre extends Enemies {
-    private int level;
-    private final int strength;
-    private final int charisma;
-    private final int agility;
-    private final int intelligence;
-    private final int wisdom;
-    private final int vitality;
-    private int hitPoints;
-    private final Alignment alignment = Alignment.EVIL;
+public class Spectre extends Enemies { private int level; private final int strength; private final int charisma; private final int agility; private final int intelligence; private final int wisdom; private final int vitality; private int hitPoints; private final Alignment alignment = Alignment.EVIL;
 
-    public Spectre() {
-        this(randomLevel(), 7, 8, 9, 10, 8, 6); // Example default stats
-    }
+public Spectre() {
+    this(randomLevel(), 7, 8, 9, 10, 8, 6);
+    this.undead = true;
+}
 
-    public Spectre(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
-        super(
-            "Spectre",
-            level,
-            (level * 7) + (vitality * 5),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Spectre.png",
-            true // isMagicUser
-        );
-        this.level = level;
-        this.strength = strength;
-        this.charisma = charisma;
-        this.agility = agility;
-        this.intelligence = intelligence;
-        this.wisdom = wisdom;
-        this.vitality = vitality;
-        this.hitPoints = (level * 7) + (vitality * 5);
-    }
+public Spectre(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+    super(
+        "Spectre",
+        level,
+        (level * 7) + (vitality * 5),
+        strength,
+        charisma,
+        agility,
+        intelligence,
+        wisdom,
+        GameSettings.MonsterImagePath + "Spectre.png",
+        true
+    );
+    this.level = level;
+    this.strength = strength;
+    this.charisma = charisma;
+    this.agility = agility;
+    this.intelligence = intelligence;
+    this.wisdom = wisdom;
+    this.vitality = vitality;
+    this.hitPoints = (level * 7) + (vitality * 5);
+    this.undead = true;
+}
 
     public int getLevel() { return level; }
     public int getStrength() { return strength; }
@@ -164,6 +152,7 @@ public class Spectre extends Enemies {
                 ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
+                ", isUndead=" + isUndead() +
                 '}';
     }
-}
+    }

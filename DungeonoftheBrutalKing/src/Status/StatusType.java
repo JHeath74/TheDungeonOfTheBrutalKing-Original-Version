@@ -26,9 +26,10 @@ public enum StatusType {
     STUN_STATUS,
     VOID_ECHO_STATUS,
     ASTRAL_WARD_STATUS,
-    STRENGTH_BUFF_STATUS,
     SILENCED_STATUS,
     HIDDEN_STATUS,
+    MANA_REGEN_STATUS,
+    DAMAGE_UP_STATUS,
    
     // Add more as needed
 }

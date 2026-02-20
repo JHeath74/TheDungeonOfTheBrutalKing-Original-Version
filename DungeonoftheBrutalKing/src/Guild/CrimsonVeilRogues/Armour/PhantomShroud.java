@@ -1,5 +1,4 @@
 
-// src/Guild/CrimsonVeilRogues/Armour/CrimsonHood.java
 package Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,11 +8,12 @@ public class PhantomShroud extends ArmourManager {
     private static final int REQUIRED_AGILITY = 12;
     private static final int AGILITY_BONUS = 1;
     private static final int DEFENSE_BONUS = 1;
+    private static final int WEIGHT = 2;
     private static final String ARMOUR_NAME = "Phantom Shroud";
     private static final String DESCRIPTION = "Phantom Shroud: A blood-red hood that marks a rogue of the Veil, granting subtle protection and intimidation.";
 
     public PhantomShroud(String effect) {
-        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, WEIGHT, effect);
     }
 
     public static PhantomShroud createCrimsonHood(Charecter character, String effect) {

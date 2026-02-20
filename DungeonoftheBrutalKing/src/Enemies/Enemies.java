@@ -22,6 +22,8 @@ public abstract class Enemies implements HasHitPoints {
     private boolean isMagicUser;
     private int spellStrength;
     protected int maxHitPoints;
+    
+    protected boolean undead = false;
 
     public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath, boolean isMagicUser) {
         this.name = name;
@@ -130,6 +132,9 @@ public void addStatus(Status status) {
     if (status != null) {
         statuses.add(status);
     }
+}
+public boolean isUndead() {
+    return undead;
 }
 
 }

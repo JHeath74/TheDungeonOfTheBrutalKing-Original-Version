@@ -19,7 +19,7 @@ public class CrimsonPlateOfValor extends ArmourManager {
     private static final String PROTECTION_FEAR = "fear";
 
     public CrimsonPlateOfValor(String effect) {
-        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override

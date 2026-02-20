@@ -1,5 +1,5 @@
 
-// src/Guild/DawnwardPaladins.java
+// `src/Guild/DawnwardPaladins/DawnwardPaladins.java`
 package Guild.DawnwardPaladins;
 
 import java.awt.BorderLayout;
@@ -79,7 +79,7 @@ public class DawnwardPaladins extends JPanel {
 
         if (!isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
+            joinGuildButton.addActionListener(_ -> {
                 this.isMember = true;
                 Charecter.getInstance().addToInventory("Dawnward Paladins Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dawnward Paladins!");
@@ -103,17 +103,17 @@ public class DawnwardPaladins extends JPanel {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
-        blessWeaponButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)"));
-        removeCurseButton.addActionListener(event -> {
+        buySpellsButton.addActionListener(_ -> buyGuildSpell());
+        blessWeaponButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)"));
+        removeCurseButton.addActionListener(_ -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a wholesome meal and feel renewed."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a peaceful bed and recover your strength."));
-        exitRoomButton.addActionListener(event -> {
+        sellItemsButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You eat a wholesome meal and feel renewed."));
+        sleepBedButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You rest in a peaceful bed and recover your strength."));
+        exitRoomButton.addActionListener(_ -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {

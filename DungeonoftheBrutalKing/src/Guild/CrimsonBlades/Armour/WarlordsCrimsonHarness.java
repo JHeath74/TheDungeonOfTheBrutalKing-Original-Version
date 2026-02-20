@@ -21,7 +21,7 @@ public class WarlordsCrimsonHarness extends ArmourManager {
     private static final String PROTECTION_STUN = "stun";
 
     public WarlordsCrimsonHarness(String effect) {
-        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override

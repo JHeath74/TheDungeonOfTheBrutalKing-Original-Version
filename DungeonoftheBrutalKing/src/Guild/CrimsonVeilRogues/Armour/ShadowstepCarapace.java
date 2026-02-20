@@ -1,5 +1,4 @@
 
-// src/Guild/CrimsonVeilRogues/Armour/PoisonthreadGloves.java
 package Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,20 +8,21 @@ public class ShadowstepCarapace extends ArmourManager {
     private static final int REQUIRED_AGILITY = 13;
     private static final int AGILITY_BONUS = 1;
     private static final int DEFENSE_BONUS = 1;
+    private static final int WEIGHT = 2;
     private static final String ARMOUR_NAME = "Shadowstep Carapace";
     private static final String DESCRIPTION = "Shadowstep Carapace: Armour laced with toxins, perfect for a rogue's deadly touch and nimble fingers.";
 
     public ShadowstepCarapace(String effect) {
-        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, WEIGHT, effect);
     }
 
-    public static ShadowstepCarapace createPoisonthreadGloves(Charecter character, String effect) {
+    public static ShadowstepCarapace createShadowstepCarapace(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         int agility = character.getAgility();
         if (agility >= REQUIRED_AGILITY) {
             return new ShadowstepCarapace(effect);
         }
-        throw new IllegalArgumentException("Character does not have the required agility to wear the Poisonthread Gloves.");
+        throw new IllegalArgumentException("Character does not have the required agility to wear the Shadowstep Carapace.");
     }
 
     public boolean equip(Charecter wielder) {

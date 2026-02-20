@@ -6,8 +6,8 @@ import DungeonoftheBrutalKing.Charecter;
 public class LifeStealStatus extends Status {
     private final int amount;
 
-    public LifeStealStatus(int amount) {
-        super("LifeSteal", 1, false, StatusType.LIFE_STEAL_STATUS); // Added StatusType
+    public LifeStealStatus(int amount, int duration) {
+        super("LifeSteal", duration, false, StatusType.LIFE_STEAL_STATUS);
         this.amount = amount;
     }
 

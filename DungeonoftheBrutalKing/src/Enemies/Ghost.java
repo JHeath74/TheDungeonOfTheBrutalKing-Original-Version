@@ -18,7 +18,8 @@ public class Ghost extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Ghost() {
-        this(randomLevel(), 5, 4, 10, 8, 7, 5); // Example default stats
+        this(randomLevel(), 5, 4, 10, 8, 7, 5);
+        this.undead = true;
     }
 
     public Ghost(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -42,6 +43,7 @@ public class Ghost extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+        this.undead = true;
     }
 
     public int getLevel() { return level; }
@@ -147,6 +149,7 @@ public class Ghost extends Enemies {
                 ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
+                ", isUndead=" + isUndead() +
                 '}';
     }
 }

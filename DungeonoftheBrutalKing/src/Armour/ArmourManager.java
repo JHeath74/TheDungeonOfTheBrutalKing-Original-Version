@@ -1,133 +1,81 @@
 
-// src/DungeonoftheBrutalKing/ArmourManager.java
 package Armour;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Singleton;
 
 public class ArmourManager {
 
-    // Singleton instance representing the character
-    protected Singleton myChar = new Singleton();
-
-    // Name of the armour
-    public String name;
-
-    // Strength required to equip the armour
+    protected String name;
     protected int requiredStrength;
+    protected int armourDefense;
+    protected int weight;
+    protected String effect;
+    protected StatusEffect statusEffect;
 
-    // Effect applied by the armour (e.g., status effect)
-    private String effect;
-
-    // Character's strength (static for shared access)
-    public static String charStrength;
-
-    // Status effect applied by the armour
-    private static StatusEffect statusEffect;
-
-    // Defence value provided by the armour
-    private static int armourDefense;
-
-    // Static list to store all armour instances
     protected static List<ArmourManager> allArmour = new ArrayList<>();
 
-    // Constructor to initialize armour properties and add to the list
-    public ArmourManager(String name, int requiredStrength, int armourDefense, String effect) {
+    public ArmourManager(String name, int requiredStrength, int armourDefense, int weight, String effect) {
         this.name = name;
         this.requiredStrength = requiredStrength;
-        ArmourManager.armourDefense = armourDefense;
+        this.armourDefense = armourDefense;
+        this.weight = weight;
         this.effect = effect;
+        this.statusEffect = (effect != null) ? StatusEffect.valueOf(effect.toUpperCase()) : StatusEffect.NONE;
         allArmour.add(this);
-
-        // Set the status effect based on the provided effect string
-        if (effect != null) {
-            ArmourManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
-        } else {
-            ArmourManager.statusEffect = StatusEffect.NONE;
-        }
     }
 
-    public ArmourManager(String string, String effect2, int weight) {
-		// TODO Auto-generated constructor stub
-	}
-
-	// Enum to define possible status effects
+    // Enum to define possible status effects
     public enum StatusEffect {
-        NONE,    // No effect
-        POISON,  // Poison effect
-        STUN,    // Stun effect
-        BLEED,   // Bleed effect
-        FIRE,    // Fire effect
-        COLD     // Cold effect
+        NONE, POISON, STUN, BLEED, FIRE, COLD
     }
 
-    // Getter for the name of the armour
     public String getName() {
         return name;
     }
 
-    // Getter for the status effect of the armour
     public StatusEffect getStatusEffect() {
         return statusEffect;
     }
 
-    // Setter for the required strength to equip the armour
     public void setRequiredStrength(int requiredStrength) {
         this.requiredStrength = requiredStrength;
     }
 
-    // Getter for the list of all armour instances
-    public static List<ArmourManager> getAllShields() {
+    public static List<ArmourManager> getAllArmour() {
         return allArmour;
     }
 
-    // Setter for the effect of the armour
     public void setEffect(String effect) {
-        if (effect != null) {
-            ArmourManager.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
-        } else {
-            ArmourManager.statusEffect = StatusEffect.NONE;
-        }
+        this.effect = effect;
+        this.statusEffect = (effect != null) ? StatusEffect.valueOf(effect.toUpperCase()) : StatusEffect.NONE;
     }
 
-    // Getter for the defence value of the armour
     public int getArmourDefense() {
         return armourDefense;
     }
 
-    // Placeholder for the Singleton method (to be implemented)
-    public static ArmourManager Singleton() {
-        // TODO Auto-generated method stub
-        return null;
+    public String getDescription() {
+        return name + ": Defence " + armourDefense + ", Weight " + weight + ", Effect " + statusEffect;
     }
 
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public double getDefense() {
+        return (double) armourDefense;
+    }
 
-	public double getDefense() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public double getWeight() {
+        return (double) weight;
+    }
 
-	public double getWeight() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public boolean equip(Charecter wearer) {
+        // Default: cannot equip, override in subclass
+        return false;
+    }
 
-	public boolean equip(Charecter wearer) {
-		return false;
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean unequip(Charecter wearer) {
-		return false;
-		// TODO Auto-generated method stub
-		
-	}
+    public boolean unequip(Charecter wearer) {
+        // Default: cannot unequip, override in subclass
+        return false;
+    }
 }

@@ -1,5 +1,4 @@
 
-// src/Guild/CrimsonVeilRogues/Armour/NightstalkerBoots.java
 package Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -14,7 +13,7 @@ public class NightbladeRaiment extends ArmourManager {
     private static final String DESCRIPTION = "Nightblade Raiment: Silent boots that let rogues move unseen, boosting agility and evasion.";
 
     public NightbladeRaiment(String effect) {
-        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, WEIGHT, effect);
     }
 
     public static NightbladeRaiment createNightbladeRaiment(Charecter character, String effect) {
@@ -52,7 +51,7 @@ public class NightbladeRaiment extends ArmourManager {
     public String getDescription() {
         return DESCRIPTION;
     }
-    
+
     public double getWeight() {
         return WEIGHT;
     }

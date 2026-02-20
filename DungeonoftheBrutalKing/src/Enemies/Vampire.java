@@ -80,21 +80,20 @@ public class Vampire extends Enemies {
     }
 
     // Vampire attack applies drain status with 15% chance
-    public int attack(Charecter target) {
-        boolean critical = Math.random() < 0.15;
-        int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
-        int damage = critical ? base * 2 : base;
-        boolean drainApplied = Math.random() < 0.15;
-        if (drainApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
-            target.addStatus(new DrainStatus(2)); // Example: drain status for 2 rounds
-            // Optionally heal Vampire
-            setHitPoints(getHitPoints() + 3);
-        } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
-        }
-        return damage;
+    public int attack(Charecter target) { boolean critical = Math.random() < 0.15; int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1)); int damage = critical ? base * 2 : base;
+
+    boolean drainApplied = Math.random() < 0.15;
+    if (drainApplied) {
+        MainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
+        // DrainStatus.DrainType is the correct enum type to use here
+        target.addStatus(new DrainStatus(2, 0.15, DrainStatus.DrainType.ACTION));
+        setHitPoints(getHitPoints() + 3);
+    } else {
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
     }
+
+    return damage;
+  }
 
     @Override
     public int attack() {

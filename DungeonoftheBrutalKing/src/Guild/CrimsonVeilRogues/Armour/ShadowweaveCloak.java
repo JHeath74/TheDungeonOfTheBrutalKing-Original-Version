@@ -1,5 +1,4 @@
 
-// src/Guild/CrimsonVeilRogues/Armour/ShadowweaveCloak.java
 package Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,11 +8,12 @@ public class ShadowweaveCloak extends ArmourManager {
     private static final int REQUIRED_AGILITY = 14;
     private static final int AGILITY_BONUS = 3;
     private static final int DEFENSE_BONUS = 1;
+    private static final int WEIGHT = 2;
     private static final String ARMOUR_NAME = "Shadowweave Cloak";
     private static final String DESCRIPTION = "Shadowweave Cloak: A cloak woven from darkness, enhancing stealth and agility for the perfect ambush.";
 
     public ShadowweaveCloak(String effect) {
-        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, effect);
+        super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, WEIGHT, effect);
     }
 
     public static ShadowweaveCloak createShadowweaveCloak(Charecter character, String effect) {

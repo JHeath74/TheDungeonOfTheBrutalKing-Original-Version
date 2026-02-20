@@ -1,5 +1,5 @@
 
-// src/Guild/CrimsonVeilRogues/Armor/VeilboundLeather.java
+java
 package Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -8,18 +8,19 @@ import Armour.ArmourManager;
 public class VeilstriderVestments extends ArmourManager {
     private static final int REQUIRED_AGILITY = 13;
     private static final int AGILITY_BONUS = 2;
-    private static final double DEFENSE_BONUS = 0.07;
+    private static final int DEFENSE_BONUS = 1;
+    private static final int WEIGHT = 2;
     private boolean isEquipped = false;
 
-    public VeilstriderVestments(int requiredAgility, String effect) {
-        super("Veilstrider Vestments", requiredAgility, requiredAgility, effect);
+    public VeilstriderVestments(String effect) {
+        super("Veilstrider Vestments", REQUIRED_AGILITY, DEFENSE_BONUS, WEIGHT, effect);
     }
 
     @Override
     public boolean equip(Charecter wielder) {
         if (!isEquipped && wielder.getAgility() >= REQUIRED_AGILITY) {
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
-            wielder.setDefense(wielder.getDefense() + (int)DEFENSE_BONUS);
+            wielder.setDefense(wielder.getDefense() + DEFENSE_BONUS);
             isEquipped = true;
             return true;
         }
@@ -30,14 +31,15 @@ public class VeilstriderVestments extends ArmourManager {
     public boolean unequip(Charecter wielder) {
         if (isEquipped) {
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
-            wielder.setDefense(wielder.getDefense() - (int)DEFENSE_BONUS);
+            wielder.setDefense(wielder.getDefense() - DEFENSE_BONUS);
             isEquipped = false;
+            return true;
         }
-		return isEquipped;
+        return false;
     }
 
     @Override
     public String getDescription() {
-        return "Veilbound Leather: Supple armor favored by rogues, offering protection without sacrificing mobility.";
+        return "Veilstrider Vestments: Supple armor favored by rogues, offering protection without sacrificing mobility.";
     }
 }

@@ -1,5 +1,5 @@
 
-// src/DungeonoftheBrutalKing/Character.java
+// `src/DungeonoftheBrutalKing/Charecter.java`
 package DungeonoftheBrutalKing;
 
 import java.util.*;
@@ -28,6 +28,7 @@ import Status.ReduceStrengthStatus;
 import Status.Status;
 import Status.StatusManager;
 import Status.StatusType;
+import Status.DamageUpStatus;
 
 public class Charecter implements HasHitPoints {
 
@@ -48,13 +49,16 @@ public class Charecter implements HasHitPoints {
     private double hasteModifier = 0.0;
     private int spellResistanceBonus = 0;
     private double critChance = 0;
-    private double hitChance = 1.0; 
+    private double hitChance = 1.0;
     private Guild guild;
     private boolean silenced = false;
     private boolean hidden = false;
+    private int manaRegenBonus = 0;
+
+    // Damage bonus applied by statuses like DAMAGE\_UP\_STATUS
+    private int damageBonus = 0;
 
     private Set<String> resistances = new HashSet<>();
-
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
 
     public static Charecter getInstance() {
@@ -84,9 +88,7 @@ public class Charecter implements HasHitPoints {
     public void setStr(int idx, String value) { while (charInfo.size() <= idx) charInfo.add(""); charInfo.set(idx, value); }
     public String getName() { return getStr(0); }
     public void setName(String name) { setStr(0, name); }
-    public String getClassName() {
-        return getStr(1); // Assuming class name is stored at index 1
-    }
+    public String getClassName() { return getStr(1); }
     public String getRace() { return getStr(2); }
     public void setRace(String race) { setStr(2, race); }
     public int getLevel() { return getInt(3, 1); }
@@ -101,10 +103,8 @@ public class Charecter implements HasHitPoints {
     public void setMagicPoints(int mp) { setInt(6, mp); }
     public int getMaxMagicPoints() { return getInt(33, 0); }
     public void setMaxMagicPoints(int maxMP) { setInt(33, maxMP); }
-    
-    public void setSilenced(boolean b) {
-        this.silenced = b;
-    }
+
+    public void setSilenced(boolean b) { this.silenced = b; }
 
     public int getMaxActionPoints() { return getInt(34, 0); }
     public void setMaxActionPoints(int maxAP) { setInt(34, maxAP); }
@@ -162,100 +162,85 @@ public class Charecter implements HasHitPoints {
     public void setCurrentGuild(GuildType guild) { this.currentGuild = guild; }
     public GuildMembershipStatus getCurrentGuildStatus() { return currentGuildStatus; }
     public void setCurrentGuildStatus(GuildMembershipStatus status) { this.currentGuildStatus = status; }
- // Getter for the specific guild
-    public Guild getGuild() {
-        return guild;
-    }
+    public Guild getGuild() { return guild; }
+    public void setGuild(Guild guild) { this.guild = guild; }
 
-    // Setter for the specific guild
-    public void setGuild(Guild guild) {
-        this.guild = guild;
-    }
-    
+    public void addHasteModifier(double hasteBonus) { hasteModifier += hasteBonus; }
+    public void removeHasteModifier(double hasteBonus) { hasteModifier = Math.max(0.0, hasteModifier - hasteBonus); }
+    public double getHasteModifier() { return hasteModifier; }
 
-public void addHasteModifier(double hasteBonus) {
-    hasteModifier += hasteBonus;
-}
+    public Set<String> getEffectProtection() { return new HashSet<>(protectedEffects); }
 
-public Set<String> getEffectProtection() {
-    return new HashSet<>(protectedEffects);
-}
-
-public double getHasteModifier() {
-    return hasteModifier;
-}
-
-    
     public boolean consumeSkillPoints(int cost) {
         if (actionPoints >= cost) { actionPoints -= cost; return true; }
         else if (getMagicPoints() >= cost) { setMagicPoints(getMagicPoints() - cost); return true; }
         return false;
     }
-    
+
     public double getEvadeChance() {
-        // If you store evadeChance in index 35, use it; otherwise, calculate from agility
         int stored = getInt(35, -1);
-        if (stored >= 0) {
-            return Math.min(stored / 100.0, 0.75);
-        }
+        if (stored >= 0) return Math.min(stored / 100.0, 0.75);
         double chance = getAgility() * 0.01;
         return Math.min(chance, 0.75);
     }
-    
+
     public void setEvadeChance(double evadeChance) {
-        // Optionally, clamp the value between 0 and 1
         setInt(35, (int)(Math.max(0, Math.min(evadeChance, 1.0) * 100)));
     }
-    
-    public int getDirection() {
-        return getInt(25, 0);
+
+    public int getDirection() { return getInt(25, 0); }
+    public void setDirection(int degrees) { setInt(25, degrees); }
+    public ArrayList<String> getCharInfo() { return charInfo; }
+
+    // --- Damage bonus support ---
+    public int getDamageBonus() { return damageBonus; }
+
+    public void addDamageBonus(int delta) {
+        damageBonus = Math.max(0, damageBonus + delta);
     }
 
-    public void setDirection(int degrees) {
-        setInt(25, degrees);
-    }
-    
-    public ArrayList<String> getCharInfo() {
-        return charInfo;
-    }
-    
     public int getAttackDamage() {
         int strength = getStrength();
         int weaponDamage = 0;
         try { weaponDamage = Integer.parseInt(getWeapon()); } catch (Exception e) { weaponDamage = 0; }
-        return weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+        int base = weaponDamage + (int)(strength * 1.2) + new Random().nextInt(5) + 1;
+        return Math.max(0, base + getDamageBonus());
     }
+
     public void calculateAndSetAttack() {
         int baseAttack = 5;
         int strMod = (int) ((getStrength() - 10) / 2.0);
         int weaponBonus = 0;
-        try { weaponBonus = Integer.parseInt(getWeapon()); } catch (Exception e) {}
+        try { weaponBonus = Integer.parseInt(getWeapon()); } catch (Exception e) { }
         int attack = baseAttack + strMod + weaponBonus;
         setInt(27, attack);
     }
+
     public void calculateAndSetDefense() {
         int baseDefense = 10;
         int dexMod = (getAgility() - 10) / 2;
         int armorBonus = 0, shieldBonus = 0;
-        try { armorBonus = Integer.parseInt(getArmour()); } catch (Exception e) {}
-        try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) {}
+        try { armorBonus = Integer.parseInt(getArmour()); } catch (Exception e) { }
+        try { shieldBonus = Integer.parseInt(getShield()); } catch (Exception e) { }
         setDefense(baseDefense + dexMod + armorBonus + shieldBonus);
     }
+
     public void takeDamage(int amount) { setHitPoints(Math.max(0, getHitPoints() - amount)); }
+
     public void takeDamage(int amount, Charecter attacker) {
-        takeDamage(amount); // Call existing method
+        takeDamage(amount);
         System.out.println(getName() + " takes " + amount + " damage"
             + (attacker != null ? " from " + attacker.getName() : "") + "!");
         if (getHitPoints() <= 0) {
             System.out.println(getName() + " has been defeated.");
-            // Add death handling logic here if needed
         }
     }
-    
+
     public void reduceDefense(int amount) { setDefense(Math.max(0, getDefense() - amount)); }
     public boolean removeFood(int amount) { if (getFood() >= amount) { setFood(getFood() - amount); return true; } return false; }
     public boolean removeGold(int amount) { if (getGold() >= amount) { setGold(getGold() - amount); return true; } return false; }
     public void rewardExperience(int xp) { setExperience(getExperience() + xp); checkLevelUp(); }
+
     private void checkLevelUp() {
         int lvl = getLevel();
         if (lvl < 50 && getExperience() >= getExperienceRequiredForLevel(lvl + 1)) {
@@ -264,13 +249,14 @@ public double getHasteModifier() {
             setHitPoints(getMaxHitPoints());
         }
     }
+
     public int getExperienceRequiredForLevel(int level) { return (int)(1000 * Math.pow(1.5, level - 1)); }
     public void restoreHitPoints(int amount) { setHitPoints(Math.min(getHitPoints() + amount, getMaxHitPoints())); }
     public void setStunned(boolean b) { this.stunned = b; }
     public boolean isStunned() { return stunned; }
-    public void clearCurses() {}
-    public void clearNegativeEffects() {}
-    
+    public void clearCurses() { }
+    public void clearNegativeEffects() { }
+
     public void addStatus(Status status) {
         statuses.add(status);
         status.applyEffect(this);
@@ -285,261 +271,234 @@ public double getHasteModifier() {
     public GuildMembershipStatus getGuildStatus(GuildType guildType) {
         return guildStatusMap.getOrDefault(guildType, GuildMembershipStatus.NOT_MEMBER);
     }
-    
-    public Map<GuildType, GuildMembershipStatus> getGuildStatusMap() {
-        return guildStatusMap;
-    }
+
+    public Map<GuildType, GuildMembershipStatus> getGuildStatusMap() { return guildStatusMap; }
 
     public void resetHitChance() {
         double evadeChance = getAgility() * 0.01;
         setEvadeChance(Math.min(evadeChance, 0.75));
     }
 
-
-public void removeHasteModifier(double hasteBonus) {
-    hasteModifier = Math.max(0.0, hasteModifier - hasteBonus);
-}
-
-public int getSpellResistance() {
-    // Base: Intelligence + Wisdom, plus any bonus
-    return getIntelligence() + getWisdom() + spellResistanceBonus;
-}
-
-public void setSpellResistanceBonus(int bonus) {
-    this.spellResistanceBonus = Math.max(0, bonus);
-}
-
-public int getSpellResistanceBonus() {
-    return spellResistanceBonus;
-}
-
-public void addResistance(String elementType) {
-    if (elementType != null && !elementType.isEmpty()) {
-        resistances.add(elementType.toLowerCase());
+    public int getSpellResistance() {
+        return getIntelligence() + getWisdom() + spellResistanceBonus;
     }
-}
 
-public void removeResistance(String elementType) {
-    if (elementType != null && !elementType.isEmpty()) {
-        resistances.remove(elementType.toLowerCase());
+    public void setSpellResistanceBonus(int bonus) { this.spellResistanceBonus = Math.max(0, bonus); }
+    public int getSpellResistanceBonus() { return spellResistanceBonus; }
+
+    public void addResistance(String elementType) {
+        if (elementType != null && !elementType.isEmpty()) resistances.add(elementType.toLowerCase());
     }
-}
 
-public boolean hasResistance(String elementType) {
-    return elementType != null && resistances.contains(elementType.toLowerCase());
-}
-
-public Set<String> getResistances() {
-    return new HashSet<>(resistances);
-}
-
-
-public int getSpellPower() {
-    // Example: Intelligence + level + any spell power bonus
-    return getIntelligence() + getLevel() + getWisdom() / 2;
-}
-
-public void setEffectProtection(String effect, boolean enabled) {
-    if (effect == null) return;
-    String key = effect.toLowerCase();
-    if (enabled) {
-        protectedEffects.add(key);
-    } else {
-        protectedEffects.remove(key);
+    public void removeResistance(String elementType) {
+        if (elementType != null && !elementType.isEmpty()) resistances.remove(elementType.toLowerCase());
     }
-}
 
-public boolean hasEffectProtection(String effect) {
-    return effect != null && protectedEffects.contains(effect.toLowerCase());
-}
-
-public StatusManager getStatusManager() {
-    return statusManager;
-}
-
-public double getCritChance() {
-    // Example: base crit chance is 5%, plus 1% per 5 agility, plus 1% per 10 levels
-    int base = 5;
-    int fromAgility = getAgility() / 5;
-    int fromLevel = getLevel() / 10;
-    return base + fromAgility + fromLevel + critChance;
-}
-
-public void setCritChance(double d) {
-    // This sets a bonus to crit chance (e.g., from equipment)
-    this.critChance = d;
-}
-
-public void takeElementalDamage(String elementType, int spellPower) {
-    if (elementType == null || spellPower <= 0) return;
-
-    int damage = spellPower;
-    // If character has resistance, halve the damage
-    if (hasResistance(elementType)) {
-        damage = Math.max(1, damage / 2);
+    public boolean hasResistance(String elementType) {
+        return elementType != null && resistances.contains(elementType.toLowerCase());
     }
-    // Reduce damage by spell resistance (but not below 1)
-    damage = Math.max(1, damage - getSpellResistance() / 10);
 
-    takeDamage(damage);
-}
+    public Set<String> getResistances() { return new HashSet<>(resistances); }
 
+    public int getSpellPower() {
+        return getIntelligence() + getLevel() + getWisdom() / 2;
+    }
 
-//In src/DungeonoftheBrutalKing/Charecter.java
+    public void setEffectProtection(String effect, boolean enabled) {
+        if (effect == null) return;
+        String key = effect.toLowerCase();
+        if (enabled) protectedEffects.add(key);
+        else protectedEffects.remove(key);
+    }
 
-public boolean removeOneNegativeEffect() {
- for (Iterator<Status> it = statuses.iterator(); it.hasNext(); ) {
-     Status status = it.next();
-     if (status.isNegative()) { // Assumes Status has isNegative()
-         it.remove();
-         status.removeEffect(this); // If you have a cleanup method
-         System.out.println(getName() + " has a negative effect removed: " + status.getName());
-         return true;
-     }
- }
- return false;
-}
+    public boolean hasEffectProtection(String effect) {
+        return effect != null && protectedEffects.contains(effect.toLowerCase());
+    }
 
-public List<Status> getNegativeEffects() {
-    List<Status> negatives = new ArrayList<>();
-    for (Status status : statuses) {
-        if (status.isNegative()) {
-            negatives.add(status);
+    public StatusManager getStatusManager() { return statusManager; }
+
+    public double getCritChance() {
+        int base = 5;
+        int fromAgility = getAgility() / 5;
+        int fromLevel = getLevel() / 10;
+        return base + fromAgility + fromLevel + critChance;
+    }
+
+    public void setCritChance(double d) { this.critChance = d; }
+
+    public void takeElementalDamage(String elementType, int spellPower) {
+        if (elementType == null || spellPower <= 0) return;
+
+        int damage = spellPower;
+        if (hasResistance(elementType)) damage = Math.max(1, damage / 2);
+        damage = Math.max(1, damage - getSpellResistance() / 10);
+
+        takeDamage(damage);
+    }
+
+    public boolean removeOneNegativeEffect() {
+        for (Iterator<Status> it = statuses.iterator(); it.hasNext(); ) {
+            Status status = it.next();
+            if (status.isNegative()) {
+                it.remove();
+                status.removeEffect(this);
+                System.out.println(getName() + " has a negative effect removed: " + status.getName());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Status> getNegativeEffects() {
+        List<Status> negatives = new ArrayList<>();
+        for (Status status : statuses) {
+            if (status.isNegative()) negatives.add(status);
+        }
+        return negatives;
+    }
+
+    public double getHitChance() { return hitChance; }
+
+    public void setHitChance(double hitChance) {
+        this.hitChance = this.hitChance = Math.max(0.0, Math.min(hitChance, 1.0));
+    }
+
+    public int getAccuracy() {
+        int stored = getInt(36, -1);
+        if (stored >= 0) return Math.max(0, Math.min(stored, 100));
+        int base = 50;
+        int accuracy = base + getAgility() * 2 + getIntelligence();
+        return Math.max(0, Math.min(accuracy, 100));
+    }
+
+    public void setAccuracy(int accuracy) {
+        setInt(36, Math.max(0, Math.min(accuracy, 100)));
+    }
+
+    public void applyStatusEffect(StatusType type, int duration, int value, Charecter caster) {
+        Status status;
+
+        switch (type) {
+            case ACCURACY_STATUS:
+                status = new AccuracyStatus(null, duration, stunned, value);
+                break;
+            case BLEED_STATUS:
+                status = new BleedStatus();
+                break;
+            case BLIND_STATUS:
+                status = new BlindStatus();
+                break;
+            case DAZE_STATUS:
+                status = new DazeStatus(duration, value);
+                break;
+            case DRAIN_STATUS:
+                status = new DrainStatus(duration, value, null);
+                break;
+            case DEFENSE_UP_STATUS:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+            case DEFENSE_DOWN_STATUS:
+                status = new Status(type.name(), duration, true, type) {};
+                break;
+            case ECHO_OF_ETERNITY_STATUS:
+                status = new EchoOfEternityAuraStatus(duration, caster);
+                break;
+            case ETHEREAL_CHAINS_STATUS:
+                status = new EtherealChainsStatus(duration);
+                break;
+            case FEAR_STATUS:
+                status = new FearStatus(duration);
+                break;
+            case FIRE_STATUS:
+                status = new FireStatus();
+                break;
+            case ICE_STATUS:
+                status = new IceStatus();
+                break;
+            case ILLUSORY_DOUBLE_STATUS:
+                status = new IllusoryDoubleStatus(duration, value);
+                break;
+            case LIFE_STEAL_STATUS:
+                status = new LifeStealStatus(duration, value);
+                break;
+            case MIND_PROBE_STATUS:
+                status = new MindProbeStatus(duration, value);
+                break;
+            case POISON_STATUS:
+                status = new PoisonStatus(duration);
+                break;
+            case RADIANT_STATUS:
+                status = new RadiantStatus(duration);
+                break;
+            case REDUCE_DEFENSE_STATUS:
+                status = new ReduceDefenseStatus();
+                break;
+            case REDUCE_STRENGTH_STATUS:
+                status = new ReduceStrengthStatus();
+                break;
+            case IMMOBILIZED_STATUS:
+                status = new Status(type.name(), duration, true, type) {};
+                break;
+            case DIVINE_INTERVENTION_STATUS:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+            case RESILIENCE_STATUS:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+            case STUN_STATUS:
+                status = new Status(type.name(), duration, true, type) {};
+                break;
+            case VOID_ECHO_STATUS:
+                status = new Status(type.name(), duration, true, type) {};
+                break;
+            case ASTRAL_WARD_STATUS:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+            case SILENCED_STATUS:
+                status = new Status(type.name(), duration, true, type) {};
+                break;
+            case HIDDEN_STATUS:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+            case MANA_REGEN_STATUS:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+            case DAMAGE_UP_STATUS:
+                status = new DamageUpStatus(duration, value);
+                break;
+            default:
+                status = new Status(type.name(), duration, false, type) {};
+                break;
+        }
+
+        addStatus(status);
+    }
+
+    public void removeStatusEffect(StatusType type) {
+        for (Iterator<Status> it = statuses.iterator(); it.hasNext(); ) {
+            Status status = it.next();
+            if (status.getType() == type) {
+                it.remove();
+                status.removeEffect(this);
+                System.out.println(getName() + " has removed status: " + status.getName());
+                return;
+            }
         }
     }
-    return negatives;
+
+    public void increaseResilience(int value) { }
+
+    public void decreaseResilience(int value) { }
+
+    public boolean isSilenced() { return silenced; }
+
+    public void setHidden(boolean b) { this.hidden = b; }
+
+    public boolean isHidden() { return hidden; }
+
+    public int getManaRegenBonus() { return manaRegenBonus; }
+
+    public void setManaRegenBonus(int bonus) { this.manaRegenBonus = bonus; }
+
+    public boolean isUndead() { return false; }
 }
-
-public double getHitChance() {
-    return hitChance;
-}
-
-public void setHitChance(double hitChance) {
-    this.hitChance = Math.max(0.0, Math.min(hitChance, 1.0)); // Clamp between 0 and 1
-}
-
-
-//In src/DungeonoftheBrutalKing/Charecter.java
-
-public int getAccuracy() {
-    int stored = getInt(36, -1);
-    if (stored >= 0) {
-        return Math.max(0, Math.min(stored, 100));
-    }
-    // Example formula: base 50 + 2 * agility + intelligence
-    int base = 50;
-    int accuracy = base + getAgility() * 2 + getIntelligence();
-    return Math.max(0, Math.min(accuracy, 100));
-}
-
-public void setAccuracy(int accuracy) {
-    setInt(36, Math.max(0, Math.min(accuracy, 100))); // Clamp between 0 and 100
-}
-
-public void applyStatusEffect(StatusType type, int duration, int value, Charecter caster) {
-    Status status;
-
-    switch (type) {
-        case ACCURACY_STATUS:
-            status = new AccuracyStatus(null, duration, stunned, value);
-            break;
-        case BLEED_STATUS:
-            status = new BleedStatus();
-            break;
-        case BLIND_STATUS:
-            status = new BlindStatus();
-            break;
-        case DAZE_STATUS:
-            status = new DazeStatus(duration, value);
-            break;
-        case DRAIN_STATUS:
-            status = new DrainStatus(duration, value, null);
-            break;
-        case ECHO_OF_ETERNITY_STATUS:
-            status = new EchoOfEternityAuraStatus(duration, caster);
-            break;
-        case ETHEREAL_CHAINS_STATUS:
-            status = new EtherealChainsStatus(duration);
-            break;
-        case FEAR_STATUS:
-            status = new FearStatus(duration);
-            break;
-        case FIRE_STATUS:
-            status = new FireStatus();
-            break;
-        case ICE_STATUS:
-            status = new IceStatus();
-            break;
-        case ILLUSORY_DOUBLE_STATUS:
-            status = new IllusoryDoubleStatus(duration, value);
-            break;
-        case LIFE_STEAL_STATUS:
-            status = new LifeStealStatus(duration);
-            break;
-        case MIND_PROBE_STATUS:
-            status = new MindProbeStatus(duration, value);
-            break;
-        case POISON_STATUS:
-            status = new PoisonStatus(duration);
-            break;
-        case RADIANT_STATUS:
-            status = new RadiantStatus(duration);
-            break;
-        case REDUCE_DEFENSE_STATUS:
-            status = new ReduceDefenseStatus();
-            break;
-        case REDUCE_STRENGTH_STATUS:
-            status = new ReduceStrengthStatus();
-            break;
-
-        default:
-            // Fallback for any unimplemented status
-            status = new Status(type.name(), duration, false, type) {};
-            break;
-    }
-
-    addStatus(status);
-}
-
-public void removeStatusEffect(StatusType type) {
-    for (Iterator<Status> it = statuses.iterator(); it.hasNext(); ) {
-        Status status = it.next();
-        if (status.getType() == type) {
-            it.remove();
-            status.removeEffect(this); // If your Status class has a cleanup method
-            System.out.println(getName() + " has removed status: " + status.getName());
-            return;
-        }
-    }
-}
-
-public void increaseResilience(int value) {
-	// TODO Auto-generated method stub
-	
-}
-
-public void decreaseResilience(int value) {
-	// TODO Auto-generated method stub
-	
-}
-
-public boolean isSilenced() {
-    return silenced;
-}
-
-public void setHidden(boolean b) {
-    this.hidden = b;
-}
-
-public boolean isHidden() {
-    return hidden;
-}
-
-
-}
-
-
-
-
-
-

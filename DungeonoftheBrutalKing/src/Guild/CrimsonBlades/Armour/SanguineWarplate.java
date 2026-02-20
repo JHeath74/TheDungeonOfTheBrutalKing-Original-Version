@@ -21,7 +21,7 @@ public class SanguineWarplate extends ArmourManager {
     private static final String PROTECTION_BURN = "burn";
 
     public SanguineWarplate(String effect) {
-        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, effect);
+        super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override

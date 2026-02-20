@@ -18,7 +18,8 @@ public class Ghoul extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Ghoul() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
+        this.undead = true;
     }
 
     public Ghoul(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -42,6 +43,7 @@ public class Ghoul extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+        this.undead = true;
     }
 
     public int getLevel() { return level; }
@@ -145,6 +147,7 @@ public class Ghoul extends Enemies {
                 ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
+                ", isUndead=" + isUndead() +
                 '}';
     }
 }

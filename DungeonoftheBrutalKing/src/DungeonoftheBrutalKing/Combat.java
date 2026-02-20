@@ -270,7 +270,47 @@ public class Combat {
     }
 
     private void handleCastSpell() {
-        MainGameScreen.appendToMessageTextPane("Cast Selected Spell button pressed.\n");
+        if (selectedSpell == null) {
+            MainGameScreen.appendToMessageTextPane("No spell selected.\n");
+            return;
+        }
+
+        // Example: get the spell instance by name (adjust as per your spell management)
+        Spell spell = SpellRegistry.getSpellByName(selectedSpell);
+        if (spell == null) {
+            MainGameScreen.appendToMessageTextPane("Spell not found.\n");
+            return;
+        }
+
+        // If the spell is RestoringLight, allow targeting self or undead enemy
+        if ("Restoring Light".equals(selectedSpell)) {
+            Object[] options = {"Self", "Enemy"};
+            int choice = JOptionPane.showOptionDialog(
+                combatPanel,
+                "Cast on self or enemy?",
+                "Choose Target",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+            );
+
+            if (choice == 0) {
+                spell.cast(myChar, myChar); // Heal self
+                MainGameScreen.appendToMessageTextPane("You cast Restoring Light on yourself.\n");
+            } else if (choice == 1 && myEnemies != null && myEnemies.isUndead()) {
+                spell.cast(myChar, myEnemies); // Damage undead
+                MainGameScreen.appendToMessageTextPane("You cast Restoring Light on " + myEnemies.getName() + ".\n");
+            } else {
+                MainGameScreen.appendToMessageTextPane("Target is not undead. Spell has no effect.\n");
+            }
+        } else {
+            // Default: cast spell on self
+            spell.cast(myChar);
+        }
+
+        updateNameAndHP();
     }
 
     private void handleRun() {
