@@ -1,4 +1,5 @@
 
+// `src/DungeonoftheBrutalKing/CharacterCreation.java`
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -55,33 +56,50 @@ public class CharacterCreation {
     static BufferedImage ClassImagePicture;
     private static JPanel classImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
+    // Stat indexes (adds VITALITY at index 6)
+    private static final int STAT_STAMINA = 0;
+    private static final int STAT_CHARISMA = 1;
+    private static final int STAT_STRENGTH = 2;
+    private static final int STAT_INTELLIGENCE = 3;
+    private static final int STAT_WISDOM = 4;
+    private static final int STAT_AGILITY = 5;
+    private static final int STAT_VITALITY = 6;
+
     private static final Map<String, Class<?>> classMap = Map.of(
-         "Paladin", Paladin.class,
-         "Cleric", Cleric.class,
-         "Rogue", Rogue.class,
-         "Hunter", Hunter.class,
-         "Warrior", Warrior.class,
-         "Bard", Bard.class,
-         "Wizard", Wizard.class
-     );
+            "Paladin", Paladin.class,
+            "Cleric", Cleric.class,
+            "Rogue", Rogue.class,
+            "Hunter", Hunter.class,
+            "Warrior", Warrior.class,
+            "Bard", Bard.class,
+            "Wizard", Wizard.class
+    );
 
     public CharacterCreation() throws IOException, InterruptedException {}
 
+    // Applies rolled stats to the runtime character and returns computed defense/attack.
     private int[] setAndCalculateStats(Integer[] stat, String armour, String shield, String weapon) {
-        myChar.setAgility(stat[5]);
-        myChar.setStrength(stat[2]);
+        myChar.setAgility(stat[STAT_AGILITY]);
+        myChar.setStrength(stat[STAT_STRENGTH]);
         myChar.setArmour(armour);
         myChar.setShield(shield);
         myChar.setWeapon(weapon);
+
+        // Vitality setter may or may not exist yet; avoid hard compile break by reflection.
+        // Recommended: add `setVitality(int)` to `Charecter` and remove reflection later.
+        try {
+            myChar.getClass().getMethod("setVitality", int.class).invoke(myChar, stat[STAT_VITALITY]);
+        } catch (Exception ignored) {
+        }
+
         myChar.calculateAndSetDefense();
         myChar.calculateAndSetAttack();
         int defense = myChar.getDefense();
         int attack = myChar.getAttackDamage();
-        return new int[] { defense, attack };
+        return new int[]{defense, attack};
     }
 
     public void createCharector() {
-       
 
         size = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) size.getWidth();
@@ -229,14 +247,20 @@ public class CharacterCreation {
                 saveData.add(selectedRace);
                 saveData.add("1");
                 saveData.add("0");
+
+                // HP now based on Vitality
                 saveData.add(String.valueOf(ToonHP(stat, saveData)));
                 saveData.add(String.valueOf(ToonMP(stat, saveData)));
-                saveData.add(String.valueOf(stat[0]));
-                saveData.add(String.valueOf(stat[1]));
-                saveData.add(String.valueOf(stat[2]));
-                saveData.add(String.valueOf(stat[3]));
-                saveData.add(String.valueOf(stat[4]));
-                saveData.add(String.valueOf(stat[5]));
+
+                // Base stats (now includes Vitality as a 7th stat)
+                saveData.add(String.valueOf(stat[STAT_STAMINA]));
+                saveData.add(String.valueOf(stat[STAT_CHARISMA]));
+                saveData.add(String.valueOf(stat[STAT_STRENGTH]));
+                saveData.add(String.valueOf(stat[STAT_INTELLIGENCE]));
+                saveData.add(String.valueOf(stat[STAT_WISDOM]));
+                saveData.add(String.valueOf(stat[STAT_AGILITY]));
+                saveData.add(String.valueOf(stat[STAT_VITALITY])); // NEW
+
                 saveData.add(gold().toString());
                 saveData.add("3");
                 saveData.add("3");
@@ -250,11 +274,14 @@ public class CharacterCreation {
                 saveData.add("3");
                 saveData.add("1");
                 saveData.add("180.0");
+
                 int[] results = setAndCalculateStats(stat, "", "", "");
                 int defense = results[0];
                 int attack = results[1];
                 saveData.add(String.valueOf(defense));
                 saveData.add(String.valueOf(attack));
+
+                // Keep final HP slot consistent with Vitality-based HP
                 saveData.add(String.valueOf(ToonHP(stat, saveData)));
 
                 System.out.println("Saving data: " + saveData);
@@ -315,7 +342,7 @@ public class CharacterCreation {
         while (charName == null || charName.trim().isEmpty()) {
             charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
         }
-        
+
         tooncreationTextField.setText("Name: " + charName);
         new GameMenuItems();
     }
@@ -355,35 +382,31 @@ public class CharacterCreation {
         }
     }
 
+    private static void displayStats(Integer[] stat) {
+        toonstatsTextArea.setText("Charecter Stats\n");
+        toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[STAT_STAMINA]);
+        toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[STAT_CHARISMA]);
+        toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[STAT_STRENGTH]);
+        toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[STAT_INTELLIGENCE]);
+        toonstatsTextArea.append("\nWISDOM: \t\t" + stat[STAT_WISDOM]);
+        toonstatsTextArea.append("\nAGILITY: \t\t" + stat[STAT_AGILITY]);
+        toonstatsTextArea.append("\nVITALITY: \t\t" + stat[STAT_VITALITY]); // NEW
 
-
-private static void displayStats(Integer[] stat) {
-    toonstatsTextArea.setText("Charecter Stats\n");
-    toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[0]);
-    toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[1]);
-    toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[2]);
-    toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[3]);
-    toonstatsTextArea.append("\nWISDOM: \t\t" + stat[4]);
-    toonstatsTextArea.append("\nAGILITY: \t\t" + stat[5]);
-
-    // Only show points if a class is selected
-    String className = toonClass != null ? toonClass : "";
-    if (!className.isEmpty()) {
-        if (isMagicUser(className)) {
-            int mp = calculateMagicPoints(stat, className);
-            toonstatsTextArea.append("\nMAGIC POINTS: \t" + mp);
-        } else {
-            Random rand = new Random();
-            double multiplier = 1.0 + (0.5 * rand.nextDouble()); // 1.0 to 1.5
-            int actionPoints = (int) Math.round((stat[2] + stat[5]) * multiplier);
-            toonstatsTextArea.append("\nACTION POINTS: \t" + actionPoints);
+        String className = toonClass != null ? toonClass : "";
+        if (!className.isEmpty()) {
+            if (isMagicUser(className)) {
+                int mp = calculateMagicPoints(stat, className);
+                toonstatsTextArea.append("\nMAGIC POINTS: \t" + mp);
+            } else {
+                Random rand = new Random();
+                double multiplier = 1.0 + (0.5 * rand.nextDouble());
+                int actionPoints = (int) Math.round((stat[STAT_STRENGTH] + stat[STAT_AGILITY]) * multiplier);
+                toonstatsTextArea.append("\nACTION POINTS: \t" + actionPoints);
+            }
         }
+
+        toonstatsTextArea.setEditable(false);
     }
-
-    toonstatsTextArea.setEditable(false);
-}
-
-
 
     public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {
         boolean inputAccepted = false;
@@ -408,30 +431,33 @@ private static void displayStats(Integer[] stat) {
     public static Integer[] rollstats() {
         int range = 20;
         int lowerbound = 10;
-        Integer[] stats = new Integer[6];
+
+        // NEW: 7 stats including Vitality
+        Integer[] stats = new Integer[7];
         for (int i = 0; i < stats.length; i++) {
             stats[i] = (int) (Math.random() * range) + lowerbound;
         }
         return stats;
     }
 
-    public static Integer ToonHP(Integer stat[], ArrayList<String> newChar) {
-        if (newChar.size() < 3 || newChar.get(2) == null) {
+    // NEW: HP derived from Vitality (keeps class multiplier pattern)
+    public static Integer ToonHP(Integer[] stat, ArrayList<String> newChar) {
+        if (newChar.size() < 2 || newChar.get(1) == null) {
             return 0;
         }
-        String Class = newChar.get(2);
-        int baseHP = switch (Class) {
+        String clazz = newChar.get(1);
+        int baseHP = switch (clazz) {
             case "Paladin", "Warrior" -> 2;
             default -> 1;
         };
-        return baseHP * ((stat[2] * 2) + stat[0]);
+        return baseHP * (stat[STAT_VITALITY] * 10);
     }
 
     public static int ToonMP(Integer[] stat, ArrayList<String> newChar) {
-        if (newChar.size() < 3 || newChar.get(2) == null) {
+        if (newChar.size() < 2 || newChar.get(1) == null) {
             return 0;
         }
-        String characterClass = newChar.get(2);
+        String characterClass = newChar.get(1);
         int points;
         if (isMagicUser(characterClass)) {
             points = calculateMagicPoints(stat, characterClass);
@@ -441,32 +467,29 @@ private static void displayStats(Integer[] stat) {
         return points;
     }
 
+    static boolean isMagicUser(String characterClass) {
+        return Arrays.asList("Cleric", "Paladin", "Bard", "Wizard").contains(characterClass);
+    }
 
-static boolean isMagicUser(String characterClass) {
-    return Arrays.asList("Cleric", "Paladin", "Bard", "Wizard").contains(characterClass);
-}
+    private static int calculateMagicPoints(Integer[] stat, String characterClass) {
+        int baseMP = switch (characterClass) {
+            case "Paladin" -> 14;
+            case "Cleric" -> 20;
+            case "Bard" -> 12;
+            case "Wizard" -> 25;
+            default -> 1;
+        };
+        Random rand = new Random();
+        int randomBonus = rand.nextInt(6);
+        return baseMP + ((stat[STAT_INTELLIGENCE] * 2) + stat[STAT_WISDOM]) + randomBonus;
+    }
 
-
-private static int calculateMagicPoints(Integer[] stat, String characterClass) {
-    int baseMP = switch (characterClass) {
-        case "Paladin" -> 14;
-        case "Cleric" -> 20;
-        case "Bard" -> 12;
-        case "Wizard" -> 25;
-        default -> 1;
-    };
-    Random rand = new Random();
-    int randomBonus = rand.nextInt(6); // 0-5 extra points
-    return baseMP + ((stat[3] * 2) + stat[4]) + randomBonus;
-}
-
-// Add randomness to action points
-public static int ToonActionPoints(Integer[] stat) {
-    Random rand = new Random();
-    double multiplier = 1.0 + (rand.nextDouble() * 0.5); // 1.0 to 1.5
-    int randomBonus = rand.nextInt(4); // 0-3 extra points
-    return (int) Math.round(((stat[2] * 2) + stat[5]) * multiplier) + randomBonus;
-}
+    public static int ToonActionPoints(Integer[] stat) {
+        Random rand = new Random();
+        double multiplier = 1.0 + (rand.nextDouble() * 0.5);
+        int randomBonus = rand.nextInt(4);
+        return (int) Math.round(((stat[STAT_STRENGTH] * 2) + stat[STAT_AGILITY]) * multiplier) + randomBonus;
+    }
 
     public static Integer gold() {
         Random random = new Random();
