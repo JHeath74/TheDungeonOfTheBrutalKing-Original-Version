@@ -1,5 +1,5 @@
 
-// src/Guild/HarmonicLightEnsemble.java
+// `src/Guild/HarmonicLightEnsemble/HarmonicLightEnsemble.java`
 package Guild.HarmonicLightEnsemble;
 
 import java.awt.BorderLayout;
@@ -29,7 +29,10 @@ public class HarmonicLightEnsemble extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
-        GuildMembershipStatus status = character.getGuildStatus(guildType);
+
+        // Use existing no-arg API; keep current guild in sync for this panel.
+        character.setCurrentGuild(guildType);
+        GuildMembershipStatus status = character.getCurrentGuildStatus();
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/HarmonicLightEnsemble.jpg")));
         add(imageLabel, BorderLayout.CENTER);
@@ -47,7 +50,8 @@ public class HarmonicLightEnsemble extends JPanel {
         if (status == GuildMembershipStatus.NOT_MEMBER) {
             JButton questButton = new JButton("Start Guild Quest");
             questButton.addActionListener(e -> {
-                character.setGuildStatus(guildType, GuildMembershipStatus.INITIATE);
+                character.setCurrentGuild(guildType);
+                character.setCurrentGuildStatus(GuildMembershipStatus.INITIATE);
                 JOptionPane.showMessageDialog(this, "Quest complete! You are now an Initiate.");
                 try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
             });
@@ -55,7 +59,8 @@ public class HarmonicLightEnsemble extends JPanel {
         } else if (status == GuildMembershipStatus.INITIATE) {
             JButton initiationButton = new JButton("Complete Initiation Performance");
             initiationButton.addActionListener(e -> {
-                character.setGuildStatus(guildType, GuildMembershipStatus.FULL_MEMBER);
+                character.setCurrentGuild(guildType);
+                character.setCurrentGuildStatus(GuildMembershipStatus.FULL_MEMBER);
                 character.addToInventory("Harmonic Light Ensemble Lute Pin");
                 JOptionPane.showMessageDialog(this, "You are now a full member and received the Lute Pin!");
                 try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
@@ -70,6 +75,7 @@ public class HarmonicLightEnsemble extends JPanel {
             buttonPanel.add(eatFoodButton);
             buttonPanel.add(sleepBedButton);
         }
+
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 

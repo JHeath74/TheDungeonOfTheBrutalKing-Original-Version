@@ -30,6 +30,7 @@ public enum StatusType {
     HIDDEN_STATUS,
     MANA_REGEN_STATUS,
     DAMAGE_UP_STATUS,
+    LIGHTNING_STATUS,
    
     // Add more as needed
 }

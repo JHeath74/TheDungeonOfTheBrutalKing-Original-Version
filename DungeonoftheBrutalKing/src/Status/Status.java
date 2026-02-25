@@ -3,6 +3,7 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
+import Enemies.Enemies;
 
 public class Status {
     private String name;
@@ -91,5 +92,10 @@ public class Status {
 
 	public void setDurationSeconds(int durationSeconds) {
 		this.durationSeconds = durationSeconds;
+	}
+
+	public void onRemove(Enemies target) {
+		// TODO Auto-generated method stub
+		
 	}
 }

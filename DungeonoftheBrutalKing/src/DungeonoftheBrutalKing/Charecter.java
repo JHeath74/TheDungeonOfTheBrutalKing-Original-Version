@@ -377,4 +377,65 @@ public class Charecter implements HasHitPoints {
             }
         }
     }
+
+	public void clearCurses() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void clearNegativeEffects() {
+	    // Remove negative statuses from local list
+	    if (statuses != null) {
+	        statuses.removeIf(s -> s != null && s.isNegative());
+	    }
+
+	    // Best-effort: also clear them from StatusManager if it tracks independently
+	    if (statusManager == null) return;
+
+	    try {
+	        // If StatusManager exposes getStatuses(): List<Status>
+	        Object result = statusManager.getClass().getMethod("getStatuses").invoke(statusManager);
+	        if (result instanceof List<?> list) {
+	            list.removeIf(o -> (o instanceof Status st) && st.isNegative());
+	        }
+	        return;
+	    } catch (Exception ignored) {
+	        // fall through
+	    }
+
+	    try {
+	        // If StatusManager exposes removeNegativeEffects()
+	        statusManager.getClass().getMethod("removeNegativeEffects").invoke(statusManager);
+	        return;
+	    } catch (Exception ignored) {
+	        // fall through
+	    }
+
+	    try {
+	        // If StatusManager exposes clearNegativeEffects()
+	        statusManager.getClass().getMethod("clearNegativeEffects").invoke(statusManager);
+	    } catch (Exception ignored) {
+	        // No compatible API; local list was still cleaned.
+	    }
+	}
+
+	public double getHitChance() {
+	    return hitChance;
+	}
+
+	public void setHitChance(double hitChance) {
+	    // Clamp to \[0.0, 1.0\] to avoid negative or >100% hit rates.
+	    this.hitChance = Math.max(0.0, Math.min(1.0, hitChance));
+	}
+	
+	 public int getMaxMagicPoints() {
+	        // Use Wisdom as the MP driver (fallback to current MP for older saves/default 0).
+	        final int wisdom = Math.max(0, getWisdom());
+	        if (wisdom == 0) {
+	            return Math.max(0, getMagicPoints());
+	        }
+
+	        // Simple scaling rule: 10 MP per Wisdom (adjust if you have a different balance target).
+	        return Math.max(0, wisdom * 10);
+	    }
 }

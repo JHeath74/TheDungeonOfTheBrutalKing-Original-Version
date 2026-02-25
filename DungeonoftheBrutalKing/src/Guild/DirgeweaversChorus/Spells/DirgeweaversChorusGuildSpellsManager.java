@@ -13,12 +13,26 @@ public class DirgeweaversChorusGuildSpellsManager {
 
     public DirgeweaversChorusGuildSpellsManager(Guild guild) {
         this.guild = guild;
+        registerDefaultSpells();
     }
 
     public void registerSpell(Spell spell) {
         if (spell.isGuildSpell() && spell.getSpellGuild() == guild) {
             guildSpells.put(spell.getName().toLowerCase(), spell);
         }
+    }
+    
+    private void registerDefaultSpells() {
+        registerSpell(new CripplingChant());
+        registerSpell(new DiscordantDuet());
+        registerSpell(new DiscordantHex());
+        registerSpell(new DreadVerse());
+        registerSpell(new HealingChant());
+        registerSpell(new RendingRefrain());
+        registerSpell(new RequiemDrain());
+        registerSpell(new SappingDirge());
+        registerSpell(new SonicRequiem());
+        registerSpell(new SunderArmour());
     }
 
     public Spell getSpell(String name) {
