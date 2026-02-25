@@ -1,6 +1,7 @@
 package Status;
 
 public enum StatusType {
+	NONE,
 	ACCURACY_STATUS,
     BLEED_STATUS,
     BLIND_STATUS,
@@ -30,7 +31,7 @@ public enum StatusType {
     HIDDEN_STATUS,
     MANA_REGEN_STATUS,
     DAMAGE_UP_STATUS,
-    LIGHTNING_STATUS,
+    LIGHTNING_STATUS, 
    
     // Add more as needed
 }

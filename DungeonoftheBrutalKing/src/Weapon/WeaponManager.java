@@ -1,9 +1,11 @@
+
 // src/Weapon/WeaponManager.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
 import Status.HasHitPoints;
+import Status.StatusType;
 
 public class WeaponManager {
 
@@ -15,18 +17,14 @@ public class WeaponManager {
     private int damage;
     private int weight;
     private double criticalHitChance;
-    private StatusEffect statusEffect;
+    private StatusType statusEffect;
 
     public WeaponManager(String name, int requiredStrength, int damage, String effect, int weight) {
         this.name = name;
         this.requiredStrength = requiredStrength;
         this.damage = damage;
         this.weight = weight;
-        if (effect != null) {
-            this.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
-        } else {
-            this.statusEffect = StatusEffect.NONE;
-        }
+        setEffect(effect);
     }
 
     public double getWeight() {
@@ -35,15 +33,6 @@ public class WeaponManager {
 
     public void setWeight(int weight) {
         this.weight = weight;
-    }
-
-    public enum StatusEffect {
-        NONE,
-        POISON,
-        STUN,
-        BLEED,
-        FIRE,
-        COLD,
     }
 
     public String getName() {
@@ -58,7 +47,7 @@ public class WeaponManager {
         return criticalHitChance;
     }
 
-    public StatusEffect getStatusEffect() {
+    public StatusType getStatusEffect() {
         return statusEffect;
     }
 
@@ -67,11 +56,11 @@ public class WeaponManager {
     }
 
     public void setEffect(String effect) {
-        if (effect != null) {
-            this.statusEffect = StatusEffect.valueOf(effect.toUpperCase());
-        } else {
-            this.statusEffect = StatusEffect.NONE;
+        if (effect == null || effect.isBlank()) {
+            this.statusEffect = StatusType.NONE; // adjust if your project uses a different "no status" value
+            return;
         }
+        this.statusEffect = StatusType.valueOf(effect.trim().toUpperCase());
     }
 
     public void setDamage(int damage) {
@@ -102,6 +91,7 @@ public class WeaponManager {
     }
 
     public boolean unequip(Charecter wearer) {
+        // TODO Auto-generated method stub
         return false;
         // TODO Auto-generated method stub
     }

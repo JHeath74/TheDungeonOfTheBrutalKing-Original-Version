@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class ArmourManager {
 
@@ -13,7 +14,7 @@ public class ArmourManager {
     protected int armourDefense;
     protected int weight;
     protected String effect;
-    protected StatusEffect statusEffect;
+    protected StatusType statusEffect;
 
     protected static List<ArmourManager> allArmour = new ArrayList<>();
 
@@ -22,21 +23,15 @@ public class ArmourManager {
         this.requiredStrength = requiredStrength;
         this.armourDefense = armourDefense;
         this.weight = weight;
-        this.effect = effect;
-        this.statusEffect = (effect != null) ? StatusEffect.valueOf(effect.toUpperCase()) : StatusEffect.NONE;
+        setEffect(effect);
         allArmour.add(this);
-    }
-
-    // Enum to define possible status effects
-    public enum StatusEffect {
-        NONE, POISON, STUN, BLEED, FIRE, COLD
     }
 
     public String getName() {
         return name;
     }
 
-    public StatusEffect getStatusEffect() {
+    public StatusType getStatusEffect() {
         return statusEffect;
     }
 
@@ -50,7 +45,14 @@ public class ArmourManager {
 
     public void setEffect(String effect) {
         this.effect = effect;
-        this.statusEffect = (effect != null) ? StatusEffect.valueOf(effect.toUpperCase()) : StatusEffect.NONE;
+
+        if (effect == null || effect.isBlank()) {
+            this.statusEffect = StatusType.NONE; // adjust if your project uses a different "no status" value
+            return;
+        }
+
+        // Prefer a safe resolver if your StatusType provides one; otherwise this requires exact enum names.
+        this.statusEffect = StatusType.valueOf(effect.trim().toUpperCase());
     }
 
     public int getArmourDefense() {
@@ -70,12 +72,10 @@ public class ArmourManager {
     }
 
     public boolean equip(Charecter wearer) {
-        // Default: cannot equip, override in subclass
         return false;
     }
 
     public boolean unequip(Charecter wearer) {
-        // Default: cannot unequip, override in subclass
         return false;
     }
 }
