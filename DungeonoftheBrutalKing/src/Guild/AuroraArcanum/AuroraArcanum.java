@@ -29,7 +29,7 @@ public class AuroraArcanum extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter charecter = Charecter.getInstance();
-        GuildMembershipStatus status = charecter.getGuildStatus(guildType);
+        GuildMembershipStatus status = charecter.getCurrentGuildStatus();
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/AuroraArcanum.jpg")));
         add(imageLabel, BorderLayout.CENTER);

@@ -3,6 +3,7 @@ package Spells;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
+import Enemies.Enemies;
 import SharedData.Guild;
 
 public interface Spell {
@@ -23,4 +24,5 @@ public interface Spell {
 	void cast(Charecter caster, Charecter target);
 	String getDescription();
 	void castWithStrength(Charecter enemy, double d);
+	void cast(Charecter caster, Enemies target);
 }

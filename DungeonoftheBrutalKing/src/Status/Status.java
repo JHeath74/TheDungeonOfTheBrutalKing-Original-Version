@@ -98,4 +98,19 @@ public class Status {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void onApply(Character target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onExpire(Character target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onApply(Charecter target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

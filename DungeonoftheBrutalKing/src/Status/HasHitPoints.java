@@ -7,4 +7,5 @@ public interface HasHitPoints {
     void setHitPoints(int hp);
     int getMaxHitPoints();
     void addStatus(Status effectStatus);
+	String getClassName();
 }

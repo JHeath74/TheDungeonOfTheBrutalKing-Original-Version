@@ -210,7 +210,11 @@ public class Charecter implements HasHitPoints {
     public void setAgility(int v) { setInt(IDX_AGILITY, Math.max(0, v)); }
 
     // --- NEW: Vitality ---
-    public int getVitality() { return getInt(IDX_VITALITY, 0); }
+    
+    
+    public int getVitality() {
+        return getInt(IDX_VITALITY, 0);
+    }
 
     public void setVitality(int vitality) {
         setInt(IDX_VITALITY, Math.max(0, vitality));
@@ -262,6 +266,14 @@ public class Charecter implements HasHitPoints {
         pos[0] = getInt(IDX_POS_X, 0);
         pos[1] = getInt(IDX_POS_Y, 0);
         pos[2] = getInt(IDX_POS_Z, 0);
+    }
+    
+    public int getX() {
+        return getInt(IDX_POS_X, 0);
+    }
+
+    public int getY() {
+        return getInt(IDX_POS_Y, 0);
     }
 
     public int getDirection() { return getInt(IDX_DIRECTION, 0); }
@@ -438,4 +450,14 @@ public class Charecter implements HasHitPoints {
 	        // Simple scaling rule: 10 MP per Wisdom (adjust if you have a different balance target).
 	        return Math.max(0, wisdom * 10);
 	    }
+
+	 @Override
+	 public String getClassName() {
+	     String clazz = getToonClass();
+	     return (clazz == null || clazz.isBlank()) ? "Unknown" : clazz;
+	 }
+
+	 public int getAttackDamage() {
+		    return getAttack();
+		}
 }

@@ -1,8 +1,11 @@
+
 package Guild.DirgeweaversChorus.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
+import Spells.SpellFactory;
 import DungeonoftheBrutalKing.Charecter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,22 +20,31 @@ public class DirgeweaversChorusGuildSpellsManager {
     }
 
     public void registerSpell(Spell spell) {
-        if (spell.isGuildSpell() && spell.getSpellGuild() == guild) {
+        if (spell != null && spell.isGuildSpell() && spell.getSpellGuild() == guild) {
             guildSpells.put(spell.getName().toLowerCase(), spell);
         }
     }
-    
+
     private void registerDefaultSpells() {
-        registerSpell(new CripplingChant());
-        registerSpell(new DiscordantDuet());
-        registerSpell(new DiscordantHex());
-        registerSpell(new DreadVerse());
-        registerSpell(new HealingChant());
-        registerSpell(new RendingRefrain());
-        registerSpell(new RequiemDrain());
-        registerSpell(new SappingDirge());
-        registerSpell(new SonicRequiem());
-        registerSpell(new SunderArmour());
+        String[] defaultSpells = {
+                "CripplingChant",
+                "DiscordantDuet",
+                "DiscordantHex",
+                "DreadVerse",
+                "HealingChant",
+                "RendingRefrain",
+                "RequiemDrain",
+                "SappingDirge",
+                "SonicRequiem",
+                "SunderArmour",
+        };
+
+        for (String spellName : defaultSpells) {
+            Spell spell = SpellFactory.createGuildSpell(spellName, guild);
+            if (spell != null) {
+                registerSpell(spell);
+            }
+        }
     }
 
     public Spell getSpell(String name) {
@@ -43,7 +55,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         return new HashMap<>(guildSpells);
     }
 
-    // Cast spell by name (no parameters)
     public void cast(String spellName) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -51,7 +62,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         }
     }
 
-    // Cast spell by name and caster
     public void cast(String spellName, Charecter caster) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -59,7 +69,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         }
     }
 
-    // Cast spell by name, caster, and target
     public void cast(String spellName, Charecter caster, Charecter target) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -67,7 +76,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         }
     }
 
-    // Cast spell by name, caster, and list of targets
     public void cast(String spellName, Charecter caster, List<Charecter> targets) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -75,7 +83,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         }
     }
 
-    // Cast spell by name with intelligence
     public void castWithIntelligence(String spellName, int intelligence) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -83,7 +90,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         }
     }
 
-    // Cast spell by name with wisdom
     public void castWithWisdom(String spellName, int wisdom) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
@@ -91,7 +97,6 @@ public class DirgeweaversChorusGuildSpellsManager {
         }
     }
 
-    // Cast spell by name with wisdom and intelligence
     public void castWithWisdomAndIntelligence(String spellName, int wisdom, int intelligence) {
         Spell spell = getSpell(spellName);
         if (spell != null) {

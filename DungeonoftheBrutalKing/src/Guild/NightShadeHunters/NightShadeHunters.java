@@ -27,7 +27,7 @@ public class NightShadeHunters extends JPanel {
     private boolean isMember;
     private final String description;
     private final Alignment alignment = Alignment.EVIL;
-    private final GuildType guildType = GuildType.ROGUE;
+    private final GuildType guildType = GuildType.HUNTER;
 
     public NightShadeHunters(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;

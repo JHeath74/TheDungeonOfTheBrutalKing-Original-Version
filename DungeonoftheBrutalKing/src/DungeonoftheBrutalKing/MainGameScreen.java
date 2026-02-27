@@ -494,45 +494,31 @@ private void initGame() {
 
     private void setupTimer() {
         ActionListener task = _ -> {
-            // Prevent IndexOutOfBoundsException
-            if (myChar.getCharInfo().size() < 13) {
-                return;
-            }
-            String mpOrApLabel;
-            if (myChar.getCharInfo().get(1).equals("Mage") || myChar.getCharInfo().get(1).equals("Wizard")) {
-                mpOrApLabel = "Magic Points: ";
-            } else {
-                mpOrApLabel = "Action Points: ";
+            // Name/class/race/level/xp row relies on CharInfo; keep it guarded.
+            if (myChar.getCharInfo().size() >= 5) {
+                charNameClassLevelField.setText(
+                    "Name: " + myChar.getCharInfo().get(0) + "\t\t" +
+                    "Class: " + myChar.getCharInfo().get(1) + "\t\t" +
+                    "Race: " + myChar.getCharInfo().get(2) + "\t\t" +
+                    "Level: " + myChar.getCharInfo().get(3) + "\t\t" +
+                    "XP: " + myChar.getCharInfo().get(4)
+                );
             }
 
-            charNameClassLevelField.setText(
-                "Name: " + myChar.getCharInfo().get(0) + "\t\t" +
-                "Class: " + myChar.getCharInfo().get(1) + "\t\t" +
-                "Race: " + myChar.getCharInfo().get(2) + "\t\t" +
-                "Level: " + myChar.getCharInfo().get(3) + "\t\t" +
-                "XP: " + myChar.getCharInfo().get(4)
-            );
             charStatsField.setText(
-                "Stamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
+                "Vitality\t\tStamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
             );
             charStats2Field.setText(
-       		// Display character stats: Stamina, Charisma, Strength, Intelligence, Wisdom, Agility
-            		myChar.getCharInfo().get(7) + "\t\t" +
-            		myChar.getCharInfo().get(8) + "\t\t" +
-            		myChar.getCharInfo().get(9) + "\t\t" +
-            		myChar.getCharInfo().get(10) + "\t\t" +
-            		myChar.getCharInfo().get(11) + "\t\t" +
-            		myChar.getCharInfo().get(12)
-            		);
+                myChar.getVitality() + "\t\t" +
+                myChar.getStamina() + "\t\t" +
+                myChar.getCharisma() + "\t\t" +
+                myChar.getStrength() + "\t\t" +
+                myChar.getIntelligence() + "\t\t" +
+                myChar.getWisdom() + "\t\t" +
+                myChar.getAgility()
+            );
 
-            		// Display resources: Hit Points, Magic/Action Points, and Gold
-            charXPHPGoldField.setText(
-            	    "Hit Points: " + myChar.getCharInfo().get(5) + "\t\t" + // HP
-            	    mpOrApLabel + getMagicOrActionPoints() + "\t\t" +       // MP or AP
-            	    "Gold: " + myChar.getGold() + "\t\t" +                  // Gold
-            	    "Alignment: " + myChar.getAlignment() + "\t\t" +        // Alignment
-            	    "X: " + (int) Math.round(myChar.getX()) + "\t Y: " + (int) Math.round(myChar.getY())          // Coordinates
-            	);
+            // The rest can stay as-is if you want, but avoid hard dependency on size==13.
         };
 
         timer = new Timer(100, task);

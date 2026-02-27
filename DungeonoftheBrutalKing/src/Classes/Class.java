@@ -6,7 +6,7 @@ package Classes;
 public abstract class Class {
 
     // Array of available character classes
-    public static final String[] toonclassarray = {"Paladin", "Wizard", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
+    public static final String[] toonclassarray = {"Mage", "Ministrel", "Ranger", "Thief", "Paladin", "Wizard", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
 
     // Description of the class (can be overridden by subclasses)
     public static String ClassDescription;

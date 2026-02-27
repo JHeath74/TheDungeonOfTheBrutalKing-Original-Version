@@ -1,82 +1,108 @@
 
-// src/Guild/DawnwardPaladins/Spells/DawnwardPaladinsGuildSpellsManager.java
+// `src/Guild/DawnwardPaladins/Spells/DawnwardPaladinsGuildSpellsManager.java`
+
 package Guild.DawnwardPaladins.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
+import Spells.SpellFactory;
 import DungeonoftheBrutalKing.Charecter;
-import java.util.Collections;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-public final class DawnwardPaladinsGuildSpellsManager {
+public class DawnwardPaladinsGuildSpellsManager {
     private final Guild guild;
-    private final Map<String, Spell> guildSpells = new ConcurrentHashMap<>();
+    private final Map<String, Spell> guildSpells = new HashMap<>();
 
     public DawnwardPaladinsGuildSpellsManager(Guild guild) {
-        if (guild == null) throw new IllegalArgumentException("Guild cannot be null.");
         this.guild = guild;
         registerDefaultSpells();
     }
 
     public void registerSpell(Spell spell) {
-        if (spell == null) return;
-        if (spell.isGuildSpell() && spell.getSpellGuild() == guild) {
+        if (spell != null && spell.isGuildSpell() && spell.getSpellGuild() == guild) {
             guildSpells.put(spell.getName().toLowerCase(), spell);
         }
     }
 
+    private void registerDefaultSpells() {
+        String[] defaultSpells = {
+                "MysticBarrier",
+                "ManaInfusion",
+                "Shield",
+                "SanctifiedLeech",
+                "RadiantAegis",
+                "PurifyingLight",
+                "SacredStrike",
+                "RestoringLight",
+                "RighteousFervor",
+                "HolySmite",
+        };
+
+        for (String spellName : defaultSpells) {
+            Spell spell = SpellFactory.createGuildSpell(spellName, guild);
+            if (spell != null) {
+                registerSpell(spell);
+            }
+        }
+    }
+
     public Spell getSpell(String name) {
-        if (name == null) return null;
         return guildSpells.get(name.toLowerCase());
     }
 
     public Map<String, Spell> getAllSpells() {
-        return Collections.unmodifiableMap(guildSpells);
+        return new HashMap<>(guildSpells);
     }
 
-    public void castSpell(String spellName, Charecter caster) {
+    public void cast(String spellName) {
+        Spell spell = getSpell(spellName);
+        if (spell != null) {
+            spell.cast();
+        }
+    }
+
+    public void cast(String spellName, Charecter caster) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster);
         }
     }
 
-    public void castSpell(String spellName, Charecter caster, Charecter target) {
+    public void cast(String spellName, Charecter caster, Charecter target) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, target);
         }
     }
 
-    public void castSpell(String spellName, Charecter caster, List<Charecter> allCharacters) {
+    public void cast(String spellName, Charecter caster, List<Charecter> targets) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
-            spell.cast(caster, allCharacters);
+            spell.cast(caster, targets);
         }
     }
 
-    private void registerDefaultSpells() {
-        String[] defaultSpells = {
-            "MysticBarrier",
-            "ManaInfusion",
-            "Shield",
-            "SanctifiedLeech",
-            "RadiantAegis",
-            "PurifyingLight",
-            "SacredStrike",
-            "RestoringLight",
-            "RighteousFervor",
-            "HolySmite",
-            
-            // Add other Dawnward Paladins spell names here
-        };
-        for (String spellName : defaultSpells) {
-            Spell spell = Spell.createGuildSpell(spellName, guild);
-            if (spell != null) {
-                registerSpell(spell);
-            }
+    public void castWithIntelligence(String spellName, int intelligence) {
+        Spell spell = getSpell(spellName);
+        if (spell != null) {
+            spell.castWithIntelligence(intelligence);
+        }
+    }
+
+    public void castWithWisdom(String spellName, int wisdom) {
+        Spell spell = getSpell(spellName);
+        if (spell != null) {
+            spell.cast(wisdom);
+        }
+    }
+
+    public void castWithWisdomAndIntelligence(String spellName, int wisdom, int intelligence) {
+        Spell spell = getSpell(spellName);
+        if (spell != null) {
+            spell.cast(wisdom, intelligence);
         }
     }
 }

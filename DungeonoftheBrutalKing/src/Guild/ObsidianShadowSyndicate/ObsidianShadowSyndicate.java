@@ -29,7 +29,7 @@ public class ObsidianShadowSyndicate extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
-        GuildMembershipStatus status = character.getGuildStatus(guildType);
+        GuildMembershipStatus status = character.getCurrentGuildStatus();
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/ObsidianShadowSyndicate.jpg")));
         add(imageLabel, BorderLayout.CENTER);
@@ -47,7 +47,7 @@ public class ObsidianShadowSyndicate extends JPanel {
         if (status == GuildMembershipStatus.NOT_MEMBER) {
             JButton questButton = new JButton("Start Guild Heist");
             questButton.addActionListener(event -> {
-                character.setGuildStatus(guildType, GuildMembershipStatus.INITIATE);
+                character.setCurrentGuildStatus(GuildMembershipStatus.INITIATE);
                 JOptionPane.showMessageDialog(this, "Heist complete! You are now an Initiate.");
                 try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
             });
@@ -55,7 +55,7 @@ public class ObsidianShadowSyndicate extends JPanel {
         } else if (status == GuildMembershipStatus.INITIATE) {
             JButton initiationButton = new JButton("Complete Initiation Task");
             initiationButton.addActionListener(event -> {
-                character.setGuildStatus(guildType, GuildMembershipStatus.FULL_MEMBER);
+                character.setCurrentGuildStatus(GuildMembershipStatus.FULL_MEMBER);
                 character.addToInventory("Obsidian Shadow Syndicate Emblem");
                 JOptionPane.showMessageDialog(this, "You are now a full member and received the Syndicate Emblem!");
                 try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }

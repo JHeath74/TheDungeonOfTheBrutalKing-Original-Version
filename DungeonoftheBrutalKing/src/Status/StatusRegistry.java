@@ -32,6 +32,14 @@ public class StatusRegistry {
         statusMap.put("AccuracyStatus", AccuracyStatus.class);
         statusMap.put("DefenseUpStatus", DefenseUpStatus.class);
         statusMap.put("ResilienceStatus", ResilienceStatus.class);
+        statusMap.put("AstralWardStatus", AstralWardStatus.class);
+        statusMap.put("SilencedStatus", SilencedStatus.class);
+        statusMap.put("HiddenStatus", HiddenStatus.class);
+        statusMap.put("ManaRegenStatus", ManaRegenStatus.class);
+        statusMap.put("DamageUpStatus", DamageUpStatus.class);
+        statusMap.put("LightningStatus", LightningStatus.class);
+        statusMap.put("StrengthBuffStatus", StrengthBuffStatus.class);
+        
     }
 
 

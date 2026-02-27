@@ -16,8 +16,12 @@ import javax.swing.*;
 import Classes.Bard;
 import Classes.Cleric;
 import Classes.Hunter;
+import Classes.Mage;
+import Classes.Ministrel;
 import Classes.Paladin;
+import Classes.Ranger;
 import Classes.Rogue;
+import Classes.Thief;
 import Classes.Warrior;
 import Classes.Wizard;
 import Races.RaceEnum;
@@ -65,14 +69,18 @@ public class CharacterCreation {
     private static final int STAT_AGILITY = 5;
     private static final int STAT_VITALITY = 6;
 
-    private static final Map<String, Class<?>> classMap = Map.of(
-            "Paladin", Paladin.class,
-            "Cleric", Cleric.class,
-            "Rogue", Rogue.class,
-            "Hunter", Hunter.class,
-            "Warrior", Warrior.class,
-            "Bard", Bard.class,
-            "Wizard", Wizard.class
+    private static final Map<String, Class<?>> classMap = Map.ofEntries(
+            Map.entry("Bard", Bard.class),
+            Map.entry("Cleric", Cleric.class),
+            Map.entry("Hunter", Hunter.class),
+            Map.entry("Mage", Mage.class),
+            Map.entry("Minstrel", Ministrel.class),
+            Map.entry("Paladin", Paladin.class),
+            Map.entry("Ranger", Ranger.class),
+            Map.entry("Rogue", Rogue.class),
+            Map.entry("Thief", Thief.class),
+            Map.entry("Warrior", Warrior.class),
+            Map.entry("Wizard", Wizard.class)
     );
 
     public CharacterCreation() throws IOException, InterruptedException {}
