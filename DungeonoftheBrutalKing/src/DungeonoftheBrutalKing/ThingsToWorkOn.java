@@ -13,10 +13,8 @@ public class ThingsToWorkOn {
 		//Adding a food and water meter showing hunger and thirst.
 		//possible to have 1-3 enemies to combat.
 		//When eating food in guild, restore hunger and thirst meter.
-		
-		//Add EtherealChainsStatus - prevent attacking while active
-		//5 more spells in celestialarcaneorder
-		//10 Spells for CrimsonBlades
+		//Missing vitality from CharacterCreation and MainGameScreen class
+		//updating Mage, Hunter, Ranger and Ministrel classes.
 		//Fix all Statuses
 	}
 	
