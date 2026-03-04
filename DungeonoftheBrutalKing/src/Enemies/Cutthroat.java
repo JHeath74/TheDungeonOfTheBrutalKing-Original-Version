@@ -18,22 +18,24 @@ public class Cutthroat extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Cutthroat() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Cutthroat(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Cutthroat",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Cutthroat.png",
-            false
+                "Cutthroat",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Cutthroat.png",
+                false,
+                vitality
         );
+
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -42,6 +44,13 @@ public class Cutthroat extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+
+        setMagicUser(false);
+    }
+
+    @Override
+    public String getClassName() {
+        return "Cutthroat";
     }
 
     public int getLevel() { return level; }
@@ -68,8 +77,6 @@ public class Cutthroat extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override

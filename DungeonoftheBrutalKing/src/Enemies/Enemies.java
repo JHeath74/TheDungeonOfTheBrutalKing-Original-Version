@@ -10,39 +10,54 @@ import Status.HasHitPoints;
 import Status.Status;
 
 public abstract class Enemies implements HasHitPoints {
-    private String name;
+    private final String name;
     protected int level;
     private int hitPoints;
     protected int strength;
-    private int charisma;
-    private int agility;
-    private int intelligence;
-    private int wisdom;
-    private String imagePath;
-    private boolean isMagicUser;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    protected final String imagePath;
+    protected boolean isMagicUser;
     private int spellStrength;
     protected int maxHitPoints;
-    
+
     protected boolean undead = false;
 
-    public Enemies(String name, int level, int hitPoints, int strength, int charisma, int agility, int intelligence, int wisdom, String imagePath, boolean isMagicUser) {
+    public Enemies(
+            String name,
+            int level,
+            int hitPoints,
+            int strength,
+            int charisma,
+            int agility,
+            int intelligence,
+            int wisdom,
+            String imagePath,
+            boolean undead,
+            int vitality
+    ) {
         this.name = name;
         this.level = level;
         this.hitPoints = hitPoints;
+        this.maxHitPoints = hitPoints;
+
         this.strength = strength;
         this.charisma = charisma;
         this.agility = agility;
         this.intelligence = intelligence;
         this.wisdom = wisdom;
+
         this.imagePath = imagePath;
-        this.isMagicUser = isMagicUser;
-        this.spellStrength = spellStrength;
-        this.hitPoints = hitPoints;
-        this.maxHitPoints = hitPoints;
+        this.undead = undead;
+
+        this.isMagicUser = false;
+        this.spellStrength = 0;
     }
 
-    private List<Status> statuses = new ArrayList<>();
-    
+    private final List<Status> statuses = new ArrayList<>();
+
     public String getName() { return name; }
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
@@ -65,76 +80,48 @@ public abstract class Enemies implements HasHitPoints {
 
     public int defend(int incomingDamage) {
         int reduction = agility / 4;
-        int actualDamage = Math.max(0, incomingDamage - reduction);
-        return actualDamage;
+        return Math.max(0, incomingDamage - reduction);
     }
 
     public boolean isDead() {
         return hitPoints <= 0;
     }
-    
+
     public int getMaxHitPoints() {
         return maxHitPoints;
     }
 
-
-public int getAttackDamage() {
-    int baseDamage = (int) ((strength * 1.5) + (agility * 0.5));
-    if (isMagicUser) {
-        baseDamage += spellStrength;
+    public int getAttackDamage() {
+        int baseDamage = (int) ((strength * 1.5) + (agility * 0.5));
+        return isMagicUser ? baseDamage + spellStrength : baseDamage;
     }
-    return baseDamage;
-}
 
-public int getExperienceReward() {
-	// TODO Auto-generated method stub
-	return level * 10;
-}
-
-public int getGoldReward() {
-	// TODO Auto-generated method stub
-	return level * 5;
-}
-
-public void attemptApplyEffect(Charecter target) {
-	// TODO Auto-generated method stub
-	
-}
-
-public int attack(Charecter target) {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-public int attack() {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-public Alignment getAlignment() {
-	// TODO Auto-generated method stub
-	return null;
-}
-
-public int getAlignmentImpact() {
-	// TODO Auto-generated method stub
-	return 0;
-}
-
-public void setLevel(int level) {
-	// TODO Auto-generated method stub
-	
-}
-
-// Update addStatus method
-@Override
-public void addStatus(Status status) {
-    if (status != null) {
-        statuses.add(status);
+    public int getExperienceReward() {
+        return level * 10;
     }
-}
-public boolean isUndead() {
-    return undead;
-}
 
+    public int getGoldReward() {
+        return level * 5;
+    }
+
+    public void attemptApplyEffect(Charecter target) { }
+
+    public int attack(Charecter target) { return 0; }
+
+    public int attack() { return 0; }
+
+    public Alignment getAlignment() { return null; }
+
+    public int getAlignmentImpact() { return 0; }
+
+    public void setLevel(int level) { }
+
+    @Override
+    public void addStatus(Status status) {
+        if (status != null) statuses.add(status);
+    }
+
+    public boolean isUndead() {
+        return undead;
+    }
 }

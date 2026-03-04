@@ -18,22 +18,24 @@ public class Gladiator extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Gladiator() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Gladiator(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Gladiator",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Gladiator.png",
-            false
+                "Gladiator",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Gladiator.png",
+                false,
+                vitality
         );
+
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -42,6 +44,13 @@ public class Gladiator extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+
+        setMagicUser(false);
+    }
+
+    @Override
+    public String getClassName() {
+        return "Gladiator";
     }
 
     public int getLevel() { return level; }
@@ -68,8 +77,6 @@ public class Gladiator extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -117,7 +124,7 @@ public class Gladiator extends Enemies {
     }
 
     private static int randomLevel() {
-        return 3 + (int) (Math.random() * 3); // Example: Gladiator is mid-level
+        return 3 + (int) (Math.random() * 3);
     }
 
     @Override

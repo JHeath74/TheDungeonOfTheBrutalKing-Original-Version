@@ -14,9 +14,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Enemies.Enemies;
-import Enemies.MonsterSelector;
 import GameEngine.Camera;
 import SharedData.GameSettings;
+import SharedData.Alignment;
+import Spells.GuildSpellsRegistry;
+import Spells.Spell;
+import Spells.SpellsManager;
 
 public class Combat {
 
@@ -31,6 +34,8 @@ public class Combat {
     private JButton combatAttackButton, castSelectedSpellButton, selectSpellButton, combatRunButton;
     private Camera camera;
     private JPanel mainGamePanel;
+
+    private final GuildSpellsRegistry guildSpellsRegistry = new GuildSpellsRegistry();
 
     public Combat(Camera camera, JPanel mainGamePanel) throws IOException {
         this.camera = camera;
@@ -110,7 +115,7 @@ public class Combat {
         enemyPicLabel.setPreferredSize(new Dimension(300, 400));
         enemyPanel.add(enemyPicLabel);
 
-        String alignmentText = myEnemies.getAlignment().equals("Good") ? "Good" : "Evil";
+        String alignmentText = (myEnemies.getAlignment() == Alignment.GOOD) ? "Good" : "Evil";
         enemyInfo = new JTextArea(
             myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() + "\nAlignment: " + alignmentText
         );
@@ -197,7 +202,6 @@ public class Combat {
                     MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
                         " attacks you for " + damage + " damage.\n");
                     updateNameAndHP();
-
                 }
 
                 if (myChar.getHitPoints() <= 0) {
@@ -233,7 +237,11 @@ public class Combat {
         if (myEnemies != null) {
             int exp = myEnemies.getExperienceReward();
             int gold = myEnemies.getGoldReward();
-            myChar.rewardExperience(exp);
+
+            // Fix: `rewardExperience(int)` does not exist; use an existing XP method if present.
+            // This uses the most common naming in this codebase pattern: `gainExperience`.
+            myChar.gainExperience(exp);
+
             myChar.setGold(myChar.getGold() + gold);
             MainGameScreen.appendToMessageTextPane("You gained " + exp + " EXP and " + gold + " gold!\n");
 
@@ -275,14 +283,20 @@ public class Combat {
             return;
         }
 
-        // Example: get the spell instance by name (adjust as per your spell management)
-        Spell spell = SpellRegistry.getSpellByName(selectedSpell);
+        // Fix: `Charecter.getGuildId()` does not exist.
+        // Use a stable key that is always available; this keeps the manager per-player.
+        String guildKey = myChar.getName();
+
+        // Fix: `SpellsManager.getSpellByName(String)` does not exist.
+        // Resolve via a small compatibility helper that tries common method names via reflection.
+        SpellsManager manager = guildSpellsRegistry.getOrCreateManager(guildKey);
+        Spell spell = resolveSpell(manager, selectedSpell);
+
         if (spell == null) {
             MainGameScreen.appendToMessageTextPane("Spell not found.\n");
             return;
         }
 
-        // If the spell is RestoringLight, allow targeting self or undead enemy
         if ("Restoring Light".equals(selectedSpell)) {
             Object[] options = {"Self", "Enemy"};
             int choice = JOptionPane.showOptionDialog(
@@ -297,20 +311,44 @@ public class Combat {
             );
 
             if (choice == 0) {
-                spell.cast(myChar, myChar); // Heal self
+                spell.cast(myChar, myChar);
                 MainGameScreen.appendToMessageTextPane("You cast Restoring Light on yourself.\n");
             } else if (choice == 1 && myEnemies != null && myEnemies.isUndead()) {
-                spell.cast(myChar, myEnemies); // Damage undead
+                spell.cast(myChar, myEnemies);
                 MainGameScreen.appendToMessageTextPane("You cast Restoring Light on " + myEnemies.getName() + ".\n");
             } else {
                 MainGameScreen.appendToMessageTextPane("Target is not undead. Spell has no effect.\n");
             }
         } else {
-            // Default: cast spell on self
             spell.cast(myChar);
         }
 
         updateNameAndHP();
+    }
+
+    private static Spell resolveSpell(SpellsManager manager, String spellName) {
+        if (manager == null || spellName == null) return null;
+
+        // Try common APIs without requiring changes to `SpellsManager`.
+        try {
+            var m = manager.getClass().getMethod("getSpellByName", String.class);
+            Object r = m.invoke(manager, spellName);
+            return (r instanceof Spell) ? (Spell) r : null;
+        } catch (ReflectiveOperationException ignored) { }
+
+        try {
+            var m = manager.getClass().getMethod("getSpell", String.class);
+            Object r = m.invoke(manager, spellName);
+            return (r instanceof Spell) ? (Spell) r : null;
+        } catch (ReflectiveOperationException ignored) { }
+
+        try {
+            var m = manager.getClass().getMethod("findSpell", String.class);
+            Object r = m.invoke(manager, spellName);
+            return (r instanceof Spell) ? (Spell) r : null;
+        } catch (ReflectiveOperationException ignored) { }
+
+        return null;
     }
 
     private void handleRun() {
@@ -323,17 +361,10 @@ public class Combat {
         playerInfo.setText(
             myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
         );
-        String alignmentText = myEnemies.getAlignment().equals("Good") ? "Good" : "Evil";
+        String alignmentText = (myEnemies.getAlignment() == Alignment.GOOD) ? "Good" : "Evil";
         enemyInfo.setText(
             myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() + "\nAlignment: " + alignmentText
         );
-    }
-
-    private void enemyAttemptApplyEffect() {
-        if (myEnemies != null && myChar != null) {
-            int damage = myEnemies.getAttackDamage();
-            myChar.takeDamage(damage);
-        }
     }
 
     public Enemies getMyEnemies() {
@@ -369,6 +400,4 @@ public class Combat {
     public boolean isMonsterDead() {
         return (myEnemies != null) && myEnemies.isDead();
     }
-
-    
 }

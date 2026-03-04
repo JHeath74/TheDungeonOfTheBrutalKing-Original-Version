@@ -6,7 +6,7 @@ import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import Status.DrainStatus; // Example status effect
+import Status.DrainStatus;
 
 public class Vampire extends Enemies {
     private int level;
@@ -20,22 +20,24 @@ public class Vampire extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Vampire() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 7); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 7);
     }
 
     public Vampire(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Vampire",
-            level,
-            (level * 6) + (vitality * 5),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Vampire.png",
-            false // isMagicUser
+                "Vampire",
+                level,
+                (level * 6) + (vitality * 5),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Vampire.png",
+                true,
+                vitality
         );
+
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -44,6 +46,13 @@ public class Vampire extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 6) + (vitality * 5);
+
+        setMagicUser(false);
+    }
+
+    @Override
+    public String getClassName() {
+        return "Vampire";
     }
 
     public int getLevel() { return level; }
@@ -70,8 +79,6 @@ public class Vampire extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 5);
     }
 
     @Override
@@ -79,21 +86,23 @@ public class Vampire extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Vampire attack applies drain status with 15% chance
-    public int attack(Charecter target) { boolean critical = Math.random() < 0.15; int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1)); int damage = critical ? base * 2 : base;
+    @Override
+    public int attack(Charecter target) {
+        boolean critical = Math.random() < 0.15;
+        int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
+        int damage = critical ? base * 2 : base;
 
-    boolean drainApplied = Math.random() < 0.15;
-    if (drainApplied) {
-        MainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
-        // DrainStatus.DrainType is the correct enum type to use here
-        target.addStatus(new DrainStatus(2, 0.15, DrainStatus.DrainType.ACTION));
-        setHitPoints(getHitPoints() + 3);
-    } else {
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+        boolean drainApplied = Math.random() < 0.15;
+        if (drainApplied) {
+            MainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
+            target.addStatus(new DrainStatus(2, 0.15, DrainStatus.DrainType.ACTION));
+            setHitPoints(getHitPoints() + 3);
+        } else {
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+        }
+
+        return damage;
     }
-
-    return damage;
-  }
 
     @Override
     public int attack() {
@@ -137,7 +146,7 @@ public class Vampire extends Enemies {
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 2); // Vampire is mid-high level
+        return 5 + (int) (Math.random() * 2);
     }
 
     @Override

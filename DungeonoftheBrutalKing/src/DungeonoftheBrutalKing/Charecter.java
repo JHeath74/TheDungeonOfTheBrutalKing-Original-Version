@@ -460,4 +460,9 @@ public class Charecter implements HasHitPoints {
 	 public int getAttackDamage() {
 		    return getAttack();
 		}
+
+	 public void gainExperience(int exp) {
+		    if (exp <= 0) return;
+		    setExperience(getExperience() + exp);
+		}
 }
