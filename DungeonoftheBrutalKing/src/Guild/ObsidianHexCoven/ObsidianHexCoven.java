@@ -1,5 +1,4 @@
 
-// src/Guild/ObsidianHexCoven.java
 package Guild.ObsidianHexCoven;
 
 import java.awt.BorderLayout;
@@ -38,50 +37,73 @@ public class ObsidianHexCoven extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Obsidian Hex Coven Guild Ring")) {
+        // Show description on entry for non-members (and also for GOOD characters entering an EVIL-only guild).
+        if (!this.isMember || !isEvil(character.getAlignment())) {
+            MainGameScreen.getInstance().setMessageTextPane(description);
+        }
+
+        // EVIL-only guild: block join prompt early if player is GOOD.
+        if (!this.isMember && !inventory.contains("Obsidian Hex Coven Guild Ring")) {
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). The Obsidian Hex Coven rejects you."
+                );
+                return;
+            }
+
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Obsidian Hex Coven. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the Obsidian Hex Coven. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Obsidian Hex Coven Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Obsidian Hex Coven and received the Obsidian Hex Coven Guild Ring!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You have joined the Obsidian Hex Coven and received the Obsidian Hex Coven Guild Ring!"
+                );
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
-
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/ObsidianHexCovenRoom.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/ObsidianHexCovenRoom.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
         JButton buySpellsButton = new JButton("Buy Spells");
-        JButton castHexButton = new JButton("Cast Hex"); // Guild-specific
-        JButton removeCurseButton = new JButton("Remove Curse"); // New service
+        JButton castHexButton = new JButton("Cast Hex");
+        JButton removeCurseButton = new JButton("Remove Curse");
         JButton sellItemsButton = new JButton("Sell Items");
         JButton enterStorageButton = new JButton("Guild Storage");
         JButton eatFoodButton = new JButton("Eat Food");
         JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
+        if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
+            joinGuildButton.addActionListener(evt -> {
+                Charecter ch = Charecter.getInstance();
+                if (!isEvil(ch.getAlignment())) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "You are not evil (`alignment < 0`). The Obsidian Hex Coven rejects you."
+                    );
+                    return;
+                }
+
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Obsidian Hex Coven Guild Ring");
+                ch.addToInventory("Obsidian Hex Coven Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Obsidian Hex Coven!");
                 try {
                     reloadPanel();
@@ -91,29 +113,48 @@ public class ObsidianHexCoven extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(castHexButton); // Guild-specific
-            buttonPanel.add(removeCurseButton); // Add here
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). You cannot use Obsidian Hex Coven services."
+                );
+            } else {
+                buttonPanel.add(buySpellsButton);
+                buttonPanel.add(castHexButton);
+                buttonPanel.add(removeCurseButton);
+                buttonPanel.add(sellItemsButton);
+                buttonPanel.add(enterStorageButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+            }
         }
-        buttonPanel.add(exitRoomButton);
 
+        buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
-        castHexButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You cast a powerful hex, warping fate in your favor! (Obsidian Hex Coven exclusive service)"));
-        removeCurseButton.addActionListener(event -> {
+        // Remove unused lambda parameter warnings by using no-arg lambdas / method refs.
+        buySpellsButton.addActionListener(evt -> buyGuildSpell());
+
+        castHexButton.addActionListener(evt -> JOptionPane.showMessageDialog(
+                this,
+                "You cast a powerful hex, warping fate in your favor! (Obsidian Hex Coven exclusive service)"
+        ));
+
+        removeCurseButton.addActionListener(evt -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a mysterious meal and feel your power grow."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a shadowy bed and recover your strength."));
-        exitRoomButton.addActionListener(event -> {
+
+        sellItemsButton.addActionListener(evt ->
+                JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(evt ->
+                JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(evt ->
+                JOptionPane.showMessageDialog(this, "You eat a mysterious meal and feel your power grow."));
+        sleepBedButton.addActionListener(evt ->
+                JOptionPane.showMessageDialog(this, "You rest in a shadowy bed and recover your strength."));
+
+        exitRoomButton.addActionListener(evt -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
@@ -122,26 +163,39 @@ public class ObsidianHexCoven extends JPanel {
         });
     }
 
+    // Project-wide alignment rule: alignment < 0 == EVIL, alignment >= 0 == GOOD.
+    private static boolean isEvil(int alignmentValue) {
+        return alignmentValue < 0;
+    }
+
     private void buyGuildSpell() {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Obsidian Hex Coven to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the Obsidian Hex Coven to buy guild spells.");
+            return;
+        }
+
+        if (!isEvil(character.getAlignment())) {
+            JOptionPane.showMessageDialog(this,
+                    "You are not evil (`alignment < 0`). You cannot buy guild spells here.");
             return;
         }
 
         if (!inventory.contains("Obsidian Hex Coven Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Obsidian Hex Coven Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the Obsidian Hex Coven Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -150,16 +204,10 @@ public class ObsidianHexCoven extends JPanel {
             return;
         }
 
-        if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
-        } else if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
-            return;
-        }
-
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
@@ -171,8 +219,8 @@ public class ObsidianHexCoven extends JPanel {
 
     private void removeCursesAndEffects() {
         Charecter character = Charecter.getInstance();
-        character.clearCurses(); // Implement in Character class
-        character.clearNegativeEffects(); // Implement in Character class
+        character.clearCurses();
+        character.clearNegativeEffects();
     }
 
     public String getDescription() {

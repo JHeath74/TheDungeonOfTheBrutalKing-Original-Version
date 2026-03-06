@@ -29,7 +29,7 @@ public class CrimsonVeilRogues extends JPanel {
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
-        GuildMembershipStatus status = character.getGuildStatus(guildType);
+        GuildMembershipStatus status = character.getCurrentGuildStatus();
 
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonVeilRogues.jpg")));
         add(imageLabel, BorderLayout.CENTER);
@@ -47,7 +47,7 @@ public class CrimsonVeilRogues extends JPanel {
         if (status == GuildMembershipStatus.NOT_MEMBER) {
             JButton questButton = new JButton("Start Rogue Trial");
             questButton.addActionListener(event -> {
-                character.setGuildStatus(guildType, GuildMembershipStatus.INITIATE);
+                character.setCurrentGuildStatus(GuildMembershipStatus.INITIATE);
                 JOptionPane.showMessageDialog(this, "Trial complete! You are now an Initiate.");
                 try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
             });
@@ -55,7 +55,7 @@ public class CrimsonVeilRogues extends JPanel {
         } else if (status == GuildMembershipStatus.INITIATE) {
             JButton initiationButton = new JButton("Complete Initiation Task");
             initiationButton.addActionListener(event -> {
-                character.setGuildStatus(guildType, GuildMembershipStatus.FULL_MEMBER);
+                character.setCurrentGuildStatus(GuildMembershipStatus.FULL_MEMBER);
                 character.addToInventory("Crimson Veil Emblem");
                 JOptionPane.showMessageDialog(this, "You are now a full member and received the Crimson Veil Emblem!");
                 try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }

@@ -1,4 +1,5 @@
 
+// `src/Guild/CelestialArcaneOrder/CelestialArcaneOrder.java`
 package Guild.CelestialArcaneOrder;
 
 import java.awt.BorderLayout;
@@ -6,11 +7,13 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
@@ -28,40 +31,55 @@ public class CelestialArcaneOrder extends JPanel {
 
     public CelestialArcaneOrder(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Celestial Arcane Order is a guild of clerics who study the stars and wield cosmic magic for the good of the realm.";
+        this.description =
+                "The Celestial Arcane Order is a guild of clerics who study the stars and wield cosmic magic for the good of the realm.";
 
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Celestial Arcane Order Guild Ring")) {
+        // Show description for non-members and also for EVIL characters entering a GOOD-only guild.
+        if (!this.isMember || !isGood(character.getAlignment())) {
+            MainGameScreen.getInstance().setMessageTextPane(description);
+        }
+
+        // GOOD-only guild: block join prompt early if player is EVIL.
+        if (!this.isMember && !inventory.contains("Celestial Arcane Order Guild Ring")) {
+            if (!isGood(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not good (`alignment >= 0`). The Celestial Arcane Order refuses you."
+                );
+                return;
+            }
+
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Celestial Arcane Order. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the Celestial Arcane Order. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Celestial Arcane Order Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcane Order and received the Celestial Arcane Order Guild Ring!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You have joined the Celestial Arcane Order and received the Celestial Arcane Order Guild Ring!"
+                );
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
-
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CelestialArcaneOrder.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/CelestialArcaneOrder.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -74,11 +92,20 @@ public class CelestialArcaneOrder extends JPanel {
         JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
+        if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(unused -> {
+            joinGuildButton.addActionListener(evt -> {
+                Charecter ch = Charecter.getInstance();
+                if (!isGood(ch.getAlignment())) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "You are not good (`alignment >= 0`). The Celestial Arcane Order refuses you."
+                    );
+                    return;
+                }
+
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Celestial Arcane Order Guild Ring");
+                ch.addToInventory("Celestial Arcane Order Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Celestial Arcane Order!");
                 try {
                     reloadPanel();
@@ -88,35 +115,54 @@ public class CelestialArcaneOrder extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(stargazeButton);
-            buttonPanel.add(removeCurseButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
+            if (!isGood(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not good (`alignment >= 0`). You cannot use Celestial Arcane Order services."
+                );
+            } else {
+                buttonPanel.add(buySpellsButton);
+                buttonPanel.add(stargazeButton);
+                buttonPanel.add(removeCurseButton);
+                buttonPanel.add(sellItemsButton);
+                buttonPanel.add(enterStorageButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+            }
         }
-        buttonPanel.add(exitRoomButton);
 
+        buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(unused -> buyGuildSpell());
-        stargazeButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "You gaze at the stars and gain cosmic insight. (Celestial Arcane Order exclusive service)"));
-        removeCurseButton.addActionListener(unused -> {
+        buySpellsButton.addActionListener(evt -> buyGuildSpell());
+
+        stargazeButton.addActionListener(evt -> JOptionPane.showMessageDialog(
+                this,
+                "You gaze at the stars and gain cosmic insight. (Celestial Arcane Order exclusive service)"
+        ));
+
+        removeCurseButton.addActionListener(evt -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
-        sleepBedButton.addActionListener(unused -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
-        exitRoomButton.addActionListener(unused -> {
+
+        sellItemsButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You eat a nourishing meal and feel revitalized."));
+        sleepBedButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
+
+        exitRoomButton.addActionListener(evt -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
                 ex.printStackTrace();
             }
         });
+    }
+
+    // Project-wide alignment rule: alignment >= 0 == GOOD, alignment < 0 == EVIL.
+    private static boolean isGood(int alignmentValue) {
+        return alignmentValue >= 0;
     }
 
     private void removeCursesAndEffects() {
@@ -129,22 +175,30 @@ public class CelestialArcaneOrder extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Celestial Arcane Order to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the Celestial Arcane Order to buy guild spells.");
+            return;
+        }
+
+        if (!isGood(character.getAlignment())) {
+            JOptionPane.showMessageDialog(this,
+                    "You are not good (`alignment >= 0`). You cannot buy guild spells here.");
             return;
         }
 
         if (!inventory.contains("Celestial Arcane Order Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Celestial Arcane Order Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the Celestial Arcane Order Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -153,16 +207,10 @@ public class CelestialArcaneOrder extends JPanel {
             return;
         }
 
-        if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
-        } else if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
-            return;
-        }
-
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

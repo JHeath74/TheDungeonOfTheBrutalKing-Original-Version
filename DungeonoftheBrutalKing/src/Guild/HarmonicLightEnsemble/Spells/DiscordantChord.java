@@ -1,4 +1,5 @@
 
+// `src/Guild/HarmonicLightEnsemble/Spells/DiscordantChord.java`
 package Guild.HarmonicLightEnsemble.Spells;
 
 import java.util.List;
@@ -8,11 +9,11 @@ import Enemies.Enemies;
 import SharedData.Guild;
 import Spells.Spell;
 
-public class SongOfHealing implements Spell {
+public class DiscordantChord implements Spell {
 
-    private static final String NAME = "Song of Healing";
+    private static final String NAME = "Discordant Chord";
     private static final String DESCRIPTION =
-            "A restorative song that mends wounds and renews magical energy.";
+            "A discordant chord that rattles the mind, disrupting focus and weakening foes.";
 
     private static final Guild SPELL_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
 
@@ -35,25 +36,35 @@ public class SongOfHealing implements Spell {
     public void cast(Charecter caster) {
         if (caster == null) return;
         if (!canCast(caster)) return;
+    }
 
-        // Spend MP (never below 0 due to setter, but clamp anyway).
+    @Override
+    public void cast(Charecter caster, Enemies target) {
+        if (caster == null || target == null) return;
+        if (!canCast(caster)) return;
+
         int mpAfterCost = caster.getMagicPoints() - REQUIRED_MAGIC_POINTS;
         caster.setMagicPoints(Math.max(0, mpAfterCost));
 
-        // Heal HP (cap at max HP, never negative).
-        int healScaling = Math.max(caster.getWisdom(), caster.getIntelligence()) / 5;
-        int healAmount = Math.max(1, 10 + healScaling);
+        int power = Math.max(caster.getWisdom(), caster.getIntelligence());
+        int scaling = Math.max(1, power / 6);
 
-        int currentHp = caster.getHitPoints();
-        int maxHp = caster.getMaxHitPoints();
-        int effectiveHeal = Math.max(0, Math.min(healAmount, maxHp - currentHp));
-        caster.setHitPoints(currentHp + effectiveHeal);
+        boolean appliedDebuff = false;
+        try {
+            target.getClass().getMethod("setDazed", boolean.class).invoke(target, true);
+            appliedDebuff = true;
+        } catch (Exception ignored) {
+        }
 
-        // Restore MP (cap at max MP, never negative).
-        int mpRestore = Math.max(1, 4 + (caster.getWisdom() / 10));
-        int maxMp = caster.getMaxMagicPoints();
-        int restoredMp = Math.min(maxMp, caster.getMagicPoints() + mpRestore);
-        caster.setMagicPoints(Math.max(0, restoredMp));
+        if (!appliedDebuff) {
+            int damage = Math.max(1, 8 + scaling);
+            try {
+                int hp = (int) target.getClass().getMethod("getHitPoints").invoke(target);
+                int newHp = Math.max(0, hp - damage);
+                target.getClass().getMethod("setHitPoints", int.class).invoke(target, newHp);
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     @Override
@@ -64,9 +75,6 @@ public class SongOfHealing implements Spell {
 
     @Override
     public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
-
-    @Override
-    public void cast(Charecter caster, Enemies target) { }
 
     @Override
     public void cast(int toonWisdom) { }
@@ -86,6 +94,7 @@ public class SongOfHealing implements Spell {
     @Override
     public void cast(Charecter caster, Charecter target) {
         if (caster == null || target == null) return;
+        if (!canCast(caster)) return;
     }
 
     @Override

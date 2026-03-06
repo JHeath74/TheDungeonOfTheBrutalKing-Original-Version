@@ -1,5 +1,5 @@
 
-// src/Guild/DirgeweaversChorus.java
+// `src/Guild/DirgeweaversChorus/DirgeweaversChorus.java`
 package Guild.DirgeweaversChorus;
 
 import java.awt.BorderLayout;
@@ -31,40 +31,55 @@ public class DirgeweaversChorus extends JPanel {
 
     public DirgeweaversChorus(boolean isMember) throws IOException, InterruptedException, ParseException {
         this.isMember = isMember;
-        this.description = "The Dirgeweavers Chorus is a guild of bards who weave haunting melodies and dark magic to sway the fate of the realm.";
+        this.description =
+                "The Dirgeweavers Chorus is a guild of bards who weave haunting melodies and dark magic to sway the fate of the realm.";
 
         setLayout(new BorderLayout());
 
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Dirgeweavers Chorus Guild Ring")) {
+        // Show description on entry for non-members (and also for GOOD characters entering an EVIL-only guild).
+        if (!this.isMember || !isEvil(character.getAlignment())) {
+            MainGameScreen.getInstance().setMessageTextPane(description);
+        }
+
+        // EVIL-only guild: block join prompt early if player is GOOD.
+        if (!this.isMember && !inventory.contains("Dirgeweavers Chorus Guild Ring")) {
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). The Dirgeweavers Chorus rejects you."
+                );
+                return;
+            }
+
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Dirgeweavers Chorus. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the Dirgeweavers Chorus. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Dirgeweavers Chorus Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus and received the Dirgeweavers Chorus Guild Ring!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You have joined the Dirgeweavers Chorus and received the Dirgeweavers Chorus Guild Ring!"
+                );
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
-
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/DirgeweaversChorus.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/DirgeweaversChorus.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -77,11 +92,20 @@ public class DirgeweaversChorus extends JPanel {
         JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
+        if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
+            joinGuildButton.addActionListener(e -> {
+                Charecter ch = Charecter.getInstance();
+                if (!isEvil(ch.getAlignment())) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "You are not evil (`alignment < 0`). The Dirgeweavers Chorus rejects you."
+                    );
+                    return;
+                }
+
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Dirgeweavers Chorus Guild Ring");
+                ch.addToInventory("Dirgeweavers Chorus Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus!");
                 try {
                     reloadPanel();
@@ -91,35 +115,54 @@ public class DirgeweaversChorus extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(weaveDirgeButton);
-            buttonPanel.add(removeCurseButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). You cannot use Dirgeweavers Chorus services."
+                );
+            } else {
+                buttonPanel.add(buySpellsButton);
+                buttonPanel.add(weaveDirgeButton);
+                buttonPanel.add(removeCurseButton);
+                buttonPanel.add(sellItemsButton);
+                buttonPanel.add(enterStorageButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+            }
         }
-        buttonPanel.add(exitRoomButton);
 
+        buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
-        weaveDirgeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You weave a haunting dirge, empowering your allies and cursing your foes! (Dirgeweavers Chorus exclusive service)"));
-        removeCurseButton.addActionListener(event -> {
+        buySpellsButton.addActionListener(e -> buyGuildSpell());
+
+        weaveDirgeButton.addActionListener(e -> JOptionPane.showMessageDialog(
+                this,
+                "You weave a haunting dirge, empowering your allies and cursing your foes! (Dirgeweavers Chorus exclusive service)"
+        ));
+
+        removeCurseButton.addActionListener(e -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a somber meal and feel restored."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a shadowy bed and recover your strength."));
-        exitRoomButton.addActionListener(event -> {
+
+        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You eat a somber meal and feel restored."));
+        sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a shadowy bed and recover your strength."));
+
+        exitRoomButton.addActionListener(e -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
                 ex.printStackTrace();
             }
         });
+    }
+
+    // Project-wide alignment rule: alignment < 0 == EVIL, alignment >= 0 == GOOD.
+    private static boolean isEvil(int alignmentValue) {
+        return alignmentValue < 0;
     }
 
     private void removeCursesAndEffects() {
@@ -132,22 +175,30 @@ public class DirgeweaversChorus extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Dirgeweavers Chorus to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the Dirgeweavers Chorus to buy guild spells.");
+            return;
+        }
+
+        if (!isEvil(character.getAlignment())) {
+            JOptionPane.showMessageDialog(this,
+                    "You are not evil (`alignment < 0`). You cannot buy guild spells here.");
             return;
         }
 
         if (!inventory.contains("Dirgeweavers Chorus Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Dirgeweavers Chorus Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the Dirgeweavers Chorus Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -156,16 +207,10 @@ public class DirgeweaversChorus extends JPanel {
             return;
         }
 
-        if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
-        } else if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
-            return;
-        }
-
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

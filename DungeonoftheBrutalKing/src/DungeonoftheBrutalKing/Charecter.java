@@ -343,7 +343,57 @@ public class Charecter implements HasHitPoints {
     public void setStatuses(List<Status> statuses) { this.statuses = (statuses == null) ? new ArrayList<>() : statuses; }
 
     public void applyStatusEffect(StatusType type, int duration, int value, Charecter caster) { /* existing logic elsewhere */ }
-    public void removeStatusEffect(StatusType type) { /* existing logic elsewhere */ }
+    public void removeStatusEffect(StatusType type) {
+        if (type == null) return;
+
+        // 1) Remove from local list (if present)
+        if (statuses != null) {
+            statuses.removeIf(s -> s != null && type.equals(s.getType()));
+        }
+
+        // 2) Best-effort removal from StatusManager (API may differ across versions)
+        if (statusManager == null) return;
+
+        // Preferred: statusManager.removeStatusEffect(StatusType)
+        try {
+            statusManager.getClass()
+                    .getMethod("removeStatusEffect", StatusType.class)
+                    .invoke(statusManager, type);
+            return;
+        } catch (Exception ignored) {
+            // fall through
+        }
+
+        // Fallback: statusManager.removeStatus(StatusType)
+        try {
+            statusManager.getClass()
+                    .getMethod("removeStatus", StatusType.class)
+                    .invoke(statusManager, type);
+            return;
+        } catch (Exception ignored) {
+            // fall through
+        }
+
+        // Fallback: statusManager.removeStatus(String) using the enum name
+        try {
+            statusManager.getClass()
+                    .getMethod("removeStatus", String.class)
+                    .invoke(statusManager, type.name());
+            return;
+        } catch (Exception ignored) {
+            // fall through
+        }
+
+        // Fallback: if StatusManager exposes getStatuses(): List<Status>, remove from it too
+        try {
+            Object result = statusManager.getClass().getMethod("getStatuses").invoke(statusManager);
+            if (result instanceof List<?> list) {
+                list.removeIf(o -> (o instanceof Status st) && type.equals(st.getType()));
+            }
+        } catch (Exception ignored) {
+            // No compatible API; local list already updated.
+        }
+    }
 
     // --- Common helpers used elsewhere ---
     public void takeDamage(int amount) { setHitPoints(Math.max(0, getHitPoints() - Math.max(0, amount))); }
@@ -465,4 +515,25 @@ public class Charecter implements HasHitPoints {
 		    if (exp <= 0) return;
 		    setExperience(getExperience() + exp);
 		}
+
+
+	// `src/DungeonoftheBrutalKing/Charecter.java`
+	public void removeRandomNegativeStatus() {
+	    if (statuses == null || statuses.isEmpty()) return;
+
+	    // Collect negative statuses (ignore nulls)
+	    List<Status> negatives = new ArrayList<>();
+	    for (Status s : statuses) {
+	        if (s != null && s.isNegative()) negatives.add(s);
+	    }
+	    if (negatives.isEmpty()) return;
+
+	    // Pick one at random and remove by type (syncs local list + StatusManager)
+	    Status chosen = negatives.get(new Random().nextInt(negatives.size()));
+	    StatusType type = chosen.getType();
+	    if (type == null) return;
+
+	    removeStatusEffect(type);
+	}
+
 }

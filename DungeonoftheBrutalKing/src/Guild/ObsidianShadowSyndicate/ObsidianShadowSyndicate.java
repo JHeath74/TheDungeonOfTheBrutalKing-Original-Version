@@ -6,11 +6,13 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
@@ -21,7 +23,8 @@ public class ObsidianShadowSyndicate extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private final String guildName = "Obsidian Shadow Syndicate";
-    private final String description = "The Obsidian Shadow Syndicate is a secretive and ruthless guild of master thieves, thriving in darkness and chaos, feared for their cunning and evil deeds.";
+    private final String description =
+            "The Obsidian Shadow Syndicate is a secretive and ruthless guild of master thieves, thriving in darkness and chaos, feared for their cunning and evil deeds.";
     private final Alignment alignment = Alignment.EVIL;
     GuildType guildType = GuildType.THIEF;
 
@@ -31,7 +34,8 @@ public class ObsidianShadowSyndicate extends JPanel {
         Charecter character = Charecter.getInstance();
         GuildMembershipStatus status = character.getCurrentGuildStatus();
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/ObsidianShadowSyndicate.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource(
+                "/DungeonoftheBrutalKing/Images/ObsidianShadowSyndicate.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -46,39 +50,70 @@ public class ObsidianShadowSyndicate extends JPanel {
 
         if (status == GuildMembershipStatus.NOT_MEMBER) {
             JButton questButton = new JButton("Start Guild Heist");
-            questButton.addActionListener(event -> {
+            questButton.addActionListener(e -> {
+                if (!isEvil(character.getAlignment())) {
+                    JOptionPane.showMessageDialog(this,
+                            "You are not evil \(`alignment < 0`\)\. The Obsidian Shadow Syndicate rejects you.");
+                    return;
+                }
                 character.setCurrentGuildStatus(GuildMembershipStatus.INITIATE);
                 JOptionPane.showMessageDialog(this, "Heist complete! You are now an Initiate.");
-                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+                try {
+                    reloadPanel();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             });
             buttonPanel.add(questButton);
         } else if (status == GuildMembershipStatus.INITIATE) {
             JButton initiationButton = new JButton("Complete Initiation Task");
-            initiationButton.addActionListener(event -> {
+            initiationButton.addActionListener(e -> {
+                if (!isEvil(character.getAlignment())) {
+                    JOptionPane.showMessageDialog(this,
+                            "You are not evil \(`alignment < 0`\)\. You cannot advance in this guild.");
+                    return;
+                }
                 character.setCurrentGuildStatus(GuildMembershipStatus.FULL_MEMBER);
                 character.addToInventory("Obsidian Shadow Syndicate Emblem");
-                JOptionPane.showMessageDialog(this, "You are now a full member and received the Syndicate Emblem!");
-                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+                JOptionPane.showMessageDialog(this,
+                        "You are now a full member and received the Syndicate Emblem!");
+                try {
+                    reloadPanel();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             });
             buttonPanel.add(initiationButton);
         } else if (status == GuildMembershipStatus.FULL_MEMBER) {
-            buttonPanel.add(stealButton);
-            buttonPanel.add(pickLockButton);
-            buttonPanel.add(bribeButton);
-            buttonPanel.add(sellLootButton);
-            buttonPanel.add(enterHideoutButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(this,
+                        "You are not evil \(`alignment < 0`\)\. You cannot use Obsidian Shadow Syndicate services.");
+            } else {
+                buttonPanel.add(stealButton);
+                buttonPanel.add(pickLockButton);
+                buttonPanel.add(bribeButton);
+                buttonPanel.add(sellLootButton);
+                buttonPanel.add(enterHideoutButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+            }
         }
+
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        stealButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You attempt a daring theft..."));
-        pickLockButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You pick a complex lock..."));
-        bribeButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You bribe a guard for information..."));
-        sellLootButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling stolen loot..."));
-        enterHideoutButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Entering the secret hideout..."));
-        eatFoodButton.addActionListener(event -> {
+        stealButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You attempt a daring theft..."));
+        pickLockButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You pick a complex lock..."));
+        bribeButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You bribe a guard for information..."));
+        sellLootButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Selling stolen loot..."));
+        enterHideoutButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Entering the secret hideout..."));
+
+        eatFoodButton.addActionListener(e -> {
             int currentFood = character.getFood();
             if (currentFood > 0) {
                 character.setFood(currentFood - 1);
@@ -87,10 +122,21 @@ public class ObsidianShadowSyndicate extends JPanel {
                 JOptionPane.showMessageDialog(this, "You have no food to eat.");
             }
         });
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a hidden bed and recover your strength."));
-        exitRoomButton.addActionListener(event -> {
-            try { MainGameScreen.getInstance().restoreOriginalPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+
+        sleepBedButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You rest in a hidden bed and recover your strength."));
+
+        exitRoomButton.addActionListener(e -> {
+            try {
+                MainGameScreen.getInstance().restoreOriginalPanel();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         });
+    }
+
+    private static boolean isEvil(int alignmentValue) {
+        return alignmentValue < 0;
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

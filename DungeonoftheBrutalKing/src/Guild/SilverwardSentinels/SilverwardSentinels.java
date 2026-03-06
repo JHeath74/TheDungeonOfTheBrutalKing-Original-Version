@@ -1,5 +1,5 @@
 
-// src/Guild/SilverwardSentinels.java
+// src/Guild/SilverwardSentinels/SilverwardSentinels.java
 package Guild.SilverwardSentinels;
 
 import java.awt.BorderLayout;
@@ -40,20 +40,21 @@ public class SilverwardSentinels extends JPanel {
 
         if (!isMember && !inventory.contains("Silverward Sentinels Guild Ring")) {
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Silverward Sentinels. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the Silverward Sentinels. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Silverward Sentinels Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Silverward Sentinels and received the Silverward Sentinels Guild Ring!");
+                JOptionPane.showMessageDialog(this,
+                        "You have joined the Silverward Sentinels and received the Silverward Sentinels Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
@@ -64,7 +65,8 @@ public class SilverwardSentinels extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/SilverwardSentinels.jpg")));
+        JLabel imageLabel = new JLabel(
+                new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/SilverwardSentinels.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(8, 1, 10, 10));
@@ -79,14 +81,14 @@ public class SilverwardSentinels extends JPanel {
 
         if (!isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
+            joinGuildButton.addActionListener(e -> {
                 this.isMember = true;
                 Charecter.getInstance().addToInventory("Silverward Sentinels Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Silverward Sentinels!");
                 try {
                     reloadPanel();
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
                 }
             });
             buttonPanel.add(joinGuildButton);
@@ -101,23 +103,24 @@ public class SilverwardSentinels extends JPanel {
         }
         buttonPanel.add(exitRoomButton);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        buySpellsButton.addActionListener(e -> buyGuildSpell());
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
-        removeCurseButton.addActionListener(event -> {
+        removeCurseButton.addActionListener(e -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel renewed."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
-        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train with fellow Sentinels, improving your skills."));
-        exitRoomButton.addActionListener(event -> {
+
+        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel renewed."));
+        sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
+        trainButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You train with fellow Sentinels, improving your skills."));
+
+        exitRoomButton.addActionListener(e -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
         });
     }
@@ -131,17 +134,20 @@ public class SilverwardSentinels extends JPanel {
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Silverward Sentinels to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the Silverward Sentinels to buy guild spells.");
             return;
         }
 
         if (!inventory.contains("Silverward Sentinels Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Silverward Sentinels Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the Silverward Sentinels Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -150,16 +156,17 @@ public class SilverwardSentinels extends JPanel {
             return;
         }
 
-        if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
-        } else if (alignmentValue < 100) {
+        // Only GOOD or EVIL: >= 0 is GOOD, otherwise EVIL
+        boolean isGood = alignmentValue >= 0;
+        if (!isGood) {
             JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
             return;
         }
 
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

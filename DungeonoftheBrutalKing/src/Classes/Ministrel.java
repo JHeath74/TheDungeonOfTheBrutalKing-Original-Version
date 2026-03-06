@@ -6,28 +6,84 @@ import DungeonoftheBrutalKing.Charecter;
 
 public class Ministrel extends Class {
 
-    private static Charecter myChar = Charecter.getInstance();
+    @SuppressWarnings("unused")
+    private static final Charecter myChar = Charecter.getInstance();
 
-    int sta; //Stamina
-    int chr; //Charisma
-    int str; //Strength
-    int inti; //Intelligence
-    int wis; //Wisdom
-    int agi; //Agility
+    public static final String CHAR_CLASS = "Ministrel";
+    public static final String IMAGE = "Ministrel.webp";
 
-    public static String charClass = "Ministrel";
-    public static String ClassDescription;
-    public static String MinistrelImage;
+    private static final String DESCRIPTION =
+            "A " + CHAR_CLASS + " is a traveling performer and storyteller, inspiring allies with music.\n"
+                    + CHAR_CLASS + " are a playable class focused on support, morale, and clever utility.\n"
+                    + "\nCharisma (CHR) and Wisdom (WIS) are important skills for a " + CHAR_CLASS;
+
+    public enum Stat {
+        STA, CHR, STR, INTI, WIS, AGI, VIT
+    }
+
+    // Class metadata
+    private static final Stat PRIMARY_STAT = Stat.CHR;
+    private static final Stat SECONDARY_STAT = Stat.WIS;
+
+    // Optional: apply these to rolled stats at character creation
+    private static final int BASE_STA_BONUS = 0;
+    private static final int BASE_CHR_BONUS = 2;
+    private static final int BASE_STR_BONUS = 0;
+    private static final int BASE_INTI_BONUS = 0;
+    private static final int BASE_WIS_BONUS = 1;
+    private static final int BASE_AGI_BONUS = 0;
+    private static final int BASE_VIT_BONUS = 0;
+
+    // Optional: apply these when leveling up (do not re-roll)
+    private static final int STA_PER_LEVEL = 1;
+    private static final int CHR_PER_LEVEL = 2;
+    private static final int STR_PER_LEVEL = 0;
+    private static final int INTI_PER_LEVEL = 0;
+    private static final int WIS_PER_LEVEL = 1;
+    private static final int AGI_PER_LEVEL = 0;
+    private static final int VIT_PER_LEVEL = 1;
 
     public Ministrel() {
-        int Herolevel = myChar.getLevel();
-        charClass = "Ministrel";
-        MinistrelImage = "Ministrel.webp";
+        this.charClass = CHAR_CLASS;
+        this.classDescription = DESCRIPTION;
     }
 
+    // Kept for compatibility with existing call sites
     public static String ClassDescription() {
-        return ClassDescription = "A " + Ministrel.charClass + " is a traveling performer and storyteller, inspiring allies with music.\n"
-                + Ministrel.charClass + " are a playable class focused on support, morale, and clever utility.\n"
-                + "\n Charisma (CHA) and Wisdom (WIS) are important skills for a " + Ministrel.charClass;
+        return DESCRIPTION;
     }
+
+    @Override
+    public String getCharClass() {
+        return CHAR_CLASS;
+    }
+
+    public String getImage() {
+        return IMAGE;
+    }
+
+    @Override
+    public String getClassDescription() {
+        return DESCRIPTION;
+    }
+
+    // Metadata getters
+    public Stat getPrimaryStat() { return PRIMARY_STAT; }
+    public Stat getSecondaryStat() { return SECONDARY_STAT; }
+
+    public int getBaseStaBonus() { return BASE_STA_BONUS; }
+    public int getBaseChrBonus() { return BASE_CHR_BONUS; }
+    public int getBaseStrBonus() { return BASE_STR_BONUS; }
+    public int getBaseIntiBonus() { return BASE_INTI_BONUS; }
+    public int getBaseWisBonus() { return BASE_WIS_BONUS; }
+    public int getBaseAgiBonus() { return BASE_AGI_BONUS; }
+    public int getBaseVitBonus() { return BASE_VIT_BONUS; }
+
+    public int getStaPerLevel() { return STA_PER_LEVEL; }
+    public int getChrPerLevel() { return CHR_PER_LEVEL; }
+    public int getStrPerLevel() { return STR_PER_LEVEL; }
+    public int getIntiPerLevel() { return INTI_PER_LEVEL; }
+    public int getWisPerLevel() { return WIS_PER_LEVEL; }
+    public int getAgiPerLevel() { return AGI_PER_LEVEL; }
+    public int getVitPerLevel() { return VIT_PER_LEVEL; }
 }

@@ -38,33 +38,47 @@ public class DawnwardPaladins extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Dawnward Paladins Guild Ring")) {
+        // Show description on entry for non-members (and also for EVIL characters entering a GOOD-only guild).
+        if (!this.isMember || !isGood(character.getAlignment())) {
+            MainGameScreen.getInstance().setMessageTextPane(description);
+        }
+
+        // GOOD-only guild: block join prompt early if player is EVIL.
+        if (!this.isMember && !inventory.contains("Dawnward Paladins Guild Ring")) {
+            if (!isGood(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not good (`alignment >= 0`). The Dawnward Paladins reject you."
+                );
+                return;
+            }
+
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Dawnward Paladins. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the Dawnward Paladins. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Dawnward Paladins Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Dawnward Paladins and received the Dawnward Paladins Guild Ring!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You have joined the Dawnward Paladins and received the Dawnward Paladins Guild Ring!"
+                );
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
-
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/DawnwardPaladins.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/DawnwardPaladins.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -77,11 +91,20 @@ public class DawnwardPaladins extends JPanel {
         JButton sleepBedButton = new JButton("Sleep in Bed");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
+        if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(_ -> {
+            joinGuildButton.addActionListener(evt -> {
+                Charecter ch = Charecter.getInstance();
+                if (!isGood(ch.getAlignment())) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "You are not good (`alignment >= 0`). The Dawnward Paladins reject you."
+                    );
+                    return;
+                }
+
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Dawnward Paladins Guild Ring");
+                ch.addToInventory("Dawnward Paladins Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dawnward Paladins!");
                 try {
                     reloadPanel();
@@ -91,35 +114,54 @@ public class DawnwardPaladins extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(blessWeaponButton);
-            buttonPanel.add(removeCurseButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
+            if (!isGood(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not good (`alignment >= 0`). You cannot use Dawnward Paladins services."
+                );
+            } else {
+                buttonPanel.add(buySpellsButton);
+                buttonPanel.add(blessWeaponButton);
+                buttonPanel.add(removeCurseButton);
+                buttonPanel.add(sellItemsButton);
+                buttonPanel.add(enterStorageButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+            }
         }
-        buttonPanel.add(exitRoomButton);
 
+        buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(_ -> buyGuildSpell());
-        blessWeaponButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)"));
-        removeCurseButton.addActionListener(_ -> {
+        buySpellsButton.addActionListener(evt -> buyGuildSpell());
+
+        blessWeaponButton.addActionListener(evt -> JOptionPane.showMessageDialog(
+                this,
+                "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)"
+        ));
+
+        removeCurseButton.addActionListener(evt -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You eat a wholesome meal and feel renewed."));
-        sleepBedButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You rest in a peaceful bed and recover your strength."));
-        exitRoomButton.addActionListener(_ -> {
+
+        sellItemsButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You eat a wholesome meal and feel renewed."));
+        sleepBedButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You rest in a peaceful bed and recover your strength."));
+
+        exitRoomButton.addActionListener(evt -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
                 ex.printStackTrace();
             }
         });
+    }
+
+    // Project-wide alignment rule: alignment >= 0 == GOOD, alignment < 0 == EVIL.
+    private static boolean isGood(int alignmentValue) {
+        return alignmentValue >= 0;
     }
 
     private void removeCursesAndEffects() {
@@ -132,22 +174,30 @@ public class DawnwardPaladins extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Dawnward Paladins to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the Dawnward Paladins to buy guild spells.");
+            return;
+        }
+
+        if (!isGood(character.getAlignment())) {
+            JOptionPane.showMessageDialog(this,
+                    "You are not good (`alignment >= 0`). You cannot buy guild spells here.");
             return;
         }
 
         if (!inventory.contains("Dawnward Paladins Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Dawnward Paladins Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the Dawnward Paladins Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -156,16 +206,10 @@ public class DawnwardPaladins extends JPanel {
             return;
         }
 
-        if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You can buy guild spells.");
-        } else if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
-            return;
-        }
-
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

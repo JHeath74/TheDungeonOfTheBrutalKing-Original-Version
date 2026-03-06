@@ -1,5 +1,5 @@
 
-// src/Guild/NightShadeHunters.java
+// src/Guild/NightShadeHunters/NightShadeHunters.java
 package Guild.NightShadeHunters;
 
 import java.awt.BorderLayout;
@@ -38,33 +38,47 @@ public class NightShadeHunters extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("NightShade Hunters Guild Ring")) {
+        // Show description on entry for non-members (and also for GOOD characters entering an EVIL-only guild).
+        if (!this.isMember || !isEvil(character.getAlignment())) {
+            MainGameScreen.getInstance().setMessageTextPane(description);
+        }
+
+        // EVIL-only guild: block join prompt early if player is GOOD.
+        if (!this.isMember && !inventory.contains("NightShade Hunters Guild Ring")) {
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). The NightShade Hunters reject you."
+                );
+                return;
+            }
+
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the NightShade Hunters. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the NightShade Hunters. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("NightShade Hunters Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the NightShade Hunters and received the NightShade Hunters Guild Ring!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You have joined the NightShade Hunters and received the NightShade Hunters Guild Ring!"
+                );
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
-
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/NightShadeHunters.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/NightShadeHunters.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -78,11 +92,20 @@ public class NightShadeHunters extends JPanel {
         JButton trainButton = new JButton("Train Skills");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
+        if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(event -> {
+            joinGuildButton.addActionListener(e -> {
+                Charecter ch = Charecter.getInstance();
+                if (!isEvil(ch.getAlignment())) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "You are not evil (`alignment < 0`). The NightShade Hunters reject you."
+                    );
+                    return;
+                }
+
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("NightShade Hunters Guild Ring");
+                ch.addToInventory("NightShade Hunters Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the NightShade Hunters!");
                 try {
                     reloadPanel();
@@ -92,31 +115,50 @@ public class NightShadeHunters extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(shadowMeldButton);
-            buttonPanel.add(removeCurseButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
-            buttonPanel.add(trainButton);
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). You cannot use NightShade Hunters services."
+                );
+            } else {
+                buttonPanel.add(buySpellsButton);
+                buttonPanel.add(shadowMeldButton);
+                buttonPanel.add(removeCurseButton);
+                buttonPanel.add(sellItemsButton);
+                buttonPanel.add(enterStorageButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+                buttonPanel.add(trainButton);
+            }
         }
-        buttonPanel.add(exitRoomButton);
 
+        buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(event -> buyGuildSpell());
-        shadowMeldButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You meld with the shadows, becoming nearly invisible! (NightShade Hunters exclusive service)"));
-        removeCurseButton.addActionListener(event -> {
+        buySpellsButton.addActionListener(e -> buyGuildSpell());
+
+        shadowMeldButton.addActionListener(e -> JOptionPane.showMessageDialog(
+                this,
+                "You meld with the shadows, becoming nearly invisible! (NightShade Hunters exclusive service)"
+        ));
+
+        removeCurseButton.addActionListener(e -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You eat a wild meal and feel energized."));
-        sleepBedButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You rest in a hidden bed and recover your strength."));
-        trainButton.addActionListener(event -> JOptionPane.showMessageDialog(this, "You train in the shadows, improving your skills."));
-        exitRoomButton.addActionListener(event -> {
+
+        sellItemsButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You eat a wild meal and feel energized."));
+        sleepBedButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You rest in a hidden bed and recover your strength."));
+        trainButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(this, "You train in the shadows, improving your skills."));
+
+        exitRoomButton.addActionListener(e -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
@@ -125,26 +167,39 @@ public class NightShadeHunters extends JPanel {
         });
     }
 
+    // Project-wide alignment rule: alignment < 0 == EVIL, alignment >= 0 == GOOD.
+    private static boolean isEvil(int alignmentValue) {
+        return alignmentValue < 0;
+    }
+
     private void buyGuildSpell() {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the NightShade Hunters to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the NightShade Hunters to buy guild spells.");
+            return;
+        }
+
+        if (!isEvil(character.getAlignment())) {
+            JOptionPane.showMessageDialog(this,
+                    "You are not evil (`alignment < 0`). You cannot buy guild spells here.");
             return;
         }
 
         if (!inventory.contains("NightShade Hunters Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the NightShade Hunters Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the NightShade Hunters Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -153,16 +208,10 @@ public class NightShadeHunters extends JPanel {
             return;
         }
 
-        if (alignmentValue < 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is evil. You can buy guild spells.");
-        } else if (alignmentValue > 100) {
-            JOptionPane.showMessageDialog(this, "Your alignment is good. You cannot buy guild spells.");
-            return;
-        }
-
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {

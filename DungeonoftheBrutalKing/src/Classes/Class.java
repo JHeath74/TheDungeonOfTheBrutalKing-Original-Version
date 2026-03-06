@@ -1,27 +1,28 @@
 
-// src/DungeonoftheBrutalKing/Class.java
+// src/Classes/Class.java
 package Classes;
 
 // Abstract class representing a character class in the game
 public abstract class Class {
 
     // Array of available character classes
-    public static final String[] toonclassarray = {"Mage", "Ministrel", "Ranger", "Thief", "Paladin", "Wizard", "Cleric", "Rogue", "Hunter", "Warrior", "Bard"};
+    public static final String[] toonclassarray = {
+            "Mage", "Ministrel", "Ranger", "Thief", "Paladin", "Wizard",
+            "Cleric", "Rogue", "Hunter", "Warrior", "Bard"
+    };
 
     // Description of the class (can be overridden by subclasses)
-    public static String ClassDescription;
+    protected String classDescription = "";
 
     // Level of the hero
-    int HeroLevel;
+    protected int heroLevel = 0;
 
     // Name of the character class
-    protected String charClass;
+    protected String charClass = "";
 
     // Constructor to initialize default values
     public Class() {
-        String ClassDescription; // Local variable for class description
-        HeroLevel = 0;           // Default hero level
-        setCharClass("");          // Default character class name
+        // defaults are set via field initializers
     }
 
     // Static method to retrieve a class instance by name
@@ -38,11 +39,27 @@ public abstract class Class {
         return null;
     }
 
-	public String getCharClass() {
-		return charClass;
-	}
+    public String getCharClass() {
+        return charClass;
+    }
 
-	public void setCharClass(String charClass) {
-		this.charClass = charClass;
-	}
+    public void setCharClass(String charClass) {
+        this.charClass = charClass;
+    }
+
+    public int getHeroLevel() {
+        return heroLevel;
+    }
+
+    public void setHeroLevel(int heroLevel) {
+        this.heroLevel = heroLevel;
+    }
+
+    public String getClassDescription() {
+        return classDescription;
+    }
+
+    public void setClassDescription(String classDescription) {
+        this.classDescription = classDescription;
+    }
 }

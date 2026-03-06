@@ -1,3 +1,5 @@
+
+// `src/Guild/CrimsonBlades/CrimsonBlades.java`
 package Guild.CrimsonBlades;
 
 import java.awt.BorderLayout;
@@ -36,33 +38,47 @@ public class CrimsonBlades extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
-        if (!isMember && !inventory.contains("Crimson Blades Guild Ring")) {
+        // Show description on entry for non-members (and also for GOOD characters entering an EVIL-only guild).
+        if (!this.isMember || !isEvil(character.getAlignment())) {
+            MainGameScreen.getInstance().setMessageTextPane(description);
+        }
+
+        // EVIL-only guild: block join prompt early if player is GOOD.
+        if (!this.isMember && !inventory.contains("Crimson Blades Guild Ring")) {
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). The Crimson Blades reject you."
+                );
+                return;
+            }
+
             int choice = JOptionPane.showOptionDialog(
-                this,
-                "You are not a member of the Crimson Blades. Would you like to join?",
-                "Join Guild",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new String[]{"Join", "Stay/Leave"},
-                "Join"
+                    this,
+                    "You are not a member of the Crimson Blades. Would you like to join?",
+                    "Join Guild",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[] { "Join", "Stay/Leave" },
+                    "Join"
             );
 
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Crimson Blades Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades and received the Crimson Blades Guild Ring!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You have joined the Crimson Blades and received the Crimson Blades Guild Ring!"
+                );
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        if (!isMember) {
-            MainGameScreen.getInstance().setMessageTextPane(description);
-        }
-
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonBlades.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -76,11 +92,20 @@ public class CrimsonBlades extends JPanel {
         JButton trainButton = new JButton("Train Skills");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
+        if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(_ -> {
+            joinGuildButton.addActionListener(evt -> {
+                Charecter ch = Charecter.getInstance();
+                if (!isEvil(ch.getAlignment())) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "You are not evil (`alignment < 0`). The Crimson Blades reject you."
+                    );
+                    return;
+                }
+
                 this.isMember = true;
-                Charecter.getInstance().addToInventory("Crimson Blades Guild Ring");
+                ch.addToInventory("Crimson Blades Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Crimson Blades!");
                 try {
                     reloadPanel();
@@ -90,37 +115,56 @@ public class CrimsonBlades extends JPanel {
             });
             buttonPanel.add(joinGuildButton);
         } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(sharpenBladeButton);
-            buttonPanel.add(removeCurseButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
-            buttonPanel.add(trainButton);
+            if (!isEvil(character.getAlignment())) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You are not evil (`alignment < 0`). You cannot use Crimson Blades services."
+                );
+            } else {
+                buttonPanel.add(buySpellsButton);
+                buttonPanel.add(sharpenBladeButton);
+                buttonPanel.add(removeCurseButton);
+                buttonPanel.add(sellItemsButton);
+                buttonPanel.add(enterStorageButton);
+                buttonPanel.add(eatFoodButton);
+                buttonPanel.add(sleepBedButton);
+                buttonPanel.add(trainButton);
+            }
         }
-        buttonPanel.add(exitRoomButton);
 
+        buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(_ -> buyGuildSpell());
-        sharpenBladeButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You sharpen your blade, ready for battle! (Crimson Blades exclusive service)"));
-        removeCurseButton.addActionListener(_ -> {
+        buySpellsButton.addActionListener(evt -> buyGuildSpell());
+
+        sharpenBladeButton.addActionListener(evt -> JOptionPane.showMessageDialog(
+                this,
+                "You sharpen your blade, ready for battle! (Crimson Blades exclusive service)"
+        ));
+
+        removeCurseButton.addActionListener(evt -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
-        sellItemsButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel invigorated."));
-        sleepBedButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You rest in a sturdy bed and recover your strength."));
-        trainButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You train rigorously, improving your skills."));
-        exitRoomButton.addActionListener(_ -> {
+
+        sellItemsButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel invigorated."));
+        sleepBedButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You rest in a sturdy bed and recover your strength."));
+        trainButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You train rigorously, improving your skills."));
+
+        exitRoomButton.addActionListener(evt -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
                 ex.printStackTrace();
             }
         });
+    }
+
+    // Project-wide alignment rule: alignment < 0 == EVIL, alignment >= 0 == GOOD.
+    private static boolean isEvil(int alignmentValue) {
+        return alignmentValue < 0;
     }
 
     private void removeCursesAndEffects() {
@@ -133,22 +177,30 @@ public class CrimsonBlades extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
-        int alignmentValue = character.getAlignment();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
 
         if (!isMember) {
-            JOptionPane.showMessageDialog(this, "You must be a member of the Crimson Blades to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a member of the Crimson Blades to buy guild spells.");
+            return;
+        }
+
+        if (!isEvil(character.getAlignment())) {
+            JOptionPane.showMessageDialog(this,
+                    "You are not evil (`alignment < 0`). You cannot buy guild spells here.");
             return;
         }
 
         if (!inventory.contains("Crimson Blades Guild Ring")) {
-            JOptionPane.showMessageDialog(this, "You need the Crimson Blades Guild Ring to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You need the Crimson Blades Guild Ring to buy guild spells.");
             return;
         }
 
         if (currentGuildSpells >= maxSpells) {
-            JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You cannot have more than " + maxSpells + " guild spells.");
             return;
         }
 
@@ -159,7 +211,8 @@ public class CrimsonBlades extends JPanel {
 
         String newSpell = "New Guild Spell";
         addGuildSpell(newSpell);
-        JOptionPane.showMessageDialog(this, "You have successfully bought the guild spell: " + newSpell);
+        JOptionPane.showMessageDialog(this,
+                "You have successfully bought the guild spell: " + newSpell);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
