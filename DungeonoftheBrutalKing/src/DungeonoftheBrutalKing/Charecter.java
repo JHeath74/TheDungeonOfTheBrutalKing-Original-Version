@@ -536,4 +536,63 @@ public class Charecter implements HasHitPoints {
 	    removeStatusEffect(type);
 	}
 
+	public void setAccuracy(int accuracy) {
+	    // Treat accuracy as a percentage in [0, 100] and map to hitChance in [0.0, 1.0].
+	    int clamped = Math.max(0, Math.min(100, accuracy));
+	    setHitChance(clamped / 100.0);
+	}
+
+	public int getAccuracy() {
+	    // Convert hitChance in [0.0, 1.0] back to an integer percentage in [0, 100].
+	    double clamped = Math.max(0.0, Math.min(1.0, getHitChance()));
+	    return (int) Math.round(clamped * 100.0);
+	}
+
+
+public int getEvasion() {
+    // Base evasion derived from agility (tweak divisor for balance).
+    int base = Math.max(0, getAgility() / 2);
+
+    int bonus = 0;
+
+    // Add status-driven bonuses (if your Status model supports values/deltas).
+    if (statuses != null) {
+        for (Status s : statuses) {
+            if (s == null) continue;
+            if (s.getType() != StatusType.EVASION_STATUS) continue;
+
+            // Best-effort: if Status exposes a numeric "value" (common in your applyStatusEffect signature).
+            try {
+                Object v = s.getClass().getMethod("getValue").invoke(s);
+                if (v instanceof Number n) bonus += n.intValue();
+            } catch (Exception ignored) {
+                // If there is no getValue(), fall back to a small fixed bonus per evasion status instance.
+                bonus += 3;
+            }
+        }
+    }
+
+    // Clamp to [0, 100] as a percent-like stat.
+    return Math.max(0, Math.min(100, base + bonus));
+}
+
+public void setEvasion(int evasion) {
+    // Treat the input as the final desired evasion percent and convert it into an EVASION_STATUS bonus.
+    int desired = Math.max(0, Math.min(100, evasion));
+
+    int base = Math.max(0, getAgility() / 2);
+    int bonusNeeded = desired - base;
+
+    // Clear existing evasion statuses so the value is deterministic.
+    removeStatusEffect(StatusType.EVASION_STATUS);
+
+    // If no bonus is needed, we're done (base evasion already matches/overmatches desired).
+    if (bonusNeeded <= 0) return;
+
+    // Apply a long-duration/“persistent” evasion modifier via your existing status pipeline.
+    // Duration is set very high so it behaves like a stat override until removed/changed.
+    applyStatusEffect(StatusType.EVASION_STATUS, Integer.MAX_VALUE, bonusNeeded, this);
+}
+
+
 }
