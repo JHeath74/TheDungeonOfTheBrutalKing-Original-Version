@@ -34,6 +34,7 @@ public enum StatusType {
     LIGHTNING_STATUS, 
     StrengthBuff_STATUS, 
     EVASION_STATUS,
+    NECROTIC_STATUS,
    
     // Add more as needed
 }

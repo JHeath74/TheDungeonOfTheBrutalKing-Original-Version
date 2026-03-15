@@ -1,4 +1,3 @@
-
 package Quests.Quests;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -12,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String name = "Rescue the Forgotten Prisoner";
@@ -22,6 +23,10 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String conversation = "Thank you, stranger! I thought I would never see the light of day again. I was imprisoned here for refusing to betray my friends.";
     private final String imprisonmentReason = "Imprisoned for refusing to betray his friends.";
     private final QuestType questType = QuestType.RESCUE;
+    // High-level category for quest log grouping
+    private final QuestType category = QuestType.STANDARD; // treat as a standard side quest by default
+    // Tags to describe mechanics/flavor
+    private final EnumSet<QuestType> tags = EnumSet.of(QuestType.RESCUE, QuestType.NEGOTIATION);
     private final EncounterType encounterType = EncounterType.STATIC_PERSON;
     private final String descriptionForEncounter = "A frail and desperate prisoner named " + prisonerName + " is locked in a hidden cell, pleading for help.";
     private final String encounterTarget = prisonerName;
@@ -35,6 +40,8 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     public String getPrisonerName() { return prisonerName; }
     public String getImprisonmentReason() { return imprisonmentReason; }
     public QuestType getQuestType() { return questType; }
+    public QuestType getCategory() { return category; }
+    public Set<QuestType> getTags() { return EnumSet.copyOf(tags); }
     @Override public String getName() { return name; }
     @Override public String getDescription() { return description; }
     @Override public boolean isCompleted() { return completed; }

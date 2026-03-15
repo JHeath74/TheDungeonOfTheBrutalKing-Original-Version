@@ -1,46 +1,47 @@
-
+// src/Guild/ObsidianHexCoven/Spells/Firebolt.java
 package Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
-import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
 import Enemies.Enemies;
 import SharedData.Guild;
 import Spells.Spell;
-import Status.IceStatus;
+import Status.FireStatus;
+import SharedData.RandomFactory;
 
-public class Cold_Blast implements Spell {
+/**
+ * Firebolt: a quick bolt of flame that deals fire damage and may apply Burned (FireStatus).
+ */
+public class Firebolt implements Spell {
 
-    private static final int MINIMUM_WISDOM = 10;
-    private static final int REQUIRED_MAGIC_POINTS = 8;
+    private static final int MINIMUM_INTELLIGENCE = 8;
+    private static final int REQUIRED_MAGIC_POINTS = 6;
     private static final Guild SPELL_GUILD = Guild.OBSIDIAN_HEX_COVEN;
 
-    private static final Random RNG = new Random();
-
-    // 25% chance to apply Frozen (IceStatus) on hit.
-    private static final double ICE_STATUS_CHANCE = 0.25;
+    // Chance to apply Burned status on hit.
+    private static final double FIRE_STATUS_CHANCE = 0.25;
 
     @Override
     public String getName() {
-        return "Cold\\_Blast";
+        return "Firebolt";
     }
 
     @Override
     public void cast() {
-        // Default: minimum viable cast.
-        cast(MINIMUM_WISDOM);
+        cast(MINIMUM_INTELLIGENCE);
     }
 
     @Override
     public void cast(int attackerWisdom) {
-        if (attackerWisdom < MINIMUM_WISDOM) {
-            System.out.println("You lack the necessary Wisdom to cast Cold Blast!");
+        // For intelligence-based mages we interpret this parameter as the relevant stat.
+        if (attackerWisdom < MINIMUM_INTELLIGENCE) {
+            System.out.println("You lack the necessary Intelligence to cast Firebolt!");
             return;
         }
 
         int damage = rollDamage(attackerWisdom);
-        System.out.println("Cold Blast deals " + damage + " cold damage!");
+        System.out.println("Firebolt deals " + damage + " fire damage!");
     }
 
     @Override
@@ -49,7 +50,7 @@ public class Cold_Blast implements Spell {
             cast();
             return;
         }
-        cast(Math.max(0, caster.getWisdom()));
+        cast(Math.max(0, caster.getIntelligence()));
     }
 
     @Override
@@ -63,16 +64,17 @@ public class Cold_Blast implements Spell {
             return;
         }
 
-        int wisdom = Math.max(0, caster.getWisdom());
-        if (wisdom < MINIMUM_WISDOM) {
-            System.out.println("You lack the necessary Wisdom to cast Cold Blast!");
+        int intelligence = Math.max(0, caster.getIntelligence());
+        if (intelligence < MINIMUM_INTELLIGENCE) {
+            System.out.println("You lack the necessary Intelligence to cast Firebolt!");
             return;
         }
 
-        int damage = rollDamage(wisdom);
-        System.out.println("Cold Blast hits " + safeName(target) + " for " + damage + " cold damage!");
+        int damage = rollDamage(intelligence);
+        target.setHitPoints(Math.max(0, target.getHitPoints() - damage));
+        System.out.println("Firebolt hits " + safeName(target) + " for " + damage + " fire damage!");
 
-        maybeApplyIceStatus(target);
+        maybeApplyFireStatus(target);
     }
 
     @Override
@@ -88,20 +90,23 @@ public class Cold_Blast implements Spell {
 
     @Override
     public void castWithIntelligence(int intelligence) {
+        if (intelligence < MINIMUM_INTELLIGENCE) {
+            System.out.println("You lack the necessary Intelligence to cast Firebolt!");
+            return;
+        }
         int damage = rollDamage(intelligence);
-        System.out.println("Cold Blast (Intelligence) deals " + damage + " cold damage!");
+        System.out.println("Firebolt (Intelligence) deals " + damage + " fire damage!");
     }
 
     @Override
     public void cast(int toonWisdom, int toonIntelligence) {
-        if (toonWisdom < MINIMUM_WISDOM) {
-            System.out.println("You lack the necessary Wisdom to cast Cold Blast!");
+        int base = (Math.max(0, toonWisdom) + Math.max(0, toonIntelligence)) / 2;
+        if (base < MINIMUM_INTELLIGENCE) {
+            System.out.println("You lack the necessary mental acuity to cast Firebolt!");
             return;
         }
-
-        int base = (Math.max(0, toonWisdom) + Math.max(0, toonIntelligence)) / 2;
         int damage = rollDamage(base);
-        System.out.println("Cold Blast (Wisdom \\& Intelligence) deals " + damage + " cold damage!");
+        System.out.println("Firebolt (Wisdom & Intelligence) deals " + damage + " fire damage!");
     }
 
     @Override
@@ -121,7 +126,7 @@ public class Cold_Blast implements Spell {
 
     @Override
     public String getDescription() {
-        return "A blast of freezing air that deals cold damage and may apply Frozen.";
+        return "A quick bolt of flame that deals fire damage and may set the target ablaze.";
     }
 
     @Override
@@ -129,7 +134,7 @@ public class Cold_Blast implements Spell {
         int base = (enemy != null) ? Math.max(0, enemy.getStrength()) : 0;
         int scaled = (int) Math.round(base * Math.max(0.0, strengthScalar));
         int damage = rollDamage(scaled);
-        System.out.println("Cold Blast (Strength) deals " + damage + " cold damage!");
+        System.out.println("Firebolt (Strength) deals " + damage + " fire damage!");
     }
 
     @Override
@@ -140,18 +145,18 @@ public class Cold_Blast implements Spell {
 
     private static int rollDamage(int stat) {
         int bound = Math.max(1, stat);
-        return RNG.nextInt(bound) + 1;
+        return RandomFactory.gameplayInt(bound) + 1;
     }
 
-    private static void maybeApplyIceStatus(Charecter target) {
+    private static void maybeApplyFireStatus(Charecter target) {
         if (target == null) return;
 
-        if (RNG.nextDouble() <= ICE_STATUS_CHANCE) {
+        if (RandomFactory.gameplayDouble() <= FIRE_STATUS_CHANCE) {
             try {
-                target.addStatus(new IceStatus());
-                System.out.println(safeName(target) + " is Frozen!");
+                target.addStatus(new FireStatus());
+                System.out.println(safeName(target) + " is Burning!");
             } catch (Exception ignored) {
-                System.out.println("Could not apply Frozen status (status system not available on target).");
+                System.out.println("Could not apply Burning status (status system not available on target)." );
             }
         }
     }

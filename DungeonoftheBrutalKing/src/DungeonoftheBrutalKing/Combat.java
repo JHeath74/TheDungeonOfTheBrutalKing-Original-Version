@@ -1,4 +1,3 @@
-
 // src/DungeonoftheBrutalKing/Combat.java
 package DungeonoftheBrutalKing;
 
@@ -8,10 +7,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import SharedData.RandomFactory;
 
 import Enemies.Enemies;
 import GameEngine.Camera;
@@ -20,6 +20,9 @@ import SharedData.Alignment;
 import Spells.GuildSpellsRegistry;
 import Spells.Spell;
 import Spells.SpellsManager;
+import Status.ImmobilizedStatus;
+import Status.IceBarrierStatus;
+import Status.Status;
 
 public class Combat {
 
@@ -53,7 +56,7 @@ public class Combat {
             }
         }
         if (eligible.isEmpty()) return null;
-        return eligible.get(new Random().nextInt(eligible.size()));
+        return eligible.get(RandomFactory.gameplayInt(eligible.size()));
     }
 
     public void combatEncounter() throws IOException, InterruptedException, ParseException {
@@ -177,12 +180,30 @@ public class Combat {
         if (myEnemies != null && myChar != null) {
             int playerDamage = myChar.getAttackDamage();
             int reducedDamage = monsterDefend(playerDamage);
-            monsterTakeDamage(reducedDamage);
+            // Apply damage considering enemy statuses (e.g., IceBarrier absorption)
+            try {
+                myEnemies.takeDamageWithStatuses(reducedDamage);
+            } catch (Exception ignored) {
+                // fallback
+                monsterTakeDamage(reducedDamage);
+            }
 
             MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
                 " for " + reducedDamage + " damage.\n");
 
             updateNameAndHP();
+
+            // If the target had an Ice Barrier, slow the attacker (player) as a penalty for striking it
+            try {
+                if (myEnemies.hasStatus("Ice Barrier")) {
+                    Status st = myEnemies.getStatusByName("Ice Barrier");
+                    if (st instanceof IceBarrierStatus) {
+                        int slowDur = ((IceBarrierStatus) st).getSlowDuration();
+                        myChar.addStatus(new ImmobilizedStatus(Math.max(1, slowDur)));
+                        MainGameScreen.appendToMessageTextPane("You are chilled and slowed by the Ice Barrier!\n");
+                    }
+                }
+            } catch (Exception ignored) { }
 
             if (isMonsterDead()) {
                 MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
@@ -198,11 +219,28 @@ public class Combat {
             Timer timer = new Timer(1000, _ -> {
                 if (myChar.getHitPoints() > 0 && myEnemies != null && !isMonsterDead()) {
                     int damage = myEnemies.getAttackDamage();
-                    myChar.takeDamage(damage);
-                    MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
-                        " attacks you for " + damage + " damage.\n");
-                    updateNameAndHP();
-                }
+                    // Apply damage taking active character statuses into account (e.g., Ice Barrier absorption)
+                    try {
+                        myChar.takeDamageWithStatuses(damage);
+                    } catch (Exception ignored) {
+                        myChar.takeDamage(damage);
+                    }
+                     MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
+                         " attacks you for " + damage + " damage.\n");
+                     updateNameAndHP();
++
++                    // If the defender (player) had Ice Barrier, slow the attacker (monster)
++                    try {
++                        if (myChar.hasStatus("Ice Barrier")) {
++                            Status st = myChar.getStatusByName("Ice Barrier");
++                            if (st instanceof IceBarrierStatus) {
++                                int slowDur = ((IceBarrierStatus) st).getSlowDuration();
++                                myEnemies.addStatus(new ImmobilizedStatus(Math.max(1, slowDur)));
++                                MainGameScreen.appendToMessageTextPane(myEnemies.getName() + " is slowed by striking the Ice Barrier!\n");
++                            }
++                        }
++                    } catch (Exception ignored) { }
+                 }
 
                 if (myChar.getHitPoints() <= 0) {
                     int choice = JOptionPane.showOptionDialog(
@@ -287,10 +325,21 @@ public class Combat {
         // Use a stable key that is always available; this keeps the manager per-player.
         String guildKey = myChar.getName();
 
-        // Fix: `SpellsManager.getSpellByName(String)` does not exist.
-        // Resolve via a small compatibility helper that tries common method names via reflection.
+        // Prefer direct API on SpellsManager (getSpell) and only fall back to reflection helper
         SpellsManager manager = guildSpellsRegistry.getOrCreateManager(guildKey);
-        Spell spell = resolveSpell(manager, selectedSpell);
+        Spell spell = null;
+        if (manager != null) {
+            try {
+                spell = manager.getSpell(selectedSpell);
+            } catch (Exception ignored) {
+                // fall through to compatibility resolver
+            }
+        }
+
+        if (spell == null) {
+            // Compatibility: some versions expose different method names; try resolver as fallback
+            spell = resolveSpell(manager, selectedSpell);
+        }
 
         if (spell == null) {
             MainGameScreen.appendToMessageTextPane("Spell not found.\n");
@@ -320,7 +369,13 @@ public class Combat {
                 MainGameScreen.appendToMessageTextPane("Target is not undead. Spell has no effect.\n");
             }
         } else {
-            spell.cast(myChar);
+            // Prefer guild/target-less cast signature if available
+            try {
+                spell.cast(myChar);
+            } catch (AbstractMethodError | Exception e) {
+                // Fall back to other common signatures
+                try { spell.cast(); } catch (Exception ignored) { }
+            }
         }
 
         updateNameAndHP();
@@ -358,13 +413,22 @@ public class Combat {
     }
 
     private void updateNameAndHP() {
-        playerInfo.setText(
-            myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
-        );
-        String alignmentText = (myEnemies.getAlignment() == Alignment.GOOD) ? "Good" : "Evil";
-        enemyInfo.setText(
-            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() + "\nAlignment: " + alignmentText
-        );
+        if (playerInfo != null) {
+            playerInfo.setText(
+                myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+            );
+        }
+
+        if (enemyInfo != null) {
+            if (myEnemies == null) {
+                enemyInfo.setText("No enemy");
+            } else {
+                String alignmentText = (myEnemies.getAlignment() == Alignment.GOOD) ? "Good" : "Evil";
+                enemyInfo.setText(
+                    myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() + "\nAlignment: " + alignmentText
+                );
+            }
+        }
     }
 
     public Enemies getMyEnemies() {

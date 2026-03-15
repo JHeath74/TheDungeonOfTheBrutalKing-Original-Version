@@ -1,4 +1,3 @@
-
 // `src/DungeonoftheBrutalKing/Charecter.java`
 package DungeonoftheBrutalKing;
 
@@ -398,6 +397,38 @@ public class Charecter implements HasHitPoints {
     // --- Common helpers used elsewhere ---
     public void takeDamage(int amount) { setHitPoints(Math.max(0, getHitPoints() - Math.max(0, amount))); }
     public void restoreHitPoints(int amount) { setHitPoints(getHitPoints() + Math.max(0, amount)); }
+
+    /**
+     * Apply incoming damage while considering active Status.damageTakenMultiplier()
+     * on this character. Multiplies all active status multipliers together.
+     */
+    public void takeDamageWithStatuses(int damage) {
+        double mult = 1.0;
+        if (statuses != null) {
+            for (Status s : statuses) {
+                try { mult *= s.damageTakenMultiplier(); } catch (Exception ignored) { }
+            }
+        }
+        int finalDamage = (int) Math.round(damage * mult);
+        takeDamage(finalDamage);
+    }
+
+    // Expose status helpers used by combat logic
+    public boolean hasStatus(String statusName) {
+        if (statusName == null || statuses == null) return false;
+        for (Status s : statuses) {
+            try { if (statusName.equalsIgnoreCase(s.getName())) return true; } catch (Exception ignored) { }
+        }
+        return false;
+    }
+
+    public Status getStatusByName(String statusName) {
+        if (statusName == null || statuses == null) return null;
+        for (Status s : statuses) {
+            try { if (statusName.equalsIgnoreCase(s.getName())) return s; } catch (Exception ignored) { }
+        }
+        return null;
+    }
 
     @Override
     public int getMaxHitPoints() {

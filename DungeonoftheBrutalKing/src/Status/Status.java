@@ -63,7 +63,7 @@ public class Status {
     }
 
     public double damageTakenMultiplier() {
-        return 0;
+        return 1.0;
     }
 
     public void applyEffect(Charecter charecter) {

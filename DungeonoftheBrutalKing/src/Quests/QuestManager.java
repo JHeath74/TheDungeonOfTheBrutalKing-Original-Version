@@ -1,4 +1,3 @@
-
 // src/Quests/QuestManager.java
 package Quests;
 
@@ -18,20 +17,43 @@ import Quests.Quests.QuestForgiveBetrayer;
 import Quests.Quests.QuestRescuetheForgottenPrisoner;
 
 public class QuestManager {
-    private final List<Quest> availableQuests;
+    // Separated quest collections
+    private final List<Quest> standardQuests;
+    private final List<Quest> guildQuests;
+    private final List<Quest> mainQuestChain;
     private final List<Quest> activeQuests;
     private final Charecter character;
 
     public QuestManager(Charecter character) throws IOException, InterruptedException, ParseException {
-        this.availableQuests = new ArrayList<>();
+        this.standardQuests = new ArrayList<>();
+        this.guildQuests = new ArrayList<>();
+        this.mainQuestChain = new ArrayList<>();
         this.activeQuests = character.getActiveQuests();
         this.character = character;
         initializeQuests();
     }
 
     private void initializeQuests() throws IOException, InterruptedException, ParseException {
-        availableQuests.add(new QuestRescuetheForgottenPrisoner(MainGameScreen.getInstance()));
-        availableQuests.add(new QuestForgiveBetrayer(MainGameScreen.getInstance()));
+        // Create quest instances (templates) and categorize them by type
+        Quest q1 = new QuestRescuetheForgottenPrisoner(MainGameScreen.getInstance());
+        Quest q2 = new QuestForgiveBetrayer(MainGameScreen.getInstance());
+
+        // Attempt to categorize based on quest type; fall back to standard if unknown
+        try {
+            if (q1.getType() == QuestType.MAIN) mainQuestChain.add(q1);
+            else if (q1.getType() == QuestType.GUILD) guildQuests.add(q1);
+            else standardQuests.add(q1);
+        } catch (Exception e) {
+            standardQuests.add(q1);
+        }
+
+        try {
+            if (q2.getType() == QuestType.MAIN) mainQuestChain.add(q2);
+            else if (q2.getType() == QuestType.GUILD) guildQuests.add(q2);
+            else standardQuests.add(q2);
+        } catch (Exception e) {
+            standardQuests.add(q2);
+        }
     }
 
     public void addActiveQuest(Quest quest) {
@@ -63,14 +85,38 @@ public class QuestManager {
         return new ArrayList<>(activeQuests);
     }
 
+    // Backwards-compatible: return standard (ambient) quests as available quests
     public List<Quest> getAvailableQuests() {
-        return new ArrayList<>(availableQuests);
+        return new ArrayList<>(standardQuests);
     }
 
+    public List<Quest> getStandardQuests() {
+        return new ArrayList<>(standardQuests);
+    }
+
+    public List<Quest> getGuildQuests() {
+        return new ArrayList<>(guildQuests);
+    }
+
+    public List<Quest> getMainQuestChain() {
+        return new ArrayList<>(mainQuestChain);
+    }
+
+    /**
+     * Return a random quest from the standard or other lists based on type.
+     * If type is null or no quests of that type exist, falls back to standard.
+     */
     public Quest getRandomQuest() {
-        if (availableQuests.isEmpty()) return null;
+        return getRandomQuest(null);
+    }
+
+    public Quest getRandomQuest(QuestType type) {
+        List<Quest> pool = standardQuests;
+        if (type == QuestType.MAIN) pool = mainQuestChain;
+        else if (type == QuestType.GUILD) pool = guildQuests;
+        if (pool == null || pool.isEmpty()) return null;
         Random rand = new Random();
-        return availableQuests.get(rand.nextInt(availableQuests.size()));
+        return pool.get(rand.nextInt(pool.size()));
     }
 
     // Removed getQuestsByLocation() since QuestLocationType and getLocationType() are gone

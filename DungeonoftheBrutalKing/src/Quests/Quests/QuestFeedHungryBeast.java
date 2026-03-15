@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.EnumSet;
+import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,6 +13,7 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Quests.Quest;
+import Quests.QuestType;
 import SharedData.GameSettings;
 
 public class QuestFeedHungryBeast extends JPanel implements Quest {
@@ -19,6 +22,11 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     private static final int ALIGNMENT_DELTA = 3;
     private boolean completed = false;
     private JPanel originalPanel;
+
+    // Quest metadata
+    private final String name = "Feed the Hungry Beast";
+    private final QuestType category = QuestType.STANDARD; // side quest
+    private final EnumSet<QuestType> tags = EnumSet.of(QuestType.COMBAT, QuestType.NEGOTIATION);
 
     public QuestFeedHungryBeast() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
@@ -95,8 +103,22 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public String getDescription() {
         return "Feed the Hungry Beast: Feed or attack a starving, non-hostile creature.";
+    }
+
+    // Optional helpers for categorisation / filtering
+    public QuestType getCategory() {
+        return category;
+    }
+
+    public Set<QuestType> getTags() {
+        return EnumSet.copyOf(tags);
     }
 
     @Override

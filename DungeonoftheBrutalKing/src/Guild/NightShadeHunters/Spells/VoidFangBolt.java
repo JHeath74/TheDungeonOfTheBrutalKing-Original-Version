@@ -1,5 +1,5 @@
 
-package Guild.NightShadeHunters;
+package Guild.NightShadeHunters.Spells;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

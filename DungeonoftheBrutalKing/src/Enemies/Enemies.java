@@ -1,4 +1,3 @@
-
 package Enemies;
 
 import java.util.ArrayList;
@@ -58,6 +57,27 @@ public abstract class Enemies implements HasHitPoints {
 
     private final List<Status> statuses = new ArrayList<>();
 
+    // Expose status queries for combat and spells
+    public boolean hasStatus(String statusName) {
+        if (statusName == null) return false;
+        for (Status s : statuses) {
+            try {
+                if (statusName.equalsIgnoreCase(s.getName())) return true;
+            } catch (Exception ignored) { }
+        }
+        return false;
+    }
+
+    public Status getStatusByName(String statusName) {
+        if (statusName == null) return null;
+        for (Status s : statuses) {
+            try {
+                if (statusName.equalsIgnoreCase(s.getName())) return s;
+            } catch (Exception ignored) { }
+        }
+        return null;
+    }
+
     public String getName() { return name; }
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
@@ -76,6 +96,21 @@ public abstract class Enemies implements HasHitPoints {
 
     public void takeDamage(int damage) {
         this.hitPoints = Math.max(0, this.hitPoints - damage);
+    }
+
+    /**
+     * Apply incoming damage while considering active Status.damageTakenMultiplier()
+     * on this enemy. Multiplies all active status multipliers together.
+     */
+    public void takeDamageWithStatuses(int damage) {
+        double mult = 1.0;
+        if (statuses != null) {
+            for (Status s : statuses) {
+                try { mult *= s.damageTakenMultiplier(); } catch (Exception ignored) { }
+            }
+        }
+        int finalDamage = (int) Math.round(damage * mult);
+        takeDamage(finalDamage);
     }
 
     public int defend(int incomingDamage) {

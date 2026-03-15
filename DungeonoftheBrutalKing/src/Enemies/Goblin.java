@@ -1,4 +1,3 @@
-
 // src/Enemies/Goblin.java
 package Enemies;
 
@@ -14,7 +13,6 @@ public class Goblin extends Enemies {
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
 
     public Goblin() {
@@ -32,7 +30,8 @@ public class Goblin extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Goblin.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -41,7 +40,7 @@ public class Goblin extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
+        // Hit points are now managed by the Enemies base class.
     }
 
     public int getLevel() { return level; }
@@ -51,8 +50,6 @@ public class Goblin extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
@@ -61,8 +58,11 @@ public class Goblin extends Enemies {
             MainGameScreen.appendToMessageTextPane(getName() + " ducks and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        int reduced = defend(damage);
+        super.takeDamage(reduced);
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        }
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Goblin extends Enemies {
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override

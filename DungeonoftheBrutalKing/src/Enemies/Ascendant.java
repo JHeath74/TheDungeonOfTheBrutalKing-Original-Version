@@ -1,10 +1,10 @@
-
 // src/Enemies/Ascendant.java
 package Enemies;
 
 import SharedData.GameSettings;
 import SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import SharedData.RandomFactory;
 
 public class Ascendant extends Enemies {
     private int level;
@@ -32,7 +32,7 @@ public class Ascendant extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Ascendant.png",
-            true
+            true, vitality
         );
         this.level = level;
         this.strength = strength;
@@ -117,29 +117,34 @@ public class Ascendant extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
     @Override
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    // Provide a simple class name for UI/diagnostics
+    public String getClassName() {
+        return "Ascendant";
     }
 }

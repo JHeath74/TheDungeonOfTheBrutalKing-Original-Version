@@ -1,4 +1,3 @@
-
 package Enemies;
 
 import SharedData.GameSettings;
@@ -10,9 +9,9 @@ import DungeonoftheBrutalKing.MainGameScreen;
  * Inherits from the Enemies base class.
  */
 public class Angel extends Enemies {
-    // Angel's level
+    // Angel's level (we track separately to drive rewards and scaling)
     private int level;
-    // Angel's core attributes
+    // Angel's core attributes (mirrors values passed to the base Enemies ctor)
     private final int strength;
     private final int charisma;
     private final int agility;
@@ -20,8 +19,6 @@ public class Angel extends Enemies {
     private final int wisdom;
     // Angel's vitality stat, used for hit points calculation
     private final int vitality;
-    // Angel's current hit points
-    private int hitPoints;
     // Angel's alignment is always GOOD
     private final Alignment alignment = Alignment.GOOD;
 
@@ -47,7 +44,8 @@ public class Angel extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Angel.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -56,7 +54,7 @@ public class Angel extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
+        // Hit points are now managed by the Enemies base class; maxHitPoints is set there as well.
     }
 
     // Getters for Angel's attributes
@@ -67,20 +65,17 @@ public class Angel extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-
-    /**
-     * Sets Angel's hit points, ensuring they do not go below zero.
-     */
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     /**
      * Reduces hit points by damage taken and displays a message if Angel dies.
      */
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " fades, but grace remains.");
+        // Delegate HP tracking to the base class, then add Angel-specific messaging.
+        super.takeDamage(damage);
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " fades, but grace remains.");
+        }
     }
 
     /**
@@ -107,7 +102,7 @@ public class Angel extends Enemies {
      */
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     /**
@@ -203,4 +198,10 @@ public class Angel extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

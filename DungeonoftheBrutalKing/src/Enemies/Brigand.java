@@ -1,10 +1,10 @@
-
 // src/Enemies/Brigand.java
 package Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import SharedData.Alignment;
 import SharedData.GameSettings;
+import SharedData.RandomFactory;
 
 public class Brigand extends Enemies {
     private int level;
@@ -57,7 +57,7 @@ public class Brigand extends Enemies {
     @Override
     public void takeDamage(int damage) {
         int dodgeChance = 15;
-        if (Math.random() * 100 < dodgeChance) {
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
             MainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
             return;
         }
@@ -79,7 +79,7 @@ public class Brigand extends Enemies {
 
     @Override
     public int attack() {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 0.7));
         return critical ? base * 2 : base;
     }
@@ -105,24 +105,24 @@ public class Brigand extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 

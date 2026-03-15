@@ -1,4 +1,3 @@
-
 // src/Enemies/Dragon.java
 package Enemies;
 
@@ -26,7 +25,7 @@ public class Dragon extends Enemies {
     public Dragon() {
         super(
             "Dragon", // Enemy name
-            6,        // Level (used in superclass, but overridden below)
+            9,        // Level (used in superclass, but overridden below)
             30,       // Hit points
             8,        // Strength
             5,        // Charisma
@@ -34,9 +33,10 @@ public class Dragon extends Enemies {
             6,        // Intelligence
             3,        // Wisdom
             GameSettings.MonsterImagePath + "Dragon.png", // Image path
-            false
+            false,
+            8 // example vitality; adjust as needed
         );
-        this.level = 9; // Set actual level for this instance
+        this.level = 9; // store level for rewards and scaling
     }
 
     // --- Combat Methods ---
@@ -48,9 +48,10 @@ public class Dragon extends Enemies {
      */
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.\n");
+        super.takeDamage(damage);
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.\n");
+        }
     }
 
     /**
@@ -105,7 +106,7 @@ public class Dragon extends Enemies {
      */
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     /**

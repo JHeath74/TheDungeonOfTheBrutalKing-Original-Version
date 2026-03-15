@@ -1,4 +1,3 @@
-
 // src/Enemies/Archon.java
 package Enemies;
 
@@ -14,7 +13,6 @@ public class Archon extends Enemies {
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
 
     public Archon() {
@@ -32,7 +30,8 @@ public class Archon extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Archon.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -41,7 +40,7 @@ public class Archon extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
+        // Hit points are now managed by the Enemies base class.
     }
 
     public int getLevel() { return level; }
@@ -51,13 +50,13 @@ public class Archon extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
+        super.takeDamage(damage);
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
+        }
     }
 
     @Override
@@ -74,7 +73,7 @@ public class Archon extends Enemies {
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override
@@ -142,4 +141,10 @@ public class Archon extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -13,6 +13,29 @@ public class ObsidianHexCovenGuildSpellsManager {
 
     public ObsidianHexCovenGuildSpellsManager(Guild guild) {
         this.guild = guild;
+
+        // If this manager is for the Obsidian Hex Coven, pre-register the coven's spells.
+        // We add them directly into the internal map to ensure they're available for lookup
+        // even if a particular Spell declares itself as non-guild (e.g. Chaos Hex).
+        if (this.guild == Guild.OBSIDIAN_HEX_COVEN) {
+            Spell[] defaults = new Spell[] {
+                new ArcaneMend(),
+                new ChaosHex(),
+                new Chill_Touch(),
+                new Cold_Blast(),
+                new Fireball(),
+                new Firebolt(),
+                new Light(),
+                new AstralRift(),
+                new IceBarrier(),
+                new EmberlanceSurge()
+            };
+            for (Spell s : defaults) {
+                if (s != null) {
+                    guildSpells.put(s.getName().toLowerCase(), s);
+                }
+            }
+        }
     }
 
     public void registerSpell(Spell spell) {

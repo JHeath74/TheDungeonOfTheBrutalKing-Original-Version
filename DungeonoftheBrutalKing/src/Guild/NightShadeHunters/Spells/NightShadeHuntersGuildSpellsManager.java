@@ -20,7 +20,17 @@ public class NightShadeHuntersGuildSpellsManager {
 
     private void registerAllDefaultSpells() {
         // Register NightShade Hunters spells here, e.g.:
-        // registerSpell(new SomeNightShadeSpell());
+        registerSpell(new CrimsonTrailShot());
+        registerSpell(new CripplingSnare());
+        registerSpell(new DeadeyeFocus());
+        registerSpell(new FieldDressing());
+        registerSpell(new HuntersMarkShot());
+        registerSpell(new SerratedShot());
+        registerSpell(new ShadowSnare());
+        registerSpell(new ShadowStepVeil());
+        registerSpell(new SilencingBolt());
+        registerSpell(new VenomTippedShot());
+		registerSpell(new VoidFangBolt());
     }
 
     public void registerSpell(Spell spell) {

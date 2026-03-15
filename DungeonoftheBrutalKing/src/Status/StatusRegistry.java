@@ -1,4 +1,3 @@
-
 package Status;
 
 import java.util.HashMap;
@@ -29,9 +28,6 @@ public class StatusRegistry {
         statusMap.put("DivineInterventionStatus", DivineInterventionStatus.class);
         statusMap.put("StunStatus", StunStatus.class);
         statusMap.put("VoidEchoStatus", VoidEchoStatus.class);
-        statusMap.put("AccuracyStatus", AccuracyStatus.class);
-        statusMap.put("DefenseUpStatus", DefenseUpStatus.class);
-        statusMap.put("ResilienceStatus", ResilienceStatus.class);
         statusMap.put("AstralWardStatus", AstralWardStatus.class);
         statusMap.put("SilencedStatus", SilencedStatus.class);
         statusMap.put("HiddenStatus", HiddenStatus.class);
@@ -39,7 +35,7 @@ public class StatusRegistry {
         statusMap.put("DamageUpStatus", DamageUpStatus.class);
         statusMap.put("LightningStatus", LightningStatus.class);
         statusMap.put("StrengthBuffStatus", StrengthBuffStatus.class);
-        
+        statusMap.put("IceBarrierStatus", IceBarrierStatus.class);
     }
 
 

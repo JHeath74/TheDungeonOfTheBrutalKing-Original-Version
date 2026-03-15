@@ -1,4 +1,3 @@
-
 // File: src/Quests/QuestForgiveBetrayer.java
 package Quests.Quests;
 
@@ -6,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.EnumSet;
+import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,12 +14,18 @@ import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import Quests.Quest;
+import Quests.QuestType;
 import SharedData.GameSettings;
 
 public class QuestForgiveBetrayer extends JPanel implements Quest {
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
     private boolean completed = false;
+
+    // Quest metadata
+    private final String name = "Forgive the Betrayer";
+    private final QuestType category = QuestType.STANDARD; // side/moral choice quest
+    private final EnumSet<QuestType> tags = EnumSet.of(QuestType.COMBAT, QuestType.NEGOTIATION);
 
     public QuestForgiveBetrayer(MainGameScreen mainGameScreen) {
         setLayout(new BorderLayout());
@@ -84,8 +91,21 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
     public String getDescription() {
         return "Forgive the Betrayer: Confront the one who betrayed you and choose their fate.";
+    }
+
+    public QuestType getCategory() {
+        return category;
+    }
+
+    public Set<QuestType> getTags() {
+        return EnumSet.copyOf(tags);
     }
 
     @Override
