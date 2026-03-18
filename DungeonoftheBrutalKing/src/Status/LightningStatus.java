@@ -1,67 +1,44 @@
 
+// src/Status/LightningStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
 
 /**
- * Applies a lightning shock effect for a fixed number of turns.
- * Adjust method names (e.g., takeDamage/receiveDamage/addStatus) to match your codebase.
+ * Negative status: applies lightning damage each tick/turn while active.
  */
-public class LightningStatus extends Status {
+public final class LightningStatus extends Status {
 
-    private int remainingTurns;
+    private static final int DEFAULT_DAMAGE_PER_TURN = 1;
+
     private final int damagePerTurn;
 
-    public LightningStatus(int turns) {
-        this(turns, 1);
+    public LightningStatus(int durationTurns) {
+        this(durationTurns, DEFAULT_DAMAGE_PER_TURN);
     }
 
-    public LightningStatus(int turns, int damagePerTurn) {
-        this.remainingTurns = Math.max(0, turns);
+    public LightningStatus(int durationTurns, int damagePerTurn) {
+        super("Lightning", Math.max(0, durationTurns), StatusPolarity.NEGATIVE, StatusType.LIGHTNING_STATUS);
         this.damagePerTurn = Math.max(0, damagePerTurn);
     }
 
     @Override
-    public StatusType getStatusType() {
-        return StatusType.LIGHTNING_STATUS;
-    }
-
-    @Override
-    public boolean isExpired() {
-        return remainingTurns <= 0;
-    }
-
-    @Override
-    public void onApply(Enemies target) {
-        // Optional: hook for messaging or immediate effects
-    }
-
-    @Override
-    public void onTurnStart(Enemies target) {
-        if (isExpired() || target == null || target.isDead()) return;
+    public void applyEffect(Charecter character) {
+        if (character == null) return;
 
         if (damagePerTurn > 0) {
-            // Use the correct damage method in your project:
-            // target.takeDamage(damagePerTurn);
-            // target.receiveDamage(damagePerTurn);
+            int newHp = Math.max(0, character.getHitPoints() - damagePerTurn);
+            character.setHitPoints(newHp);
         }
-
-        remainingTurns--;
     }
 
     @Override
-    public void onRemove(Enemies target) {
-        // Optional cleanup
-    }
-
-    @Override
-    public String getName() {
-        return "Lightning";
+    public void removeEffect(Charecter character) {
+        // No persistent stat changes to restore.
     }
 
     @Override
     public String getDescription() {
-        return "Shocked: takes lightning damage each turn.";
+        return "Shocked: takes " + damagePerTurn + " lightning damage each turn while active\\.";
     }
 }

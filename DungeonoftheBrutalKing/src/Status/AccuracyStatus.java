@@ -1,25 +1,35 @@
 
+// src/Status/AccuracyStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class AccuracyStatus extends Status {
-    private int accuracyBonus;
+public final class AccuracyStatus extends Status {
+    private final int accuracyBonus;
 
-    public AccuracyStatus(String name, int duration, boolean negative, int accuracyBonus) {
-        super(name, duration, negative, StatusType.ACCURACY_STATUS); // Pass the correct StatusType here
-        this.accuracyBonus = accuracyBonus;
+    public AccuracyStatus(int durationMinutes, int accuracyBonus) {
+        super("Accuracy", durationMinutes, StatusPolarity.POSITIVE, StatusType.ACCURACY_STATUS);
+        this.accuracyBonus = Math.max(0, accuracyBonus);
+    }
+
+    public int getAccuracyBonus() {
+        return accuracyBonus;
     }
 
     @Override
     public void applyEffect(Charecter charecter) {
-        int current = charecter.getAccuracy();
-        charecter.setAccuracy(current + accuracyBonus);
+        if (charecter == null || accuracyBonus == 0) return;
+        charecter.setAccuracy(charecter.getAccuracy() + accuracyBonus);
     }
 
     @Override
     public void removeEffect(Charecter charecter) {
-        int current = charecter.getAccuracy();
-        charecter.setAccuracy(current - accuracyBonus);
+        if (charecter == null || accuracyBonus == 0) return;
+        charecter.setAccuracy(charecter.getAccuracy() - accuracyBonus);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Accuracy: increases accuracy by " + accuracyBonus + " while active.";
     }
 }

@@ -1,21 +1,22 @@
 
+// src/Status/LifeStealStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class LifeStealStatus extends Status {
+public final class LifeStealStatus extends Status {
     private static final int DEFAULT_AMOUNT = 2; // tune as needed
     private final int amount;
 
     // Store target so applyEffect(caster) can lifesteal from it
     private HasHitPoints storedTarget;
 
-    public LifeStealStatus(int duration) {
-        this(DEFAULT_AMOUNT, duration);
+    public LifeStealStatus(int durationMinutes) {
+        this(DEFAULT_AMOUNT, durationMinutes);
     }
 
-    public LifeStealStatus(int amount, int duration) {
-        super("LifeSteal", duration, false, StatusType.LIFE_STEAL_STATUS);
+    public LifeStealStatus(int amount, int durationMinutes) {
+        super("LifeSteal", durationMinutes, StatusPolarity.POSITIVE, StatusType.LIFE_STEAL_STATUS);
         this.amount = Math.max(0, amount);
     }
 
@@ -28,7 +29,7 @@ public class LifeStealStatus extends Status {
     public void apply(HasHitPoints caster, HasHitPoints target) {
         if (caster == null || target == null) return;
 
-        int stealAmount = Math.min(amount, target.getHitPoints());
+        int stealAmount = Math.min(amount, Math.max(0, target.getHitPoints()));
         target.setHitPoints(target.getHitPoints() - stealAmount);
 
         int casterNewHP = Math.min(caster.getHitPoints() + stealAmount, caster.getMaxHitPoints());
@@ -44,12 +45,12 @@ public class LifeStealStatus extends Status {
     }
 
     @Override
-    public void expireEffect(Charecter entity) {
-        // No-op
+    public void removeEffect(Charecter entity) {
+        // No-op (instant/on-hit effect; nothing to undo)
     }
 
     @Override
-    public void removeEffect(Charecter entity) {
-        // No-op
+    public String getDescription() {
+        return "LifeSteal: on trigger, steals HP from the stored target and heals the caster.";
     }
 }

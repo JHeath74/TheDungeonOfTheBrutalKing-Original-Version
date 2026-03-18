@@ -32,7 +32,7 @@ public enum StatusType {
     MANA_REGEN_STATUS,
     DAMAGE_UP_STATUS,
     LIGHTNING_STATUS, 
-    StrengthBuff_STATUS, 
+    STRENGTH_BUFF_STATUS, 
     EVASION_STATUS,
     NECROTIC_STATUS,
    

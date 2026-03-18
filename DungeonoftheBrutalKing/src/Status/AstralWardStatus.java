@@ -2,9 +2,10 @@
 // src/Status/AstralWardStatus.java
 package Status;
 
-public class AstralWardStatus extends Status {
+public final class AstralWardStatus extends Status {
+
     public AstralWardStatus(int durationMinutes) {
-        super("Astral Ward", durationMinutes, false, StatusType.ASTRAL_WARD_STATUS);
+        super("Astral Ward", durationMinutes, StatusPolarity.POSITIVE, StatusType.ASTRAL_WARD_STATUS);
     }
 
     public int getDurationMinutes() {
@@ -16,5 +17,5 @@ public class AstralWardStatus extends Status {
         return "Grants a temporary shield that absorbs damage for " + getDurationMinutes() + " minutes.";
     }
 
-    // Override other methods as needed for shield logic
+    // Override applyEffect(...) / removeEffect(...) as needed for shield logic.
 }

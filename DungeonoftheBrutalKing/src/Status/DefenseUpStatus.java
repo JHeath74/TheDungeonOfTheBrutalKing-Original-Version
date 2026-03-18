@@ -1,29 +1,27 @@
+
+// src/Status/DefenseUpStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class DefenseUpStatus extends Status {
+public final class DefenseUpStatus extends Status {
+
     private final int defenseBonus;
-    private int originalDefense;
 
-    public DefenseUpStatus(int duration, int defenseBonus) {
-        super("Defense Up", duration, false, StatusType.DEFENSE_UP_STATUS); // Add StatusType.DEFENSE_UP
-        this.defenseBonus = defenseBonus;
+    public DefenseUpStatus(int durationMinutes, int defenseBonus) {
+        super("Defense Up", durationMinutes, StatusPolarity.POSITIVE, StatusType.DEFENSE_UP_STATUS);
+        this.defenseBonus = Math.max(0, defenseBonus);
     }
 
     @Override
-    public void applyEffect(Charecter character) {
-        originalDefense = character.getDefense();
-        character.setDefense(originalDefense + defenseBonus);
+    public void applyEffect(Charecter target) {
+        if (target == null) return;
+        target.setDefense(target.getDefense() + defenseBonus);
     }
 
     @Override
-    public void expireEffect(Charecter character) {
-        character.setDefense(originalDefense);
-    }
-
-    @Override
-    public void removeEffect(Charecter character) {
-        character.setDefense(originalDefense);
+    public void removeEffect(Charecter target) {
+        if (target == null) return;
+        target.setDefense(target.getDefense() - defenseBonus);
     }
 }

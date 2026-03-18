@@ -1,38 +1,43 @@
 
+// src/Status/ReduceDefenseStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class ReduceDefenseStatus extends Status {
+public final class ReduceDefenseStatus extends Status {
     private static final int DEFAULT_DURATION = 3;
     private static final int DEFENSE_REDUCTION = 10;
+
+    private boolean applied;
 
     public ReduceDefenseStatus() {
         this(DEFAULT_DURATION);
     }
 
     public ReduceDefenseStatus(int duration) {
-        super("ReduceDefense", Math.max(0, duration), true, StatusType.REDUCE_DEFENSE_STATUS);
+        super("ReduceDefense", Math.max(0, duration), StatusPolarity.NEGATIVE, StatusType.REDUCE_DEFENSE_STATUS);
     }
 
     @Override
     public void applyEffect(Charecter character) {
         if (character == null) return;
-        character.setDefense(character.getDefense() - DEFENSE_REDUCTION);
-    }
+        if (applied) return;
 
-    @Override
-    public void expireEffect(Charecter character) {
-        restore(character);
+        character.setDefense(character.getDefense() - DEFENSE_REDUCTION);
+        applied = true;
     }
 
     @Override
     public void removeEffect(Charecter character) {
-        restore(character);
+        if (character == null) return;
+        if (!applied) return;
+
+        character.setDefense(character.getDefense() + DEFENSE_REDUCTION);
+        applied = false;
     }
 
-    private void restore(Charecter character) {
-        if (character == null) return;
-        character.setDefense(character.getDefense() + DEFENSE_REDUCTION);
+    @Override
+    public String getDescription() {
+        return "Reduce Defense: lowers defense while active\\.";
     }
 }

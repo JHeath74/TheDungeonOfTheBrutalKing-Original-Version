@@ -1,27 +1,48 @@
 
+// src/Status/ReduceStrengthStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class ReduceStrengthStatus extends Status {
-    private static final int DURATION_MINUTES = 3; // example duration
+public final class ReduceStrengthStatus extends Status {
+    private static final int DEFAULT_DURATION_TURNS = 3;
+    private static final int STRENGTH_REDUCTION = 10;
+
+    private boolean applied;
 
     public ReduceStrengthStatus() {
-        super("ReduceStrength", DURATION_MINUTES, true, StatusType.REDUCE_STRENGTH_STATUS); // true: negative effect
+        this(DEFAULT_DURATION_TURNS);
+    }
+
+    public ReduceStrengthStatus(int durationTurns) {
+        super(
+                "ReduceStrength",
+                Math.max(0, durationTurns),
+                StatusPolarity.NEGATIVE,
+                StatusType.REDUCE_STRENGTH_STATUS
+        );
     }
 
     @Override
     public void applyEffect(Charecter character) {
-        character.setStrength(character.getStrength() - 10); // reduce strength by 10
-    }
+        if (character == null) return;
+        if (applied) return;
 
-    @Override
-    public void expireEffect(Charecter character) {
-        // No additional effect on expire
+        character.setStrength(character.getStrength() - STRENGTH_REDUCTION);
+        applied = true;
     }
 
     @Override
     public void removeEffect(Charecter character) {
-        // No additional effect on remove
+        if (character == null) return;
+        if (!applied) return;
+
+        character.setStrength(character.getStrength() + STRENGTH_REDUCTION);
+        applied = false;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Reduce Strength: lowers strength while active\\.";
     }
 }

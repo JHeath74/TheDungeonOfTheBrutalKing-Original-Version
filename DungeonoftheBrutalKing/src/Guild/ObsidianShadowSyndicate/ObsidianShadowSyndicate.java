@@ -52,8 +52,8 @@ public class ObsidianShadowSyndicate extends JPanel {
             JButton questButton = new JButton("Start Guild Heist");
             questButton.addActionListener(e -> {
                 if (!isEvil(character.getAlignment())) {
-                    JOptionPane.showMessageDialog(this,
-                            "You are not evil \(`alignment < 0`\)\. The Obsidian Shadow Syndicate rejects you.");
+                	JOptionPane.showMessageDialog(this,
+                	        "You are not evil (alignment < 0). The Obsidian Shadow Syndicate rejects you.");
                     return;
                 }
                 character.setCurrentGuildStatus(GuildMembershipStatus.INITIATE);
@@ -70,7 +70,7 @@ public class ObsidianShadowSyndicate extends JPanel {
             initiationButton.addActionListener(e -> {
                 if (!isEvil(character.getAlignment())) {
                     JOptionPane.showMessageDialog(this,
-                            "You are not evil \(`alignment < 0`\)\. You cannot advance in this guild.");
+                            "You are not evil (`alignment < 0. You cannot advance in this guild.");
                     return;
                 }
                 character.setCurrentGuildStatus(GuildMembershipStatus.FULL_MEMBER);
@@ -87,7 +87,7 @@ public class ObsidianShadowSyndicate extends JPanel {
         } else if (status == GuildMembershipStatus.FULL_MEMBER) {
             if (!isEvil(character.getAlignment())) {
                 JOptionPane.showMessageDialog(this,
-                        "You are not evil \(`alignment < 0`\)\. You cannot use Obsidian Shadow Syndicate services.");
+                        "You are not evil (`alignment < 0. You cannot use Obsidian Shadow Syndicate services.");
             } else {
                 buttonPanel.add(stealButton);
                 buttonPanel.add(pickLockButton);

@@ -1,5 +1,5 @@
 
-// `src/Status/DrainStatus.java`
+// src/Status/DrainStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -11,17 +11,24 @@ public class DrainStatus extends Status {
     private final DrainType type;
 
     public DrainStatus(int duration, double percent, DrainType type) {
-        super("Drain", duration, true, StatusType.DRAIN_STATUS);
-        this.percent = Math.max(0.0, Math.min(1.0, percent));
-        this.type = type == null ? DrainType.MAGIC : type;
+        super("Drain", Math.max(0, duration), StatusPolarity.NEGATIVE, StatusType.DRAIN_STATUS);
+        this.percent = clamp01(percent);
+        this.type = (type == null) ? DrainType.MAGIC : type;
+    }
+
+    private static double clamp01(double v) {
+        if (Double.isNaN(v) || Double.isInfinite(v)) return 0.0;
+        return Math.max(0.0, Math.min(1.0, v));
     }
 
     // Per-turn drain helper (kept for reuse/tests)
     public int applyDrain(int maxValue, int currentValue) {
         int safeMax = Math.max(0, maxValue);
         int safeCur = Math.max(0, currentValue);
+        if (percent <= 0.0 || safeMax == 0 || safeCur == 0) return safeCur;
+
         int drainAmount = (int) Math.ceil(safeMax * percent);
-        return Math.max(0, safeCur - drainAmount);
+        return Math.max(0, safeCur - Math.max(0, drainAmount));
     }
 
     @Override
@@ -30,12 +37,10 @@ public class DrainStatus extends Status {
 
         switch (type) {
             case MAGIC -> {
-                // Assumes your Charecter exposes magic resource getters/setters.
                 int newValue = applyDrain(character.getMaxMagicPoints(), character.getMagicPoints());
                 character.setMagicPoints(newValue);
             }
             case ACTION -> {
-                // Assumes your Charecter exposes action resource getters/setters.
                 int newValue = applyDrain(character.getMaxActionPoints(), character.getActionPoints());
                 character.setActionPoints(newValue);
             }
@@ -43,18 +48,15 @@ public class DrainStatus extends Status {
     }
 
     @Override
-    public void expireEffect(Charecter character) {
-        // No persistent stat to restore
-    }
-
-    @Override
     public void removeEffect(Charecter character) {
-        // No persistent stat to restore
+        // No persistent stat to restore.
     }
 
     @Override
-    public StatusType getType() {
-        return StatusType.DRAIN_STATUS;
+    public String getDescription() {
+        int pct = (int) Math.round(percent * 100.0);
+        String resource = (type == DrainType.ACTION) ? "action points" : "magic points";
+        return "Drain: reduces current " + resource + " by " + pct + "\\% of max each turn while active\\.";
     }
 
     public double getPercent() {

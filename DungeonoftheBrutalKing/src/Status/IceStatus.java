@@ -1,4 +1,5 @@
 
+// src/Status/IceStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -13,7 +14,7 @@ public class IceStatus extends Status {
     private Integer originalAttack; // null = not applied yet
 
     public IceStatus() {
-        super("Frozen", DURATION_MINUTES, true, StatusType.ICE_STATUS);
+        super("Frozen", DURATION_MINUTES, StatusPolarity.NEGATIVE, StatusType.ICE_STATUS);
     }
 
     @Override
@@ -31,11 +32,6 @@ public class IceStatus extends Status {
         // Apply per-turn damage (clamp at 0 HP minimum).
         int newHp = Math.max(0, character.getHitPoints() - ICE_DAMAGE_PER_TURN);
         character.setHitPoints(newHp);
-    }
-
-    @Override
-    public void expireEffect(Charecter character) {
-        restore(character);
     }
 
     @Override

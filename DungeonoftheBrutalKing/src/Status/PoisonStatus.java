@@ -4,25 +4,26 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class PoisonStatus extends Status {
+public final class PoisonStatus extends Status {
     private static final int POISON_DAMAGE = 5; // HP lost per turn
 
     public PoisonStatus(int duration) {
-        super("Poison", duration, true, StatusType.POISON_STATUS); // Added StatusType
+        super("Poison", Math.max(0, duration), StatusPolarity.NEGATIVE, StatusType.POISON_STATUS);
     }
 
     @Override
     public void applyEffect(Charecter character) {
-        character.takeDamage(POISON_DAMAGE);
-    }
-
-    @Override
-    public void expireEffect(Charecter character) {
-        // No additional effect on expire
+        if (character == null) return;
+        character.takeDamage(Math.max(0, POISON_DAMAGE));
     }
 
     @Override
     public void removeEffect(Charecter character) {
-        // No additional effect on remove
+        // No persistent stat changes to restore.
+    }
+
+    @Override
+    public String getDescription() {
+        return "Poison: loses " + POISON_DAMAGE + " HP each turn while active\\.";
     }
 }

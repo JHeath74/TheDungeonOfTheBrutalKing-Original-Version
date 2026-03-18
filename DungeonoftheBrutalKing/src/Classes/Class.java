@@ -62,4 +62,9 @@ public abstract class Class {
     public void setClassDescription(String classDescription) {
         this.classDescription = classDescription;
     }
+
+	public String getImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

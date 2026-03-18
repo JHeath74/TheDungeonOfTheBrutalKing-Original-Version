@@ -4,19 +4,21 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class HiddenStatus extends Status {
+public final class HiddenStatus extends Status {
 
     public HiddenStatus(int durationMinutes) {
-        super("Hidden", durationMinutes, false, StatusType.HIDDEN_STATUS);
+        super("Hidden", durationMinutes, StatusPolarity.POSITIVE, StatusType.HIDDEN_STATUS);
     }
 
     @Override
     public void applyEffect(Charecter target) {
+        if (target == null) return;
         target.setHidden(true);
     }
 
     @Override
     public void removeEffect(Charecter target) {
+        if (target == null) return;
         target.setHidden(false);
     }
 

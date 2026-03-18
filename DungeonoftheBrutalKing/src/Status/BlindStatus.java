@@ -1,21 +1,22 @@
 
+// src/Status/BlindStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class BlindStatus extends Status {
+public final class BlindStatus extends Status {
 
-    private static final int DEFAULT_DURATION = 2;
+    private static final int DEFAULT_DURATION_MINUTES = 2;
     private static final double HIT_CHANCE_MULTIPLIER = 0.5;
 
     private double originalHitChance = 1.0;
 
     public BlindStatus() {
-        this(DEFAULT_DURATION);
+        this(DEFAULT_DURATION_MINUTES);
     }
 
-    public BlindStatus(int duration) {
-        super("Blinded", Math.max(0, duration), true, StatusType.BLIND_STATUS);
+    public BlindStatus(int durationMinutes) {
+        super("Blinded", Math.max(0, durationMinutes), StatusPolarity.NEGATIVE, StatusType.BLIND_STATUS);
     }
 
     @Override
@@ -27,11 +28,6 @@ public class BlindStatus extends Status {
     }
 
     @Override
-    public void expireEffect(Charecter character) {
-        restore(character);
-    }
-
-    @Override
     public void removeEffect(Charecter character) {
         restore(character);
     }
@@ -39,5 +35,10 @@ public class BlindStatus extends Status {
     private void restore(Charecter character) {
         if (character == null) return;
         character.setHitChance(originalHitChance);
+    }
+
+    @Override
+    public String getDescription() {
+        return "Blinded: reduces hit chance by 50\\% while active\\.";
     }
 }

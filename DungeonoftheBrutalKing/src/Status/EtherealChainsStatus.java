@@ -1,10 +1,13 @@
+
+// src/Status/EtherealChainsStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class EtherealChainsStatus extends Status {
+public final class EtherealChainsStatus extends Status {
+
     public EtherealChainsStatus(int duration) {
-        super("Ethereal Chains", duration, true, StatusType.ETHEREAL_CHAINS_STATUS); // Add StatusType
+        super("Ethereal Chains", Math.max(0, duration), StatusPolarity.NEGATIVE, StatusType.ETHEREAL_CHAINS_STATUS);
     }
 
     public boolean blocksAttack() {
@@ -14,15 +17,16 @@ public class EtherealChainsStatus extends Status {
     @Override
     public void applyEffect(Charecter character) {
         // Effect logic here (e.g., prevent attacking)
-    }
-
-    @Override
-    public void expireEffect(Charecter character) {
-        // Restore ability to attack if needed
+        // If you modify character state here, revert it in removeEffect(...).
     }
 
     @Override
     public void removeEffect(Charecter character) {
-        // Clean up if needed
+        // Restore ability to attack if you changed character state in applyEffect(...).
+    }
+
+    @Override
+    public String getDescription() {
+        return "Ethereal Chains: prevents attacking while active\\.";
     }
 }

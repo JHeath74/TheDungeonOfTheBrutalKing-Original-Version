@@ -4,24 +4,36 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class SilencedStatus extends Status {
+public final class SilencedStatus extends Status {
 
-    public SilencedStatus(int durationMinutes) {
-        super("Silenced", durationMinutes, true, StatusType.SILENCED_STATUS);
+    private boolean applied;
+    private boolean previousSilenced;
+
+    public SilencedStatus(int durationTurns) {
+        super("Silenced", Math.max(0, durationTurns), StatusPolarity.NEGATIVE, StatusType.SILENCED_STATUS);
     }
 
     @Override
     public void applyEffect(Charecter target) {
+        if (target == null) return;
+        if (applied) return;
+
+        previousSilenced = target.isSilenced();
         target.setSilenced(true);
+        applied = true;
     }
 
     @Override
     public void removeEffect(Charecter target) {
-        target.setSilenced(false);
+        if (target == null) return;
+        if (!applied) return;
+
+        target.setSilenced(previousSilenced);
+        applied = false;
     }
 
     @Override
     public String getDescription() {
-        return "Silenced: Unable to cast spells or use special abilities.";
+        return "Silenced: Unable to cast spells or use special abilities\\.";
     }
 }

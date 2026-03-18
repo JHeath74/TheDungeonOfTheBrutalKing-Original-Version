@@ -1,33 +1,35 @@
 
+// src/Status/StrengthBuffStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class StrengthBuffStatus extends Status {
+public final class StrengthBuffStatus extends Status {
     private final int bonus;
-    private boolean applied;
 
-    public StrengthBuffStatus(int bonus, int duration) {
-        super("strength_buff", duration, false, StatusType.StrengthBuff_STATUS);
+    public StrengthBuffStatus(int bonus, int durationMinutes) {
+        super("Strength Buff", durationMinutes, StatusPolarity.POSITIVE, StatusType.STRENGTH_BUFF_STATUS);
         this.bonus = Math.max(0, bonus);
-        this.applied = false;
     }
 
     @Override
-    public void onApply(Charecter target) {
-        if (applied || bonus == 0) return;
+    public void applyEffect(Charecter target) {
+        if (target == null || bonus == 0) return;
         target.setStrength(target.getStrength() + bonus);
-        applied = true;
     }
 
     @Override
-    public void onExpire(Charecter target) {
-        if (!applied || bonus == 0) return;
+    public void removeEffect(Charecter target) {
+        if (target == null || bonus == 0) return;
         target.setStrength(target.getStrength() - bonus);
-        applied = false;
     }
 
     public int getBonus() {
         return bonus;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Strength Buff: increases strength by " + bonus + " while active.";
     }
 }

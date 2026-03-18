@@ -1,28 +1,31 @@
 
+// src/Status/IllusoryDoubleStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class IllusoryDoubleStatus extends Status {
+public final class IllusoryDoubleStatus extends Status {
     private final double evadeBonus;
 
-    public IllusoryDoubleStatus(int duration, double evadeBonus) {
-        super("Illusory Double", duration, false, StatusType.ILLUSORY_DOUBLE_STATUS); // Fixed enum constant
-        this.evadeBonus = evadeBonus;
+    public IllusoryDoubleStatus(int durationMinutes, double evadeBonus) {
+        super("Illusory Double", durationMinutes, StatusPolarity.POSITIVE, StatusType.ILLUSORY_DOUBLE_STATUS);
+        this.evadeBonus = Math.max(0.0, evadeBonus);
     }
 
     @Override
     public void applyEffect(Charecter character) {
+        if (character == null) return;
         character.setEvadeChance(character.getEvadeChance() + evadeBonus);
     }
 
     @Override
-    public void expireEffect(Charecter character) {
+    public void removeEffect(Charecter character) {
+        if (character == null) return;
         character.setEvadeChance(character.getEvadeChance() - evadeBonus);
     }
 
     @Override
-    public void removeEffect(Charecter character) {
-        character.setEvadeChance(character.getEvadeChance() - evadeBonus);
+    public String getDescription() {
+        return "Illusory Double: increases evade chance while active.";
     }
 }

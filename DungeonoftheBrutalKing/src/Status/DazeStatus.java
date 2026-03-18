@@ -1,4 +1,5 @@
 
+// src/Status/DazeStatus.java
 package Status;
 
 import java.lang.reflect.Method;
@@ -19,7 +20,7 @@ public class DazeStatus extends Status {
     }
 
     public DazeStatus(int penalty, int duration) {
-        super("Dazed", duration, true, StatusType.DAZE_STATUS);
+        super("Dazed", duration, StatusPolarity.NEGATIVE, StatusType.DAZE_STATUS);
         this.penalty = Math.max(0, penalty);
     }
 
@@ -34,11 +35,6 @@ public class DazeStatus extends Status {
         if (originalAccuracy != null) {
             trySetAccuracy(character, Math.max(0, originalAccuracy - penalty));
         }
-    }
-
-    @Override
-    public void expireEffect(Charecter character) {
-        restore(character);
     }
 
     @Override

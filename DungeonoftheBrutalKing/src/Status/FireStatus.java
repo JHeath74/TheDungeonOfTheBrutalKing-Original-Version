@@ -1,32 +1,45 @@
 
+// src/Status/FireStatus.java
 package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public class FireStatus extends Status {
-    private static final int DURATION_MINUTES = 4;
+public final class FireStatus extends Status {
+    private static final int DEFAULT_DURATION_MINUTES = 4;
     private static final int ATTACK_REDUCTION = 5;
     private static final int FIRE_DAMAGE_PER_TURN = 7;
-    private int originalAttack;
+
+    private int originalAttackDamage;
 
     public FireStatus() {
-        super("Burned", DURATION_MINUTES, true, StatusType.FIRE_STATUS); // Add StatusType
+        this(DEFAULT_DURATION_MINUTES);
+    }
+
+    public FireStatus(int durationMinutes) {
+        super("Burned", Math.max(0, durationMinutes), StatusPolarity.NEGATIVE, StatusType.FIRE_STATUS);
     }
 
     @Override
     public void applyEffect(Charecter character) {
-        originalAttack = character.getAttackDamage();
-        character.setAttack(originalAttack - ATTACK_REDUCTION);
-        character.setHitPoints(character.getHitPoints() - FIRE_DAMAGE_PER_TURN);
-    }
+        if (character == null) return;
 
-    @Override
-    public void expireEffect(Charecter character) {
-        character.setAttack(originalAttack);
+        originalAttackDamage = character.getAttackDamage();
+        int reducedAttack = Math.max(0, originalAttackDamage - ATTACK_REDUCTION);
+        character.setAttack(reducedAttack);
+
+        int newHp = Math.max(0, character.getHitPoints() - FIRE_DAMAGE_PER_TURN);
+        character.setHitPoints(newHp);
     }
 
     @Override
     public void removeEffect(Charecter character) {
-        character.setAttack(originalAttack);
+        if (character == null) return;
+        character.setAttack(Math.max(0, originalAttackDamage));
+    }
+
+    @Override
+    public String getDescription() {
+        return "Burned: reduces attack by " + ATTACK_REDUCTION + " and deals "
+                + FIRE_DAMAGE_PER_TURN + " damage each turn while active\\.";
     }
 }

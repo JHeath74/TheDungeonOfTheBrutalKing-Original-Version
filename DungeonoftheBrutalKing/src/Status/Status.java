@@ -8,23 +8,21 @@ import Enemies.Enemies;
 public class Status {
     private String name;
     private int durationSeconds;
-    private boolean negative;
+    private StatusPolarity negative;
     private int startTimeSeconds = -1;
     protected StatusType type;
+    private StatusPolarity polarity = null;
 
-    public Status(String name, int durationMinutes, boolean negative, StatusType type) {
-        this.name = name;
+    public Status(String name, int durationMinutes, StatusPolarity positive, StatusType type) {
+        this.polarity = polarity;
+		this.name = name;
         this.setDurationSeconds(durationMinutes * 60);
-        this.negative = negative;
+        this.negative = positive;
         this.type = type;
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean isNegative() {
-        return negative;
     }
 
     public void applyStatusEffect(Charecter character) {
@@ -113,4 +111,24 @@ public class Status {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public StatusPolarity getPolarity() { return polarity; }
+    public boolean isPositive() { return polarity == StatusPolarity.POSITIVE; }
+    public boolean isNegative() { return polarity == StatusPolarity.NEGATIVE; }
+
+	public StatusType getStatusType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void onApply(Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onTurnStart(Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

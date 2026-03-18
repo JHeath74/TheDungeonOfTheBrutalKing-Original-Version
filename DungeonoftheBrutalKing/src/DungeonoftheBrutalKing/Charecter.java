@@ -625,5 +625,45 @@ public void setEvasion(int evasion) {
     applyStatusEffect(StatusType.EVASION_STATUS, Integer.MAX_VALUE, bonusNeeded, this);
 }
 
+public void addDamageBonus(int i) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void addHasteModifier(double hasteBonus) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void removeHasteModifier(double hasteBonus) {
+	// TODO Auto-generated method stub
+	
+}
+
+public double getEvadeChance() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+public void setEvadeChance(double d) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void increaseResilience(int value) {
+	// TODO Auto-generated method stub
+	
+}
+
+public int getMaxActionPoints() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+public int getMaxHealth() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
 
 }

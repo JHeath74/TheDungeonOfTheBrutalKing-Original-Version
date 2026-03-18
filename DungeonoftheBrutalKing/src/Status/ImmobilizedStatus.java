@@ -3,8 +3,9 @@
 package Status;
 
 public class ImmobilizedStatus extends Status {
+
     public ImmobilizedStatus(int duration) {
-        super("Immobilized", duration, true, StatusType.IMMOBILIZED_STATUS);
+        super("Immobilized", Math.max(0, duration), StatusPolarity.NEGATIVE, StatusType.IMMOBILIZED_STATUS);
     }
 
     @Override
