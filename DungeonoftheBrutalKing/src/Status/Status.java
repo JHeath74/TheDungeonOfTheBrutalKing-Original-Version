@@ -131,4 +131,14 @@ public class Status {
 		
 	}
 
+	public void expire(Charecter target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onTurnStart(Charecter target) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

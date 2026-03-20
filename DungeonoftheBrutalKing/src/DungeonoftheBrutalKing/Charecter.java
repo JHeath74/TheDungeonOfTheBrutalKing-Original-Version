@@ -665,5 +665,20 @@ public int getMaxHealth() {
 	return 0;
 }
 
+public int getPerception() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+
+public void setPerception(int i) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void addTemporaryPerceptionBuff(String string, int insightDuration) {
+	// TODO Auto-generated method stub
+	
+}
+
 
 }

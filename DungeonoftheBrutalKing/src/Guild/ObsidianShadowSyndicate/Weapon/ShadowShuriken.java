@@ -1,5 +1,5 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Weapons\ShadowShuriken.java
-package Guild.ObsidianShadowSyndicate.Weapons;
+package Guild.ObsidianShadowSyndicate.Weapon;
 
 import java.util.Random;
 

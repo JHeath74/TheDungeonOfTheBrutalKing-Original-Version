@@ -4,18 +4,18 @@ package Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
-public final class EvasionStatus extends Status {
+public final class EvasionUpStatus extends Status {
 
     private static final int DEFAULT_DURATION_MINUTES = 3;
     private static final int DEFAULT_EVASION_BONUS = 3;
 
     private final int evasionBonus;
 
-    public EvasionStatus() {
+    public EvasionUpStatus() {
         this(DEFAULT_DURATION_MINUTES, DEFAULT_EVASION_BONUS);
     }
 
-    public EvasionStatus(int durationMinutes, int evasionBonus) {
+    public EvasionUpStatus(int durationMinutes, int evasionBonus) {
         super("Evasion", durationMinutes, StatusPolarity.POSITIVE, StatusType.EVASION_STATUS);
         this.evasionBonus = Math.max(0, evasionBonus);
     }

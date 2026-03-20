@@ -2,6 +2,7 @@ package Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
+import Enemies.Enemies;
 import SharedData.Guild;
 import Spells.Spell;
 import Status.StatusType;
@@ -82,4 +83,10 @@ public class ManaInfusion implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double strength) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,6 +1,7 @@
 package Enemies;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,6 +10,7 @@ import Status.HasHitPoints;
 import Status.Status;
 
 public abstract class Enemies implements HasHitPoints {
+
     private final String name;
     protected int level;
     private int hitPoints;
@@ -23,6 +25,8 @@ public abstract class Enemies implements HasHitPoints {
     protected int maxHitPoints;
 
     protected boolean undead = false;
+
+    private final List<Status> statuses = new ArrayList<>();
 
     public Enemies(
             String name,
@@ -55,7 +59,12 @@ public abstract class Enemies implements HasHitPoints {
         this.spellStrength = 0;
     }
 
-    private final List<Status> statuses = new ArrayList<>();
+    // \[Statuses\]
+
+    /** Returns an unmodifiable view of all statuses on this enemy. */
+    public List<Status> getStatuses() {
+        return Collections.unmodifiableList(statuses);
+    }
 
     // Expose status queries for combat and spells
     public boolean hasStatus(String statusName) {
@@ -78,6 +87,22 @@ public abstract class Enemies implements HasHitPoints {
         return null;
     }
 
+    /**
+     * Computes the total damage multiplier from all statuses.
+     * Multiplies each `Status.damageTakenMultiplier()` together.
+     */
+    public double getDamageTakenMultiplier() {
+        double mult = 1.0;
+        for (Status s : statuses) {
+            try {
+                mult *= s.damageTakenMultiplier();
+            } catch (Exception ignored) { }
+        }
+        return mult;
+    }
+
+    // \[Basic stats\]
+
     public String getName() { return name; }
     public int getLevel() { return level; }
     public int getHitPoints() { return hitPoints; }
@@ -94,6 +119,8 @@ public abstract class Enemies implements HasHitPoints {
     public void setMagicUser(boolean isMagicUser) { this.isMagicUser = isMagicUser; }
     public void setSpellStrength(int spellStrength) { this.spellStrength = spellStrength; }
 
+    // \[Damage & combat\]
+
     public void takeDamage(int damage) {
         this.hitPoints = Math.max(0, this.hitPoints - damage);
     }
@@ -103,12 +130,7 @@ public abstract class Enemies implements HasHitPoints {
      * on this enemy. Multiplies all active status multipliers together.
      */
     public void takeDamageWithStatuses(int damage) {
-        double mult = 1.0;
-        if (statuses != null) {
-            for (Status s : statuses) {
-                try { mult *= s.damageTakenMultiplier(); } catch (Exception ignored) { }
-            }
-        }
+        double mult = getDamageTakenMultiplier();
         int finalDamage = (int) Math.round(damage * mult);
         takeDamage(finalDamage);
     }
@@ -139,6 +161,8 @@ public abstract class Enemies implements HasHitPoints {
         return level * 5;
     }
 
+    // \[Hooks for subclasses / AI\]
+
     public void attemptApplyEffect(Charecter target) { }
 
     public int attack(Charecter target) { return 0; }
@@ -153,7 +177,9 @@ public abstract class Enemies implements HasHitPoints {
 
     @Override
     public void addStatus(Status status) {
-        if (status != null) statuses.add(status);
+        if (status != null) {
+            statuses.add(status);
+        }
     }
 
     public boolean isUndead() {

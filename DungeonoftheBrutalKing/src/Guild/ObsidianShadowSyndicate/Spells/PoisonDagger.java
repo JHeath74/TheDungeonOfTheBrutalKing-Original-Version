@@ -1,0 +1,169 @@
+package Guild.ObsidianShadowSyndicate.Spells;
+
+import java.util.List;
+
+import DungeonoftheBrutalKing.Charecter;
+import Enemies.Enemies;
+import SharedData.Guild;
+import Spells.Spell;
+import Status.PoisonStatus;
+import Status.Status;
+
+/**
+ * PoisonDagger: a poisoned strike that deals light damage and applies a poison over time.
+ */
+public final class PoisonDagger implements Spell {
+
+    private static final String NAME = "Poison Dagger";
+    private static final String DESCRIPTION =
+            "A poisoned strike that deals light damage and leaves the target suffering over time.";
+
+    private static final int REQUIRED_MAGIC_POINTS = 4; // adjust as desired
+    private static final double DIRECT_DAMAGE_PERCENT = 0.06;
+
+    private static final int POISON_DURATION_MINUTES = 4;
+    private static final int POISON_DAMAGE_PER_TICK = 3;
+
+    // Guild allowed to cast this spell
+    private static final Guild SPELL_GUILD = Guild.OBSIDIAN_SHADOW_SYNDICATE;
+
+    public PoisonDagger() { }
+
+    // --- Spell meta-data ---
+
+    @Override
+    public boolean isGuildSpell() {
+        return SPELL_GUILD != Guild.NON_GUILD;
+    }
+
+    @Override
+    public Guild getSpellGuild() {
+        return SPELL_GUILD;
+    }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        return REQUIRED_MAGIC_POINTS;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
+    public String getDescription() {
+        return DESCRIPTION;
+    }
+
+    // --- Core single-target behavior ---
+
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        if (caster == null) caster = Charecter.getInstance();
+        if (caster == null || target == null) return;
+
+        // Optional guild enforcement (same pattern as SmokeStrike / ShadowStab)
+        try {
+            Guild casterGuild = caster.getGuild();
+            if (isGuildSpell() && casterGuild != SPELL_GUILD) {
+                System.out.println(caster.getName() + " cannot cast " + NAME + " (wrong guild).");
+                return;
+            }
+        } catch (Exception ignored) {
+            // If Charecter has no getGuild(), skip strict enforcement.
+        }
+
+        // Magic points check
+        if (caster.getMagicPoints() < REQUIRED_MAGIC_POINTS) {
+            System.out.println(caster.getName() + " does not have enough magic points to cast " + NAME + "!");
+            return;
+        }
+
+        caster.setMagicPoints(caster.getMagicPoints() - REQUIRED_MAGIC_POINTS);
+
+        int casterMaxHp = Math.max(0, caster.getMaxHealth());
+        int targetHp = Math.max(0, target.getHitPoints());
+
+        int damage = (int) Math.round(casterMaxHp * DIRECT_DAMAGE_PERCENT);
+        damage = Math.max(1, damage);
+
+        int dealt = Math.min(damage, targetHp);
+        target.setHitPoints(targetHp - dealt);
+
+        System.out.println(caster.getName() + " strikes with " + NAME +
+                ", dealing " + dealt + " damage to " + target.getName() + ".");
+
+        // Apply poison status; now uses POISON_DAMAGE_PER_TICK
+        Status poison = new PoisonStatus(POISON_DURATION_MINUTES);
+        try {
+            if (target.getStatusManager() != null) {
+                target.getStatusManager().addStatus(poison, target);
+            } else {
+                target.addStatus(poison);
+            }
+        } catch (Exception ignored) {
+            try {
+                poison.applyEffect(target);
+            } catch (Exception ignored2) { }
+        }
+    }
+
+    // --- Other Spell overloads for compatibility ---
+
+    @Override
+    public void cast(Charecter caster) {
+        // No obvious target: default self\-target (mostly for engine compatibility)
+        cast(caster, caster);
+    }
+
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        if (caster == null && allCharacters != null && !allCharacters.isEmpty()) {
+            caster = allCharacters.get(0);
+        }
+        if (caster == null) return;
+
+        Charecter target = caster;
+        if (allCharacters != null && allCharacters.size() > 1) {
+            target = allCharacters.get(1);
+        }
+        cast(caster, target);
+    }
+
+    @Override
+    public void cast() {
+        Charecter player = Charecter.getInstance();
+        cast(player, player);
+    }
+
+    @Override
+    public void cast(int toonWisdom) {
+        cast();
+    }
+
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        cast();
+    }
+
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        cast();
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double d) {
+        Charecter caster = Charecter.getInstance();
+        if (caster == null) return;
+        if (enemy == null) enemy = caster;
+        cast(caster, enemy);
+    }
+
+    @Override
+    public void cast(Charecter caster, Enemies target) {
+        // If Enemies\-API is used, just treat as targeting caster for now
+        cast(caster != null ? caster : Charecter.getInstance(),
+             caster != null ? caster : Charecter.getInstance());
+    }
+}

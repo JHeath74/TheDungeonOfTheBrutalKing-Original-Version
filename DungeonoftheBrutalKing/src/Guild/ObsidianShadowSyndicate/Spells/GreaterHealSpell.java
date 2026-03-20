@@ -1,19 +1,40 @@
-
-// src/Spell/GreaterHealSpell.java
 package Guild.ObsidianShadowSyndicate.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import java.util.List;
 
-public final class GreaterHealSpell {
+import DungeonoftheBrutalKing.Charecter;
+import Enemies.Enemies;
+import SharedData.Guild;
+import Spells.Spell;
+
+public final class GreaterHealSpell implements Spell {
 
     private static final String NAME = "GreaterHeal";
     private static final double HEAL_PERCENT = 0.20;
 
+    @Override
     public String getName() {
         return NAME;
     }
 
-    public int cast(Charecter caster) {
+    @Override
+    public boolean isGuildSpell() {
+        return true;
+    }
+
+    @Override
+    public Guild getSpellGuild() {
+        return Guild.OBSIDIAN_SHADOW_SYNDICATE; // adjust to your real enum/value
+    }
+
+    @Override
+    public int getRequiredMagicPoints() {
+        // set to whatever MP cost you want
+        return 5;
+    }
+
+    // Core heal logic in a private helper that returns the healed amount
+    private int doHeal(Charecter caster) {
         if (caster == null) return 0;
 
         int maxHp = Math.max(0, caster.getMaxHealth());
@@ -28,7 +49,55 @@ public final class GreaterHealSpell {
         return healed;
     }
 
+    @Override
+    public void cast(Charecter caster) {
+        doHeal(caster);
+    }
+
+    @Override
+    public void cast() {
+        // no\-arg cast does nothing or could be wired to a global caster if you have one
+    }
+
+    @Override
+    public void cast(int toonWisdom) {
+        // optional: scale heal by wisdom if desired
+    }
+
+    @Override
+    public void castWithIntelligence(int toonIntelligence) {
+        // optional: scale heal by intelligence if desired
+    }
+
+    @Override
+    public void cast(int toonWisdom, int toonIntelligence) {
+        // optional: combined stats logic
+    }
+
+    @Override
+    public void cast(Charecter caster, List<Charecter> allCharacters) {
+        // for now, just heal the caster
+        doHeal(caster);
+    }
+
+    @Override
+    public void cast(Charecter caster, Charecter target) {
+        // heal the target instead of caster
+        doHeal(target);
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double d) {
+        // not really used for healing; leave empty or repurpose if needed
+    }
+
+    @Override
+    public void cast(Charecter caster, Enemies target) {
+        // GreaterHeal does not affect enemies; leave empty
+    }
+
+    @Override
     public String getDescription() {
-        return "Heals the caster for about 20\\% of their maximum health\\.";
+        return "Heals the target for about 20\\% of their maximum health.";
     }
 }
