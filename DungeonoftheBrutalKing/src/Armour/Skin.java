@@ -1,35 +1,34 @@
-
 package Armour;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Skin extends ArmourManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+    private static Charecter myChar = Charecter.getInstance();
     private static int armourDefense;
-    private static final int REQUIRED_STRENGTH = 15;
+    private static final int REQUIRED_STRENGTH = 12;
 
     public Skin(int requiredStrength, int armourDefense, String effect) {
-        super("Skin", requiredStrength, armourDefense, effect);
-        Skin.armourDefense = 15;
+        super("Skin", requiredStrength, armourDefense, 0, effect);
+        Skin.armourDefense = armourDefense;
     }
 
     public Skin(String effect) {
-        super("Skin", REQUIRED_STRENGTH, armourDefense, effect);
-        Skin.armourDefense = 15;
+        super("Skin", REQUIRED_STRENGTH, 12, 0, effect);
+        Skin.armourDefense = 12;
     }
 
     public static Skin createSkin(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = myChar.getStrength();
-            if (strength >= requiredStrength) {
-                return new Skin(armourDefense, requiredStrength, effect);
+            if (strength >= REQUIRED_STRENGTH) {
+                return new Skin(REQUIRED_STRENGTH, armourDefense, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wear the Skin.");
     }
 
     @Override
@@ -46,7 +45,7 @@ public class Skin extends ArmourManager {
         return super.getArmourDefense();
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

@@ -1,6 +1,7 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Javelin extends WeaponManager {
 
@@ -45,7 +46,7 @@ public class Javelin extends WeaponManager {
         return (double) damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

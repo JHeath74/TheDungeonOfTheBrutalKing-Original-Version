@@ -1,8 +1,8 @@
-
 // src/Weapon/Longbow.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Longbow extends WeaponManager {
 
@@ -46,7 +46,7 @@ public class Longbow extends WeaponManager {
         return (double) damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

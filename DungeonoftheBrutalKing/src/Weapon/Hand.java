@@ -1,6 +1,7 @@
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Hand extends WeaponManager {
 
@@ -46,7 +47,7 @@ public class Hand extends WeaponManager {
         return (double) damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

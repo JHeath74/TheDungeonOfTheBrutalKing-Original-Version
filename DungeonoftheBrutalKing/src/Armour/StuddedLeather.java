@@ -1,21 +1,21 @@
-
 package Armour;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class StuddedLeather extends ArmourManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+    private static Charecter myChar = Charecter.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 
     public StuddedLeather(int requiredStrength, int armourDefense, String effect) {
-        super("Skin", requiredStrength, armourDefense, effect);
+        super("Skin", requiredStrength, armourDefense, 0, effect);
         StuddedLeather.armourDefense = 15;
     }
 
     public StuddedLeather(String effect) {
-        super("Skin", REQUIRED_STRENGTH, armourDefense, effect);
+        super("Skin", REQUIRED_STRENGTH, armourDefense, 0, effect);
         StuddedLeather.armourDefense = 15;
     }
 
@@ -46,7 +46,7 @@ public class StuddedLeather extends ArmourManager {
         return super.getArmourDefense();
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

@@ -1,15 +1,16 @@
-
 // src/Armour/BreastPlate.java
 package Armour;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class BreastPlate extends ArmourManager {
 
 	private static Charecter myChar = Charecter.getInstance();
 
     public BreastPlate(int requiredStrength, int armourDefense, String effect) {
-        super("Breast Plate", requiredStrength, armourDefense, effect);
+        // ArmourManager expects (name, requiredStrength, armourDefense, weight, effect)
+        super("Breast Plate", requiredStrength, armourDefense, 0, effect);
         allArmour.add(this);
     }
 
@@ -39,7 +40,7 @@ public class BreastPlate extends ArmourManager {
         return super.getArmourDefense();
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

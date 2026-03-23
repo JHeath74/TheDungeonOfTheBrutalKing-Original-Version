@@ -1,6 +1,7 @@
 package Guild.AuroraArcanum;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
@@ -29,7 +30,7 @@ import SharedData.GuildType;
 import Spells.Spell;
 import Spells.SpellFactory;
 import Spells.SpellBalanceManager;
-import Guild.AuroraArcanum.Spells.AuroraArcanumGuildSpellsManager;
+import SharedData.GuildSpellsDialog;
 
 public class AuroraArcanum extends JPanel {
 
@@ -129,7 +130,18 @@ public class AuroraArcanum extends JPanel {
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(evt -> buyGuildSpell());
+        buySpellsButton.addActionListener(evt -> {
+            try {
+                // Show the reusable guild spell dialog
+                java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
+                Spells.SpellsManager sm = new Spells.SpellsManager();
+                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(), Guild.AURORA_ARCANUM, sm);
+                dlg.setVisible(true);
+            } catch (Exception ex) {
+                // fallback to legacy flow if anything goes wrong
+                buyGuildSpell();
+            }
+        });
         enchantItemButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Enchanting item..."));
         removeCurseButton.addActionListener(evt -> {
             removeCursesAndEffects();
@@ -245,11 +257,9 @@ public class AuroraArcanum extends JPanel {
             if (s != null) {
                 desc.setText(s.getDescription());
                 int reqMp = s.getRequiredMagicPoints();
-                // price key: spell.cost.<GUILD>.<SPELLNAME>
-                String priceKey = "spell.cost." + Guild.AURORA_ARCANUM.name() + "." + s.getName();
-                int defaultPrice = Math.max(50, reqMp * 10);
-                int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
-                int refund = Math.max(1, price / 10); // ~10% refund
+                // fixed price per requirements
+                int price = 250;
+                int refund = Math.max(1, price / 10); // 10% refund
                 infoLabel.setText("Required MP: " + reqMp + "    Price: " + price + " gold    Refund: " + refund + " gold");
             } else {
                 desc.setText("(Details not available)");
@@ -293,11 +303,11 @@ public class AuroraArcanum extends JPanel {
 
         final javax.swing.JDialog dialog;
         if (possibleOwner instanceof java.awt.Frame) {
-            dialog = new javax.swing.JDialog((java.awt.Frame) possibleOwner, "Buy Guild Spells", javax.swing.Dialog.ModalityType.APPLICATION_MODAL);
+            dialog = new javax.swing.JDialog((java.awt.Frame) possibleOwner, "Buy Guild Spells", java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         } else if (possibleOwner instanceof java.awt.Dialog) {
-            dialog = new javax.swing.JDialog((java.awt.Dialog) possibleOwner, "Buy Guild Spells", javax.swing.Dialog.ModalityType.APPLICATION_MODAL);
+            dialog = new javax.swing.JDialog((java.awt.Dialog) possibleOwner, "Buy Guild Spells", java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         } else {
-            dialog = new javax.swing.JDialog((java.awt.Frame) null, "Buy Guild Spells", javax.swing.Dialog.ModalityType.APPLICATION_MODAL);
+            dialog = new javax.swing.JDialog((java.awt.Frame) null, "Buy Guild Spells", java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         }
         dialog.getContentPane().add(p);
         dialog.pack();
@@ -310,20 +320,20 @@ public class AuroraArcanum extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells.");
                 return;
             }
+            // Prevent purchasing a spell already owned (case-insensitive)
+            for (String o : new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells())) {
+                if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; }
+            }
             Spell s = SpellFactory.createGuildSpell(sel, Guild.AURORA_ARCANUM);
-            if (s == null) {
-                JOptionPane.showMessageDialog(dialog, "Unable to retrieve spell details. Purchase aborted.");
-                return;
-            }
-            int reqMp = s.getRequiredMagicPoints();
-            String priceKey = "spell.cost." + Guild.AURORA_ARCANUM.name() + "." + s.getName();
-            int defaultPrice = Math.max(50, reqMp * 10);
-            int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
+            if (s == null) { JOptionPane.showMessageDialog(dialog, "Unable to retrieve spell details. Purchase aborted."); return; }
+            int price = 250; // fixed price
             int gold = player.getGold();
-            if (gold < price) {
-                JOptionPane.showMessageDialog(dialog, "You need " + price + " gold to buy this spell. You have " + gold + " gold.");
-                return;
-            }
+            if (gold < price) { JOptionPane.showMessageDialog(dialog, "You need " + price + " gold to buy this spell. You have " + gold + " gold."); return; }
+            int confirm = JOptionPane.showConfirmDialog(dialog,
+                    "Buy '" + s.getName() + "' for " + price + " gold?\nGold after purchase: " + (gold - price),
+                    "Confirm Purchase",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirm != JOptionPane.YES_OPTION) return;
             // deduct gold and add spell
             player.setGold(gold - price);
             addGuildSpell(s.getName());
@@ -335,44 +345,31 @@ public class AuroraArcanum extends JPanel {
         });
 
         sellBtn.addActionListener(ev -> {
-            // Simple sell dialog: list owned spells and remove selected
             List<String> ownedList = new ArrayList<>(Charecter.getInstance().getGuildSpells());
             if (ownedList.isEmpty()) { JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell."); return; }
             String sel = (String) JOptionPane.showInputDialog(dialog, "Select spell to sell:", "Sell Spell", JOptionPane.PLAIN_MESSAGE, null, ownedList.toArray(new String[0]), ownedList.get(0));
             if (sel != null) {
-                // Remove matching owned spell (case-insensitive)
+                int price = 250;
+                int refund = Math.max(1, price / 10); // fixed 10% refund
+                int confirm = JOptionPane.showConfirmDialog(dialog, "Sell '" + sel + "' for " + refund + " gold?", "Confirm Sell", JOptionPane.YES_NO_OPTION);
+                if (confirm != JOptionPane.YES_OPTION) return;
+
                 String toRemove = null;
-                for (String o : new ArrayList<>(Charecter.getInstance().getGuildSpells())) {
-                    if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; }
-                }
-                boolean removed = false;
-                if (toRemove != null) removed = removeGuildSpell(toRemove);
+                for (String o : new ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
+                boolean removed = false; if (toRemove != null) removed = removeGuildSpell(toRemove);
                 if (removed) {
-                    // compute refund (~10% of price)
-                    int refund = 1;
-                    Spell soldSpell = SpellFactory.createGuildSpell(sel, Guild.AURORA_ARCANUM);
-                    if (soldSpell != null) {
-                        String priceKey = "spell.cost." + Guild.AURORA_ARCANUM.name() + "." + soldSpell.getName();
-                        int defaultPrice = Math.max(50, soldSpell.getRequiredMagicPoints() * 10);
-                        int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
-                        refund = Math.max(1, price / 10);
-                    }
                     player.setGold(player.getGold() + refund);
                     JOptionPane.showMessageDialog(dialog, "You sold " + sel + " and received " + refund + " gold. Gold now: " + player.getGold());
                     goldLabel.setText("Your gold: " + player.getGold());
-                    // refresh available list: recompute from manager
+                    // refresh available list
                     owned.clear(); owned.addAll(Charecter.getInstance().getGuildSpells());
                     ownedLower.clear(); for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
-                    available.clear();
-                    for (Spell sp : all.values()) {
-                        if (sp == null) continue;
-                        if (!ownedLower.contains(sp.getName().toLowerCase())) available.add(sp.getName());
-                    }
+                    available.clear(); for (Spell sp : all.values()) { if (sp == null) continue; if (!ownedLower.contains(sp.getName().toLowerCase())) available.add(sp.getName()); }
                     list.setListData(available.toArray(new String[0]));
                 } else {
                     JOptionPane.showMessageDialog(dialog, "Failed to sell " + sel + ".");
                 }
-             }
+            }
          });
 
         backBtn.addActionListener(ev -> dialog.dispose());

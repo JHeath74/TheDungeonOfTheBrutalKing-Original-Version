@@ -1,7 +1,7 @@
-
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Flail extends WeaponManager {
 
@@ -45,7 +45,7 @@ public class Flail extends WeaponManager {
         return damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

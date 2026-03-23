@@ -1,8 +1,8 @@
-
 // src/Weapon/Club.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Club extends WeaponManager {
 
@@ -47,7 +47,7 @@ public class Club extends WeaponManager {
         return damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

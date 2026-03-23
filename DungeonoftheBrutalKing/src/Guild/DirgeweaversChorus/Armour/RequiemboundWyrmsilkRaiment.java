@@ -1,4 +1,3 @@
-
 package Guild.DirgeweaversChorus.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -7,11 +6,11 @@ import SharedData.Guild;
 
 import java.util.Random;
 
-public class NocturneOfTheBlackRosePanoply {
+public class RequiemboundWyrmsilkRaiment {
 
     private static final Guild REQUIRED_GUILD = Guild.DIRGEWEAVERS_CHORUS;
 
-    private static final String ARMOUR_NAME = "NocturneOfTheBlackRosePanoply";
+    private static final String ARMOUR_NAME = "Requiembound Wyrmsilk Raiment";
     private static final String DESCRIPTION =
             "NocturneOfTheBlackRosePanoply: Ceremonial panoply of the Dirgeweavers Chorus. " +
             "Grants vitality and defense; when struck, it has a 10% chance to reflect 10% of the damage taken.";
@@ -29,7 +28,7 @@ public class NocturneOfTheBlackRosePanoply {
     private int lastVitBonus = 0;
     private int lastDefBonus = 0;
 
-    public static NocturneOfTheBlackRosePanoply create(Charecter character) {
+    public static RequiemboundWyrmsilkRaiment create(Charecter character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD) {
             throw new IllegalArgumentException("Only Dirgeweavers Chorus members can wear the " + ARMOUR_NAME + ".");
@@ -37,7 +36,7 @@ public class NocturneOfTheBlackRosePanoply {
         if (character.getVitality() < REQUIRED_VITALITY) {
             throw new IllegalArgumentException("Character does not have the required vitality to wear the " + ARMOUR_NAME + ".");
         }
-        return new NocturneOfTheBlackRosePanoply();
+        return new RequiemboundWyrmsilkRaiment();
     }
 
     public boolean equip(Charecter wearer) {

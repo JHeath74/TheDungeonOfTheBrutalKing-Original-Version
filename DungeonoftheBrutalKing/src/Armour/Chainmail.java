@@ -1,41 +1,35 @@
-
 // src/Armour/Chainmail.java
 package Armour;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Chainmail extends ArmourManager {
-
-    public Chainmail(String name, int requiredStrength, int armourDefense, String effect) {
-        super(name, requiredStrength, armourDefense, effect);
-        // TODO Auto-generated constructor stub
-    }
 
     private static Charecter myChar = Charecter.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 
-    public Chainmail(String effect) {
-        super("Chainmail", REQUIRED_STRENGTH, armourDefense, effect);
-        Chainmail.armourDefense = 15;
-    }
-
     public Chainmail(int requiredStrength, int armourDefense, String effect) {
-        super("Breast Plate", requiredStrength, armourDefense, effect);
+        super("Chainmail", requiredStrength, armourDefense, 0, effect);
+        Chainmail.armourDefense = armourDefense;
+    }
+
+    public Chainmail(String effect) {
+        super("Chainmail", REQUIRED_STRENGTH, 15, 0, effect);
         Chainmail.armourDefense = 15;
     }
 
-    public static BreastPlate createBreastPlate(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
+    public static Chainmail createChainmail(Charecter character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
         try {
             int strength = myChar.getStrength();
             if (strength >= requiredStrength) {
-                return new BreastPlate(requiredStrength, armourDefense, effect);
+                return new Chainmail(requiredStrength, armourDefense, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wear Chainmail.");
     }
 
     @Override
@@ -57,7 +51,7 @@ public class Chainmail extends ArmourManager {
         return super.getArmourDefense();
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

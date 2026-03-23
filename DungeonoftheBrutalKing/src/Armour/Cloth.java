@@ -1,36 +1,35 @@
-
 // src/Armour/Cloth.java
 package Armour;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Cloth extends ArmourManager {
 
 	private static Charecter myChar = Charecter.getInstance();
     private static int armourDefense;
-    private static final int REQUIRED_STRENGTH = 15;
-
-    public Cloth(String effect) {
-        super("Cloth", REQUIRED_STRENGTH, armourDefense, effect);
-        Cloth.armourDefense = 15;
-    }
+    private static final int REQUIRED_STRENGTH = 1;
 
     public Cloth(int requiredStrength, int armourDefense, String effect) {
-        super("Cloth", requiredStrength, armourDefense, effect);
-        Cloth.armourDefense = 15;
+        super("Cloth", requiredStrength, armourDefense, 0, effect);
+        Cloth.armourDefense = armourDefense;
     }
 
-    public static BreastPlate createBreastPlate(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
+    public Cloth(String effect) {
+        super("Cloth", REQUIRED_STRENGTH, 1, 0, effect);
+        Cloth.armourDefense = 1;
+    }
+
+    public static Cloth createCloth(Charecter character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
         try {
             int strength = myChar.getStrength();
             if (strength >= requiredStrength) {
-                return new BreastPlate(armourDefense, requiredStrength, effect);
+                return new Cloth(requiredStrength, armourDefense, effect);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wear the Cloth.");
     }
 
     @Override
@@ -43,16 +42,11 @@ public class Cloth extends ArmourManager {
     }
 
     @Override
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
-    }
-
-    @Override
     public int getArmourDefense() {
         return super.getArmourDefense();
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

@@ -1,8 +1,8 @@
-
 // src/Weapon/WarNet.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class WarNet extends WeaponManager {
 
@@ -46,7 +46,7 @@ public class WarNet extends WeaponManager {
         return super.getDamage();
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

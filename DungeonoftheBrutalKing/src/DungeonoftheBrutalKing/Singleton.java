@@ -1,13 +1,12 @@
-
 package DungeonoftheBrutalKing;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Armour.ArmourManager;
-
 import Shields.ShieldManager;
-import Spells.Spells;
+import Spells.Spell;
+import Spells.SpellsManager;
 import Weapon.WeaponManager;
 
 public class Singleton
@@ -40,13 +39,13 @@ public class Singleton
 
     private static ArmourManager myArmour = ArmourManager.Singleton();
     private static ShieldManager myShields = ShieldManager.Singleton();
-    private static Spells mySpells = Spells.Singleton();
+    private static SpellsManager mySpells = new SpellsManager();
     // Removed invalid Enemies.Singleton() usage
     // private static Enemies myMonsters = Enemies.Singleton();
 
     private static List<ArmourManager> armourList = addArmour();
     private static List<WeaponManager> weaponList = addWeapon();
-    private static List<Spells> spellList = addSpells();
+    private static List<Spell> spellList = addSpells();
     private static List<ShieldManager> shieldList = addShields();
 
     //Singletons
@@ -62,7 +61,7 @@ public class Singleton
         return shieldList;
     }
 
-    private static List<Spells> addSpells()
+    private static List<Spell> addSpells()
     {
         spellList = new ArrayList<>();
         return spellList;
@@ -89,12 +88,12 @@ public class Singleton
         return myShields;
     }
 
-    public static Spells spellListSingleton()
+    public static SpellsManager spellListSingleton()
     {
         return mySpells;
     }
 
-    public static List<Spells> spellList() { return spellList; }
+    public static List<Spell> spellList() { return spellList; }
 
     public static List<WeaponManager> weaponsList()
     {

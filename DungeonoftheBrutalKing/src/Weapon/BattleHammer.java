@@ -1,7 +1,7 @@
-
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class BattleHammer extends WeaponManager {
 
@@ -48,7 +48,7 @@ public class BattleHammer extends WeaponManager {
         return (double) damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

@@ -1,8 +1,8 @@
-
 // src/Weapon/Sling.java
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Sling extends WeaponManager {
 
@@ -47,7 +47,7 @@ public class Sling extends WeaponManager {
         return (double) damage;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

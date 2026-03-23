@@ -1,7 +1,7 @@
-
 package Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
+import Status.StatusType;
 
 public class Crossbow extends WeaponManager {
 
@@ -55,7 +55,7 @@ public class Crossbow extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public StatusEffect getEffect() {
+    public StatusType getEffect() {
         return super.getStatusEffect();
     }
 

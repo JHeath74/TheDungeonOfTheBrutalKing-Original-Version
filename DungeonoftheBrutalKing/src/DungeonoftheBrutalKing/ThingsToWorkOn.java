@@ -14,8 +14,7 @@ public class ThingsToWorkOn {
 		//possible to have 1-3 enemies to combat.
 		//When eating food in guild, restore hunger and thirst meter.
 		//Missing vitality from CharacterCreation and MainGameScreen class
-		//updating Mage, Hunter, Ranger and Ministrel classes.
-		//Fix all Statuses
+		//offer guild quests.
 	}
 	
 	//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/

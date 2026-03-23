@@ -261,9 +261,7 @@ public class CelestialArcaneOrder extends JPanel {
             if (s != null) {
                 desc.setText(s.getDescription());
                 int reqMp = s.getRequiredMagicPoints();
-                String priceKey = "spell.cost." + SharedData.Guild.CELESTIAL_ARCANE_ORDER.name() + "." + s.getName();
-                int defaultPrice = Math.max(50, reqMp * 10);
-                int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
+                int price = 250; // fixed price as requested
                 int refund = Math.max(1, price / 10);
                 infoLabel.setText("Required MP: " + reqMp + "    Price: " + price + " gold    Refund: " + refund + " gold");
             } else {
@@ -302,11 +300,11 @@ public class CelestialArcaneOrder extends JPanel {
 
         final javax.swing.JDialog dialog;
         if (possibleOwner instanceof java.awt.Frame) {
-            dialog = new javax.swing.JDialog((java.awt.Frame) possibleOwner, "Buy Guild Spells", javax.swing.Dialog.ModalityType.APPLICATION_MODAL);
+            dialog = new javax.swing.JDialog((java.awt.Frame) possibleOwner, "Buy Guild Spells", java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         } else if (possibleOwner instanceof java.awt.Dialog) {
-            dialog = new javax.swing.JDialog((java.awt.Dialog) possibleOwner, "Buy Guild Spells", javax.swing.Dialog.ModalityType.APPLICATION_MODAL);
+            dialog = new javax.swing.JDialog((java.awt.Dialog) possibleOwner, "Buy Guild Spells", java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         } else {
-            dialog = new javax.swing.JDialog((java.awt.Frame) null, "Buy Guild Spells", javax.swing.Dialog.ModalityType.APPLICATION_MODAL);
+            dialog = new javax.swing.JDialog((java.awt.Frame) null, "Buy Guild Spells", java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         }
         dialog.getContentPane().add(p);
         dialog.pack();
@@ -316,14 +314,23 @@ public class CelestialArcaneOrder extends JPanel {
             String sel = list.getSelectedValue();
             if (sel == null) { JOptionPane.showMessageDialog(dialog, "Please select a spell first."); return; }
             if (Charecter.getInstance().getGuildSpells().size() >= maxSpells) { JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells."); return; }
+            // Prevent duplicates (extra safety)
+            for (String o : new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells())) {
+                if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; }
+            }
             Spell s = SpellFactory.createGuildSpell(sel, SharedData.Guild.CELESTIAL_ARCANE_ORDER);
             if (s == null) { JOptionPane.showMessageDialog(dialog, "Unable to retrieve spell details. Purchase aborted."); return; }
-            int reqMp = s.getRequiredMagicPoints();
-            String priceKey = "spell.cost." + SharedData.Guild.CELESTIAL_ARCANE_ORDER.name() + "." + s.getName();
-            int defaultPrice = Math.max(50, reqMp * 10);
-            int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
+            // Fixed price as requested
+            int price = 250;
             int gold = player.getGold();
             if (gold < price) { JOptionPane.showMessageDialog(dialog, "You need " + price + " gold to buy this spell. You have " + gold + " gold."); return; }
+            // Confirm purchase
+            int confirm = JOptionPane.showConfirmDialog(dialog,
+                    "Buy '" + s.getName() + "' for " + price + " gold?\nGold after purchase: " + (gold - price),
+                    "Confirm Purchase",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirm != JOptionPane.YES_OPTION) return;
+            // Deduct and add
             player.setGold(gold - price);
             addGuildSpell(s.getName());
             JOptionPane.showMessageDialog(dialog, "You have purchased " + s.getName() + " for " + price + " gold. Gold remaining: " + player.getGold());
@@ -337,18 +344,22 @@ public class CelestialArcaneOrder extends JPanel {
             if (ownedList.isEmpty()) { JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell."); return; }
             String sel = (String) JOptionPane.showInputDialog(dialog, "Select spell to sell:", "Sell Spell", JOptionPane.PLAIN_MESSAGE, null, ownedList.toArray(new String[0]), ownedList.get(0));
             if (sel != null) {
+                // compute refund using balance manager (if available) or default
+                int refund = 1;
+                Spell soldSpell = SpellFactory.createGuildSpell(sel, SharedData.Guild.CELESTIAL_ARCANE_ORDER);
+                if (soldSpell != null) {
+                    String priceKey = "spell.cost." + SharedData.Guild.CELESTIAL_ARCANE_ORDER.name() + "." + soldSpell.getName();
+                    int defaultPrice = Math.max(50, soldSpell.getRequiredMagicPoints() * 10);
+                    int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
+                    refund = Math.max(1, price / 10);
+                }
+                int confirm = JOptionPane.showConfirmDialog(dialog, "Sell '" + sel + "' for " + refund + " gold?", "Confirm Sell", JOptionPane.YES_NO_OPTION);
+                if (confirm != JOptionPane.YES_OPTION) return;
+
                 String toRemove = null;
                 for (String o : new ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
                 boolean removed = false; if (toRemove != null) removed = removeGuildSpell(toRemove);
                 if (removed) {
-                    int refund = 1;
-                    Spell soldSpell = SpellFactory.createGuildSpell(sel, SharedData.Guild.CELESTIAL_ARCANE_ORDER);
-                    if (soldSpell != null) {
-                        String priceKey = "spell.cost." + SharedData.Guild.CELESTIAL_ARCANE_ORDER.name() + "." + soldSpell.getName();
-                        int defaultPrice = Math.max(50, soldSpell.getRequiredMagicPoints() * 10);
-                        int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
-                        refund = Math.max(1, price / 10);
-                    }
                     player.setGold(player.getGold() + refund);
                     JOptionPane.showMessageDialog(dialog, "You sold " + sel + " and received " + refund + " gold. Gold now: " + player.getGold());
                     goldLabel.setText("Your gold: " + player.getGold());
