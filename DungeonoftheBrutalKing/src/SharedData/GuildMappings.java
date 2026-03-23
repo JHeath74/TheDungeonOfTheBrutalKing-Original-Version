@@ -1,4 +1,3 @@
-
 package SharedData;
 
 import java.util.EnumMap;
@@ -14,7 +13,7 @@ public final class GuildMappings {
             Map.entry(Guild.CRIMSON_VEIL_ROGUES, GuildType.ROGUE),
             Map.entry(Guild.DAWNWARD_PALADINS, GuildType.PALADIN),
             Map.entry(Guild.DIRGEWEAVERS_CHORUS, GuildType.BARD),
-            Map.entry(Guild.HARMONILIC_LIGHT_ENSEMBLE, GuildType.MINSTREL),
+            Map.entry(Guild.HARMONIC_LIGHT_ENSEMBLE, GuildType.MINSTREL),
             Map.entry(Guild.NIGHT_SHADE_HUNTERS, GuildType.HUNTER),
             Map.entry(Guild.OBSIDIAN_HEX_COVEN, GuildType.MAGE),
             Map.entry(Guild.OBSIDIAN_SHADOW_SYNDICATE, GuildType.THIEF),
@@ -29,7 +28,7 @@ public final class GuildMappings {
             Map.entry(Guild.CRIMSON_VEIL_ROGUES, Alignment.EVIL),
             Map.entry(Guild.DAWNWARD_PALADINS, Alignment.GOOD),
             Map.entry(Guild.DIRGEWEAVERS_CHORUS, Alignment.EVIL),
-            Map.entry(Guild.HARMONILIC_LIGHT_ENSEMBLE, Alignment.GOOD),
+            Map.entry(Guild.HARMONIC_LIGHT_ENSEMBLE, Alignment.GOOD),
             Map.entry(Guild.NIGHT_SHADE_HUNTERS, Alignment.EVIL),
             Map.entry(Guild.OBSIDIAN_HEX_COVEN, Alignment.EVIL),
             Map.entry(Guild.OBSIDIAN_SHADOW_SYNDICATE, Alignment.EVIL),

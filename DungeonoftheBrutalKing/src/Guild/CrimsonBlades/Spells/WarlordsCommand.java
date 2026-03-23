@@ -1,5 +1,3 @@
-
-java
 package Guild.CrimsonBlades.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -13,7 +11,7 @@ public class WarlordsCommand implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 10;
     private static final int FALTER_DURATION = 1;
 
-    private final String name = "Warlord’s Command";
+    private final String name = "Warlord's Command";
     private final String description = "A forceful shout that compels enemies to falter or reposition.";
 
     @Override
@@ -43,7 +41,7 @@ public class WarlordsCommand implements Spell {
     @Override
     public void cast(Charecter caster, List<Charecter> allCharacters) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
-            System.out.println("Only members of the Crimson Blades guild can use Warlord’s Command.");
+            System.out.println("Only members of the Crimson Blades guild can use Warlord's Command.");
             return;
         }
         for (Charecter target : allCharacters) {
@@ -57,21 +55,21 @@ public class WarlordsCommand implements Spell {
     @Override
     public void cast(Charecter caster) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
-            System.out.println("Only members of the Crimson Blades guild can use Warlord’s Command.");
+            System.out.println("Only members of the Crimson Blades guild can use Warlord's Command.");
             return;
         }
-        System.out.println(caster.getName() + " shouts Warlord’s Command, but there are no enemies to affect.");
+        System.out.println(caster.getName() + " shouts Warlord's Command, but there are no enemies to affect.");
     }
 
     @Override
     public void cast() {
-        System.out.println("Warlord’s Command is cast, but there is no caster.");
+        System.out.println("Warlord's Command is cast, but there is no caster.");
     }
 
     @Override
     public void cast(Charecter caster, Charecter target) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
-            System.out.println("Only members of the Crimson Blades guild can use Warlord’s Command.");
+            System.out.println("Only members of the Crimson Blades guild can use Warlord's Command.");
             return;
         }
         if (target == null) return;
@@ -82,11 +80,11 @@ public class WarlordsCommand implements Spell {
     @Override
     public void castWithStrength(Charecter caster, double strengthMultiplier) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
-            System.out.println("Only members of the Crimson Blades guild can use Warlord’s Command.");
+            System.out.println("Only members of the Crimson Blades guild can use Warlord's Command.");
             return;
         }
         int duration = (int) Math.round(FALTER_DURATION * strengthMultiplier);
-        System.out.println(caster.getName() + " uses Warlord’s Command with a strength multiplier of " + strengthMultiplier +
+        System.out.println(caster.getName() + " uses Warlord's Command with a strength multiplier of " + strengthMultiplier +
             ", causing enemies to falter for " + duration + " turns (no targets specified).");
     }
 }

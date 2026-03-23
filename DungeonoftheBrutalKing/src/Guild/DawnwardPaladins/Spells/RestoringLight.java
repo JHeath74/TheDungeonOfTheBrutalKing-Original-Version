@@ -1,5 +1,3 @@
-
-java
 package Guild.DawnwardPaladins.Spells;
 
 import DungeonoftheBrutalKing.Charecter;

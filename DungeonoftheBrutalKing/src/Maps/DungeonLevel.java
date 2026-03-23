@@ -1,4 +1,3 @@
-
 // src/Maps/DungeonLevel.java
 package Maps;
 
@@ -36,8 +35,9 @@ public abstract class DungeonLevel {
     public static int getMapHeight() { return mapHeight; }
     public abstract int getDungeonLevelNumber();
 
+    // Keep this for backwards compatibility but delegate to getSpecialLocation
     public LocationType getLocationType(int x, int y) {
-        return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
+        return getSpecialLocation(x, y);
     }
 
     public DungeonLevel goDown() throws IOException, InterruptedException, ParseException { return null; }
@@ -69,13 +69,28 @@ public abstract class DungeonLevel {
         this.dungeonLevelNumber = level;
     }
 
-    public abstract LocationType getSpecialLocation(int x, int y);
+    /**
+     * Return the special location type at the given coordinates.
+     * Subclasses no longer need to implement this unless they have custom behavior.
+     */
+    public LocationType getSpecialLocation(int x, int y) {
+        return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
+    }
+
+    /**
+     * Helper for subclasses to register special locations.
+     */
+    protected void setSpecialLocation(int x, int y, LocationType type) {
+        specialLocations.put(new Point(x, y), type);
+    }
 
     // --- Quest-door linking methods ---
 
     public void assignRandomQuestsToDoors(List<Point> doorLocations, List<Quest> availableQuests) {
+        if (doorLocations == null || availableQuests == null) return;
         Random rand = new Random();
         for (Point door : doorLocations) {
+            if (door == null) continue;
             if (rand.nextBoolean() && !availableQuests.isEmpty()) {
                 Quest quest = availableQuests.get(rand.nextInt(availableQuests.size()));
                 doorQuests.put(door, quest);
@@ -84,6 +99,7 @@ public abstract class DungeonLevel {
     }
 
     public Quest getQuestForDoor(Point doorLocation) {
+        if (doorLocation == null) return null;
         return doorQuests.get(doorLocation);
     }
     

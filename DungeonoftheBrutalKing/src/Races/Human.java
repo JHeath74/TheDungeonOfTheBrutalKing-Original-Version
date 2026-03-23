@@ -1,4 +1,3 @@
-
 package Races;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class Human {
         return """
         Human (Character Description)
         Versatile and ambitious, humans are the most adaptable race in the realms. Found in every corner of the world, they vary wildly in culture, belief, and talent.
-        What binds them is an indomitable spirit—whether forging empires, unlocking arcane secrets, or mastering the blade, humans push boundaries like no other.
+        What binds them is an indomitable spirit - whether forging empires, unlocking arcane secrets, or mastering the blade, humans push boundaries like no other.
 
         Though flexible and determined, humans lack the innate hardiness or arcane lineage of other races. As a result, they suffer a 10% reduction in health, magic points, and action points, representing their physical
         and magical limitations. This drawback often forces them to rely on ingenuity, grit, and teamwork to survive and thrive.

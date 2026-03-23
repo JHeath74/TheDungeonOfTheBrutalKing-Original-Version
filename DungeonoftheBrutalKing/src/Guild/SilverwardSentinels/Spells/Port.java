@@ -8,7 +8,7 @@ import DungeonoftheBrutalKing.Singleton;
 
 public class Port implements Spell {
 
-    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final Guild SPELL_GUILD = Guild.SILVERWARD_SENTINELS;
     private static final int REQUIRED_MAGIC_POINTS = 6;
     private static final int MIN_WISDOM = 30;
     private static final int MIN_INTELLIGENCE = 30;

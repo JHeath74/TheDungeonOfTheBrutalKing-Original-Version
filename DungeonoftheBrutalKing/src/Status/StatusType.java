@@ -39,6 +39,6 @@ public enum StatusType {
     AGILITY_DEBUFF_STATUS,
     JUDGEMENT_BRAND,
     OATHBREAKERS_RUIN,
-   
+    PURITY_WARD,
     // Add more as needed
 }

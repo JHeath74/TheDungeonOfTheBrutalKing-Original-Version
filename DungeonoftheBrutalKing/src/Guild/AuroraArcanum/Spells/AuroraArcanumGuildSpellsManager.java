@@ -1,9 +1,9 @@
-
 // src/Guild/AuroraArcanum/Spells/AuroraArcanumGuildSpellsManager.java
 package Guild.AuroraArcanum.Spells;
 
 import SharedData.Guild;
 import Spells.Spell;
+import Spells.SpellFactory;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +46,7 @@ public class AuroraArcanumGuildSpellsManager {
             "VoidEcho",
         };
         for (String spellName : defaultSpells) {
-            Spell spell = Spell.createGuildSpell(spellName, guild);
+            Spell spell = SpellFactory.createGuildSpell(spellName, guild);
             if (spell != null) {
                 registerSpell(spell);
             }

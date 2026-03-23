@@ -228,18 +228,18 @@ public class Combat {
                      MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
                          " attacks you for " + damage + " damage.\n");
                      updateNameAndHP();
-+
-+                    // If the defender (player) had Ice Barrier, slow the attacker (monster)
-+                    try {
-+                        if (myChar.hasStatus("Ice Barrier")) {
-+                            Status st = myChar.getStatusByName("Ice Barrier");
-+                            if (st instanceof IceBarrierStatus) {
-+                                int slowDur = ((IceBarrierStatus) st).getSlowDuration();
-+                                myEnemies.addStatus(new ImmobilizedStatus(Math.max(1, slowDur)));
-+                                MainGameScreen.appendToMessageTextPane(myEnemies.getName() + " is slowed by striking the Ice Barrier!\n");
-+                            }
-+                        }
-+                    } catch (Exception ignored) { }
+
+                    // If the defender (player) had Ice Barrier, slow the attacker (monster)
+                    try {
+                        if (myChar.hasStatus("Ice Barrier")) {
+                            Status st = myChar.getStatusByName("Ice Barrier");
+                            if (st instanceof IceBarrierStatus) {
+                                int slowDur = ((IceBarrierStatus) st).getSlowDuration();
+                                myEnemies.addStatus(new ImmobilizedStatus(Math.max(1, slowDur)));
+                                MainGameScreen.appendToMessageTextPane(myEnemies.getName() + " is slowed by striking the Ice Barrier!\n");
+                            }
+                        }
+                    } catch (Exception ignored) { }
                  }
 
                 if (myChar.getHitPoints() <= 0) {

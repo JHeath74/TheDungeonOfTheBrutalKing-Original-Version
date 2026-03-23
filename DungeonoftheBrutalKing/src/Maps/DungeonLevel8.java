@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Collections;
 
 import SharedData.LocationType;
 
@@ -186,18 +187,16 @@ public class DungeonLevel8 extends DungeonLevel {
         return DUNGEON_LEVEL;
     }
 
-    @Override
-    public LocationType getSpecialLocation(int x, int y) {
-        return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
-    }
+    // Removed redundant getSpecialLocation override to use base implementation in DungeonLevel
 
     @Override
     public List<? extends MapEntity> getEntities() {
         // TODO: Add entities for level 8
-        return null;
+        return Collections.emptyList();
     }
 
-    public void printNumberCoordinates() {
+    // Debug: helper method to print map numeric markers (>1) and their coordinates for developers.
+    private void printNumberCoordinates() {
         for (int y = 0; y < map.length; y++) {
             for (int x = 0; x < map[y].length; x++) {
                 int value = map[y][x];

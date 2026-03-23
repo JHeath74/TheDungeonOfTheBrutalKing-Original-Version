@@ -10,6 +10,8 @@ import Status.HasHitPoints;
 import Status.Status;
 import Status.StatusManager;
 import Status.StatusType;
+import Status.PurityWardStatus;
+import Status.AstralWardStatus;
 
 public class Charecter implements HasHitPoints {
 
@@ -449,6 +451,36 @@ public class Charecter implements HasHitPoints {
     public void addStatus(Status effectStatus) {
         if (effectStatus == null) return;
 
+        // If the incoming status is negative and the character already has a PurityWard, refuse.
+        try {
+            if (effectStatus.isNegative()) {
+                boolean hasWard = false;
+                if (statuses != null) {
+                    for (Status s : statuses) {
+                        if (s instanceof PurityWardStatus || s instanceof AstralWardStatus) { hasWard = true; break; }
+                        if (s instanceof Status) {
+                            try {
+                                if (s.getClass().getSimpleName().equals("PurityWardStatus")) { hasWard = true; break; }
+                            } catch (Exception ignored) { }
+                        }
+                    }
+                }
+                if (!hasWard && statusManager != null) {
+                    try {
+                        for (Status s : statusManager.getActiveStatuses()) {
+                            if (s instanceof PurityWardStatus) { hasWard = true; break; }
+                        }
+                    } catch (Exception ignored) { }
+                }
+                if (hasWard) {
+                    try {
+                        System.out.println(getName() + " is protected by a Purity Ward; negative status '" + effectStatus.getName() + "' resisted.");
+                    } catch (Exception ignored) { }
+                    return;
+                }
+            }
+        } catch (Exception ignored) { }
+
         // Keep local list in sync (avoid duplicates).
         if (statuses == null) statuses = new ArrayList<>();
         if (!statuses.contains(effectStatus)) {
@@ -462,7 +494,7 @@ public class Charecter implements HasHitPoints {
                 statusManager.getClass().getMethod("addStatus", Status.class).invoke(statusManager, effectStatus);
             } catch (Exception ignored) {
                 try {
-                    // Fallback: statusManager.applyStatus(Status)
+                    // Fallback: statusManager.applyStatus(Status) // preserved spelling
                     statusManager.getClass().getMethod("applyStatus", Status.class).invoke(statusManager, effectStatus);
                 } catch (Exception ignoredToo) {
                     // No compatible method; local list still tracks statuses.

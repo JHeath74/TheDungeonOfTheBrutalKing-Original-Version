@@ -11,6 +11,11 @@ import SharedData.LocationType;
 
 public class DungeonLevel1 extends DungeonLevel{
 
+	
+    private static final int MAP_WIDTH = 128;
+    private static final int MAP_HEIGHT = 128;
+    private static final int DUNGEON_LEVEL = 1;
+    
     // Dimensions of the dungeon
 
     
@@ -190,51 +195,26 @@ public class DungeonLevel1 extends DungeonLevel{
 	            
  }
 
-	        @Override
-	        public DungeonLevel goDown() throws IOException, InterruptedException, ParseException {
-	            return new DungeonLevel2();
-	        }
+		// ...existing code...
+				@Override
+				public DungeonLevel goDown() throws IOException, InterruptedException, ParseException {
+					return new DungeonLevel2();
+				}
 
-	        @Override
-	        public DungeonLevel goUp() {
-	            return null;
-	        }
+				@Override
+				public DungeonLevel goUp() {
+					return null;
+				}
 
-	        @Override
-	        public int getDungeonLevelNumber() {
-	            return 1;
-	        }
+				@Override
+				public int getDungeonLevelNumber() {
+					return 1;
+				}
 
-	        public void setSpecialLocation(int x, int y, LocationType type) {
-	            specialLocations.put(new Point(x, y), type);
-	        }
+				// Use base-class setSpecialLocation/getSpecialLocation methods (do not redefine)
 
-	        @Override
-	        public LocationType getSpecialLocation(int x, int y) {
-	            return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
-	        }
-
-	        @Override
-	        public Point getStairsDownLocation() {
-	            for (var entry : specialLocations.entrySet()) {
-	                if (entry.getValue() == LocationType.STAIRS_DOWN) {
-	                    return entry.getKey();
-	                }
-	            }
-	            return null;
-	        }
-
-	        public Point getStairsUpLocation() {
-	            for (var entry : specialLocations.entrySet()) {
-	                if (entry.getValue() == LocationType.STAIRS_UP) {
-	                    return entry.getKey();
-	                }
-	            }
-	            return null;
-	        }
-
-	        @Override
-	        public List<? extends MapEntity> getEntities() {
-	            return null;
-	        }
-	    }
+				@Override
+				public List<? extends MapEntity> getEntities() {
+					return null;
+				}
+}

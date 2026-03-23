@@ -10,6 +10,38 @@ public class StatusManager {
     private List<Status> activeStatuses = new ArrayList<>();
 
     public void addStatus(Status status, Charecter charecter) {
+        if (status == null) return;
+
+        // If we're adding a negative status, check for a Purity Ward on the target.
+        try {
+            if (status.isNegative()) {
+                boolean hasWard = false;
+                // Check activeStatuses in this manager
+                for (Status s : activeStatuses) {
+                    if (s instanceof PurityWardStatus) { hasWard = true; break; }
+                }
+                // Check the charecter's local statuses as a backup
+                if (!hasWard && charecter != null) {
+                    try {
+                        java.util.List<Status> local = charecter.getStatuses();
+                        if (local != null) {
+                            for (Status s : local) {
+                                if (s instanceof PurityWardStatus) { hasWard = true; break; }
+                            }
+                        }
+                    } catch (Exception ignored) { }
+                }
+
+                if (hasWard) {
+                    try {
+                        String targetName = (charecter != null) ? charecter.getName() : "Target";
+                        System.out.println(targetName + " is protected by a Purity Ward; negative status '" + status.getName() + "' resisted.");
+                    } catch (Exception ignored) { }
+                    return;
+                }
+            }
+        } catch (Exception ignored) { }
+
         status.applyEffect(charecter);
         activeStatuses.add(status);
     }

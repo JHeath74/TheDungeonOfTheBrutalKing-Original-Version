@@ -1,5 +1,3 @@
-
-java
 package Guild.CelestialArcaneOrder.Weapon;
 
 import Weapon.WeaponManager;

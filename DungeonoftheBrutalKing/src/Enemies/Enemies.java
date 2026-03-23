@@ -177,6 +177,23 @@ public abstract class Enemies implements HasHitPoints {
 
     @Override
     public void addStatus(Status status) {
+        if (status == null) return;
+
+        // If status is negative and this enemy has a Purity Ward, resist it.
+        try {
+            if (status.isNegative()) {
+                for (Status s : statuses) {
+                    if (s instanceof Status.PurityWardStatus) {
+                        try { System.out.println(getName() + " is protected by a Purity Ward; negative status '" + status.getName() + "' resisted."); } catch (Exception ignored) { }
+                        return;
+                    }
+                    try {
+                        if (s.getClass().getSimpleName().equals("PurityWardStatus")) { try { System.out.println(getName() + " is protected by a Purity Ward; negative status '" + status.getName() + "' resisted."); } catch (Exception ignored) { } return; }
+                    } catch (Exception ignored) { }
+                }
+            }
+        } catch (Exception ignored) { }
+
         if (status != null) {
             statuses.add(status);
         }

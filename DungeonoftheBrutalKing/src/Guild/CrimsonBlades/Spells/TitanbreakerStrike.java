@@ -1,5 +1,3 @@
-
-java
 package Guild.CrimsonBlades.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -78,7 +76,7 @@ public class TitanbreakerStrike implements Spell {
 
     @Override
     public void cast() {
-        System.out.println("Titanbreaker Strike is cast, but there is no caster.");
+        System.out.println("Titanbreaker Strike is cast with no caster.");
     }
 
     @Override
@@ -88,19 +86,11 @@ public class TitanbreakerStrike implements Spell {
             return;
         }
         if (target == null) return;
-        target.takeDamage(STRIKE_DAMAGE);
-        System.out.println(caster.getName() + " smashes " + target.getName() +
-            " with Titanbreaker Strike, dealing " + STRIKE_DAMAGE + " damage and shattering their armor!");
+        target.takeDamage((int)Math.round(STRIKE_DAMAGE * DAMAGE_MULTIPLIER));
+        System.out.println(caster.getName() + " slams into " + target.getName() +
+            " with Titanbreaker Strike, dealing " + (int)Math.round(STRIKE_DAMAGE * DAMAGE_MULTIPLIER) + " damage.");
     }
 
     @Override
-    public void castWithStrength(Charecter caster, double strengthMultiplier) {
-        if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
-            System.out.println("Only members of the Crimson Blades guild can use Titanbreaker Strike.");
-            return;
-        }
-        int damage = (int) Math.round(caster.getStrength() * DAMAGE_MULTIPLIER * strengthMultiplier);
-        System.out.println(caster.getName() + " uses Titanbreaker Strike with a strength multiplier of " + strengthMultiplier +
-            ", dealing " + damage + " damage (no target specified).");
-    }
+    public void castWithStrength(Charecter caster, double d) { }
 }

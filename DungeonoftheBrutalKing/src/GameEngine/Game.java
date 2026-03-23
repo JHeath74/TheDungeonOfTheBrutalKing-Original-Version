@@ -1,4 +1,3 @@
-
 package GameEngine;
 
 import java.awt.*;
@@ -142,11 +141,11 @@ public class Game implements Runnable {
     public void checkLevelTransition() {
         int playerX = (int) camera.getX();
         int playerY = (int) camera.getY();
-        int tile = map[playerY][playerX];
+        LocationType loc = detectLocation(playerX, playerY);
 
-        if (tile == 5) {
+        if (loc == LocationType.STAIRS_DOWN) {
             goToNextLevel();
-        } else if (tile == 6) {
+        } else if (loc == LocationType.STAIRS_UP) {
             goToPreviousLevel();
         }
     }

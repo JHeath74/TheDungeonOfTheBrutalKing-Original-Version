@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Collections;
 
 import SharedData.LocationType;
 
@@ -200,19 +201,15 @@ public class DungeonLevel3 extends DungeonLevel {
         return DUNGEON_LEVEL;
     }
 
+    // Removed redundant getSpecialLocation override to use base implementation in DungeonLevel
+
+
+
     @Override
-    public LocationType getSpecialLocation(int x, int y) {
-        return specialLocations.getOrDefault(new Point(x, y), LocationType.EMPTY);
+    public List<? extends MapEntity> getEntities() {
+        // TODO: Add entities for level 3
+        return Collections.emptyList();
     }
-
-
-
-	@Override
-	public List<? extends MapEntity> getEntities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 
 }

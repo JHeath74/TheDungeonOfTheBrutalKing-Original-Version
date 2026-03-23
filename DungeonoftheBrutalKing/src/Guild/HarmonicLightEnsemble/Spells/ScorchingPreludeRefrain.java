@@ -1,4 +1,3 @@
-
 // `src/Guild/HarmonicLightEnsemble/Spells/ScorchingPreludeRefrain.java`
 package Guild.HarmonicLightEnsemble.Spells;
 
@@ -17,7 +16,7 @@ public class ScorchingPreludeRefrain implements Spell {
     private static final String DESCRIPTION =
             "A scorching refrain that wounds the target and may set them ablaze.";
 
-    private static final Guild SPELL_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
+    private static final Guild SPELL_GUILD = Guild.HARMONIC_LIGHT_ENSEMBLE;
 
     private static final int REQUIRED_WISDOM = 5;
     private static final int REQUIRED_MAGIC_POINTS = 6;

@@ -5,10 +5,18 @@ import SharedData.Guild;
 import Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
+import Enemies.Enemies;
 
+/**
+ * Location spell (teleportation / sensing). This class provides a specialized
+ * cast method that teleports the player to a target dungeon coordinate if
+ * they meet wisdom/intelligence/MP requirements. The Spell interface's
+ * other overloads are implemented as no-ops or simple feedback so the class
+ * remains compatible with the engine.
+ */
 public class Location implements Spell {
 
-    private static final Guild SPELL_GUILD = Guild.NON_GUILD;
+    private static final Guild SPELL_GUILD = Guild.SILVERWARD_SENTINELS;
     private static final int REQUIRED_MAGIC_POINTS = 6;
     private static final int MIN_WISDOM = 30;
     private static final int MIN_INTELLIGENCE = 30;
@@ -23,13 +31,22 @@ public class Location implements Spell {
         return name;
     }
 
-    // Custom method for dungeon teleportation
+    /**
+     * Teleport the player to the given target coordinates inside the dungeon array.
+     * This is a custom method (not part of the Spell interface) used by the
+     * teleport UI or command handlers. It uses the engine Singleton to find
+     * the active player character and manipulates their position.
+     */
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
         Charecter myChar = Singleton.myCharSingleton();
-        int wisdom = Integer.parseInt(myChar.getCharInfo().get(10));
-        int intelligence = Integer.parseInt(myChar.getCharInfo().get(9));
-        int magicPoints = Integer.parseInt(myChar.getCharInfo().get(5));
+        if (myChar == null) return;
 
+        // Use proper accessors instead of raw charInfo indices
+        int wisdom = myChar.getWisdom();
+        int intelligence = myChar.getIntelligence();
+        int magicPoints = myChar.getMagicPoints();
+
+        // Check requirements
         if ((wisdom >= MIN_WISDOM || intelligence >= MIN_INTELLIGENCE) && magicPoints >= REQUIRED_MAGIC_POINTS) {
             int[] position = new int[3];
             myChar.getPosition(position);
@@ -37,9 +54,13 @@ public class Location implements Spell {
             int currentY = position[1];
             int currentZ = position[2];
 
-            dungeon[currentZ][currentY][currentX] = 0; // Clear current position
-            dungeon[targetZ][targetY][targetX] = 1; // Set new position
+            // Update dungeon map representation (best-effort). Caller must ensure bounds.
+            try {
+                dungeon[currentZ][currentY][currentX] = 0; // Clear current position
+                dungeon[targetZ][targetY][targetX] = 1; // Set new position
+            } catch (Exception ignored) { }
 
+            // Move the character
             myChar.setPosition(targetX, targetY, targetZ);
 
             System.out.println("You teleport from (" + currentX + ", " + currentY + ", " + currentZ + ") to (" + targetX + ", " + targetY + ", " + targetZ + ")!");
@@ -75,7 +96,7 @@ public class Location implements Spell {
     public void cast(Charecter caster, Charecter target) {
         if (caster != null) {
             cast(caster.getWisdom());
-            // Optionally: teleport target or reveal their location
+            // Optionally: teleport target or reveal their location in a future enhancement
         } else {
             cast();
         }
@@ -122,4 +143,22 @@ public class Location implements Spell {
     public int getRequiredMagicPoints() {
         return REQUIRED_MAGIC_POINTS;
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

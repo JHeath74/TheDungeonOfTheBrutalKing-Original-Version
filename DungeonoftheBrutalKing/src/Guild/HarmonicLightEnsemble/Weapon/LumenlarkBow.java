@@ -1,4 +1,3 @@
-
 package Guild.HarmonicLightEnsemble.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -7,7 +6,7 @@ import Weapon.WeaponManager;
 
 public class LumenlarkBow extends WeaponManager {
 
-    private static final Guild REQUIRED_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
+    private static final Guild REQUIRED_GUILD = Guild.HARMONIC_LIGHT_ENSEMBLE;
 
     private static final String WEAPON_NAME = "LumenlarkBow";
     private static final String EFFECT =

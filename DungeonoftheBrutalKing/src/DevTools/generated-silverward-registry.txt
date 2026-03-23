@@ -1,0 +1,29 @@
+// GENERATED: Silverward Sentinels registry snippet
+// Paste the imports into the top of src/Spells/SpellFactory.java with the other imports:
+import Guild.SilverwardSentinels.Spells.BlessingOfPurity;
+import Guild.SilverwardSentinels.Spells.BlessingofRestoration;
+import Guild.SilverwardSentinels.Spells.Dawnbind;
+import Guild.SilverwardSentinels.Spells.JudgementBrand;
+import Guild.SilverwardSentinels.Spells.Location;
+import Guild.SilverwardSentinels.Spells.OathbreakersRuin;
+import Guild.SilverwardSentinels.Spells.Port;
+import Guild.SilverwardSentinels.Spells.RadiantStrike;
+import Guild.SilverwardSentinels.Spells.SanctifiedPurge;
+import Guild.SilverwardSentinels.Spells.SmiteOfTheDawn;
+
+// Then add these Map.entry(...) lines into the SILVERWARD_SENTINELS map
+Map.entry("BlessingOfPurity", BlessingOfPurity::new),
+Map.entry("BlessingofRestoration", BlessingofRestoration::new),
+Map.entry("Dawnbind", Dawnbind::new),
+Map.entry("JudgementBrand", JudgementBrand::new),
+Map.entry("Location", Location::new),
+Map.entry("OathbreakersRuin", OathbreakersRuin::new),
+Map.entry("Port", Port::new),
+Map.entry("RadiantStrike", RadiantStrike::new),
+Map.entry("SanctifiedPurge", SanctifiedPurge::new),
+Map.entry("SmiteOfTheDawn", SmiteOfTheDawn::new),
+
+// Notes:
+// - Ensure the imports are placed with other Guild imports at the top of SpellFactory.java.
+// - If some classes use different constructors, adjust the supplier to a lambda that constructs with the required args.
+// - After pasting, recompile the project so the typed SpellFactory can be used in production builds.
