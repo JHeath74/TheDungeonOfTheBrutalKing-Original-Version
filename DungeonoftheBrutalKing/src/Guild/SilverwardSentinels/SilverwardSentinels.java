@@ -1,22 +1,10 @@
-// src/Guild/SilverwardSentinels/SilverwardSentinels.java
 package Guild.SilverwardSentinels;
 
-import java.awt.BorderLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -47,7 +35,15 @@ public class SilverwardSentinels extends JPanel {
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
+        // Enforce one-guild-at-a-time membership
         if (!isMember && !inventory.contains("Silverward Sentinels Guild Ring")) {
+            GuildType currentGuild = character.getCurrentGuild();
+            if (currentGuild != null && currentGuild != GuildType.RANGER) {
+                JOptionPane.showMessageDialog(this,
+                        "You are already a member of another guild. Leave your current guild before joining the Silverward Sentinels.");
+                MainGameScreen.getInstance().restoreOriginalPanel();
+                return;
+            }
             int choice = JOptionPane.showOptionDialog(
                     this,
                     "You are not a member of the Silverward Sentinels. Would you like to join?",
@@ -62,6 +58,8 @@ public class SilverwardSentinels extends JPanel {
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Silverward Sentinels Guild Ring");
+                character.setCurrentGuild(GuildType.RANGER);
+                character.setCurrentGuildStatus(SharedData.GuildMembershipStatus.FULL_MEMBER);
                 JOptionPane.showMessageDialog(this,
                         "You have joined the Silverward Sentinels and received the Silverward Sentinels Guild Ring!");
             } else {
@@ -74,73 +72,173 @@ public class SilverwardSentinels extends JPanel {
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
+        showMainRoom();
+    }
+
+    private void showMainRoom() {
+        removeAll();
         JLabel imageLabel = new JLabel(
                 new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/SilverwardSentinels.jpg")));
-        add(imageLabel, BorderLayout.CENTER);
+        add(imageLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new GridLayout(8, 1, 10, 10));
-        JButton buySpellsButton = new JButton("Buy Spells");
-        JButton removeCurseButton = new JButton("Remove Curse");
-        JButton sellItemsButton = new JButton("Sell Items");
-        JButton enterStorageButton = new JButton("Guild Storage");
-        JButton eatFoodButton = new JButton("Eat Food");
-        JButton sleepBedButton = new JButton("Sleep in Bed");
-        JButton trainButton = new JButton("Train Skills");
+        JPanel buttonPanel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JButton innkeeperButton = new JButton("Innkeeper");
+        JButton innButton = new JButton("Inn");
+        JButton healerButton = new JButton("Healer");
+        JButton storageButton = new JButton("Storage Room");
+        JButton bedroomButton = new JButton("Bedroom");
         JButton exitRoomButton = new JButton("Exit Room");
 
-        if (!isMember) {
-            JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(e -> {
-                this.isMember = true;
-                Charecter.getInstance().addToInventory("Silverward Sentinels Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Silverward Sentinels!");
-                try {
-                    reloadPanel();
-                } catch (IOException | InterruptedException | ParseException ex) {
-                    ex.printStackTrace();
-                }
-            });
-            buttonPanel.add(joinGuildButton);
-        } else {
-            buttonPanel.add(buySpellsButton);
-            buttonPanel.add(removeCurseButton);
-            buttonPanel.add(sellItemsButton);
-            buttonPanel.add(enterStorageButton);
-            buttonPanel.add(eatFoodButton);
-            buttonPanel.add(sleepBedButton);
-            buttonPanel.add(trainButton);
-        }
-        buttonPanel.add(exitRoomButton);
-
-        buySpellsButton.addActionListener(e -> {
-            try {
-                java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                Spells.SpellsManager sm = new Spells.SpellsManager();
-                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(), Guild.SILVERWARD_SENTINELS, sm);
-                dlg.setVisible(true);
-            } catch (Exception ex) {
-                buyGuildSpell();
-            }
-        });
-
-        removeCurseButton.addActionListener(e -> {
-            removeCursesAndEffects();
-            JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
-        });
-
-        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel renewed."));
-        sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
-        trainButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You train with fellow Sentinels, improving your skills."));
-
+        innkeeperButton.addActionListener(e -> showPanel(new ShopRoomPanel()));
+        innButton.addActionListener(e -> showPanel(new InnRoomPanel()));
+        healerButton.addActionListener(e -> showPanel(new HealerRoomPanel()));
+        storageButton.addActionListener(e -> showPanel(new StorageRoomPanel()));
+        bedroomButton.addActionListener(e -> showPanel(new BedroomPanel()));
         exitRoomButton.addActionListener(e -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
-            } catch (IOException | InterruptedException | ParseException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         });
+
+        buttonPanel.add(innkeeperButton);
+        buttonPanel.add(innButton);
+        buttonPanel.add(healerButton);
+        buttonPanel.add(storageButton);
+        buttonPanel.add(bedroomButton);
+        buttonPanel.add(exitRoomButton);
+
+        add(buttonPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    private void showPanel(JPanel panel) {
+        removeAll();
+        add(panel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    // Shop Room Panel (Innkeeper)
+    private class ShopRoomPanel extends JPanel {
+        public ShopRoomPanel() {
+            setLayout(new BorderLayout());
+            add(new JLabel(new ImageIcon(getClass().getResource("/Images/Shop.jpg"))), BorderLayout.NORTH);
+            JPanel buttons = new JPanel(new GridLayout(4, 1, 10, 10));
+            JButton buyWeaponsButton = new JButton("Buy Weapons");
+            JButton buyArmourButton = new JButton("Buy Armour");
+            JButton buySpellsButton = new JButton("Buy Spells");
+            JButton exitButton = new JButton("Exit");
+
+            buyWeaponsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Buying weapons..."));
+            buyArmourButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Buying armour..."));
+            buySpellsButton.addActionListener(e -> buyGuildSpell());
+            exitButton.addActionListener(e -> showMainRoom());
+
+            buttons.add(buyWeaponsButton);
+            buttons.add(buyArmourButton);
+            buttons.add(buySpellsButton);
+            buttons.add(exitButton);
+            add(buttons, BorderLayout.CENTER);
+        }
+    }
+
+    // Inn Room Panel
+    private class InnRoomPanel extends JPanel {
+        public InnRoomPanel() {
+            setLayout(new BorderLayout());
+            add(new JLabel(new ImageIcon(getClass().getResource("/Images/InnRoom.jpg"))), BorderLayout.NORTH);
+            JPanel buttons = new JPanel(new GridLayout(4, 1, 10, 10));
+            JButton performSongButton = new JButton("Perform Song");
+            JButton eatFoodButton = new JButton("Eat Food");
+            JButton inspireButton = new JButton("Inspire");
+            JButton exitButton = new JButton("Exit");
+
+            performSongButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You perform a song!"));
+            eatFoodButton.addActionListener(e -> {
+                int currentFood = Charecter.getInstance().getFood();
+                if (currentFood > 0) {
+                    Charecter.getInstance().setFood(currentFood - 1);
+                    JOptionPane.showMessageDialog(this, "You eat food and feel refreshed! Food left: " + Charecter.getInstance().getFood());
+                } else {
+                    JOptionPane.showMessageDialog(this, "You have no food to eat.");
+                }
+            });
+            inspireButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You inspire your companions!"));
+            exitButton.addActionListener(e -> showMainRoom());
+
+            buttons.add(performSongButton);
+            buttons.add(eatFoodButton);
+            buttons.add(inspireButton);
+            buttons.add(exitButton);
+            add(buttons, BorderLayout.CENTER);
+        }
+    }
+
+    // Healer Room Panel
+    private class HealerRoomPanel extends JPanel {
+        public HealerRoomPanel() {
+            setLayout(new BorderLayout());
+            add(new JLabel(new ImageIcon(getClass().getResource("/Images/HealerRoom.jpg"))), BorderLayout.NORTH);
+            JPanel buttons = new JPanel(new GridLayout(2, 1, 10, 10));
+            JButton removeDebuffButton = new JButton("Remove Debuff / Status");
+            JButton exitButton = new JButton("Exit");
+
+            removeDebuffButton.addActionListener(e -> {
+                Charecter.getInstance().clearCurses();
+                Charecter.getInstance().clearNegativeEffects();
+                JOptionPane.showMessageDialog(this, "All debuffs and negative statuses removed!");
+            });
+            exitButton.addActionListener(e -> showMainRoom());
+
+            buttons.add(removeDebuffButton);
+            buttons.add(exitButton);
+            add(buttons, BorderLayout.CENTER);
+        }
+    }
+
+    // Storage Room Panel
+    private class StorageRoomPanel extends JPanel {
+        public StorageRoomPanel() {
+            setLayout(new BorderLayout());
+            add(new JLabel(new ImageIcon(getClass().getResource("/Images/StorageRoom.jpg"))), BorderLayout.NORTH);
+            JPanel buttons = new JPanel(new GridLayout(3, 1, 10, 10));
+            JButton storeButton = new JButton("Store Item");
+            JButton takeButton = new JButton("Take Item");
+            JButton exitButton = new JButton("Exit");
+
+            storeButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Storing item..."));
+            takeButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Taking item from storage..."));
+            exitButton.addActionListener(e -> showMainRoom());
+
+            buttons.add(storeButton);
+            buttons.add(takeButton);
+            buttons.add(exitButton);
+            add(buttons, BorderLayout.CENTER);
+        }
+    }
+
+    // Bedroom Panel
+    private class BedroomPanel extends JPanel {
+        public BedroomPanel() {
+            setLayout(new BorderLayout());
+            add(new JLabel(new ImageIcon(getClass().getResource("/Images/Bedroom.jpg"))), BorderLayout.NORTH);
+            JPanel buttons = new JPanel(new GridLayout(2, 1, 10, 10));
+            JButton sleepButton = new JButton("Sleep");
+            JButton exitButton = new JButton("Exit");
+
+            sleepButton.addActionListener(e -> {
+                Charecter.getInstance().restoreHitPoints(Charecter.getInstance().getMaxHitPoints());
+                JOptionPane.showMessageDialog(this, "You sleep and restore your hit points!");
+            });
+            exitButton.addActionListener(e -> showMainRoom());
+
+            buttons.add(sleepButton);
+            buttons.add(exitButton);
+            add(buttons, BorderLayout.CENTER);
+        }
     }
 
     private void buyGuildSpell() {
@@ -165,7 +263,6 @@ public class SilverwardSentinels extends JPanel {
         if (getGuildSpellsCount() >= maxSpells) {
             JOptionPane.showMessageDialog(this,
                     "You cannot have more than " + maxSpells + " guild spells.");
-            // still show dialog for viewing/selling but purchases are prevented below
         }
 
         if (wisdom <= 0) {
@@ -173,14 +270,12 @@ public class SilverwardSentinels extends JPanel {
             return;
         }
 
-        // Silverward Sentinels are GOOD-only
         boolean isGood = alignmentValue >= 0;
         if (!isGood) {
             JOptionPane.showMessageDialog(this, "Your alignment is evil. You cannot buy guild spells.");
             return;
         }
 
-        // Build manager and available spells list
         SilverwardSentinelsGuildSpellsManager manager = new SilverwardSentinelsGuildSpellsManager(Guild.SILVERWARD_SENTINELS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
@@ -201,7 +296,6 @@ public class SilverwardSentinels extends JPanel {
             return;
         }
 
-        // Dialog UI
         JList<String> list = new JList<>(available.toArray(new String[0]));
         list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
@@ -286,7 +380,6 @@ public class SilverwardSentinels extends JPanel {
             if (ownedList.isEmpty()) { JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell."); return; }
             String sel = (String) JOptionPane.showInputDialog(dialog, "Select spell to sell:", "Sell Spell", JOptionPane.PLAIN_MESSAGE, null, ownedList.toArray(new String[0]), ownedList.get(0));
             if (sel != null) {
-                // compute refund up-front (fixed price 250 -> 10% refund)
                 int price = 250;
                 int refund = Math.max(1, price / 10);
                 int confirm = JOptionPane.showConfirmDialog(dialog, "Sell '" + sel + "' for " + refund + " gold?", "Confirm Sell", JOptionPane.YES_NO_OPTION);
@@ -299,7 +392,6 @@ public class SilverwardSentinels extends JPanel {
                     player.setGold(player.getGold() + refund);
                     JOptionPane.showMessageDialog(dialog, "You sold " + sel + " and received " + refund + " gold. Gold now: " + player.getGold());
                     goldLabel.setText("Your gold: " + player.getGold());
-                    // refresh available list
                     owned.clear(); owned.addAll(Charecter.getInstance().getGuildSpells());
                     ownedLower.clear(); for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
                     available.clear(); for (Spell sp : all.values()) { if (sp == null) continue; if (!ownedLower.contains(sp.getName().toLowerCase())) available.add(sp.getName()); }
@@ -320,12 +412,6 @@ public class SilverwardSentinels extends JPanel {
         revalidate();
         repaint();
         add(new SilverwardSentinels(isMember));
-    }
-
-    private void removeCursesAndEffects() {
-        Charecter character = Charecter.getInstance();
-        character.clearCurses();
-        character.clearNegativeEffects();
     }
 
     public Alignment getAlignment() {

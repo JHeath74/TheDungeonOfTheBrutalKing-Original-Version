@@ -143,6 +143,24 @@ public class CelestialArcaneOrder extends JPanel {
 
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
+        
+
+buySpellsButton.addActionListener(evt -> {
+    try {
+        java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
+        Spells.SpellsManager sm = new Spells.SpellsManager();
+        SharedData.GuildSpellsDialog dlg = new SharedData.GuildSpellsDialog(
+            (java.awt.Frame) owner,
+            DungeonoftheBrutalKing.Charecter.getInstance(),
+            SharedData.Guild.CELESTIAL_ARCANE_ORDER,
+            sm
+        );
+        dlg.setVisible(true);
+    } catch (Exception ex) {
+        buyGuildSpell();
+    }
+});
+
 
         buySpellsButton.addActionListener(evt -> buyGuildSpell());
 
