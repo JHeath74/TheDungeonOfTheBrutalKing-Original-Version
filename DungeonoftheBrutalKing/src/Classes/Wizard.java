@@ -2,6 +2,7 @@
 // src/Classes/Wizard.java
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Wizard extends Class {
@@ -13,16 +14,14 @@ public class Wizard extends Class {
     public static final String IMAGE = "Wizard.webp";
 
     private static final String DESCRIPTION =
-            "A " + CHAR_CLASS + " is a master of arcane magic, shaping the fabric of reality through sheer intellect and rigorous study. "
-                    + "With their spellbook as a constant companion, they wield a vast array of powerful spells, excelling in versatility and utility. "
-                    + CHAR_CLASS + " thrive in roles requiring control, damage, or problem-solving, prowess and boosting their effectiveness in arcane knowledge and skill checks. "
-                    + "While physically frail, their mental acuity and deep magical expertise make them an indispensable asset to any adventuring party."
-                    + "\n\n"
-                    + "Intelligence (INTI) followed by Wisdom (WIS) are the most important stats for a " + CHAR_CLASS + ".";
+    	    "A Wizard is a master of arcane magic, wielding spells through intellect, study, and deep understanding of the mystical arts. " +
+    	    "Wizards command a vast array of powerful spells, excelling in versatility, control, and problem-solving. " +
+    	    "Their intelligence allows them to unravel magical mysteries and adapt to any challenge, while their wisdom guides their decisions and enhances their spellcasting. " +
+    	    "Though physically frail, Wizards are indispensable for their magical prowess and strategic insight.\n\n" +
+    	    "Primary Stat: Intelligence (INTI)\n" +
+    	    "Secondary Stat: Wisdom (WIS)";
 
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
+ 
 
     // Class metadata
     private static final Stat PRIMARY_STAT = Stat.INTI;

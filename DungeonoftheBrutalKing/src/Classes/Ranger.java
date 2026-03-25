@@ -2,6 +2,7 @@
 // src/Classes/Ranger.java
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Ranger extends Class {
@@ -13,13 +14,13 @@ public class Ranger extends Class {
     public static final String IMAGE = "Ranger.webp";
 
     private static final String DESCRIPTION =
-            "A " + CHAR_CLASS + " is a skilled hunter and tracker, thriving in the wilds.\n"
-                    + CHAR_CLASS + " are a playable class focused on survival, ranged combat, and precision strikes.\n"
-                    + "\nAgility (AGI) and Wisdom (WIS) are important skills for a " + CHAR_CLASS;
+    	    "A Ranger is a master of the wilderness, skilled in tracking, survival, and ranged combat. " +
+    	    "Rangers excel at striking from afar, setting traps, and adapting to any environment. " +
+    	    "Their agility allows them to move swiftly and silently, while their wisdom helps them read the land and anticipate danger. " +
+    	    "Rangers are invaluable scouts and relentless hunters, protecting their allies from threats both seen and unseen.\n\n" +
+    	    "Primary Stat: Agility (AGI)\n" +
+    	    "Secondary Stat: Wisdom (WIS)";
 
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
 
     // Class metadata
     private static final Stat PRIMARY_STAT = Stat.AGI;

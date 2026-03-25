@@ -3,6 +3,7 @@
 package Classes;
 
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.Stat;
 
 public class Cleric extends Class {
 
@@ -12,44 +13,40 @@ public class Cleric extends Class {
     public static final String CHAR_CLASS = "Cleric";
 
     private static final String DESCRIPTION =
-            CHAR_CLASS + " are versatile figures, both capable in combat and skilled in the use of "
-                    + "divine magic. " + CHAR_CLASS + " are powerful healers due to the large \n number of healing and "
-                    + " curative magics available to them. \n\nWith divinely-granted abilities over life or death, they are \n"
-                    + " also able to repel or control undead creatures."
-                    + "    \n\nWisdom (WIS) is your most important stat,\n followed closely by INTELLIGENCE (INTI).";
-
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
+         "A Cleric is a devoted champion of the divine, wielding both martial prowess and sacred magic. " +
+         "Clerics heal wounds, cure ailments, and protect allies with blessings, while also calling down holy wrath upon their foes. " +
+         "Their faith grants them power over life and death, making them essential in any adventuring party.\n\n" +
+         "Primary Stat: Wisdom (WIS)\n" +
+         "Secondary Stat: Intelligence (INTI)";
 
     // Class metadata (for UI/guidance/build rules)
     private static final Stat PRIMARY_STAT = Stat.WIS;
     private static final Stat SECONDARY_STAT = Stat.INTI;
 
-    // Optional: class bonuses applied to rolled stats at creation
-    private static final int BASE_STA_BONUS = 1;
-    private static final int BASE_CHR_BONUS = 0;
-    private static final int BASE_STR_BONUS = 0;
-    private static final int BASE_INTI_BONUS = 1;
-    private static final int BASE_WIS_BONUS = 2;
-    private static final int BASE_AGI_BONUS = 0;
-    private static final int BASE_VIT_BONUS = 0;
+    // --- Base stat bonuses at character creation ---
+    private static final int BASE_STA_BONUS = 1;   // Stamina (STA)
+    private static final int BASE_CHR_BONUS = 0;   // Charisma (CHR)
+    private static final int BASE_STR_BONUS = 0;   // Strength (STR)
+    private static final int BASE_INTI_BONUS = 1;  // Intelligence (INTI)
+    private static final int BASE_WIS_BONUS = 2;   // Wisdom (WIS)
+    private static final int BASE_AGI_BONUS = 0;   // Agility (AGI)
+    private static final int BASE_VIT_BONUS = ;   // Vitality (VIT)
 
-    // Optional: per-level growth (apply when leveling up, not on creation rolls)
-    private static final int STA_PER_LEVEL = 1;
-    private static final int CHR_PER_LEVEL = 0;
-    private static final int STR_PER_LEVEL = 0;
-    private static final int INTI_PER_LEVEL = 1;
-    private static final int WIS_PER_LEVEL = 2;
-    private static final int AGI_PER_LEVEL = 0;
-    private static final int VIT_PER_LEVEL = 1;
+    // --- Stat increases per level ---
+    private static final int STA_PER_LEVEL = 1;    // Stamina (STA)
+    private static final int CHR_PER_LEVEL = 0;    // Charisma (CHR)
+    private static final int STR_PER_LEVEL = 0;    // Strength (STR)
+    private static final int INTI_PER_LEVEL = 1;   // Intelligence (INTI)
+    private static final int WIS_PER_LEVEL = 2;    // Wisdom (WIS)
+    private static final int AGI_PER_LEVEL = 0;    // Agility (AGI)
+    private static final int VIT_PER_LEVEL = 1;    // Vitality (VIT)
 
     public Cleric() {
         this.charClass = CHAR_CLASS;
         this.classDescription = DESCRIPTION;
     }
 
-    // Keep compatibility with existing call sites
+    // Compatibility with existing call sites
     public static String ClassDescription() {
         return DESCRIPTION;
     }
@@ -68,7 +65,7 @@ public class Cleric extends Class {
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
 
-    // Use these from your character-creation code to modify rolled stats.
+    // Base stat bonus getters
     public int getBaseStaBonus() { return BASE_STA_BONUS; }
     public int getBaseChrBonus() { return BASE_CHR_BONUS; }
     public int getBaseStrBonus() { return BASE_STR_BONUS; }
@@ -77,7 +74,7 @@ public class Cleric extends Class {
     public int getBaseAgiBonus() { return BASE_AGI_BONUS; }
     public int getBaseVitBonus() { return BASE_VIT_BONUS; }
 
-    // Use these from your level-up code (do not re-roll stats).
+    // Per-level stat increase getters
     public int getStaPerLevel() { return STA_PER_LEVEL; }
     public int getChrPerLevel() { return CHR_PER_LEVEL; }
     public int getStrPerLevel() { return STR_PER_LEVEL; }

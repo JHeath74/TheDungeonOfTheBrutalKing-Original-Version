@@ -1,55 +1,50 @@
 
-// src/Classes/Bard.java
 package Classes;
 
 import DungeonoftheBrutalKing.Charecter;
+import SharedData.Stat;
 
 public class Bard extends Class {
 
-    @SuppressWarnings("unused")
-    private static final Charecter myChar = Charecter.getInstance();
-
-    public static final String CHAR_CLASS = "Bard";
-    public static final String IMAGE = "Bard.webp";
+    private static final String CHAR_CLASS = "Bard";
+    private static final String IMAGE = "Bard.webp";
 
     private static final String DESCRIPTION =
-            "A " + CHAR_CLASS + " is traditionally defined as a poet, especially one who writes \n"
-                    + " impassioned, lyrical, or epic verse. " + CHAR_CLASS + " are a playable \n"
-                    + " class centered on the idea of accessing magic through some form of artistic expression.\n"
-                    + "\n Charisma (CHR) is an important skill for a " + CHAR_CLASS;
+        "A Bard is a charismatic performer and spellcaster, weaving music, poetry, and magic to inspire allies and confound enemies. " +
+        "Masters of versatility, Bards can heal, support, or manipulate the flow of battle with their enchanting presence and quick wit. " +
+        "Their charisma fuels their magical abilities, while their intelligence allows them to adapt to any challenge and master a wide array of skills. " +
+        "Bards are invaluable for their creativity, resourcefulness, and ability to turn the tide of any encounter.\n\n" +
+        "Primary Stat: Charisma (CHR)\n" +
+        "Secondary Stat: Intelligence (INTI)";
 
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
-
-    // Class metadata (for UI/guidance/build rules)
     private static final Stat PRIMARY_STAT = Stat.CHR;
     private static final Stat SECONDARY_STAT = Stat.INTI;
 
-    // Optional: apply these to rolled stats at character creation
-    private static final int BASE_STA_BONUS = 0;
-    private static final int BASE_CHR_BONUS = 2;
-    private static final int BASE_STR_BONUS = 0;
-    private static final int BASE_INTI_BONUS = 1;
-    private static final int BASE_WIS_BONUS = 0;
-    private static final int BASE_AGI_BONUS = 0;
-    private static final int BASE_VIT_BONUS = 0;
 
-    // Optional: apply these when leveling up (do not re-roll)
-    private static final int STA_PER_LEVEL = 1;
-    private static final int CHR_PER_LEVEL = 2;
-    private static final int STR_PER_LEVEL = 0;
-    private static final int INTI_PER_LEVEL = 1;
-    private static final int WIS_PER_LEVEL = 1;
-    private static final int AGI_PER_LEVEL = 0;
-    private static final int VIT_PER_LEVEL = 1;
+ // Base stat bonuses at character creation
+ private static final int BASE_STA_BONUS = 0;   // Stamina (STA)
+ private static final int BASE_CHR_BONUS = 5;   // Charisma (CHR)
+ private static final int BASE_STR_BONUS = 0;   // Strength (STR)
+ private static final int BASE_INTI_BONUS = 5;  // Intelligence (INTI)
+ private static final int BASE_WIS_BONUS = 0;   // Wisdom (WIS)
+ private static final int BASE_AGI_BONUS = 0;   // Agility (AGI)
+ private static final int BASE_VIT_BONUS = 0;   // Vitality (VIT)
+
+ // Stat increases per level
+ private static final int STA_PER_LEVEL = 1;    // Stamina (STA)
+ private static final int CHR_PER_LEVEL = 0;    // Charisma (CHR)
+ private static final int STR_PER_LEVEL = 0;    // Strength (STR)
+ private static final int INTI_PER_LEVEL = 1;   // Intelligence (INTI)
+ private static final int WIS_PER_LEVEL = 1;    // Wisdom (WIS)
+ private static final int AGI_PER_LEVEL = 0;    // Agility (AGI)
+ private static final int VIT_PER_LEVEL = 1;    // Vitality (VIT)
+
 
     public Bard() {
         this.charClass = CHAR_CLASS;
         this.classDescription = DESCRIPTION;
     }
 
-    // Kept for compatibility with existing call sites
     public static String ClassDescription() {
         return DESCRIPTION;
     }
@@ -68,7 +63,6 @@ public class Bard extends Class {
         return DESCRIPTION;
     }
 
-    // Metadata getters
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
 

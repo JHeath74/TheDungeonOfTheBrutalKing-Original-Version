@@ -1,6 +1,7 @@
 
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Thief extends Classes.Class {
@@ -12,15 +13,13 @@ public class Thief extends Classes.Class {
     public static final String IMAGE = "Thief.webp";
 
     private static final String DESCRIPTION =
-            "As adventurers, " + CHAR_CLASS + " fall on both sides of the law. Some are hardened criminals "
-                    + "who decide to seek their fortune in treasure hoards, while others enter a life of adventure to escape "
-                    + "from the law. Others have learned and perfected their skills with the explicit purpose of infiltrating "
-                    + "ancient ruins and hidden crypts in search of treasure. \n\n"
-                    + "Agility (AGI) followed by Intelligence (INTI) are important stats for a " + CHAR_CLASS;
+    	    "A Thief is a cunning opportunist, skilled in stealth, lockpicking, and striking from the shadows. " +
+    	    "Masters of infiltration and evasion, Thieves excel at bypassing traps, disarming locks, and exploiting enemy weaknesses. " +
+    	    "Their agility allows them to move swiftly and avoid danger, while their intelligence aids in planning heists and solving complex puzzles. " +
+    	    "Thieves are invaluable for scouting, sabotage, and turning the tide of battle with precise, unexpected strikes.\n\n" +
+    	    "Primary Stat: Agility (AGI)\n" +
+    	    "Secondary Stat: Intelligence (INTI)";
 
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
 
     // Class metadata (for UI/guidance/build rules)
     private static final Stat PRIMARY_STAT = Stat.AGI;

@@ -2,6 +2,7 @@
 // `src/Classes/Ministrel.java`
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Ministrel extends Class {
@@ -13,13 +14,11 @@ public class Ministrel extends Class {
     public static final String IMAGE = "Ministrel.webp";
 
     private static final String DESCRIPTION =
-            "A " + CHAR_CLASS + " is a traveling performer and storyteller, inspiring allies with music.\n"
-                    + CHAR_CLASS + " are a playable class focused on support, morale, and clever utility.\n"
-                    + "\nCharisma (CHR) and Wisdom (WIS) are important skills for a " + CHAR_CLASS;
-
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
+    	    "A Ministrel is a wandering performer, storyteller, and master of inspiration. " +
+    	    "Through music, poetry, and wit, Ministrels uplift allies, demoralize foes, and turn the tide of battle with clever support abilities. " +
+    	    "Their charisma captivates audiences, while their wisdom guides their actions, making them invaluable in any adventuring party.\n\n" +
+    	    "Primary Stat: Charisma (CHR)\n" +
+    	    "Secondary Stat: Wisdom (WIS)";
 
     // Class metadata
     private static final Stat PRIMARY_STAT = Stat.CHR;

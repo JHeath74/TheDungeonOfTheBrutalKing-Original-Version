@@ -2,6 +2,7 @@
 // src/Classes/Warrior.java
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Warrior extends Class {
@@ -13,14 +14,11 @@ public class Warrior extends Class {
     public static final String IMAGE = "Warrior.webp";
 
     private static final String DESCRIPTION =
-            CHAR_CLASS + " share an unparalleled mastery with weapons and armor, and a thorough knowledge \n"
-                    + "of the skills of combat. They are well acquainted with death, both meting it out and staring it defiantly \n"
-                    + "in the face.\n\n"
-                    + "Strength (STR) and Stamina (STA) are important stats for a " + CHAR_CLASS + ".";
-
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
+    	    "A Warrior is a battle-hardened champion, excelling in the art of combat and mastery of weapons and armor. " +
+    	    "Warriors lead the charge, withstand devastating blows, and inspire allies through sheer strength and resilience. " +
+    	    "Their strength empowers their attacks, while their stamina allows them to endure the harshest battles, making them formidable opponents and stalwart defenders.\n\n" +
+    	    "Primary Stat: Strength (STR)\n" +
+    	    "Secondary Stat: Stamina (STA)";
 
     // Class metadata
     private static final Stat PRIMARY_STAT = Stat.STR;

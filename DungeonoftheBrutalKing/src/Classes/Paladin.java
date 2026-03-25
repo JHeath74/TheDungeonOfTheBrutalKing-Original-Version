@@ -2,6 +2,7 @@
 // src/Classes/Paladin.java
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Paladin extends Class {
@@ -13,14 +14,11 @@ public class Paladin extends Class {
     public static final String IMAGE = "Paladin.webp";
 
     private static final String DESCRIPTION =
-            "Compared with other classes the " + CHAR_CLASS + " class has one of the most\n"
-                    + "restrictive codes of conduct and paladin characters are expected to\n"
-                    + "demonstrate and embody goodness.\n\n"
-                    + "Wisdom (WIS) followed by Strength (STR) are the most important stats for a " + CHAR_CLASS + ".";
-
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
+    	    "A Paladin is a holy warrior bound by a sacred oath, blending martial prowess with divine magic. " +
+    	    "Paladins uphold justice, protect the innocent, and vanquish evil through unwavering faith and strength. " +
+    	    "Their wisdom guides their actions, while their strength empowers their righteous cause, making them stalwart defenders and inspiring leaders.\n\n" +
+    	    "Primary Stat: Wisdom (WIS)\n" +
+    	    "Secondary Stat: Strength (STR)";
 
     // Class metadata (for UI/guidance/build rules)
     private static final Stat PRIMARY_STAT = Stat.WIS;

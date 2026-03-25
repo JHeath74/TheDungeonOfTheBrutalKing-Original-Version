@@ -2,6 +2,7 @@
 // src/Classes/Mage.java
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Mage extends Class {
@@ -13,42 +14,40 @@ public class Mage extends Class {
     public static final String IMAGE = "Mage.webp";
 
     private static final String DESCRIPTION =
-            "A " + CHAR_CLASS + " is a wielder of arcane power, studying spells and ancient lore.\n"
-                    + CHAR_CLASS + " are a playable class focused on magical damage, utility, and control.\n"
-                    + "\nIntelligence (INTI) and Wisdom (WIS) are important skills for a " + CHAR_CLASS;
-
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
+         "A Mage is a master of arcane arts, wielding powerful spells and unraveling the mysteries of ancient lore. " +
+         "Mages excel at dealing magical damage, controlling the battlefield, and providing utility through their vast knowledge of magic. " +
+         "Their intellect and wisdom allow them to manipulate the forces of the world, making them indispensable in any adventuring party.\n\n" +
+         "Primary Stat: Intelligence (INTI)\n" +
+         "Secondary Stat: Wisdom (WIS)";
 
     // Class metadata (for UI/guidance/build rules)
     private static final Stat PRIMARY_STAT = Stat.INTI;
     private static final Stat SECONDARY_STAT = Stat.WIS;
 
-    // Optional: apply these to rolled stats at character creation
-    private static final int BASE_STA_BONUS = 0;
-    private static final int BASE_CHR_BONUS = 0;
-    private static final int BASE_STR_BONUS = 0;
-    private static final int BASE_INTI_BONUS = 2;
-    private static final int BASE_WIS_BONUS = 1;
-    private static final int BASE_AGI_BONUS = 0;
-    private static final int BASE_VIT_BONUS = 0;
+    // --- Base stat bonuses at character creation ---
+    private static final int BASE_STA_BONUS = 0;   // Stamina (STA)
+    private static final int BASE_CHR_BONUS = 0;   // Charisma (CHR)
+    private static final int BASE_STR_BONUS = 0;   // Strength (STR)
+    private static final int BASE_INTI_BONUS = 2;  // Intelligence (INTI)
+    private static final int BASE_WIS_BONUS = 1;   // Wisdom (WIS)
+    private static final int BASE_AGI_BONUS = 0;   // Agility (AGI)
+    private static final int BASE_VIT_BONUS = 0;   // Vitality (VIT)
 
-    // Optional: apply these when leveling up (do not re-roll)
-    private static final int STA_PER_LEVEL = 1;
-    private static final int CHR_PER_LEVEL = 0;
-    private static final int STR_PER_LEVEL = 0;
-    private static final int INTI_PER_LEVEL = 2;
-    private static final int WIS_PER_LEVEL = 1;
-    private static final int AGI_PER_LEVEL = 0;
-    private static final int VIT_PER_LEVEL = 1;
+    // --- Stat increases per level ---
+    private static final int STA_PER_LEVEL = 1;    // Stamina (STA)
+    private static final int CHR_PER_LEVEL = 0;    // Charisma (CHR)
+    private static final int STR_PER_LEVEL = 0;    // Strength (STR)
+    private static final int INTI_PER_LEVEL = 2;   // Intelligence (INTI)
+    private static final int WIS_PER_LEVEL = 1;    // Wisdom (WIS)
+    private static final int AGI_PER_LEVEL = 0;    // Agility (AGI)
+    private static final int VIT_PER_LEVEL = 1;    // Vitality (VIT)
 
     public Mage() {
         this.charClass = CHAR_CLASS;
         this.classDescription = DESCRIPTION;
     }
 
-    // Kept for compatibility with existing call sites
+    // Compatibility with existing call sites
     public static String ClassDescription() {
         return DESCRIPTION;
     }
@@ -71,6 +70,7 @@ public class Mage extends Class {
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
 
+    // Base stat bonus getters
     public int getBaseStaBonus() { return BASE_STA_BONUS; }
     public int getBaseChrBonus() { return BASE_CHR_BONUS; }
     public int getBaseStrBonus() { return BASE_STR_BONUS; }
@@ -79,6 +79,7 @@ public class Mage extends Class {
     public int getBaseAgiBonus() { return BASE_AGI_BONUS; }
     public int getBaseVitBonus() { return BASE_VIT_BONUS; }
 
+    // Per-level stat increase getters
     public int getStaPerLevel() { return STA_PER_LEVEL; }
     public int getChrPerLevel() { return CHR_PER_LEVEL; }
     public int getStrPerLevel() { return STR_PER_LEVEL; }

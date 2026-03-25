@@ -184,12 +184,12 @@ public class Charecter implements HasHitPoints {
     public void setTorches(int torches) { setInt(IDX_TORCHES, Math.max(0, torches)); }
     public int getGems() { return getInt(IDX_GEMS, 0); }
     public void setGems(int gems) { setInt(IDX_GEMS, Math.max(0, gems)); }
-    public String getWeapon() { return getStr(IDX_WEAPON); }
-    public void setWeapon(String weapon) { setStr(IDX_WEAPON, weapon); }
-    public String getArmour() { return getStr(IDX_ARMOUR); }
-    public void setArmour(String armour) { setStr(IDX_ARMOUR, armour); }
-    public String getShield() { return getStr(IDX_SHIELD); }
-    public void setShield(String shield) { setStr(IDX_SHIELD, shield); }
+    public String getEquippedWeapon() { return getStr(IDX_WEAPON); }
+    public void setEquippedWeapon(String weapon) { setStr(IDX_WEAPON, weapon); }
+    public String getEquippedArmour() { return getStr(IDX_ARMOUR); }
+    public void setEuippedArmour(String armour) { setStr(IDX_ARMOUR, armour); }
+    public String getEquippedShield() { return getStr(IDX_SHIELD); }
+    public void setEquippedShield(String shield) { setStr(IDX_SHIELD, shield); }
     public int getAlignment() { return getInt(IDX_ALIGNMENT, 0); }
     public void setAlignment(int alignment) { setInt(IDX_ALIGNMENT, alignment); }
     public void setPosition(int x, int y, int z) { setInt(IDX_POS_X, x); setInt(IDX_POS_Y, y); setInt(IDX_POS_Z, z); }
@@ -201,6 +201,9 @@ public class Charecter implements HasHitPoints {
     }
     public int getX() { return getInt(IDX_POS_X, 0); }
     public int getY() { return getInt(IDX_POS_Y, 0); }
+
+public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
+
     public int getDirection() { return getInt(IDX_DIRECTION, 0); }
     public void setDirection(int degrees) { setInt(IDX_DIRECTION, degrees); }
     public int getDefense() { return getInt(IDX_DEFENSE, 0); }

@@ -2,6 +2,7 @@
 // src/Classes/Rogue.java
 package Classes;
 
+import SharedData.Stat;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Rogue extends Class {
@@ -13,16 +14,13 @@ public class Rogue extends Class {
     public static final String IMAGE = "Rogue.webp";
 
     private static final String DESCRIPTION =
-            "As adventurers, " + CHAR_CLASS + " fall on both sides of the law. Some are hardened criminals "
-                    + "who decide to seek their fortune in treasure hoards, while others enter a life of adventure to escape "
-                    + "from the law. Others have learned and perfected their skills with the explicit purpose of infiltrating "
-                    + "ancient ruins and hidden crypts in search of treasure. \n\n"
-                    + "Agility (AGI) followed by Intelligence (INTI) are important stats for a " + CHAR_CLASS;
-
-    public enum Stat {
-        STA, CHR, STR, INTI, WIS, AGI, VIT
-    }
-
+    	    "A Rogue is a master of stealth, deception, and precision. Skilled in infiltration, lockpicking, and striking from the shadows, " +
+    	    "Rogues excel at bypassing defenses and exploiting enemy weaknesses. Their agility allows them to move swiftly and avoid danger, " +
+    	    "while their intelligence aids in solving complex puzzles and planning daring heists. Rogues are invaluable for scouting, sabotage, " +
+    	    "and turning the tide of battle with a well-placed strike.\n\n" +
+    	    "Primary Stat: Agility (AGI)\n" +
+    	    "Secondary Stat: Intelligence (INTI)";
+    
     // Class metadata (for UI/guidance/build rules)
     private static final Stat PRIMARY_STAT = Stat.AGI;
     private static final Stat SECONDARY_STAT = Stat.INTI;

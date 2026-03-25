@@ -1,4 +1,5 @@
 
+// src/SharedData/SettingsAndPreferences.java
 package SharedData;
 
 import java.awt.BasicStroke;
@@ -26,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
@@ -38,14 +40,12 @@ public class SettingsAndPreferences extends JFrame {
     private boolean isFullScreen = false;
 
     public SettingsAndPreferences() {
-        GameSettings myGameSettings = new GameSettings(); // Retrieve color scheme
+        GameSettings myGameSettings = new GameSettings();
 
         setTitle("Settings");
         setSize(400, 400);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLayout(new GridBagLayout());
-
-        // Set background color
         getContentPane().setBackground(myGameSettings.getColorBlack());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -91,6 +91,7 @@ public class SettingsAndPreferences extends JFrame {
 
         String[] screenModes = {"Windowed", "Full-Screen"};
         JComboBox<String> screenModeDropdown = new JComboBox<>(screenModes);
+        screenModeDropdown.setSelectedIndex(isFullScreen ? 1 : 0); // Sync with current state
         gbc.gridx = 1;
         gbc.gridy = 4;
         add(screenModeDropdown, gbc);
@@ -99,7 +100,8 @@ public class SettingsAndPreferences extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedMode = (String) screenModeDropdown.getSelectedItem();
-                toggleScreenMode(selectedMode);
+                // Only toggle after frame is visible
+                SwingUtilities.invokeLater(() -> toggleScreenMode(selectedMode));
             }
         });
 
@@ -124,7 +126,7 @@ public class SettingsAndPreferences extends JFrame {
         gbc.gridwidth = 1;
         add(saveButton, gbc);
 
-        saveButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25))); // 25% larger size
+        saveButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25)));
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -146,19 +148,15 @@ public class SettingsAndPreferences extends JFrame {
         gbc.gridwidth = 1;
         add(restoreDefaultButton, gbc);
 
-        restoreDefaultButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25))); // 25% larger size
+        restoreDefaultButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25)));
         restoreDefaultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setSoundVolume(50); // Default sound volume
-                setResolution("1920x1080"); // Default resolution
-                toggleScreenMode("Full-Screen"); // Default screen mode
-
-                keyMappings.put("Move Forward", "Up");
-                keyMappings.put("Move Backward", "Down");
-                keyMappings.put("Move Left", "Left");
-                keyMappings.put("Move Right", "Right");
-
+                setSoundVolume(50);
+                setResolution("1920x1080");
+                isFullScreen = true;
+                screenModeDropdown.setSelectedIndex(1); // Update dropdown
+                resetKeyMappings();
                 JOptionPane.showMessageDialog(SettingsAndPreferences.this, "Default settings restored!");
             }
         });
@@ -166,11 +164,11 @@ public class SettingsAndPreferences extends JFrame {
         // Exit Button
         JButton exitButton = createButton("Exit");
         gbc.gridx = 0;
-        gbc.gridy = 7; // Move below Save and Restore Default buttons
-        gbc.gridwidth = 2; // Center the Exit button
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
         add(exitButton, gbc);
 
-        exitButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25))); // 25% larger size
+        exitButton.setPreferredSize(new Dimension((int) (150 * 1.25), (int) (50 * 1.25)));
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -182,8 +180,16 @@ public class SettingsAndPreferences extends JFrame {
         setVisible(true);
     }
 
+    private void resetKeyMappings() {
+        keyMappings.clear();
+        keyMappings.put("Move Forward", "Up");
+        keyMappings.put("Move Backward", "Down");
+        keyMappings.put("Move Left", "Left");
+        keyMappings.put("Move Right", "Right");
+    }
+
     private JButton createButton(String text) {
-        Font gameFont = new Font("Verdana", Font.PLAIN, 18); // Use default font
+        Font gameFont = new Font("Verdana", Font.PLAIN, 18);
 
         JButton button = new JButton(text) {
             @Override
@@ -209,12 +215,12 @@ public class SettingsAndPreferences extends JFrame {
                 // Prevent setting a border to avoid visual issues
             }
         };
-        button.setFont(gameFont); // Apply default font
+        button.setFont(gameFont);
         button.setBackground(Color.GRAY);
-        button.setForeground(Color.WHITE); // White text
+        button.setForeground(Color.WHITE);
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
-        button.setPreferredSize(new Dimension((int) (150 * 1.2), (int) (50 * 1.2))); // 20% larger size
+        button.setPreferredSize(new Dimension((int) (150 * 1.2), (int) (50 * 1.2)));
         return button;
     }
 

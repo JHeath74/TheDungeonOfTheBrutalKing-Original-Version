@@ -49,7 +49,7 @@ public class GameMenuItems {
         statsArea.append("Level: " + myChar.getLevel() + "\n");
         statsArea.append("Experience: " + myChar.getExperience() + "\n");
         statsArea.append("Location:  \n"
-          + "\tDungeon level: " + (int)myChar.getZ() + "\n"
+          + "\tDungeon level: " + (int)myChar.getDungeonLevel() + "\n"
           + "\tX: " + (int)myChar.getX() + "\n"
           + "\tY: " + (int)myChar.getY() + "\n");
         statsArea.append("Hit Points: " + myChar.getHitPoints() + "\n");
@@ -61,7 +61,7 @@ public class GameMenuItems {
         statsArea.append("Agility: " + myChar.getAgility() + "\n");
         statsArea.append("Alignment: " + myChar.getAlignment() + "\n");
         statsArea.append("Equipped Weapon: " + myChar.getEquippedWeapon() + "\n");
-        statsArea.append("Equipped Armor: " + myChar.getEquippedArmor() + "\n");
+        statsArea.append("Equipped Armor: " + myChar.getEquippedArmour() + "\n");
         statsArea.append("Equipped Shield: " + myChar.getEquippedShield() + "\n");
     }
 
@@ -103,7 +103,7 @@ public class GameMenuItems {
         sb.append("Torches: ").append(myChar.getTorches()).append("\n");
         sb.append(String.format("%" + ((width + "Weapons and Armour".length()) / 2) + "s", "Weapons and Armour") + "\n");
         sb.append("Equipped Weapon: ").append(myChar.getEquippedWeapon()).append("\n");
-        sb.append("Equipped Armor: ").append(myChar.getEquippedArmor()).append("\n");
+        sb.append("Equipped Armor: ").append(myChar.getEquippedArmour()).append("\n");
         sb.append("Equipped Shield: ").append(myChar.getEquippedShield()).append("\n");
         sb.append(String.format("%" + ((width + "Your Spells".length()) / 2) + "s", "Your Spells") + "\n");
         if (myChar.getSpellsLearned() != null && !myChar.getSpellsLearned().isEmpty()) {
