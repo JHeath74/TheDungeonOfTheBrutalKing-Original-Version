@@ -17,5 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/jheat/Downloads/jlayer-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jheat/Downloads/Programs/jlayer-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

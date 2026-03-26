@@ -11,18 +11,18 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import SharedData.RandomFactory;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
-import Enemies.Enemies;
-import GameEngine.Camera;
-import SharedData.GameSettings;
-import SharedData.Alignment;
-import Spells.GuildSpellsRegistry;
-import Spells.Spell;
-import Spells.SpellsManager;
-import Status.ImmobilizedStatus;
-import Status.IceBarrierStatus;
-import Status.Status;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.GameEngine.Camera;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.Spells.GuildSpellsRegistry;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellsManager;
+import DungeonoftheBrutalKing.Status.ImmobilizedStatus;
+import DungeonoftheBrutalKing.Status.IceBarrierStatus;
+import DungeonoftheBrutalKing.Status.Status;
 
 public class Combat {
 
@@ -73,18 +73,23 @@ public class Combat {
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
         JLabel playerPicLabel;
         try {
-            String playerClass = myChar.getClassName();
-            String imagePath;
+        	String playerClass = myChar.getClassName();
+        	String imagePath;
             switch (playerClass) {
-                case "Bard": imagePath = GameSettings.ClassImagesPath + "bard.png"; break;
-                case "Cleric": imagePath = GameSettings.ClassImagesPath + "cleric.png"; break;
-                case "Hunter": imagePath = GameSettings.ClassImagesPath + "hunter.png"; break;
-                case "Paladin": imagePath = GameSettings.ClassImagesPath + "paladin.png"; break;
-                case "Rogue": imagePath = GameSettings.ClassImagesPath + "rogue.png"; break;
-                case "Warrior": imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
-                case "Wizard": imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
-                default: imagePath = GameSettings.ClassImagesPath + "default.png"; break;
-            }
+            case "Bard":      imagePath = GameSettings.ClassImagesPath + "bard.png"; break;
+            case "Cleric":    imagePath = GameSettings.ClassImagesPath + "cleric.png"; break;
+            case "Hunter":    imagePath = GameSettings.ClassImagesPath + "hunter.png"; break;
+            case "Mage":      imagePath = GameSettings.ClassImagesPath + "mage.png"; break;
+            case "Ministrel": imagePath = GameSettings.ClassImagesPath + "ministrel.png"; break;
+            case "Oaladin":   imagePath = GameSettings.ClassImagesPath + "oaladin.png"; break;
+            case "Paladin":   imagePath = GameSettings.ClassImagesPath + "paladin.png"; break;
+            case "Ranger":    imagePath = GameSettings.ClassImagesPath + "ranger.png"; break;
+            case "Rogue":     imagePath = GameSettings.ClassImagesPath + "rogue.png"; break;
+            case "Thief":     imagePath = GameSettings.ClassImagesPath + "thief.png"; break;
+            case "Warrior":   imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
+            case "Wizard":    imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
+            default:          imagePath = GameSettings.ClassImagesPath + "default.png"; break;
+        }
             BufferedImage playerImg = ImageIO.read(new File(imagePath));
             Image scaledPlayerImg = playerImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
             playerPicLabel = new JLabel(new ImageIcon(scaledPlayerImg));

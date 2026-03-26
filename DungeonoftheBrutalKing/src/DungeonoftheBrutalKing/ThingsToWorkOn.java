@@ -16,8 +16,8 @@ public class ThingsToWorkOn {
 		//Missing vitality from CharacterCreation and MainGameScreen class
 		//offer guild quests.
 		//at level up,  be able to spend points to increase stats.
-		//Make weight and inventory system.  Have weight matter
-		//redo classes starting with ministrel and make them more unique.
+
+		
 	}
 	
 	//https://www.instructables.com/Making-a-Basic-3D-Engine-in-Java/

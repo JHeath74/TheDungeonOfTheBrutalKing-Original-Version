@@ -2,16 +2,16 @@
 package DungeonoftheBrutalKing;
 
 import java.util.*;
-import Quests.Quest;
-import SharedData.Guild;
-import SharedData.GuildMembershipStatus;
-import SharedData.GuildType;
-import Status.HasHitPoints;
-import Status.Status;
-import Status.StatusManager;
-import Status.StatusType;
-import Status.PurityWardStatus;
-import Status.AstralWardStatus;
+import DungeonoftheBrutalKing.Quests.Quest;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.Status.PurityWardStatus;
+import DungeonoftheBrutalKing.Status.AstralWardStatus;
 
 public class Charecter implements HasHitPoints {
 
@@ -462,4 +462,33 @@ public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
     public void decreaseThirst(int amount) {
         setThirstLevel(getThirstLevel() - amount);
     }
+    
+
+ // In Charecter.java
+
+ // 1. Max carry weight calculation
+ public int getMaxCarryWeight() {
+     // Example: base 30 + 5 per strength point
+     return 30 + (getStrength() * 5);
+ }
+
+ // 2. Calculate current carry weight
+ public int getCurrentCarryWeight(Map<String, Integer> itemWeights) {
+     int total = 0;
+     for (String item : charInventory) {
+         total += itemWeights.getOrDefault(item, 1); // default weight 1 if not found
+     }
+     return total;
+ }
+
+ // 3. Add to inventory with weight check
+ public boolean addToInventory(String item, Map<String, Integer> itemWeights) {
+     int itemWeight = itemWeights.getOrDefault(item, 1);
+     if (getCurrentCarryWeight(itemWeights) + itemWeight > getMaxCarryWeight()) {
+         return false; // Too heavy
+     }
+     charInventory.add(item);
+     return true;
+ }
+
 }

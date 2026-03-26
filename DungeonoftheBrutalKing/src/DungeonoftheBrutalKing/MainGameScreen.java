@@ -7,12 +7,12 @@ import java.text.ParseException;
 import javax.swing.*;
 import javax.swing.text.*;
 
-import GameEngine.Game;
-import Maps.DungeonLevel;
-import GameEngine.Camera;
-import SharedData.GameSettings;
-import SharedData.MusicPlayer;
-import SharedData.SettingsAndPreferences;
+import DungeonoftheBrutalKing.GameEngine.Game;
+import DungeonoftheBrutalKing.Maps.DungeonLevel;
+import DungeonoftheBrutalKing.GameEngine.Camera;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.MusicPlayer;
+import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
 
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
