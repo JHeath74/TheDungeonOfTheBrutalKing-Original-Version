@@ -1,5 +1,5 @@
 // src/SharedData/RandomFactory.java
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import java.security.SecureRandom;
 import java.util.Random;

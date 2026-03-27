@@ -1,4 +1,4 @@
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import java.util.HashMap;
 import java.util.Map;

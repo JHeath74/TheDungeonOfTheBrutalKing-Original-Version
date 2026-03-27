@@ -1,5 +1,5 @@
 
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import java.awt.Color;
 import java.awt.Font;

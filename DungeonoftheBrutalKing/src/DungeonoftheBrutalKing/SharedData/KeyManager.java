@@ -1,5 +1,5 @@
 
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import java.io.*;
 import java.security.SecureRandom;

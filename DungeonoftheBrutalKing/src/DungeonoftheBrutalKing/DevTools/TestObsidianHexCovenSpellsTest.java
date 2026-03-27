@@ -1,4 +1,4 @@
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import Spells.SpellFactory;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 /**
  * Smoke-test: attempt to instantiate ObsidianHexCoven spells via SpellFactory.

@@ -1,4 +1,4 @@
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import java.util.ArrayList;
 import java.util.Iterator;

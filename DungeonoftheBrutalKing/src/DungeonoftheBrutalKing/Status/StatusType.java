@@ -1,4 +1,4 @@
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 public enum StatusType {
 	NONE,

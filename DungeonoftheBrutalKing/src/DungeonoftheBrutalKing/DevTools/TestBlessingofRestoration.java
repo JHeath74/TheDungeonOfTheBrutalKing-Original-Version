@@ -1,8 +1,8 @@
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Guild.SilverwardSentinels.Spells.BlessingofRestoration;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells.BlessingofRestoration;
 
 public class TestBlessingofRestoration {
     public static void main(String[] args) {

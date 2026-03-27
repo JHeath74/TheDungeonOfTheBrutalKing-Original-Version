@@ -1,5 +1,5 @@
 
-package Shields;
+package DungeonoftheBrutalKing.Shields;
 
 public class Magical_Small_Shield extends ShieldManager {
 

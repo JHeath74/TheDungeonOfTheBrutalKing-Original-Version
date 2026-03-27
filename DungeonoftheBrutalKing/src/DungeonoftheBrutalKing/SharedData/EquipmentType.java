@@ -1,7 +1,7 @@
 
 // File: src/SharedData/EquipmentType.java
 
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 /**
  * Equipment categories for enum entries.

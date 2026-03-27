@@ -1,5 +1,5 @@
 
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;

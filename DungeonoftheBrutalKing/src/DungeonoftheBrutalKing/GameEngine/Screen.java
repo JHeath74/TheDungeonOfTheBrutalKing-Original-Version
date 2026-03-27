@@ -1,6 +1,6 @@
 
 // Screen.java
-package GameEngine;
+package DungeonoftheBrutalKing.GameEngine;
 
 import java.awt.Color;
 import java.util.ArrayList;

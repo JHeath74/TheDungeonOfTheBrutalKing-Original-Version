@@ -1,5 +1,5 @@
 
-package Shields;
+package DungeonoftheBrutalKing.Shields;
 
 public class Wooden_Shield extends ShieldManager {
 

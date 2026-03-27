@@ -1,4 +1,4 @@
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
 import java.awt.*;

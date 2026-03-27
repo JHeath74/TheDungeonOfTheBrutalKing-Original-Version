@@ -1,6 +1,6 @@
 
 // src/Status/StatusPolarity.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 public enum StatusPolarity {
     POSITIVE,

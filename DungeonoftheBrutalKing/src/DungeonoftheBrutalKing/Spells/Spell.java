@@ -1,10 +1,10 @@
-package Spells;
+package DungeonoftheBrutalKing.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public interface Spell {
     boolean isGuildSpell();

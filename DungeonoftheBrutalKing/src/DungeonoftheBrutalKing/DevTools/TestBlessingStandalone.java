@@ -1,4 +1,4 @@
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
 // Self-contained standalone test harness that demonstrates Blessing of Restoration behavior
 // without compiling the entire project. This file defines minimal mock classes and a local

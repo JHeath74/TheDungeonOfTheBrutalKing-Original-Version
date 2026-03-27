@@ -1,6 +1,6 @@
 
 // src/SharedData/EncryptionUtil.java
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

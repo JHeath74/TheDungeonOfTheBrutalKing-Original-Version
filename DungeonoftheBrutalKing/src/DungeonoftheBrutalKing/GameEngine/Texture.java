@@ -1,5 +1,5 @@
 
-package GameEngine;
+package DungeonoftheBrutalKing.GameEngine;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Texture {
     public int[] pixels;

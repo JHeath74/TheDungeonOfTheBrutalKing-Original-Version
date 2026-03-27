@@ -1,4 +1,4 @@
-package Spells;
+package DungeonoftheBrutalKing.Spells;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.IOException;
 
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
 import Guild.SilverwardSentinels.Spells.BlessingOfPurity;
 import Guild.SilverwardSentinels.Spells.BlessingofRestoration;
 import Guild.SilverwardSentinels.Spells.Dawnbind;

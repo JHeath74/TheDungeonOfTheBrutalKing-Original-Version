@@ -1,5 +1,5 @@
 
-package Shields;
+package DungeonoftheBrutalKing.Shields;
 
 import DungeonoftheBrutalKing.Charecter;
 

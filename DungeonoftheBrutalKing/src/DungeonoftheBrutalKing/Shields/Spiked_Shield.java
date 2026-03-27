@@ -1,5 +1,5 @@
 
-package Shields;
+package DungeonoftheBrutalKing.Shields;
 
 public class Spiked_Shield extends ShieldManager {
 

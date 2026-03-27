@@ -1,4 +1,4 @@
-package Guild.SilverwardSentinels;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels;
 
 import java.awt.*;
 import java.io.IOException;
@@ -8,13 +8,14 @@ import javax.swing.*;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
-import SharedData.Guild;
-import SharedData.GuildSpellsDialog;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Guild.SilverwardSentinels.Spells.SilverwardSentinelsGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells.SilverwardSentinelsGuildSpellsManager;
+
 
 public class SilverwardSentinels extends JPanel {
 
@@ -59,7 +60,7 @@ public class SilverwardSentinels extends JPanel {
                 this.isMember = true;
                 character.addToInventory("Silverward Sentinels Guild Ring");
                 character.setCurrentGuild(GuildType.RANGER);
-                character.setCurrentGuildStatus(SharedData.GuildMembershipStatus.FULL_MEMBER);
+                character.setCurrentGuildStatus(DungeonoftheBrutalKing.SharedData.GuildMembershipStatus.FULL_MEMBER);
                 JOptionPane.showMessageDialog(this,
                         "You have joined the Silverward Sentinels and received the Silverward Sentinels Guild Ring!");
             } else {
@@ -276,7 +277,7 @@ public class SilverwardSentinels extends JPanel {
             return;
         }
 
-        SilverwardSentinelsGuildSpellsManager manager = new SilverwardSentinelsGuildSpellsManager(Guild.SILVERWARD_SENTINELS);
+        SilverwardSentinels manager = new SilverwardSentinels(Guild.SILVERWARD_SENTINELS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
         java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();

@@ -1,4 +1,4 @@
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 /**
  * Central enum for all weapons, armours, and spells.

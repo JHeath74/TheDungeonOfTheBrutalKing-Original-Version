@@ -1,19 +1,20 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellBalanceManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+
 
 /**
  * BlessingofRestoration - a Paladin / Silverward Sentinels self-only healing prayer.
  * This spell heals the caster only (solo spell). It requires membership of the
  * Silverward Sentinels guild and consumes magic points when cast.
  */
-public final class BlessingofRestoration implements Spell {
+public final class BlessingofRestoration implements DungeonoftheBrutalKing.Spells.Spell {
 
     private static final String NAME = "Blessing of Restoration";
 
@@ -34,8 +35,8 @@ public final class BlessingofRestoration implements Spell {
     }
 
     @Override
-    public Guild getSpellGuild() {
-        return Guild.SILVERWARD_SENTINELS;
+    public DungeonoftheBrutalKing.SharedData.Guild getSpellGuild() {
+        return DungeonoftheBrutalKing.SharedData.Guild.SILVERWARD_SENTINELS;
     }
 
     @Override
@@ -86,7 +87,7 @@ public final class BlessingofRestoration implements Spell {
         }
 
         // Guild membership check: only full/guild members may cast
-        Guild casterGuild = caster.getGuild();
+        DungeonoftheBrutalKing.SharedData.Guild casterGuild = caster.getGuild();
         if (casterGuild == null || casterGuild != getSpellGuild()) {
             try { System.out.println(caster.getName() + " is not a member of " + getSpellGuild() + " and cannot cast " + NAME + "."); } catch (Exception ignored) { }
             return; // not allowed to cast

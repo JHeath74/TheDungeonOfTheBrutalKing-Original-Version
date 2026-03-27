@@ -1,4 +1,4 @@
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 public final class AlignmentRules {
     private AlignmentRules() {}

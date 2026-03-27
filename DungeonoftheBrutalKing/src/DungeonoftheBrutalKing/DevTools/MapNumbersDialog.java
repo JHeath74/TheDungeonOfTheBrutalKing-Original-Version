@@ -1,8 +1,8 @@
 
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
-import Maps.DungeonLevel;
-import Maps.MapEntity;
+import DungeonoftheBrutalKing.Maps.DungeonLevel;
+import DungeonoftheBrutalKing.Maps.MapEntity;
 
 import javax.swing.*;
 import java.awt.*;

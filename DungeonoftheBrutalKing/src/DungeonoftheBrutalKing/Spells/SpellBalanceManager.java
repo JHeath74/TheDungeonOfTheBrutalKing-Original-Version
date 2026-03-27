@@ -1,4 +1,4 @@
-package Spells;
+package DungeonoftheBrutalKing.Spells;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import java.util.EnumMap;
 import java.util.Map;

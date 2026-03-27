@@ -1,7 +1,8 @@
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
-import Spells.SpellFactory;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -82,7 +83,7 @@ public final class SpellFactoryDevRunner {
             case "CrimsonVeilRogues" -> Guild.CRIMSON_VEIL_ROGUES;
             case "DawnwardPaladins" -> Guild.DAWNWARD_PALADINS;
             case "DirgeweaversChorus" -> Guild.DIRGEWEAVERS_CHORUS;
-            case "HarmonicLightEnsemble" -> Guild.HARMONILIC_LIGHT_ENSEMBLE;
+            case "HarmonicLightEnsemble" -> Guild.HARMONIC_LIGHT_ENSEMBLE;
             case "NightShadeHunters" -> Guild.NIGHT_SHADE_HUNTERS;
             case "ObsidianHexCoven" -> Guild.OBSIDIAN_HEX_COVEN;
             case "ObsidianShadowSyndicate" -> Guild.OBSIDIAN_SHADOW_SYNDICATE;

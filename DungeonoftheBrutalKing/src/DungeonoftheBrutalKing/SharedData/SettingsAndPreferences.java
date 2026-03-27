@@ -1,6 +1,6 @@
 
 // src/SharedData/SettingsAndPreferences.java
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

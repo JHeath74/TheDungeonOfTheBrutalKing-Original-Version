@@ -1,5 +1,5 @@
 
-package GameEngine;
+package DungeonoftheBrutalKing.GameEngine;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,8 +10,8 @@ import DungeonoftheBrutalKing.Charecter;
 
 import DungeonoftheBrutalKing.Combat;
 import DungeonoftheBrutalKing.MainGameScreen;
-import Enemies.MonsterSelector;
-import SharedData.LocationType;
+import DungeonoftheBrutalKing. Enemies.MonsterSelector;
+import DungeonoftheBrutalKing.SharedData.LocationType;
 
 public class Camera implements KeyListener {
     public double xPos, yPos, xDir, yDir, xPlane, yPlane;

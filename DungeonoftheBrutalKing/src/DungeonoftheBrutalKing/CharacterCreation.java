@@ -70,7 +70,7 @@ public class CharacterCreation {
 	private static final int STAT_WISDOM = 4;
 	private static final int STAT_AGILITY = 5;
 	private static final int STAT_VITALITY = 6;
-
+	
 	private static final Map<String, Class<?>> classMap = Map.ofEntries(
 			Map.entry("Bard", Bard.class),
 			Map.entry("Cleric", Cleric.class),
@@ -92,6 +92,8 @@ public class CharacterCreation {
 
 	private int[] setAndCalculateStats(Integer[] stat, Object weapon, Object armour) {
 		// Use names for equipped weapon and armour
+		
+		System.out.println("CharacterCreation class loaded, stat indexes defined.");
 		myChar.setEquippedWeapon("Hand");
 		myChar.setEuippedArmour("Skin");
 		myChar.setAgility(stat[STAT_AGILITY]);
@@ -112,258 +114,247 @@ public class CharacterCreation {
 
 
 	public void createCharector() {
+	    // Prompt for name before anything else
+	    while (charName == null || charName.trim().isEmpty()) {
+	        charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
+	    }
+	    System.out.println("Creating character with name: " + charName);
 
-		size = Toolkit.getDefaultToolkit().getScreenSize();
-		width = (int) size.getWidth();
-		height = (int) size.getHeight();
+	    size = Toolkit.getDefaultToolkit().getScreenSize();
+	    width = (int) size.getWidth();
+	    height = (int) size.getHeight();
 
-		CharecterCreationFrame = new JFrame("Create New Charecter");
-		CharecterCreationFrame.setSize(width, height);
-		CharecterCreationFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		CharecterCreationFrame.setBackground(myGameSettings.getColorBrown());
-		CharecterCreationFrame.setUndecorated(true);
+	    CharecterCreationFrame = new JFrame("Create New Charecter");
+	    CharecterCreationFrame.setSize(width, height);
+	    CharecterCreationFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	    CharecterCreationFrame.setBackground(myGameSettings.getColorBrown());
+	    CharecterCreationFrame.setUndecorated(true);
 
-		CharecterCreationSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		CharecterCreationFrame.add(CharecterCreationSplitPane);
-		CharecterCreationSplitPane.setDividerLocation(.5);
-		CharecterCreationSplitPane.setResizeWeight(.2d);
+	    CharecterCreationSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+	    CharecterCreationFrame.add(CharecterCreationSplitPane);
+	    CharecterCreationSplitPane.setDividerLocation(.5);
+	    CharecterCreationSplitPane.setResizeWeight(.2d);
 
-		toonstatsTextArea = new JTextArea();
-		toonclassDescriptionTextArea = new JTextArea();
-		tooncreationTextField = new JTextField();
-		tooncreationTextField.setEditable(false);
+	    toonstatsTextArea = new JTextArea();
+	    toonclassDescriptionTextArea = new JTextArea();
+	    tooncreationTextField = new JTextField();
+	    tooncreationTextField.setEditable(false);
 
-		Font toonClassDescriptionFont = new Font("Verdana", Font.BOLD, 30);
-		toonclassDescriptionTextArea.setFont(toonClassDescriptionFont);
+	    Font toonClassDescriptionFont = new Font("Verdana", Font.BOLD, 30);
+	    toonclassDescriptionTextArea.setFont(toonClassDescriptionFont);
 
-		tooncreationTextField.setText("Name: " + charName);
-		toonstatsScrollPane = new JScrollPane();
+	    tooncreationTextField.setText("Name: " + charName);
+	    toonstatsScrollPane = new JScrollPane();
 
-		NameAndStatsPanel = new JPanel(new BorderLayout());
-		ClassAndClassInfoPanel = new JPanel(new BorderLayout());
-		ClassInfoAndImagePanel = new JPanel(new BorderLayout());
-		CharecterCreationSplitPane.setLeftComponent(NameAndStatsPanel);
+	    NameAndStatsPanel = new JPanel(new BorderLayout());
+	    ClassAndClassInfoPanel = new JPanel(new BorderLayout());
+	    ClassInfoAndImagePanel = new JPanel(new BorderLayout());
+	    CharecterCreationSplitPane.setLeftComponent(NameAndStatsPanel);
 
-		String[] raceList = Arrays.stream(RaceEnum.values())
-				.map(RaceEnum::name)
-				.toArray(String[]::new);
-		Arrays.sort(raceList);
-		raceComboBox = new JComboBox<>(raceList);
-		raceComboBox.setSelectedItem("Human");
-		selectedRace = "Human";
+	    String[] raceList = Arrays.stream(RaceEnum.values())
+	        .map(RaceEnum::name)
+	        .toArray(String[]::new);
+	    Arrays.sort(raceList);
+	    raceComboBox = new JComboBox<>(raceList);
+	    raceComboBox.setSelectedItem("Human");
+	    selectedRace = "Human";
 
-		raceImageLabel = new JLabel();
-		raceDescriptionTextArea = new JTextArea("Choose your race.");
-		raceDescriptionTextArea.setLineWrap(true);
-		raceDescriptionTextArea.setWrapStyleWord(true);
-		raceDescriptionTextArea.setEditable(false);
-		raceDescriptionTextArea.setColumns(60);
-		raceDescriptionTextArea.setRows(10);
+	    raceImageLabel = new JLabel();
+	    raceDescriptionTextArea = new JTextArea("Choose your race.");
+	    raceDescriptionTextArea.setLineWrap(true);
+	    raceDescriptionTextArea.setWrapStyleWord(true);
+	    raceDescriptionTextArea.setEditable(false);
+	    raceDescriptionTextArea.setColumns(60);
+	    raceDescriptionTextArea.setRows(10);
 
-		JScrollPane raceDescriptionScrollPane = new JScrollPane(raceDescriptionTextArea);
-		int lineHeight = raceDescriptionTextArea.getFontMetrics(raceDescriptionTextArea.getFont()).getHeight();
-		raceDescriptionScrollPane.setPreferredSize(new Dimension(800, lineHeight * 12));
+	    JScrollPane raceDescriptionScrollPane = new JScrollPane(raceDescriptionTextArea);
+	    int lineHeight = raceDescriptionTextArea.getFontMetrics(raceDescriptionTextArea.getFont()).getHeight();
+	    raceDescriptionScrollPane.setPreferredSize(new Dimension(800, lineHeight * 12));
 
-		racePanel = new JPanel(new BorderLayout());
-		racePanel.add(raceComboBox, BorderLayout.NORTH);
-		JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		raceImagePanel.add(raceImageLabel);
-		racePanel.add(raceImagePanel, BorderLayout.CENTER);
-		racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH);
+	    racePanel = new JPanel(new BorderLayout());
+	    racePanel.add(raceComboBox, BorderLayout.NORTH);
+	    JPanel raceImagePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    raceImagePanel.add(raceImageLabel);
+	    racePanel.add(raceImagePanel, BorderLayout.CENTER);
+	    racePanel.add(raceDescriptionScrollPane, BorderLayout.SOUTH);
 
-		toonclasslist = DungeonoftheBrutalKing.Classes.Class.toonclassarray;
-		java.util.List<String> toonclassList = Arrays.asList(toonclasslist);
-		Collections.sort(toonclassList);
-		toonclasslist = toonclassList.toArray(new String[0]);
-		charectorClass = new JComboBox<>(toonclasslist);
-		charectorClass.setSelectedItem(toonClass);
-		charectorClass.setEnabled(false);
+	    toonclasslist = DungeonoftheBrutalKing.Classes.Class.toonclassarray;
+	    java.util.List<String> toonclassList = Arrays.asList(toonclasslist);
+	    Collections.sort(toonclassList);
+	    toonclasslist = toonclassList.toArray(new String[0]);
+	    charectorClass = new JComboBox<>(toonclasslist);
+	    charectorClass.setSelectedItem(toonClass);
+	    charectorClass.setEnabled(false);
 
-		toonclassDescriptionTextArea = new JTextArea("Choose Your Class from the Dropdown box above.");
-		toonclassDescriptionTextArea.setLineWrap(true);
+	    toonclassDescriptionTextArea = new JTextArea("Choose Your Class from the Dropdown box above.");
+	    toonclassDescriptionTextArea.setLineWrap(true);
 
-		raceComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				selectedRace = raceComboBox.getSelectedItem().toString();
-				String imagePath = CharacterCreation.getRaceImagePath(selectedRace);
-				if (imagePath != null) {
-					try {
-						BufferedImage raceImg = ImageIO.read(new File(imagePath));
-						raceImageLabel.setIcon(new ImageIcon(raceImg.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
-					} catch (IOException ex) {
-						raceImageLabel.setIcon(null);
-					}
-				} else {
-					raceImageLabel.setIcon(null);
-				}
-				raceDescriptionTextArea.setText(getRaceDescription(selectedRace));
-				charectorClass.setEnabled(true);
-				charectorClass.setModel(new DefaultComboBoxModel<>(getClassesForRace(selectedRace)));
-			}
-		});
+	    raceComboBox.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            selectedRace = raceComboBox.getSelectedItem().toString();
+	            String imagePath = CharacterCreation.getRaceImagePath(selectedRace);
+	            if (imagePath != null) {
+	                try {
+	                    BufferedImage raceImg = ImageIO.read(new File(imagePath));
+	                    raceImageLabel.setIcon(new ImageIcon(raceImg.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+	                } catch (IOException ex) {
+	                    raceImageLabel.setIcon(null);
+	                }
+	            } else {
+	                raceImageLabel.setIcon(null);
+	            }
+	            raceDescriptionTextArea.setText(getRaceDescription(selectedRace));
+	            charectorClass.setEnabled(true);
+	            charectorClass.setModel(new DefaultComboBoxModel<>(getClassesForRace(selectedRace)));
+	        }
+	    });
 
-		charectorClass.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
-				StringBuilder info = new StringBuilder();
-				info.append("Class: ").append(toonClass).append("\n\n");
-				Class<?> clazz = classMap.get(toonClass);
-				String imageName = toonClass;
-				if (clazz != null) {
-					try {
-						String desc = (String) clazz.getMethod("ClassDescription").invoke(null);
-						info.append(desc);
-						classImage(imageName);
-					} catch (Exception ex) {
-						info.append("No description available.");
-					}
-				} else {
-					info.append("No description available.");
-				}
-				toonclassDescriptionTextArea.setText(info.toString());
-				displayStats(stat);
-			}
-		});
+	    charectorClass.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent event) {
+	            toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
+	            displayStats(stat);
+	            StringBuilder info = new StringBuilder();
+	            System.out.println("Selected class: " + toonClass);
+	            info.append("Class: ").append(toonClass).append("\n\n");
+	            Class<?> clazz = classMap.get(toonClass);
+	            String imageName = toonClass;
+	            if (clazz != null) {
+	                try {
+	                    String desc = (String) clazz.getMethod("ClassDescription").invoke(null);
+	                    info.append(desc);
+	                    classImage(imageName);
+	                } catch (Exception ex) {
+	                    info.append("No description available.");
+	                }
+	            } else {
+	                info.append("No description available.");
+	            }
+	            toonclassDescriptionTextArea.setText(info.toString());
+	        }
+	    });
 
-		stat = rollstats();
-		toonstatsTextArea = new JTextArea();
-		toonstatsScrollPane = new JScrollPane(toonstatsTextArea);
-		displayStats(stat);
+	    stat = rollstats();
+	    displayStats(stat);
 
-		reRollStatsButton = new JButton("Reroll Stats");
-		reRollStatsButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				stat = rollstats();
-				displayStats(stat);
-			}
-		});
+	    reRollStatsButton = new JButton("Reroll Stats");
+	    reRollStatsButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            stat = rollstats();
+	            System.out.println("Calling displayStats with: " + Arrays.toString(stat));
+	            displayStats(stat);
+	        }
+	    });
 
-		saveToonButton = new JButton("Save Charecter");
-		saveToonButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (selectedRace == null || selectedRace.isEmpty() || toonClass == null || toonClass.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Please select both a race and a class before saving.");
-					return;
-				}
-				File saveDir = new File("src/DungeonoftheBrutalKing/SaveGame");
-				if (!saveDir.exists()) {
-					saveDir.mkdirs();
-				}
-				ArrayList<String> saveData = new ArrayList<>();
-				saveData.add(charName);
-				saveData.add(toonClass);
-				saveData.add(selectedRace);
-				saveData.add("1");
-				saveData.add("0");
+	    saveToonButton = new JButton("Save Charecter");
+	    saveToonButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            if (selectedRace == null || selectedRace.isEmpty() || toonClass == null || toonClass.isEmpty()) {
+	                JOptionPane.showMessageDialog(null, "Please select both a race and a class before saving.");
+	                return;
+	            }
+	            File saveDir = new File("src/DungeonoftheBrutalKing/SaveGame");
+	            if (!saveDir.exists()) {
+	                saveDir.mkdirs();
+	            }
+	            ArrayList<String> saveData = new ArrayList<>();
+	            saveData.add(charName);
+	            saveData.add(toonClass);
+	            saveData.add(selectedRace);
+	            saveData.add("1");
+	            saveData.add("0");
+	            saveData.add(String.valueOf(ToonHP(stat, saveData)));
+	            saveData.add(String.valueOf(ToonMP(stat, saveData)));
+	            saveData.add(String.valueOf(stat[STAT_STAMINA]));
+	            saveData.add(String.valueOf(stat[STAT_CHARISMA]));
+	            saveData.add(String.valueOf(stat[STAT_STRENGTH]));
+	            saveData.add(String.valueOf(stat[STAT_INTELLIGENCE]));
+	            saveData.add(String.valueOf(stat[STAT_WISDOM]));
+	            saveData.add(String.valueOf(stat[STAT_AGILITY]));
+	            saveData.add(String.valueOf(stat[STAT_VITALITY]));
+	            saveData.add(gold().toString());
+	            saveData.add("3");
+	            saveData.add("3");
+	            saveData.add("3");
+	            saveData.add("0");
+	            myChar.setEquippedWeapon("Hand");
+	            myChar.setEuippedArmour("Skin");
+	            saveData.add(myChar.getEquippedWeapon() != null ? myChar.getEquippedWeapon() : "Hand");
+	            saveData.add(myChar.getEquippedArmour() != null ? myChar.getEquippedArmour() : "Skin");
+	            saveData.add("None");
+	            saveData.add("0");
+	            saveData.add("2");
+	            saveData.add("3");
+	            saveData.add("1");
+	            saveData.add("180.0");
+	            int[] results = setAndCalculateStats(stat, myChar.getEquippedWeapon(), myChar.getEquippedArmour());
+	            int defense = results[0];
+	            int attack = results[1];
+	            saveData.add(String.valueOf(defense));
+	            saveData.add(String.valueOf(attack));
+	            saveData.add(String.valueOf(ToonHP(stat, saveData)));
+	            System.out.println("Saving data: " + saveData);
+	            myGameState.setCharecterData(saveData);
+	            try (FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt")) {
+	                myGameState.saveAllEncrypted(writer);
+	                CharecterCreationFrame.dispose();
+	                MainGameScreen.getInstance();
+	            } catch (Exception e1) {
+	                JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
+	                e1.printStackTrace();
+	            }
+	        }
+	    });
 
-				// HP now based on Vitality
-				saveData.add(String.valueOf(ToonHP(stat, saveData)));
-				saveData.add(String.valueOf(ToonMP(stat, saveData)));
+	    exitToStartMenuButton = new JButton("Return to Start Menu");
+	    exitToStartMenuButton.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            CharecterCreationFrame.dispose();
+	            try {
+	                GameStart startMenu = new GameStart();
+	                JFrame startMenuFrame = startMenu.getStartMenuFrame();
+	                if (startMenuFrame != null) {
+	                    startMenuFrame.setVisible(true);
+	                    displayStats(stat);
+	                }
+	            } catch (IOException | InterruptedException ex) {
+	                ex.printStackTrace();
+	            }
+	        }
+	    });
 
-				// Base stats (now includes Vitality as a 7th stat)
-				saveData.add(String.valueOf(stat[STAT_STAMINA]));
-				saveData.add(String.valueOf(stat[STAT_CHARISMA]));
-				saveData.add(String.valueOf(stat[STAT_STRENGTH]));
-				saveData.add(String.valueOf(stat[STAT_INTELLIGENCE]));
-				saveData.add(String.valueOf(stat[STAT_WISDOM]));
-				saveData.add(String.valueOf(stat[STAT_AGILITY]));
-				saveData.add(String.valueOf(stat[STAT_VITALITY])); // NEW
+	    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	    buttonPanel.add(saveToonButton);
+	    buttonPanel.add(exitToStartMenuButton);
 
-				saveData.add(gold().toString());
-				saveData.add("3");
-				saveData.add("3");
-				saveData.add("3");
-				saveData.add("0");
+	    JPanel rightPanel = new JPanel(new BorderLayout());
+	    rightPanel.add(racePanel, BorderLayout.NORTH);
+	    rightPanel.add(ClassInfoAndImagePanel, BorderLayout.CENTER);
+	    rightPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-				// Set default weapon and armour to Hand and Skin objects
-				myChar.setEquippedWeapon("Hand");
-				myChar.setEuippedArmour("Skin");
-				
-				saveData.add(myChar.getEquippedWeapon() != null ? myChar.getEquippedWeapon() : "Hand");
-				saveData.add(myChar.getEquippedArmour() != null ? myChar.getEquippedArmour() : "Skin");
-				saveData.add("None");
-				saveData.add("0");
-				saveData.add("2");
-				saveData.add("3");
-				saveData.add("1");
-				saveData.add("180.0");
+	    CharecterCreationSplitPane.setRightComponent(rightPanel);
 
-				int[] results = setAndCalculateStats(stat, myChar.getEquippedWeapon(), myChar.getEquippedArmour());
-				int defense = results[0];
-				int attack = results[1];
-				saveData.add(String.valueOf(defense));
-				saveData.add(String.valueOf(attack));
+	    NameAndStatsPanel.add(tooncreationTextField, BorderLayout.NORTH);
+	    NameAndStatsPanel.add(toonstatsScrollPane, BorderLayout.CENTER);
+	    toonstatsScrollPane.setViewportView(toonstatsTextArea);
+	    NameAndStatsPanel.add(reRollStatsButton, BorderLayout.SOUTH);
 
-				// Keep final HP slot consistent with Vitality-based HP
-				saveData.add(String.valueOf(ToonHP(stat, saveData)));
+	    ClassInfoAndImagePanel.add(charectorClass, BorderLayout.NORTH);
+	    ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.SOUTH);
 
-				System.out.println("Saving data: " + saveData);
-				myGameState.setCharecterData(saveData);
+	    CharecterCreationFrame.setLocationRelativeTo(null);
+	    CharecterCreationFrame.toFront();
+	    CharecterCreationFrame.requestFocus();
+	    CharecterCreationFrame.setVisible(true);
+	    displayStats(stat);
 
-				try (FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt")) {
-					myGameState.saveAllEncrypted(writer);
-					CharecterCreationFrame.dispose();
-					MainGameScreen.getInstance();
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
-					e1.printStackTrace();
-				}
-
-			}
-		});
-
-		exitToStartMenuButton = new JButton("Return to Start Menu");
-		exitToStartMenuButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CharecterCreationFrame.dispose();
-				try {
-					GameStart startMenu = new GameStart();
-					JFrame startMenuFrame = startMenu.getStartMenuFrame();
-					if (startMenuFrame != null) {
-						startMenuFrame.setVisible(true);
-					}
-				} catch (IOException | InterruptedException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		buttonPanel.add(saveToonButton);
-		buttonPanel.add(exitToStartMenuButton);
-
-		JPanel rightPanel = new JPanel(new BorderLayout());
-		rightPanel.add(racePanel, BorderLayout.NORTH);
-		rightPanel.add(ClassInfoAndImagePanel, BorderLayout.CENTER);
-		rightPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-		CharecterCreationSplitPane.setRightComponent(rightPanel);
-
-		NameAndStatsPanel.add(tooncreationTextField, BorderLayout.NORTH);
-		NameAndStatsPanel.add(toonstatsTextArea, BorderLayout.CENTER);
-		NameAndStatsPanel.add(reRollStatsButton, BorderLayout.SOUTH);
-
-		ClassInfoAndImagePanel.add(charectorClass, BorderLayout.NORTH);
-		ClassInfoAndImagePanel.add(toonclassDescriptionTextArea, BorderLayout.SOUTH);
-
-		CharecterCreationFrame.setLocationRelativeTo(null);
-		CharecterCreationFrame.toFront();
-		CharecterCreationFrame.requestFocus();
-		CharecterCreationFrame.setVisible(true);
-
-		while (charName == null || charName.trim().isEmpty()) {
-			charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
-		}
-
-		tooncreationTextField.setText("Name: " + charName);
-		new GameMenuItems();
+	    tooncreationTextField.setText("Name: " + charName);
+	    new GameMenuItems();
 	}
-
 	public static String getRaceImagePath(String race) {
 		try {
 			Class<?> raceClass = Class.forName("Races." + race);
@@ -406,8 +397,9 @@ public class CharacterCreation {
 		toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[STAT_STRENGTH]);
 		toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[STAT_INTELLIGENCE]);
 		toonstatsTextArea.append("\nWISDOM: \t\t" + stat[STAT_WISDOM]);
-		toonstatsTextArea.append("\nAGILITY: \t\t" + stat[STAT_AGILITY]);
+		toonstatsTextArea.append("\nAGI: \t\t" + stat[STAT_AGILITY]);
 		toonstatsTextArea.append("\nVITALITY: \t\t" + stat[STAT_VITALITY]); // NEW
+
 
 		String className = toonClass != null ? toonClass : "";
 		if (!className.isEmpty()) {
@@ -446,6 +438,7 @@ public class CharacterCreation {
 	}
 
 	public static Integer[] rollstats() {
+		System.out.println("rollstats() called");
 		int range = 20;
 		int lowerbound = 10;
 
@@ -454,20 +447,27 @@ public class CharacterCreation {
 		for (int i = 0; i < stats.length; i++) {
 			stats[i] = (int) (Math.random() * range) + lowerbound;
 		}
+		
+		System.out.println("Rolled stats: " + java.util.Arrays.toString(stats));
+		System.out.flush();
 		return stats;
 	}
 
 	// NEW: HP derived from Vitality (keeps class multiplier pattern)
 	public static Integer ToonHP(Integer[] stat, ArrayList<String> newChar) {
-		if (newChar.size() < 2 || newChar.get(1) == null) {
-			return 0;
-		}
-		String clazz = newChar.get(1);
-		int baseHP = switch (clazz) {
-		case "Paladin", "Warrior" -> 2;
-		default -> 1;
-		};
-		return baseHP * (stat[STAT_VITALITY] * 10);
+	   
+
+
+		if (stat == null || stat.length <= 6 || newChar == null || newChar.size() < 2 || newChar.get(1) == null) {
+	        return 0;
+	    }
+	    String clazz = newChar.get(1);
+	    int baseHP = switch (clazz) {
+	        case "Paladin", "Warrior" -> 2;
+	        default -> 1;
+	    };
+	    return baseHP * (stat[STAT_VITALITY] * 10);
+
 	}
 
 	public static int ToonMP(Integer[] stat, ArrayList<String> newChar) {

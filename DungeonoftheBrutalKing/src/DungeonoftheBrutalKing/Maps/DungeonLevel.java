@@ -1,5 +1,5 @@
 // src/Maps/DungeonLevel.java
-package Maps;
+package DungeonoftheBrutalKing.Maps;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import Quests.Quest;
-import Quests.Quests.QuestCleanseCursedShrine;
-import Quests.Quests.QuestForgiveBetrayer;
-import Quests.Quests.QuestRescuetheForgottenPrisoner;
-import SharedData.LocationType;
+import DungeonoftheBrutalKing.Quests.Quest;
+import DungeonoftheBrutalKing.Quests.Quests.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
+import DungeonoftheBrutalKing.SharedData.LocationType;
 
 
 public abstract class DungeonLevel {

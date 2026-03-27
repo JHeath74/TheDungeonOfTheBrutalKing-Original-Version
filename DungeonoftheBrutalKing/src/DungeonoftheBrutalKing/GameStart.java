@@ -25,15 +25,15 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import SharedData.GameSettings;
-import SharedData.MusicPlayer;
-import SharedData.RoundedButton;
-import SharedData.SettingsAndPreferences;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.MusicPlayer;
+import DungeonoftheBrutalKing.SharedData.RoundedButton;
+import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
 
 public class GameStart extends JFrame {
     private static final long serialVersionUID = 1L;
     private JFrame StartMenuFrame;
-    private GameSettings myGameSettings;
+    private DungeonoftheBrutalKing.SharedData.GameSettings myGameSettings;
     private CharacterCreation myCharacterCreation;
     private LoadSaveGame myLoadSaveGame;
 

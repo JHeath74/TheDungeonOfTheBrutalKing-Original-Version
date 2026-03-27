@@ -1,46 +1,51 @@
-// filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\SilverwardSentinels\Armour\AureatePauldrons.java
+
+// filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\SilverwardSentinels\Armour\RadiantAegis.java
 package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
- * AureatePauldrons - ceremonial pauldrons that improve defense and grant minor damage mitigation.
+ * RadiantAegis - legendary paladin armour that greatly enhances defense and grants a divine shield.
  * Primary: Wisdom, Secondary: Strength
  */
-public class AureatePauldrons extends ArmourManager {
+public class RadiantAegis extends ArmourManager {
 
-    private static final String NAME = "AureatePauldrons";
-    private static final int REQUIRED_STRENGTH = 3; // engine compatibility
-    private static final int REQUIRED_WISDOM = 13;
-    private static final int REQUIRED_STRENGTH_STAT = 11;
-    private static final int BASE_DEFENSE = 14;
-    private static final int WEIGHT = 10;
+    private static final String NAME = "RadiantAegis";
+    private static final int REQUIRED_STRENGTH = 5;
+    private static final int REQUIRED_WISDOM = 16;
+    private static final int REQUIRED_STRENGTH_STAT = 14;
+    private static final int BASE_DEFENSE = 22;
+    private static final int WEIGHT = 13;
     // Stat bonuses applied while equipped
-    private static final int WISDOM_BONUS = 3;
-    private static final int STRENGTH_BONUS = 2;
+    private static final int WISDOM_BONUS = 5;
+    private static final int STRENGTH_BONUS = 3;
 
     private static Charecter myChar = Charecter.getInstance();
 
-    public AureatePauldrons(String effect) {
+    public RadiantAegis(String effect) {
         super(NAME, REQUIRED_STRENGTH, BASE_DEFENSE, WEIGHT, effect);
     }
 
-    public static AureatePauldrons createAureatePauldrons(Charecter character, String effect) {
+    public static RadiantAegis createRadiantAegis(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character is null");
-        if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Silverward Sentinels to obtain AureatePauldrons.");
-        if (character.getWisdom() < REQUIRED_WISDOM) throw new IllegalArgumentException("Insufficient Wisdom to wear AureatePauldrons.");
-        if (character.getStrength() < REQUIRED_STRENGTH_STAT) throw new IllegalArgumentException("Insufficient Strength to wear AureatePauldrons.");
-        return new AureatePauldrons(effect);
+        if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Silverward Sentinels to obtain RadiantAegis.");
+        if (character.getWisdom() < REQUIRED_WISDOM) throw new IllegalArgumentException("Insufficient Wisdom to wear RadiantAegis.");
+        if (character.getStrength() < REQUIRED_STRENGTH_STAT) throw new IllegalArgumentException("Insufficient Strength to wear RadiantAegis.");
+        return new RadiantAegis(effect);
     }
 
     @Override
     public String getName() { return NAME; }
 
-    public static boolean isGuildMember(Charecter c) { if (c == null) return false; try { return c.getCurrentGuild() == GuildType.PALADIN && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER; } catch (Exception e) { return false; } }
+    public static boolean isGuildMember(Charecter c) {
+        if (c == null) return false;
+        try {
+            return c.getCurrentGuild() == GuildType.PALADIN && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER;
+        } catch (Exception e) { return false; }
+    }
     public static boolean isPurchasableBy(Charecter c) { return isGuildMember(c); }
 
     @Override
@@ -54,7 +59,7 @@ public class AureatePauldrons extends ArmourManager {
             if (current != null && !current.isBlank() && !current.equals(this.getName())) return false;
             if (current != null && current.equals(this.getName())) return true;
             wearer.setEuippedArmour(this.getName());
-            setEffect("RESILIENCE_STATUS");
+            setEffect("DIVINE_SHIELD");
             int newDef = wearer.getDefense() + this.getArmourDefense();
             wearer.setDefense(newDef);
             // apply stat bonuses
@@ -85,6 +90,6 @@ public class AureatePauldrons extends ArmourManager {
     public int getArmourDefense() {
         int wis = (myChar != null) ? myChar.getWisdom() : 0;
         int str = (myChar != null) ? myChar.getStrength() : 0;
-        return BASE_DEFENSE + (int)(wis * 0.28) + (int)(str * 0.18);
+        return BASE_DEFENSE + (int)(wis * 0.32) + (int)(str * 0.22);
     }
 }

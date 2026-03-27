@@ -1,4 +1,4 @@
-package DevTools;
+package DungeonoftheBrutalKing.DevTools;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,9 +1,10 @@
 
 // src/Maps/MapEntity.java
-package Maps;
+package DungeonoftheBrutalKing.Maps;
 
 public interface MapEntity {
     int getNumber();
     int getX();
     int getY();
+    int getZ();
 }

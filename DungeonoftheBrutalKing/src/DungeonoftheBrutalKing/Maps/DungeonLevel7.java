@@ -1,5 +1,5 @@
 
-package Maps;
+package DungeonoftheBrutalKing.Maps;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Collections;
 
-import SharedData.LocationType;
+import DungeonoftheBrutalKing.SharedData.LocationType;
 
 public class DungeonLevel7 extends DungeonLevel {
 

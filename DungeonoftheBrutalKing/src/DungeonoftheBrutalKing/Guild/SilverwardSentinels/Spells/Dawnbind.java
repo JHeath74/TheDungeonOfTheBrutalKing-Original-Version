@@ -1,15 +1,15 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.Random;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellBalanceManager;
-import Status.ImmobilizedStatus;
-import Status.StatusManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing. SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
+import DungeonoftheBrutalKing.Status.ImmobilizedStatus;
+import DungeonoftheBrutalKing.Status.StatusManager;
 
 /**
  * Dawnbind - a Silverward Sentinels attack that deals radiant damage and

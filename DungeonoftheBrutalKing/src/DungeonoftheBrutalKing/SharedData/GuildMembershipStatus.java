@@ -1,6 +1,6 @@
 
 // src/SharedData/GuildMembershipStatus.java
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 public enum GuildMembershipStatus {
     NOT_MEMBER,

@@ -1,4 +1,4 @@
-package SharedData;
+package DungeonoftheBrutalKing.SharedData;
 
 import javax.swing.*;
 import java.awt.*;

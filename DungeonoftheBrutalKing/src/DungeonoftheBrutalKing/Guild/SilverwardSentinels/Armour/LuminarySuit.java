@@ -1,11 +1,11 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\SilverwardSentinels\Armour\LuminaryGreaves.java
-package Guild.SilverwardSentinels.Armour;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import Armour.ArmourManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
  * LuminaryGreaves - sturdy greaves that increase defense and stability in battle.
@@ -50,10 +50,10 @@ public class LuminarySuit extends ArmourManager {
         if (wearer.getWisdom() < REQUIRED_WISDOM) return false;
         if (wearer.getStrength() < REQUIRED_STRENGTH_STAT) return false;
         try {
-            String current = wearer.getArmour();
+            String current = wearer.getEquippedArmour();
             if (current != null && !current.isBlank() && !current.equals(this.getName())) return false;
             if (current != null && current.equals(this.getName())) return true;
-            wearer.setArmour(this.getName());
+            wearer.setEuippedArmour(this.getName());
             setEffect("RESILIENCE_STATUS");
             int newDef = wearer.getDefense() + this.getArmourDefense();
             wearer.setDefense(newDef);
@@ -68,9 +68,9 @@ public class LuminarySuit extends ArmourManager {
     public boolean unequip(Charecter wearer) {
         if (wearer == null) return false;
         try {
-            String current = wearer.getArmour();
+            String current = wearer.getEquippedArmour();
             if (current == null || !current.equals(this.getName())) return false;
-            wearer.setArmour("");
+            wearer.setEuippedArmour("");
             int newDef = Math.max(0, wearer.getDefense() - this.getArmourDefense());
             wearer.setDefense(newDef);
             // remove stat bonuses

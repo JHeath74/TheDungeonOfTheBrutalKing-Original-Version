@@ -1,46 +1,51 @@
-// filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\SilverwardSentinels\Armour\AureatePauldrons.java
+
+// filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\SilverwardSentinels\Armour\SanctifiedCuirass.java
 package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
- * AureatePauldrons - ceremonial pauldrons that improve defense and grant minor damage mitigation.
+ * SanctifiedCuirass - a blessed cuirass that greatly enhances defense and grants a sanctuary aura.
  * Primary: Wisdom, Secondary: Strength
  */
-public class AureatePauldrons extends ArmourManager {
+public class SanctifiedCuirass extends ArmourManager {
 
-    private static final String NAME = "AureatePauldrons";
-    private static final int REQUIRED_STRENGTH = 3; // engine compatibility
-    private static final int REQUIRED_WISDOM = 13;
-    private static final int REQUIRED_STRENGTH_STAT = 11;
-    private static final int BASE_DEFENSE = 14;
-    private static final int WEIGHT = 10;
+    private static final String NAME = "SanctifiedCuirass";
+    private static final int REQUIRED_STRENGTH = 4;
+    private static final int REQUIRED_WISDOM = 15;
+    private static final int REQUIRED_STRENGTH_STAT = 12;
+    private static final int BASE_DEFENSE = 18;
+    private static final int WEIGHT = 11;
     // Stat bonuses applied while equipped
-    private static final int WISDOM_BONUS = 3;
+    private static final int WISDOM_BONUS = 4;
     private static final int STRENGTH_BONUS = 2;
 
     private static Charecter myChar = Charecter.getInstance();
 
-    public AureatePauldrons(String effect) {
+    public SanctifiedCuirass(String effect) {
         super(NAME, REQUIRED_STRENGTH, BASE_DEFENSE, WEIGHT, effect);
     }
 
-    public static AureatePauldrons createAureatePauldrons(Charecter character, String effect) {
+    public static SanctifiedCuirass createSanctifiedCuirass(Charecter character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character is null");
-        if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Silverward Sentinels to obtain AureatePauldrons.");
-        if (character.getWisdom() < REQUIRED_WISDOM) throw new IllegalArgumentException("Insufficient Wisdom to wear AureatePauldrons.");
-        if (character.getStrength() < REQUIRED_STRENGTH_STAT) throw new IllegalArgumentException("Insufficient Strength to wear AureatePauldrons.");
-        return new AureatePauldrons(effect);
+        if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Silverward Sentinels to obtain SanctifiedCuirass.");
+        if (character.getWisdom() < REQUIRED_WISDOM) throw new IllegalArgumentException("Insufficient Wisdom to wear SanctifiedCuirass.");
+        if (character.getStrength() < REQUIRED_STRENGTH_STAT) throw new IllegalArgumentException("Insufficient Strength to wear SanctifiedCuirass.");
+        return new SanctifiedCuirass(effect);
     }
 
     @Override
     public String getName() { return NAME; }
 
-    public static boolean isGuildMember(Charecter c) { if (c == null) return false; try { return c.getCurrentGuild() == GuildType.PALADIN && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER; } catch (Exception e) { return false; } }
+    public static boolean isGuildMember(Charecter c) {
+        if (c == null) return false;
+        try {
+            return c.getCurrentGuild() == GuildType.PALADIN && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER;
+        } catch (Exception e) { return false; }
+    }
     public static boolean isPurchasableBy(Charecter c) { return isGuildMember(c); }
 
     @Override
@@ -54,7 +59,7 @@ public class AureatePauldrons extends ArmourManager {
             if (current != null && !current.isBlank() && !current.equals(this.getName())) return false;
             if (current != null && current.equals(this.getName())) return true;
             wearer.setEuippedArmour(this.getName());
-            setEffect("RESILIENCE_STATUS");
+            setEffect("SANCTUARY_AURA");
             int newDef = wearer.getDefense() + this.getArmourDefense();
             wearer.setDefense(newDef);
             // apply stat bonuses
@@ -85,6 +90,6 @@ public class AureatePauldrons extends ArmourManager {
     public int getArmourDefense() {
         int wis = (myChar != null) ? myChar.getWisdom() : 0;
         int str = (myChar != null) ? myChar.getStrength() : 0;
-        return BASE_DEFENSE + (int)(wis * 0.28) + (int)(str * 0.18);
+        return BASE_DEFENSE + (int)(wis * 0.30) + (int)(str * 0.20);
     }
 }

@@ -1,12 +1,12 @@
-package Guild.SilverwardSentinels.Weapon;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Weapon;
 
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Weapon.WeaponManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
  * VigilantFlail - versatile flail that can drain the enemy (life/mana drain).
@@ -68,7 +68,7 @@ public class VigilantFlail extends WeaponManager {
         if (!isGuildMember(wearer)) return false;
         if (wearer.getWisdom() < REQUIRED_WISDOM) return false;
         if (wearer.getStrength() < REQUIRED_STRENGTH_STAT) return false;
-        try { wearer.setWeapon(this.getName()); return true; } catch (Exception e) { return false; }
+        try { wearer.setEquippedWeapon(this.getName()); return true; } catch (Exception e) { return false; }
     }
 
     /**

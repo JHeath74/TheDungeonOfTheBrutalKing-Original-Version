@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -17,8 +18,7 @@ import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
     private static MainGameScreen instance;
-    
- // Add these fields to MainGameScreen
+
     private double preCombatX, preCombatY;
     private double postCombatX, postCombatY;
 
@@ -28,12 +28,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
     private CharacterCreation myCharacterCreation;
     {
-        try {
-            myCharacterCreation = new CharacterCreation();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            myCharacterCreation = null;
-        }
+       
     }
 
     private JFrame mainFrame;
@@ -85,41 +80,46 @@ public class MainGameScreen extends JFrame implements KeyListener {
         setupTimer();
         setupClock();
         updateCombatMessageArea(clock.getCurrentTimeString());
-    }
-
-
-private void initGame() {
-    try {
-        game = new Game();
-        renderPanel = game.getRenderPanel();
-        if (renderPanel != null) {
-            renderPanel.addKeyListener(game.getCamera());
-        } else {
-            throw new IllegalStateException("Game renderPanel is null after construction.");
+        
+        try {
+            myCharacterCreation = new CharacterCreation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            myCharacterCreation = null;
         }
-        camera = game.getCamera();
-        currentDungeonLevel = game.getCurrentDungeonLevelInstance();
-
-        double startX = myChar.getX();
-        double startY = myChar.getY();
-        camera.setPosition(startX, startY);
-
-        replaceWithAnyPanel(renderPanel);
-        renderPanel.addKeyListener(this);
-        renderPanel.setFocusable(true);
-        renderPanel.requestFocusInWindow();
-
-        Timer renderTimer = new Timer(16, _ -> renderPanel.repaint());
-        renderTimer.start();
-
-        mainFrame.setVisible(true);
-        game.start();
-        MusicPlayer.mp3Player("Dark_Dungeon_Ambience.mp3");
-    } catch (Exception ex) {
-        ex.printStackTrace();
     }
-}
 
+    private void initGame() {
+        try {
+            game = new Game();
+            renderPanel = game.getRenderPanel();
+            if (renderPanel != null) {
+                renderPanel.addKeyListener(game.getCamera());
+            } else {
+                throw new IllegalStateException("Game renderPanel is null after construction.");
+            }
+            camera = game.getCamera();
+            currentDungeonLevel = game.getCurrentDungeonLevelInstance();
+
+            double startX = myChar.getX();
+            double startY = myChar.getY();
+            camera.setPosition(startX, startY);
+
+            replaceWithAnyPanel(renderPanel);
+            renderPanel.addKeyListener(this);
+            renderPanel.setFocusable(true);
+            renderPanel.requestFocusInWindow();
+
+            Timer renderTimer = new Timer(16, _ -> renderPanel.repaint());
+            renderTimer.start();
+
+            mainFrame.setVisible(true);
+            game.start();
+            MusicPlayer.mp3Player("Dark_Dungeon_Ambience.mp3");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -177,8 +177,7 @@ private void initGame() {
         combatMessageArea.setWrapStyleWord(true);
 
         try {
-        	
-        	myChar.setName(myChar.getCharInfo().get(0));
+            myChar.setName(myChar.getCharInfo().get(0));
             myGameState.StartGameLoadCharacter();
         } catch (IOException e) {
             e.printStackTrace();
@@ -494,7 +493,6 @@ private void initGame() {
 
     private void setupTimer() {
         ActionListener task = _ -> {
-            // Name/class/race/level/xp row relies on CharInfo; keep it guarded.
             if (myChar.getCharInfo().size() >= 5) {
                 charNameClassLevelField.setText(
                     "Name: " + myChar.getCharInfo().get(0) + "\t\t" +
@@ -517,8 +515,6 @@ private void initGame() {
                 myChar.getWisdom() + "\t\t" +
                 myChar.getAgility()
             );
-
-            // The rest can stay as-is if you want, but avoid hard dependency on size==13.
         };
 
         timer = new Timer(100, task);
@@ -559,17 +555,15 @@ private void initGame() {
             }
         }
     }
-    
 
-public int getMagicOrActionPoints() {
-    String className = myChar.getClassName();
-    if ("Mage".equals(className) || "Wizard".equals(className)) {
-        return myChar.getMagicPoints();
-    } else {
-        return myChar.getActionPoints();
+    public int getMagicOrActionPoints() {
+        String className = myChar.getClassName();
+        if ("Mage".equals(className) || "Wizard".equals(className)) {
+            return myChar.getMagicPoints();
+        } else {
+            return myChar.getActionPoints();
+        }
     }
-}
-
 
     public void savePlayerPosition() {
         savedPlayerX = myChar.getX();
@@ -578,16 +572,13 @@ public int getMagicOrActionPoints() {
     }
 
     public void restorePlayerPosition() {
-        // Only restore if saved position is valid (not 0,0)
         if ((savedPlayerX != 0 || savedPlayerY != 0) &&
             !(Double.isNaN(savedPlayerX) || Double.isNaN(savedPlayerY))) {
             if (currentDungeonLevel.getCurrentDungeonLevel() != savedDungeonLevel) {
-                // Optionally restore dungeon level here
                  currentDungeonLevel.setCurrentDungeonLevel(savedDungeonLevel);
             }
             camera.setPosition(savedPlayerX, savedPlayerY);
         }
-        // else: do nothing, prevents sending player to (0,0)
     }
 
     public void restoreOriginalPanel() {
@@ -627,8 +618,7 @@ public int getMagicOrActionPoints() {
     public Charecter getPlayer() {
         return myChar;
     }
-    
- // Call this before entering combat
+
     public void savePreCombatPosition() {
         preCombatX = camera.xPos;
         preCombatY = camera.yPos;
