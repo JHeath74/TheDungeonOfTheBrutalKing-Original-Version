@@ -8,16 +8,14 @@ import DungeonoftheBrutalKing.Enemies.Enemies;
 public class Status {
     private String name;
     private int durationSeconds;
-    private StatusPolarity negative;
-    private int startTimeSeconds = -1;
     protected StatusType type;
     private StatusPolarity polarity = null;
+    private int startTimeSeconds = -1;
 
-    public Status(String name, int durationMinutes, StatusPolarity positive, StatusType type) {
+    public Status(String name, int durationMinutes, StatusPolarity polarity, StatusType type) {
         this.polarity = polarity;
-		this.name = name;
+        this.name = name;
         this.setDurationSeconds(durationMinutes * 60);
-        this.negative = positive;
         this.type = type;
     }
 

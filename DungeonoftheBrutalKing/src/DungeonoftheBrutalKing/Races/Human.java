@@ -1,4 +1,4 @@
-package Races;
+package DungeonoftheBrutalKing.Races;
 
 import java.util.Arrays;
 import java.util.List;

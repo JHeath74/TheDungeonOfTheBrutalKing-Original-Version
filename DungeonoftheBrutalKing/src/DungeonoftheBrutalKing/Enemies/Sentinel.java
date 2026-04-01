@@ -1,9 +1,9 @@
 
 // src/Enemies/Sentinel.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Sentinel extends Enemies {
@@ -32,7 +32,8 @@ public class Sentinel extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Sentinel.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -149,4 +150,10 @@ public class Sentinel extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing;
 
 import java.awt.*;
@@ -26,10 +25,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private final GameSettings myGameSettings = new GameSettings();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
-    private CharacterCreation myCharacterCreation;
-    {
-       
-    }
 
     private JFrame mainFrame;
     private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel, originalPanel;
@@ -80,13 +75,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
         setupTimer();
         setupClock();
         updateCombatMessageArea(clock.getCurrentTimeString());
-        
-        try {
-            myCharacterCreation = new CharacterCreation();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            myCharacterCreation = null;
-        }
     }
 
     private void initGame() {
@@ -346,11 +334,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     private void handleNewGame() {
         int result = JOptionPane.showConfirmDialog(
-                mainFrame,
-                "Are you sure you wish to delete your current game and start a new one?",
-                "Start New Game?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
+            mainFrame,
+            "Are you sure you wish to delete your current game and start a new one?",
+            "Start New Game?",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
         );
         if (result == JOptionPane.YES_OPTION) {
             dispose();
@@ -359,7 +347,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
                 for (File file : d.listFiles()) {
                     if (!file.isDirectory()) file.delete();
                 }
-                myCharacterCreation.createCharector();
+                CharacterCreation characterCreation = new CharacterCreation();
+                characterCreation.createCharector();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

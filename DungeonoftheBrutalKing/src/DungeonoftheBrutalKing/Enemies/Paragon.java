@@ -1,9 +1,9 @@
 
 // src/Enemies/Paragon.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Paragon extends Enemies {
@@ -32,7 +32,8 @@ public class Paragon extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Paragon.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -149,4 +150,10 @@ public class Paragon extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

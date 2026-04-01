@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class GameMenuItems {
 

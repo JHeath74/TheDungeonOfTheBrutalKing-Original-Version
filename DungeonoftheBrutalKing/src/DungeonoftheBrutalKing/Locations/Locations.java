@@ -1,5 +1,5 @@
 
-package Locations;
+package DungeonoftheBrutalKing.Locations;
 
 import java.util.List;
 

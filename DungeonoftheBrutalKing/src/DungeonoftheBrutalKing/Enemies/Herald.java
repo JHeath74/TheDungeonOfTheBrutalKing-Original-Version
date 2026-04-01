@@ -1,10 +1,10 @@
 
 // src/Enemies/Herald.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Herald extends Enemies {
     private int level;
@@ -32,7 +32,8 @@ public class Herald extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Herald.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -149,4 +150,10 @@ public class Herald extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

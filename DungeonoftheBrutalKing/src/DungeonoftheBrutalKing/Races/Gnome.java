@@ -1,5 +1,5 @@
 
-package Races;
+package DungeonoftheBrutalKing.Races;
 
 import java.util.List;
 

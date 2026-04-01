@@ -1,9 +1,9 @@
 // src/Enemies/Orc.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Orc extends Enemies {
     private int level;
@@ -149,4 +149,10 @@ public class Orc extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

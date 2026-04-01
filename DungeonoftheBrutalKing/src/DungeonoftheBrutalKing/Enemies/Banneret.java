@@ -1,9 +1,9 @@
 
 // src/Enemies/Banneret.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 /**
@@ -39,7 +39,7 @@ public class Banneret extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Banneret.png",
-            false
+            false, vitality
         );
         this.level = level;
         this.vitality = vitality;
@@ -126,4 +126,10 @@ public class Banneret extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

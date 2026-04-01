@@ -1,12 +1,12 @@
 // src/Enemies/Dragon.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import Status.FireStatus;
-import Status.StatusManager;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.FireStatus;
+import DungeonoftheBrutalKing.Status.StatusManager;
 
 /**
  * Represents a Dragon enemy with advanced combat abilities.
@@ -69,7 +69,7 @@ public class Dragon extends Enemies {
         if (Math.random() < finalBurnChance) {
             MainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.\n");
             FireStatus fireStatus = new FireStatus();
-            target.getStatusManager().addStatus(fireStatus);
+            target.getStatusManager().addStatus(fireStatus, target);
         }
         return damage;
     }
@@ -197,4 +197,10 @@ public class Dragon extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

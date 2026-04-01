@@ -1,8 +1,8 @@
 
 // src/Enemies/Seraph.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Seraph extends Enemies {

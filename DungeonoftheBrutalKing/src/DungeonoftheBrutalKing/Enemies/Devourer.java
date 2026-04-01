@@ -1,12 +1,12 @@
 
 // src/Enemies/Devourer.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import java.util.ArrayList;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Devourer extends Enemies {
     private int level;
@@ -34,7 +34,7 @@ public class Devourer extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Devourer.png",
-            false
+            false, vitality
         );
         this.level = level;
         this.strength = strength;
@@ -160,4 +160,10 @@ public class Devourer extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,5 +1,5 @@
 
-package Locations.TheRustyTankard;
+package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class InnBackroom {
     public static void loadBackroom(JPanel mainPanel, MainGameScreen myMainGameScreen) throws IOException, InterruptedException, ParseException {

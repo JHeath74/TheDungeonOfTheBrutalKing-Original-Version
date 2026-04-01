@@ -36,6 +36,15 @@ public class StatusRegistry {
         statusMap.put("LightningStatus", LightningStatus.class);
         statusMap.put("StrengthBuffStatus", StrengthBuffStatus.class);
         statusMap.put("IceBarrierStatus", IceBarrierStatus.class);
+        statusMap.put("AccuracyStatus", AccuracyStatus.class);
+        statusMap.put("AstralRiftStatus", AstralRiftStatus.class);
+        statusMap.put("DefenseUpStatus", DefenseUpStatus.class);
+        statusMap.put("EvasionUpStatus", EvasionUpStatus.class);
+        statusMap.put("JudgementBrandStatus", JudgementBrandStatus.class);
+        statusMap.put("OathbreakersRuinStatus", OathbreakersRuinStatus.class);
+        statusMap.put("PerceptionBuffStatus", PerceptionBuffStatus.class);
+        statusMap.put("PurityWardStatus", PurityWardStatus.class);
+        statusMap.put("ResilienceStatus", ResilienceStatus.class);
     }
 
 

@@ -1,4 +1,4 @@
-package Quests;
+package DungeonoftheBrutalKing.Quests;
 
 public interface Quest {
     String getName();
@@ -6,4 +6,5 @@ public interface Quest {
     boolean isCompleted();
     void completeQuest();
     String serialize();
+    QuestType getType();
 }

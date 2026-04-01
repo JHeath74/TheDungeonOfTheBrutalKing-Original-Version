@@ -1,6 +1,6 @@
 
 // src/Status/AstralWardStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 public final class AstralWardStatus extends Status {
 

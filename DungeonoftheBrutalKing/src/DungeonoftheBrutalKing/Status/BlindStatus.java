@@ -1,6 +1,6 @@
 
 // src/Status/BlindStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

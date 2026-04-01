@@ -1,5 +1,5 @@
 
-package Locations.TheRustyTankard;
+package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class InformationProvider extends JPanel {
     /**

@@ -1,6 +1,6 @@
 
 // src/Status/ReduceDefenseStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

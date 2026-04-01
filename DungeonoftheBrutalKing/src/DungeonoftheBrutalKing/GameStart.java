@@ -33,7 +33,7 @@ import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
 public class GameStart extends JFrame {
     private static final long serialVersionUID = 1L;
     private JFrame StartMenuFrame;
-    private DungeonoftheBrutalKing.SharedData.GameSettings myGameSettings;
+    private GameSettings myGameSettings;
     private CharacterCreation myCharacterCreation;
     private LoadSaveGame myLoadSaveGame;
 
@@ -53,8 +53,6 @@ public class GameStart extends JFrame {
         StartMenuFrame.add(backgroundPanel);
         StartMenuFrame.setLocationRelativeTo(null);
         StartMenuFrame.setVisible(true);
-
-        //LoadSaveGame.readSaveFileDemo();
     }
 
     private void setupFrame() {
@@ -167,7 +165,7 @@ public class GameStart extends JFrame {
             window.dispose();
         });
 
-        settingsBtn.addActionListener(e -> {
+        settingsBtn.addActionListener(_unused -> {
             MusicPlayer.stopMidi();
             SwingUtilities.invokeLater(() -> {
                 try {
@@ -179,26 +177,18 @@ public class GameStart extends JFrame {
             });
         });
 
-        exitBtn.addActionListener(e -> {
+        exitBtn.addActionListener(_unused -> {
             MusicPlayer.stopMidi();
             System.exit(0);
         });
     }
-    
+
     private void proceedToCreateCharacter(java.awt.event.ActionEvent e) {
         Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
         MusicPlayer.stopMidi();
         window.dispose();
         myCharacterCreation.createCharector();
     }
-
-	/*
-	 * private void setupMusic() { MusicPlayer.stopMidi(); Thread musicThread = new
-	 * Thread(() -> { MusicPlayer soundplayer = new MusicPlayer(); try {
-	 * soundplayer.midiPlayer("Stones.mid"); } catch (UnsupportedAudioFileException
-	 * | IOException | LineUnavailableException e) { e.printStackTrace(); } });
-	 * musicThread.start(); }
-	 */
 
     public JFrame getStartMenuFrame() {
         return StartMenuFrame;

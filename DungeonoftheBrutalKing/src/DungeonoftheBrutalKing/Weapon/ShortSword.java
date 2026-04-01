@@ -1,8 +1,8 @@
 // src/Weapon/ShortSword.java
-package Weapon;
+package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class ShortSword extends WeaponManager {
 

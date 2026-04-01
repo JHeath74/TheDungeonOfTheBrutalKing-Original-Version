@@ -1,6 +1,6 @@
 
 // src/Status/HiddenStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

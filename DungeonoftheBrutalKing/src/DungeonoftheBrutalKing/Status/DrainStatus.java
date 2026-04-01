@@ -1,6 +1,6 @@
 
 // src/Status/DrainStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

@@ -1,7 +1,7 @@
 
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;

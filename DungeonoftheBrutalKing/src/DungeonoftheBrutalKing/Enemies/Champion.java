@@ -1,10 +1,10 @@
 
 // src/Enemies/Champion.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Champion extends Enemies {
     private int level;
@@ -32,7 +32,7 @@ public class Champion extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Champion.png",
-            false
+            false, vitality
         );
         this.level = level;
         this.strength = strength;
@@ -147,4 +147,10 @@ public class Champion extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

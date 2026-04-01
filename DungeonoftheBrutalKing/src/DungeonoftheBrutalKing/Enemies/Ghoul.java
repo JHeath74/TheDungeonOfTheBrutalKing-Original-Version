@@ -1,10 +1,10 @@
 
 // src/Enemies/Ghoul.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Ghoul extends Enemies {
     private int level;
@@ -33,7 +33,8 @@ public class Ghoul extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Ghoul.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -150,4 +151,10 @@ public class Ghoul extends Enemies {
                 ", isUndead=" + isUndead() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

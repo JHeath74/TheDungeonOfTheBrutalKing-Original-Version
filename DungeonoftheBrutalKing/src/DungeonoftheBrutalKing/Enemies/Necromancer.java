@@ -1,9 +1,9 @@
 
 // src/Enemies/Necromancer.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Necromancer extends Enemies {
@@ -33,7 +33,8 @@ public class Necromancer extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Necromancer.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -153,4 +154,10 @@ public class Necromancer extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

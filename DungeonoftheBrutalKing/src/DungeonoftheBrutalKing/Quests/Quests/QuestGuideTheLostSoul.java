@@ -1,4 +1,4 @@
-package Quests.Quests;
+package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import Quests.Quest;
-import Quests.QuestType;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.Quests.Quest;
+import DungeonoftheBrutalKing.Quests.QuestType;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class QuestGuideTheLostSoul extends JPanel implements Quest {
 

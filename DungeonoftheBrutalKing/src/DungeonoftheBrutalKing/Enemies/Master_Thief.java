@@ -1,10 +1,10 @@
 
 // src/Enemies/Master_Thief.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Master_Thief extends Enemies {
     private int level;
@@ -32,7 +32,8 @@ public class Master_Thief extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Master_Thief.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -147,4 +148,10 @@ public class Master_Thief extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

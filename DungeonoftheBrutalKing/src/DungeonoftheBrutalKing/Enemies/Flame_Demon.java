@@ -1,11 +1,11 @@
 
 // src/Enemies/Flame_Demon.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import Status.FireStatus;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.FireStatus;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Flame_Demon extends Enemies {
@@ -34,7 +34,8 @@ public class Flame_Demon extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Flame_Demon.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -162,4 +163,10 @@ public class Flame_Demon extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

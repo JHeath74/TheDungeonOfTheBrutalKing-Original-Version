@@ -1,9 +1,9 @@
 
 // src/Enemies/Redeemer.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Redeemer extends Enemies {
@@ -32,7 +32,8 @@ public class Redeemer extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Redeemer.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -142,4 +143,10 @@ public class Redeemer extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

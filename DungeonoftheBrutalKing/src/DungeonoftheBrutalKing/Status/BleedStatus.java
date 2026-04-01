@@ -1,6 +1,6 @@
 
 // src/Status/BleedStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

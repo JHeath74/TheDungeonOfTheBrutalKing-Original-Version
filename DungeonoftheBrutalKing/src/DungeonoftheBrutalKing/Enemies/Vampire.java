@@ -1,12 +1,12 @@
 
 // src/Enemies/Vampire.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import Status.DrainStatus;
+import DungeonoftheBrutalKing.Status.DrainStatus;
 
 public class Vampire extends Enemies {
     private int level;

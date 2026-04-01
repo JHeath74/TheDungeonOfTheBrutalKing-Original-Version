@@ -1,103 +1,127 @@
 
-// src/Enemies/Knight.java
-package Enemies;
+// src/DungeonoftheBrutalKing/Enemies/Knight.java
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 
-/**
- * Represents a Knight enemy with basic combat abilities and alignment.
- */
 public class Knight extends Enemies {
-
-    // --- Fields ---
-    private int level; // Used for rewards and scaling
+    private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
     private final int alignmentImpact = -3;
 
-    // --- Constructor ---
-    /**
-     * Constructs a Knight enemy with predefined stats and image.
-     */
     public Knight() {
-        super(
-            "Knight",                                   // Name
-            6,                                          // Level (used in superclass, overridden below)
-            30,                                         // Hit points
-            8,                                          // Strength
-            5,                                          // Charisma
-            7,                                          // Agility
-            6,                                          // Intelligence
-            3,                                          // Wisdom
-            GameSettings.MonsterImagePath + "Knight.png", // Image path
-            false,                                      // Is magic user
-            0                                           // Spell strength
-        );
-        this.level = 6; // Set actual level for this instance
+        this(6, 8, 5, 7, 6, 3, 6); // Example default stats
     }
 
-    // --- Combat Methods ---
-    /**
-     * Reduces hit points by the given damage amount.
-     * If hit points drop below zero, sets them to zero.
-     * Prints a message if the Knight dies.
-     * @param damage The amount of damage to take.
-     */
+    public Knight(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Knight",
+            level,
+            (level * 4) + (vitality * 6),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Knight.png",
+            false,
+            vitality
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 4) + (vitality * 6);
+    }
+
+    public int getLevel() { return level; }
+    public int getStrength() { return strength; }
+    public int getCharisma() { return charisma; }
+    public int getAgility() { return agility; }
+    public int getIntelligence() { return intelligence; }
+    public int getWisdom() { return wisdom; }
+    public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
+        setHitPoints(getHitPoints() - defend(damage));
         if (isDead()) System.out.println(getName() + " has died.");
     }
 
-    /**
-     * Checks if the Knight is dead (hit points <= 0).
-     * @return true if dead, false otherwise.
-     */
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 4) + (vitality * 6);
+    }
+
     @Override
     public boolean isDead() {
         return getHitPoints() <= 0;
     }
 
-    /**
-     * Calculates the Knight's attack damage based on strength and agility.
-     * @return The calculated attack damage.
-     */
     @Override
     public int attack() {
-        return (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+        boolean critical = Math.random() < 0.10;
+        int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
+        return critical ? base * 2 : base;
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 12;
-        int agility = getAgility();
-        int reductionPercent = (baseDefense + agility) / 2;
-        if (reductionPercent > 80) reductionPercent = 80; // Cap at 80%
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
         System.out.println(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // --- Utility Methods ---
-    /**
-     * Returns the image path for the Knight.
-     * @return The image path.
-     */
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.MonsterImagePath + "Knight_injured.png";
+        }
         return super.getImagePath();
     }
 
-    /**
-     * Returns a string representation of the Knight's stats.
-     * @return String with all key attributes.
-     */
+    @Override
+    public int getExperienceReward() {
+        int base = level * 10;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 5;
+        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        return alignmentImpact;
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
     @Override
     public String toString() {
         return "Knight{" +
@@ -109,55 +133,15 @@ public class Knight extends Enemies {
                 ", agility=" + getAgility() +
                 ", intelligence=" + getIntelligence() +
                 ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
                 ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
                 '}';
     }
 
-    // --- Getters and Alignment Methods ---
-    /**
-     * Gets the level of the Knight.
-     * @return the level.
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     * Gets the experience reward for defeating the Knight.
-     * @return experience points.
-     */
     @Override
-    public int getExperienceReward() {
-        int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the gold reward for defeating the Knight.
-     * @return gold amount.
-     */
-    @Override
-    public int getGoldReward() {
-        int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    /**
-     * Gets the alignment impact value.
-     * @return alignment impact.
-     */
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
-
-    /**
-     * Gets the alignment of the Knight.
-     * @return alignment.
-     */
-    public Alignment getAlignment() {
-        return alignment;
+    public String getClassName() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

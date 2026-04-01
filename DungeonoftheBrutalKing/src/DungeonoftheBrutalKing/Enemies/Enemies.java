@@ -1,13 +1,13 @@
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Alignment;
-import Status.HasHitPoints;
-import Status.Status;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing. Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.Status;
 
 public abstract class Enemies implements HasHitPoints {
 

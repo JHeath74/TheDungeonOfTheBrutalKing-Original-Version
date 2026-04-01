@@ -1,6 +1,6 @@
 
 // src/Status/LifeStealStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

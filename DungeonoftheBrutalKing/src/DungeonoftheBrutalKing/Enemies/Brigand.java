@@ -1,10 +1,10 @@
 // src/Enemies/Brigand.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import SharedData.RandomFactory;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Brigand extends Enemies {
     private int level;
@@ -32,7 +32,7 @@ public class Brigand extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Brigand.png",
-            false
+            false, vitality
         );
         this.level = level;
         this.strength = strength;
@@ -147,4 +147,10 @@ public class Brigand extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

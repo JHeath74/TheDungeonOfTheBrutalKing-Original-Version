@@ -1,12 +1,12 @@
 
 // src/Enemies/Wizard.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import Status.StunStatus; // Example status effect
+import DungeonoftheBrutalKing.Status.StunStatus; // Example status effect
 
 public class Wizard extends Enemies {
     private int level;
@@ -34,7 +34,8 @@ public class Wizard extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Wizard.png",
-            true // isMagicUser
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -166,4 +167,10 @@ public class Wizard extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

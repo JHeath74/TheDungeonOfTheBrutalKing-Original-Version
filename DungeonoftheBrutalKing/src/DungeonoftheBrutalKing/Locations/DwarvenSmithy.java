@@ -1,4 +1,4 @@
-package Locations;
+package DungeonoftheBrutalKing.Locations;
 
 public class DwarvenSmithy {
 

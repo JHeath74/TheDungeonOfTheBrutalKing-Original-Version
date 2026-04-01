@@ -1,6 +1,8 @@
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings; import SharedData.Alignment; import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.GameSettings; 
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Skeleton extends Enemies {
     private int level;
@@ -146,4 +148,10 @@ public class Skeleton extends Enemies {
                 ", isUndead=" + isUndead() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

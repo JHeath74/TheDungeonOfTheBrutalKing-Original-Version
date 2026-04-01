@@ -1,5 +1,5 @@
 
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 
@@ -10,6 +10,8 @@ import DungeonoftheBrutalKing.Charecter;
  */
 public class JudgementBrandStatus extends Status {
 
+	
+	
     // Example: target takes +25% damage from all sources
     public static final int DEFAULT_DAMAGE_INCREASE_PERCENT = 25;
 

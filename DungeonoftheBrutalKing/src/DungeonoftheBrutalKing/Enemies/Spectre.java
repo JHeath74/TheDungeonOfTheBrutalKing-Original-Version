@@ -1,7 +1,11 @@
 // src/Enemies/Spectre.java 
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings; import SharedData.Alignment; import DungeonoftheBrutalKing.MainGameScreen; import Status.PoisonStatus; import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.MainGameScreen; 
+import DungeonoftheBrutalKing.Status.PoisonStatus; 
+import DungeonoftheBrutalKing.Charecter;
 
 public class Spectre extends Enemies { private int level; private final int strength; private final int charisma; private final int agility; private final int intelligence; private final int wisdom; private final int vitality; private int hitPoints; private final Alignment alignment = Alignment.EVIL;
 
@@ -21,7 +25,8 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
         intelligence,
         wisdom,
         GameSettings.MonsterImagePath + "Spectre.png",
-        true
+        true,
+        vitality
     );
     this.level = level;
     this.strength = strength;
@@ -155,4 +160,10 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
                 ", isUndead=" + isUndead() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     }

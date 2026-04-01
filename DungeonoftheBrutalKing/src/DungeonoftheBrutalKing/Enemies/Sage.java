@@ -1,9 +1,9 @@
 
 // src/Enemies/Sage.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Sage extends Enemies {
@@ -32,7 +32,8 @@ public class Sage extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Sage.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -142,4 +143,10 @@ public class Sage extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

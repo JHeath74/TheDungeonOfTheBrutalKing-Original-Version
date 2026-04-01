@@ -1,8 +1,8 @@
 // src/Weapon/Shortbow.java
-package Weapon;
+package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Shortbow extends WeaponManager {
 

@@ -1,5 +1,5 @@
 // src/Quests/QuestManager.java
-package Quests;
+package DungeonoftheBrutalKing.Quests;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import Quests.Quests.QuestForgiveBetrayer;
-import Quests.Quests.QuestRescuetheForgottenPrisoner;
+import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
 
 public class QuestManager {
     // Separated quest collections

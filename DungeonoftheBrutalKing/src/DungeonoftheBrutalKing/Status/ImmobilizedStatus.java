@@ -1,6 +1,6 @@
 
 // src/Status/ImmobilizedStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 public class ImmobilizedStatus extends Status {
 

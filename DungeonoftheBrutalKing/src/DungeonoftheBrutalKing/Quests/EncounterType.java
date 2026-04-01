@@ -1,6 +1,6 @@
 
 // src/Quests/EncounterType.java
-package Quests;
+package DungeonoftheBrutalKing.Quests;
 
 public enum EncounterType {
     CONVERSATION,

@@ -1,11 +1,11 @@
 
 // src/Enemies/Phoenix.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import Status.FireStatus;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.FireStatus;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Phoenix extends Enemies {
@@ -36,8 +36,8 @@ public class Phoenix extends Enemies {
     	        intelligence,
     	        wisdom,
     	        GameSettings.MonsterImagePath + "Phoenix.png",
-    	        true // isMagicUser
-    	    );
+    	        true,
+    	        vitality   	    );
     	    this.level = level;
     	    this.strength = strength;
     	    this.charisma = charisma;
@@ -171,4 +171,11 @@ public class Phoenix extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

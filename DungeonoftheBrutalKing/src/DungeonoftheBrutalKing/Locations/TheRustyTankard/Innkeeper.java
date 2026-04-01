@@ -1,5 +1,5 @@
 
-package Locations.TheRustyTankard;
+package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,8 +18,8 @@ import javax.swing.SwingConstants;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.GameSettings;
-import Status.StatusManager;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.StatusManager;
 
 public class Innkeeper {
     private final Map<String, Integer> foodItems;

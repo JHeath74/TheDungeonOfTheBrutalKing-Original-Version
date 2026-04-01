@@ -1,7 +1,7 @@
 
-package Weapon;
+package DungeonoftheBrutalKing.Weapon;
 
-import Status.StatusType;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Hand extends WeaponManager {
 

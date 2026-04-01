@@ -1,11 +1,11 @@
 
 // src/Enemies/Slime.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import Status.PoisonStatus;
+import DungeonoftheBrutalKing.Status.PoisonStatus;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Slime extends Enemies {
@@ -34,7 +34,8 @@ public class Slime extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Slime.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -166,4 +167,10 @@ public class Slime extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

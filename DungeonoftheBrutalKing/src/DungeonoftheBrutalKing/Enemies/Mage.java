@@ -1,12 +1,12 @@
 
 // src/Enemies/Mage.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import Status.Status;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.Status;
 
 public class Mage extends Enemies {
     private int level;
@@ -35,7 +35,8 @@ public class Mage extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Mage.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -164,4 +165,10 @@ public class Mage extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

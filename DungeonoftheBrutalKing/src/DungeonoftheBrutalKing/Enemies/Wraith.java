@@ -1,12 +1,12 @@
 
 // src/Enemies/Wraith.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import Status.DrainStatus; // Example status effect
+import DungeonoftheBrutalKing.Status.DrainStatus; // Example status effect
 
 public class Wraith extends Enemies {
     private int level;
@@ -34,7 +34,8 @@ public class Wraith extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Wraith.png",
-            true // isMagicUser
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -87,7 +88,9 @@ public class Wraith extends Enemies {
         boolean drainApplied = Math.random() < 0.15;
         if (drainApplied) {
             MainGameScreen.appendToMessageTextPane(getName() + " drains life from the target!");
-            target.addStatus(new DrainStatus(2)); // Example: drain status for 2 rounds
+
+            target.addStatus(new DrainStatus(2, 0.10, DrainStatus.DrainType.MAGIC));
+
         } else {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
@@ -166,4 +169,10 @@ public class Wraith extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

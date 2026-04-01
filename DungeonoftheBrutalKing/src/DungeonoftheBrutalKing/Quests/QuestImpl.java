@@ -1,4 +1,4 @@
-package Quests;
+package DungeonoftheBrutalKing.Quests;
 
 import java.util.EnumSet;
 import java.util.Set;

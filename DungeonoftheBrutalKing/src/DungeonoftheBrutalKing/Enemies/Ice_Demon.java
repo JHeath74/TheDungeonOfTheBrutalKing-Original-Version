@@ -1,12 +1,12 @@
 
 // src/Enemies/Ice_Demon.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import Status.IceStatus;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.IceStatus;
 
 public class Ice_Demon extends Enemies {
     private int level;
@@ -34,7 +34,8 @@ public class Ice_Demon extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Ice_Demon.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -158,4 +159,10 @@ public class Ice_Demon extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

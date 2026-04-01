@@ -16,6 +16,7 @@ public class ThingsToWorkOn {
 		//Missing vitality from CharacterCreation and MainGameScreen class
 		//offer guild quests.
 		//at level up,  be able to spend points to increase stats.
+		//update alignment impact for all enemies.
 
 		
 	}

@@ -3,11 +3,11 @@ package DungeonoftheBrutalKing;
 import java.util.ArrayList;
 import java.util.List;
 
-import Armour.ArmourManager;
-import Shields.ShieldManager;
-import Spells.Spell;
-import Spells.SpellsManager;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
+import DungeonoftheBrutalKing.Shields.ShieldManager;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellsManager;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 public class Singleton
 {

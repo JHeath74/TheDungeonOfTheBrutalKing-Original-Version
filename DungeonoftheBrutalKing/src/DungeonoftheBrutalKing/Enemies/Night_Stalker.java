@@ -1,10 +1,10 @@
 
 // src/Enemies/Night_Stalker.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Night_Stalker extends Enemies {
     private int level;
@@ -32,7 +32,8 @@ public class Night_Stalker extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Night_Stalker.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -149,4 +150,10 @@ public class Night_Stalker extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

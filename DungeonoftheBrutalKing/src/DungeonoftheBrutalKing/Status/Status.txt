@@ -1,0 +1,56 @@
+ Volume in drive C is Local Disk
+ Volume Serial Number is 60E0-35DF
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Status
+
+03/31/2026  06:02 PM    <DIR>          .
+03/25/2026  06:36 PM    <DIR>          ..
+03/25/2026  07:03 PM             1,099 AccuracyStatus.java
+03/31/2026  05:58 PM             3,964 AstralRiftStatus.java
+03/31/2026  06:01 PM               684 AstralWardStatus.java
+03/31/2026  06:01 PM               874 BleedStatus.java
+03/31/2026  06:01 PM             1,223 BlindStatus.java
+03/31/2026  06:01 PM               723 DamageUpStatus.java
+03/31/2026  06:01 PM             2,726 DazeStatus.java
+03/31/2026  06:01 PM               804 DefenseUpStatus.java
+03/31/2026  06:01 PM             1,739 DivineInterventionStatus.java
+03/31/2026  06:01 PM             2,316 DrainStatus.java
+03/31/2026  06:01 PM             1,242 EchoOfEternityAuraStatus.java
+03/31/2026  06:01 PM               946 EtherealChainsStatus.java
+03/31/2026  06:01 PM             1,457 EvasionUpStatus.java
+03/31/2026  06:01 PM             1,340 FearStatus.java
+03/31/2026  06:01 PM             1,451 FireStatus.java
+03/25/2026  07:03 PM               265 HasHitPoints.java
+03/31/2026  06:01 PM               786 HiddenStatus.java
+03/31/2026  06:01 PM             5,823 IceBarrierStatus.java
+03/31/2026  06:01 PM             1,570 IceStatus.java
+03/31/2026  06:01 PM               998 IllusoryDoubleStatus.java
+03/31/2026  06:01 PM               580 ImmobilizedStatus.java
+03/31/2026  06:01 PM             1,590 JudgementBrandStatus.java
+03/31/2026  06:01 PM             1,870 LifeStealStatus.java
+03/31/2026  06:01 PM             1,301 LightningStatus.java
+03/31/2026  06:01 PM             2,197 ManaRegenStatus.java
+03/31/2026  06:01 PM             1,100 MindProbeStatus.java
+03/31/2026  06:01 PM               869 OathbreakersRuinStatus.java
+03/31/2026  06:01 PM             1,857 PerceptionBuffStatus.java
+03/31/2026  06:01 PM               842 PoisonStatus.java
+03/31/2026  06:01 PM             2,385 PurityWardStatus.java
+03/31/2026  06:01 PM             1,033 RadiantStatus.java
+03/31/2026  06:01 PM             1,203 ReduceDefenseStatus.java
+03/31/2026  06:01 PM             1,319 ReduceStrengthStatus.java
+03/31/2026  06:01 PM               969 ResilienceStatus.java
+03/31/2026  06:01 PM             1,024 SilencedStatus.java
+03/31/2026  05:58 PM             3,382 Status.java
+03/31/2026  06:02 PM                 0 Status.txt
+03/26/2026  05:21 PM             3,007 StatusManager.java
+03/26/2026  05:21 PM               141 StatusPolarity.java
+03/26/2026  05:21 PM             2,192 StatusRegistry.java
+03/26/2026  05:21 PM               989 StatusType.java
+03/31/2026  06:01 PM             1,014 StrengthBuffStatus.java
+03/31/2026  06:01 PM               892 StunStatus.java
+03/31/2026  06:01 PM             1,082 VoidEchoStatus.java
+              44 File(s)         64,868 bytes
+
+     Total Files Listed:
+              44 File(s)         64,868 bytes
+               2 Dir(s)  73,252,904,960 bytes free

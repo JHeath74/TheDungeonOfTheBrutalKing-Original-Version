@@ -1,12 +1,12 @@
 
 // src/Enemies/Mold.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
-import Status.PoisonStatus;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.Status.PoisonStatus;
 
 public class Mold extends Enemies {
     private int level;
@@ -34,7 +34,8 @@ public class Mold extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Mold.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -164,4 +165,10 @@ public class Mold extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

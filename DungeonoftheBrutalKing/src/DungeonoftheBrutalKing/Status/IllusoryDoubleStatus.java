@@ -1,6 +1,6 @@
 
 // src/Status/IllusoryDoubleStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
 

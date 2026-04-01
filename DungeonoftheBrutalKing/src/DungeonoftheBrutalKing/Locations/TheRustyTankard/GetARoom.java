@@ -1,11 +1,11 @@
-package Locations.TheRustyTankard;
+package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import javax.swing.*;
 import java.awt.*;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class GetARoom extends JPanel {
     private static final long serialVersionUID = 1L;

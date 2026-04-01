@@ -1,6 +1,8 @@
- package Enemies;
+ package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.MainGameScreen; import SharedData.Alignment; import SharedData.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen; 
+import DungeonoftheBrutalKing.SharedData.Alignment; 
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Liches extends Enemies { private int level; private final int strength; private final int charisma; private final int agility; private final int intelligence; private final int wisdom; private final int vitality; private int hitPoints; private final int spellStrength; private final Alignment alignment = Alignment.EVIL;
 
@@ -20,7 +22,8 @@ public Liches(int level, int strength, int charisma, int agility, int intelligen
         intelligence,
         wisdom,
         GameSettings.MonsterImagePath + "Liches.png",
-        true
+        true,
+        vitality
     );
     this.level = level;
     this.strength = strength;
@@ -141,5 +144,11 @@ public String toString() {
             ", isMagicUser=" + isMagicUser() +
             ", isUndead=" + isUndead() +
             '}';
+}
+
+@Override
+public String getClassName() {
+	// TODO Auto-generated method stub
+	return null;
 }
 }

@@ -1,9 +1,9 @@
 
 // src/Enemies/Crusader.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Crusader extends Enemies {
@@ -32,7 +32,7 @@ public class Crusader extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Crusader.png",
-            false
+            false, vitality
         );
         this.level = level;
         this.strength = strength;
@@ -147,4 +147,10 @@ public class Crusader extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

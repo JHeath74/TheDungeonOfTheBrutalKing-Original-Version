@@ -1,11 +1,11 @@
 
 // src/Weapon/WeaponManager.java
-package Weapon;
+package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
-import Status.HasHitPoints;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class WeaponManager {
 

@@ -1,10 +1,10 @@
 
 // src/Enemies/Exemplar.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Exemplar extends Enemies {
     private int level;
@@ -32,7 +32,8 @@ public class Exemplar extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Exemplar.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -147,4 +148,10 @@ public class Exemplar extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

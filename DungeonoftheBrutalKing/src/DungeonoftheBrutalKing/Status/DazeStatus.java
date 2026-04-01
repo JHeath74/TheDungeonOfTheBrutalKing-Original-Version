@@ -1,6 +1,6 @@
 
 // src/Status/DazeStatus.java
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import java.lang.reflect.Method;
 

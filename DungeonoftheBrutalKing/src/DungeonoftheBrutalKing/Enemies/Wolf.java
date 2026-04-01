@@ -1,12 +1,12 @@
 
 // src/Enemies/Wolf.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import Status.BleedStatus; // Example status effect
+import DungeonoftheBrutalKing.Status.BleedStatus; // Example status effect
 
 public class Wolf extends Enemies {
     private int level;
@@ -34,7 +34,8 @@ public class Wolf extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Wolf.png",
-            false // isMagicUser
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -166,4 +167,10 @@ public class Wolf extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

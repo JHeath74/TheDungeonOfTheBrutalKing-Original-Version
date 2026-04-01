@@ -1,8 +1,8 @@
 
-package Status;
+package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public final class EchoOfEternityAuraStatus extends Status {
     private final Charecter caster;

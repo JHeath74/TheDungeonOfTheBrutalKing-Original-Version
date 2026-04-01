@@ -1,11 +1,11 @@
 
 // src/Enemies/Storm_Devil.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import Status.StunStatus;
+import DungeonoftheBrutalKing.Status.StunStatus;
 import DungeonoftheBrutalKing.Charecter;
 
 public class Storm_Devil extends Enemies {
@@ -34,7 +34,8 @@ public class Storm_Devil extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Storm Devil.png",
-            true // isMagicUser
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -166,4 +167,10 @@ public class Storm_Devil extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,9 +1,9 @@
 
 // src/Enemies/Warden.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
 
@@ -33,7 +33,8 @@ public class Warden extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Warden.png",
-            false // isMagicUser
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -159,4 +160,10 @@ public class Warden extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

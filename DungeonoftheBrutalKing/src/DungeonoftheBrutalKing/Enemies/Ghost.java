@@ -1,10 +1,10 @@
 
 // src/Enemies/Ghost.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Ghost extends Enemies {
     private int level;
@@ -33,7 +33,8 @@ public class Ghost extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Ghost.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -152,4 +153,10 @@ public class Ghost extends Enemies {
                 ", isUndead=" + isUndead() +
                 '}';
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
