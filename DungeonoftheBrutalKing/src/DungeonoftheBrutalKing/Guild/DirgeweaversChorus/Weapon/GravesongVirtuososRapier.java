@@ -1,13 +1,13 @@
 
 // src/Guild/DirgeweaversChorus/Weapon/GravesongVirtuososRapier.java
-package Guild.DirgeweaversChorus.Weapon;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Status.BleedStatus;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.BleedStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.Random;
 

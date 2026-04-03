@@ -1,10 +1,11 @@
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class BloodboundVow implements Spell {
 
@@ -67,4 +68,10 @@ public class BloodboundVow implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double d) { /* Not used */ }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

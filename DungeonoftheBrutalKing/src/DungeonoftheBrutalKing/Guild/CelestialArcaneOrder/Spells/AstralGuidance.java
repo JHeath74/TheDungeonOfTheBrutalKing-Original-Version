@@ -1,9 +1,10 @@
-package Guild.CelestialArcaneOrder.Spells;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
-import Status.StatusType; // Import the StatusType enum
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.Status.StatusType; // Import the StatusType enum
 
 public class AstralGuidance implements Spell {
 
@@ -44,4 +45,10 @@ public class AstralGuidance implements Spell {
     public void castWithStrength(Charecter enemy, double d) {
         // Not used for this spell
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

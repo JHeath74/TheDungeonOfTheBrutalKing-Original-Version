@@ -1,10 +1,11 @@
-package Guild.CelestialArcaneOrder.Spells;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import java.util.List;
 import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class Cure implements Spell {
 
@@ -20,7 +21,8 @@ public class Cure implements Spell {
         Random random = new Random();
         for (String effect : NEGATIVE_EFFECTS) {
             if (random.nextDouble() < 0.75) {
-                target.getStatusManager().removeStatusByName(effect);
+                // pass target to match StatusManager.removeStatusByName(String, Charecter)
+                target.getStatusManager().removeStatusByName(effect, target);
                 System.out.println(target.getName() + " cured " + effect + "!");
             } else {
                 System.out.println(target.getName() + " failed to cure " + effect + ".");
@@ -85,5 +87,20 @@ public class Cure implements Spell {
     @Override
     public String getName() {
         return "Cure";
+    }
+
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @Override
+    public void castWithStrength(Charecter enemy, double d) {
+        // Not used for this spell
+    }
+
+    @Override
+    public void cast(Charecter caster, Enemies target) {
+        // Not used for this spell
     }
 }

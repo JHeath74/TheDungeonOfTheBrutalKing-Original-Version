@@ -1,8 +1,9 @@
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class EchoingBladeDance implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 8;
@@ -89,4 +90,10 @@ public class EchoingBladeDance implements Spell {
         int damage = (int) Math.round(caster.getStrength() * strengthMultiplier);
         System.out.println(caster.getName() + " uses Echoing Blade Dance with a strength multiplier of " + strengthMultiplier + ", dealing " + damage + " damage (no target specified).");
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

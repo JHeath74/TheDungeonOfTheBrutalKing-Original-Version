@@ -1,12 +1,13 @@
 
 // src/Guild/AuroraArcanum/Spells/IllusoryDouble.java
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.IllusoryDoubleStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.IllusoryDoubleStatus;
 
 public class IllusoryDouble implements Spell {
     private static final int DURATION = 3; // rounds
@@ -91,6 +92,12 @@ public class IllusoryDouble implements Spell {
 
 	@Override
 	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

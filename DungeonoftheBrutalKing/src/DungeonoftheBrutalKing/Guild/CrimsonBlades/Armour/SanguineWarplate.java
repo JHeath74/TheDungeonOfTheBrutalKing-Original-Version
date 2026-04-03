@@ -1,9 +1,11 @@
-package Guild.CrimsonBlades.Armour;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Armour;
 
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+
+import java.util.Collection;
 import java.util.Collections;
 
 public class SanguineWarplate extends ArmourManager {
@@ -16,7 +18,9 @@ public class SanguineWarplate extends ArmourManager {
     private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Sanguine Warplate";
-    private static final String DESCRIPTION = "Sanguine Warplate: A fearsome crimson warplate pulsing with power. Greatly increases strength, critical prowess, and protects against bleeding and burning.";
+    private static final String DESCRIPTION =
+            "Sanguine Warplate: A fearsome crimson warplate pulsing with power. "
+                    + "Greatly increases strength, critical prowess, and protects against bleeding and burning.";
     private static final String PROTECTION_BLEED = "bleed";
     private static final String PROTECTION_BURN = "burn";
 
@@ -27,12 +31,16 @@ public class SanguineWarplate extends ArmourManager {
     @Override
     public boolean equip(Charecter wearer) {
         if (wearer == null) return false;
-        if (wearer.getArmour() == null || !wearer.getArmour().equals(getName())) {
-            wearer.setArmour(getName());
+        if (wearer.getEquippedArmour() == null || !wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(getName());
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
+
             if (wearer.getEffectProtection() != null) {
-                Collections.addAll(wearer.getEffectProtection(), PROTECTION_BLEED, PROTECTION_BURN);
+                @SuppressWarnings("unchecked")
+                Collection<String> protections =
+                        (Collection<String>) wearer.getEffectProtection();
+                Collections.addAll(protections, PROTECTION_BLEED, PROTECTION_BURN);
             }
             return true;
         }
@@ -42,13 +50,17 @@ public class SanguineWarplate extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (wearer == null) return false;
-        if (wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
-            wearer.setArmour(null);
+        if (wearer.getEquippedArmour() != null && wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(null);
             wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
+
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove(PROTECTION_BLEED);
-                wearer.getEffectProtection().remove(PROTECTION_BURN);
+                @SuppressWarnings("unchecked")
+                Collection<String> protections =
+                        (Collection<String>) wearer.getEffectProtection();
+                protections.remove(PROTECTION_BLEED);
+                protections.remove(PROTECTION_BURN);
             }
             return true;
         }

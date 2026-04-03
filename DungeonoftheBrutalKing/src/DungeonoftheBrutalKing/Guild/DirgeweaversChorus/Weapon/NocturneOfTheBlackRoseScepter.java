@@ -1,14 +1,14 @@
 
-package Guild.DirgeweaversChorus.Weapon;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Status.FireStatus;
-import Status.IceStatus;
-import Status.LightningStatus;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.FireStatus;
+import DungeonoftheBrutalKing.Status.IceStatus;
+import DungeonoftheBrutalKing.Status.LightningStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import java.util.Random;
 
 public class NocturneOfTheBlackRoseScepter extends WeaponManager {

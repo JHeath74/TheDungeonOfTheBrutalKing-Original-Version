@@ -1,9 +1,10 @@
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class ArcaneMissile implements Spell {
     private static final int BASE_POWER = 10;
@@ -79,4 +80,10 @@ public class ArcaneMissile implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double strength) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

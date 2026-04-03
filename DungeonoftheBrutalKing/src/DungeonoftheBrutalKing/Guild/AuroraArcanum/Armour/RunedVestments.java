@@ -1,17 +1,17 @@
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
-package Guild.AuroraArcanum.Armour;
-
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RunedVestments extends ArmourManager {
 
-	private static final int REQUIRED_INTELLIGENCE = 10; // Example value
+    private static final int REQUIRED_INTELLIGENCE = 10; // Example value
     private static final double DEFENSE_BONUS_PERCENT = 0.12; // 12%
+    private static final int ARMOUR_DEFENSE = 1; // light base defence
     private static final int WEIGHT = 2;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
@@ -22,14 +22,18 @@ public class RunedVestments extends ArmourManager {
     private final int maxChargesPerRune;
 
     public RunedVestments(Map<String, Integer> initialRunes, int maxChargesPerRune, String effect) {
-        super("Runed Vestments", REQUIRED_INTELLIGENCE, 0, effect); // Intelligence as required stat
+        // requiredStrength unused for wizards, so pass 0; provide base defence and weight
+        super("Runed Vestments", 0, ARMOUR_DEFENSE, WEIGHT, effect);
         this.runeCharges = new HashMap<>(initialRunes);
         this.maxChargesPerRune = maxChargesPerRune;
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (!isEquipped && wearer.getGuild() == GUILDname) {
+        if (!isEquipped
+                && wearer.getGuild() == GUILDname
+                && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
+
             int bonus = (int) Math.round(wearer.getDefense() * DEFENSE_BONUS_PERCENT);
             wearer.setDefense(wearer.getDefense() + bonus);
             isEquipped = true;
@@ -41,7 +45,8 @@ public class RunedVestments extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (isEquipped) {
-            int bonus = (int) Math.round(wearer.getDefense() / (1 + DEFENSE_BONUS_PERCENT) * DEFENSE_BONUS_PERCENT);
+            int bonus = (int) Math.round(
+                    wearer.getDefense() / (1 + DEFENSE_BONUS_PERCENT) * DEFENSE_BONUS_PERCENT);
             wearer.setDefense(wearer.getDefense() - bonus);
             isEquipped = false;
             return true;

@@ -1,10 +1,10 @@
-package Guild.DawnwardPaladins.Spells;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusManager;
 
 /**
  * PurifyingLight is a guild spell for the Dawnward Paladins.

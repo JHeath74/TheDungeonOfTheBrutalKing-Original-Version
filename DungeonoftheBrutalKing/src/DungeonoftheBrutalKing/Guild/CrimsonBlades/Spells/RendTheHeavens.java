@@ -1,8 +1,9 @@
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import java.util.List;
 
 public class RendTheHeavens implements Spell {
@@ -101,4 +102,10 @@ public class RendTheHeavens implements Spell {
         System.out.println(caster.getName() + " uses Rend the Heavens with a strength multiplier of " + strengthMultiplier +
             ", dealing " + damage + " damage (no target specified).");
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

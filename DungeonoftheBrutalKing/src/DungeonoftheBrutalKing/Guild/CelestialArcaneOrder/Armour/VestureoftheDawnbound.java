@@ -1,9 +1,10 @@
-package Guild.CelestialArcaneOrder.Armour;
 
-import Armour.ArmourManager;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Armour;
+
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class VestureoftheDawnbound extends ArmourManager {
 
@@ -20,19 +21,26 @@ public class VestureoftheDawnbound extends ArmourManager {
     private boolean wearerHadFireProtection = false;
 
     public VestureoftheDawnbound(String effect) {
-        super("Vesture of the Dawnbound", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
+        // requiredStrength unused (wisdom-gated), so pass 0
+        super("Vesture of the Dawnbound", 0, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && equippedWearer == null) {
-            wearer.setArmour(getName());
+        if (wearer != null
+                && equippedWearer == null
+                && wearer.getGuild() == GUILD_NAME
+                && wearer.getWisdom() >= REQUIRED_WISDOM) {
+
+            wearer.setEuippedArmour(getName());
             wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+
             wearerHadFireProtection = wearer.hasEffectProtection("fire");
             if (!wearerHadFireProtection) {
                 wearer.setEffectProtection("fire", true);
                 fireProtectionApplied = true;
             }
+
             equippedWearer = wearer;
             return true;
         }
@@ -42,11 +50,13 @@ public class VestureoftheDawnbound extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (wearer != null && equippedWearer == wearer) {
-            wearer.setArmour(null);
+            wearer.setEuippedArmour(null);
             wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+
             if (fireProtectionApplied && !wearerHadFireProtection) {
                 wearer.setEffectProtection("fire", false);
             }
+
             fireProtectionApplied = false;
             equippedWearer = null;
             return true;

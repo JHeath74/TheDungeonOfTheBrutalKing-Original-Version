@@ -1,10 +1,10 @@
 
-package Guild.DawnwardPaladins.Armour;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 
 public class SanctifiedPlate extends ArmourManager {
 

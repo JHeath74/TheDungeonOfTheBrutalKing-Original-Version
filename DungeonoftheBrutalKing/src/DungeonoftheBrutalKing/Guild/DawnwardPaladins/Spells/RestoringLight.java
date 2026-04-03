@@ -1,8 +1,9 @@
-package Guild.DawnwardPaladins.Spells;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import java.util.List;
 
 public class RestoringLight implements Spell {
@@ -92,4 +93,10 @@ public class RestoringLight implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double strength) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

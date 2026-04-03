@@ -1,9 +1,10 @@
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class IronheartRally implements Spell {
 
@@ -100,4 +101,10 @@ public class IronheartRally implements Spell {
         System.out.println(caster.getName() + " uses Ironheart Rally with a strength multiplier of " + strengthMultiplier +
             ", restoring " + heal + " hit points to each ally (no targets specified).");
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

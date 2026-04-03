@@ -1,4 +1,4 @@
-package Guild.DirgeweaversChorus;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -8,15 +8,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import SharedData.Guild;
-import SharedData.GuildSpellsDialog;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Guild.DirgeweaversChorus.Spells.DirgeweaversChorusGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells.DirgeweaversChorusGuildSpellsManager;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class DirgeweaversChorus extends JPanel {
 

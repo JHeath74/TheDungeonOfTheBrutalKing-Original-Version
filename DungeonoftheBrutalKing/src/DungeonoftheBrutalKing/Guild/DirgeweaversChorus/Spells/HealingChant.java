@@ -1,13 +1,14 @@
 
-package Guild.DirgeweaversChorus.Spells;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildMembershipStatus;
-import SharedData.GuildType;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class HealingChant implements Spell {
 
@@ -80,4 +81,10 @@ public class HealingChant implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double d) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

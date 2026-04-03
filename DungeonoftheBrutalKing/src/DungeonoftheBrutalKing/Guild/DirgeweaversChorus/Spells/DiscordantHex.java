@@ -1,21 +1,21 @@
 
 // `src/Guild/DirgeweaversChorus/Spells/DiscordantHex.java`
-package Guild.DirgeweaversChorus.Spells;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.BlindStatus;
-import Status.DazeStatus;
-import Status.ImmobilizedStatus;
-import Status.PoisonStatus;
-import Status.ReduceDefenseStatus;
-import Status.SilencedStatus;
-import Status.Status;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.BlindStatus;
+import DungeonoftheBrutalKing.Status.DazeStatus;
+import DungeonoftheBrutalKing.Status.ImmobilizedStatus;
+import DungeonoftheBrutalKing.Status.PoisonStatus;
+import DungeonoftheBrutalKing.Status.ReduceDefenseStatus;
+import DungeonoftheBrutalKing.Status.SilencedStatus;
+import DungeonoftheBrutalKing.Status.Status;
 
 public class DiscordantHex implements Spell {
 

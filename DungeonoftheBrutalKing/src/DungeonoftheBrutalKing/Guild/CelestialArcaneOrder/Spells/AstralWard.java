@@ -1,13 +1,14 @@
 
-package Guild.CelestialArcaneOrder.Spells;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
-import Spells.Spell;
-import Status.AstralWardStatus;
-import Status.Status;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.AstralWardStatus;
+import DungeonoftheBrutalKing.Status.Status;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class AstralWard implements Spell {
 
@@ -59,4 +60,10 @@ public class AstralWard implements Spell {
 
     @Override
     public void castWithIntelligence(int intelligence) {}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

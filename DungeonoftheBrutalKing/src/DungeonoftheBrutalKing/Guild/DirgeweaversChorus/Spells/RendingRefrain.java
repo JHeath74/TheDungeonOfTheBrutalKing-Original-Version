@@ -1,15 +1,15 @@
 
 // src/Guild/DirgeweaversChorus/Spells/RendingRefrain.java
-package Guild.DirgeweaversChorus.Spells;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.DazeStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.DazeStatus;
 
 // TODO: replace this import with whichever status you actually have:
 // import Status.ReduceDefenseStatus;

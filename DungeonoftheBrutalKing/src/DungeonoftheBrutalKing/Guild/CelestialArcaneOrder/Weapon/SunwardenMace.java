@@ -1,13 +1,13 @@
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 
-package Guild.CelestialArcaneOrder.Weapon;
-
-import Weapon.WeaponManager;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Charecter;
-import Status.HasHitPoints;
-import Status.Status;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.RadiantStatus;
 
 public class SunwardenMace extends WeaponManager {
 
@@ -24,8 +24,8 @@ public class SunwardenMace extends WeaponManager {
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
-            wearer.setWeapon(getName());
+        if (wearer != null && wearer.getGuild() == GUILDname) {
+            wearer.setEquippedWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + BONUS_WISDOM);
             return true;
         }
@@ -34,19 +34,29 @@ public class SunwardenMace extends WeaponManager {
 
     @Override
     public boolean unequip(Charecter wearer) {
-        if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
-            wearer.setWeapon(null);
+        if (wearer != null
+                && wearer.getEquippedWeapon() != null
+                && wearer.getEquippedWeapon().equals(getName())) {
+
+            wearer.setEquippedWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - BONUS_WISDOM);
+            return true;
         }
-		return false;
+        return false;
     }
 
     @Override
-    public void applyEffect(HasHitPoints target) {
-        if (target != null && getStatusEffect() != null && getStatusEffect() != WeaponManager.StatusEffect.NONE) {
-            // Use the enum name as the status name, set default duration and type
-            Status status = new Status(getStatusEffect().name(), 1, true, StatusType.DRAIN_STATUS); // Adjust type if needed
-            target.addStatus(status);
+    public void applyCombatEffect(HasHitPoints target) {
+        if (target != null) {
+            int extraRadiantDamage = 2; // smaller than Warhammer, adjust as desired
+            target.setHitPoints(target.getHitPoints() - extraRadiantDamage);
+
+            Status radiant = new RadiantStatus(extraRadiantDamage);
+            if (target instanceof Charecter) {
+                ((Charecter) target).addStatus(radiant);
+            } else if (target instanceof Enemies) {
+                ((Enemies) target).addStatus(radiant);
+            }
         }
     }
 

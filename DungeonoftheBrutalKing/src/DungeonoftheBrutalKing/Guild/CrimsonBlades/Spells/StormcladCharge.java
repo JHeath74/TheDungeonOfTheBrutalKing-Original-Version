@@ -1,6 +1,10 @@
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
-import DungeonoftheBrutalKing.Charecter; import SharedData.Guild; import Spells.Spell; import java.util.List;
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell; 
+import java.util.List;
 
 public class StormcladCharge implements Spell {
 
@@ -70,5 +74,17 @@ public void cast(Charecter caster, Charecter target) {
     target.takeDamage(CHARGE_DAMAGE);
     System.out.println(caster.getName() + " charges through " + target.getName() +
         " with Stormclad Charge, dealing " + CHARGE_DAMAGE + " damage!");
+}
+
+@Override
+public void castWithStrength(Charecter enemy, double d) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void cast(Charecter caster, Enemies target) {
+	// TODO Auto-generated method stub
+	
 }
 }

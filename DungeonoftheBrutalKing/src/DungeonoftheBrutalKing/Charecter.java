@@ -121,6 +121,16 @@ public class Charecter implements HasHitPoints {
         ensureSize(index + 1);
         charInfo.set(index, value == null ? "0" : value);
     }
+    
+public double getCritChance() {
+    return critChance;
+}
+
+public void setCritChance(double critChance) {
+    // clamp between 0.0 and 1.0 if you want it as a percentage chance
+    this.critChance = Math.max(0.0, Math.min(1.0, critChance));
+}
+
 
     private void ensureSize(int size) {
         if (charInfo == null) charInfo = new ArrayList<>();
@@ -187,7 +197,7 @@ public class Charecter implements HasHitPoints {
     public String getEquippedWeapon() { return getStr(IDX_WEAPON); }
     public void setEquippedWeapon(String weapon) { setStr(IDX_WEAPON, weapon); }
     public String getEquippedArmour() { return getStr(IDX_ARMOUR); }
-    public void setEuippedArmour(String armour) { setStr(IDX_ARMOUR, armour); }
+    public void setEquippedArmour(String armour) { setStr(IDX_ARMOUR, armour); }
     public String getEquippedShield() { return getStr(IDX_SHIELD); }
     public void setEquippedShield(String shield) { setStr(IDX_SHIELD, shield); }
     public int getAlignment() { return getInt(IDX_ALIGNMENT, 0); }
@@ -489,6 +499,52 @@ public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
      }
      charInventory.add(item);
      return true;
+ }
+
+ public void removeResistance(String elementType) {
+	// TODO Auto-generated method stub
+	
+ }
+
+ public void addResistance(String elementType) {
+	// TODO Auto-generated method stub
+	
+ }
+ 
+ public int getSpellPower() {
+	    // Example formula: INT * 2, plus small level scaling
+	    int intelligence = getIntelligence();
+	    int level = getLevel(); // assuming you have this; otherwise remove
+
+	    int base = intelligence * 2;
+	    int levelBonus = level; // or (int)(level * 1.5), etc.
+
+	    return base + levelBonus;
+	}
+
+ public int getSpellResistanceBonus() {
+	// TODO Auto-generated method stub
+	return 0;
+ }
+
+ public void setSpellResistanceBonus(int i) {
+	// TODO Auto-generated method stub
+	
+ }
+
+ public void setEffectProtection(String string, boolean b) {
+	// TODO Auto-generated method stub
+	
+ }
+
+ public boolean hasEffectProtection(String string) {
+	// TODO Auto-generated method stub
+	return false;
+ }
+
+ public Object getEffectProtection() {
+	// TODO Auto-generated method stub
+	return null;
  }
 
 }

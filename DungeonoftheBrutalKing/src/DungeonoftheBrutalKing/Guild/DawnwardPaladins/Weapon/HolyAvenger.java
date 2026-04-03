@@ -1,11 +1,11 @@
 
-package Guild.DawnwardPaladins.Weapon;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 public class HolyAvenger extends WeaponManager {
 

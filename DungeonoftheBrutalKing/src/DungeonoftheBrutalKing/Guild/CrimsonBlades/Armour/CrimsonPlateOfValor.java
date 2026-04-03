@@ -1,9 +1,10 @@
-package Guild.CrimsonBlades.Armour;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Armour;
 
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+
 
 public class CrimsonPlateOfValor extends ArmourManager {
 
@@ -15,7 +16,9 @@ public class CrimsonPlateOfValor extends ArmourManager {
     private static final Guild GUILD_NAME = Guild.CRIMSON_BLADES;
     private static final GuildType GUILD_TYPE = GuildType.WARRIOR;
     private static final String ARMOUR_NAME = "Crimson Plate Of Valor";
-    private static final String DESCRIPTION = "Crimson Plate Of Valor: A mighty crimson plate that emboldens its wearer, granting strength, resilience, and protection against fear.";
+    private static final String DESCRIPTION =
+            "Crimson Plate Of Valor: A mighty crimson plate that emboldens its wearer, "
+                    + "granting strength, resilience, and protection against fear.";
     private static final String PROTECTION_FEAR = "fear";
 
     public CrimsonPlateOfValor(String effect) {
@@ -25,12 +28,16 @@ public class CrimsonPlateOfValor extends ArmourManager {
     @Override
     public boolean equip(Charecter wearer) {
         if (wearer == null) return false;
-        if (wearer.getArmour() == null || !wearer.getArmour().equals(getName())) {
-            wearer.setArmour(getName());
+        if (wearer.getEquippedArmour() == null || !wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(getName());
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
+
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().add(PROTECTION_FEAR);
+                @SuppressWarnings("unchecked")
+                java.util.Collection<String> protections =
+                        (java.util.Collection<String>) wearer.getEffectProtection();
+                protections.add(PROTECTION_FEAR);
             }
             return true;
         }
@@ -40,12 +47,16 @@ public class CrimsonPlateOfValor extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (wearer == null) return false;
-        if (wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
-            wearer.setArmour(null);
+        if (wearer.getEquippedArmour() != null && wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(null);
             wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
+
             if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove(PROTECTION_FEAR);
+                @SuppressWarnings("unchecked")
+                java.util.Collection<String> protections =
+                        (java.util.Collection<String>) wearer.getEffectProtection();
+                protections.remove(PROTECTION_FEAR);
             }
             return true;
         }

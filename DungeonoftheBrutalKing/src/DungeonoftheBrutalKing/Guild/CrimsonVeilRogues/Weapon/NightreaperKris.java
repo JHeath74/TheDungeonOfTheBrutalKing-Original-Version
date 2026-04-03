@@ -1,11 +1,11 @@
 
-package Guild.CrimsonVeilRogues.Weapon;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import java.util.Random;
 
 public class NightreaperKris extends WeaponManager {
@@ -45,8 +45,8 @@ private static final String DESCRIPTION = "Nightreaper Kris: A shadowy dagger wi
     public boolean equip(Charecter wielder) {
         if (wielder == null) return false;
         if (wielder.getGuild() != Guild.CRIMSON_VEIL_ROGUES) return false;
-        if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(getName());
+        if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(getName());
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             lastCritBonus = CRIT_CHANCE_BONUS;
             wielder.setCritChance(wielder.getCritChance() + lastCritBonus);
@@ -58,8 +58,8 @@ private static final String DESCRIPTION = "Nightreaper Kris: A shadowy dagger wi
     @Override
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
-        if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(null);
+        if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(null);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
             wielder.setCritChance(wielder.getCritChance() - lastCritBonus);
             lastCritBonus = 0;

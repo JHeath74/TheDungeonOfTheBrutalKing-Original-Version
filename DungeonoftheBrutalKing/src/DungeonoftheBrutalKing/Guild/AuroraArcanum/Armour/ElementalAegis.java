@@ -1,16 +1,15 @@
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
-// src/Guild/AuroraArcanum/Armour/ElementalAegis.java
-package Guild.AuroraArcanum.Armour;
-
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class ElementalAegis extends ArmourManager {
 
-    private static final int REQUIRED_INTELLIGENCE = 16; // Example value
+    private static final int REQUIRED_INTELLIGENCE = 16; // example value
     private static final double DEFENSE_BONUS_PERCENT = 0.10; // 10%
+    private static final int ARMOUR_DEFENSE = 4;              // base defence for the item
     private static final int WEIGHT = 4;
     private static final Guild GUILDname = Guild.AURORA_ARCANUM;
     private static final GuildType GUILDtype = GuildType.WIZARD;
@@ -20,17 +19,24 @@ public class ElementalAegis extends ArmourManager {
     private int defenseBonus = 0;
 
     public ElementalAegis(String elementType, String effect) {
-        super("Elemental Mantle", REQUIRED_INTELLIGENCE, WEIGHT, effect);
+        // requiredStrength is not used for wizards, so pass 0
+        super("Elemental Mantle", 0, ARMOUR_DEFENSE, WEIGHT, effect);
         this.elementType = elementType.toLowerCase();
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (!isEquipped && wearer.getGuild() == GUILDname && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
+        if (!isEquipped
+                && wearer.getGuild() == GUILDname
+                && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
+
             int baseDefense = wearer.getDefense();
             defenseBonus = (int) Math.round(baseDefense * DEFENSE_BONUS_PERCENT);
-            wearer.setDefense(wearer.getDefense() + defenseBonus);
-            wearer.addResistance(elementType);
+            wearer.setDefense(baseDefense + defenseBonus);
+
+            // TODO: implement elemental resistance on Charecter, then call:
+            // wearer.addResistance(elementType);
+
             isEquipped = true;
             return true;
         }
@@ -41,7 +47,10 @@ public class ElementalAegis extends ArmourManager {
     public boolean unequip(Charecter wearer) {
         if (isEquipped) {
             wearer.setDefense(wearer.getDefense() - defenseBonus);
-            wearer.removeResistance(elementType);
+
+            // TODO: implement elemental resistance on Charecter, then call:
+            // wearer.removeResistance(elementType);
+
             isEquipped = false;
             defenseBonus = 0;
             return true;
@@ -49,8 +58,10 @@ public class ElementalAegis extends ArmourManager {
         return false;
     }
 
+    // Optional offensive channel, currently a no-op until you add APIs to Charecter
     public void channelElement(Charecter caster, Charecter target) {
-        target.takeElementalDamage(elementType, caster.getSpellPower());
+        // TODO: add getSpellPower() and takeElementalDamage(...) to Charecter, then:
+        // target.takeElementalDamage(elementType, caster.getSpellPower());
     }
 
     public String getElementType() {
@@ -67,7 +78,9 @@ public class ElementalAegis extends ArmourManager {
 
     @Override
     public String getName() {
-        return super.getName() + " of " + elementType.substring(0, 1).toUpperCase() + elementType.substring(1);
+        return super.getName() + " of "
+                + elementType.substring(0, 1).toUpperCase()
+                + elementType.substring(1);
     }
 
     @Override
@@ -77,6 +90,8 @@ public class ElementalAegis extends ArmourManager {
 
     @Override
     public String getDescription() {
-        return "Elemental Mantle: Armour infused with " + elementType + " energy. Grants resistance and allows the wizard to channel it offensively.";
+        return "Elemental Mantle: Armour infused with "
+                + elementType
+                + " energy. Grants resistance and allows the wizard to channel it offensively.";
     }
 }

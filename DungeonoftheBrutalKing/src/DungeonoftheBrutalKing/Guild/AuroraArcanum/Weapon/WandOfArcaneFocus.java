@@ -1,12 +1,12 @@
 
-package Guild.AuroraArcanum.Weapon;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.EquipmentRequirement;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.EquipmentRequirement;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import java.util.Random;
 
 public class WandOfArcaneFocus extends WeaponManager {

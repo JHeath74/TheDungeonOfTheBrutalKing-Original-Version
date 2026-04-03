@@ -1,11 +1,12 @@
 
 // src/Guild/AuroraArcanum/Spells/EchoOfEternity.java
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.EchoOfEternityAuraStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.EchoOfEternityAuraStatus;
 import java.util.List;
 
 public class EchoOfEternity implements Spell {
@@ -86,4 +87,10 @@ public class EchoOfEternity implements Spell {
     public void castWithStrength(Charecter enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

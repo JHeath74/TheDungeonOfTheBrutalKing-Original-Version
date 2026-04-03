@@ -1,9 +1,9 @@
 
-package Guild.DirgeweaversChorus.Armour;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 import java.util.Random;
 

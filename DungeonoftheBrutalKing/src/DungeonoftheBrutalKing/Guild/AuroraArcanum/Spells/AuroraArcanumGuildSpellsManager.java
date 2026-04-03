@@ -1,9 +1,9 @@
 // src/Guild/AuroraArcanum/Spells/AuroraArcanumGuildSpellsManager.java
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellFactory;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
 import java.util.HashMap;
 import java.util.Map;
 

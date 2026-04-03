@@ -1,11 +1,12 @@
 
 // src/Guild/CelestialArcaneOrder/Spells/PurifyingChains.java
-package Guild.CelestialArcaneOrder.Spells;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Enemies.Enemies;
 
 public class PurifyingChains implements Spell {
 
@@ -37,4 +38,22 @@ public class PurifyingChains implements Spell {
     @Override public Guild getSpellGuild() { return SPELL_GUILD; }
     @Override public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
     @Override public String getName() { return SPELL_NAME; }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

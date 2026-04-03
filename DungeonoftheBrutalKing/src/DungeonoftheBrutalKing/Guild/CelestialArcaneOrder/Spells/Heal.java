@@ -1,8 +1,10 @@
-package Guild.CelestialArcaneOrder.Spells;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+
 import java.util.List;
 
 public class Heal implements Spell {
@@ -86,4 +88,22 @@ public class Heal implements Spell {
     public String getName() {
         return SPELL_NAME;
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

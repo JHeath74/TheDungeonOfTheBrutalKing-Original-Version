@@ -1,9 +1,9 @@
-package Guild.CrimsonBlades.Armour;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Armour;
 
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 import java.util.Collections;
 
 public class BladewardenCuirass extends ArmourManager {
@@ -28,35 +28,44 @@ public class BladewardenCuirass extends ArmourManager {
     @Override
     public boolean equip(Charecter wearer) {
         if (wearer == null) return false;
-        if (wearer.getArmour() == null || !wearer.getArmour().equals(getName())) {
-            wearer.setArmour(getName());
+        if (wearer.getEquippedArmour() == null || !wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(getName());
             wearer.setStrength(wearer.getStrength() + BONUS_STRENGTH);
             wearer.setCritChance(wearer.getCritChance() + BONUS_CRIT_CHANCE);
             wearer.setDefense(wearer.getDefense() + BONUS_DEFENSE);
+
             if (wearer.getEffectProtection() != null) {
-                Collections.addAll(wearer.getEffectProtection(), PROTECTION_BLEED, PROTECTION_STUN);
+                @SuppressWarnings("unchecked")
+                java.util.Collection<String> protections =
+                        (java.util.Collection<String>) wearer.getEffectProtection();
+                Collections.addAll(protections, PROTECTION_BLEED, PROTECTION_STUN);
             }
             return true;
         }
         return false;
     }
 
-    @Override
-    public boolean unequip(Charecter wearer) {
-        if (wearer == null) return false;
-        if (wearer.getArmour() != null && wearer.getArmour().equals(getName())) {
-            wearer.setArmour(null);
-            wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
-            wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
-            wearer.setDefense(wearer.getDefense() - BONUS_DEFENSE);
-            if (wearer.getEffectProtection() != null) {
-                wearer.getEffectProtection().remove(PROTECTION_BLEED);
-                wearer.getEffectProtection().remove(PROTECTION_STUN);
-            }
-            return true;
+@Override
+public boolean unequip(Charecter wearer) {
+    if (wearer == null) return false;
+    if (wearer.getEquippedArmour() != null && wearer.getEquippedArmour().equals(getName())) {
+        wearer.setEquippedArmour(null);
+        wearer.setStrength(wearer.getStrength() - BONUS_STRENGTH);
+        wearer.setCritChance(wearer.getCritChance() - BONUS_CRIT_CHANCE);
+        wearer.setDefense(wearer.getDefense() - BONUS_DEFENSE);
+
+        if (wearer.getEffectProtection() != null) {
+            @SuppressWarnings("unchecked")
+            java.util.Collection<String> protections =
+                    (java.util.Collection<String>) wearer.getEffectProtection();
+            protections.remove(PROTECTION_BLEED);
+            protections.remove(PROTECTION_STUN);
         }
-        return false;
+        return true;
     }
+    return false;
+}
+
 
     public Guild getGuild() {
         return GUILD_NAME;

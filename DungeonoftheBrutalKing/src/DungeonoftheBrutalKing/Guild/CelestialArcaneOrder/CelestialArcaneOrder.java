@@ -1,5 +1,5 @@
 // `src/Guild/CelestialArcaneOrder/CelestialArcaneOrder.java`
-package Guild.CelestialArcaneOrder;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -22,12 +22,12 @@ import javax.swing.SwingUtilities;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Spells.SpellBalanceManager;
-import Guild.CelestialArcaneOrder.Spells.CelestialArcaneOrderGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
+import DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells.CelestialArcaneOrderGuildSpellsManager;
 
 public class CelestialArcaneOrder extends JPanel {
 
@@ -148,11 +148,11 @@ public class CelestialArcaneOrder extends JPanel {
 buySpellsButton.addActionListener(evt -> {
     try {
         java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-        Spells.SpellsManager sm = new Spells.SpellsManager();
-        SharedData.GuildSpellsDialog dlg = new SharedData.GuildSpellsDialog(
+        DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
+        DungeonoftheBrutalKing.SharedData.GuildSpellsDialog dlg = new DungeonoftheBrutalKing.SharedData.GuildSpellsDialog(
             (java.awt.Frame) owner,
             DungeonoftheBrutalKing.Charecter.getInstance(),
-            SharedData.Guild.CELESTIAL_ARCANE_ORDER,
+            DungeonoftheBrutalKing.SharedData.Guild.CELESTIAL_ARCANE_ORDER,
             sm
         );
         dlg.setVisible(true);
@@ -236,7 +236,7 @@ buySpellsButton.addActionListener(evt -> {
         }
 
         // Build manager and available spells list
-        CelestialArcaneOrderGuildSpellsManager manager = new CelestialArcaneOrderGuildSpellsManager(SharedData.Guild.CELESTIAL_ARCANE_ORDER);
+        CelestialArcaneOrderGuildSpellsManager manager = new CelestialArcaneOrderGuildSpellsManager(DungeonoftheBrutalKing.SharedData.Guild.CELESTIAL_ARCANE_ORDER);
         Map<String, Spell> all = manager.getAllSpells();
 
         // Owned (case-insensitive)
@@ -275,7 +275,7 @@ buySpellsButton.addActionListener(evt -> {
             if (sel == null) {
                 desc.setText(""); infoLabel.setText("Select a spell to view details."); return;
             }
-            Spell s = SpellFactory.createGuildSpell(sel, SharedData.Guild.CELESTIAL_ARCANE_ORDER);
+            Spell s = SpellFactory.createGuildSpell(sel, DungeonoftheBrutalKing.SharedData.Guild.CELESTIAL_ARCANE_ORDER);
             if (s != null) {
                 desc.setText(s.getDescription());
                 int reqMp = s.getRequiredMagicPoints();
@@ -336,7 +336,7 @@ buySpellsButton.addActionListener(evt -> {
             for (String o : new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells())) {
                 if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; }
             }
-            Spell s = SpellFactory.createGuildSpell(sel, SharedData.Guild.CELESTIAL_ARCANE_ORDER);
+            Spell s = SpellFactory.createGuildSpell(sel, DungeonoftheBrutalKing.SharedData.Guild.CELESTIAL_ARCANE_ORDER);
             if (s == null) { JOptionPane.showMessageDialog(dialog, "Unable to retrieve spell details. Purchase aborted."); return; }
             // Fixed price as requested
             int price = 250;
@@ -364,9 +364,9 @@ buySpellsButton.addActionListener(evt -> {
             if (sel != null) {
                 // compute refund using balance manager (if available) or default
                 int refund = 1;
-                Spell soldSpell = SpellFactory.createGuildSpell(sel, SharedData.Guild.CELESTIAL_ARCANE_ORDER);
+                Spell soldSpell = SpellFactory.createGuildSpell(sel, DungeonoftheBrutalKing.SharedData.Guild.CELESTIAL_ARCANE_ORDER);
                 if (soldSpell != null) {
-                    String priceKey = "spell.cost." + SharedData.Guild.CELESTIAL_ARCANE_ORDER.name() + "." + soldSpell.getName();
+                    String priceKey = "spell.cost." + DungeonoftheBrutalKing.SharedData.Guild.CELESTIAL_ARCANE_ORDER.name() + "." + soldSpell.getName();
                     int defaultPrice = Math.max(50, soldSpell.getRequiredMagicPoints() * 10);
                     int price = SpellBalanceManager.getInt(priceKey, defaultPrice);
                     refund = Math.max(1, price / 10);

@@ -1,9 +1,10 @@
-package Guild.CelestialArcaneOrder.Armour;
 
-import Armour.ArmourManager;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Armour;
+
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class SanctumAegisPlate extends ArmourManager {
 
@@ -19,19 +20,26 @@ public class SanctumAegisPlate extends ArmourManager {
     private boolean wearerHadCurseProtection = false;
 
     public SanctumAegisPlate(String effect) {
-        super("Sanctum Aegis Plate", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
+        // requiredStrength unused (wisdom-gated), so pass 0
+        super("Sanctum Aegis Plate", 0, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && !isEquipped) {
-            wearer.setArmour(getName());
+        if (wearer != null
+                && !isEquipped
+                && wearer.getGuild() == GUILDname
+                && wearer.getWisdom() >= REQUIRED_WISDOM) {
+
+            wearer.setEuippedArmour(getName());
             wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+
             wearerHadCurseProtection = wearer.hasEffectProtection("curse");
             if (!wearerHadCurseProtection) {
                 wearer.setEffectProtection("curse", true);
                 curseProtectionApplied = true;
             }
+
             isEquipped = true;
             return true;
         }
@@ -41,11 +49,13 @@ public class SanctumAegisPlate extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
-            wearer.setArmour(null);
+            wearer.setEuippedArmour(null);
             wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+
             if (curseProtectionApplied && !wearerHadCurseProtection) {
                 wearer.setEffectProtection("curse", false);
             }
+
             curseProtectionApplied = false;
             isEquipped = false;
             return true;

@@ -1,15 +1,16 @@
 
-package Guild.DirgeweaversChorus.Spells;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildMembershipStatus;
-import SharedData.GuildType;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class DiscordantDuet implements Spell {
 
@@ -217,4 +218,10 @@ public class DiscordantDuet implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double d) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

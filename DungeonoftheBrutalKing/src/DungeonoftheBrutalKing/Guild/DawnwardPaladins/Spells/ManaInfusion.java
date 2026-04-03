@@ -1,11 +1,11 @@
-package Guild.DawnwardPaladins.Spells;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class ManaInfusion implements Spell {
     private static final int BASE_REGEN = 3;

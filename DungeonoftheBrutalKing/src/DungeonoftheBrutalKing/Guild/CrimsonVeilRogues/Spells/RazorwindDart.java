@@ -1,10 +1,11 @@
 
 // src/Guild/CrimsonVeilRogues/Spells/RazorwindDart.java
-package Guild.CrimsonVeilRogues.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class RazorwindDart implements Spell {
 
@@ -53,4 +54,10 @@ public class RazorwindDart implements Spell {
     @Override public void cast(Charecter caster) {}
     @Override public void cast() {}
     @Override public void castWithStrength(Charecter enemy, double d) {}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

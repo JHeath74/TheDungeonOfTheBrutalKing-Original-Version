@@ -1,12 +1,12 @@
-
-// src/Guild/CrimsonVeilRogues/Spells/BlackwireGarrote.java
-package Guild.CrimsonVeilRogues.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
 import java.util.List;
+
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import StatusEffects.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class BlackwireGarrote implements Spell {
 
@@ -15,7 +15,8 @@ public class BlackwireGarrote implements Spell {
     private static final int SILENCE_DURATION = 2;
 
     private final String name = "Blackwire Garrote";
-    private final String description = "A thin enchanted wire lashes out, briefly silencing or restricting a target’s spellcasting or special abilities.";
+    private final String description =
+            "A thin enchanted wire lashes out, briefly silencing or restricting a target’s spellcasting or special abilities.";
 
     @Override
     public String getName() { return name; }
@@ -59,19 +60,31 @@ public class BlackwireGarrote implements Spell {
 
     private void applyBlackwireGarrote(Charecter caster, Charecter target) {
         if (caster == null || target == null) return;
+
         if (caster.getGuild() != SPELL_GUILD) {
             System.out.println("Only members of the Crimson Veil Rogues guild can use Blackwire Garrote.");
             return;
         }
+
         if (caster.getMagicPoints() < REQUIRED_MAGIC_POINTS) {
-            System.out.println(caster.getName() + " does not have enough magic points to cast Blackwire Garrote.");
+            System.out.println(caster.getName()
+                    + " does not have enough magic points to cast Blackwire Garrote.");
             return;
         }
-        target.applyStatusEffect(Status.StatusType.SILENCED_STATUS, SILENCE_DURATION, 0, caster); // Fix enum value
+
+        // Apply the silenced status from DungeonoftheBrutalKing.Status.StatusType
+        target.applyStatusEffect(StatusType.SILENCED_STATUS, SILENCE_DURATION, 0, caster);
+
         caster.setMagicPoints(caster.getMagicPoints() - REQUIRED_MAGIC_POINTS);
-        System.out.println(caster.getName() + " casts Blackwire Garrote on " + target.getName() + ", silencing them for " + SILENCE_DURATION + " turns!");
+        System.out.println(caster.getName() + " casts Blackwire Garrote on "
+                + target.getName() + ", silencing them for " + SILENCE_DURATION + " turns!");
     }
 
     @Override
     public void castWithStrength(Charecter enemy, double d) { /* Not used */ }
+
+    @Override
+    public void cast(Charecter caster, Enemies target) {
+        // TODO: Implement if needed for Enemies
+    }
 }

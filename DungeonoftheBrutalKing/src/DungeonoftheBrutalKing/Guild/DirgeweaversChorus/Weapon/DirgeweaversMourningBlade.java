@@ -1,12 +1,12 @@
 
 // src/Guild/DirgeweaversChorus/Weapon/DirgeweaversMourningBlade.java
-package Guild.DirgeweaversChorus.Weapon;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Status.PoisonStatus;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Status.PoisonStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.Random;
 

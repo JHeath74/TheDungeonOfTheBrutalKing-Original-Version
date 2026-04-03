@@ -1,15 +1,16 @@
 
 // `src/Guild/DirgeweaversChorus/Spells/SunderArmourSpell.java`
 
-package Guild.DirgeweaversChorus.Spells;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.ReduceDefenseStatus;
-import Status.StatusManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.ReduceDefenseStatus;
+import DungeonoftheBrutalKing.Status.StatusManager;
 
 public class SunderArmour implements Spell {
 
@@ -80,4 +81,10 @@ public class SunderArmour implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double d) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

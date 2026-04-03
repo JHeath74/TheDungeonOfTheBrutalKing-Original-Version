@@ -1,11 +1,11 @@
 
 // `src/Guild/DawnwardPaladins/Spells/DawnwardPaladinsGuildSpellsManager.java`
 
-package Guild.DawnwardPaladins.Spells;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellFactory;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
 import DungeonoftheBrutalKing.Charecter;
 
 import java.util.HashMap;

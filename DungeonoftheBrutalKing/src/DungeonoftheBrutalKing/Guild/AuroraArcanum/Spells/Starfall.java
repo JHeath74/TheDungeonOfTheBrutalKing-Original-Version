@@ -1,11 +1,12 @@
 
 // src/Guild/AuroraArcanum/Spells/Starfall.java
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class Starfall implements Spell {
     private static final int BASE_DAMAGE = 18;
@@ -86,4 +87,10 @@ public class Starfall implements Spell {
     public void castWithStrength(Charecter enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

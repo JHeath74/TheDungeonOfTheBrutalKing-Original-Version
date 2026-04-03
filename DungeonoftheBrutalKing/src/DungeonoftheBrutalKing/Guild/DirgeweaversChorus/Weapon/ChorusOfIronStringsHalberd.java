@@ -1,12 +1,12 @@
-
-// src/Guild/DirgeweaversChorus/Weapon/ChorusOfIronStringsHalberd.java
-package Guild.DirgeweaversChorus.Weapon;
+// `src/DungeonoftheBrutalKing/Guild/DirgeweaversChorus/Weapon/ChorusOfIronStringsHalberd.java`
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.Random;
 
@@ -24,7 +24,8 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
 
     private static final String WEAPON_NAME = "ChorusOfIronStringsHalberd";
     private static final String DESCRIPTION =
-            "ChorusOfIronStringsHalberd: A halberd strung with iron cords, reserved for the Dirgeweavers Chorus. Grants charisma and may afflict foes with a resonant status on hit.";
+            "ChorusOfIronStringsHalberd: A halberd strung with iron cords, reserved for the Dirgeweavers Chorus. "
+                    + "Grants charisma and may afflict foes with a resonant status on hit.";
 
     private int lastCharismaBonus = 0;
 
@@ -33,13 +34,18 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
     }
 
     public static ChorusOfIronStringsHalberd createChorusOfIronStringsHalberd(Charecter character, String effect) {
-        if (character == null) throw new IllegalArgumentException("Character cannot be null.");
-        if (character.getGuild() != GUILD_NAME)
-            throw new IllegalArgumentException("Only Dirgeweavers Chorus members can wield the ChorusOfIronStringsHalberd.");
+        if (character == null) {
+            throw new IllegalArgumentException("Character cannot be null.");
+        }
+        if (character.getGuild() != GUILD_NAME) {
+            throw new IllegalArgumentException(
+                    "Only Dirgeweavers Chorus members can wield the ChorusOfIronStringsHalberd.");
+        }
         if (character.getCharisma() >= REQUIRED_CHARISMA) {
             return new ChorusOfIronStringsHalberd(effect);
         }
-        throw new IllegalArgumentException("Character does not have the required charisma to wield the ChorusOfIronStringsHalberd.");
+        throw new IllegalArgumentException(
+                "Character does not have the required charisma to wield the ChorusOfIronStringsHalberd.");
     }
 
     @Override
@@ -47,8 +53,8 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
         if (wielder == null) return false;
         if (wielder.getGuild() != GUILD_NAME) return false;
 
-        if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(getName());
+        if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(getName());
             lastCharismaBonus = CHARISMA_BONUS;
             wielder.setCharisma(wielder.getCharisma() + lastCharismaBonus);
             return true;
@@ -60,8 +66,8 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
 
-        if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(null);
+        if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(null);
             wielder.setCharisma(wielder.getCharisma() - lastCharismaBonus);
             lastCharismaBonus = 0;
             return true;
@@ -80,14 +86,14 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
 
         enemy.takeDamage(totalDamage);
 
-        // Status application (StatusEffect is not a String, so no isBlank())
-        WeaponManager.StatusEffect statusEffect = getStatusEffect();
-        if (statusEffect != null && statusEffect != WeaponManager.StatusEffect.NONE) {
+        // Use StatusType from WeaponManager.getStatusEffect()
+        StatusType statusEffect = getStatusEffect();
+        if (statusEffect != null && statusEffect != StatusType.NONE) {
             int roll = rand.nextInt(100) + 1;
             if (roll <= STATUS_CHANCE_PERCENT) {
                 // Hook into your enemy status system here using `statusEffect`.
                 // Example (adjust to your API):
-                // enemy.applyStatus(statusEffect);
+                // enemy.applyStatusEffect(statusEffect, duration, magnitude, wielder);
             }
         }
     }

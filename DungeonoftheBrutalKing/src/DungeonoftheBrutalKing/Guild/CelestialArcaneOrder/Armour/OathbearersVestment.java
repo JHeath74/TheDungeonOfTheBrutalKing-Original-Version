@@ -1,10 +1,9 @@
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Armour;
 
-package Guild.CelestialArcaneOrder.Armour;
-
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class OathbearersVestment extends ArmourManager {
 
@@ -20,19 +19,25 @@ public class OathbearersVestment extends ArmourManager {
     private boolean wearerHadStunProtection = false;
 
     public OathbearersVestment(String effect) {
-        super("Oathbearer’s Vestment", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
+        // requiredStrength unused (wisdom-gated), so pass 0
+        super("Oathbearer’s Vestment", 0, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && !isEquipped) {
-            wearer.setArmour(getName());
+        if (wearer != null && !isEquipped
+                && wearer.getGuild() == GUILDname
+                && wearer.getWisdom() >= REQUIRED_WISDOM) {
+
+            wearer.setEuippedArmour(getName());
             wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+
             wearerHadStunProtection = wearer.hasEffectProtection("stun");
             if (!wearerHadStunProtection) {
                 wearer.setEffectProtection("stun", true);
                 stunProtectionApplied = true;
             }
+
             isEquipped = true;
             return true;
         }
@@ -42,11 +47,13 @@ public class OathbearersVestment extends ArmourManager {
     @Override
     public boolean unequip(Charecter wearer) {
         if (wearer != null && isEquipped) {
-            wearer.setArmour(null);
+            wearer.setEuippedArmour(null);
             wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+
             if (stunProtectionApplied && !wearerHadStunProtection) {
                 wearer.setEffectProtection("stun", false);
             }
+
             stunProtectionApplied = false;
             isEquipped = false;
             return true;

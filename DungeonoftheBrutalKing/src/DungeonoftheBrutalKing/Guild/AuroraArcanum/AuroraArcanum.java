@@ -1,4 +1,4 @@
-package Guild.AuroraArcanum;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -23,14 +23,15 @@ import javax.swing.event.ListSelectionListener;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.Guild;
-import SharedData.GuildMembershipStatus;
-import SharedData.GuildType;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Spells.SpellBalanceManager;
-import SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import Guild.AuroraArcanum.Spells.AuroraArcanumGuildSpellsManager;
+import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
 
 public class AuroraArcanum extends JPanel {
 

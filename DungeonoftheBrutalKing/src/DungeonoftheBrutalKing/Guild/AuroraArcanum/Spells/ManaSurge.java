@@ -1,12 +1,13 @@
 
 // src/Guild/AuroraArcanum/Spells/ManaSurge.java
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.TimeClock;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class ManaSurge implements Spell {
     private static final int BASE_MAGIC_BOOST = 10;
@@ -123,6 +124,12 @@ public class ManaSurge implements Spell {
 
 	@Override
 	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

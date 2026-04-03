@@ -1,13 +1,14 @@
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 
-package Guild.CelestialArcaneOrder.Weapon;
-
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Status.HasHitPoints;
-import Status.Status;
-import Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.Status.StatusPolarity;
 
 public class VigilantCenserFlail extends WeaponManager {
 
@@ -19,13 +20,13 @@ public class VigilantCenserFlail extends WeaponManager {
     private static final GuildType GUILDtype = GuildType.CLERIC;
 
     public VigilantCenserFlail(String effect) {
-        super("Vigilant Censer‐Flail", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
+        super("Vigilant Censer-Flail", REQUIRED_WISDOM, DAMAGE, effect, WEIGHT);
     }
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && wearer.getCurrentGuild() == GUILDtype) {
-            wearer.setWeapon(getName());
+        if (wearer != null && wearer.getGuild() == GUILDname) {
+            wearer.setEquippedWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + BONUS_WISDOM);
             return true;
         }
@@ -34,8 +35,11 @@ public class VigilantCenserFlail extends WeaponManager {
 
     @Override
     public boolean unequip(Charecter wearer) {
-        if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
-            wearer.setWeapon(null);
+        if (wearer != null
+                && wearer.getEquippedWeapon() != null
+                && wearer.getEquippedWeapon().equals(getName())) {
+
+            wearer.setEquippedWeapon(null);
             wearer.setWisdom(wearer.getWisdom() - BONUS_WISDOM);
             return true;
         }
@@ -43,25 +47,25 @@ public class VigilantCenserFlail extends WeaponManager {
     }
 
     @Override
-    public void applyEffect(HasHitPoints target) {
-        if (target != null && getStatusEffect() != null) {
-            StatusEffect effect = getStatusEffect();
-            StatusType type = mapStatusEffectToType(effect);
-            Status effectStatus = new Status(effect.name(), 1, true, type);
-            target.addStatus(effectStatus);
+    public void applyCombatEffect(HasHitPoints target) {
+        StatusType effectType = getStatusEffect();
+        if (target == null || effectType == null || effectType == StatusType.NONE) {
+            return;
         }
-    }
 
-    // Only include cases that exist in WeaponManager.StatusEffect
-    private StatusType mapStatusEffectToType(StatusEffect effect) {
-        switch (effect) {
-            case POISON: return StatusType.POISON_STATUS;
-            case STUN: return StatusType.STUN_STATUS;
-            case BLEED: return StatusType.BLEED_STATUS;
-            case FIRE: return StatusType.FIRE_STATUS;
-            case COLD: return StatusType.ICE_STATUS;
-            // Add more cases here if they exist in StatusEffect
-            default: return StatusType.ACCURACY_STATUS;
+        Status effectStatus = new Status(
+                effectType.name(),
+                1,                          // 1 minute duration (60 seconds)
+                StatusPolarity.NEGATIVE,    // or POSITIVE, depending on your design
+                effectType
+        );
+        
+        // Basic 1-turn status, non-stacking; adjust duration/stacking as needed
+
+        if (target instanceof Charecter) {
+            ((Charecter) target).addStatus(effectStatus);
+        } else if (target instanceof Enemies) {
+            ((Enemies) target).addStatus(effectStatus);
         }
     }
 
@@ -85,6 +89,6 @@ public class VigilantCenserFlail extends WeaponManager {
 
     @Override
     public String getDescription() {
-        return "Vigilant Censer‐Flail: A sacred flail with a burning censer, wielded by vigilant clerics of the Celestial Arcane Order. Swings with holy fervor, purifying foes and sanctifying the battlefield.";
+        return "Vigilant Censer-Flail: A sacred flail with a burning censer, wielded by vigilant clerics of the Celestial Arcane Order. Swings with holy fervor, purifying foes and sanctifying the battlefield.";
     }
 }

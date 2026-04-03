@@ -1,9 +1,9 @@
 
 // src/Guild/CrimsonVeilRogues/Spells/CrimsonVeilRoguesGuildSpellsManager.java
-package Guild.CrimsonVeilRogues.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 import java.util.HashMap;
 import java.util.List;

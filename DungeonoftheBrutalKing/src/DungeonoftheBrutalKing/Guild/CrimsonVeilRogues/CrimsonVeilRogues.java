@@ -1,5 +1,5 @@
 
-package Guild.CrimsonVeilRogues;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -12,16 +12,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import SharedData.Guild;
-import SharedData.GuildSpellsDialog;
-import Spells.Spell;
-import Guild.CrimsonVeilRogues.Spells.CrimsonVeilRoguesGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells.CrimsonVeilRoguesGuildSpellsManager;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 public class CrimsonVeilRogues extends JPanel {
 
@@ -84,12 +84,15 @@ public class CrimsonVeilRogues extends JPanel {
         buySpellsButton.addActionListener(_ -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                Spells.SpellsManager sm = new Spells.SpellsManager();
+
+                CrimsonVeilRoguesGuildSpellsManager manager =
+                        new CrimsonVeilRoguesGuildSpellsManager(Guild.CRIMSON_VEIL_ROGUES);
+
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
                         DungeonoftheBrutalKing.Charecter.getInstance(),
-                        SharedData.Guild.CRIMSON_VEIL_ROGUES,
-                        sm
+                        DungeonoftheBrutalKing.SharedData.Guild.CRIMSON_VEIL_ROGUES,
+                        manager
                 );
                 dlg.setVisible(true);
             } catch (Exception ex) {

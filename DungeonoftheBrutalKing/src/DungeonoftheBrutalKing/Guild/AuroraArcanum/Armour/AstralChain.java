@@ -1,10 +1,10 @@
-package Guild.AuroraArcanum.Armour;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.EquipmentRequirement;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.EquipmentRequirement;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class AstralChain extends ArmourManager {
 
@@ -19,14 +19,23 @@ public class AstralChain extends ArmourManager {
     private int lastDefenseBonus = 0;
 
     public AstralChain(String effect) {
-        super("Astral Chain", REQUIREMENT.getStrength(), REQUIREMENT.getDefense(), effect);
+        // base defense and weight come from REQUIREMENT
+        super(
+            "Astral Chain",
+            REQUIREMENT.getStrength(),
+            REQUIREMENT.getDefense(),
+            REQUIREMENT.getWeight(),
+            effect
+        );
     }
 
     public static AstralChain createAstralChain(Charecter character, String effect) {
         if (character.getStrength() >= REQUIREMENT.getStrength()) {
             return new AstralChain(effect);
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wear the Astral Chain.");
+        throw new IllegalArgumentException(
+            "Character does not have the required strength to wear the Astral Chain."
+        );
     }
 
     @Override
@@ -72,6 +81,8 @@ public class AstralChain extends ArmourManager {
 
     @Override
     public String getDescription() {
-        return "Astral Chain: Lightweight chainmail forged from silver or mithril, enchanted to avoid hindering spellcasting. Offers modest physical protection while remaining arcane-friendly.";
+        return "Astral Chain: Lightweight chainmail forged from silver or mithril, "
+             + "enchanted to avoid hindering spellcasting. Offers modest physical "
+             + "protection while remaining arcane-friendly.";
     }
 }

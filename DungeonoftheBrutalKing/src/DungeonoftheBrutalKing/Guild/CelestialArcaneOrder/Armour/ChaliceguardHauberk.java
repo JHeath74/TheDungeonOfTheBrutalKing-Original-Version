@@ -1,9 +1,9 @@
-package Guild.CelestialArcaneOrder.Armour;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Armour;
 
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class ChaliceguardHauberk extends ArmourManager {
 
@@ -19,40 +19,47 @@ public class ChaliceguardHauberk extends ArmourManager {
     private boolean wearerHadRadiantProtection = false;
 
     public ChaliceguardHauberk(String effect) {
-        super("Chaliceguard Hauberk", REQUIRED_WISDOM, ARMOUR_DEFENSE, effect);
+        // requiredStrength is unused for clerics here, so pass 0
+        super("Chaliceguard Hauberk", 0, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
-@Override
-public boolean equip(Charecter wearer) {
-    if (wearer != null && !isEquipped) {
-        wearer.setArmour(getName());
-        wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
-        wearerHadRadiantProtection = wearer.hasEffectProtection("radiant");
-        if (!wearerHadRadiantProtection) {
-            wearer.setEffectProtection("radiant", true);
-            radiantProtectionApplied = true;
+    @Override
+    public boolean equip(Charecter wearer) {
+        if (wearer != null && !isEquipped
+                && wearer.getGuild() == GUILDname
+                && wearer.getWisdom() >= REQUIRED_WISDOM) {
+
+            wearer.setEuippedArmour(getName());
+            wearer.setWisdom(wearer.getWisdom() + WISDOM_BONUS);
+
+            wearerHadRadiantProtection = wearer.hasEffectProtection("radiant");
+            if (!wearerHadRadiantProtection) {
+                wearer.setEffectProtection("radiant", true);
+                radiantProtectionApplied = true;
+            }
+
+            isEquipped = true;
+            return true;
         }
-        isEquipped = true;
-        return true;
+        return false;
     }
-    return false;
-}
 
-@Override
-public boolean unequip(Charecter wearer) {
-    if (wearer != null && isEquipped) {
-        wearer.setArmour(null);
-        wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
-        if (radiantProtectionApplied && !wearerHadRadiantProtection) {
-            wearer.setEffectProtection("radiant", false);
+    @Override
+    public boolean unequip(Charecter wearer) {
+        if (wearer != null && isEquipped) {
+            wearer.setEuippedArmour(null);
+            wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);
+
+            if (radiantProtectionApplied && !wearerHadRadiantProtection) {
+                wearer.setEffectProtection("radiant", false);
+            }
+
+            radiantProtectionApplied = false;
+            isEquipped = false;
+            return true;
         }
-        radiantProtectionApplied = false;
-        isEquipped = false;
-        return true;
+        return false;
     }
-    return false;
-}
-
 
     public Guild getGuild() {
         return GUILDname;

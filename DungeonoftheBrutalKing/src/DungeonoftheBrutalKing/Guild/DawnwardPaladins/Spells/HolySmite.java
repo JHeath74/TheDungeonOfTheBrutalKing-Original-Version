@@ -1,11 +1,12 @@
 
-package Guild.DawnwardPaladins.Spells;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class HolySmite implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 6;
@@ -91,4 +92,10 @@ public class HolySmite implements Spell {
 
     @Override
     public void castWithStrength(Charecter enemy, double strength) { }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

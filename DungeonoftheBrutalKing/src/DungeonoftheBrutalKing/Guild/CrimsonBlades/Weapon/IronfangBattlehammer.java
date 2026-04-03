@@ -1,11 +1,11 @@
 
-package Guild.CrimsonBlades.Weapon;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import java.util.Random;
 
 public class IronfangBattlehammer extends WeaponManager {
@@ -43,8 +43,8 @@ public class IronfangBattlehammer extends WeaponManager {
     public boolean equip(Charecter wielder) {
         if (wielder == null) return false;
         if (wielder.getGuild() != Guild.CRIMSON_BLADES) return false;
-        if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(getName());
+        if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(getName());
             wielder.setStrength(wielder.getStrength() + STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             int defenseIncrease = (int) Math.round(wielder.getDefense() * DEFENSE_BONUS_PERCENT);
@@ -58,8 +58,8 @@ public class IronfangBattlehammer extends WeaponManager {
     @Override
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
-        if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(null);
+        if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(null);
             wielder.setStrength(wielder.getStrength() - STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() - lastDefenseBonus);

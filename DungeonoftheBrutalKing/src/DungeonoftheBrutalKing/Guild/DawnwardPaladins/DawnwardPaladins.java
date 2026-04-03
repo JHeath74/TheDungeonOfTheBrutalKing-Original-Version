@@ -1,5 +1,5 @@
 
-package Guild.DawnwardPaladins;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -10,11 +10,11 @@ import javax.swing.*;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
-import SharedData.GuildSpellsDialog;
-import Guild.DawnwardPaladins.Spells.DawnwardPaladinsGuildSpellsManager;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells.DawnwardPaladinsGuildSpellsManager;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class DawnwardPaladins extends JPanel {
 
@@ -111,11 +111,11 @@ public class DawnwardPaladins extends JPanel {
         buySpellsButton.addActionListener(e -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                Spells.SpellsManager sm = new Spells.SpellsManager();
+                DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
                         Charecter.getInstance(),
-                        SharedData.Guild.DAWNWARD_PALADINS,
+                        DungeonoftheBrutalKing.SharedData.Guild.DAWNWARD_PALADINS,
                         sm
                 );
                 dlg.setVisible(true);
@@ -371,7 +371,7 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
         if (getGuildSpellsCount() >= maxSpells) {
             JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
         }
-        DawnwardPaladinsGuildSpellsManager manager = new DawnwardPaladinsGuildSpellsManager(SharedData.Guild.DAWNWARD_PALADINS);
+        DawnwardPaladinsGuildSpellsManager manager = new DawnwardPaladinsGuildSpellsManager(DungeonoftheBrutalKing.SharedData.Guild.DAWNWARD_PALADINS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
         java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();

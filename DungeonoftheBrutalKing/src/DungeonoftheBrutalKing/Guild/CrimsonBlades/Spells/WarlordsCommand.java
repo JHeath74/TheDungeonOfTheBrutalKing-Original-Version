@@ -1,9 +1,10 @@
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Status.StatusType;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.Spells.Spell;
 import java.util.List;
 
 public class WarlordsCommand implements Spell {
@@ -87,4 +88,10 @@ public class WarlordsCommand implements Spell {
         System.out.println(caster.getName() + " uses Warlord's Command with a strength multiplier of " + strengthMultiplier +
             ", causing enemies to falter for " + duration + " turns (no targets specified).");
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,14 +1,15 @@
 
 // src/Guild/CelestialArcaneOrder/Spells/Resurrection.java
-package Guild.CelestialArcaneOrder.Spells;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
-import Spells.Spell;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Status.DivineInterventionStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Status.DivineInterventionStatus;
 
 
 public class DivineIntervention implements Spell {
@@ -93,6 +94,12 @@ public class DivineIntervention implements Spell {
 
 	@Override
 	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

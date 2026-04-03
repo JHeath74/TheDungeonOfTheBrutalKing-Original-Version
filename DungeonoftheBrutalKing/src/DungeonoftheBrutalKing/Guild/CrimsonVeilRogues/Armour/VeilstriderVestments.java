@@ -1,37 +1,50 @@
-package Guild.CrimsonVeilRogues.Armour;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 
 public class VeilstriderVestments extends ArmourManager {
 
+    private static final int REQUIRED_STRENGTH = 10;
     private static final int DEFENSE = 8;
     private static final int WEIGHT = 4;
     private static final String NAME = "Veilstrider Vestments";
+    private static final String EFFECT = "none";
 
     public VeilstriderVestments() {
-        super(NAME, DEFENSE, WEIGHT);
+        super(NAME, REQUIRED_STRENGTH, DEFENSE, WEIGHT, EFFECT);
     }
 
     @Override
     public boolean equip(Charecter wearer) {
         if (wearer == null) return false;
-        wearer.setArmour(getName());
-        wearer.setDexterity(wearer.getDexterity() + 2);
-        return true;
+        if (wearer.getEquippedArmour() == null || !wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(getName());
+            wearer.setAgility(wearer.getAgility() + 2);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean unequip(Charecter wearer) {
-        if (wearer == null || wearer.getArmour() == null || !wearer.getArmour().equals(getName())) return false;
-        wearer.setArmour(null);
-        wearer.setDexterity(Math.max(0, wearer.getDexterity() - 2));
-        return true;
+        if (wearer == null) return false;
+        if (wearer.getEquippedArmour() != null && wearer.getEquippedArmour().equals(getName())) {
+            wearer.setEquippedArmour(null);
+            wearer.setAgility(Math.max(0, wearer.getAgility() - 2));
+            return true;
+        }
+        return false;
     }
 
     @Override
     public String getName() {
-        return super.getName();
+        return NAME;
+    }
+
+    @Override
+    public double getWeight() {
+        return WEIGHT;
     }
 
     @Override

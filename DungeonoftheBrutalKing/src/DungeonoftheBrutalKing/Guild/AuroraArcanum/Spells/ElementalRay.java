@@ -1,13 +1,13 @@
 
 // src/Guild/AuroraArcanum/Spells/ElementalRay.java
-package Guild.AuroraArcanum.Spells;
+package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.FireStatus;
-import Status.IceStatus;
-import Status.StunStatus;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.FireStatus;
+import DungeonoftheBrutalKing.Status.IceStatus;
+import DungeonoftheBrutalKing.Status.StunStatus;
 
 import java.util.List;
 import java.util.Random;

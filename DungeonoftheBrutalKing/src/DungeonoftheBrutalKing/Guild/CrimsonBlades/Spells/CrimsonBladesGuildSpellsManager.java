@@ -1,9 +1,9 @@
 
 // src/Guild/CrimsonBlades/Spells/CrimsonBladesGuildSpellsManager.java
-package Guild.CrimsonBlades.Spells;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 import java.util.Collections;
 import java.util.List;

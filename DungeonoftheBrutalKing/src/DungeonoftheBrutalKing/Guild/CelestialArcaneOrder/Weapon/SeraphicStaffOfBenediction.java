@@ -1,13 +1,13 @@
 
-package Guild.CelestialArcaneOrder.Weapon;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 
-import Weapon.WeaponManager;
-import Status.DrainStatus;
-import Status.StatusManager;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Status.DrainStatus;
+import DungeonoftheBrutalKing.Status.StatusManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Status.HasHitPoints;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
 
 public class SeraphicStaffOfBenediction extends WeaponManager {
 
@@ -26,7 +26,7 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
         if (wearer != null
             && wearer.getCurrentGuild() == GUILDtype
             && wearer.getWisdom() >= REQUIRED_WISDOM) {
-            wearer.setWeapon(getName());
+            wearer.setEquippedWeapon(getName());
             return true;
         }
         return false;
@@ -34,8 +34,8 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
 
     @Override
     public boolean unequip(Charecter wearer) {
-        if (wearer != null && getName().equals(wearer.getWeapon())) {
-            wearer.setWeapon(null);
+        if (wearer != null && getName().equals(wearer.getEquippedWeapon())) {
+            wearer.setEquippedWeapon(null);
         }
 		return false;
     }

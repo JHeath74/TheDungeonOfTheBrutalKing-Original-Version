@@ -1,9 +1,9 @@
 
-package Guild.DirgeweaversChorus.Spells;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellFactory;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
 import DungeonoftheBrutalKing.Charecter;
 
 import java.util.HashMap;

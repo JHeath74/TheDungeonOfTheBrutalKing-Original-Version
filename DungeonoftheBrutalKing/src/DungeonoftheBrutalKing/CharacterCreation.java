@@ -391,7 +391,8 @@ public class CharacterCreation {
 	}
 
 	private static void displayStats(Integer[] stat) {
-		toonstatsTextArea.setText("Charecter Stats\n");
+		//toonstatsTextArea.setText("Charecter Stats\n");
+		toonstatsTextArea.setText("DEBUG STATS VIEW\n");
 		toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[STAT_STAMINA]);
 		toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[STAT_CHARISMA]);
 		toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[STAT_STRENGTH]);

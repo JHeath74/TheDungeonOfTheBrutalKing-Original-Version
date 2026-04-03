@@ -1,11 +1,11 @@
-package Guild.CelestialArcaneOrder.Weapon;
+package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Status.HasHitPoints;
-import Status.ReduceDefenseStatus;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.ReduceDefenseStatus;
 
 public class ReliquarySpear extends WeaponManager {
 
@@ -23,8 +23,8 @@ public class ReliquarySpear extends WeaponManager {
 
     @Override
     public boolean equip(Charecter wearer) {
-        if (wearer != null && wearer.getCurrentGuild() == GUILDtype && (wearer.getWeapon() == null || !wearer.getWeapon().equals(getName()))) {
-            wearer.setWeapon(getName());
+        if (wearer != null && wearer.getCurrentGuild() == GUILDtype && (wearer.getEquippedWeapon() == null || !wearer.getEquippedWeapon().equals(getName()))) {
+            wearer.setEquippedWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + 2);
             if (!wearer.hasEffectProtection("curse")) {
                 wearer.setEffectProtection("curse", true);
@@ -37,8 +37,8 @@ public class ReliquarySpear extends WeaponManager {
 
     @Override
     public boolean unequip(Charecter wearer) {
-        if (wearer != null && wearer.getWeapon() != null && wearer.getWeapon().equals(getName())) {
-            wearer.setWeapon(null);
+        if (wearer != null && wearer.getEquippedWeapon() != null && wearer.getEquippedWeapon().equals(getName())) {
+            wearer.setEquippedWeapon(null);
             int newWisdom = wearer.getWisdom() - 2;
             wearer.setWisdom(Math.max(newWisdom, 0));
             if (curseProtectionApplied && wearer.hasEffectProtection("curse")) {

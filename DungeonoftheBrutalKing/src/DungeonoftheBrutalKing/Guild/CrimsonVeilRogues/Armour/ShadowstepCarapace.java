@@ -1,8 +1,8 @@
 
-package Guild.CrimsonVeilRogues.Armour;
+package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 
 public class ShadowstepCarapace extends ArmourManager {
     private static final int REQUIRED_AGILITY = 13;
@@ -27,8 +27,8 @@ public class ShadowstepCarapace extends ArmourManager {
 
     public boolean equip(Charecter wielder) {
         if (wielder == null) return false;
-        if (wielder.getArmour() == null || !wielder.getArmour().equals(getName())) {
-            wielder.setArmour(getName());
+        if (wielder.getEquippedArmour() == null || !wielder.getEquippedArmour().equals(getName())) {
+            wielder.setEquippedArmour(getName());
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() + DEFENSE_BONUS);
             return true;
@@ -38,8 +38,8 @@ public class ShadowstepCarapace extends ArmourManager {
 
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
-        if (wielder.getArmour() != null && wielder.getArmour().equals(getName())) {
-            wielder.setArmour(null);
+        if (wielder.getEquippedArmour() != null && wielder.getEquippedArmour().equals(getName())) {
+            wielder.setEquippedArmour(null);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
             wielder.setDefense(wielder.getDefense() - DEFENSE_BONUS);
             return true;

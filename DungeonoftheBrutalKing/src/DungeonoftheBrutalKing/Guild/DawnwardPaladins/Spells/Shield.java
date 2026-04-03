@@ -1,10 +1,12 @@
 
 // src/Guild/DawnwardPaladins/Spells/Shield.java
-package Guild.DawnwardPaladins.Spells;
+package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -124,4 +126,22 @@ public class Shield implements Spell {
             return 0;
         }
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

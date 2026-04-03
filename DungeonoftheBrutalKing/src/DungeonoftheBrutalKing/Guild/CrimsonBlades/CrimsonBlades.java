@@ -1,5 +1,5 @@
 
-package Guild.CrimsonBlades;
+package DungeonoftheBrutalKing.Guild.CrimsonBlades;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -14,15 +14,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import SharedData.Guild;
-import SharedData.GuildSpellsDialog;
-import Spells.Spell;
-import Guild.CrimsonBlades.Spells.CrimsonBladesGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells.CrimsonBladesGuildSpellsManager;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class CrimsonBlades extends JPanel {
 

@@ -1,13 +1,13 @@
 
 // src/Guild/DirgeweaversChorus/Weapon/RequiemboundWhisperbow.java
-package Guild.DirgeweaversChorus.Weapon;
+package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import SharedData.GuildType;
-import Status.LifeStealStatus;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Status.LifeStealStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.Random;
 
@@ -55,8 +55,8 @@ public class RequiemboundWhisperbow extends WeaponManager {
     public boolean equip(Charecter wielder) {
         if (!isGuildMember(wielder)) return false;
 
-        if (wielder.getWeapon() == null || !wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(getName());
+        if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(getName());
             lastCharismaBonus = CHARISMA_BONUS;
             wielder.setCharisma(wielder.getCharisma() + lastCharismaBonus);
             return true;
@@ -68,8 +68,8 @@ public class RequiemboundWhisperbow extends WeaponManager {
     public boolean unequip(Charecter wielder) {
         if (wielder == null) return false;
 
-        if (wielder.getWeapon() != null && wielder.getWeapon().equals(getName())) {
-            wielder.setWeapon(null);
+        if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
+            wielder.setEquippedWeapon(null);
             wielder.setCharisma(wielder.getCharisma() - lastCharismaBonus);
             lastCharismaBonus = 0;
             return true;
