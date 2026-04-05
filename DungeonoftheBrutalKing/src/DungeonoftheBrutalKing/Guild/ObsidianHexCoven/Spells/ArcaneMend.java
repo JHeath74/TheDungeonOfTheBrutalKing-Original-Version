@@ -1,14 +1,14 @@
 // src/Spells/ArcaneMend.java
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.DefenseUpStatus;
-import Status.Status;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.DefenseUpStatus;
+import DungeonoftheBrutalKing.Status.Status;
 
 /**
  * ArcaneMend: a minor self-heal that also grants a short-lived defense buff to the caster.

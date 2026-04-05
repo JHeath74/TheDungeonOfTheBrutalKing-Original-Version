@@ -1,6 +1,7 @@
 package DungeonoftheBrutalKing.Status;
 
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Enemies.Enemies;
 
 /**
  * IceBarrierStatus: grants a temporary defensive barrier that absorbs a portion
@@ -28,7 +29,7 @@ public class IceBarrierStatus extends Status {
     }
 
     public IceBarrierStatus(int durationMinutes, int defenseBonus, double absorbPercent, int slowDuration, int freezeChancePercent) {
-        super("Ice Barrier", Math.max(0, durationMinutes), true, StatusType.ICE_STATUS);
+        super("Ice Barrier", Math.max(0, durationMinutes), StatusPolarity.POSITIVE, StatusType.ICE_STATUS);
         this.defenseBonus = Math.max(0, defenseBonus);
         this.absorbPercent = Math.max(0.0, Math.min(1.0, absorbPercent));
         this.slowDuration = Math.max(0, slowDuration);
@@ -87,7 +88,7 @@ public class IceBarrierStatus extends Status {
                     Object result = getNearby.invoke(null, character);
                     if (result instanceof java.util.List<?> list) {
                         for (Object o : list) {
-                            if (o instanceof DungeonoftheBrutalKing.Enemies) {
+                            if (o instanceof Enemies) {
                                 // cannot reliably apply to Enemies without knowing API; skip
                             }
                             if (o instanceof DungeonoftheBrutalKing.Charecter) {

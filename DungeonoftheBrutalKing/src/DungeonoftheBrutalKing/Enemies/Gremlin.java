@@ -32,7 +32,8 @@ public class Gremlin extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Gremlin.png",
-            false
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;

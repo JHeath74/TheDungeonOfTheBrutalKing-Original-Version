@@ -1,13 +1,12 @@
-
-// `src/Guild/NightShadeHunters/Spells/FieldDressing.java`
-package Guild.NightShadeHunters.Spells;
+package DungeonoftheBrutalKing.Guild.NightShadeHunters.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.*;
 
 public class FieldDressing implements Spell {
 

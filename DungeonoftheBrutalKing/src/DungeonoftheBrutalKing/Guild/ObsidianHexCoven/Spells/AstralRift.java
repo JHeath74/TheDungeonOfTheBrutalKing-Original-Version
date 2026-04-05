@@ -1,13 +1,15 @@
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.AstralRiftStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.AstralRiftStatus;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 /**
  * Astral Rift: creates a small fracture that pulls enemies toward its center,

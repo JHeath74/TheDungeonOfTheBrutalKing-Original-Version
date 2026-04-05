@@ -1,4 +1,4 @@
-package Guild.ObsidianShadowSyndicate;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate;
 
 import java.awt.*;
 import java.io.IOException;
@@ -6,13 +6,13 @@ import java.text.ParseException;
 import javax.swing.*;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Guild.ObsidianShadowSyndicate.Spells.ObsidianShadowSyndicateGuildSpellsManager;
-import SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells.ObsidianShadowSyndicateGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
 
 public class ObsidianShadowSyndicate extends JPanel {
 

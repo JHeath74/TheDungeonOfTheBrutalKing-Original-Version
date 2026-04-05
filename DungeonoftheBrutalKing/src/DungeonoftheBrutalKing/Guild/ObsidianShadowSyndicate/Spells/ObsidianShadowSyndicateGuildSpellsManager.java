@@ -1,7 +1,13 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells.PoisonDagger;
+import DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells.SmokeStrike;
+import DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells.ThiefsInsight;
+import DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells.WhisperLock;
+import DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells.ShadowSlash;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

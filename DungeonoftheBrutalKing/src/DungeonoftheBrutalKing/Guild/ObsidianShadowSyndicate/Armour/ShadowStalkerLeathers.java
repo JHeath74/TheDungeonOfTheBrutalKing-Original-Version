@@ -1,11 +1,11 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Armour\EbonVest.java
-package Guild.ObsidianShadowSyndicate.Armour;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import Armour.ArmourManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
  * EbonVest - reinforced leather vest offering solid defense while remaining stealthy.
@@ -47,7 +47,7 @@ public class ShadowStalkerLeathers extends ArmourManager {
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
         if (wearer.getIntelligence() < REQUIRED_INTELLIGENCE) return false;
         try { 
-            wearer.setArmour(this.getName()); 
+            wearer.setEquippedArmour(this.getName()); 
             setEffect("DEFENSE_UP_STATUS"); 
             // increase the wearer's defense while equipped
             int newDef = wearer.getDefense() + this.getArmourDefense();
@@ -60,7 +60,7 @@ public class ShadowStalkerLeathers extends ArmourManager {
     public boolean unequip(Charecter wearer) {
         if (wearer == null) return false;
         try {
-            wearer.setArmour("");
+            wearer.setEquippedArmour("");
             int newDef = Math.max(0, wearer.getDefense() - this.getArmourDefense());
             wearer.setDefense(newDef);
             setEffect("NONE");

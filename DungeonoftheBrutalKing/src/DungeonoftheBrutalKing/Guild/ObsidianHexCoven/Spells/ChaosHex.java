@@ -1,15 +1,15 @@
 // src/Spells/ChaosHex.java
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Status.Status;
-import Status.StatusRegistry;
-import Spells.Spell;
-import SharedData.RandomFactory;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusRegistry;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 /**
  * ChaosHex: a mage spell that applies a random status effect to a single enemy.

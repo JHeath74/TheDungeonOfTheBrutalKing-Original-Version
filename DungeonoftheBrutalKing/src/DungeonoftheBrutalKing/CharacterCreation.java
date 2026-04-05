@@ -1,4 +1,3 @@
-
 // src/DungeonoftheBrutalKing/CharacterCreation.java
 package DungeonoftheBrutalKing;
 
@@ -95,7 +94,7 @@ public class CharacterCreation {
 		
 		System.out.println("CharacterCreation class loaded, stat indexes defined.");
 		myChar.setEquippedWeapon("Hand");
-		myChar.setEuippedArmour("Skin");
+		myChar.setEquippedArmour("Skin");
 		myChar.setAgility(stat[STAT_AGILITY]);
 		myChar.setStrength(stat[STAT_STRENGTH]);
 
@@ -281,7 +280,7 @@ public class CharacterCreation {
 	            saveData.add("3");
 	            saveData.add("0");
 	            myChar.setEquippedWeapon("Hand");
-	            myChar.setEuippedArmour("Skin");
+	            myChar.setEquippedArmour("Skin");
 	            saveData.add(myChar.getEquippedWeapon() != null ? myChar.getEquippedWeapon() : "Hand");
 	            saveData.add(myChar.getEquippedArmour() != null ? myChar.getEquippedArmour() : "Skin");
 	            saveData.add("None");
@@ -297,17 +296,17 @@ public class CharacterCreation {
 	            saveData.add(String.valueOf(attack));
 	            saveData.add(String.valueOf(ToonHP(stat, saveData)));
 	            System.out.println("Saving data: " + saveData);
-	            myGameState.setCharecterData(saveData);
-	            try (FileWriter writer = new FileWriter("src/DungeonoftheBrutalKing/SaveGame/InitialCharecterSave.txt")) {
-	                myGameState.saveAllEncrypted(writer);
+	            try {
+	                // Use the API that accepts the data and filename directly to avoid relying on a FileWriter overload
+	                myGameState.saveAllEncrypted(saveData, "InitialCharecterSave.txt");
 	                CharecterCreationFrame.dispose();
 	                MainGameScreen.getInstance();
 	            } catch (Exception e1) {
-	                JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
-	                e1.printStackTrace();
-	            }
-	        }
-	    });
+                 JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
+                 e1.printStackTrace();
+             }
+         }
+     });
 
 	    exitToStartMenuButton = new JButton("Return to Start Menu");
 	    exitToStartMenuButton.addActionListener(new ActionListener() {
@@ -357,27 +356,29 @@ public class CharacterCreation {
 	}
 	public static String getRaceImagePath(String race) {
 		try {
-			Class<?> raceClass = Class.forName("Races." + race);
+			Class<?> raceClass = Class.forName("DungeonoftheBrutalKing.Races." + race);
 			Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
 			return (String) raceClass.getMethod("getRaceImagePath").invoke(raceInstance);
 		} catch (Exception e) {
+			System.err.println("Failed to load race image path for: " + race + " -> " + e.getMessage());
 			return null;
 		}
 	}
 
 	private static String getRaceDescription(String race) {
 		try {
-			Class<?> raceClass = Class.forName("Races." + race);
+			Class<?> raceClass = Class.forName("DungeonoftheBrutalKing.Races." + race);
 			Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
 			return (String) raceClass.getMethod("getRaceDescription").invoke(raceInstance);
 		} catch (Exception e) {
+			System.err.println("Failed to load race description for: " + race + " -> " + e.getMessage());
 			return "No description available.";
 		}
 	}
 
 	private static String[] getClassesForRace(String race) {
 		try {
-			Class<?> raceClass = Class.forName("Races." + race);
+			Class<?> raceClass = Class.forName("DungeonoftheBrutalKing.Races." + race);
 			Object raceInstance = raceClass.getDeclaredConstructor().newInstance();
 			java.util.List<?> allowedRaw = (java.util.List<?>) raceClass.getMethod("getAllowedClasses").invoke(raceInstance);
 			java.util.List<String> allowed = new java.util.ArrayList<>();
@@ -386,36 +387,50 @@ public class CharacterCreation {
 			}
 			return allowed.toArray(new String[0]);
 		} catch (Exception e) {
+			System.err.println("Failed to get classes for race: " + race + " -> " + e.getMessage());
 			return DungeonoftheBrutalKing.Classes.Class.toonclassarray;
 		}
 	}
 
 	private static void displayStats(Integer[] stat) {
-		//toonstatsTextArea.setText("Charecter Stats\n");
-		toonstatsTextArea.setText("DEBUG STATS VIEW\n");
-		toonstatsTextArea.append("\nSTAMINA: \t\t" + stat[STAT_STAMINA]);
-		toonstatsTextArea.append("\nCHARISMA: \t\t" + stat[STAT_CHARISMA]);
-		toonstatsTextArea.append("\nSTRENGTH: \t\t" + stat[STAT_STRENGTH]);
-		toonstatsTextArea.append("\nINTELLIGENCE: \t" + stat[STAT_INTELLIGENCE]);
-		toonstatsTextArea.append("\nWISDOM: \t\t" + stat[STAT_WISDOM]);
-		toonstatsTextArea.append("\nAGI: \t\t" + stat[STAT_AGILITY]);
-		toonstatsTextArea.append("\nVITALITY: \t\t" + stat[STAT_VITALITY]); // NEW
+		// Update UI on the Event Dispatch Thread to ensure changes are visible.
+		if (stat == null) return;
+		final Integer[] s = stat.clone();
+		SwingUtilities.invokeLater(() -> {
+			// Use a clear, single setText rather than multiple appends for predictability
+			StringBuilder sb = new StringBuilder();
+			sb.append("DEBUG STATS VIEW\n");
+			sb.append("\nSTAMINA: \t\t").append(s[STAT_STAMINA]);
+			sb.append("\nCHARISMA: \t\t").append(s[STAT_CHARISMA]);
+			sb.append("\nSTRENGTH: \t\t").append(s[STAT_STRENGTH]);
+			sb.append("\nINTELLIGENCE: \t").append(s[STAT_INTELLIGENCE]);
+			sb.append("\nWISDOM: \t\t").append(s[STAT_WISDOM]);
+			sb.append("\nAGILITY: \t\t").append(s[STAT_AGILITY]);
+			sb.append("\nVITALITY: \t\t").append(s[STAT_VITALITY]); // NEW
 
-
-		String className = toonClass != null ? toonClass : "";
-		if (!className.isEmpty()) {
-			if (isMagicUser(className)) {
-				int mp = calculateMagicPoints(stat, className);
-				toonstatsTextArea.append("\nMAGIC POINTS: \t" + mp);
-			} else {
-				Random rand = new Random();
-				double multiplier = 1.0 + (0.5 * rand.nextDouble());
-				int actionPoints = (int) Math.round((stat[STAT_STRENGTH] + stat[STAT_AGILITY]) * multiplier);
-				toonstatsTextArea.append("\nACTION POINTS: \t" + actionPoints);
+			String className = toonClass != null ? toonClass : "";
+			if (!className.isEmpty()) {
+				if (isMagicUser(className)) {
+					int mp = calculateMagicPoints(s, className);
+					sb.append("\nMAGIC POINTS: \t").append(mp);
+				} else {
+					Random rand = new Random();
+					double multiplier = 1.0 + (0.5 * rand.nextDouble());
+					int actionPoints = (int) Math.round((s[STAT_STRENGTH] + s[STAT_AGILITY]) * multiplier);
+					sb.append("\nACTION POINTS: \t").append(actionPoints);
+				}
 			}
-		}
 
-		toonstatsTextArea.setEditable(false);
+			toonstatsTextArea.setText(sb.toString());
+			toonstatsTextArea.setCaretPosition(0);
+			toonstatsTextArea.setEditable(false);
+			toonstatsTextArea.revalidate();
+			toonstatsTextArea.repaint();
+			if (toonstatsScrollPane != null) {
+				toonstatsScrollPane.revalidate();
+				toonstatsScrollPane.repaint();
+			}
+		});
 	}
 
 	public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {

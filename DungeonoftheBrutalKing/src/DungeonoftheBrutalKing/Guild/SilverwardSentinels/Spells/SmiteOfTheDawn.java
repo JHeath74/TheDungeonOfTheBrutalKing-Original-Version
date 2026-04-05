@@ -1,13 +1,13 @@
 
 // src/Guild/SilverwardSentinels/Spells/SmiteOfTheDawn.java
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public final class SmiteOfTheDawn implements Spell {
 

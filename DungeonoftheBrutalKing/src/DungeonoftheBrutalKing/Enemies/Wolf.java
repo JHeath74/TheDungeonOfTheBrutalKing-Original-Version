@@ -88,7 +88,7 @@ public class Wolf extends Enemies {
         boolean bleedApplied = Math.random() < 0.15;
         if (bleedApplied) {
             MainGameScreen.appendToMessageTextPane(getName() + " bites viciously, causing bleeding!");
-            target.addStatus(new BleedStatus(2)); // Example: bleed status for 2 rounds
+            target.addStatus(new BleedStatus()); // Example: bleed status for 2 rounds
         } else {
             MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }

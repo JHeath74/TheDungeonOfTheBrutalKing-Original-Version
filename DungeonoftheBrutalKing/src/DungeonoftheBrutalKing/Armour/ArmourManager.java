@@ -78,4 +78,9 @@ public class ArmourManager {
     public boolean unequip(Charecter wearer) {
         return false;
     }
+
+	public static ArmourManager Singleton() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

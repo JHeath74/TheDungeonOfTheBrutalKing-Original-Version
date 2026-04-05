@@ -28,7 +28,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     private JFrame mainFrame;
     private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel, originalPanel;
-    private JTextField charNameClassLevelField, charStatsField, charStats2Field, charXPHPGoldField;
+    private JTextField charNameClassLevelField, charXPHPGoldField;
+    private JTextPane charStatsField, charStats2Field;
     private static JTextPane messageTextPane;
     private JMenuBar menuBar;
     private static JSplitPane picturesAndTextUpdatesPane;
@@ -172,16 +173,21 @@ public class MainGameScreen extends JFrame implements KeyListener {
         }
 
         charNameClassLevelField = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorGreen(), myGameSettings.getColorWhite(), 3, false);
-        charStatsField = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 0, false);
-        charStats2Field = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 0, false);
+        charStatsField = createTextPane(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
+        charStats2Field = createTextPane(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
         charXPHPGoldField = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorPurple(), myGameSettings.getColorWhite(), 3, false);
 
         p1Panel.add(p2Panel, BorderLayout.NORTH);
         p1Panel.add(p3Panel, BorderLayout.CENTER);
         p1Panel.add(p4Panel, BorderLayout.SOUTH);
         p2Panel.add(charNameClassLevelField);
-        p3Panel.add(charStatsField, BorderLayout.NORTH);
-        p3Panel.add(charStats2Field, BorderLayout.SOUTH);
+        // Wrap stat areas in scroll panes so their content is visible and layout respects preferred sizes
+        JScrollPane statsScroll1 = new JScrollPane(charStatsField, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane statsScroll2 = new JScrollPane(charStats2Field, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        statsScroll1.setPreferredSize(new Dimension(980, 24));
+        statsScroll2.setPreferredSize(new Dimension(980, 24));
+        p3Panel.add(statsScroll1, BorderLayout.NORTH);
+        p3Panel.add(statsScroll2, BorderLayout.SOUTH);
         p4Panel.add(charXPHPGoldField);
     }
 
@@ -193,6 +199,42 @@ public class MainGameScreen extends JFrame implements KeyListener {
         if (columns > 0) field.setColumns(columns);
         field.setEditable(editable);
         return field;
+    }
+
+    private JTextPane createTextPane(Font font, Color bg, Color fg, int columns, boolean editable) {
+        JTextPane pane = new JTextPane();
+        pane.setFont(font);
+        pane.setBackground(bg);
+        pane.setForeground(fg);
+        pane.setEditable(editable);
+
+        SimpleAttributeSet sas = new SimpleAttributeSet();
+        StyleConstants.setTabSet(sas, createStatsTabSet());
+        // apply to the whole pane (true = replace existing paragraph attributes)
+        pane.setParagraphAttributes(sas, true);
+
+        return pane;
+    }
+
+    private TabSet createStatsTabSet() {
+        return new TabSet(new TabStop[] {
+            new TabStop(120f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(280f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(440f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(600f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(760f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(920f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(1080f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+        });
+    }
+
+    // Apply the same tab stops to a pane — useful to call after setText() which may
+    // reset some document/paragraph attributes depending on implementation.
+    private void applyStatsTabStops(JTextPane pane) {
+        if (pane == null) return;
+        SimpleAttributeSet sas = new SimpleAttributeSet();
+        StyleConstants.setTabSet(sas, createStatsTabSet());
+        pane.setParagraphAttributes(sas, true);
     }
 
     private void setupMenuBar() {
@@ -504,7 +546,10 @@ public class MainGameScreen extends JFrame implements KeyListener {
                 myChar.getWisdom() + "\t\t" +
                 myChar.getAgility()
             );
-        };
+            // Ensure paragraph tab stops are applied after setting the text (setText may reset attributes)
+            applyStatsTabStops(charStatsField);
+            applyStatsTabStops(charStats2Field);
+         };
 
         timer = new Timer(100, task);
         timer.setRepeats(true);

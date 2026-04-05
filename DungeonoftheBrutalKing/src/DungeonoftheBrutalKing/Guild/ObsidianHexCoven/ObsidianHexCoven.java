@@ -1,6 +1,5 @@
-
 // src/Guild/ObsidianHexCoven/ObsidianHexCoven.java
-package Guild.ObsidianHexCoven;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven;
 
 import java.awt.*;
 import java.io.IOException;
@@ -10,13 +9,13 @@ import javax.swing.*;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildType;
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Guild.ObsidianHexCoven.Spells.ObsidianHexCovenGuildSpellsManager;
-import SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells.ObsidianHexCovenGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
 
 public class ObsidianHexCoven extends JPanel {
 

@@ -1,7 +1,7 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;

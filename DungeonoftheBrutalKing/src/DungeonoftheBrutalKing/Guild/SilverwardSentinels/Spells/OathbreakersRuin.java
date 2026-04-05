@@ -1,10 +1,10 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.OathbreakersRuinStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.OathbreakersRuinStatus;
 
 public final class OathbreakersRuin implements Spell {
 

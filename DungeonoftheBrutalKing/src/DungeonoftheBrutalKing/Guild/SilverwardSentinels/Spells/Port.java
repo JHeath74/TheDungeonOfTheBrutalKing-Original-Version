@@ -1,10 +1,11 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import java.util.List;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
+import DungeonoftheBrutalKing.Enemies.Enemies;
 
 public class Port implements Spell {
 
@@ -121,4 +122,22 @@ public class Port implements Spell {
     public int getRequiredMagicPoints() {
         return REQUIRED_MAGIC_POINTS;
     }
+
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void castWithStrength(Charecter enemy, double d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

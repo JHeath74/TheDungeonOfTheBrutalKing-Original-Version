@@ -1,14 +1,14 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.Status;
-import Status.DazeStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.DazeStatus;
 
 /**
  * DazingStrike: attempts to daze the target. If daze succeeds, the hit is a strong crit;

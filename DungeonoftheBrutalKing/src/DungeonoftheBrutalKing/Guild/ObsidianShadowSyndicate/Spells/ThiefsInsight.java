@@ -1,11 +1,11 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 /**
  * Thief's Insight: brief divination that highlights pockets, pouches, pressure plates,
@@ -99,7 +99,7 @@ public final class ThiefsInsight implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
         cast(caster != null ? caster : Charecter.getInstance());
     }
 

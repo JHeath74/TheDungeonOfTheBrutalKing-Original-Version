@@ -1,8 +1,8 @@
 
-package Guild.NightShadeHunters.Armour;
+package DungeonoftheBrutalKing.Guild.NightShadeHunters.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class GloomleafHunterMantle {
 

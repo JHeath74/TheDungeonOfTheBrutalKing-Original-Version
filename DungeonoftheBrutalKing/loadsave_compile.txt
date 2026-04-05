@@ -1,0 +1,82 @@
+DungeonoftheBrutalKing\LoadSaveGame.java:13: error: package DungeonoftheBrutalKing.Quests does not exist
+import DungeonoftheBrutalKing.Quests.Quest;
+                                    ^
+DungeonoftheBrutalKing\LoadSaveGame.java:14: error: package DungeonoftheBrutalKing.Quests does not exist
+import DungeonoftheBrutalKing.Quests.QuestImpl;
+                                    ^
+DungeonoftheBrutalKing\LoadSaveGame.java:18: error: cannot find symbol
+import DungeonoftheBrutalKing.SharedData.KeyManager;
+                                        ^
+  symbol:   class KeyManager
+  location: package DungeonoftheBrutalKing.SharedData
+DungeonoftheBrutalKing\LoadSaveGame.java:19: error: cannot find symbol
+import DungeonoftheBrutalKing.SharedData.EncryptionUtil;
+                                        ^
+  symbol:   class EncryptionUtil
+  location: package DungeonoftheBrutalKing.SharedData
+DungeonoftheBrutalKing\LoadSaveGame.java:75: error: cannot find symbol
+        myChar.getDirection();
+              ^
+  symbol:   method getDirection()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\LoadSaveGame.java:163: error: cannot find symbol
+    for (Quest quest : myChar.getActiveQuests()) {
+         ^
+  symbol:   class Quest
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:185: error: cannot find symbol
+    String salt = EncryptionUtil.generateSalt();
+                  ^
+  symbol:   variable EncryptionUtil
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:186: error: cannot find symbol
+    String encryptionKey = KeyManager.getOrCreateKey();
+                           ^
+  symbol:   variable KeyManager
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:188: error: cannot find symbol
+        String encrypted = EncryptionUtil.encrypt(sb.toString(), encryptionKey, salt);
+                           ^
+  symbol:   variable EncryptionUtil
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:220: error: cannot find symbol
+     String encryptionKey = KeyManager.getOrCreateKey();
+                            ^
+  symbol:   variable KeyManager
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:223: error: cannot find symbol
+         decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), encryptionKey, salt);
+                     ^
+  symbol:   variable EncryptionUtil
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:240: error: cannot find symbol
+                 myChar.getActiveQuests().add(QuestImpl.deserialize(line.substring(6)));
+                                              ^
+  symbol:   variable QuestImpl
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:296: error: cannot find symbol
+        String salt = EncryptionUtil.generateSalt();
+                      ^
+  symbol:   variable EncryptionUtil
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:297: error: cannot find symbol
+        String encryptionKey = KeyManager.getOrCreateKey();
+                               ^
+  symbol:   variable KeyManager
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:299: error: cannot find symbol
+            String encrypted = EncryptionUtil.encrypt(sb.toString(), encryptionKey, salt);
+                               ^
+  symbol:   variable EncryptionUtil
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:316: error: cannot find symbol
+            String encryptionKey = KeyManager.getOrCreateKey();
+                                   ^
+  symbol:   variable KeyManager
+  location: class LoadSaveGame
+DungeonoftheBrutalKing\LoadSaveGame.java:317: error: cannot find symbol
+            String decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), encryptionKey, salt);
+                               ^
+  symbol:   variable EncryptionUtil
+  location: class LoadSaveGame
+17 errors

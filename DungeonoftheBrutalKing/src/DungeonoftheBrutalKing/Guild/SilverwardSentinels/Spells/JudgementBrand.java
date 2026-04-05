@@ -1,13 +1,11 @@
-package Guild.SilverwardSentinels.Spells;
-
-import java.util.List;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.JudgementBrandStatus;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.JudgementBrandStatus;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public final class JudgementBrand implements Spell {
 

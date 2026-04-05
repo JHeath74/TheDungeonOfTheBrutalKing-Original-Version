@@ -1,8 +1,8 @@
-package Guild.HarmonicLightEnsemble.Weapon;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 public class LumenlarkBow extends WeaponManager {
 

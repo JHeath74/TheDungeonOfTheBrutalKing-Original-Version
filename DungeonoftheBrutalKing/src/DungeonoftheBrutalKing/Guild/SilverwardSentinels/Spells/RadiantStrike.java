@@ -1,14 +1,14 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.Random;
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.JudgementBrandStatus;
-import Status.Status;
-import Status.StatusManager;
-import Spells.SpellBalanceManager;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.JudgementBrandStatus;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusManager;
+import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
 
 /**
  * RadiantStrike - a Silverward offensive spell that deals damage and has a

@@ -1,12 +1,12 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.DamageUpStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.DamageUpStatus;
 
 public final class MinorHealAndRageSpell implements Spell {
 

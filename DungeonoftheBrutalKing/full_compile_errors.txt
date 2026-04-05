@@ -1,0 +1,82 @@
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\SharedData\MusicPlayer.java:8: error: package javazoom.jl.player does not exist
+import javazoom.jl.player.Player;
+                         ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\AuroraArcanum\AuroraArcanum.java:139: error: package Spells does not exist
+                Spells.SpellsManager sm = new Spells.SpellsManager();
+                      ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\AuroraArcanum\AuroraArcanum.java:139: error: package Spells does not exist
+                Spells.SpellsManager sm = new Spells.SpellsManager();
+                                                    ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\AuroraArcanum\Spells\ElementalRay.java:15: error: ElementalRay is not abstract and does not override abstract method cast(Charecter,Enemies) in Spell
+public class ElementalRay implements Spell {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\DawnwardPaladins\Spells\PurifyingLight.java:16: error: PurifyingLight is not abstract and does not override abstract method cast(Charecter,Enemies) in Spell
+public class PurifyingLight implements Spell {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\DirgeweaversChorus\DirgeweaversChorus.java:114: error: package Spells does not exist
+                Spells.SpellsManager sm = new Spells.SpellsManager();
+                      ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\DirgeweaversChorus\DirgeweaversChorus.java:114: error: package Spells does not exist
+                Spells.SpellsManager sm = new Spells.SpellsManager();
+                                                    ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\DirgeweaversChorus\DirgeweaversChorus.java:115: error: package SharedData does not exist
+                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(), SharedData.Guild.DIRGEWEAVERS_CHORUS, sm);
+                                                                                                                ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\HarmonicLightEnsemble\Weapon\SunlitRefrainDagger.java:110: error: cannot find symbol
+            try { enemy.applyStatusEffect(StatusType.BLEED_STATUS, duration, 1, wielder); } catch (Exception ignored) {}
+                       ^
+  symbol:   method applyStatusEffect(StatusType,int,int,Charecter)
+  location: variable enemy of type Enemies
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\ObsidianHexCoven\Spells\Chill_Touch.java:161: error: constructor Status in class Status cannot be applied to given types;
+            target.addStatus(new Status());
+                             ^
+  required: String,int,StatusPolarity,StatusType
+  found:    no arguments
+  reason: actual and formal argument lists differ in length
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\ObsidianShadowSyndicate\ObsidianShadowSyndicate.java:264: error: package SharedData does not exist
+        ObsidianShadowSyndicateGuildSpellsManager manager = new ObsidianShadowSyndicateGuildSpellsManager(SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE);
+                                                                                                                    ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\ObsidianShadowSyndicate\ObsidianShadowSyndicate.java:287: error: package SharedData does not exist
+            Spell s = SpellFactory.createGuildSpell(sel, SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE);
+                                                                   ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\SilverwardSentinels\SilverwardSentinels.java:280: error: incompatible types: Guild cannot be converted to boolean
+        SilverwardSentinels manager = new SilverwardSentinels(Guild.SILVERWARD_SENTINELS);
+                                                                   ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\SilverwardSentinels\SilverwardSentinels.java:281: error: cannot find symbol
+        java.util.Map<String, Spell> all = manager.getAllSpells();
+                                                  ^
+  symbol:   method getAllSpells()
+  location: variable manager of type SilverwardSentinels
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestCleanseCursedShrine.java:19: error: QuestCleanseCursedShrine is not abstract and does not override abstract method getType() in Quest
+public class QuestCleanseCursedShrine extends JPanel implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestFeedHungryBeast.java:19: error: QuestFeedHungryBeast is not abstract and does not override abstract method getType() in Quest
+public class QuestFeedHungryBeast extends JPanel implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestForgiveBetrayer.java:20: error: QuestForgiveBetrayer is not abstract and does not override abstract method getType() in Quest
+public class QuestForgiveBetrayer extends JPanel implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestGuideTheLostSoul.java:19: error: QuestGuideTheLostSoul is not abstract and does not override abstract method getType() in Quest
+public class QuestGuideTheLostSoul extends JPanel implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestLieToTheLost.java:19: error: QuestLieToTheLost is not abstract and does not override abstract method getType() in Quest
+public class QuestLieToTheLost extends JPanel implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestRescuetheForgottenPrisoner.java:17: error: QuestRescuetheForgottenPrisoner is not abstract and does not override abstract method getType() in Quest
+public class QuestRescuetheForgottenPrisoner implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Quests\Quests\QuestSlayTheHelpLess.java:19: error: QuestSlayTheHelpLess is not abstract and does not override abstract method getType() in Quest
+public class QuestSlayTheHelpLess extends JPanel implements Quest {
+       ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\SharedData\MusicPlayer.java:57: error: cannot find symbol
+                    Player player = new Player(fis);
+                    ^
+  symbol:   class Player
+  location: class MusicPlayer
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\SharedData\MusicPlayer.java:57: error: cannot find symbol
+                    Player player = new Player(fis);
+                                        ^
+  symbol:   class Player
+  location: class MusicPlayer
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+23 errors

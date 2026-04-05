@@ -1,11 +1,11 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 /**
  * WhisperLock: you whisper a command word and a mundane lock clicks open
@@ -131,7 +131,7 @@ public final class WhisperLock implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
         // This spell is utility, not combat-AOE; reuse basic behavior.
         cast(caster);
     }

@@ -1,13 +1,13 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.EvasionUpStatus;
-import Status.Status;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.EvasionUpStatus;
+import DungeonoftheBrutalKing.Status.Status;
 
 /**
  * SmokeStrike: a light damage strike that also grants a short-lived evasion buff to the caster.

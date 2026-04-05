@@ -1,14 +1,14 @@
 // `src/Guild/HarmonicLightEnsemble/Spells/ScorchingPreludeRefrain.java`
-package Guild.HarmonicLightEnsemble.Spells;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class ScorchingPreludeRefrain implements Spell {
 

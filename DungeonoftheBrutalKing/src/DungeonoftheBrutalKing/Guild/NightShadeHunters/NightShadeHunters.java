@@ -1,6 +1,4 @@
-
-// src/Guild/NightShadeHunters/NightShadeHunters.java
-package Guild.NightShadeHunters;
+package DungeonoftheBrutalKing.Guild.NightShadeHunters;
 
 import java.awt.*;
 import java.io.IOException;
@@ -10,13 +8,13 @@ import javax.swing.*;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.Guild;
-import SharedData.GuildSpellsDialog;
-import SharedData.GuildType;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Guild.NightShadeHunters.Spells.NightShadeHuntersGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Guild.NightShadeHunters.Spells.NightShadeHuntersGuildSpellsManager;
 
 public class NightShadeHunters extends JPanel {
 
@@ -218,7 +216,7 @@ public class NightShadeHunters extends JPanel {
             JButton exitButton = new JButton("Exit");
 
             sleepButton.addActionListener(e -> {
-                Charecter.getInstance().restoreHitPoints();
+                Charecter.getInstance().restoreHitPoints(Charecter.getInstance().getMaxHitPoints());
                 JOptionPane.showMessageDialog(this, "You sleep and restore your hit points!");
             });
             exitButton.addActionListener(e -> showMainRoom());
@@ -263,6 +261,7 @@ public class NightShadeHunters extends JPanel {
                     "You cannot have more than " + maxSpells + " guild spells.");
         }
 
+        // Use imported manager and SharedData Guild constant
         NightShadeHuntersGuildSpellsManager manager = new NightShadeHuntersGuildSpellsManager(Guild.NIGHT_SHADE_HUNTERS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 

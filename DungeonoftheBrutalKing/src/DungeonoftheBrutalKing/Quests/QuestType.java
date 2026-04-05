@@ -1,4 +1,4 @@
-package Quests;
+package DungeonoftheBrutalKing.Quests;
 
 public enum QuestType {
     // High-level quest categories

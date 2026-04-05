@@ -1,14 +1,12 @@
-
-// `src/Guild/NightShadeHunters/Spells/ShadowStepVeil.java`
-package Guild.NightShadeHunters.Spells;
+package DungeonoftheBrutalKing.Guild.NightShadeHunters.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class ShadowStepVeil implements Spell {
 

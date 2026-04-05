@@ -1,11 +1,11 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Armour\SilentBoots.java
-package Guild.ObsidianShadowSyndicate.Armour;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import Armour.ArmourManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
  * SilentBoots - lightweight boots that increase evasion and grant a short stealth bonus.

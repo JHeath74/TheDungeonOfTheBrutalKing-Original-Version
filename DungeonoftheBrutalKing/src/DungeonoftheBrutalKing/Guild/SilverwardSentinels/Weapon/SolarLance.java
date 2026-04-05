@@ -1,12 +1,12 @@
-package Guild.SilverwardSentinels.Weapon;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Weapon;
 
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Weapon.WeaponManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 /**
  * SolarLance - a pole weapon that can reduce enemy defense (holy breach).

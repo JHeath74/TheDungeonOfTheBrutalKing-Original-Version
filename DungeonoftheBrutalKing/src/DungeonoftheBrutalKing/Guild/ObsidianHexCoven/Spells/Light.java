@@ -1,10 +1,12 @@
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
-import SharedData.Guild;
-import Spells.Spell;
+
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.Status;
 
 public class Light implements Spell {
 

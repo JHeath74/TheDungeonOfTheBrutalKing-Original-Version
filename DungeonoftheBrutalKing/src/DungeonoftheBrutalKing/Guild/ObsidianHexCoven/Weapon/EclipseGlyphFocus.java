@@ -1,10 +1,10 @@
 
 // src/Guild/ObsidianHexCoven/Weapon/EclipseGlyphFocus.java
-package Guild.ObsidianHexCoven.Weapon;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.concurrent.ThreadLocalRandom;
 

@@ -128,7 +128,7 @@ public class Innkeeper {
             if (myChar.removeGold(cost)) {
                 myMainGameScreen.setMessageTextPane("You bought " + selectedItem + " for " + cost + " silver.\n");
                 if (type.equals("Food")) {
-                    statusManager.removeStatusByName("Hunger");
+                    statusManager.removeStatusByName("Hunger", myChar);
                     myChar.setFood(myChar.getFood() + 1);
                 } else if (type.equals("Drink")) {
                     myChar.setWater(myChar.getWater() + 1);

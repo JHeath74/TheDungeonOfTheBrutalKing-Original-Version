@@ -1,11 +1,11 @@
-package Guild.SilverwardSentinels.Spells;
+package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.List;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.Singleton;
-import Enemies.Enemies;
+import DungeonoftheBrutalKing.Enemies.Enemies;
 
 /**
  * Location spell (teleportation / sensing). This class provides a specialized

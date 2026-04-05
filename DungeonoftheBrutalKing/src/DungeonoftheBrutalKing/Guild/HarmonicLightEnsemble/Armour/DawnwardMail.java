@@ -1,12 +1,12 @@
 
-package Guild.HarmonicLightEnsemble.Armour;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class DawnwardMail {
 
-    private static final Guild REQUIRED_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
+    private static final Guild REQUIRED_GUILD = Guild.HARMONIC_LIGHT_ENSEMBLE;
 
     private static final String ARMOUR_NAME = "HarmonicLightResonantVestments";
     private static final String DESCRIPTION =

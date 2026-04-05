@@ -1,13 +1,12 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Weapons\EbonBlowpipe.java
-package Guild.ObsidianShadowSyndicate.Weapon;
-
-import java.util.Random;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Weapon.WeaponManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import java.util.Random;
 
 /**
  * EbonBlowpipe - a short-range stealth weapon that fires poisoned darts.

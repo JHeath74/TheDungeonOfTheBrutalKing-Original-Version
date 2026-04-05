@@ -1,7 +1,7 @@
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 import java.util.HashMap;
 import java.util.List;

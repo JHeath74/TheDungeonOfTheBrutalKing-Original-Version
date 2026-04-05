@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing;
 
 import java.util.*;
@@ -196,10 +195,50 @@ public void setCritChance(double critChance) {
     public void setGems(int gems) { setInt(IDX_GEMS, Math.max(0, gems)); }
     public String getEquippedWeapon() { return getStr(IDX_WEAPON); }
     public void setEquippedWeapon(String weapon) { setStr(IDX_WEAPON, weapon); }
+    // --- Compatibility shims for older code that uses different method names ---
+    public void setWeapon(String weapon) { setEquippedWeapon(weapon); }
+
     public String getEquippedArmour() { return getStr(IDX_ARMOUR); }
     public void setEquippedArmour(String armour) { setStr(IDX_ARMOUR, armour); }
+    public void setArmour(String armour) { setEquippedArmour(armour); }
+    // Typo compatibility used in several guild armour classes
+    public void setEuippedArmour(String armour) { setEquippedArmour(armour); }
+
     public String getEquippedShield() { return getStr(IDX_SHIELD); }
     public void setEquippedShield(String shield) { setStr(IDX_SHIELD, shield); }
+    public String getShield() { return getEquippedShield(); }
+    public String getArmour() { return getEquippedArmour(); }
+
+    public String getRace() { return getStr(1); }
+
+    // removeGold returns true if player had enough and gold was removed
+    public boolean removeGold(int amount) {
+        int g = getGold();
+        if (amount <= 0) return false;
+        if (g >= amount) { setGold(g - amount); return true; }
+        return false;
+    }
+    // Overload of takeDamage that some spells call with caster included
+    public void takeDamage(int amount, Charecter source) { takeDamage(amount); }
+    // Remove one negative effect if present (best-effort)
+    public void removeOneNegativeEffect() {
+        try {
+            if (statuses != null) {
+                for (Status s : new ArrayList<>(statuses)) {
+                    if (s != null && s.isNegative()) { statuses.remove(s); break; }
+                }
+            }
+            if (statusManager != null) {
+                try { statusManager.getClass().getMethod("removeOneNegativeEffect").invoke(statusManager); } catch (Exception ignored) {}
+            }
+        } catch (Exception ignored) {}
+    }
+    // Default: characters are not undead unless a status or field indicates so. Provide stub.
+    public boolean isUndead() { return false; }
+    public void decreaseResilience(int amount) {
+        // Best-effort compatibility: older callers expect this symbol.
+    }
+    // --- end compatibility shims ---
     public int getAlignment() { return getInt(IDX_ALIGNMENT, 0); }
     public void setAlignment(int alignment) { setInt(IDX_ALIGNMENT, alignment); }
     public void setPosition(int x, int y, int z) { setInt(IDX_POS_X, x); setInt(IDX_POS_Y, y); setInt(IDX_POS_Z, z); }

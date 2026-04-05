@@ -1,8 +1,8 @@
 
-package Guild.ObsidianShadowSyndicate.Armour;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class SmugglersReinforcedLeather {
 

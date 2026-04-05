@@ -73,4 +73,10 @@ public class QuestImpl implements Quest {
         boolean completed = Boolean.parseBoolean(parts[2]);
         return new QuestImpl(name, description, completed);
     }
+
+	@Override
+	public QuestType getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

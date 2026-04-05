@@ -1,20 +1,19 @@
-
-package Guild.HarmonicLightEnsemble;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble;
 
 import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 import javax.swing.*;
-import SharedData.Guild;
-import Spells.Spell;
-import Spells.SpellFactory;
-import Guild.HarmonicLightEnsemble.Spells.HarmonicLightEnsembleGuildSpellsManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Spells.SpellFactory;
+import DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells.HarmonicLightEnsembleGuildSpellsManager;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import SharedData.Alignment;
-import SharedData.GuildSpellsDialog;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 
 public class HarmonicLightEnsemble extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -39,7 +38,7 @@ public class HarmonicLightEnsemble extends JPanel {
         }
 
         add(new JLabel(new ImageIcon(getClass().getResource(
-                "/DungeonoftheBrutalKing/Images/HarmonicLightEnsemble.jpg"))), BorderLayout.NORTH);
+                "/DungeonoftheBrutalKing/Images/HarmonicLightEnsemble.jpg")) ), BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1, 10, 10));
         JButton innkeeperButton = new JButton("Innkeeper (Shop)");

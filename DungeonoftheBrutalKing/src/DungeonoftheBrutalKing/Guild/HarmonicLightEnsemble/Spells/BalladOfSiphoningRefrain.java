@@ -1,15 +1,15 @@
 
 // `src/Guild/HarmonicLightEnsemble/Spells/BalladOfSiphoningRefrain.java`
-package Guild.HarmonicLightEnsemble.Spells;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public class BalladOfSiphoningRefrain implements Spell {
 
@@ -17,7 +17,7 @@ public class BalladOfSiphoningRefrain implements Spell {
     private static final String DESCRIPTION =
             "A predatory ballad that wounds the target and may infuse the caster with life\\-stealing resonance.";
 
-    private static final Guild SPELL_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
+    private static final Guild SPELL_GUILD = Guild.HARMONIC_LIGHT_ENSEMBLE;
 
     private static final int REQUIRED_WISDOM = 5;
     private static final int REQUIRED_MAGIC_POINTS = 6;

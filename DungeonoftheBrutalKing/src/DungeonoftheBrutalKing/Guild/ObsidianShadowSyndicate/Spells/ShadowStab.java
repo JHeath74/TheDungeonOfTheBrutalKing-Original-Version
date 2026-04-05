@@ -1,11 +1,11 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 /**
  * ShadowStab: a precise strike from the shadows that deals more damage when the caster is wounded.
@@ -110,7 +110,7 @@ public final class ShadowStab implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
         if (caster == null && allCharacters != null && !allCharacters.isEmpty()) {
             caster = allCharacters.get(0);
         }

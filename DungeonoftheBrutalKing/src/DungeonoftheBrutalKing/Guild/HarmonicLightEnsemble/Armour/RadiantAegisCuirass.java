@@ -1,13 +1,13 @@
 
-package Guild.HarmonicLightEnsemble.Armour;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Armour;
 
-import Armour.ArmourManager;
+import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class RadiantAegisCuirass extends ArmourManager {
 
-    private static final Guild REQUIRED_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
+    private static final Guild REQUIRED_GUILD = Guild.HARMONIC_LIGHT_ENSEMBLE;
 
     private static final String ARMOUR_NAME = "RadiantAegisCuirass";
     private static final String DESCRIPTION =

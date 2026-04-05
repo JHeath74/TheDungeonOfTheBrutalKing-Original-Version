@@ -1,14 +1,14 @@
 
 // src/Guild/ObsidianHexCoven/Weapon/UmbralRuneStaff.java
-package Guild.ObsidianHexCoven.Weapon;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Status.FearStatus;
-import Status.HasHitPoints;
-import Status.LifeStealStatus;
-import Status.Status;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Status.FearStatus;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.LifeStealStatus;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.concurrent.ThreadLocalRandom;
 

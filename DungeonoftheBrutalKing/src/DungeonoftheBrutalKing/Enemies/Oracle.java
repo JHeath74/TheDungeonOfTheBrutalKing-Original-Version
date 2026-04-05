@@ -1,10 +1,14 @@
-
 // src/Enemies/Oracle.java
-package Enemies;
+package DungeonoftheBrutalKing.Enemies;
 
-import SharedData.GameSettings;
-import SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
 
 public class Oracle extends Enemies {
     private int level;
@@ -32,7 +36,8 @@ public class Oracle extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Oracle.png",
-            true
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -142,4 +147,10 @@ public class Oracle extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

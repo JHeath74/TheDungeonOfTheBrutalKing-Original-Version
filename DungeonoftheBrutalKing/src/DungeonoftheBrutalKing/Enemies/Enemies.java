@@ -183,7 +183,7 @@ public abstract class Enemies implements HasHitPoints {
         try {
             if (status.isNegative()) {
                 for (Status s : statuses) {
-                    if (s instanceof Status.PurityWardStatus) {
+                    if (s instanceof DungeonoftheBrutalKing.Status.PurityWardStatus) {
                         try { System.out.println(getName() + " is protected by a Purity Ward; negative status '" + status.getName() + "' resisted."); } catch (Exception ignored) { }
                         return;
                     }

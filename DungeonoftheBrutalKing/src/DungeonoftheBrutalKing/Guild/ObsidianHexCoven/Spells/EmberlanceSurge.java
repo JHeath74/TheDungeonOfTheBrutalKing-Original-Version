@@ -1,15 +1,14 @@
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.ReduceDefenseStatus;
-import Status.StunStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.ReduceDefenseStatus;
+import DungeonoftheBrutalKing.Status.StunStatus;
 
 /**
  * Emberlance Surge: a concentrated bolt of superheated flame that pierces a single
@@ -23,7 +22,7 @@ public class EmberlanceSurge implements Spell {
     private static final int MINIMUM_INTELLIGENCE = 10;
     private static final Guild SPELL_GUILD = Guild.OBSIDIAN_HEX_COVEN;
 
-    private static final Random RNG = new Random();
+    private static final java.util.Random RNG = new java.util.Random();
 
     public EmberlanceSurge() { }
 

@@ -1,13 +1,12 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Weapons\ShadowKnife.java
-package Guild.ObsidianShadowSyndicate.Weapon;
-
-import java.util.Random;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import Weapon.WeaponManager;
-import Status.StatusType;
-import SharedData.GuildType;
-import SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import java.util.Random;
 
 /**
  * ShadowKnife - a thief-appropriate finesse weapon that scales with Agility

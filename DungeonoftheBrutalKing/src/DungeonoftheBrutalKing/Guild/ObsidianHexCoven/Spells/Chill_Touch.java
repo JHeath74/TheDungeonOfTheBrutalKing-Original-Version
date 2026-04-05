@@ -1,13 +1,13 @@
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.NecroticStatus;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.Status;
 
 /**
  * Chill Touch: a ghostly skeletal hand that deals necrotic damage and makes it
@@ -158,7 +158,7 @@ public class Chill_Touch implements Spell {
 
         try {
             // Apply a concrete necrotic status that weakens attack and can be used by the healing system.
-            target.addStatus(new NecroticStatus());
+            target.addStatus(new Status());
             System.out.println(safeName(target) + " is gripped by necrotic chill and finds healing far less effective!");
 
             // Optional flavour only: log extra message against undead without modifying stats twice.

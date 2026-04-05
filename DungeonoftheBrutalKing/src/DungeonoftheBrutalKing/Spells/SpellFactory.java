@@ -11,52 +11,6 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
-import Guild.SilverwardSentinels.Spells.BlessingOfPurity;
-import Guild.SilverwardSentinels.Spells.BlessingofRestoration;
-import Guild.SilverwardSentinels.Spells.Dawnbind;
-import Guild.SilverwardSentinels.Spells.JudgementBrand;
-import Guild.SilverwardSentinels.Spells.Location;
-import Guild.SilverwardSentinels.Spells.OathbreakersRuin;
-import Guild.SilverwardSentinels.Spells.Port;
-import Guild.SilverwardSentinels.Spells.RadiantStrike;
-import Guild.SilverwardSentinels.Spells.SanctifiedPurge;
-import Guild.SilverwardSentinels.Spells.SmiteOfTheDawn;
-
-// Import Obsidian guild spells so typed suppliers compile like the Silverward ones
-import Guild.ObsidianShadowSyndicate.Spells.CripplingShadows;
-import Guild.ObsidianShadowSyndicate.Spells.DazingStrike;
-import Guild.ObsidianShadowSyndicate.Spells.GreaterHealSpell;
-import Guild.ObsidianShadowSyndicate.Spells.MinorHealAndRageSpell;
-import Guild.ObsidianShadowSyndicate.Spells.PoisonDagger;
-import Guild.ObsidianShadowSyndicate.Spells.ShadowSlash;
-import Guild.ObsidianShadowSyndicate.Spells.ShadowStab;
-import Guild.ObsidianShadowSyndicate.Spells.SmokeStrike;
-import Guild.ObsidianShadowSyndicate.Spells.ThiefsInsight;
-import Guild.ObsidianShadowSyndicate.Spells.WhisperLock;
-
-import Guild.ObsidianHexCoven.Spells.ArcaneMend;
-import Guild.ObsidianHexCoven.Spells.AstralRift;
-import Guild.ObsidianHexCoven.Spells.ChaosHex;
-import Guild.ObsidianHexCoven.Spells.Chill_Touch;
-import Guild.ObsidianHexCoven.Spells.Cold_Blast;
-import Guild.ObsidianHexCoven.Spells.EmberlanceSurge;
-import Guild.ObsidianHexCoven.Spells.Fireball;
-import Guild.ObsidianHexCoven.Spells.Firebolt;
-import Guild.ObsidianHexCoven.Spells.IceBarrier;
-import Guild.ObsidianHexCoven.Spells.Light;
-
-// NightShadeHunters spells
-import Guild.NightShadeHunters.Spells.CrimsonTrailShot;
-import Guild.NightShadeHunters.Spells.CripplingSnare;
-import Guild.NightShadeHunters.Spells.DeadeyeFocus;
-import Guild.NightShadeHunters.Spells.FieldDressing;
-import Guild.NightShadeHunters.Spells.HuntersMarkShot;
-import Guild.NightShadeHunters.Spells.SerratedShot;
-import Guild.NightShadeHunters.Spells.ShadowSnare;
-import Guild.NightShadeHunters.Spells.ShadowStepVeil;
-import Guild.NightShadeHunters.Spells.SilencingBolt;
-import Guild.NightShadeHunters.Spells.VenomTippedShot;
-import Guild.NightShadeHunters.Spells.VoidFangBolt;
 
 /**
  * Lightweight, reflection-friendly SpellFactory used for dev tooling.
@@ -95,7 +49,7 @@ public final class SpellFactory {
                     try {
                         Files.list(spellsDir).filter(p -> p.toString().endsWith(".java")).forEach(javaFile -> {
                             String className = javaFile.getFileName().toString().replaceFirst("\\.java$", "");
-                            String pkg = "Guild." + guildDir.getFileName().toString() + ".Spells";
+                            String pkg = "DungeonoftheBrutalKing.Guild." + guildDir.getFileName().toString() + ".Spells";
                             String fqcn = pkg + "." + className;
                             try {
                                 Class<?> cls = Class.forName(fqcn);
@@ -135,23 +89,7 @@ public final class SpellFactory {
                 "SmiteOfTheDawn"
             };
             for (String n : ensure) {
-                sMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.SILVERWARD_SENTINELS));
-            }
-
-            // Also register concrete suppliers for known Silverward spells (typed, no-reflection fallback)
-            try {
-                sMap.putIfAbsent("BlessingOfPurity", () -> new BlessingOfPurity());
-                sMap.putIfAbsent("BlessingofRestoration", () -> new BlessingofRestoration());
-                sMap.putIfAbsent("Dawnbind", () -> new Dawnbind());
-                sMap.putIfAbsent("JudgementBrand", () -> new JudgementBrand());
-                sMap.putIfAbsent("Location", () -> new Location());
-                sMap.putIfAbsent("OathbreakersRuin", () -> new OathbreakersRuin());
-                sMap.putIfAbsent("Port", () -> new Port());
-                sMap.putIfAbsent("RadiantStrike", () -> new RadiantStrike());
-                sMap.putIfAbsent("SanctifiedPurge", () -> new SanctifiedPurge());
-                sMap.putIfAbsent("SmiteOfTheDawn", () -> new SmiteOfTheDawn());
-            } catch (Throwable t) {
-                // Ignore if any concrete class is missing/unavailable at runtime
+                sMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.SILVERWARD_SENTINELS));
             }
         } catch (Throwable t) {
             try { System.out.println("SpellFactory: failed to ensure Silverward defaults -> " + t.getMessage()); } catch (Exception ignored) {}
@@ -173,24 +111,7 @@ public final class SpellFactory {
                 "WhisperLock"
             };
             for (String n : ensureOb) {
-                oMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE));
-            }
-            // If concrete classes exist on the classpath, optionally add typed suppliers here.
-            try {
-                oMap.putIfAbsent("CripplingShadows", () -> new CripplingShadows());
-                oMap.putIfAbsent("DazingStrike", () -> new DazingStrike());
-                oMap.putIfAbsent("GreaterHealSpell", () -> new GreaterHealSpell());
-                oMap.putIfAbsent("MinorHealAndRageSpell", () -> new MinorHealAndRageSpell());
-                oMap.putIfAbsent("PoisonDagger", () -> new PoisonDagger());
-                oMap.putIfAbsent("ShadowSlash", () -> new ShadowSlash());
-                oMap.putIfAbsent("ShadowStab", () -> new ShadowStab());
-                oMap.putIfAbsent("SmokeStrike", () -> new SmokeStrike());
-                oMap.putIfAbsent("ThiefsInsight", () -> new ThiefsInsight());
-                oMap.putIfAbsent("WhisperLock", () -> new WhisperLock());
-            } catch (Throwable t) {
-                // If concrete classes are not present at compile-time this block will not cause runtime failure,
-                // but since the concrete classes are imported, compilation will fail if they don't exist — that's
-                // intentional when you want compile-time checking. We still wrap to be defensive at runtime.
+                oMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.OBSIDIAN_SHADOW_SYNDICATE));
             }
         } catch (Throwable t) {
             try { System.out.println("SpellFactory: failed to ensure ObsidianShadow defaults -> " + t.getMessage()); } catch (Exception ignored) {}
@@ -212,24 +133,9 @@ public final class SpellFactory {
                 "Light"
             };
             for (String n : ensureHex) {
-                hMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.OBSIDIAN_HEX_COVEN));
+                hMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.OBSIDIAN_HEX_COVEN));
             }
-            // Optionally add concrete suppliers if the classes are available on the classpath.
-            try {
-                hMap.putIfAbsent("ArcaneMend", () -> new ArcaneMend());
-                hMap.putIfAbsent("AstralRift", () -> new AstralRift());
-                hMap.putIfAbsent("ChaosHex", () -> new ChaosHex());
-                hMap.putIfAbsent("Chill_Touch", () -> new Chill_Touch());
-                hMap.putIfAbsent("Cold_Blast", () -> new Cold_Blast());
-                hMap.putIfAbsent("EmberlanceSurge", () -> new EmberlanceSurge());
-                hMap.putIfAbsent("Fireball", () -> new Fireball());
-                hMap.putIfAbsent("Firebolt", () -> new Firebolt());
-                hMap.putIfAbsent("IceBarrier", () -> new IceBarrier());
-                hMap.putIfAbsent("Light", () -> new Light());
-            } catch (Throwable t) {
-                // defensive: ignore if concrete classes are missing at runtime
-            }
-         } catch (Throwable t) {
+        } catch (Throwable t) {
              try { System.out.println("SpellFactory: failed to ensure ObsidianHexCoven defaults -> " + t.getMessage()); } catch (Exception ignored) {}
          }
 
@@ -250,13 +156,7 @@ public final class SpellFactory {
                 "SanctifiedLeech"
             };
             for (String n : ensureDawn) {
-                dwpMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.DAWNWARD_PALADINS));
-            }
-            // Optionally add concrete suppliers if Dawnward spell classes exist on the classpath.
-            try {
-                // no typed suppliers to avoid compile-time dependency
-            } catch (Throwable t) {
-                // ignore
+                dwpMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.DAWNWARD_PALADINS));
             }
         } catch (Throwable t) {
             try { System.out.println("SpellFactory: failed to ensure DawnwardPaladins defaults -> " + t.getMessage()); } catch (Exception ignored) {}
@@ -277,28 +177,9 @@ public final class SpellFactory {
                  "SilencingBolt",
                  "VenomTippedShot",
                  "VoidFangBolt",
-                 
-             
              };
              for (String n : ensureNight) {
-                 nMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.NIGHT_SHADE_HUNTERS));
-             }
-             // Add typed suppliers (compile-time checked) for known NightShade spells.
-             try {
-                 // Register both the correct 'CrimsonTrailShot' and a common typo 'CrimsonTrailShow' to be forgiving.
-                 nMap.putIfAbsent("CrimsonTrailShot", () -> new CrimsonTrailShot());
-                 nMap.putIfAbsent("CripplingSnare", () -> new CripplingSnare());
-                 nMap.putIfAbsent("DeadeyeFocus", () -> new DeadeyeFocus());
-                 nMap.putIfAbsent("FieldDressing", () -> new FieldDressing());
-                 nMap.putIfAbsent("HuntersMarkShot", () -> new HuntersMarkShot());
-                 nMap.putIfAbsent("SerratedShot", () -> new SerratedShot());
-                 nMap.putIfAbsent("ShadowSnare", () -> new ShadowSnare());
-                 nMap.putIfAbsent("ShadowStepVeil", () -> new ShadowStepVeil());
-                 nMap.putIfAbsent("SilencingBolt", () -> new SilencingBolt());
-                 nMap.putIfAbsent("VenomTippedShot", () -> new VenomTippedShot());
-                 nMap.putIfAbsent("VoidFangBolt", () -> new VoidFangBolt());
-             } catch (Throwable t) {
-                 // If concrete classes are missing this will cause compile-time errors when removed; keep defensive.
+                 nMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.NIGHT_SHADE_HUNTERS));
              }
          } catch (Throwable t) {
              try { System.out.println("SpellFactory: failed to ensure NightShadeHunters defaults -> " + t.getMessage()); } catch (Exception ignored) {}
@@ -320,14 +201,7 @@ public final class SpellFactory {
                 "ScorchingPreludeRefrain"
             };
             for (String n : ensureHLE) {
-                hleMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.HARMONIC_LIGHT_ENSEMBLE));
-            }
-            // Optionally add concrete suppliers if the classes are available on the classpath.
-            try {
-                // Defensive: attempt to add typed suppliers if classes exist (wrapped in try to avoid hard dependency)
-                // (No explicit imports added; this will only succeed if classes are present and imported elsewhere.)
-            } catch (Throwable t) {
-                // ignore
+                hleMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.HARMONIC_LIGHT_ENSEMBLE));
             }
         } catch (Throwable t) {
             try { System.out.println("SpellFactory: failed to ensure HarmonicLightEnsemble defaults -> " + t.getMessage()); } catch (Exception ignored) {}
@@ -349,12 +223,12 @@ public final class SpellFactory {
                 "SmokeBloom"
             };
             for (String n : ensureCvr) {
-                cvrMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.CRIMSON_VEIL_ROGUES));
+                cvrMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.CRIMSON_VEIL_ROGUES));
             }
             // Add a couple of forgiving aliases
             try {
-                cvrMap.putIfAbsent("ShadowStepVeil", () -> tryCreateByConvention("ShadowstepVeil", SharedData.Guild.CRIMSON_VEIL_ROGUES));
-                cvrMap.putIfAbsent("Poisoners Whisper", () -> tryCreateByConvention("PoisonersWhisper", SharedData.Guild.CRIMSON_VEIL_ROGUES));
+                cvrMap.putIfAbsent("ShadowStepVeil", () -> tryCreateByConvention("ShadowstepVeil", Guild.CRIMSON_VEIL_ROGUES));
+                cvrMap.putIfAbsent("Poisoners Whisper", () -> tryCreateByConvention("PoisonersWhisper", Guild.CRIMSON_VEIL_ROGUES));
             } catch (Throwable t) {
                 // ignore
             }
@@ -378,12 +252,12 @@ public final class SpellFactory {
                 "CrimsonFury" // small extra to help compatibility
             };
             for (String n : ensureCb) {
-                cbMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.CRIMSON_BLADES));
+                cbMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.CRIMSON_BLADES));
             }
             // forgiving aliases
             try {
-                cbMap.putIfAbsent("Dragonfire Lunge", () -> tryCreateByConvention("DragonfireLunge", SharedData.Guild.CRIMSON_BLADES));
-                cbMap.putIfAbsent("Echoing Blade Dance", () -> tryCreateByConvention("EchoingBladeDance", SharedData.Guild.CRIMSON_BLADES));
+                cbMap.putIfAbsent("Dragonfire Lunge", () -> tryCreateByConvention("DragonfireLunge", Guild.CRIMSON_BLADES));
+                cbMap.putIfAbsent("Echoing Blade Dance", () -> tryCreateByConvention("EchoingBladeDance", Guild.CRIMSON_BLADES));
             } catch (Throwable t) {
                 // ignore
             }
@@ -409,15 +283,15 @@ public final class SpellFactory {
                 "VoidEcho"
             };
             for (String n : ensureAa) {
-                aaMap.putIfAbsent(n, () -> tryCreateByConvention(n, SharedData.Guild.AURORA_ARCANUM));
+                aaMap.putIfAbsent(n, () -> tryCreateByConvention(n, Guild.AURORA_ARCANUM));
             }
             // forgiving aliases and common corrections
             try {
-                aaMap.putIfAbsent("Arcan Missile", () -> tryCreateByConvention("ArcanMissile", SharedData.Guild.AURORA_ARCANUM));
-                aaMap.putIfAbsent("Astral Step", () -> tryCreateByConvention("AstralStep", SharedData.Guild.AURORA_ARCANUM));
-                aaMap.putIfAbsent("CelestialWard", () -> tryCreateByConvention("celestialWard", SharedData.Guild.AURORA_ARCANUM));
-                aaMap.putIfAbsent("EchoOfEternity", () -> tryCreateByConvention("EchoOfEternigt", SharedData.Guild.AURORA_ARCANUM));
-                aaMap.putIfAbsent("TimeDilation", () -> tryCreateByConvention("TimeDialation", SharedData.Guild.AURORA_ARCANUM));
+                aaMap.putIfAbsent("Arcan Missile", () -> tryCreateByConvention("ArcanMissile", Guild.AURORA_ARCANUM));
+                aaMap.putIfAbsent("Astral Step", () -> tryCreateByConvention("AstralStep", Guild.AURORA_ARCANUM));
+                aaMap.putIfAbsent("CelestialWard", () -> tryCreateByConvention("celestialWard", Guild.AURORA_ARCANUM));
+                aaMap.putIfAbsent("EchoOfEternity", () -> tryCreateByConvention("EchoOfEternigt", Guild.AURORA_ARCANUM));
+                aaMap.putIfAbsent("TimeDilation", () -> tryCreateByConvention("TimeDialation", Guild.AURORA_ARCANUM));
             } catch (Throwable t) {
                 // ignore
             }
@@ -450,17 +324,17 @@ public final class SpellFactory {
         if (className == null || guild == null) return null;
         String pkgBase;
         switch (guild) {
-            case AURORA_ARCANUM: pkgBase = "Guild.AuroraArcanum.Spells."; break;
-            case CELESTIAL_ARCANE_ORDER: pkgBase = "Guild.CelestialArcaneOrder.Spells."; break;
-            case CRIMSON_BLADES: pkgBase = "Guild.CrimsonBlades.Spells."; break;
-            case CRIMSON_VEIL_ROGUES: pkgBase = "Guild.CrimsonVeilRogues.Spells."; break;
-            case DAWNWARD_PALADINS: pkgBase = "Guild.DawnwardPaladins.Spells."; break;
-            case DIRGEWEAVERS_CHORUS: pkgBase = "Guild.DirgeweaversChorus.Spells."; break;
-            case HARMONIC_LIGHT_ENSEMBLE: pkgBase = "Guild.HarmonicLightEnsemble.Spells."; break;
-            case NIGHT_SHADE_HUNTERS: pkgBase = "Guild.NightShadeHunters.Spells."; break;
-            case OBSIDIAN_HEX_COVEN: pkgBase = "Guild.ObsidianHexCoven.Spells."; break;
-            case OBSIDIAN_SHADOW_SYNDICATE: pkgBase = "Guild.ObsidianShadowSyndicate.Spells."; break;
-            case SILVERWARD_SENTINELS: pkgBase = "Guild.SilverwardSentinels.Spells."; break;
+            case AURORA_ARCANUM: pkgBase = "DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells."; break;
+            case CELESTIAL_ARCANE_ORDER: pkgBase = "DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells."; break;
+            case CRIMSON_BLADES: pkgBase = "DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells."; break;
+            case CRIMSON_VEIL_ROGUES: pkgBase = "DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells."; break;
+            case DAWNWARD_PALADINS: pkgBase = "DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells."; break;
+            case DIRGEWEAVERS_CHORUS: pkgBase = "DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells."; break;
+            case HARMONIC_LIGHT_ENSEMBLE: pkgBase = "DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells."; break;
+            case NIGHT_SHADE_HUNTERS: pkgBase = "DungeonoftheBrutalKing.Guild.NightShadeHunters.Spells."; break;
+            case OBSIDIAN_HEX_COVEN: pkgBase = "DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells."; break;
+            case OBSIDIAN_SHADOW_SYNDICATE: pkgBase = "DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells."; break;
+            case SILVERWARD_SENTINELS: pkgBase = "DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells."; break;
             default: return null;
         }
         String fqcn = pkgBase + className;

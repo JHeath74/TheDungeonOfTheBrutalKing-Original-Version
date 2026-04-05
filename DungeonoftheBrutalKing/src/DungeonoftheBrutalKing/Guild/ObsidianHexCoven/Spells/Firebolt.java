@@ -1,14 +1,14 @@
 // src/Guild/ObsidianHexCoven/Spells/Firebolt.java
-package Guild.ObsidianHexCoven.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.FireStatus;
-import SharedData.RandomFactory;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.FireStatus;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 /**
  * Firebolt: a quick bolt of flame that deals fire damage and may apply Burned (FireStatus).

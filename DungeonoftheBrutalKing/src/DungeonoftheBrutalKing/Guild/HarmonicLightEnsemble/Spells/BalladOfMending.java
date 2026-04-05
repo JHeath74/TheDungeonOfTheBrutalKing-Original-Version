@@ -1,13 +1,13 @@
 
 // `src/Guild/HarmonicLightEnsemble/Spells/BalladOfMending.java`
-package Guild.HarmonicLightEnsemble.Spells;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells;
 
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 
 public class BalladOfMending implements Spell {
 
@@ -15,7 +15,7 @@ public class BalladOfMending implements Spell {
     private static final String DESCRIPTION =
             "A gentle ballad that mends wounds and renews magical energy.";
 
-    private static final Guild SPELL_GUILD = Guild.HARMONILIC_LIGHT_ENSEMBLE;
+    private static final Guild SPELL_GUILD = Guild.HARMONIC_LIGHT_ENSEMBLE;
 
     private static final int REQUIRED_WISDOM = 5;
     private static final int REQUIRED_MAGIC_POINTS = 6;

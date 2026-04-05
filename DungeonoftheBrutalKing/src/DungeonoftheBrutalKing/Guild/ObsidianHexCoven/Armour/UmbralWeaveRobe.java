@@ -1,8 +1,8 @@
 
-package Guild.ObsidianHexCoven.Armour;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Armour;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class UmbralWeaveRobe {
 

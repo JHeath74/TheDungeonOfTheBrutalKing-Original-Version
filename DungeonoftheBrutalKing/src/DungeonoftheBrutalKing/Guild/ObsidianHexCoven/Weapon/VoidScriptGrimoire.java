@@ -1,12 +1,12 @@
 
 // `src/Guild/ObsidianHexCoven/Weapon/VoidScriptGrimoire.java`
-package Guild.ObsidianHexCoven.Weapon;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Status.DrainStatus;
-import Status.Status;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Status.DrainStatus;
+import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.concurrent.ThreadLocalRandom;
 

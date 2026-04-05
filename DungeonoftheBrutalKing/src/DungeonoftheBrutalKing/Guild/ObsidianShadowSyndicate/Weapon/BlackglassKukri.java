@@ -1,9 +1,8 @@
-
-package Guild.ObsidianShadowSyndicate.Weapon;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 import java.util.concurrent.ThreadLocalRandom;
 

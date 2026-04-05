@@ -1,6 +1,5 @@
-
 // src/Spells/SpellsManager.java
-package Spells;
+package DungeonoftheBrutalKing.Spells;
 
 import java.util.HashMap;
 import java.util.Map;

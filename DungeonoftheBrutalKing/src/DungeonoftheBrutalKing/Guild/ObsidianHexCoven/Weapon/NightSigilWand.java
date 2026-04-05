@@ -1,13 +1,13 @@
 
 // Example weapon-side proc helper (returns an instance you can apply)
 // Use your real apply-status pipeline elsewhere.
-package Guild.ObsidianHexCoven.Weapon;
+package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import DungeonoftheBrutalKing.Charecter;
-import Status.DazeStatus;
-import Status.Status;
+import DungeonoftheBrutalKing.Status.DazeStatus;
+import DungeonoftheBrutalKing.Status.Status;
 
 public class NightSigilWand /* extends WeaponManager */ {
 

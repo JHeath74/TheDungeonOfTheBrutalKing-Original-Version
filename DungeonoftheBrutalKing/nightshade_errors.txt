@@ -1,0 +1,210 @@
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\GloomleafHunterBow.java:4: error: package DungeunoftheBrutalKing.SharedData does not exist
+import DungeunoftheBrutalKing.SharedData.Guild;
+                                        ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\GloomleafHunterBow.java:9: error: cannot find symbol
+    private static final Guild REQUIRED_GUILD = Guild.NIGHT_SHADE_HUNTERS;
+                         ^
+  symbol:   class Guild
+  location: class GloomleafHunterBow
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:4: error: package SharedData does not exist
+import SharedData.Guild;
+                 ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:5: error: package Weapon does not exist
+import Weapon.WeaponManager;
+             ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:7: error: cannot find symbol
+public class UmbralRangerCrossbow extends WeaponManager {
+                                          ^
+  symbol: class WeaponManager
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:9: error: cannot find symbol
+    private static final Guild REQUIRED_GUILD = Guild.NIGHT_SHADE_HUNTERS;
+                         ^
+  symbol:   class Guild
+  location: class UmbralRangerCrossbow
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:34: error: cannot find symbol
+        if (character.getVitality() < REQUIRED_VITALITY)
+                     ^
+  symbol:   method getVitality()
+  location: variable character of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:36: error: cannot find symbol
+        if (character.getStamina() < REQUIRED_STAMINA)
+                     ^
+  symbol:   method getStamina()
+  location: variable character of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:45: error: cannot find symbol
+        if (wearer.getVitality() < REQUIRED_VITALITY) return false;
+                  ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:46: error: cannot find symbol
+        if (wearer.getStamina() < REQUIRED_STAMINA) return false;
+                  ^
+  symbol:   method getStamina()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:52: error: cannot find symbol
+        wearer.setDefense(wearer.getDefense() + lastDefBonus);
+                                ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:53: error: cannot find symbol
+        wearer.setVitality(wearer.getVitality() + lastVitBonus);
+                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:54: error: cannot find symbol
+        wearer.setStamina(wearer.getStamina() + lastStaBonus);
+                                ^
+  symbol:   method getStamina()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:62: error: cannot find symbol
+        if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);
+                                                       ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:63: error: cannot find symbol
+        if (lastVitBonus != 0) wearer.setVitality(Math.max(0, wearer.getVitality() - lastVitBonus));
+                                                                    ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\DuskwoodTrackerMail.java:64: error: cannot find symbol
+        if (lastStaBonus != 0) wearer.setStamina(Math.max(0, wearer.getStamina() - lastStaBonus));
+                                                                   ^
+  symbol:   method getStamina()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\GloomleafHunterMantle.java:34: error: cannot find symbol
+        if (character.getVitality() < REQUIRED_VITALITY)
+                     ^
+  symbol:   method getVitality()
+  location: variable character of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\GloomleafHunterMantle.java:45: error: cannot find symbol
+        if (wearer.getVitality() < REQUIRED_VITALITY) return false;
+                  ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\GloomleafHunterMantle.java:52: error: cannot find symbol
+        wearer.setDefense(wearer.getDefense() + lastDefBonus);
+                                ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\GloomleafHunterMantle.java:53: error: cannot find symbol
+        wearer.setVitality(wearer.getVitality() + lastVitBonus);
+                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\GloomleafHunterMantle.java:63: error: cannot find symbol
+            wearer.setDefense(wearer.getDefense() - lastDefBonus);
+                                    ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\GloomleafHunterMantle.java:66: error: cannot find symbol
+            wearer.setVitality(Math.max(0, wearer.getVitality() - lastVitBonus));
+                                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\NightshadeStalkerCuirass.java:34: error: cannot find symbol
+        if (character.getVitality() < REQUIRED_VITALITY)
+                     ^
+  symbol:   method getVitality()
+  location: variable character of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\NightshadeStalkerCuirass.java:45: error: cannot find symbol
+        if (wearer.getVitality() < REQUIRED_VITALITY) return false;
+                  ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\NightshadeStalkerCuirass.java:52: error: cannot find symbol
+        wearer.setDefense(wearer.getDefense() + lastDefBonus);
+                                ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\NightshadeStalkerCuirass.java:53: error: cannot find symbol
+        wearer.setVitality(wearer.getVitality() + lastVitBonus);
+                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\NightshadeStalkerCuirass.java:63: error: cannot find symbol
+            wearer.setDefense(wearer.getDefense() - lastDefBonus);
+                                    ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\NightshadeStalkerCuirass.java:66: error: cannot find symbol
+            wearer.setVitality(Math.max(0, wearer.getVitality() - lastVitBonus));
+                                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\ShadowpeltJerkin.java:34: error: cannot find symbol
+        if (character.getVitality() < REQUIRED_VITALITY)
+                     ^
+  symbol:   method getVitality()
+  location: variable character of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\ShadowpeltJerkin.java:45: error: cannot find symbol
+        if (wearer.getVitality() < REQUIRED_VITALITY) return false;
+                  ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\ShadowpeltJerkin.java:52: error: cannot find symbol
+        wearer.setDefense(wearer.getDefense() + lastDefBonus);
+                                ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\ShadowpeltJerkin.java:53: error: cannot find symbol
+        wearer.setVitality(wearer.getVitality() + lastVitBonus);
+                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\ShadowpeltJerkin.java:63: error: cannot find symbol
+            wearer.setDefense(wearer.getDefense() - lastDefBonus);
+                                    ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\ShadowpeltJerkin.java:66: error: cannot find symbol
+            wearer.setVitality(Math.max(0, wearer.getVitality() - lastVitBonus));
+                                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\UmbralRangerHauberk.java:34: error: cannot find symbol
+        if (character.getVitality() < REQUIRED_VITALITY)
+                     ^
+  symbol:   method getVitality()
+  location: variable character of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\UmbralRangerHauberk.java:45: error: cannot find symbol
+        if (wearer.getVitality() < REQUIRED_VITALITY) return false;
+                  ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\UmbralRangerHauberk.java:52: error: cannot find symbol
+        wearer.setDefense(wearer.getDefense() + lastDefBonus);
+                                ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\UmbralRangerHauberk.java:53: error: cannot find symbol
+        wearer.setVitality(wearer.getVitality() + lastVitBonus);
+                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\UmbralRangerHauberk.java:63: error: cannot find symbol
+            wearer.setDefense(wearer.getDefense() - lastDefBonus);
+                                    ^
+  symbol:   method getDefense()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Armour\UmbralRangerHauberk.java:66: error: cannot find symbol
+            wearer.setVitality(Math.max(0, wearer.getVitality() - lastVitBonus));
+                                                 ^
+  symbol:   method getVitality()
+  location: variable wearer of type Charecter
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\GloomleafHunterBow.java:9: error: cannot find symbol
+    private static final Guild REQUIRED_GUILD = Guild.NIGHT_SHADE_HUNTERS;
+                                                ^
+  symbol:   variable Guild
+  location: class GloomleafHunterBow
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:9: error: cannot find symbol
+    private static final Guild REQUIRED_GUILD = Guild.NIGHT_SHADE_HUNTERS;
+                                                ^
+  symbol:   variable Guild
+  location: class UmbralRangerCrossbow
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:71: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\NightShadeHunters\Weapon\UmbralRangerCrossbow.java:80: error: method does not override or implement a method from a supertype
+    @Override
+    ^
+44 errors

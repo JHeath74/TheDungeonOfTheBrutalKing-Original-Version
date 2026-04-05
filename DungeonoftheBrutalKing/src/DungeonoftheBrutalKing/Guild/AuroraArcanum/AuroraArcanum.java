@@ -29,9 +29,10 @@ import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Spells.SpellFactory;
-import Guild.AuroraArcanum.Spells.AuroraArcanumGuildSpellsManager;
+import DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells.AuroraArcanumGuildSpellsManager;
 import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
 import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.Spells.SpellsManager;
 
 public class AuroraArcanum extends JPanel {
 
@@ -135,7 +136,7 @@ public class AuroraArcanum extends JPanel {
             try {
                 // Show the reusable guild spell dialog
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                Spells.SpellsManager sm = new Spells.SpellsManager();
+                DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
                 GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(), Guild.AURORA_ARCANUM, sm);
                 dlg.setVisible(true);
             } catch (Exception ex) {

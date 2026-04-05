@@ -1,13 +1,13 @@
-package Guild.ObsidianShadowSyndicate.Spells;
+package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.Charecter;
-import Enemies.Enemies;
-import SharedData.Guild;
-import Spells.Spell;
-import Status.StatusType;
+import DungeonoftheBrutalKing.Enemies.Enemies;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 /**
  * ShadowSlash: a swift strike from the shadows that deals damage
@@ -134,6 +134,7 @@ public final class ShadowSlash implements Spell {
                 // Silent failure if neither path is available.
             }
         }
+
     }
 
     // --- Overloads for compatibility ---

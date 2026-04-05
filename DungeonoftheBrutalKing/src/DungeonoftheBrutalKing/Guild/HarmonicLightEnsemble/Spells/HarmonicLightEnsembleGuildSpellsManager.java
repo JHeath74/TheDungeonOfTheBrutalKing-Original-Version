@@ -1,9 +1,10 @@
 
 // `src/Guild/HarmonicLightEnsemble/Spells/HarmonicLightEnsembleGuildSpellsManager.java`
-package Guild.HarmonicLightEnsemble.Spells;
+package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells;
 
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
+
 import DungeonoftheBrutalKing.Charecter;
 
 import java.util.HashMap;

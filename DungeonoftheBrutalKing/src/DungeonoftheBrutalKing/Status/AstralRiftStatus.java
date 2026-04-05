@@ -22,7 +22,7 @@ public class AstralRiftStatus extends Status {
     }
 
     public AstralRiftStatus(int durationMinutes, int damagePerTick, int resistanceReduction) {
-        super("Astral Rift", Math.max(0, durationMinutes), true, StatusType.VOID_ECHO_STATUS); // negative effect, reuse VOID_ECHO_STATUS as a close type
+        super("Astral Rift", Math.max(0, durationMinutes), StatusPolarity.NEGATIVE, StatusType.VOID_ECHO_STATUS); // negative effect, reuse VOID_ECHO_STATUS as a close type
         this.damagePerTick = Math.max(0, damagePerTick);
         this.resistanceReduction = resistanceReduction;
     }

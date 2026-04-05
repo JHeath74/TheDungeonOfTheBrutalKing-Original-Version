@@ -1,0 +1,166 @@
+DungeonoftheBrutalKing\CharacterCreation.java:16: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Bard;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:17: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Cleric;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:18: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Hunter;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:19: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Mage;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:20: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Ministrel;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:21: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Paladin;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:22: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Ranger;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:23: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Rogue;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:24: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Thief;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:25: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Warrior;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:26: error: package DungeonoftheBrutalKing.Classes does not exist
+import DungeonoftheBrutalKing.Classes.Wizard;
+                                     ^
+DungeonoftheBrutalKing\CharacterCreation.java:27: error: package DungeonoftheBrutalKing.Races does not exist
+import DungeonoftheBrutalKing.Races.RaceEnum;
+                                   ^
+DungeonoftheBrutalKing\CharacterCreation.java:29: error: cannot find symbol
+import DungeonoftheBrutalKing.Weapon.Hand;
+                                    ^
+  symbol:   class Hand
+  location: package DungeonoftheBrutalKing.Weapon
+DungeonoftheBrutalKing\CharacterCreation.java:30: error: package DungeonoftheBrutalKing.Armour does not exist
+import DungeonoftheBrutalKing.Armour.Skin;
+                                    ^
+DungeonoftheBrutalKing\CharacterCreation.java:75: error: cannot find symbol
+			Map.entry("Bard", Bard.class),
+			                  ^
+  symbol:   class Bard
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:76: error: cannot find symbol
+			Map.entry("Cleric", Cleric.class),
+			                    ^
+  symbol:   class Cleric
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:77: error: cannot find symbol
+			Map.entry("Hunter", Hunter.class),
+			                    ^
+  symbol:   class Hunter
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:78: error: cannot find symbol
+			Map.entry("Mage", Mage.class),
+			                  ^
+  symbol:   class Mage
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:79: error: cannot find symbol
+			Map.entry("Minstrel", Ministrel.class),
+			                      ^
+  symbol:   class Ministrel
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:80: error: cannot find symbol
+			Map.entry("Paladin", Paladin.class),
+			                     ^
+  symbol:   class Paladin
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:81: error: cannot find symbol
+			Map.entry("Ranger", Ranger.class),
+			                    ^
+  symbol:   class Ranger
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:82: error: cannot find symbol
+			Map.entry("Rogue", Rogue.class),
+			                   ^
+  symbol:   class Rogue
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:83: error: cannot find symbol
+			Map.entry("Thief", Thief.class),
+			                   ^
+  symbol:   class Thief
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:84: error: cannot find symbol
+			Map.entry("Warrior", Warrior.class),
+			                     ^
+  symbol:   class Warrior
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:85: error: cannot find symbol
+			Map.entry("Wizard", Wizard.class)
+			                    ^
+  symbol:   class Wizard
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:100: error: cannot find symbol
+		myChar.setStrength(stat[STAT_STRENGTH]);
+		      ^
+  symbol:   method setStrength(Integer)
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:107: error: cannot find symbol
+		myChar.calculateAndSetDefense();
+		      ^
+  symbol:   method calculateAndSetDefense()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:108: error: cannot find symbol
+		myChar.calculateAndSetAttack();
+		      ^
+  symbol:   method calculateAndSetAttack()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:109: error: cannot find symbol
+		int defense = myChar.getDefense();
+		                    ^
+  symbol:   method getDefense()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:110: error: cannot find symbol
+		int attack = myChar.getAttackDamage();
+		                   ^
+  symbol:   method getAttackDamage()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:154: error: cannot find symbol
+	    String[] raceList = Arrays.stream(RaceEnum.values())
+	                                      ^
+  symbol:   variable RaceEnum
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:155: error: cannot find symbol
+	        .map(RaceEnum::name)
+	             ^
+  symbol:   variable RaceEnum
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:181: error: package DungeonoftheBrutalKing.Classes does not exist
+	    toonclasslist = DungeonoftheBrutalKing.Classes.Class.toonclassarray;
+	                                                  ^
+DungeonoftheBrutalKing\CharacterCreation.java:286: error: cannot find symbol
+	            saveData.add(myChar.getEquippedArmour() != null ? myChar.getEquippedArmour() : "Skin");
+	                               ^
+  symbol:   method getEquippedArmour()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:286: error: cannot find symbol
+	            saveData.add(myChar.getEquippedArmour() != null ? myChar.getEquippedArmour() : "Skin");
+	                                                                    ^
+  symbol:   method getEquippedArmour()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:293: error: cannot find symbol
+	            int[] results = setAndCalculateStats(stat, myChar.getEquippedWeapon(), myChar.getEquippedArmour());
+	                                                                                         ^
+  symbol:   method getEquippedArmour()
+  location: variable myChar of type Charecter
+DungeonoftheBrutalKing\CharacterCreation.java:302: error: cannot find symbol
+	                myGameState.saveAllEncrypted(saveData, "InitialCharecterSave.txt");
+	                           ^
+  symbol:   method saveAllEncrypted(ArrayList<String>,String)
+  location: variable myGameState of type LoadSaveGame
+DungeonoftheBrutalKing\CharacterCreation.java:356: error: cannot find symbol
+	    new GameMenuItems();
+	        ^
+  symbol:   class GameMenuItems
+  location: class CharacterCreation
+DungeonoftheBrutalKing\CharacterCreation.java:389: error: package DungeonoftheBrutalKing.Classes does not exist
+			return DungeonoftheBrutalKing.Classes.Class.toonclassarray;
+			                                     ^
+39 errors

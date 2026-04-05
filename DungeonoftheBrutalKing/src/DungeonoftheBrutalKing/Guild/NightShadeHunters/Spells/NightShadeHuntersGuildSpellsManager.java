@@ -1,8 +1,7 @@
+package DungeonoftheBrutalKing.Guild.NightShadeHunters.Spells;
 
-package Guild.NightShadeHunters.Spells;
-
-import SharedData.Guild;
-import Spells.Spell;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Charecter;
 
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class NightShadeHuntersGuildSpellsManager {
         registerSpell(new ShadowStepVeil());
         registerSpell(new SilencingBolt());
         registerSpell(new VenomTippedShot());
-		registerSpell(new VoidFangBolt());
+        registerSpell(new VoidFangBolt());
     }
 
     public void registerSpell(Spell spell) {

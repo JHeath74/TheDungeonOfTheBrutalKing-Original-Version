@@ -1,9 +1,8 @@
-
-package Guild.NightShadeHunters.Weapon;
+package DungeonoftheBrutalKing.Guild.NightShadeHunters.Weapon;
 
 import DungeonoftheBrutalKing.Charecter;
-import SharedData.Guild;
-import Weapon.WeaponManager;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
 public class ShadowthornLongbow extends WeaponManager {
 

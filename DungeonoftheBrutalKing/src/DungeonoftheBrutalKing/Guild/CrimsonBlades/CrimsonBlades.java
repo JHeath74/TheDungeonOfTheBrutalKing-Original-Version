@@ -141,11 +141,11 @@ public class CrimsonBlades extends JPanel {
         buySpellsButton.addActionListener(evt -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                Spells.SpellsManager sm = new Spells.SpellsManager();
+                DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
                         DungeonoftheBrutalKing.Charecter.getInstance(),
-                        SharedData.Guild.CRIMSON_BLADES,
+                        DungeonoftheBrutalKing.SharedData.Guild.CRIMSON_BLADES,
                         sm
                 );
                 dlg.setVisible(true);
