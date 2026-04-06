@@ -3,6 +3,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Status.FireStatus;
@@ -105,4 +106,10 @@ public class ElementalRay implements Spell {
     public void castWithStrength(Charecter enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
+
+	@Override
+	public void cast(Charecter caster, Enemies target) {
+		// TODO Auto-generated method stub
+		
+	}
 }

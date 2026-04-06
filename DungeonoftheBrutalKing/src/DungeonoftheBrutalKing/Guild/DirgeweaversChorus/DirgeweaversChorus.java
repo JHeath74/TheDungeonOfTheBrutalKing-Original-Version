@@ -111,8 +111,8 @@ public class DirgeweaversChorus extends JPanel {
         buySpellsButton.addActionListener(e -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                Spells.SpellsManager sm = new Spells.SpellsManager();
-                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(), SharedData.Guild.DIRGEWEAVERS_CHORUS, sm);
+                DungeonoftheBrutalKing.Spells.SpellsManager sm = new  DungeonoftheBrutalKing.Spells.SpellsManager();
+                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(),  DungeonoftheBrutalKing.SharedData.Guild.DIRGEWEAVERS_CHORUS, sm);
                 dlg.setVisible(true);
             } catch (Exception ex) {
                 buyGuildSpell();

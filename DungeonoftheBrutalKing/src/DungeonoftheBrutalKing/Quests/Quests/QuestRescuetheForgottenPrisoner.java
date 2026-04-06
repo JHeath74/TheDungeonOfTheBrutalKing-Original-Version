@@ -115,4 +115,10 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
                (encounterTarget != null ? encounterTarget : "null") + "|" +
                imprisonmentReason;
     }
+
+	@Override
+	public QuestType getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

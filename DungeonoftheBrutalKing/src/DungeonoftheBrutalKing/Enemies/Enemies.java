@@ -8,6 +8,8 @@ import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing. Status.HasHitPoints;
 import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusPolarity;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 public abstract class Enemies implements HasHitPoints {
 
@@ -202,4 +204,28 @@ public abstract class Enemies implements HasHitPoints {
     public boolean isUndead() {
         return undead;
     }
+
+	public void applyStatusEffect(StatusType statusType, int duration, int intensity, Charecter source) {
+		if (statusType == null) return;
+
+		int safeDurationSeconds = Math.max(1, duration);
+		int durationMinutes = Math.max(1, (int) Math.ceil(safeDurationSeconds / 60.0));
+
+		String statusName;
+		StatusPolarity polarity;
+		switch (statusType) {
+			case BLEED_STATUS:
+				statusName = "Bleed";
+				polarity = StatusPolarity.NEGATIVE;
+				break;
+			default:
+				statusName = statusType.name();
+				polarity = StatusPolarity.NEGATIVE;
+				break;
+		}
+
+		try {
+			addStatus(new Status(statusName, durationMinutes, polarity, statusType));
+		} catch (Exception ignored) { }
+	}
 }

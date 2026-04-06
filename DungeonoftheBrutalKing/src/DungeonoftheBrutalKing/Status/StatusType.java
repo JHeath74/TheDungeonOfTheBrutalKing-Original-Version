@@ -40,5 +40,6 @@ public enum StatusType {
     JUDGEMENT_BRAND,
     OATHBREAKERS_RUIN,
     PURITY_WARD,
+    CURSED_STATUS,
     // Add more as needed
 }

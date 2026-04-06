@@ -122,4 +122,10 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     public String serialize() {
         return "QuestForgiveBetrayer:" + (completed ? "completed" : "not_completed");
     }
+
+	@Override
+	public QuestType getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

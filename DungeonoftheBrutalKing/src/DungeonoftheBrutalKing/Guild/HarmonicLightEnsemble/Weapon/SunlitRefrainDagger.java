@@ -107,7 +107,7 @@ public class SunlitRefrainDagger extends WeaponManager {
         if (bleedChance > 0.40) bleedChance = 0.40;
         if (RNG.nextDouble() <= bleedChance) {
             int duration = 1 + Math.max(0, agility / 12);
-            try { enemy.applyStatusEffect(StatusType.BLEED_STATUS, duration, 1, wielder); } catch (Exception ignored) {}
+            enemy.applyStatusEffect(StatusType.BLEED_STATUS, duration, 1, wielder);
         }
     }
 

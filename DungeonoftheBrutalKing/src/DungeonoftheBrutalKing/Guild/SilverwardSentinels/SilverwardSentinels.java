@@ -277,7 +277,8 @@ public class SilverwardSentinels extends JPanel {
             return;
         }
 
-        SilverwardSentinels manager = new SilverwardSentinels(Guild.SILVERWARD_SENTINELS);
+        SilverwardSentinelsGuildSpellsManager manager =
+                new SilverwardSentinelsGuildSpellsManager(Guild.SILVERWARD_SENTINELS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
         java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();

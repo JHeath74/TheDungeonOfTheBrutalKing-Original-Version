@@ -50,9 +50,6 @@ public class Status {
         return getDurationSeconds() <= 0;
     }
 
-    public void onExpire(Charecter charecter) {
-        // To be overridden by subclasses
-    }
 
     public boolean blocksSpellcasting() {
         return false;
@@ -91,18 +88,11 @@ public class Status {
 	}
 
 	public void onRemove(Enemies target) {
-		// TODO Auto-generated method stub
-		
+		// Optional override in subclasses
 	}
 
-	public void onApply(Character target) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void onExpire(Character target) {
-		// TODO Auto-generated method stub
-		
+	public void onExpire(Charecter target) {
+		// Optional override in subclasses
 	}
 
 	public void onApply(Charecter target) {
@@ -115,28 +105,23 @@ public class Status {
     public boolean isNegative() { return polarity == StatusPolarity.NEGATIVE; }
 
 	public StatusType getStatusType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
 	public void onApply(Enemies target) {
-		// TODO Auto-generated method stub
-		
+		// Optional override in subclasses
 	}
 
 	public void onTurnStart(Enemies target) {
-		// TODO Auto-generated method stub
-		
+		// Optional override in subclasses
 	}
 
 	public void expire(Charecter target) {
-		// TODO Auto-generated method stub
-		
+		onExpire(target);
 	}
 
 	public void onTurnStart(Charecter target) {
-		// TODO Auto-generated method stub
-		
+		// Optional override in subclasses
 	}
 
 }

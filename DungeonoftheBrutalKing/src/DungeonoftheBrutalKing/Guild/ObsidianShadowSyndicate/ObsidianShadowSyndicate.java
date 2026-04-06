@@ -261,7 +261,7 @@ public class ObsidianShadowSyndicate extends JPanel {
             JOptionPane.showMessageDialog(this, "You are not evil (alignment < 0). You cannot use Obsidian Shadow Syndicate services.");
             return;
         }
-        ObsidianShadowSyndicateGuildSpellsManager manager = new ObsidianShadowSyndicateGuildSpellsManager(SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE);
+        ObsidianShadowSyndicateGuildSpellsManager manager = new ObsidianShadowSyndicateGuildSpellsManager(DungeonoftheBrutalKing.SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE);
         java.util.Map<String, Spell> all = manager.getAllSpells();
         java.util.Set<String> owned = player.getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
@@ -284,7 +284,7 @@ public class ObsidianShadowSyndicate extends JPanel {
         list.addListSelectionListener(ev -> {
             String sel = list.getSelectedValue();
             if (sel == null) { desc.setText(""); infoLabel.setText("Select a spell to view details."); return; }
-            Spell s = SpellFactory.createGuildSpell(sel, SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE);
+            Spell s = SpellFactory.createGuildSpell(sel, DungeonoftheBrutalKing.SharedData.Guild.OBSIDIAN_SHADOW_SYNDICATE);
             if (s != null) {
                 desc.setText(s.getDescription());
                 int price = 250;

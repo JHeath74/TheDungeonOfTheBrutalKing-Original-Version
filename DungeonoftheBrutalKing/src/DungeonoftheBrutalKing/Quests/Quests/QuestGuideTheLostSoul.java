@@ -120,4 +120,10 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     public String serialize() {
         return "QuestGuideTheLostSoul:" + (completed ? "completed" : "not_completed");
     }
+
+	@Override
+	public QuestType getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

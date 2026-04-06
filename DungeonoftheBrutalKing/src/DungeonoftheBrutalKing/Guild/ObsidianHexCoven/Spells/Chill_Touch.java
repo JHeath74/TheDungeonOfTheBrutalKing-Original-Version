@@ -8,6 +8,8 @@ import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Status.Status;
+import DungeonoftheBrutalKing.Status.StatusPolarity;
+import DungeonoftheBrutalKing.Status.StatusType;
 
 /**
  * Chill Touch: a ghostly skeletal hand that deals necrotic damage and makes it
@@ -158,7 +160,7 @@ public class Chill_Touch implements Spell {
 
         try {
             // Apply a concrete necrotic status that weakens attack and can be used by the healing system.
-            target.addStatus(new Status());
+            target.addStatus(new Status("Necrotic Chill", 1, StatusPolarity.NEGATIVE, StatusType.CURSED_STATUS));
             System.out.println(safeName(target) + " is gripped by necrotic chill and finds healing far less effective!");
 
             // Optional flavour only: log extra message against undead without modifying stats twice.

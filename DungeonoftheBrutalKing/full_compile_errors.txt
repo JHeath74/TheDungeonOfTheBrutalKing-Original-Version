@@ -1,12 +1,6 @@
 G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\SharedData\MusicPlayer.java:8: error: package javazoom.jl.player does not exist
 import javazoom.jl.player.Player;
                          ^
-G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\AuroraArcanum\AuroraArcanum.java:139: error: package Spells does not exist
-                Spells.SpellsManager sm = new Spells.SpellsManager();
-                      ^
-G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\AuroraArcanum\AuroraArcanum.java:139: error: package Spells does not exist
-                Spells.SpellsManager sm = new Spells.SpellsManager();
-                                                    ^
 G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Guild\AuroraArcanum\Spells\ElementalRay.java:15: error: ElementalRay is not abstract and does not override abstract method cast(Charecter,Enemies) in Spell
 public class ElementalRay implements Spell {
        ^
@@ -79,4 +73,4 @@ G:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheB
   symbol:   class Player
   location: class MusicPlayer
 Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-23 errors
+21 errors
