@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Guild/CrimsonBlades/CrimsonBlades.java
 package DungeonoftheBrutalKing.Guild.CrimsonBlades;
 
 import java.awt.BorderLayout;
@@ -14,15 +15,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import DungeonoftheBrutalKing.SharedData.Guild;
-import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
-import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells.CrimsonBladesGuildSpellsManager;
-
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.Guild;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
 import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells.CrimsonBladesGuildSpellsManager;
 
 public class CrimsonBlades extends JPanel {
 
@@ -97,7 +97,7 @@ public class CrimsonBlades extends JPanel {
 
         if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(evt -> {
+            joinGuildButton.addActionListener(e -> {
                 Charecter ch = Charecter.getInstance();
                 if (!isEvil(ch.getAlignment())) {
                     JOptionPane.showMessageDialog(
@@ -138,14 +138,14 @@ public class CrimsonBlades extends JPanel {
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(evt -> {
+        buySpellsButton.addActionListener(e -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
                 DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
-                        DungeonoftheBrutalKing.Charecter.getInstance(),
-                        DungeonoftheBrutalKing.SharedData.Guild.CRIMSON_BLADES,
+                        Charecter.getInstance(),
+                        Guild.CRIMSON_BLADES,
                         sm
                 );
                 dlg.setVisible(true);
@@ -154,30 +154,38 @@ public class CrimsonBlades extends JPanel {
             }
         });
 
-        sharpenBladeButton.addActionListener(evt -> JOptionPane.showMessageDialog(
+        sharpenBladeButton.addActionListener(e -> JOptionPane.showMessageDialog(
                 this,
                 "You sharpen your blade, ready for battle! (Crimson Blades exclusive service)"
         ));
 
-        removeCurseButton.addActionListener(evt -> {
+        removeCurseButton.addActionListener(e -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
 
-        sellItemsButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Selling items..."));
-        enterStorageButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
-        eatFoodButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel invigorated."));
-        sleepBedButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You rest in a sturdy bed and recover your strength."));
-        trainButton.addActionListener(evt -> JOptionPane.showMessageDialog(this, "You train rigorously, improving your skills."));
+        sellItemsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Selling items..."));
+        enterStorageButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing guild storage..."));
+        eatFoodButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You eat a hearty meal and feel invigorated."));
+        sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a sturdy bed and recover your strength."));
+        trainButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You train rigorously, improving your skills."));
 
-        exitRoomButton.addActionListener(evt -> {
+        exitRoomButton.addActionListener(e -> {
             try {
                 MainGameScreen.getInstance().restoreOriginalPanel();
             } catch (IOException | InterruptedException | ParseException ex) {
                 ex.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Unable to exit the room right now.\n" + ex.getClass().getSimpleName() + ": " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                if (ex instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                }
             }
-        });
-    }
+        });}
 
     private static boolean isEvil(int alignmentValue) {
         return alignmentValue < 0;
@@ -215,6 +223,7 @@ public class CrimsonBlades extends JPanel {
         if (getGuildSpellsCount() >= maxSpells) {
             JOptionPane.showMessageDialog(this,
                     "You cannot have more than " + maxSpells + " guild spells.");
+            return;
         }
 
         CrimsonBladesGuildSpellsManager manager = new CrimsonBladesGuildSpellsManager(Guild.CRIMSON_BLADES);
@@ -222,7 +231,9 @@ public class CrimsonBlades extends JPanel {
 
         java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
-        for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
+        for (String o : owned) {
+            if (o != null) ownedLower.add(o.toLowerCase());
+        }
 
         java.util.List<String> available = new java.util.ArrayList<>();
         for (Spell sp : all.values()) {
@@ -237,14 +248,29 @@ public class CrimsonBlades extends JPanel {
             return;
         }
 
-        // (Legacy dialog code omitted for brevity)
+        String choice = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose a guild spell to buy:",
+                "Buy Guild Spell",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                available.toArray(new String[0]),
+                available.get(0)
+        );
+
+        if (choice == null || choice.isBlank()) return;
+
+        addGuildSpell(choice);
+        JOptionPane.showMessageDialog(this, "You learned: " + choice);
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
+        setLayout(new BorderLayout());
+        CrimsonBlades rebuilt = new CrimsonBlades(isMember);
+        add(rebuilt, BorderLayout.CENTER);
         revalidate();
         repaint();
-        add(new CrimsonBlades(isMember));
     }
 
     public String getDescription() {

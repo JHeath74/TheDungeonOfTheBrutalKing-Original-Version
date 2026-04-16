@@ -1,10 +1,13 @@
 
-// src/Enemies/Ghost.java
+// src/DungeonoftheBrutalKing/Enemies/Ghost.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Ghost extends Enemies {
     private int level;
@@ -24,17 +27,17 @@ public class Ghost extends Enemies {
 
     public Ghost(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Ghost",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Ghost.png",
-            false,
-            vitality
+                "Ghost",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Ghost.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -45,6 +48,15 @@ public class Ghost extends Enemies {
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
         this.undead = true;
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
     }
 
     public int getLevel() { return level; }
@@ -61,11 +73,11 @@ public class Ghost extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 18;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " fades into mist and dodges the attack!");
+            appendMsg(getName() + " fades into mist and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has dissipated into the ether.");
+        if (isDead()) appendMsg(getName() + " has dissipated into the ether.");
     }
 
     @Override
@@ -85,7 +97,7 @@ public class Ghost extends Enemies {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.1) + (getAgility() * 1.3));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks with a chilling touch for " + damage + " damage!");
+        appendMsg(getName() + " attacks with a chilling touch for " + damage + " damage!");
         return damage;
     }
 
@@ -95,7 +107,7 @@ public class Ghost extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " becomes incorporeal, reducing damage to " + reducedDamage + ".");
+        appendMsg(getName() + " becomes incorporeal, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -154,9 +166,9 @@ public class Ghost extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

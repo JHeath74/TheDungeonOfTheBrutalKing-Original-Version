@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -6,10 +7,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.EnumSet;
 import java.util.Set;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
@@ -33,11 +36,11 @@ public class QuestLieToTheLost extends JPanel implements Quest {
 
         // Store the original panel and replace with quest panel
         originalPanel = MainGameScreen.getInstance().getGameImagesAndCombatPanel();
-        MainGameScreen.replaceWithAnyPanel(this);
+        MainGameScreen.getInstance().replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Lie to the Lost</b><br>"
-            + "A lost spirit or NPC seeks your guidance. Will you mislead them for your own gain, or help them find peace?</center></html>",
+                + "A lost spirit or NPC seeks your guidance. Will you mislead them for your own gain, or help them find peace?</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
@@ -53,7 +56,6 @@ public class QuestLieToTheLost extends JPanel implements Quest {
 
         choicePanel.add(lieButton);
         choicePanel.add(helpButton);
-
         add(choicePanel, BorderLayout.SOUTH);
 
         lieButton.addActionListener(e -> {
@@ -66,7 +68,18 @@ public class QuestLieToTheLost extends JPanel implements Quest {
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             lieButton.setEnabled(false);
             helpButton.setEnabled(false);
         });
@@ -81,7 +94,18 @@ public class QuestLieToTheLost extends JPanel implements Quest {
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             lieButton.setEnabled(false);
             helpButton.setEnabled(false);
         });
@@ -111,9 +135,9 @@ public class QuestLieToTheLost extends JPanel implements Quest {
     }
 
     @Override
-    public void completeQuest() {
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
         completed = true;
-        MainGameScreen.replaceWithAnyPanel(originalPanel);
+        MainGameScreen.getInstance().replaceWithAnyPanel(originalPanel);
     }
 
     @Override
@@ -121,9 +145,8 @@ public class QuestLieToTheLost extends JPanel implements Quest {
         return "QuestLieToTheLost:" + (completed ? "completed" : "not_completed");
     }
 
-	@Override
-	public QuestType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public QuestType getType() {
+        return category;
+    }
 }

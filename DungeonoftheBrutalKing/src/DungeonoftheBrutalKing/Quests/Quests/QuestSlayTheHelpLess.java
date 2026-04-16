@@ -1,3 +1,5 @@
+
+// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestSlayTheHelpLess.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -6,10 +8,12 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.EnumSet;
 import java.util.Set;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
@@ -20,6 +24,7 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
+
     private boolean completed = false;
     private JPanel originalPanel;
 
@@ -33,11 +38,11 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
 
         // Store the original panel and replace with quest panel
         originalPanel = MainGameScreen.getInstance().getGameImagesAndCombatPanel();
-        MainGameScreen.replaceWithAnyPanel(this);
+        MainGameScreen.getInstance().replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Slay the Helpless</b><br>"
-            + "A defenseless creature or NPC stands before you. Will you kill it for loot or convenience, or spare its life?</center></html>",
+                + "A defenseless creature or NPC stands before you. Will you kill it for loot or convenience, or spare its life?</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
@@ -53,7 +58,6 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
 
         choicePanel.add(slayButton);
         choicePanel.add(spareButton);
-
         add(choicePanel, BorderLayout.SOUTH);
 
         slayButton.addActionListener(e -> {
@@ -66,7 +70,18 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             slayButton.setEnabled(false);
             spareButton.setEnabled(false);
         });
@@ -81,7 +96,18 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             slayButton.setEnabled(false);
             spareButton.setEnabled(false);
         });
@@ -111,9 +137,9 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
     }
 
     @Override
-    public void completeQuest() {
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
         completed = true;
-        MainGameScreen.replaceWithAnyPanel(originalPanel);
+        MainGameScreen.getInstance().replaceWithAnyPanel(originalPanel);
     }
 
     @Override
@@ -121,9 +147,8 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
         return "QuestSlayTheHelpLess:" + (completed ? "completed" : "not_completed");
     }
 
-	@Override
-	public QuestType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public QuestType getType() {
+        return category;
+    }
 }

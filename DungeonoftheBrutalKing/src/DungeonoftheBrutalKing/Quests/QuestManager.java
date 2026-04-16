@@ -1,26 +1,24 @@
-// src/Quests/QuestManager.java
+
+// File: `src/DungeonoftheBrutalKing/Quests/QuestManager.java`
 package DungeonoftheBrutalKing.Quests;
-
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
 import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
+
+import javax.swing.JPanel;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuestManager {
-    // Separated quest collections
     private final List<Quest> standardQuests;
     private final List<Quest> guildQuests;
     private final List<Quest> mainQuestChain;
+
     private final List<Quest> activeQuests;
     private final Charecter character;
 
@@ -28,44 +26,54 @@ public class QuestManager {
         this.standardQuests = new ArrayList<>();
         this.guildQuests = new ArrayList<>();
         this.mainQuestChain = new ArrayList<>();
-        this.activeQuests = character.getActiveQuests();
+
         this.character = character;
+        this.activeQuests = character != null ? character.getActiveQuests() : new ArrayList<>();
+
         initializeQuests();
     }
 
     private void initializeQuests() throws IOException, InterruptedException, ParseException {
-        // Create quest instances (templates) and categorize them by type
-        Quest q1 = new QuestRescuetheForgottenPrisoner(MainGameScreen.getInstance());
-        Quest q2 = new QuestForgiveBetrayer(MainGameScreen.getInstance());
+        MainGameScreen screen = MainGameScreen.getInstance();
 
-        // Attempt to categorize based on quest type; fall back to standard if unknown
+        addToPool(new QuestRescuetheForgottenPrisoner(screen));
+        addToPool(new QuestForgiveBetrayer(screen));
+    }
+
+    private void addToPool(Quest quest) {
+        if (quest == null) return;
+
+        QuestType type;
         try {
-            if (q1.getType() == QuestType.MAIN) mainQuestChain.add(q1);
-            else if (q1.getType() == QuestType.GUILD) guildQuests.add(q1);
-            else standardQuests.add(q1);
-        } catch (Exception e) {
-            standardQuests.add(q1);
+            type = quest.getType();
+        } catch (RuntimeException ignored) {
+            type = null;
         }
 
-        try {
-            if (q2.getType() == QuestType.MAIN) mainQuestChain.add(q2);
-            else if (q2.getType() == QuestType.GUILD) guildQuests.add(q2);
-            else standardQuests.add(q2);
-        } catch (Exception e) {
-            standardQuests.add(q2);
+        if (type == QuestType.MAIN) {
+            mainQuestChain.add(quest);
+        } else if (type == QuestType.GUILD) {
+            guildQuests.add(quest);
+        } else {
+            standardQuests.add(quest);
         }
     }
 
     public void addActiveQuest(Quest quest) {
+        if (quest == null || character == null) return;
+
         if (!activeQuests.contains(quest)) {
             activeQuests.add(quest);
-            if (!character.getActiveQuests().contains(quest)) {
-                character.addActiveQuest(quest);
-            }
+        }
+
+        if (!character.getActiveQuests().contains(quest)) {
+            character.addActiveQuest(quest);
         }
     }
 
     public boolean removeActiveQuest(Quest quest) {
+        if (quest == null || character == null) return false;
+
         boolean removed = activeQuests.remove(quest);
         if (removed) {
             character.removeActiveQuest(quest);
@@ -73,21 +81,12 @@ public class QuestManager {
         return removed;
     }
 
-    public void syncActiveQuests() {
-        activeQuests.clear();
-        activeQuests.addAll(character.getActiveQuests());
-        character.getActiveQuests().clear();
-        character.getActiveQuests().addAll(activeQuests);
-    }
-
     public List<Quest> getActiveQuests() {
-        syncActiveQuests();
         return new ArrayList<>(activeQuests);
     }
 
-    // Backwards-compatible: return standard (ambient) quests as available quests
     public List<Quest> getAvailableQuests() {
-        return new ArrayList<>(standardQuests);
+        return getStandardQuests();
     }
 
     public List<Quest> getStandardQuests() {
@@ -102,39 +101,55 @@ public class QuestManager {
         return new ArrayList<>(mainQuestChain);
     }
 
-    /**
-     * Return a random quest from the standard or other lists based on type.
-     * If type is null or no quests of that type exist, falls back to standard.
-     */
     public Quest getRandomQuest() {
         return getRandomQuest(null);
     }
 
     public Quest getRandomQuest(QuestType type) {
-        List<Quest> pool = standardQuests;
-        if (type == QuestType.MAIN) pool = mainQuestChain;
-        else if (type == QuestType.GUILD) pool = guildQuests;
-        if (pool == null || pool.isEmpty()) return null;
-        Random rand = new Random();
-        return pool.get(rand.nextInt(pool.size()));
+        List<Quest> pool = poolFor(type);
+        if (pool.isEmpty()) return null;
+        return pool.get(RandomFactory.gameplayInt(pool.size()));
     }
 
-    // Removed getQuestsByLocation() since QuestLocationType and getLocationType() are gone
+    private List<Quest> poolFor(QuestType type) {
+        if (type == QuestType.MAIN) return mainQuestChain;
+        if (type == QuestType.GUILD) return guildQuests;
+        return standardQuests;
+    }
 
     public void displayActiveQuests() {
-        syncActiveQuests();
         for (Quest quest : activeQuests) {
+            if (quest == null) continue;
             System.out.println("Quest: " + quest.getName());
             System.out.println("Description: " + quest.getDescription());
         }
     }
 
     public void displayQuestDetails(Quest quest, MainGameScreen mainGameScreen) {
-        MainGameScreen.appendToMessageTextPane("New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n");
-        ImageIcon questImage = new ImageIcon("path/to/quest/image.png");
-        JLabel imageLabel = new JLabel(questImage);
-        JPanel panel = new JPanel();
-        panel.add(imageLabel);
-        MainGameScreen.replaceWithAnyPanel(panel);
+        if (mainGameScreen == null || quest == null) return;
+
+        uiSafely(() -> mainGameScreen.appendToMessageTextPane(
+            "New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n"
+        ));
+
+        if (quest instanceof JPanel panel) {
+            uiSafely(() -> mainGameScreen.replaceWithAnyPanel(panel));
+            return;
+        }
+
+        uiSafely(() -> mainGameScreen.replaceWithAnyPanel(new JPanel()));
+    }
+
+    private void uiSafely(UiAction action) {
+        try {
+            action.run();
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // Keep quest flow running even if UI calls fail.
+        }
+    }
+
+    @FunctionalInterface
+    private interface UiAction {
+        void run() throws IOException, InterruptedException, ParseException;
     }
 }

@@ -1,5 +1,5 @@
 
-// src/Enemies/Flame_Demon.java
+// src/DungeonoftheBrutalKing/Enemies/Flame_Demon.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -7,6 +7,9 @@ import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.Status.FireStatus;
 import DungeonoftheBrutalKing.Charecter;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Flame_Demon extends Enemies {
     private int level;
@@ -20,22 +23,22 @@ public class Flame_Demon extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Flame_Demon() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Flame_Demon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Flame Demon",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Flame_Demon.png",
-            false,
-            vitality
+                "Flame Demon",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Flame_Demon.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -45,6 +48,15 @@ public class Flame_Demon extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
     }
 
     public int getLevel() { return level; }
@@ -61,11 +73,11 @@ public class Flame_Demon extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " vanishes in a burst of flame and dodges the attack!");
+            appendMsg(getName() + " vanishes in a burst of flame and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died in a fiery explosion.");
+        if (isDead()) appendMsg(getName() + " has died in a fiery explosion.");
     }
 
     @Override
@@ -85,15 +97,15 @@ public class Flame_Demon extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.7));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks with a flaming sword.");
+        appendMsg(getName() + " attacks with a flaming sword.");
         return damage;
     }
 
     public int attack(Charecter target) {
         int damage = attack();
-        boolean fireStatusApplied = Math.random() < 0.3; // 30% chance
+        boolean fireStatusApplied = Math.random() < 0.3;
         if (fireStatusApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " engulfs the target in flames!");
+            appendMsg(getName() + " engulfs the target in flames!");
             target.addStatus(new FireStatus());
         }
         target.takeDamage(damage);
@@ -106,7 +118,7 @@ public class Flame_Demon extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends with a wall of fire, reducing damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends with a wall of fire, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -133,7 +145,7 @@ public class Flame_Demon extends Enemies {
     }
 
     private static int randomLevel() {
-        return 4 + (int) (Math.random() * 4); // Example: Flame Demon is mid-high level
+        return 4 + (int) (Math.random() * 4);
     }
 
     @Override
@@ -164,9 +176,8 @@ public class Flame_Demon extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return null;
+    }
 }

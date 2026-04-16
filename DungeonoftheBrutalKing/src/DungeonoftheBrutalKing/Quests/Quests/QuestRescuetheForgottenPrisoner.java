@@ -1,3 +1,5 @@
+
+// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestRescuetheForgottenPrisoner.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -23,13 +25,16 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String conversation = "Thank you, stranger! I thought I would never see the light of day again. I was imprisoned here for refusing to betray my friends.";
     private final String imprisonmentReason = "Imprisoned for refusing to betray his friends.";
     private final QuestType questType = QuestType.RESCUE;
+
     // High-level category for quest log grouping
     private final QuestType category = QuestType.STANDARD; // treat as a standard side quest by default
     // Tags to describe mechanics/flavor
     private final EnumSet<QuestType> tags = EnumSet.of(QuestType.RESCUE, QuestType.NEGOTIATION);
+
     private final EncounterType encounterType = EncounterType.STATIC_PERSON;
     private final String descriptionForEncounter = "A frail and desperate prisoner named " + prisonerName + " is locked in a hidden cell, pleading for help.";
     private final String encounterTarget = prisonerName;
+
     private final MainGameScreen mainGameScreen;
 
     public QuestRescuetheForgottenPrisoner(MainGameScreen mainGameScreen) {
@@ -42,10 +47,12 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     public QuestType getQuestType() { return questType; }
     public QuestType getCategory() { return category; }
     public Set<QuestType> getTags() { return EnumSet.copyOf(tags); }
+
     @Override public String getName() { return name; }
     @Override public String getDescription() { return description; }
     @Override public boolean isCompleted() { return completed; }
     @Override public void completeQuest() { this.completed = true; }
+
     public void giveReward(Charecter character) {}
     public int getRewardGold() { return rewardGold; }
     public String getConversation() { return conversation; }
@@ -85,15 +92,20 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
             } catch (IOException | InterruptedException | ParseException e) {
                 e.printStackTrace();
             }
-            MainGameScreen.replaceWithAnyPanel(new JPanel());
+            if (mainGameScreen != null) {
+                mainGameScreen.replaceWithAnyPanel(new JPanel());
+            }
         });
+
         ignoreButton.addActionListener(_ -> {
             try {
                 ignorePrisoner(player);
             } catch (IOException | InterruptedException | ParseException e) {
                 e.printStackTrace();
             }
-            MainGameScreen.replaceWithAnyPanel(new JPanel());
+            if (mainGameScreen != null) {
+                mainGameScreen.replaceWithAnyPanel(new JPanel());
+            }
         });
 
         buttonPanel.add(freeButton);
@@ -106,19 +118,18 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     @Override
     public String serialize() {
         return name + "|" +
-               description + "|" +
-               completed + "|" +
-               rewardGold + "|" +
-               (conversation != null ? conversation : "null") + "|" +
-               (questType != null ? questType.name() : "null") + "|" +
-               (encounterType != null ? encounterType.name() : "null") + "|" +
-               (encounterTarget != null ? encounterTarget : "null") + "|" +
-               imprisonmentReason;
+                description + "|" +
+                completed + "|" +
+                rewardGold + "|" +
+                (conversation != null ? conversation : "null") + "|" +
+                (questType != null ? questType.name() : "null") + "|" +
+                (encounterType != null ? encounterType.name() : "null") + "|" +
+                (encounterTarget != null ? encounterTarget : "null") + "|" +
+                imprisonmentReason;
     }
 
-	@Override
-	public QuestType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public QuestType getType() {
+        return category;
+    }
 }

@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Guild/DawnwardPaladins/DawnwardPaladins.java
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins;
 
 import java.awt.BorderLayout;
@@ -40,9 +41,11 @@ public class DawnwardPaladins extends JPanel {
 
         if (!this.isMember && !inventory.contains("Dawnward Paladins Guild Ring")) {
             if (!isGood(character.getAlignment())) {
-                JOptionPane.showMessageDialog(this, "You are not good (`alignment >= 0`). The Dawnward Paladins reject you.");
+                JOptionPane.showMessageDialog(this,
+                        "You are not good (`alignment >= 0`). The Dawnward Paladins reject you.");
                 return;
             }
+
             int choice = JOptionPane.showOptionDialog(
                     this,
                     "You are not a member of the Dawnward Paladins. Would you like to join?",
@@ -50,20 +53,23 @@ public class DawnwardPaladins extends JPanel {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
-                    new String[] { "Join", "Stay/Leave" },
+                    new String[]{"Join", "Stay/Leave"},
                     "Join"
             );
+
             if (choice == JOptionPane.YES_OPTION) {
                 this.isMember = true;
                 character.addToInventory("Dawnward Paladins Guild Ring");
-                JOptionPane.showMessageDialog(this, "You have joined the Dawnward Paladins and received the Dawnward Paladins Guild Ring!");
+                JOptionPane.showMessageDialog(this,
+                        "You have joined the Dawnward Paladins and received the Dawnward Paladins Guild Ring!");
             } else {
                 JOptionPane.showMessageDialog(this, "You chose not to join the guild.");
                 return;
             }
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/DawnwardPaladins.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/DawnwardPaladins.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(10, 1, 10, 10));
@@ -79,21 +85,28 @@ public class DawnwardPaladins extends JPanel {
 
         if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(e -> {
+            joinGuildButton.addActionListener(_ -> {
                 Charecter ch = Charecter.getInstance();
                 if (!isGood(ch.getAlignment())) {
-                    JOptionPane.showMessageDialog(this, "You are not good (`alignment >= 0`). The Dawnward Paladins reject you.");
+                    JOptionPane.showMessageDialog(this,
+                            "You are not good (`alignment >= 0`). The Dawnward Paladins reject you.");
                     return;
                 }
                 this.isMember = true;
                 ch.addToInventory("Dawnward Paladins Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dawnward Paladins!");
-                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+                try {
+                    reloadPanel();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
+                    if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+                }
             });
             buttonPanel.add(joinGuildButton);
         } else {
             if (!isGood(character.getAlignment())) {
-                JOptionPane.showMessageDialog(this, "You are not good (`alignment >= 0`). You cannot use Dawnward Paladins services.");
+                JOptionPane.showMessageDialog(this,
+                        "You are not good (`alignment >= 0`). You cannot use Dawnward Paladins services.");
             } else {
                 buttonPanel.add(buySpellsButton);
                 buttonPanel.add(blessWeaponButton);
@@ -105,10 +118,11 @@ public class DawnwardPaladins extends JPanel {
                 buttonPanel.add(innButton);
             }
         }
+
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(e -> {
+        buySpellsButton.addActionListener(_ -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
                 DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
@@ -124,16 +138,20 @@ public class DawnwardPaladins extends JPanel {
             }
         });
 
-        blessWeaponButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)"));
+        blessWeaponButton.addActionListener(_ ->
+                JOptionPane.showMessageDialog(this,
+                        "You bless your weapon, imbuing it with holy power! (Dawnward Paladins exclusive service)")
+        );
 
-        removeCurseButton.addActionListener(e -> {
+        removeCurseButton.addActionListener(_ -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(this, "All curses and negative effects have been removed!");
         });
 
-        sellItemsButton.addActionListener(e -> openShopRoom());
-        enterStorageButton.addActionListener(e -> openStorageRoom());
-        eatFoodButton.addActionListener(e -> {
+        sellItemsButton.addActionListener(_ -> openShopRoom());
+        enterStorageButton.addActionListener(_ -> openStorageRoom());
+
+        eatFoodButton.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getCharInventory().remove("Food")) {
                 ch.setHungerLevel(0);
@@ -142,21 +160,38 @@ public class DawnwardPaladins extends JPanel {
                 JOptionPane.showMessageDialog(this, "No food in inventory.");
             }
         });
-        sleepBedButton.addActionListener(e -> openSleepRoom());
-        innButton.addActionListener(e -> openInnRoom());
-        exitRoomButton.addActionListener(e -> {
-            try { MainGameScreen.getInstance().restoreOriginalPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+
+        sleepBedButton.addActionListener(_ -> openSleepRoom());
+        innButton.addActionListener(_ -> openInnRoom());
+
+        // Fix: call the correct MainGameScreen API. Use static restoreOriginalPanel\(\) if that's what your class provides.
+        exitRoomButton.addActionListener(_ -> {
+            try {
+                // If your MainGameScreen has a non-static restoreOriginalPanel\(\),
+                // replace the next line with:
+                 MainGameScreen.getInstance().restoreOriginalPanel();
+                //MainGameScreen.restoreOriginalPanel();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Unable to exit the room right now.\n" + ex.getClass().getSimpleName() + ": " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+            }
         });
     }
 
     private void openStorageRoom() {
+        JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Guild Storage", true);
 
-JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Guild Storage", true);
-
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         DefaultListModel<String> invModel = new DefaultListModel<>();
         DefaultListModel<String> storageModel = new DefaultListModel<>();
         Charecter ch = Charecter.getInstance();
+
         for (String s : ch.getCharInventory()) invModel.addElement(s);
         java.util.List<String> storage = ch.getGuildStorage();
         for (String s : storage) storageModel.addElement(s);
@@ -168,7 +203,7 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
         JButton takeBtn = new JButton("Take from Storage");
         JButton leaveBtn = new JButton("Leave");
 
-        putBtn.addActionListener(e -> {
+        putBtn.addActionListener(_ -> {
             String sel = invList.getSelectedValue();
             if (sel != null) {
                 ch.getCharInventory().remove(sel);
@@ -177,7 +212,7 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 storageModel.addElement(sel);
             }
         });
-        takeBtn.addActionListener(e -> {
+        takeBtn.addActionListener(_ -> {
             String sel = storageList.getSelectedValue();
             if (sel != null) {
                 ch.getGuildStorage().remove(sel);
@@ -186,12 +221,14 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 invModel.addElement(sel);
             }
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(putBtn); btns.add(takeBtn); btns.add(leaveBtn);
+        btns.add(putBtn);
+        btns.add(takeBtn);
+        btns.add(leaveBtn);
 
-        JPanel listsPanel = new JPanel(new GridLayout(1,2,8,8));
+        JPanel listsPanel = new JPanel(new GridLayout(1, 2, 8, 8));
         listsPanel.add(new JScrollPane(invList));
         listsPanel.add(new JScrollPane(storageList));
         panel.add(new JLabel("Inventory (left) / Storage (right)"), BorderLayout.NORTH);
@@ -205,10 +242,9 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
     }
 
     private void openShopRoom() {
+        JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Guild Storage", true);
 
-JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Guild Storage", true);
-
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         DefaultListModel<String> invModel = new DefaultListModel<>();
         Charecter ch = Charecter.getInstance();
         for (String s : ch.getCharInventory()) invModel.addElement(s);
@@ -218,7 +254,7 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
         JButton buyBtn = new JButton("Buy Guild Gear");
         JButton leaveBtn = new JButton("Leave");
 
-        sellBtn.addActionListener(e -> {
+        sellBtn.addActionListener(_ -> {
             String sel = invList.getSelectedValue();
             if (sel != null) {
                 ch.getCharInventory().remove(sel);
@@ -227,10 +263,18 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 JOptionPane.showMessageDialog(dialog, "Sold " + sel + " for 50 gold.");
             }
         });
-        buyBtn.addActionListener(e -> {
+
+        buyBtn.addActionListener(_ -> {
             String[] gear = {"Paladin Armour", "Paladin Sword"};
-            String sel = (String) JOptionPane.showInputDialog(dialog, "Buy which item?", "Buy Guild Gear",
-                    JOptionPane.PLAIN_MESSAGE, null, gear, gear[0]);
+            String sel = (String) JOptionPane.showInputDialog(
+                    dialog,
+                    "Buy which item?",
+                    "Buy Guild Gear",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    gear,
+                    gear[0]
+            );
             if (sel != null && ch.getGold() >= 200) {
                 ch.getCharInventory().add(sel);
                 ch.setGold(ch.getGold() - 200);
@@ -239,10 +283,13 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 JOptionPane.showMessageDialog(dialog, "Not enough gold.");
             }
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(sellBtn); btns.add(buyBtn); btns.add(leaveBtn);
+        btns.add(sellBtn);
+        btns.add(buyBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("Your Inventory:"), BorderLayout.NORTH);
         panel.add(new JScrollPane(invList), BorderLayout.CENTER);
@@ -255,22 +302,22 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
     }
 
     private void openSleepRoom() {
+        JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Paladin's BedChamber", true);
 
-JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Paladin's BedChamber", true);
-
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JButton sleepBtn = new JButton("Sleep");
         JButton leaveBtn = new JButton("Leave");
 
-        sleepBtn.addActionListener(e -> {
+        sleepBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             ch.restoreHitPoints(ch.getMaxHitPoints());
             JOptionPane.showMessageDialog(dialog, "You sleep soundly and feel fully restored.");
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(sleepBtn); btns.add(leaveBtn);
+        btns.add(sleepBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("A peaceful bed awaits you."), BorderLayout.CENTER);
         panel.add(btns, BorderLayout.SOUTH);
@@ -282,15 +329,16 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
     }
 
     private void openInnRoom() {
-    	JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Paladin's Inn", true);
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Paladin's Inn", true);
+
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JButton buyFoodBtn = new JButton("Buy Food (20g)");
         JButton buyDrinkBtn = new JButton("Buy Drink (10g)");
         JButton eatBtn = new JButton("Eat Food");
         JButton drinkBtn = new JButton("Drink");
         JButton leaveBtn = new JButton("Leave");
 
-        buyFoodBtn.addActionListener(e -> {
+        buyFoodBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getGold() >= 20) {
                 ch.setGold(ch.getGold() - 20);
@@ -300,7 +348,8 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 JOptionPane.showMessageDialog(dialog, "Not enough gold.");
             }
         });
-        buyDrinkBtn.addActionListener(e -> {
+
+        buyDrinkBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getGold() >= 10) {
                 ch.setGold(ch.getGold() - 10);
@@ -310,7 +359,8 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 JOptionPane.showMessageDialog(dialog, "Not enough gold.");
             }
         });
-        eatBtn.addActionListener(e -> {
+
+        eatBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getCharInventory().remove("Food")) {
                 ch.setHungerLevel(0);
@@ -319,7 +369,8 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 JOptionPane.showMessageDialog(dialog, "No food in inventory.");
             }
         });
-        drinkBtn.addActionListener(e -> {
+
+        drinkBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getCharInventory().remove("Drink")) {
                 ch.setThirstLevel(0);
@@ -328,10 +379,15 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
                 JOptionPane.showMessageDialog(dialog, "No drink in inventory.");
             }
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(buyFoodBtn); btns.add(buyDrinkBtn); btns.add(eatBtn); btns.add(drinkBtn); btns.add(leaveBtn);
+        btns.add(buyFoodBtn);
+        btns.add(buyDrinkBtn);
+        btns.add(eatBtn);
+        btns.add(drinkBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("Welcome to the Inn!"), BorderLayout.NORTH);
         panel.add(btns, BorderLayout.CENTER);
@@ -356,6 +412,7 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
         Charecter character = Charecter.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int maxSpells = 6;
+
         if (!isMember) {
             JOptionPane.showMessageDialog(this, "You must be a member of the Dawnward Paladins to buy guild spells.");
             return;
@@ -370,12 +427,16 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
         }
         if (getGuildSpellsCount() >= maxSpells) {
             JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
         }
-        DawnwardPaladinsGuildSpellsManager manager = new DawnwardPaladinsGuildSpellsManager(DungeonoftheBrutalKing.SharedData.Guild.DAWNWARD_PALADINS);
+
+        DawnwardPaladinsGuildSpellsManager manager =
+                new DawnwardPaladinsGuildSpellsManager(DungeonoftheBrutalKing.SharedData.Guild.DAWNWARD_PALADINS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
         java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
+
         java.util.List<String> available = new java.util.ArrayList<>();
         for (Spell sp : all.values()) {
             if (sp == null) continue;
@@ -383,18 +444,19 @@ JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(t
             if (canon == null) continue;
             if (!ownedLower.contains(canon.toLowerCase())) available.add(canon);
         }
+
         if (available.isEmpty()) {
             JOptionPane.showMessageDialog(this, "There are no new guild spells available to purchase right now.");
-            return;
         }
-        // (Legacy dialog code omitted for brevity)
+        // Legacy dialog code omitted.
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
+        setLayout(new BorderLayout());
+        add(new DawnwardPaladins(isMember), BorderLayout.CENTER);
         revalidate();
         repaint();
-        add(new DawnwardPaladins(isMember));
     }
 
     public String getDescription() { return description; }

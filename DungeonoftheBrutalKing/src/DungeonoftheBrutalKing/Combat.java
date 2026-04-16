@@ -1,3 +1,4 @@
+
 // src/DungeonoftheBrutalKing/Combat.java
 package DungeonoftheBrutalKing;
 
@@ -61,7 +62,7 @@ public class Combat {
 
     public void combatEncounter() throws IOException, InterruptedException, ParseException {
         combatPanel = new JPanel(new GridBagLayout());
-        MainGameScreen.replaceWithAnyPanel(combatPanel);
+        MainGameScreen.getInstance().replaceWithAnyPanel(combatPanel);
 
         if (myEnemies == null) {
             JOptionPane.showMessageDialog(combatPanel, "No monster found!");
@@ -73,23 +74,23 @@ public class Combat {
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
         JLabel playerPicLabel;
         try {
-        	String playerClass = myChar.getClassName();
-        	String imagePath;
+            String playerClass = myChar.getClassName();
+            String imagePath;
             switch (playerClass) {
-            case "Bard":      imagePath = GameSettings.ClassImagesPath + "bard.png"; break;
-            case "Cleric":    imagePath = GameSettings.ClassImagesPath + "cleric.png"; break;
-            case "Hunter":    imagePath = GameSettings.ClassImagesPath + "hunter.png"; break;
-            case "Mage":      imagePath = GameSettings.ClassImagesPath + "mage.png"; break;
-            case "Ministrel": imagePath = GameSettings.ClassImagesPath + "ministrel.png"; break;
-            case "Oaladin":   imagePath = GameSettings.ClassImagesPath + "oaladin.png"; break;
-            case "Paladin":   imagePath = GameSettings.ClassImagesPath + "paladin.png"; break;
-            case "Ranger":    imagePath = GameSettings.ClassImagesPath + "ranger.png"; break;
-            case "Rogue":     imagePath = GameSettings.ClassImagesPath + "rogue.png"; break;
-            case "Thief":     imagePath = GameSettings.ClassImagesPath + "thief.png"; break;
-            case "Warrior":   imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
-            case "Wizard":    imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
-            default:          imagePath = GameSettings.ClassImagesPath + "default.png"; break;
-        }
+                case "Bard":      imagePath = GameSettings.ClassImagesPath + "bard.png"; break;
+                case "Cleric":    imagePath = GameSettings.ClassImagesPath + "cleric.png"; break;
+                case "Hunter":    imagePath = GameSettings.ClassImagesPath + "hunter.png"; break;
+                case "Mage":      imagePath = GameSettings.ClassImagesPath + "mage.png"; break;
+                case "Ministrel": imagePath = GameSettings.ClassImagesPath + "ministrel.png"; break;
+                case "Oaladin":   imagePath = GameSettings.ClassImagesPath + "oaladin.png"; break;
+                case "Paladin":   imagePath = GameSettings.ClassImagesPath + "paladin.png"; break;
+                case "Ranger":    imagePath = GameSettings.ClassImagesPath + "ranger.png"; break;
+                case "Rogue":     imagePath = GameSettings.ClassImagesPath + "rogue.png"; break;
+                case "Thief":     imagePath = GameSettings.ClassImagesPath + "thief.png"; break;
+                case "Warrior":   imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
+                case "Wizard":    imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
+                default:          imagePath = GameSettings.ClassImagesPath + "default.png"; break;
+            }
             BufferedImage playerImg = ImageIO.read(new File(imagePath));
             Image scaledPlayerImg = playerImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
             playerPicLabel = new JLabel(new ImageIcon(scaledPlayerImg));
@@ -185,36 +186,50 @@ public class Combat {
         if (myEnemies != null && myChar != null) {
             int playerDamage = myChar.getAttackDamage();
             int reducedDamage = monsterDefend(playerDamage);
-            // Apply damage considering enemy statuses (e.g., IceBarrier absorption)
             try {
                 myEnemies.takeDamageWithStatuses(reducedDamage);
             } catch (Exception ignored) {
-                // fallback
                 monsterTakeDamage(reducedDamage);
             }
 
-            MainGameScreen.appendToMessageTextPane("You attack " + myEnemies.getName() +
-                " for " + reducedDamage + " damage.\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane(
+                    "You attack " + myEnemies.getName() + " for " + reducedDamage + " damage.\n"
+                );
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
 
             updateNameAndHP();
 
-            // If the target had an Ice Barrier, slow the attacker (player) as a penalty for striking it
             try {
                 if (myEnemies.hasStatus("Ice Barrier")) {
                     Status st = myEnemies.getStatusByName("Ice Barrier");
                     if (st instanceof IceBarrierStatus) {
                         int slowDur = ((IceBarrierStatus) st).getSlowDuration();
                         myChar.addStatus(new ImmobilizedStatus(Math.max(1, slowDur)));
-                        MainGameScreen.appendToMessageTextPane("You are chilled and slowed by the Ice Barrier!\n");
+                        try {
+                            MainGameScreen.getInstance().appendToMessageTextPane("You are chilled and slowed by the Ice Barrier!\n");
+                        } catch (IOException | InterruptedException | ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             } catch (Exception ignored) { }
 
             if (isMonsterDead()) {
-                MainGameScreen.appendToMessageTextPane("Monster defeated!\n");
+                try {
+                    MainGameScreen.getInstance().appendToMessageTextPane("Monster defeated!\n");
+                } catch (IOException | InterruptedException | ParseException e) {
+                    e.printStackTrace();
+                }
                 handleRewards();
                 myEnemies = null;
-                MainGameScreen.replaceWithAnyPanel(mainGamePanel);
+                try {
+                    MainGameScreen.getInstance().replaceWithAnyPanel(mainGamePanel);
+                } catch (IOException | InterruptedException | ParseException e) {
+                    e.printStackTrace();
+                }
                 camera.endCombat();
                 camera.getActiveCombat();
                 return;
@@ -224,28 +239,37 @@ public class Combat {
             Timer timer = new Timer(1000, _ -> {
                 if (myChar.getHitPoints() > 0 && myEnemies != null && !isMonsterDead()) {
                     int damage = myEnemies.getAttackDamage();
-                    // Apply damage taking active character statuses into account (e.g., Ice Barrier absorption)
                     try {
                         myChar.takeDamageWithStatuses(damage);
                     } catch (Exception ignored) {
                         myChar.takeDamage(damage);
                     }
-                     MainGameScreen.appendToMessageTextPane(myEnemies.getName() +
-                         " attacks you for " + damage + " damage.\n");
-                     updateNameAndHP();
+                    try {
+                        MainGameScreen.getInstance().appendToMessageTextPane(
+                            myEnemies.getName() + " attacks you for " + damage + " damage.\n"
+                        );
+                    } catch (IOException | InterruptedException | ParseException e) {
+                        e.printStackTrace();
+                    }
+                    updateNameAndHP();
 
-                    // If the defender (player) had Ice Barrier, slow the attacker (monster)
                     try {
                         if (myChar.hasStatus("Ice Barrier")) {
                             Status st = myChar.getStatusByName("Ice Barrier");
                             if (st instanceof IceBarrierStatus) {
                                 int slowDur = ((IceBarrierStatus) st).getSlowDuration();
                                 myEnemies.addStatus(new ImmobilizedStatus(Math.max(1, slowDur)));
-                                MainGameScreen.appendToMessageTextPane(myEnemies.getName() + " is slowed by striking the Ice Barrier!\n");
+                                try {
+                                    MainGameScreen.getInstance().appendToMessageTextPane(
+                                        myEnemies.getName() + " is slowed by striking the Ice Barrier!\n"
+                                    );
+                                } catch (IOException | InterruptedException | ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     } catch (Exception ignored) { }
-                 }
+                }
 
                 if (myChar.getHitPoints() <= 0) {
                     int choice = JOptionPane.showOptionDialog(
@@ -281,16 +305,22 @@ public class Combat {
             int exp = myEnemies.getExperienceReward();
             int gold = myEnemies.getGoldReward();
 
-            // Fix: `rewardExperience(int)` does not exist; use an existing XP method if present.
-            // This uses the most common naming in this codebase pattern: `gainExperience`.
             myChar.gainExperience(exp);
 
             myChar.setGold(myChar.getGold() + gold);
-            MainGameScreen.appendToMessageTextPane("You gained " + exp + " EXP and " + gold + " gold!\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane("You gained " + exp + " EXP and " + gold + " gold!\n");
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
 
             int impact = myEnemies.getAlignmentImpact();
             myChar.setAlignment(impact);
-            MainGameScreen.appendToMessageTextPane("Your alignment changed by " + impact + ".\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane("Your alignment changed by " + impact + ".\n");
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -300,7 +330,11 @@ public class Combat {
         allSpells.addAll(myChar.getGuildSpells());
 
         if (allSpells.isEmpty()) {
-            MainGameScreen.appendToMessageTextPane("You don't know any spells or actions.\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane("You don't know any spells or actions.\n");
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
             return;
         }
 
@@ -316,38 +350,44 @@ public class Combat {
 
         if (selected != null) {
             setSelectedSpell(selected);
-            MainGameScreen.appendToMessageTextPane("Selected: " + selected + "\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane("Selected: " + selected + "\n");
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void handleCastSpell() {
         if (selectedSpell == null) {
-            MainGameScreen.appendToMessageTextPane("No spell selected.\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane("No spell selected.\n");
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
             return;
         }
 
-        // Fix: `Charecter.getGuildId()` does not exist.
-        // Use a stable key that is always available; this keeps the manager per-player.
         String guildKey = myChar.getName();
 
-        // Prefer direct API on SpellsManager (getSpell) and only fall back to reflection helper
         SpellsManager manager = guildSpellsRegistry.getOrCreateManager(guildKey);
         Spell spell = null;
         if (manager != null) {
             try {
                 spell = manager.getSpell(selectedSpell);
-            } catch (Exception ignored) {
-                // fall through to compatibility resolver
-            }
+            } catch (Exception ignored) { }
         }
 
         if (spell == null) {
-            // Compatibility: some versions expose different method names; try resolver as fallback
             spell = resolveSpell(manager, selectedSpell);
         }
 
         if (spell == null) {
-            MainGameScreen.appendToMessageTextPane("Spell not found.\n");
+            try {
+                MainGameScreen.getInstance().appendToMessageTextPane("Spell not found.\n");
+            } catch (IOException | InterruptedException | ParseException e) {
+                e.printStackTrace();
+            }
             return;
         }
 
@@ -366,19 +406,29 @@ public class Combat {
 
             if (choice == 0) {
                 spell.cast(myChar, myChar);
-                MainGameScreen.appendToMessageTextPane("You cast Restoring Light on yourself.\n");
+                try {
+                    MainGameScreen.getInstance().appendToMessageTextPane("You cast Restoring Light on yourself.\n");
+                } catch (IOException | InterruptedException | ParseException e) {
+                    e.printStackTrace();
+                }
             } else if (choice == 1 && myEnemies != null && myEnemies.isUndead()) {
                 spell.cast(myChar, myEnemies);
-                MainGameScreen.appendToMessageTextPane("You cast Restoring Light on " + myEnemies.getName() + ".\n");
+                try {
+                    MainGameScreen.getInstance().appendToMessageTextPane("You cast Restoring Light on " + myEnemies.getName() + ".\n");
+                } catch (IOException | InterruptedException | ParseException e) {
+                    e.printStackTrace();
+                }
             } else {
-                MainGameScreen.appendToMessageTextPane("Target is not undead. Spell has no effect.\n");
+                try {
+                    MainGameScreen.getInstance().appendToMessageTextPane("Target is not undead. Spell has no effect.\n");
+                } catch (IOException | InterruptedException | ParseException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
-            // Prefer guild/target-less cast signature if available
             try {
                 spell.cast(myChar);
             } catch (AbstractMethodError | Exception e) {
-                // Fall back to other common signatures
                 try { spell.cast(); } catch (Exception ignored) { }
             }
         }
@@ -389,7 +439,6 @@ public class Combat {
     private static Spell resolveSpell(SpellsManager manager, String spellName) {
         if (manager == null || spellName == null) return null;
 
-        // Try common APIs without requiring changes to `SpellsManager`.
         try {
             var m = manager.getClass().getMethod("getSpellByName", String.class);
             Object r = m.invoke(manager, spellName);
@@ -412,9 +461,17 @@ public class Combat {
     }
 
     private void handleRun() {
-        MainGameScreen.appendToMessageTextPane("Run Away button pressed.\n");
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane("Run Away button pressed.\n");
+        } catch (IOException | InterruptedException | ParseException e) {
+            e.printStackTrace();
+        }
         camera.endCombat();
-        MainGameScreen.replaceWithAnyPanel(mainGamePanel);
+        try {
+            MainGameScreen.getInstance().replaceWithAnyPanel(mainGamePanel);
+        } catch (IOException | InterruptedException | ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateNameAndHP() {

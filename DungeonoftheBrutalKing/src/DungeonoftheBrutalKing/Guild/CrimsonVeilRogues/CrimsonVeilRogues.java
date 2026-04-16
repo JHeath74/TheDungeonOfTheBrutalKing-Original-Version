@@ -1,10 +1,12 @@
 
+// src/DungeonoftheBrutalKing/Guild/CrimsonVeilRogues/CrimsonVeilRogues.java
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,24 +14,25 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import DungeonoftheBrutalKing.SharedData.Guild;
-import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
-import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells.CrimsonVeilRoguesGuildSpellsManager;
-
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
+import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
+import DungeonoftheBrutalKing.SharedData.GuildType;
+import DungeonoftheBrutalKing.Spells.Spell;
+import DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells.CrimsonVeilRoguesGuildSpellsManager;
 
 public class CrimsonVeilRogues extends JPanel {
 
     private static final long serialVersionUID = 1L;
+
     private final String guildName = "Crimson Veil Rogues";
-    private final String description = "The Crimson Veil Rogues are a notorious guild of evil rogues, masters of deception, stealth, and ruthless ambition.";
+    private final String description =
+            "The Crimson Veil Rogues are a notorious guild of evil rogues, masters of deception, stealth, and ruthless ambition.";
     private final Alignment alignment = Alignment.EVIL;
-    GuildType guildType = GuildType.ROGUE;
+    private final GuildType guildType = GuildType.ROGUE;
 
     public CrimsonVeilRogues() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
@@ -37,7 +40,8 @@ public class CrimsonVeilRogues extends JPanel {
         Charecter character = Charecter.getInstance();
         GuildMembershipStatus status = character.getCurrentGuildStatus();
 
-        JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonVeilRogues.jpg")));
+        JLabel imageLabel = new JLabel(new ImageIcon(
+                getClass().getResource("/DungeonoftheBrutalKing/Images/CrimsonVeilRogues.jpg")));
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(9, 1, 10, 10));
@@ -56,7 +60,12 @@ public class CrimsonVeilRogues extends JPanel {
             questButton.addActionListener(_ -> {
                 character.setCurrentGuildStatus(GuildMembershipStatus.INITIATE);
                 JOptionPane.showMessageDialog(this, "Trial complete! You are now an Initiate.");
-                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+                try {
+                    reloadPanel();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
+                    if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+                }
             });
             buttonPanel.add(questButton);
         } else if (status == GuildMembershipStatus.INITIATE) {
@@ -64,8 +73,14 @@ public class CrimsonVeilRogues extends JPanel {
             initiationButton.addActionListener(_ -> {
                 character.setCurrentGuildStatus(GuildMembershipStatus.FULL_MEMBER);
                 character.addToInventory("Crimson Veil Emblem");
-                JOptionPane.showMessageDialog(this, "You are now a full member and received the Crimson Veil Emblem!");
-                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+                JOptionPane.showMessageDialog(this,
+                        "You are now a full member and received the Crimson Veil Emblem!");
+                try {
+                    reloadPanel();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
+                    if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+                }
             });
             buttonPanel.add(initiationButton);
         } else if (status == GuildMembershipStatus.FULL_MEMBER) {
@@ -78,6 +93,7 @@ public class CrimsonVeilRogues extends JPanel {
             buttonPanel.add(eatFoodButton);
             buttonPanel.add(sleepBedButton);
         }
+
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -90,8 +106,8 @@ public class CrimsonVeilRogues extends JPanel {
 
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
-                        DungeonoftheBrutalKing.Charecter.getInstance(),
-                        DungeonoftheBrutalKing.SharedData.Guild.CRIMSON_VEIL_ROGUES,
+                        Charecter.getInstance(),
+                        Guild.CRIMSON_VEIL_ROGUES,
                         manager
                 );
                 dlg.setVisible(true);
@@ -99,11 +115,13 @@ public class CrimsonVeilRogues extends JPanel {
                 buyGuildSpell();
             }
         });
+
         ambushButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You set up a deadly ambush..."));
         sneakButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You move silently through the shadows..."));
         sabotageButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You sabotage a rival's plans..."));
         sellSecretsButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Selling stolen secrets..."));
         enterLairButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Entering the hidden lair..."));
+
         eatFoodButton.addActionListener(_ -> {
             int currentFood = character.getFood();
             if (currentFood > 0) {
@@ -113,22 +131,38 @@ public class CrimsonVeilRogues extends JPanel {
                 JOptionPane.showMessageDialog(this, "You have no food to eat.");
             }
         });
-        sleepBedButton.addActionListener(_ -> JOptionPane.showMessageDialog(this, "You rest in a secret bed and recover your strength."));
+
+        sleepBedButton.addActionListener(_ ->
+                JOptionPane.showMessageDialog(this, "You rest in a secret bed and recover your strength."));
+
         exitRoomButton.addActionListener(_ -> {
-            try { MainGameScreen.getInstance().restoreOriginalPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+            try {
+                MainGameScreen.getInstance().restoreOriginalPanel();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Unable to exit the room right now.\n" + ex.getClass().getSimpleName() + ": " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+            }
         });
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
+        setLayout(new BorderLayout());
+        add(new CrimsonVeilRogues(), BorderLayout.CENTER);
         revalidate();
         repaint();
-        add(new CrimsonVeilRogues());
     }
 
     public String getDescription() { return description; }
     public Alignment getAlignment() { return alignment; }
     public String getGuildName() { return guildName; }
+    public GuildType getGuildType() { return guildType; }
 
     private static boolean isEvil(int alignmentValue) {
         return alignmentValue < 0;
@@ -140,11 +174,13 @@ public class CrimsonVeilRogues extends JPanel {
         int maxSpells = 6;
 
         if (player.getCurrentGuildStatus() != GuildMembershipStatus.FULL_MEMBER) {
-            JOptionPane.showMessageDialog(this, "You must be a full member of the Crimson Veil Rogues to buy guild spells.");
+            JOptionPane.showMessageDialog(this,
+                    "You must be a full member of the Crimson Veil Rogues to buy guild spells.");
             return;
         }
         if (!isEvil(player.getAlignment())) {
-            JOptionPane.showMessageDialog(this, "You are not evil (alignment < 0). The Crimson Veil Rogues won't deal with you.");
+            JOptionPane.showMessageDialog(this,
+                    "You are not evil (alignment < 0). The Crimson Veil Rogues won't deal with you.");
             return;
         }
         if (!player.getCharInventory().contains("Crimson Veil Emblem")) {
@@ -153,9 +189,11 @@ public class CrimsonVeilRogues extends JPanel {
         }
         if (getGuildSpellsCount() >= maxSpells) {
             JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
         }
 
-        CrimsonVeilRoguesGuildSpellsManager manager = new CrimsonVeilRoguesGuildSpellsManager(Guild.CRIMSON_VEIL_ROGUES);
+        CrimsonVeilRoguesGuildSpellsManager manager =
+                new CrimsonVeilRoguesGuildSpellsManager(Guild.CRIMSON_VEIL_ROGUES);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
         java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
@@ -172,10 +210,7 @@ public class CrimsonVeilRogues extends JPanel {
 
         if (available.isEmpty()) {
             JOptionPane.showMessageDialog(this, "There are no new guild spells available to purchase right now.");
-            return;
         }
-
-        // (Legacy dialog code omitted for brevity)
     }
 
     public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
@@ -188,5 +223,7 @@ public class CrimsonVeilRogues extends JPanel {
         }
     }
 
-    public boolean removeGuildSpell(String spell) { return Charecter.getInstance().getGuildSpells().remove(spell); }
+    public boolean removeGuildSpell(String spell) {
+        return Charecter.getInstance().getGuildSpells().remove(spell);
+    }
 }

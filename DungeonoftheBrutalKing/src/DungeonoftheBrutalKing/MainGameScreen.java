@@ -1,18 +1,34 @@
+
+// File: `src/DungeonoftheBrutalKing/MainGameScreen.java`
 package DungeonoftheBrutalKing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.text.ParseException;
-import javax.swing.*;
-import javax.swing.text.*;
-
+import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.GameEngine.Game;
 import DungeonoftheBrutalKing.Maps.DungeonLevel;
-import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.MusicPlayer;
 import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
+
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
+import java.text.ParseException;
 
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
@@ -27,7 +43,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
 
     private JFrame mainFrame;
-    private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel, originalPanel;
+    private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel;
+	private static JPanel originalPanel;
     private JTextField charNameClassLevelField, charXPHPGoldField;
     private JTextPane charStatsField, charStats2Field;
     private static JTextPane messageTextPane;
@@ -39,24 +56,24 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private TimeClock clock;
     private Canvas gameImagesAndCombatCanvas;
     public static JTextArea combatMessageArea = new JTextArea();
-    private JScrollPane combatMessageScrollPane;
+    private static JScrollPane combatMessageScrollPane;
 
     private JMenu gameMenu, characterMenu, settingsMenu, helpMenu;
     private JMenuItem newGameMenuItem, loadSavedGameMenuItem, saveMenuItem, exitGameMenuItem;
     private JMenuItem characterStatsMenuItem, characterInventoryMenuItem, displayActiveQuestsMenuItem;
     private JMenuItem gameSettingsMenuItem, aboutMenuItem, helpMenuItem;
 
-    private Camera camera;
-    private JPanel renderPanel;
+    private static Camera camera;
+    private static JPanel renderPanel;
     private Game game;
-    private DungeonLevel currentDungeonLevel;
+    private static DungeonLevel currentDungeonLevel;
 
     private JMenu devToolsMenu;
     private JMenuItem devToolsMenuItem;
 
-    private double savedPlayerX;
-    private double savedPlayerY;
-    private int savedDungeonLevel;
+    private static double savedPlayerX;
+    private static double savedPlayerY;
+    private static int savedDungeonLevel;
 
     public static MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
         if (instance == null) {
@@ -605,7 +622,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         savedDungeonLevel = currentDungeonLevel.getCurrentDungeonLevel();
     }
 
-    public void restorePlayerPosition() {
+    public static void restorePlayerPosition() {
         if ((savedPlayerX != 0 || savedPlayerY != 0) &&
             !(Double.isNaN(savedPlayerX) || Double.isNaN(savedPlayerY))) {
             if (currentDungeonLevel.getCurrentDungeonLevel() != savedDungeonLevel) {

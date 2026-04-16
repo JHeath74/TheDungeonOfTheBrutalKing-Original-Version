@@ -1,10 +1,13 @@
 
-// src/Enemies/Ghoul.java
+// src/DungeonoftheBrutalKing/Enemies/Ghoul.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Ghoul extends Enemies {
     private int level;
@@ -24,17 +27,17 @@ public class Ghoul extends Enemies {
 
     public Ghoul(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Ghoul",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Ghoul.png",
-            false,
-            vitality
+                "Ghoul",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Ghoul.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -45,6 +48,15 @@ public class Ghoul extends Enemies {
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
         this.undead = true;
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
     }
 
     public int getLevel() { return level; }
@@ -61,11 +73,11 @@ public class Ghoul extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " slithers away and dodges the attack!");
+            appendMsg(getName() + " slithers away and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        if (isDead()) appendMsg(getName() + " has died.");
     }
 
     @Override
@@ -93,7 +105,7 @@ public class Ghoul extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -152,9 +164,9 @@ public class Ghoul extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

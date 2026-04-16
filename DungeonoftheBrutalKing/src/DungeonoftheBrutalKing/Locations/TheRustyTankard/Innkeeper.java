@@ -1,13 +1,12 @@
 
+// File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/Innkeeper.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.Random;
+import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
+import DungeonoftheBrutalKing.Status.StatusManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,131 +14,210 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.Status.StatusManager;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.Map;
 
 public class Innkeeper {
+    private static final int BOTTOM_BAR_HEIGHT = 80;
+
     private final Map<String, Integer> foodItems;
     private final Map<String, Integer> drinkItems;
+
     private final JPanel mainPanel;
+    private final MainGameScreen mainGameScreen;
+
     private final StatusManager statusManager = new StatusManager();
-    private final Charecter myChar = new Charecter();
-    private final MainGameScreen myMainGameScreen;
-    private final GameSettings myGameSettings = new GameSettings();
 
-    public Innkeeper(JPanel mainPanel, MainGameScreen myMainGameScreen) {
+    private final ImageIcon baseIcon;
+    private final JLabel imageLabel;
+
+    public Innkeeper(JPanel mainPanel, MainGameScreen mainGameScreen) {
         this.mainPanel = mainPanel;
-        this.myMainGameScreen = myMainGameScreen;
+        this.mainGameScreen = mainGameScreen;
 
-        foodItems = Map.of(
-            "Bread", 5,
-            "Meat", 10,
-            "Cheese", 7,
-            "Soup", 8,
-            "Fruit", 4,
-            "Vegetables", 6
+        this.foodItems = Map.of(
+                "Bread", 5,
+                "Meat", 10,
+                "Cheese", 7,
+                "Soup", 8,
+                "Fruit", 4,
+                "Vegetables", 6
         );
 
-        drinkItems = Map.of(
-            "Water", 3,
-            "Ale", 5,
-            "Wine", 12,
-            "Juice", 6,
-            "Milk", 4,
-            "Tea", 5
+        this.drinkItems = Map.of(
+                "Water", 3,
+                "Ale", 5,
+                "Wine", 12,
+                "Juice", 6,
+                "Milk", 4,
+                "Tea", 5
         );
+
+        this.baseIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
+        this.imageLabel = new JLabel();
+        this.imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         setupUI();
     }
 
     public void setupUI() {
+        if (mainPanel == null) return;
+
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
 
-        ImageIcon originalIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
-        Image scaledImage = originalIcon.getImage().getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        JLabel imageLabel = new JLabel(scaledIcon);
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(imageLabel, BorderLayout.NORTH);
+        mainPanel.add(imageLabel, BorderLayout.CENTER);
+
+        Runnable refreshImage = this::refreshScaledImage;
+        mainPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                refreshImage.run();
+            }
+        });
+        SwingUtilities.invokeLater(refreshImage);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         JButton foodButton = new JButton("Buy Food");
         JButton drinkButton = new JButton("Buy Drink");
         JButton exitButton = new JButton("Exit");
 
-        foodButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handlePurchase(foodItems, "Food");
-            }
-        });
-
-        drinkButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                handlePurchase(drinkItems, "Drink");
-            }
-        });
-
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new TheRustyTankard(mainPanel, myMainGameScreen);
-            }
-        });
+        foodButton.addActionListener(_ -> handlePurchase(foodItems, ItemType.FOOD));
+        drinkButton.addActionListener(_ -> handlePurchase(drinkItems, ItemType.DRINK));
+        exitButton.addActionListener(_ -> exitToRustyTankard());
 
         buttonPanel.add(foodButton);
         buttonPanel.add(drinkButton);
         buttonPanel.add(exitButton);
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
-    private void handlePurchase(Map<String, Integer> items, String type) {
+    private void refreshScaledImage() {
+        if (mainPanel == null) return;
+
+        int w = Math.max(1, mainPanel.getWidth());
+        int h = Math.max(1, mainPanel.getHeight());
+
+        int targetW = w;
+        int targetH = Math.max(1, h - BOTTOM_BAR_HEIGHT);
+
+        Image scaled = baseIcon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(scaled));
+
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
+    private void handlePurchase(Map<String, Integer> items, ItemType type) {
         if (items == null || items.isEmpty()) {
-            myMainGameScreen.setMessageTextPane("No " + type + " items are available for purchase.\n");
+            uiSafely(() -> mainGameScreen.setMessageTextPane("No " + type.label + " items are available for purchase.\n"));
             return;
         }
 
         Object[] itemArray = items.keySet().toArray();
         if (itemArray.length == 0) {
-            myMainGameScreen.setMessageTextPane("No " + type + " items are available for purchase.\n");
+            uiSafely(() -> mainGameScreen.setMessageTextPane("No " + type.label + " items are available for purchase.\n"));
             return;
         }
 
         String selectedItem = (String) JOptionPane.showInputDialog(
-            null,
-            "Select a " + type + " to buy:",
-            "Buy " + type,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            itemArray,
-            itemArray[0]
+                null,
+                "Select a " + type.label + " to buy:",
+                "Buy " + type.label,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                itemArray,
+                itemArray[0]
         );
 
-        if (selectedItem != null) {
-            int cost = items.get(selectedItem);
-            if (myChar.removeGold(cost)) {
-                myMainGameScreen.setMessageTextPane("You bought " + selectedItem + " for " + cost + " silver.\n");
-                if (type.equals("Food")) {
-                    statusManager.removeStatusByName("Hunger", myChar);
-                    myChar.setFood(myChar.getFood() + 1);
-                } else if (type.equals("Drink")) {
-                    myChar.setWater(myChar.getWater() + 1);
-                }
-                if (new Random().nextBoolean()) {
-                    myChar.addToInventory(selectedItem);
-                    myMainGameScreen.setMessageTextPane(selectedItem + " was added to your inventory.\n");
-                }
-            } else {
-                myMainGameScreen.setMessageTextPane("You don't have enough silver to buy " + selectedItem + ".\n");
+        if (selectedItem == null) return;
+
+        Integer costObj = items.get(selectedItem);
+        int cost = costObj != null ? costObj : 0;
+
+        Charecter player;
+        try {
+            player = Charecter.getInstance();
+        } catch (RuntimeException ex) {
+            return;
+        }
+        if (player == null) return;
+
+        if (player.removeGold(cost)) {
+            uiSafely(() -> mainGameScreen.setMessageTextPane(
+                    "You bought " + selectedItem + " for " + cost + " silver.\n"
+            ));
+
+            if (type == ItemType.FOOD) {
+                statusManager.removeStatusByName("Hunger", player);
+                player.setFood(player.getFood() + 1);
+            } else if (type == ItemType.DRINK) {
+                player.setWater(player.getWater() + 1);
             }
+
+            boolean addToInventory = RandomFactory.gameplayInt(2) == 1;
+            if (addToInventory) {
+                player.addToInventory(selectedItem);
+                uiSafely(() -> mainGameScreen.setMessageTextPane(
+                        selectedItem + " was added to your inventory.\n"
+                ));
+            }
+        } else {
+            uiSafely(() -> mainGameScreen.setMessageTextPane(
+                    "You don't have enough silver to buy " + selectedItem + ".\n"
+            ));
+        }
+    }
+
+    private void exitToRustyTankard() {
+        if (mainGameScreen == null) return;
+
+        JPanel fallback = mainPanel != null ? mainPanel : new JPanel();
+        JPanel targetPanel;
+
+        try {
+            targetPanel = new TheRustyTankard(fallback, mainGameScreen).getMainPanel();
+        } catch (RuntimeException ex) {
+            targetPanel = fallback;
+        }
+
+        JPanel finalTarget = targetPanel != null ? targetPanel : fallback;
+        uiSafely(() -> mainGameScreen.replaceWithAnyPanel(finalTarget));
+    }
+
+    private void uiSafely(UiAction action) {
+        if (mainGameScreen == null || action == null) return;
+        try {
+            action.run();
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // Keep UI flow running even if messaging/navigation fails.
+        }
+    }
+
+    @FunctionalInterface
+    private interface UiAction {
+        void run() throws IOException, InterruptedException, ParseException;
+    }
+
+    private enum ItemType {
+        FOOD("Food"),
+        DRINK("Drink");
+
+        final String label;
+
+        ItemType(String label) {
+            this.label = label;
         }
     }
 }

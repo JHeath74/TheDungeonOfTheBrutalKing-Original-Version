@@ -1,24 +1,28 @@
 
-// src/Enemies/Assassin.java
+// File: `src/DungeonoftheBrutalKing/Enemies/Assassin.java`
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
+import java.io.IOException;
+import java.text.ParseException;
+
 public class Assassin extends Enemies {
     private int level;
+
     private final int strength;
     private final int charisma;
     private final int agility;
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-    private int hitPoints;
+
     private final Alignment alignment = Alignment.EVIL;
 
     public Assassin() {
-        this(randomLevel(), 8, 5, 12, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 12, 6, 3, 6);
     }
 
     public Assassin(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -32,7 +36,8 @@ public class Assassin extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Assassin.png",
-            false, vitality
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -41,7 +46,6 @@ public class Assassin extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -51,30 +55,30 @@ public class Assassin extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
-        int dodgeChance = 20;
+        int dodgeChance = 20; // percent
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
+            appendMessageSafely(getName() + " dodged the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, blade stilled.");
+
+        super.takeDamage(defend(damage));
+
+        if (isDead()) {
+            appendMessageSafely(getName() + " falls, blade stilled.");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override
@@ -89,8 +93,9 @@ public class Assassin extends Enemies {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
+
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        appendMessageSafely(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -132,25 +137,32 @@ public class Assassin extends Enemies {
     }
 
     @Override
-    public String toString() {
-        return "Assassin{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+    public String getClassName() {
+        return getName();
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private void appendMessageSafely(String message) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(message);
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // UI unavailable; keep game logic running.
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Assassin{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
+    }
 }

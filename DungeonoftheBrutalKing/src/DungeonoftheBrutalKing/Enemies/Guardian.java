@@ -1,10 +1,13 @@
 
-// src/Enemies/Guardian.java
+// src/DungeonoftheBrutalKing/Enemies/Guardian.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Guardian extends Enemies {
     private int level;
@@ -18,22 +21,22 @@ public class Guardian extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Guardian() {
-        this(randomLevel(), 10, 9, 8, 8, 10, 9); // Example default stats
+        this(randomLevel(), 10, 9, 8, 8, 10, 9);
     }
 
     public Guardian(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Guardian",
-            level,
-            (level * 6) + (vitality * 8),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Guardian.png",
-            false,
-            vitality
+                "Guardian",
+                level,
+                (level * 6) + (vitality * 8),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Guardian.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -43,6 +46,17 @@ public class Guardian extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 6) + (vitality * 8);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     public int getLevel() { return level; }
@@ -59,11 +73,11 @@ public class Guardian extends Enemies {
     public void takeDamage(int damage) {
         int blockChance = 15;
         if (Math.random() * 100 < blockChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a radiant shield!");
+            appendMsg(getName() + " blocks the attack with a radiant shield!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, shield unyielding.");
+        if (isDead()) appendMsg(getName() + " falls, shield unyielding.");
     }
 
     @Override
@@ -91,7 +105,7 @@ public class Guardian extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " guards fiercely, reducing damage to " + reducedDamage + ".");
+        appendMsg(getName() + " guards fiercely, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -118,7 +132,7 @@ public class Guardian extends Enemies {
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 3); // Example: Guardian is high-level
+        return 7 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -149,9 +163,8 @@ public class Guardian extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Guardian";
+    }
 }

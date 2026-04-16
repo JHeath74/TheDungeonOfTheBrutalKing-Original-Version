@@ -1,10 +1,13 @@
 
-// src/Enemies/Guard.java
+// src/DungeonoftheBrutalKing/Enemies/Guard.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Guard extends Enemies {
     private int level;
@@ -18,22 +21,22 @@ public class Guard extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Guard() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Guard(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Guard",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Guard.png",
-            false,
-            vitality
+                "Guard",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Guard.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -43,6 +46,23 @@ public class Guard extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+        setMagicUser(false);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    @Override
+    public String getClassName() {
+        return "Guard";
     }
 
     public int getLevel() { return level; }
@@ -59,18 +79,18 @@ public class Guard extends Enemies {
     public void takeDamage(int damage) {
         int blockChance = 10;
         if (Math.random() * 100 < blockChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a sturdy shield!");
+            appendMsg(getName() + " blocks the attack with a sturdy shield!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        if (isDead()) {
+            appendMsg(getName() + " has died.");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -91,7 +111,7 @@ public class Guard extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -118,7 +138,7 @@ public class Guard extends Enemies {
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 3); // Example: Guard is mid-level
+        return 5 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -148,10 +168,4 @@ public class Guard extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -10,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
@@ -20,6 +22,7 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
+
     private boolean completed = false;
     private JPanel originalPanel;
 
@@ -33,11 +36,11 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
 
         // Store the original panel and replace with quest panel
         originalPanel = MainGameScreen.getInstance().getGameImagesAndCombatPanel();
-        MainGameScreen.replaceWithAnyPanel(this);
+        MainGameScreen.getInstance().replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Guide the Lost Soul</b><br>"
-            + "A confused spirit lingers, unable to find peace. Will you help it find its way to the afterlife?</center></html>",
+                + "A confused spirit lingers, unable to find peace. Will you help it find its way to the afterlife?</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
@@ -53,7 +56,6 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
 
         choicePanel.add(helpButton);
         choicePanel.add(ignoreButton);
-
         add(choicePanel, BorderLayout.SOUTH);
 
         helpButton.addActionListener(e -> {
@@ -66,7 +68,18 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             helpButton.setEnabled(false);
             ignoreButton.setEnabled(false);
         });
@@ -81,7 +94,18 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
             } catch (IOException | InterruptedException | ParseException e1) {
                 e1.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             helpButton.setEnabled(false);
             ignoreButton.setEnabled(false);
         });
@@ -111,9 +135,9 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     }
 
     @Override
-    public void completeQuest() {
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
         completed = true;
-        MainGameScreen.replaceWithAnyPanel(originalPanel);
+        MainGameScreen.getInstance().replaceWithAnyPanel(originalPanel);
     }
 
     @Override
@@ -121,9 +145,8 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
         return "QuestGuideTheLostSoul:" + (completed ? "completed" : "not_completed");
     }
 
-	@Override
-	public QuestType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public QuestType getType() {
+        return category;
+    }
 }

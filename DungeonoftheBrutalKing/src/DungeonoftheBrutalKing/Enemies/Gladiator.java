@@ -1,10 +1,13 @@
 
-// src/Enemies/Gladiator.java
+// src/DungeonoftheBrutalKing/Enemies/Gladiator.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Gladiator extends Enemies {
     private int level;
@@ -48,6 +51,15 @@ public class Gladiator extends Enemies {
         setMagicUser(false);
     }
 
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
+    }
+
     @Override
     public String getClassName() {
         return "Gladiator";
@@ -67,11 +79,11 @@ public class Gladiator extends Enemies {
     public void takeDamage(int damage) {
         int blockChance = 12;
         if (Math.random() * 100 < blockChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " parries the attack with expert skill!");
+            appendMsg(getName() + " parries the attack with expert skill!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has fallen in the arena.");
+        if (isDead()) appendMsg(getName() + " has fallen in the arena.");
     }
 
     @Override
@@ -97,7 +109,7 @@ public class Gladiator extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends with a shield, reducing damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends with a shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 

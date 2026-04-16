@@ -1,12 +1,15 @@
 
-// src/Enemies/Ice_Demon.java
+// src/DungeonoftheBrutalKing/Enemies/Ice_Demon.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.Status.IceStatus;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Ice_Demon extends Enemies {
     private int level;
@@ -20,22 +23,22 @@ public class Ice_Demon extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Ice_Demon() {
-        this(randomLevel(), 9, 6, 8, 7, 4, 7); // Example default stats
+        this(randomLevel(), 9, 6, 8, 7, 4, 7);
     }
 
     public Ice_Demon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Ice Demon",
-            level,
-            (level * 6) + (vitality * 8),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Ice_Demon.png",
-            false,
-            vitality
+                "Ice Demon",
+                level,
+                (level * 6) + (vitality * 8),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Ice_Demon.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -45,6 +48,15 @@ public class Ice_Demon extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 6) + (vitality * 8);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
     }
 
     public int getLevel() { return level; }
@@ -61,11 +73,11 @@ public class Ice_Demon extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 13;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " freezes the air and dodges the attack!");
+            appendMsg(getName() + " freezes the air and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " shatters into icy shards.");
+        if (isDead()) appendMsg(getName() + " shatters into icy shards.");
     }
 
     @Override
@@ -90,7 +102,7 @@ public class Ice_Demon extends Enemies {
     public int attack(Charecter target) {
         int baseAttack = attack();
         if (Math.random() < 0.25) {
-            MainGameScreen.appendToMessageTextPane(getName() + " unleashes a freezing blast! The target is frozen!");
+            appendMsg(getName() + " unleashes a freezing blast! The target is frozen!");
             target.addStatus(new IceStatus());
         }
         return baseAttack;
@@ -102,7 +114,7 @@ public class Ice_Demon extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends with icy armor, reducing damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends with icy armor, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -129,7 +141,7 @@ public class Ice_Demon extends Enemies {
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 3); // Example: Ice Demon is mid-high level
+        return 6 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -160,9 +172,8 @@ public class Ice_Demon extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Ice Demon";
+    }
 }

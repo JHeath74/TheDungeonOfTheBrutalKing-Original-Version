@@ -1,10 +1,13 @@
 
-// src/Enemies/Imp.java
+// src/DungeonoftheBrutalKing/Enemies/Imp.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Imp extends Enemies {
     private int level;
@@ -18,22 +21,22 @@ public class Imp extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Imp() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Imp(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Imp",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Imp.png",
-            false,
-            vitality
+                "Imp",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Imp.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -43,6 +46,17 @@ public class Imp extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     public int getLevel() { return level; }
@@ -59,11 +73,11 @@ public class Imp extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " vanishes in a puff of smoke and dodges the attack!");
+            appendMsg(getName() + " vanishes in a puff of smoke and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        if (isDead()) appendMsg(getName() + " has died.");
     }
 
     @Override
@@ -91,7 +105,7 @@ public class Imp extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -118,7 +132,7 @@ public class Imp extends Enemies {
     }
 
     private static int randomLevel() {
-        return 4 + (int) (Math.random() * 2); // Example: Imp is low-mid level
+        return 4 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -149,9 +163,8 @@ public class Imp extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Imp";
+    }
 }

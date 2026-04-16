@@ -1,24 +1,29 @@
 
-// src/Enemies/Custodian.java
+// File: `src/DungeonoftheBrutalKing/Enemies/Custodian.java`
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Custodian extends Enemies {
     private int level;
+
     private final int strength;
     private final int charisma;
     private final int agility;
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-    private int hitPoints;
+
     private final Alignment alignment = Alignment.GOOD;
 
     public Custodian() {
-        this(randomLevel(), 9, 8, 7, 9, 8, 8); // Example default stats
+        this(randomLevel(), 9, 8, 7, 9, 8, 8);
     }
 
     public Custodian(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -32,7 +37,8 @@ public class Custodian extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Custodian.png",
-            false, vitality
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -41,7 +47,6 @@ public class Custodian extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -51,35 +56,36 @@ public class Custodian extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
-        int blockChance = 15;
-        if (Math.random() * 100 < blockChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with unwavering resolve!");
+        int blockChancePercent = 15;
+        if (RandomFactory.gameplayDouble() * 100 < blockChancePercent) {
+            appendMessageSafely(getName() + " blocks the attack with unwavering resolve!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, guardianship ended.");
+
+        int mitigated = defend(damage);
+        super.takeDamage(mitigated);
+
+        if (isDead()) {
+            appendMessageSafely(getName() + " falls, guardianship ended.");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override
     public int attack() {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getIntelligence() * 1.2));
         return critical ? base * 2 : base;
     }
@@ -89,8 +95,9 @@ public class Custodian extends Enemies {
         int baseDefense = 16;
         int reductionPercent = (baseDefense + getIntelligence()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
+
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " stands vigilant, reducing damage to " + reducedDamage + ".");
+        appendMessageSafely(getName() + " stands vigilant, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -105,24 +112,24 @@ public class Custodian extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 3); // Example: Custodian is higher level
+        return 6 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -132,25 +139,32 @@ public class Custodian extends Enemies {
     }
 
     @Override
-    public String toString() {
-        return "Custodian{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+    public String getClassName() {
+        return getName();
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    private void appendMessageSafely(String message) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(message);
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // UI unavailable; keep combat logic running.
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Custodian{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
+    }
 }

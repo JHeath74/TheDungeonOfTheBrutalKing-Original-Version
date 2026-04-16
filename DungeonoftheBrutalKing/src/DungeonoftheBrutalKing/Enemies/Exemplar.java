@@ -1,10 +1,13 @@
 
-// src/Enemies/Exemplar.java
+// src/DungeonoftheBrutalKing/Enemies/Exemplar.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Exemplar extends Enemies {
     private int level;
@@ -18,22 +21,22 @@ public class Exemplar extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Exemplar() {
-        this(randomLevel(), 9, 8, 7, 7, 9, 8); // Example default stats
+        this(randomLevel(), 9, 8, 7, 7, 9, 8);
     }
 
     public Exemplar(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Exemplar",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Exemplar.png",
-            false,
-            vitality
+                "Exemplar",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Exemplar.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -43,6 +46,15 @@ public class Exemplar extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
     }
 
     public int getLevel() { return level; }
@@ -59,18 +71,16 @@ public class Exemplar extends Enemies {
     public void takeDamage(int damage) {
         int blockChance = 15;
         if (Math.random() * 100 < blockChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with unwavering virtue!");
+            appendMsg(getName() + " blocks the attack with unwavering virtue!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, ideal shattered.");
+        if (isDead()) appendMsg(getName() + " falls, ideal shattered.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -91,7 +101,7 @@ public class Exemplar extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " sets the standard, reducing damage to " + reducedDamage + ".");
+        appendMsg(getName() + " sets the standard, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -118,7 +128,7 @@ public class Exemplar extends Enemies {
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 3); // Example: Exemplar is higher level
+        return 6 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -149,9 +159,8 @@ public class Exemplar extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return null;
+    }
 }

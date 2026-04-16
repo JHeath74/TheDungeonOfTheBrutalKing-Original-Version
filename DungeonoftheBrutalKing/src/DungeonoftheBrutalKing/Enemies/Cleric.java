@@ -1,24 +1,28 @@
 
-// src/Enemies/Cleric.java
+// File: `src/DungeonoftheBrutalKing/Enemies/Cleric.java`
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Cleric extends Enemies {
     private int level;
+
     private final int strength;
     private final int charisma;
     private final int agility;
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-    private int hitPoints;
+
     private final Alignment alignment = Alignment.GOOD;
 
     public Cleric() {
-        this(randomLevel(), 6, 8, 6, 8, 10, 7); // Default stats
+        this(randomLevel(), 6, 8, 6, 8, 10, 7);
     }
 
     public Cleric(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -32,7 +36,8 @@ public class Cleric extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Cleric.png",
-            true, vitality
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -41,7 +46,6 @@ public class Cleric extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -51,30 +55,30 @@ public class Cleric extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, prayers unanswered.");
+        int mitigated = defend(damage);
+        super.takeDamage(mitigated);
+
+        if (isDead()) {
+            appendMessageSafely(getName() + " falls, prayers unanswered.");
+        }
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override
@@ -82,12 +86,14 @@ public class Cleric extends Enemies {
         return (int) ((getStrength() * 1.1) + (getWisdom() * 1.7) + getSpellStrength());
     }
 
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
+
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " invokes divine protection, reducing damage to " + reducedDamage + ".");
+        appendMessageSafely(getName() + " invokes divine protection, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -99,19 +105,19 @@ public class Cleric extends Enemies {
     @Override
     public String toString() {
         return "Cleric{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 
     @Override
@@ -143,9 +149,16 @@ public class Cleric extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
+
+    private void appendMessageSafely(String message) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(message);
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // UI unavailable; keep combat logic running.
+        }
+    }
 }

@@ -1,10 +1,13 @@
 
-// src/Enemies/Gremlin.java
+// src/DungeonoftheBrutalKing/Enemies/Gremlin.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Gremlin extends Enemies {
     private int level;
@@ -18,22 +21,22 @@ public class Gremlin extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Gremlin() {
-        this(randomLevel(), 7, 6, 8, 7, 4, 5); // Example default stats
+        this(randomLevel(), 7, 6, 8, 7, 4, 5);
     }
 
     public Gremlin(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Gremlin",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Gremlin.png",
-            false,
-            vitality
+                "Gremlin",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Gremlin.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -43,6 +46,15 @@ public class Gremlin extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+    }
+
+    private void appendMsg(String msg) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(msg);
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+        }
     }
 
     public int getLevel() { return level; }
@@ -59,11 +71,11 @@ public class Gremlin extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 13;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " slips away and dodges the attack!");
+            appendMsg(getName() + " slips away and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        if (isDead()) appendMsg(getName() + " has died.");
     }
 
     @Override
@@ -91,7 +103,7 @@ public class Gremlin extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -149,9 +161,8 @@ public class Gremlin extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Gremlin";
+    }
 }

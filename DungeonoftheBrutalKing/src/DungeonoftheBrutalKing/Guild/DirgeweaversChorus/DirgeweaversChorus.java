@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus;
 
 import java.awt.BorderLayout;
@@ -11,7 +12,6 @@ import javax.swing.*;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Spells.SpellFactory;
 import DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells.DirgeweaversChorusGuildSpellsManager;
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -52,7 +52,7 @@ public class DirgeweaversChorus extends JPanel {
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
-                    new String[] { "Join", "Stay/Leave" },
+                    new String[]{"Join", "Stay/Leave"},
                     "Join"
             );
             if (choice == JOptionPane.YES_OPTION) {
@@ -80,7 +80,7 @@ public class DirgeweaversChorus extends JPanel {
 
         if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
-            joinGuildButton.addActionListener(e -> {
+            joinGuildButton.addActionListener(_ -> {
                 Charecter ch = Charecter.getInstance();
                 if (!isEvil(ch.getAlignment())) {
                     JOptionPane.showMessageDialog(this, "You are not evil (`alignment < 0`). The Dirgeweavers Chorus rejects you.");
@@ -89,7 +89,12 @@ public class DirgeweaversChorus extends JPanel {
                 this.isMember = true;
                 ch.addToInventory("Dirgeweavers Chorus Guild Ring");
                 JOptionPane.showMessageDialog(this, "You have joined the Dirgeweavers Chorus!");
-                try { reloadPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+                try {
+                    reloadPanel();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
+                    if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+                }
             });
             buttonPanel.add(joinGuildButton);
         } else {
@@ -108,33 +113,55 @@ public class DirgeweaversChorus extends JPanel {
         buttonPanel.add(exitRoomButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        buySpellsButton.addActionListener(e -> {
+        buySpellsButton.addActionListener(_ -> {
             try {
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
-                DungeonoftheBrutalKing.Spells.SpellsManager sm = new  DungeonoftheBrutalKing.Spells.SpellsManager();
-                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(),  DungeonoftheBrutalKing.SharedData.Guild.DIRGEWEAVERS_CHORUS, sm);
+                DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
+                GuildSpellsDialog dlg = new GuildSpellsDialog(
+                        (Frame) owner,
+                        Charecter.getInstance(),
+                        DungeonoftheBrutalKing.SharedData.Guild.DIRGEWEAVERS_CHORUS,
+                        sm
+                );
                 dlg.setVisible(true);
             } catch (Exception ex) {
                 buyGuildSpell();
             }
         });
 
-        weaveDirgeButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You weave a haunting dirge, empowering your allies and cursing your foes! (Dirgeweavers Chorus exclusive service)"));
+        weaveDirgeButton.addActionListener(_ ->
+                JOptionPane.showMessageDialog(
+                        this,
+                        "You weave a haunting dirge, empowering your allies and cursing your foes! (Dirgeweavers Chorus exclusive service)"
+                )
+        );
 
-        sellItemsButton.addActionListener(e -> openShopRoom());
-        enterStorageButton.addActionListener(e -> openStorageRoom());
-        sleepBedButton.addActionListener(e -> openSleepRoom());
-        innButton.addActionListener(e -> openInnRoom());
-        healerButton.addActionListener(e -> openHealerRoom());
+        sellItemsButton.addActionListener(_ -> openShopRoom());
+        enterStorageButton.addActionListener(_ -> openStorageRoom());
+        sleepBedButton.addActionListener(_ -> openSleepRoom());
+        innButton.addActionListener(_ -> openInnRoom());
+        healerButton.addActionListener(_ -> openHealerRoom());
 
-        exitRoomButton.addActionListener(e -> {
-            try { MainGameScreen.getInstance().restoreOriginalPanel(); } catch (Exception ex) { ex.printStackTrace(); }
+        // Exit fix: `MainGameScreen.restoreOriginalPanel()` is not available on your type, use `setMainPanel()`.
+        exitRoomButton.addActionListener(_ -> {
+            try {
+                MainGameScreen.getInstance().restoreOriginalPanel();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Unable to exit the room right now.\n" + ex.getClass().getSimpleName() + ": " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
+            }
         });
     }
 
     private void openStorageRoom() {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Guild Storage", true);
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/StorageRoom.jpg")));
         panel.add(imageLabel, BorderLayout.NORTH);
 
@@ -151,7 +178,7 @@ public class DirgeweaversChorus extends JPanel {
         JButton takeBtn = new JButton("Take from Storage");
         JButton leaveBtn = new JButton("Leave");
 
-        putBtn.addActionListener(e -> {
+        putBtn.addActionListener(_ -> {
             String sel = invList.getSelectedValue();
             if (sel != null) {
                 ch.getCharInventory().remove(sel);
@@ -160,7 +187,7 @@ public class DirgeweaversChorus extends JPanel {
                 storageModel.addElement(sel);
             }
         });
-        takeBtn.addActionListener(e -> {
+        takeBtn.addActionListener(_ -> {
             String sel = storageList.getSelectedValue();
             if (sel != null) {
                 ch.getGuildStorage().remove(sel);
@@ -169,14 +196,17 @@ public class DirgeweaversChorus extends JPanel {
                 invModel.addElement(sel);
             }
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(putBtn); btns.add(takeBtn); btns.add(leaveBtn);
+        btns.add(putBtn);
+        btns.add(takeBtn);
+        btns.add(leaveBtn);
 
-        JPanel listsPanel = new JPanel(new GridLayout(1,2,8,8));
+        JPanel listsPanel = new JPanel(new GridLayout(1, 2, 8, 8));
         listsPanel.add(new JScrollPane(invList));
         listsPanel.add(new JScrollPane(storageList));
+
         panel.add(new JLabel("Inventory (left) / Storage (right)"), BorderLayout.CENTER);
         panel.add(listsPanel, BorderLayout.CENTER);
         panel.add(btns, BorderLayout.SOUTH);
@@ -189,7 +219,7 @@ public class DirgeweaversChorus extends JPanel {
 
     private void openShopRoom() {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Guild Shop", true);
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/ShopRoom.jpg")));
         panel.add(imageLabel, BorderLayout.NORTH);
 
@@ -202,7 +232,7 @@ public class DirgeweaversChorus extends JPanel {
         JButton buyBtn = new JButton("Buy Guild Gear");
         JButton leaveBtn = new JButton("Leave");
 
-        sellBtn.addActionListener(e -> {
+        sellBtn.addActionListener(_ -> {
             String sel = invList.getSelectedValue();
             if (sel != null) {
                 ch.getCharInventory().remove(sel);
@@ -211,10 +241,17 @@ public class DirgeweaversChorus extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Sold " + sel + " for 50 gold.");
             }
         });
-        buyBtn.addActionListener(e -> {
+        buyBtn.addActionListener(_ -> {
             String[] gear = {"Bardic Armour", "Dirgeweaver's Lute"};
-            String sel = (String) JOptionPane.showInputDialog(dialog, "Buy which item?", "Buy Guild Gear",
-                    JOptionPane.PLAIN_MESSAGE, null, gear, gear[0]);
+            String sel = (String) JOptionPane.showInputDialog(
+                    dialog,
+                    "Buy which item?",
+                    "Buy Guild Gear",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    gear,
+                    gear[0]
+            );
             if (sel != null && ch.getGold() >= 200) {
                 ch.getCharInventory().add(sel);
                 ch.setGold(ch.getGold() - 200);
@@ -223,10 +260,12 @@ public class DirgeweaversChorus extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Not enough gold.");
             }
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(sellBtn); btns.add(buyBtn); btns.add(leaveBtn);
+        btns.add(sellBtn);
+        btns.add(buyBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("Your Inventory:"), BorderLayout.CENTER);
         panel.add(new JScrollPane(invList), BorderLayout.CENTER);
@@ -240,22 +279,23 @@ public class DirgeweaversChorus extends JPanel {
 
     private void openSleepRoom() {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Bedchamber", true);
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/BedChamber.jpg")));
         panel.add(imageLabel, BorderLayout.NORTH);
 
         JButton sleepBtn = new JButton("Sleep");
         JButton leaveBtn = new JButton("Leave");
 
-        sleepBtn.addActionListener(e -> {
+        sleepBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             ch.restoreHitPoints(ch.getMaxHitPoints());
             JOptionPane.showMessageDialog(dialog, "You sleep and feel fully restored.");
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(sleepBtn); btns.add(leaveBtn);
+        btns.add(sleepBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("A shadowy bed awaits you."), BorderLayout.CENTER);
         panel.add(btns, BorderLayout.SOUTH);
@@ -268,7 +308,7 @@ public class DirgeweaversChorus extends JPanel {
 
     private void openInnRoom() {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Dirgeweaver's Inn", true);
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/InnRoom.jpg")));
         panel.add(imageLabel, BorderLayout.NORTH);
 
@@ -278,7 +318,7 @@ public class DirgeweaversChorus extends JPanel {
         JButton drinkBtn = new JButton("Drink");
         JButton leaveBtn = new JButton("Leave");
 
-        buyFoodBtn.addActionListener(e -> {
+        buyFoodBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getGold() >= 20) {
                 ch.setGold(ch.getGold() - 20);
@@ -288,7 +328,7 @@ public class DirgeweaversChorus extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Not enough gold.");
             }
         });
-        buyDrinkBtn.addActionListener(e -> {
+        buyDrinkBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getGold() >= 10) {
                 ch.setGold(ch.getGold() - 10);
@@ -298,7 +338,7 @@ public class DirgeweaversChorus extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "Not enough gold.");
             }
         });
-        eatBtn.addActionListener(e -> {
+        eatBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getCharInventory().remove("Food")) {
                 ch.setHungerLevel(0);
@@ -307,7 +347,7 @@ public class DirgeweaversChorus extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "No food in inventory.");
             }
         });
-        drinkBtn.addActionListener(e -> {
+        drinkBtn.addActionListener(_ -> {
             Charecter ch = Charecter.getInstance();
             if (ch.getCharInventory().remove("Drink")) {
                 ch.setThirstLevel(0);
@@ -316,10 +356,14 @@ public class DirgeweaversChorus extends JPanel {
                 JOptionPane.showMessageDialog(dialog, "No drink in inventory.");
             }
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(buyFoodBtn); btns.add(buyDrinkBtn); btns.add(eatBtn); btns.add(drinkBtn); btns.add(leaveBtn);
+        btns.add(buyFoodBtn);
+        btns.add(buyDrinkBtn);
+        btns.add(eatBtn);
+        btns.add(drinkBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("Welcome to the Inn!"), BorderLayout.CENTER);
         panel.add(btns, BorderLayout.SOUTH);
@@ -332,21 +376,22 @@ public class DirgeweaversChorus extends JPanel {
 
     private void openHealerRoom() {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Healer", true);
-        JPanel panel = new JPanel(new BorderLayout(8,8));
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
         JLabel imageLabel = new JLabel(new ImageIcon(getClass().getResource("/DungeonoftheBrutalKing/Images/HealerRoom.jpg")));
         panel.add(imageLabel, BorderLayout.NORTH);
 
         JButton removeCurseBtn = new JButton("Remove Curses/Effects");
         JButton leaveBtn = new JButton("Leave");
 
-        removeCurseBtn.addActionListener(e -> {
+        removeCurseBtn.addActionListener(_ -> {
             removeCursesAndEffects();
             JOptionPane.showMessageDialog(dialog, "All curses and negative effects have been removed!");
         });
-        leaveBtn.addActionListener(e -> dialog.dispose());
+        leaveBtn.addActionListener(_ -> dialog.dispose());
 
         JPanel btns = new JPanel();
-        btns.add(removeCurseBtn); btns.add(leaveBtn);
+        btns.add(removeCurseBtn);
+        btns.add(leaveBtn);
 
         panel.add(new JLabel("The healer offers to cleanse you."), BorderLayout.CENTER);
         panel.add(btns, BorderLayout.SOUTH);
@@ -385,6 +430,7 @@ public class DirgeweaversChorus extends JPanel {
         }
         if (getGuildSpellsCount() >= maxSpells) {
             JOptionPane.showMessageDialog(this, "You cannot have more than " + maxSpells + " guild spells.");
+            return;
         }
         DirgeweaversChorusGuildSpellsManager manager = new DirgeweaversChorusGuildSpellsManager(Guild.DIRGEWEAVERS_CHORUS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
@@ -400,16 +446,16 @@ public class DirgeweaversChorus extends JPanel {
         }
         if (available.isEmpty()) {
             JOptionPane.showMessageDialog(this, "There are no new guild spells available to purchase right now.");
-            return;
         }
         // (Legacy dialog code omitted for brevity)
     }
 
     private void reloadPanel() throws IOException, InterruptedException, ParseException {
         removeAll();
+        setLayout(new BorderLayout());
+        add(new DirgeweaversChorus(isMember), BorderLayout.CENTER);
         revalidate();
         repaint();
-        add(new DirgeweaversChorus(isMember));
     }
 
     public String getDescription() { return description; }

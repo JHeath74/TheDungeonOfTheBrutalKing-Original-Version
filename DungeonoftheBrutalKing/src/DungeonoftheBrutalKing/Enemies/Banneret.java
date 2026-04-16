@@ -1,10 +1,13 @@
 
-// src/Enemies/Banneret.java
+// File: `src/DungeonoftheBrutalKing/Enemies/Banneret.java`
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Represents a Banneret enemy with good alignment and no magic abilities.
@@ -13,33 +16,27 @@ import DungeonoftheBrutalKing.MainGameScreen;
 public class Banneret extends Enemies {
 
     private int level;
-    private final int vitality; // Vitality stat used for hit points
+    private final int vitality;
     private final Alignment alignment = Alignment.GOOD;
     private final int alignmentImpact = -3;
 
-    /**
-     * Default constructor. Initializes Banneret with preset stats.
-     */
     public Banneret() {
-        this(8, 8, 9, 7, 7, 8, 7); // Default vitality = 7
+        this(8, 8, 9, 7, 7, 8, 7);
     }
 
-    /**
-     * Constructs a Banneret with specified stats.
-     * Hit points are determined by level and vitality only.
-     */
     public Banneret(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
             "Banneret",
             level,
-            (level * 5) + (vitality * 7), // HP uses only level and vitality
+            (level * 5) + (vitality * 7),
             strength,
             charisma,
             agility,
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Banneret.png",
-            false, vitality
+            false,
+            vitality
         );
         this.level = level;
         this.vitality = vitality;
@@ -47,14 +44,15 @@ public class Banneret extends Enemies {
 
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (getHitPoints() < 0) setHitPoints(0);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, banner lowered.");
+        super.takeDamage(damage);
+        if (isDead()) {
+            appendMessageSafely(getName() + " falls, banner lowered.");
+        }
     }
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override
@@ -62,13 +60,14 @@ public class Banneret extends Enemies {
         return (int) ((getStrength() * 1.2) + (getCharisma() * 1.5));
     }
 
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 12;
-        int charisma = getCharisma();
-        int reductionPercent = (baseDefense + charisma) / 2;
+        int reductionPercent = (baseDefense + getCharisma()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
+
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " rallies allies, reducing damage to " + reducedDamage + ".");
+        appendMessageSafely(getName() + " rallies allies, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -80,23 +79,28 @@ public class Banneret extends Enemies {
     @Override
     public String toString() {
         return "Banneret{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 
     public int getLevel() {
         return level;
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getVitality() {
@@ -127,9 +131,16 @@ public class Banneret extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
+
+    private void appendMessageSafely(String message) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(message);
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // UI unavailable; keep game logic running.
+        }
+    }
 }

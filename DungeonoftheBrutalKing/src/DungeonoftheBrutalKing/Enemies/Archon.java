@@ -1,9 +1,13 @@
-// src/Enemies/Archon.java
+
+// File: `src/DungeonoftheBrutalKing/Enemies/Archon.java`
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Archon extends Enemies {
     private int level;
@@ -16,7 +20,7 @@ public class Archon extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Archon() {
-        this(randomLevel(), 8, 8, 8, 9, 10, 9); // Default stats
+        this(randomLevel(), 8, 8, 8, 9, 10, 9);
     }
 
     public Archon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -40,7 +44,6 @@ public class Archon extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        // Hit points are now managed by the Enemies base class.
     }
 
     public int getLevel() { return level; }
@@ -55,20 +58,18 @@ public class Archon extends Enemies {
     public void takeDamage(int damage) {
         super.takeDamage(damage);
         if (isDead()) {
-            MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
+            appendMessageSafely(getName() + " falls, celestial light dims.");
         }
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -85,8 +86,9 @@ public class Archon extends Enemies {
         int baseDefense = 9;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
+
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
+        appendMessageSafely(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -98,19 +100,19 @@ public class Archon extends Enemies {
     @Override
     public String toString() {
         return "Archon{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 
     @Override
@@ -142,9 +144,16 @@ public class Archon extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
+
+    private void appendMessageSafely(String message) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(message);
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // UI unavailable; keep combat logic running.
+        }
+    }
 }

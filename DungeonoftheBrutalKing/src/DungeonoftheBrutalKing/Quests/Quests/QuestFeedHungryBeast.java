@@ -1,3 +1,5 @@
+
+// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestFeedHungryBeast.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -10,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
@@ -20,6 +23,7 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
+
     private boolean completed = false;
     private JPanel originalPanel;
 
@@ -33,11 +37,11 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
 
         // Store the original panel and replace with quest panel
         originalPanel = MainGameScreen.getInstance().getGameImagesAndCombatPanel();
-        MainGameScreen.replaceWithAnyPanel(this);
+        MainGameScreen.getInstance().replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Feed the Hungry Beast</b><br>"
-            + "A monstrous creature is starving but not hostile. Feed it instead of killing it.</center></html>",
+                + "A monstrous creature is starving but not hostile. Feed it instead of killing it.</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
@@ -53,7 +57,6 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
 
         choicePanel.add(feedButton);
         choicePanel.add(attackButton);
-
         add(choicePanel, BorderLayout.SOUTH);
 
         feedButton.addActionListener(e -> {
@@ -66,10 +69,21 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
                     MainGameScreen.getInstance().setMessageTextPane(
                         "You feed the beast. It devours the food gratefully. Your compassion increases your alignment."
                     );
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
                 }
-                completeQuest();
+                try {
+					completeQuest();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             } else {
                 int current = Charecter.getInstance().getAlignment();
                 Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
@@ -77,10 +91,21 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
                     MainGameScreen.getInstance().setMessageTextPane(
                         "You have no food. Forced to defend yourself, you attack and kill the beast. Your alignment decreases."
                     );
-                } catch (IOException | InterruptedException | ParseException e1) {
-                    e1.printStackTrace();
+                } catch (IOException | InterruptedException | ParseException ex) {
+                    ex.printStackTrace();
                 }
-                completeQuest();
+                try {
+					completeQuest();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             }
             feedButton.setEnabled(false);
             attackButton.setEnabled(false);
@@ -93,10 +118,21 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You attack and kill the beast. Your alignment decreases."
                 );
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
-            completeQuest();
+            try {
+				completeQuest();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             feedButton.setEnabled(false);
             attackButton.setEnabled(false);
         });
@@ -127,10 +163,10 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     }
 
     @Override
-    public void completeQuest() {
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
         completed = true;
         // Restore the original panel
-        MainGameScreen.replaceWithAnyPanel(originalPanel);
+        MainGameScreen.getInstance().replaceWithAnyPanel(originalPanel);
     }
 
     @Override
@@ -138,9 +174,8 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
         return "QuestFeedHungryBeast:" + (completed ? "completed" : "not_completed");
     }
 
-	@Override
-	public QuestType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public QuestType getType() {
+        return category;
+    }
 }

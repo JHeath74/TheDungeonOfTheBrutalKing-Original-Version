@@ -167,7 +167,7 @@ public class AuroraArcanum extends JPanel {
                 JOptionPane.showMessageDialog(this, "You rest in a comfortable bed and recover your strength."));
         exitRoomButton.addActionListener(evt -> {
             try {
-                MainGameScreen.getInstance().restoreOriginalPanel();
+                MainGameScreen.restoreOriginalPanel();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

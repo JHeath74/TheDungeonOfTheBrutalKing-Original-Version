@@ -1,24 +1,29 @@
-// src/Enemies/Ascendant.java
+
+// File: `src/DungeonoftheBrutalKing/Enemies/Ascendant.java`
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.RandomFactory;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class Ascendant extends Enemies {
     private int level;
+
     private final int strength;
     private final int charisma;
     private final int agility;
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-    private int hitPoints;
+
     private final Alignment alignment = Alignment.GOOD;
 
     public Ascendant() {
-        this(randomLevel(), 7, 14, 8, 13, 14, 8); // Default stats
+        this(randomLevel(), 7, 14, 8, 13, 14, 8);
     }
 
     public Ascendant(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -32,8 +37,10 @@ public class Ascendant extends Enemies {
             intelligence,
             wisdom,
             GameSettings.MonsterImagePath + "Ascendant.png",
-            true, vitality
+            true,
+            vitality
         );
+
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -41,7 +48,6 @@ public class Ascendant extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -51,30 +57,28 @@ public class Ascendant extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
-    public int getHitPoints() { return hitPoints; }
-    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
     public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, ascension interrupted.");
+        super.takeDamage(damage);
+        if (isDead()) {
+            appendMessageSafely(getName() + " falls, ascension interrupted.");
+        }
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return getHitPoints() <= 0;
+        return super.isDead();
     }
 
     @Override
@@ -86,8 +90,9 @@ public class Ascendant extends Enemies {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
+
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " manifests a radiant shield, reducing damage to " + reducedDamage + ".");
+        appendMessageSafely(getName() + " manifests a radiant shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -99,19 +104,19 @@ public class Ascendant extends Enemies {
     @Override
     public String toString() {
         return "Ascendant{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 
     @Override
@@ -143,8 +148,16 @@ public class Ascendant extends Enemies {
         return alignment;
     }
 
-    // Provide a simple class name for UI/diagnostics
+    @Override
     public String getClassName() {
-        return "Ascendant";
+        return getName();
+    }
+
+    private void appendMessageSafely(String message) {
+        try {
+            MainGameScreen.getInstance().appendToMessageTextPane(message);
+        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            // UI unavailable; keep combat logic running.
+        }
     }
 }
