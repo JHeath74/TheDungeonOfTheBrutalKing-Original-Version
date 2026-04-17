@@ -1,12 +1,12 @@
 
-// src/Enemies/Wizard.java
+// src/DungeonoftheBrutalKing/Enemies/Wizard.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Charecter;
-import DungeonoftheBrutalKing.Status.StunStatus; // Example status effect
+import DungeonoftheBrutalKing.Status.StunStatus;
 
 public class Wizard extends Enemies {
     private int level;
@@ -20,7 +20,7 @@ public class Wizard extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Wizard() {
-        this(randomLevel(), 4, 6, 5, 10, 8, 7); // Example default stats
+        this(randomLevel(), 4, 6, 5, 10, 8, 7);
     }
 
     public Wizard(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -57,22 +57,19 @@ public class Wizard extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " conjures a shield and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " conjures a shield and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " collapses, magic spent.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " collapses, magic spent.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 5);
     }
 
     @Override
@@ -80,17 +77,16 @@ public class Wizard extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Wizard attack applies stun status with 15% chance
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;
         boolean stunApplied = Math.random() < 0.15;
         if (stunApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " casts a stunning spell!");
-            target.addStatus(new StunStatus(2)); // Stun for 2-3 rounds
+            mainGameScreen.appendToMessageTextPane(getName() + " casts a stunning spell!");
+            target.addStatus(new StunStatus(2));
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
         return damage;
     }
@@ -100,17 +96,15 @@ public class Wizard extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " conjures a barrier, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " conjures a barrier, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -137,7 +131,7 @@ public class Wizard extends Enemies {
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 2); // Wizard is high-level
+        return 6 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -166,6 +160,11 @@ public class Wizard extends Enemies {
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 '}';
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Wizard");
+        return "Wizard";
     }
 
 	@Override

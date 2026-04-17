@@ -1,5 +1,5 @@
 
-// src/Enemies/Paladin.java
+// src/DungeonoftheBrutalKing/Enemies/Paladin.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Paladin extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Paladin() {
-        this(randomLevel(), 7, 8, 7, 8, 9, 8); // Default vitality = 8
+        this(randomLevel(), 7, 8, 7, 8, 9, 8);
     }
 
     public Paladin(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,9 +56,30 @@ public class Paladin extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, honor unbroken.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 10;
+        if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " parries with holy resolve and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, honor unbroken.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 8;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " raises shield of faith, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Paladin");
+        return "Paladin";
     }
 
     @Override
@@ -69,8 +90,6 @@ public class Paladin extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -81,15 +100,6 @@ public class Paladin extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.2) + (getWisdom() * 1.5) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 8;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " raises shield of faith, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override

@@ -1,5 +1,5 @@
 
-// src/Enemies/Vampire.java
+// src/DungeonoftheBrutalKing/Enemies/Vampire.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -37,7 +37,6 @@ public class Vampire extends Enemies {
                 true,
                 vitality
         );
-
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -46,13 +45,7 @@ public class Vampire extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 6) + (vitality * 5);
-
         setMagicUser(false);
-    }
-
-    @Override
-    public String getClassName() {
-        return "Vampire";
     }
 
     public int getLevel() { return level; }
@@ -65,15 +58,14 @@ public class Vampire extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 18;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " turns to mist and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " turns to mist and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " crumbles to dust.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " crumbles to dust.");
     }
 
     @Override
@@ -86,21 +78,19 @@ public class Vampire extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    @Override
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
 
         boolean drainApplied = Math.random() < 0.15;
         if (drainApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
+            mainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
             target.addStatus(new DrainStatus(2, 0.15, DrainStatus.DrainType.ACTION));
             setHitPoints(getHitPoints() + 3);
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
-
         return damage;
     }
 
@@ -109,17 +99,15 @@ public class Vampire extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -176,4 +164,15 @@ public class Vampire extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Vampire");
+        return "Vampire";
+    }
+
+	@Override
+	public String getClassName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

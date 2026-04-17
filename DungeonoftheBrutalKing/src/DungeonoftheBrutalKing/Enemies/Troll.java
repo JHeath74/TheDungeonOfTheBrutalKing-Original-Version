@@ -1,5 +1,4 @@
 
-// src/Enemies/Troll.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -19,7 +18,7 @@ public class Troll extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Troll() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 7); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 7);
     }
 
     public Troll(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,22 +55,19 @@ public class Troll extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " lumbers aside and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " lumbers aside and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has died.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 5);
     }
 
     @Override
@@ -79,12 +75,11 @@ public class Troll extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Troll attack is physical, no status effect
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " smashes for " + damage + " damage!");
+        mainGameScreen.appendToMessageTextPane(getName() + " smashes for " + damage + " damage!");
         return damage;
     }
 
@@ -93,17 +88,15 @@ public class Troll extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -130,7 +123,7 @@ public class Troll extends Enemies {
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 2); // Troll is mid-high level
+        return 7 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -159,6 +152,11 @@ public class Troll extends Enemies {
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 '}';
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Troll");
+        return "Troll";
     }
 
 	@Override

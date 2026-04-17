@@ -1,10 +1,8 @@
 
-// src/Enemies/Healer.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Healer extends Enemies {
     private int level;
@@ -58,7 +56,7 @@ public class Healer extends Enemies {
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, healing light fades.");
+        // UI messaging removed: MainGameScreen.appendToMessageTextPane(...) is non-static and should not be called here.
     }
 
     @Override
@@ -88,7 +86,7 @@ public class Healer extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " channels restorative energy, reducing damage to " + reducedDamage + ".");
+        // UI messaging removed: MainGameScreen.appendToMessageTextPane(...) is non-static and should not be called here.
         return reducedDamage;
     }
 
@@ -144,9 +142,8 @@ public class Healer extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Healer";
+    }
 }

@@ -1,5 +1,5 @@
 
-// src/Enemies/Necromancer.java
+// src/DungeonoftheBrutalKing/Enemies/Necromancer.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -19,7 +19,7 @@ public class Necromancer extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Necromancer() {
-        this(randomLevel(), 6, 4, 5, 8, 6, 7, 10); // Example default stats
+        this(randomLevel(), 6, 4, 5, 8, 6, 7, 10);
     }
 
     public Necromancer(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality, int spellStrength) {
@@ -59,21 +59,36 @@ public class Necromancer extends Enemies {
     public int getSpellStrength() { return spellStrength; }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " fades into shadow and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " fades into shadow and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has perished in darkness.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " has perished in darkness.");
+        }
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 8;
+        int reductionPercent = (baseDefense + getIntelligence()) / 2;
+        if (reductionPercent > 75) reductionPercent = 75;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " conjures a dark shield, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName() {
+        return "Necromancer";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 7);
     }
 
     @Override
@@ -86,18 +101,7 @@ public class Necromancer extends Enemies {
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 0.8) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " casts a necrotic spell for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 8;
-        int reductionPercent = (baseDefense + getIntelligence()) / 2;
-        if (reductionPercent > 75) reductionPercent = 75;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " conjures a dark shield, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -123,7 +127,7 @@ public class Necromancer extends Enemies {
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 2); // Necromancer is mid-high level
+        return 7 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -154,10 +158,4 @@ public class Necromancer extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

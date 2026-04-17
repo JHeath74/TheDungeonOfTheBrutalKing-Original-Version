@@ -1,5 +1,5 @@
 
-// src/Enemies/Virtuoso.java
+// src/DungeonoftheBrutalKing/Enemies/Virtuoso.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Virtuoso extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Virtuoso() {
-        this(randomLevel(), 6, 13, 8, 12, 13, 7); // Default stats
+        this(randomLevel(), 6, 13, 8, 12, 13, 7);
     }
 
     public Virtuoso(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -55,10 +55,9 @@ public class Virtuoso extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, the music fades.");
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, the music fades.");
     }
 
     @Override
@@ -69,8 +68,6 @@ public class Virtuoso extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -83,12 +80,12 @@ public class Virtuoso extends Enemies {
         return (int) ((getStrength() * 0.7) + (getWisdom() * 2.0) + getSpellStrength());
     }
 
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " plays a protective melody, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " plays a protective melody, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -142,6 +139,11 @@ public class Virtuoso extends Enemies {
     @Override
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Virtuoso");
+        return "Virtuoso";
     }
 
 	@Override

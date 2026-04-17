@@ -1,5 +1,5 @@
 
-// src/Enemies/Seraph.java
+// src/DungeonoftheBrutalKing/Enemies/Seraph.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.Alignment;
@@ -21,8 +21,6 @@ public class Seraph extends Enemies {
     }
 
     public Seraph(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
-        // Use only params/literals in super(...); don’t call instance methods here.
-        // NOTE: This assumes an Enemies constructor matching this signature exists in your project.
         super(
                 "Seraph",
                 level,
@@ -31,17 +29,14 @@ public class Seraph extends Enemies {
                 agility,
                 intelligence,
                 wisdom,
-                0,          // imagePath placeholder (adjust/remove to match Enemies ctor)
-                "",         // isMagicUser placeholder (adjust/remove to match Enemies ctor)
-                false,      // undead flag literal (no instance method call in ctor chaining)
+                0,
+                "",
+                false,
                 vitality
         );
-
         try {
             super.setMagicUser(true);
-        } catch (Throwable ignored) {
-        }
-
+        } catch (Throwable ignored) {}
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -62,10 +57,23 @@ public class Seraph extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Seraph");
+        return "Seraph";
     }
 
     @Override
@@ -86,15 +94,6 @@ public class Seraph extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 0.8) + (getWisdom() * 2.4) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 7;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -124,10 +123,5 @@ public class Seraph extends Enemies {
     @Override
     public Alignment getAlignment() {
         return alignment;
-    }
-
-    @Override
-    public String getClassName() {
-        return "Seraph";
     }
 }

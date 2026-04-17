@@ -1,5 +1,5 @@
 
-// src/Enemies/Saint.java
+// src/DungeonoftheBrutalKing/Enemies/Saint.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Saint extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Saint() {
-        this(randomLevel(), 6, 11, 6, 12, 13, 8); // Default stats
+        this(randomLevel(), 6, 11, 6, 12, 13, 8);
     }
 
     public Saint(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -55,10 +55,23 @@ public class Saint extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, sanctity lost.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, sanctity lost.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 8;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " invokes holy protection, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Saint");
+        return "Saint";
     }
 
     @Override
@@ -69,8 +82,6 @@ public class Saint extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -81,15 +92,6 @@ public class Saint extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 0.9) + (getWisdom() * 2.1) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 8;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " invokes holy protection, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override

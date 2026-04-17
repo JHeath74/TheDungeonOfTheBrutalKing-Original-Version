@@ -1,5 +1,5 @@
 
-// src/Enemies/Paragon.java
+// src/DungeonoftheBrutalKing/Enemies/Paragon.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Paragon extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Paragon() {
-        this(randomLevel(), 9, 9, 7, 7, 8, 8); // Example default stats
+        this(randomLevel(), 9, 9, 7, 7, 8, 8);
     }
 
     public Paragon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,21 +56,35 @@ public class Paragon extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " moves with heroic speed and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " moves with heroic speed and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, example lost.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, example lost.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 15;
+        int reductionPercent = (baseDefense + getCharisma()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " inspires greatness, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Paragon");
+        return "Paragon";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 7) + (vitality * 7);
     }
 
     @Override
@@ -83,18 +97,7 @@ public class Paragon extends Enemies {
         boolean critical = Math.random() < 0.16;
         int base = (int) ((getStrength() * 1.4) + (getCharisma() * 1.5));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " strikes with inspiring might for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 15;
-        int reductionPercent = (baseDefense + getCharisma()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " inspires greatness, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -120,7 +123,7 @@ public class Paragon extends Enemies {
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2); // Paragon is high-level
+        return 8 + (int) (Math.random() * 2);
     }
 
     @Override

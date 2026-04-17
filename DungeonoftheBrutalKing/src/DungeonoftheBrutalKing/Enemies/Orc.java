@@ -1,4 +1,5 @@
-// src/Enemies/Orc.java
+
+// src/DungeonoftheBrutalKing/Enemies/Orc.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -16,7 +17,7 @@ public class Orc extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Orc() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 7); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 7);
     }
 
     public Orc(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -40,7 +41,6 @@ public class Orc extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        // Hit points are now managed by the Enemies base class.
     }
 
     public int getLevel() { return level; }
@@ -52,24 +52,38 @@ public class Orc extends Enemies {
     public int getVitality() { return vitality; }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 8;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " grunts and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " grunts and dodges the attack!");
             return;
         }
-        int reduced = defend(damage);
+        int reduced = defend(damage, mainGameScreen);
         super.takeDamage(reduced);
         if (isDead()) {
-            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 10;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Orc");
+        return "Orc";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 7);
     }
 
     @Override
@@ -82,18 +96,7 @@ public class Orc extends Enemies {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " swings a heavy club for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -119,7 +122,7 @@ public class Orc extends Enemies {
     }
 
     private static int randomLevel() {
-        return 4 + (int) (Math.random() * 2); // Orc is mid-level
+        return 4 + (int) (Math.random() * 2);
     }
 
     @Override

@@ -1,8 +1,7 @@
 
-// src/Enemies/Homunculi.java
+// src/DungeonoftheBrutalKing/Enemies/Homunculi.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -18,22 +17,22 @@ public class Homunculi extends Enemies {
     private final Alignment alignment = Alignment.NEUTRAL;
 
     public Homunculi() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Homunculi(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Homunculi",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Homunculi.png",
-            false,
-            vitality
+                "Homunculi",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Homunculi.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -59,17 +58,17 @@ public class Homunculi extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " morphs and dodges the attack!");
+            // UI messaging removed: enemy classes should not call UI directly.
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has dissolved.");
+        // UI messaging removed: dissolving message should be handled by caller/UI layer if needed.
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
+        // Optionally recalc HP:
         // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
@@ -90,9 +89,7 @@ public class Homunculi extends Enemies {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
+        return incomingDamage * (100 - reductionPercent) / 100;
     }
 
     @Override
@@ -124,7 +121,7 @@ public class Homunculi extends Enemies {
     @Override
     public int getAlignmentImpact() {
         int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
-        return offset; // Neutral impact
+        return offset;
     }
 
     @Override
@@ -149,9 +146,8 @@ public class Homunculi extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Homunculi";
+    }
 }

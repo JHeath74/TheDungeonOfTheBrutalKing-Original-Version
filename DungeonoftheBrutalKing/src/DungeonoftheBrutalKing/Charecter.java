@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing;
 STAT EFFECTS (RPG OVERVIEW)
 
 STAMINA
-- Increases maximum health or overall durability.
+- Increases overall durability.
 - Improves endurance for long battles, running, or physical exertion.
 - Enhances resistance to fatigue, poison, and certain physical debuffs.
 
@@ -34,6 +34,7 @@ AGILITY
 - Enhances stealth, acrobatics, and mobility-based actions.
 
 VITALITY
+- Increases maximum health points and overall toughness.
 - Boosts natural health regeneration and long-term survivability.
 - Improves resistance to disease, curses, and harmful status effects.
 - May extend duration or stability of buffs and protective effects.

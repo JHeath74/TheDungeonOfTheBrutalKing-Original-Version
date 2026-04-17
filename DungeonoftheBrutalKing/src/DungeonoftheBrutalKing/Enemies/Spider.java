@@ -1,5 +1,5 @@
 
-// src/Enemies/Spider.java
+// src/DungeonoftheBrutalKing/Enemies/Spider.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -20,7 +20,7 @@ public class Spider extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Spider() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Spider(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -57,22 +57,33 @@ public class Spider extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 14;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " scuttles and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " scuttles and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " curls up and dies.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " curls up and dies.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 10;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Spider");
+        return "Spider";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 6);
     }
 
     @Override
@@ -80,17 +91,16 @@ public class Spider extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Spider attack applies poison status with 20% chance
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
         boolean poisonApplied = Math.random() < 0.20;
         if (poisonApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " bites and applies venom!");
+            mainGameScreen.appendToMessageTextPane(getName() + " bites and applies venom!");
             target.addStatus(new PoisonStatus(2));
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " bites for " + damage + " damage!");
+            mainGameScreen.appendToMessageTextPane(getName() + " bites for " + damage + " damage!");
         }
         return damage;
     }
@@ -100,18 +110,7 @@ public class Spider extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " bites for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class Spider extends Enemies {
     }
 
     private static int randomLevel() {
-        return 4 + (int) (Math.random() * 2); // Spider is mid-level
+        return 4 + (int) (Math.random() * 2);
     }
 
     @Override

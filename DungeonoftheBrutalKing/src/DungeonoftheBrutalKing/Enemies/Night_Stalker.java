@@ -1,5 +1,5 @@
 
-// src/Enemies/Night_Stalker.java
+// src/DungeonoftheBrutalKing/Enemies/Night_Stalker.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -18,7 +18,7 @@ public class Night_Stalker extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Night_Stalker() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Night_Stalker(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,21 +56,35 @@ public class Night_Stalker extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 14;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " melts into the darkness and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " melts into the darkness and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " fades into shadow, defeated.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " fades into shadow, defeated.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 11;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends with shadowy agility, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Night Stalker");
+        return "Night Stalker";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 6);
     }
 
     @Override
@@ -83,18 +97,7 @@ public class Night_Stalker extends Enemies {
         boolean critical = Math.random() < 0.16;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " strikes from the shadows for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 11;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends with shadowy agility, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -120,7 +123,7 @@ public class Night_Stalker extends Enemies {
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 2); // Night Stalker is mid-level
+        return 5 + (int) (Math.random() * 2);
     }
 
     @Override

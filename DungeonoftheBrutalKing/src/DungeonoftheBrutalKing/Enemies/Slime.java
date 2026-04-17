@@ -1,5 +1,5 @@
 
-// src/Enemies/Slime.java
+// src/DungeonoftheBrutalKing/Enemies/Slime.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -20,7 +20,7 @@ public class Slime extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Slime() {
-        this(randomLevel(), 3, 1, 2, 1, 1, 4); // Example default stats
+        this(randomLevel(), 3, 1, 2, 1, 1, 4);
     }
 
     public Slime(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -57,22 +57,33 @@ public class Slime extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " jiggles and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " jiggles and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " dissolves into a puddle.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " dissolves into a puddle.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 8;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Slime");
+        return "Slime";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 4) + (vitality * 3);
     }
 
     @Override
@@ -80,17 +91,16 @@ public class Slime extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Slime attack applies poison status with 20% chance
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.10;
         int base = (int) ((getStrength() * 1.1) + (getAgility() * 0.8));
         int damage = critical ? base * 2 : base;
         boolean poisonApplied = Math.random() < 0.20;
         if (poisonApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " splashes and applies poison!");
+            mainGameScreen.appendToMessageTextPane(getName() + " splashes and applies poison!");
             target.addStatus(new PoisonStatus(2));
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
         return damage;
     }
@@ -100,18 +110,7 @@ public class Slime extends Enemies {
         boolean critical = Math.random() < 0.10;
         int base = (int) ((getStrength() * 1.1) + (getAgility() * 0.8));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 8;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class Slime extends Enemies {
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 2); // Slime is low-level
+        return 1 + (int) (Math.random() * 2);
     }
 
     @Override

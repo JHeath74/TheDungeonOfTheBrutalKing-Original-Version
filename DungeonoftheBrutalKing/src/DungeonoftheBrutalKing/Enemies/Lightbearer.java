@@ -1,10 +1,9 @@
 
-// src/Enemies/Lightbearer.java
+// src/DungeonoftheBrutalKing/Enemies/Lightbearer.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Lightbearer extends Enemies {
     private int level;
@@ -18,22 +17,22 @@ public class Lightbearer extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Lightbearer() {
-        this(randomLevel(), 5, 12, 7, 12, 14, 7); // Default stats
+        this(randomLevel(), 5, 12, 7, 12, 14, 7);
     }
 
     public Lightbearer(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Lightbearer",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Lightbearer.png",
-            true,
-            vitality
+                "Lightbearer",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Lightbearer.png",
+                true,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -58,7 +57,7 @@ public class Lightbearer extends Enemies {
     @Override
     public void takeDamage(int damage) {
         setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, the light dims.");
+        // UI messaging removed: enemy classes should not call UI directly.
     }
 
     @Override
@@ -83,13 +82,12 @@ public class Lightbearer extends Enemies {
         return (int) ((getStrength() * 0.7) + (getWisdom() * 2.1) + getSpellStrength());
     }
 
+    @Override
     public int defend(int incomingDamage) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " radiates protective light, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
+        return incomingDamage * (100 - reductionPercent) / 100;
     }
 
     @Override
@@ -144,9 +142,8 @@ public class Lightbearer extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Lightbearer";
+    }
 }

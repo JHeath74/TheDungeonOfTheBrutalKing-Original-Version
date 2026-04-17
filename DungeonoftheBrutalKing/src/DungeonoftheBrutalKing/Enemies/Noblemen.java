@@ -1,5 +1,5 @@
 
-// src/Enemies/Noblemen.java
+// src/DungeonoftheBrutalKing/Enemies/Noblemen.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -18,7 +18,7 @@ public class Noblemen extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Noblemen() {
-        this(randomLevel(), 8, 7, 6, 6, 5, 7); // Example default stats
+        this(randomLevel(), 8, 7, 6, 6, 5, 7);
     }
 
     public Noblemen(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,21 +56,34 @@ public class Noblemen extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " parries with noble grace and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " parries with noble grace and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has fallen in battle.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has fallen in battle.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 12;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 75) reductionPercent = 75;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends with noble poise, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName() {
+        return "Noblemen";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 7);
     }
 
     @Override
@@ -83,18 +96,7 @@ public class Noblemen extends Enemies {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks with refined skill for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 12;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 75) reductionPercent = 75;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends with noble poise, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -120,7 +122,7 @@ public class Noblemen extends Enemies {
     }
 
     private static int randomLevel() {
-        return 4 + (int) (Math.random() * 2); // Noblemen is mid-level
+        return 4 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -150,10 +152,4 @@ public class Noblemen extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

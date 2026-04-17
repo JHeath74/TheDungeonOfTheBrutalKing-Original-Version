@@ -1,5 +1,4 @@
 
-// src/Enemies/Valkyrie.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -19,7 +18,7 @@ public class Valkyrie extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Valkyrie() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 7); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 7);
     }
 
     public Valkyrie(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,22 +55,19 @@ public class Valkyrie extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 18;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " leaps aside and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " leaps aside and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls from the sky.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls from the sky.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 5);
     }
 
     @Override
@@ -79,12 +75,11 @@ public class Valkyrie extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Valkyrie attack is physical, no status effect
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
+        mainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
         return damage;
     }
 
@@ -93,17 +88,15 @@ public class Valkyrie extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -130,7 +123,7 @@ public class Valkyrie extends Enemies {
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 2); // Valkyrie is mid-high level
+        return 5 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -159,6 +152,11 @@ public class Valkyrie extends Enemies {
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 '}';
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Valkyrie");
+        return "Valkyrie";
     }
 
 	@Override

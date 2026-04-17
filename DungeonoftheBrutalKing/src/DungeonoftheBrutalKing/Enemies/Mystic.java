@@ -1,5 +1,5 @@
 
-// src/Enemies/Mystic.java
+// src/DungeonoftheBrutalKing/Enemies/Mystic.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Mystic extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Mystic() {
-        this(randomLevel(), 5, 10, 7, 13, 13, 7); // Default stats
+        this(randomLevel(), 5, 10, 7, 13, 13, 7);
     }
 
     public Mystic(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,9 +56,31 @@ public class Mystic extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, mystical energies dissipate.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 10;
+        if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " shimmers and evades the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " falls, mystical energies dissipate.");
+        }
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " conjures a mystic barrier, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName() {
+        return "Mystic";
     }
 
     @Override
@@ -69,8 +91,6 @@ public class Mystic extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -81,15 +101,6 @@ public class Mystic extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 7;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " conjures a mystic barrier, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -143,10 +154,4 @@ public class Mystic extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

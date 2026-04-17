@@ -1,5 +1,5 @@
 
-// src/Enemies/Mold.java
+// src/DungeonoftheBrutalKing/Enemies/Mold.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -20,7 +20,7 @@ public class Mold extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Mold() {
-        this(randomLevel(), 4, 2, 3, 1, 1, 5); // Example default stats
+        this(randomLevel(), 4, 2, 3, 1, 1, 5);
     }
 
     public Mold(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -58,21 +58,36 @@ public class Mold extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 8;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " oozes away and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " oozes away and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has dried up and died.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " has dried up and died.");
+        }
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 10;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName() {
+        return "Mold";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 4) + (vitality * 6);
     }
 
     @Override
@@ -84,14 +99,7 @@ public class Mold extends Enemies {
     public int attack() {
         boolean critical = Math.random() < 0.12;
         int base = (int) ((getStrength() * 1.2) + (getVitality() * 0.7));
-        int damage = critical ? base * 2 : base;
-        if (Math.random() < 0.3) {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies poison status!");
-            // PoisonStatus should be applied to the target in the actual game logic
-        } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks.");
-        }
-        return damage;
+        return critical ? base * 2 : base;
     }
 
     public int attack(Charecter target) {
@@ -100,16 +108,6 @@ public class Mold extends Enemies {
             target.addStatus(new PoisonStatus(damage));
         }
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 10;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -135,7 +133,7 @@ public class Mold extends Enemies {
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 2); // Mold is low-level
+        return 1 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -165,10 +163,4 @@ public class Mold extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

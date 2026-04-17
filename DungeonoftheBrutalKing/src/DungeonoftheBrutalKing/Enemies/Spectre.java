@@ -1,43 +1,53 @@
-// src/Enemies/Spectre.java 
+
+// src/DungeonoftheBrutalKing/Enemies/Spectre.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing.MainGameScreen; 
-import DungeonoftheBrutalKing.Status.PoisonStatus; 
+import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Status.PoisonStatus;
 import DungeonoftheBrutalKing.Charecter;
 
-public class Spectre extends Enemies { private int level; private final int strength; private final int charisma; private final int agility; private final int intelligence; private final int wisdom; private final int vitality; private int hitPoints; private final Alignment alignment = Alignment.EVIL;
+public class Spectre extends Enemies {
+    private int level;
+    private final int strength;
+    private final int charisma;
+    private final int agility;
+    private final int intelligence;
+    private final int wisdom;
+    private final int vitality;
+    private int hitPoints;
+    private final Alignment alignment = Alignment.EVIL;
 
-public Spectre() {
-    this(randomLevel(), 7, 8, 9, 10, 8, 6);
-    this.undead = true;
-}
+    public Spectre() {
+        this(randomLevel(), 7, 8, 9, 10, 8, 6);
+        this.undead = true;
+    }
 
-public Spectre(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
-    super(
-        "Spectre",
-        level,
-        (level * 7) + (vitality * 5),
-        strength,
-        charisma,
-        agility,
-        intelligence,
-        wisdom,
-        GameSettings.MonsterImagePath + "Spectre.png",
-        true,
-        vitality
-    );
-    this.level = level;
-    this.strength = strength;
-    this.charisma = charisma;
-    this.agility = agility;
-    this.intelligence = intelligence;
-    this.wisdom = wisdom;
-    this.vitality = vitality;
-    this.hitPoints = (level * 7) + (vitality * 5);
-    this.undead = true;
-}
+    public Spectre(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+        super(
+            "Spectre",
+            level,
+            (level * 7) + (vitality * 5),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Spectre.png",
+            true,
+            vitality
+        );
+        this.level = level;
+        this.strength = strength;
+        this.charisma = charisma;
+        this.agility = agility;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.vitality = vitality;
+        this.hitPoints = (level * 7) + (vitality * 5);
+        this.undead = true;
+    }
 
     public int getLevel() { return level; }
     public int getStrength() { return strength; }
@@ -49,22 +59,19 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 18;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " phases and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " phases and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " dissipates into mist.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " dissipates into mist.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 7) + (vitality * 5);
     }
 
     @Override
@@ -72,17 +79,16 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
         return getHitPoints() <= 0;
     }
 
-    // Spectre attack applies poison status with 30% chance
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getIntelligence() * 1.5) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
         boolean poisonApplied = Math.random() < 0.30;
         if (poisonApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks and applies spectral poison!");
+            mainGameScreen.appendToMessageTextPane(getName() + " attacks and applies spectral poison!");
             target.addStatus(new PoisonStatus(3));
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
         return damage;
     }
@@ -92,17 +98,15 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getIntelligence() * 1.5) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 12;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 85) reductionPercent = 85;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " becomes ethereal, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " becomes ethereal, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -129,7 +133,7 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 2); // Spectre is mid-high level
+        return 5 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -161,9 +165,14 @@ public Spectre(int level, int strength, int charisma, int agility, int intellige
                 '}';
     }
 
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Spectre");
+        return "Spectre";
+    }
+
 	@Override
 	public String getClassName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-    }
+}

@@ -1,5 +1,5 @@
 
-// src/Enemies/Redeemer.java
+// src/DungeonoftheBrutalKing/Enemies/Redeemer.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Redeemer extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Redeemer() {
-        this(randomLevel(), 6, 13, 7, 12, 15, 7); // Default stats
+        this(randomLevel(), 6, 13, 7, 12, 15, 7);
     }
 
     public Redeemer(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -55,10 +55,23 @@ public class Redeemer extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, redemption denied.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, redemption denied.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " invokes a shield of mercy, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Redeemer");
+        return "Redeemer";
     }
 
     @Override
@@ -69,8 +82,6 @@ public class Redeemer extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -81,15 +92,6 @@ public class Redeemer extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 7;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " invokes a shield of mercy, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override

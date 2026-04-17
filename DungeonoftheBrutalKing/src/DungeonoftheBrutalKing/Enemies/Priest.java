@@ -1,5 +1,5 @@
 
-// src/Enemies/Priest.java
+// src/DungeonoftheBrutalKing/Enemies/Priest.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Priest extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Priest() {
-        this(randomLevel(), 5, 9, 5, 9, 11, 6); // Default stats
+        this(randomLevel(), 5, 9, 5, 9, 11, 6);
     }
 
     public Priest(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,9 +56,25 @@ public class Priest extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, faith shaken.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, faith shaken.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 6;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " prays for protection, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Priest");
+        return "Priest";
     }
 
     @Override
@@ -69,8 +85,6 @@ public class Priest extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -81,15 +95,6 @@ public class Priest extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 1.0) + (getWisdom() * 1.8) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 6;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " prays for protection, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override

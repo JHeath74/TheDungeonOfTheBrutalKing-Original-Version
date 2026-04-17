@@ -1,5 +1,5 @@
 
-// src/Enemies/Master_Thief.java
+// src/DungeonoftheBrutalKing/Enemies/Master_Thief.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -18,7 +18,7 @@ public class Master_Thief extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Master_Thief() {
-        this(randomLevel(), 8, 6, 9, 7, 4, 7); // Example default stats
+        this(randomLevel(), 8, 6, 9, 7, 4, 7);
     }
 
     public Master_Thief(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,21 +56,36 @@ public class Master_Thief extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " slips into the shadows and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " slips into the shadows and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        }
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 12;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " defends with nimble moves, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName() {
+        return "Master_Thief";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
     @Override
@@ -83,16 +98,6 @@ public class Master_Thief extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 1.2));
         return critical ? base * 2 : base;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 12;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends with nimble moves, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -118,7 +123,7 @@ public class Master_Thief extends Enemies {
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 3); // Example: Master Thief is mid-high level
+        return 6 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -148,10 +153,4 @@ public class Master_Thief extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

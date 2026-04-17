@@ -1,14 +1,10 @@
-// src/Enemies/Oracle.java
+
+// src/DungeonoftheBrutalKing/Enemies/Oracle.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing.Charecter;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Enemies.Enemies;
-import DungeonoftheBrutalKing.Status.Status;
-import DungeonoftheBrutalKing.Status.StatusType;
-import DungeonoftheBrutalKing.Status.HasHitPoints;
 
 public class Oracle extends Enemies {
     private int level;
@@ -22,7 +18,7 @@ public class Oracle extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Oracle() {
-        this(randomLevel(), 5, 10, 6, 11, 12, 7); // Default stats
+        this(randomLevel(), 5, 10, 6, 11, 12, 7);
     }
 
     public Oracle(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -60,9 +56,30 @@ public class Oracle extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, visions fade.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 12;
+        if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " glimpses the future and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, visions fade.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " foresees the blow, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Oracle");
+        return "Oracle";
     }
 
     @Override
@@ -73,8 +90,6 @@ public class Oracle extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -85,15 +100,6 @@ public class Oracle extends Enemies {
     @Override
     public int attack() {
         return (int) ((getStrength() * 0.8) + (getWisdom() * 2.0) + getSpellStrength());
-    }
-
-    public int defend(int incomingDamage) {
-        int baseDefense = 7;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " foresees the blow, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -147,10 +153,4 @@ public class Oracle extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

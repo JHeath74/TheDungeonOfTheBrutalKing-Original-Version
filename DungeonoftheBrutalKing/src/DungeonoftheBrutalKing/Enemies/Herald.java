@@ -1,8 +1,7 @@
 
-// src/Enemies/Herald.java
+// src/DungeonoftheBrutalKing/Enemies/Herald.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -18,22 +17,22 @@ public class Herald extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Herald() {
-        this(randomLevel(), 8, 10, 7, 8, 9, 7); // Example default stats
+        this(randomLevel(), 8, 10, 7, 8, 9, 7);
     }
 
     public Herald(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Herald",
-            level,
-            (level * 6) + (vitality * 8),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Herald.png",
-            false,
-            vitality
+                "Herald",
+                level,
+                (level * 6) + (vitality * 8),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Herald.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -59,17 +58,15 @@ public class Herald extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " gracefully avoids the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, message undelivered.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
+        // Optionally recalc HP:
         // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
@@ -82,9 +79,7 @@ public class Herald extends Enemies {
     public int attack() {
         boolean critical = Math.random() < 0.14;
         int base = (int) ((getStrength() * 1.1) + (getCharisma() * 1.4));
-        int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " proclaims a mighty challenge for " + damage + " damage!");
-        return damage;
+        return critical ? base * 2 : base;
     }
 
     @Override
@@ -92,9 +87,7 @@ public class Herald extends Enemies {
         int baseDefense = 12;
         int reductionPercent = (baseDefense + getCharisma()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " inspires allies, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
+        return incomingDamage * (100 - reductionPercent) / 100;
     }
 
     @Override
@@ -120,7 +113,7 @@ public class Herald extends Enemies {
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 3); // Example: Herald is high-level
+        return 7 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -151,9 +144,8 @@ public class Herald extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Herald";
+    }
 }

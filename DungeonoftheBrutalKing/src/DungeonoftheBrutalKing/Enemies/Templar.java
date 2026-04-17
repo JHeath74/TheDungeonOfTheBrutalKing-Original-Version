@@ -1,5 +1,5 @@
 
-// src/Enemies/Templar.java
+// src/DungeonoftheBrutalKing/Enemies/Templar.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -19,7 +19,7 @@ public class Templar extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Templar() {
-        this(randomLevel(), 8, 7, 6, 7, 8, 8); // Example default stats
+        this(randomLevel(), 8, 7, 6, 7, 8, 8);
     }
 
     public Templar(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -56,22 +56,19 @@ public class Templar extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " blocks and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " blocks and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, honor unbroken.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, honor unbroken.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 7) + (vitality * 6);
     }
 
     @Override
@@ -79,12 +76,11 @@ public class Templar extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Templar attack is physical, no status effect
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
+        mainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
         return damage;
     }
 
@@ -93,17 +89,15 @@ public class Templar extends Enemies {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 12;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " raises shield, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " raises shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -130,7 +124,7 @@ public class Templar extends Enemies {
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2); // Templar is high-level
+        return 8 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -159,6 +153,11 @@ public class Templar extends Enemies {
                 ", imagePath='" + getImagePath() + '\'' +
                 ", isMagicUser=" + isMagicUser() +
                 '}';
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Templar");
+        return "Templar";
     }
 
 	@Override

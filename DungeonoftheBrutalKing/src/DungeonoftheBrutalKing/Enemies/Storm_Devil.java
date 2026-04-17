@@ -1,5 +1,5 @@
 
-// src/Enemies/Storm_Devil.java
+// src/DungeonoftheBrutalKing/Enemies/Storm_Devil.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -20,7 +20,7 @@ public class Storm_Devil extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Storm_Devil() {
-        this(randomLevel(), 8, 5, 7, 9, 6, 7); // Example default stats
+        this(randomLevel(), 8, 5, 7, 9, 6, 7);
     }
 
     public Storm_Devil(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -57,22 +57,33 @@ public class Storm_Devil extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 16;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " crackles and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " crackles and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " is struck down by its own storm.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " is struck down by its own storm.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 12;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 85) reductionPercent = 85;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " is surrounded by a storm, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Storm Devil");
+        return "Storm Devil";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 7) + (vitality * 6);
     }
 
     @Override
@@ -80,17 +91,16 @@ public class Storm_Devil extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    // Storm Devil attack applies stun status with 25% chance
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.20;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 1.2) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;
         boolean stunApplied = Math.random() < 0.25;
         if (stunApplied) {
-            MainGameScreen.appendToMessageTextPane(getName() + " unleashes a thunderbolt and stuns the target!");
+            mainGameScreen.appendToMessageTextPane(getName() + " unleashes a thunderbolt and stuns the target!");
             target.addStatus(new StunStatus(1));
         } else {
-            MainGameScreen.appendToMessageTextPane(getName() + " attacks with lightning for " + damage + " damage!");
+            mainGameScreen.appendToMessageTextPane(getName() + " attacks with lightning for " + damage + " damage!");
         }
         return damage;
     }
@@ -100,18 +110,7 @@ public class Storm_Devil extends Enemies {
         boolean critical = Math.random() < 0.20;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 1.2) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " attacks with lightning for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 12;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 85) reductionPercent = 85;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " is surrounded by a storm, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -137,7 +136,7 @@ public class Storm_Devil extends Enemies {
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 2); // Storm Devil is high-level
+        return 7 + (int) (Math.random() * 2);
     }
 
     @Override

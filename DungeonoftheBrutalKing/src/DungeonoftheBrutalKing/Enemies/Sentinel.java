@@ -1,5 +1,5 @@
 
-// src/Enemies/Sentinel.java
+// src/DungeonoftheBrutalKing/Enemies/Sentinel.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -18,7 +18,7 @@ public class Sentinel extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Sentinel() {
-        this(randomLevel(), 8, 8, 8, 7, 9, 8); // Example default stats
+        this(randomLevel(), 8, 8, 8, 7, 9, 8);
     }
 
     public Sentinel(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -55,22 +55,33 @@ public class Sentinel extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " stands firm and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " stands firm and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, steadfast to the end.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, steadfast to the end.");
+    }
+
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 14;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 75) reductionPercent = 75;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " stands firm, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Sentinel");
+        return "Sentinel";
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 7) + (vitality * 7);
     }
 
     @Override
@@ -83,18 +94,7 @@ public class Sentinel extends Enemies {
         boolean critical = Math.random() < 0.14;
         int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.3));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " strikes with unwavering force for " + damage + " damage!");
         return damage;
-    }
-
-    @Override
-    public int defend(int incomingDamage) {
-        int baseDefense = 14;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 75) reductionPercent = 75;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " stands firm, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class Sentinel extends Enemies {
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2); // Sentinel is high-level
+        return 8 + (int) (Math.random() * 2);
     }
 
     @Override

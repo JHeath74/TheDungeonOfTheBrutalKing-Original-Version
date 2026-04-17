@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing. Status.HasHitPoints;
 import DungeonoftheBrutalKing.Status.Status;
@@ -227,5 +228,20 @@ public abstract class Enemies implements HasHitPoints {
 		try {
 			addStatus(new Status(statusName, durationMinutes, polarity, statusType));
 		} catch (Exception ignored) { }
+	}
+
+	public int attack(MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public String getClassName(MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -55,11 +55,6 @@ public class Luminary extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, the brilliance fades.");
-    }
 
     @Override
     public int getSpellStrength() {
@@ -70,7 +65,7 @@ public class Luminary extends Enemies {
     public void setLevel(int level) {
         this.level = level;
         // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
+         this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -82,13 +77,13 @@ public class Luminary extends Enemies {
     public int attack() {
         return (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
     }
-
-    public int defend(int incomingDamage) {
+@Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " shines with protective radiance, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage by " + reductionPercent + "%!");
         return reducedDamage;
     }
 
@@ -144,9 +139,16 @@ public class Luminary extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Luminary";
+    }
+
+    @Override
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        setHitPoints(getHitPoints() - damage);
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " has been defeated!");
+        }
+    }
 }

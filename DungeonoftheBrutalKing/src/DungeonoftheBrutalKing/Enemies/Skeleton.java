@@ -1,6 +1,8 @@
+
+// src/DungeonoftheBrutalKing/Enemies/Skeleton.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings; 
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 
@@ -49,25 +51,22 @@ public class Skeleton extends Enemies {
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
 
-    @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " rattles and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " rattles and dodges the attack!");
             return;
         }
-        int reduced = defend(damage);
+        int reduced = defend(damage, mainGameScreen);
         super.takeDamage(reduced);
         if (isDead()) {
-            MainGameScreen.appendToMessageTextPane(getName() + " collapses into a pile of bones.");
+            mainGameScreen.appendToMessageTextPane(getName() + " collapses into a pile of bones.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 6);
     }
 
     @Override
@@ -80,17 +79,15 @@ public class Skeleton extends Enemies {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
-        MainGameScreen.appendToMessageTextPane(getName() + " swings a rusty sword for " + damage + " damage!");
         return damage;
     }
 
-    @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " blocks with brittle bones, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " blocks with brittle bones, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -117,7 +114,7 @@ public class Skeleton extends Enemies {
     }
 
     private static int randomLevel() {
-        return 2 + (int) (Math.random() * 2); // Skeleton is low-mid level
+        return 2 + (int) (Math.random() * 2);
     }
 
     @Override
@@ -147,6 +144,11 @@ public class Skeleton extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 ", isUndead=" + isUndead() +
                 '}';
+    }
+
+    public String getClassName(MainGameScreen mainGameScreen) {
+        mainGameScreen.appendToMessageTextPane("Class: Skeleton");
+        return "Skeleton";
     }
 
 	@Override

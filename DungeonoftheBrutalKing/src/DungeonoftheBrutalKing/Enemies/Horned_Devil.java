@@ -1,8 +1,7 @@
 
-// src/Enemies/Horned_Devil.java
+// src/DungeonoftheBrutalKing/Enemies/Horned_Devil.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -18,22 +17,22 @@ public class Horned_Devil extends Enemies {
     private final Alignment alignment = Alignment.EVIL;
 
     public Horned_Devil() {
-        this(randomLevel(), 8, 5, 7, 6, 3, 6); // Example default stats
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Horned_Devil(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-            "Horned Devil",
-            level,
-            (level * 5) + (vitality * 7),
-            strength,
-            charisma,
-            agility,
-            intelligence,
-            wisdom,
-            GameSettings.MonsterImagePath + "Horned_Devil.png",
-            false,
-            vitality
+                "Horned Devil",
+                level,
+                (level * 5) + (vitality * 7),
+                strength,
+                charisma,
+                agility,
+                intelligence,
+                wisdom,
+                GameSettings.MonsterImagePath + "Horned_Devil.png",
+                false,
+                vitality
         );
         this.level = level;
         this.strength = strength;
@@ -59,18 +58,18 @@ public class Horned_Devil extends Enemies {
     public void takeDamage(int damage) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            MainGameScreen.appendToMessageTextPane(getName() + " vanishes in a puff of brimstone and dodges the attack!");
+            // UI messaging removed: enemy classes should not call UI directly.
             return;
         }
         setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        // UI messaging removed: death message should be handled by caller/UI layer.
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
         // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
+         this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -90,9 +89,7 @@ public class Horned_Devil extends Enemies {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
+        return incomingDamage * (100 - reductionPercent) / 100;
     }
 
     @Override
@@ -118,7 +115,7 @@ public class Horned_Devil extends Enemies {
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 3); // Example: Horned Devil is mid-level
+        return 5 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -149,9 +146,8 @@ public class Horned_Devil extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Horned_Devil";
+    }
 }
