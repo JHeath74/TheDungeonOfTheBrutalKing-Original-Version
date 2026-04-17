@@ -2,6 +2,7 @@
 // src/DungeonoftheBrutalKing/Enemies/Liches.java
 package DungeonoftheBrutalKing.Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -155,4 +156,10 @@ public class Liches extends Enemies {
     public String getClassName() {
         return "Liches";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

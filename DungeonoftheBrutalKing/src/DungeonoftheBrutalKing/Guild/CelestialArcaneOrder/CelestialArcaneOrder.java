@@ -162,13 +162,22 @@ public class CelestialArcaneOrder extends JPanel {
         sleepBedButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "You rest in a celestial bed and recover your strength."));
 
         exitRoomButton.addActionListener(e -> {
-            // FIX: restoreOriginalPanel() does not exist on MainGameScreen.
-            // Replace with the correct method your MainGameScreen provides.
-            // Example placeholder:
-            MainGameScreen.getInstance().replaceWithAnyPanel(MainGameScreen.getInstance().getMainPanel());
+
+try {
+	MainGameScreen.getInstance().restoreOriginalPanel();
+} catch (IOException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+} catch (InterruptedException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+} catch (ParseException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
+
         });
     }
-
     private static boolean isGood(int alignmentValue) {
         return alignmentValue >= 0;
     }

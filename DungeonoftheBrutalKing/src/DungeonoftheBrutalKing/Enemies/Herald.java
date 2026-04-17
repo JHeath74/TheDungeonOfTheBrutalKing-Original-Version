@@ -2,6 +2,7 @@
 // src/DungeonoftheBrutalKing/Enemies/Herald.java
 package DungeonoftheBrutalKing.Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -148,4 +149,10 @@ public class Herald extends Enemies {
     public String getClassName() {
         return "Herald";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

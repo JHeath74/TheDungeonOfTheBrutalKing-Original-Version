@@ -2,6 +2,7 @@
 // src/DungeonoftheBrutalKing/Enemies/Horned_Devil.java
 package DungeonoftheBrutalKing.Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -150,4 +151,10 @@ public class Horned_Devil extends Enemies {
     public String getClassName() {
         return "Horned_Devil";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -42,6 +42,8 @@ VITALITY
 
 
 
+
+
 import java.util.*;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -53,6 +55,7 @@ import DungeonoftheBrutalKing.Status.StatusManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.Status.PurityWardStatus;
 import DungeonoftheBrutalKing.Status.AstralWardStatus;
+import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Charecter implements HasHitPoints {
 
@@ -118,7 +121,6 @@ public class Charecter implements HasHitPoints {
     private static final int IDX_BASE_AGI = 32;
     private static final int IDX_VITALITY = 33;
 
-    // Hunger/thirst: 100 = full, 0 = starving/parched
     private int hungerLevel = 100;
     private int thirstLevel = 100;
 
@@ -162,16 +164,14 @@ public class Charecter implements HasHitPoints {
         ensureSize(index + 1);
         charInfo.set(index, value == null ? "0" : value);
     }
-    
-public double getCritChance() {
-    return critChance;
-}
 
-public void setCritChance(double critChance) {
-    // clamp between 0.0 and 1.0 if you want it as a percentage chance
-    this.critChance = Math.max(0.0, Math.min(1.0, critChance));
-}
+    public double getCritChance() {
+        return critChance;
+    }
 
+    public void setCritChance(double critChance) {
+        this.critChance = Math.max(0.0, Math.min(1.0, critChance));
+    }
 
     private void ensureSize(int size) {
         if (charInfo == null) charInfo = new ArrayList<>();
@@ -237,32 +237,23 @@ public void setCritChance(double critChance) {
     public void setGems(int gems) { setInt(IDX_GEMS, Math.max(0, gems)); }
     public String getEquippedWeapon() { return getStr(IDX_WEAPON); }
     public void setEquippedWeapon(String weapon) { setStr(IDX_WEAPON, weapon); }
-    // --- Compatibility shims for older code that uses different method names ---
     public void setWeapon(String weapon) { setEquippedWeapon(weapon); }
-
     public String getEquippedArmour() { return getStr(IDX_ARMOUR); }
     public void setEquippedArmour(String armour) { setStr(IDX_ARMOUR, armour); }
     public void setArmour(String armour) { setEquippedArmour(armour); }
-    // Typo compatibility used in several guild armour classes
     public void setEuippedArmour(String armour) { setEquippedArmour(armour); }
-
     public String getEquippedShield() { return getStr(IDX_SHIELD); }
     public void setEquippedShield(String shield) { setStr(IDX_SHIELD, shield); }
     public String getShield() { return getEquippedShield(); }
     public String getArmour() { return getEquippedArmour(); }
-
     public String getRace() { return getStr(1); }
-
-    // removeGold returns true if player had enough and gold was removed
     public boolean removeGold(int amount) {
         int g = getGold();
         if (amount <= 0) return false;
         if (g >= amount) { setGold(g - amount); return true; }
         return false;
     }
-    // Overload of takeDamage that some spells call with caster included
     public void takeDamage(int amount, Charecter source) { takeDamage(amount); }
-    // Remove one negative effect if present (best-effort)
     public void removeOneNegativeEffect() {
         try {
             if (statuses != null) {
@@ -275,12 +266,8 @@ public void setCritChance(double critChance) {
             }
         } catch (Exception ignored) {}
     }
-    // Default: characters are not undead unless a status or field indicates so. Provide stub.
     public boolean isUndead() { return false; }
-    public void decreaseResilience(int amount) {
-        // Best-effort compatibility: older callers expect this symbol.
-    }
-    // --- end compatibility shims ---
+    public void decreaseResilience(int amount) { }
     public int getAlignment() { return getInt(IDX_ALIGNMENT, 0); }
     public void setAlignment(int alignment) { setInt(IDX_ALIGNMENT, alignment); }
     public void setPosition(int x, int y, int z) { setInt(IDX_POS_X, x); setInt(IDX_POS_Y, y); setInt(IDX_POS_Z, z); }
@@ -292,9 +279,7 @@ public void setCritChance(double critChance) {
     }
     public int getX() { return getInt(IDX_POS_X, 0); }
     public int getY() { return getInt(IDX_POS_Y, 0); }
-
-public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
-
+    public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
     public int getDirection() { return getInt(IDX_DIRECTION, 0); }
     public void setDirection(int degrees) { setInt(IDX_DIRECTION, degrees); }
     public int getDefense() { return getInt(IDX_DEFENSE, 0); }
@@ -362,7 +347,6 @@ public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
     public List<String> getGuildStorage() {
         return guildStorage;
     }
-
     public void setGuildStorage(List<String> storage) {
         this.guildStorage = (storage == null) ? new ArrayList<>() : storage;
     }
@@ -534,7 +518,6 @@ public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
     public void setPerception(int i) { }
     public void addTemporaryPerceptionBuff(String string, int insightDuration) { }
 
-    // --- Hunger/Thirst system ---
     public int getHungerLevel() { return hungerLevel; }
     public void setHungerLevel(int hungerLevel) { this.hungerLevel = Math.max(0, Math.min(100, hungerLevel)); }
     public int getThirstLevel() { return thirstLevel; }
@@ -553,79 +536,118 @@ public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
     public void decreaseThirst(int amount) {
         setThirstLevel(getThirstLevel() - amount);
     }
-    
 
- // In Charecter.java
+    public int getMaxCarryWeight() {
+        return 30 + (getStrength() * 5);
+    }
+    public int getCurrentCarryWeight(Map<String, Integer> itemWeights) {
+        int total = 0;
+        for (String item : charInventory) {
+            total += itemWeights.getOrDefault(item, 1);
+        }
+        return total;
+    }
+    public boolean addToInventory(String item, Map<String, Integer> itemWeights) {
+        int itemWeight = itemWeights.getOrDefault(item, 1);
+        if (getCurrentCarryWeight(itemWeights) + itemWeight > getMaxCarryWeight()) {
+            return false;
+        }
+        charInventory.add(item);
+        return true;
+    }
+    public void removeResistance(String elementType) { }
+    public void addResistance(String elementType) { }
+    public int getSpellPower() {
+        int intelligence = getIntelligence();
+        int level = getLevel();
+        int base = intelligence * 2;
+        int levelBonus = level;
+        return base + levelBonus;
+    }
+    public int getSpellResistanceBonus() { return 0; }
+    public void setSpellResistanceBonus(int i) { }
+    public void setEffectProtection(String string, boolean b) { }
+    public boolean hasEffectProtection(String string) { return false; }
+    public Object getEffectProtection() { return null; }
 
- // 1. Max carry weight calculation
- public int getMaxCarryWeight() {
-     // Example: base 30 + 5 per strength point
-     return 30 + (getStrength() * 5);
- }
+    @Override
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        setHitPoints(Math.max(0, getHitPoints() - Math.max(0, damage)));
+    }
 
- // 2. Calculate current carry weight
- public int getCurrentCarryWeight(Map<String, Integer> itemWeights) {
-     int total = 0;
-     for (String item : charInventory) {
-         total += itemWeights.getOrDefault(item, 1); // default weight 1 if not found
-     }
-     return total;
- }
+    // --- STAT EFFECT METHODS ---
 
- // 3. Add to inventory with weight check
- public boolean addToInventory(String item, Map<String, Integer> itemWeights) {
-     int itemWeight = itemWeights.getOrDefault(item, 1);
-     if (getCurrentCarryWeight(itemWeights) + itemWeight > getMaxCarryWeight()) {
-         return false; // Too heavy
-     }
-     charInventory.add(item);
-     return true;
- }
+    // STAMINA
+    public int getDurability() {
+        return getStamina() * 2;
+    }
+    public int getEndurance() {
+        return getStamina() * 3;
+    }
+    public int getDebuffResistance() {
+        return getStamina() + getVitality();
+    }
 
- public void removeResistance(String elementType) {
-	// TODO Auto-generated method stub
-	
- }
+    // CHARISMA
+    public int getPersuasionBonus() {
+        return getCharisma() / 2;
+    }
+    public double getShopDiscount() {
+        return Math.min(0.20, getCharisma() * 0.01);
+    }
+    public int getSummonStrengthBonus() {
+        return getCharisma() / 3;
+    }
 
- public void addResistance(String elementType) {
-	// TODO Auto-generated method stub
-	
- }
- 
- public int getSpellPower() {
-	    // Example formula: INT * 2, plus small level scaling
-	    int intelligence = getIntelligence();
-	    int level = getLevel(); // assuming you have this; otherwise remove
+    // STRENGTH
+    public int getMeleeDamageBonus() {
+        return getStrength() * 2;
+    }
+    public int getPhysicalCheckBonus() {
+        return getStrength();
+    }
 
-	    int base = intelligence * 2;
-	    int levelBonus = level; // or (int)(level * 1.5), etc.
+    // INTELLIGENCE
+    public int getManaEfficiency() {
+        return Math.min(30, getIntelligence() * 2);
+    }
+    public int getSkillLearningSpeed() {
+        return getIntelligence();
+    }
+    public int getInvestigationBonus() {
+        return getIntelligence() / 2;
+    }
 
-	    return base + levelBonus;
-	}
+    // WISDOM
+    public int getPerceptionBonus() {
+        return getWisdom();
+    }
+    public int getWillpower() {
+        return getWisdom() * 2;
+    }
+    public int getHealingPower() {
+        return getWisdom();
+    }
 
- public int getSpellResistanceBonus() {
-	// TODO Auto-generated method stub
-	return 0;
- }
+    // AGILITY
+    public int getDodgeChance() {
+        return Math.min(50, getAgility());
+    }
+    public int getInitiative() {
+        return getAgility() * 2;
+    }
+    public int getStealthBonus() {
+        return getAgility();
+    }
 
- public void setSpellResistanceBonus(int i) {
-	// TODO Auto-generated method stub
-	
- }
-
- public void setEffectProtection(String string, boolean b) {
-	// TODO Auto-generated method stub
-	
- }
-
- public boolean hasEffectProtection(String string) {
-	// TODO Auto-generated method stub
-	return false;
- }
-
- public Object getEffectProtection() {
-	// TODO Auto-generated method stub
-	return null;
- }
-
+    // VITALITY
+    public int getNaturalRegen() {
+        return getVitality() / 2;
+    }
+    public int getDiseaseResistance() {
+        return getVitality();
+    }
+    public int getBuffDurationBonus() {
+        return getVitality();
+    }
 }

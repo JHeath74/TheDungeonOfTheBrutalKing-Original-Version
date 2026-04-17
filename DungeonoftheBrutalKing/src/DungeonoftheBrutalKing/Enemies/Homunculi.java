@@ -2,6 +2,7 @@
 // src/DungeonoftheBrutalKing/Enemies/Homunculi.java
 package DungeonoftheBrutalKing.Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -150,4 +151,10 @@ public class Homunculi extends Enemies {
     public String getClassName() {
         return "Homunculi";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

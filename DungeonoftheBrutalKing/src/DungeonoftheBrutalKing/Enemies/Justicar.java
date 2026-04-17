@@ -158,4 +158,10 @@ public class Justicar extends Enemies {
     public String getClassName() {
         return "Justicar";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

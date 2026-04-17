@@ -3,6 +3,7 @@
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Seraph extends Enemies {
@@ -57,24 +58,22 @@ public class Seraph extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Seraph");
-        return "Seraph";
-    }
 
     @Override
     public int getSpellStrength() {
@@ -124,4 +123,12 @@ public class Seraph extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+    @Override
+    public String getClassName() {
+        return "Seraph";
+    }
+
+
+
 }

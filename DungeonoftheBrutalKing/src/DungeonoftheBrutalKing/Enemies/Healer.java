@@ -2,6 +2,7 @@
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 
 public class Healer extends Enemies {
@@ -146,4 +147,10 @@ public class Healer extends Enemies {
     public String getClassName() {
         return "Healer";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

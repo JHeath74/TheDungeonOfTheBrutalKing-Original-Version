@@ -167,4 +167,10 @@ public class Imp extends Enemies {
     public String getClassName() {
         return "Imp";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

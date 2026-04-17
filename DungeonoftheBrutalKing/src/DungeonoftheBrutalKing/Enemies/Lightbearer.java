@@ -2,6 +2,7 @@
 // src/DungeonoftheBrutalKing/Enemies/Lightbearer.java
 package DungeonoftheBrutalKing.Enemies;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -145,5 +146,11 @@ public class Lightbearer extends Enemies {
     @Override
     public String getClassName() {
         return "Lightbearer";
+    }
+
+    @Override
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        takeDamage(damage);
+        // Optionally, interact with mainGameScreen if needed
     }
 }

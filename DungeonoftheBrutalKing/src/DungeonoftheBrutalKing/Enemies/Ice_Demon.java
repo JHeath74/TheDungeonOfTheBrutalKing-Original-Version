@@ -176,4 +176,10 @@ public class Ice_Demon extends Enemies {
     public String getClassName() {
         return "Ice Demon";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }

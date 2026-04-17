@@ -153,4 +153,9 @@ public class Oracle extends Enemies {
     public Alignment getAlignment() {
         return alignment;
     }
+
+    @Override
+    public String getClassName() {
+        return "Oracle";
+    }
 }

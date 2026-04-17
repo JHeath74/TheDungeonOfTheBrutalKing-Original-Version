@@ -167,4 +167,10 @@ public class Guardian extends Enemies {
     public String getClassName() {
         return "Guardian";
     }
+
+	@Override
+	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+		// TODO Auto-generated method stub
+		
+	}
 }
