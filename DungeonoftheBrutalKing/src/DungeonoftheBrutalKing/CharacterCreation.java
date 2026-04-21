@@ -392,46 +392,53 @@ public class CharacterCreation {
 		}
 	}
 
-	private static void displayStats(Integer[] stat) {
-		// Update UI on the Event Dispatch Thread to ensure changes are visible.
-		if (stat == null) return;
-		final Integer[] s = stat.clone();
-		SwingUtilities.invokeLater(() -> {
-			// Use a clear, single setText rather than multiple appends for predictability
-			StringBuilder sb = new StringBuilder();
-			sb.append("CHARECTOR STATS\n");
-			sb.append("\nSTAMINA: \t\t").append(s[STAT_STAMINA]);
-			sb.append("\nCHARISMA: \t\t").append(s[STAT_CHARISMA]);
-			sb.append("\nSTRENGTH: \t\t").append(s[STAT_STRENGTH]);
-			sb.append("\nINTELLIGENCE: \t").append(s[STAT_INTELLIGENCE]);
-			sb.append("\nWISDOM: \t\t").append(s[STAT_WISDOM]);
-			sb.append("\nAGILITY: \t\t").append(s[STAT_AGILITY]);
-			sb.append("\nVITALITY: \t\t").append(s[STAT_VITALITY]); // NEW
 
-			String className = toonClass != null ? toonClass : "";
-			if (!className.isEmpty()) {
-				if (isMagicUser(className)) {
-					int mp = calculateMagicPoints(s, className);
-					sb.append("\nMAGIC POINTS: \t").append(mp);
-				} else {
-					Random rand = new Random();
-					double multiplier = 1.0 + (0.5 * rand.nextDouble());
-					int actionPoints = (int) Math.round((s[STAT_STRENGTH] + s[STAT_AGILITY]) * multiplier);
-					sb.append("\nACTION POINTS: \t").append(actionPoints);
-				}
-			}
+private static void displayStats(Integer[] stat) {
+    if (stat == null) return;
+    final Integer[] s = stat.clone();
+    SwingUtilities.invokeLater(() -> {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CHARECTOR STATS\n");
+        sb.append("\nSTAMINA: \t\t").append(s[STAT_STAMINA]);
+        sb.append("\nCHARISMA: \t\t").append(s[STAT_CHARISMA]);
+        sb.append("\nSTRENGTH: \t\t").append(s[STAT_STRENGTH]);
+        sb.append("\nINTELLIGENCE: \t").append(s[STAT_INTELLIGENCE]);
+        sb.append("\nWISDOM: \t\t").append(s[STAT_WISDOM]);
+        sb.append("\nAGILITY: \t\t").append(s[STAT_AGILITY]);
+        sb.append("\nVITALITY: \t\t").append(s[STAT_VITALITY]);
 
-			toonstatsTextArea.setText(sb.toString());
-			toonstatsTextArea.setCaretPosition(0);
-			toonstatsTextArea.setEditable(false);
-			toonstatsTextArea.revalidate();
-			toonstatsTextArea.repaint();
-			if (toonstatsScrollPane != null) {
-				toonstatsScrollPane.revalidate();
-				toonstatsScrollPane.repaint();
-			}
-		});
-	}
+        // Add Hit Points using ToonHP
+        String className = toonClass != null ? toonClass : "";
+        ArrayList<String> tempChar = new ArrayList<>();
+        tempChar.add(""); // name placeholder
+        tempChar.add(className); // class
+        int hp = ToonHP(s, tempChar);
+        sb.append("\nHIT POINTS: \t\t").append(hp);
+
+        if (!className.isEmpty()) {
+            if (isMagicUser(className)) {
+                int mp = calculateMagicPoints(s, className);
+                sb.append("\nMAGIC POINTS: \t").append(mp);
+            } else {
+                Random rand = new Random();
+                double multiplier = 1.0 + (0.5 * rand.nextDouble());
+                int actionPoints = (int) Math.round((s[STAT_STRENGTH] + s[STAT_AGILITY]) * multiplier);
+                sb.append("\nACTION POINTS: \t").append(actionPoints);
+            }
+        }
+
+        toonstatsTextArea.setText(sb.toString());
+        toonstatsTextArea.setCaretPosition(0);
+        toonstatsTextArea.setEditable(false);
+        toonstatsTextArea.revalidate();
+        toonstatsTextArea.repaint();
+        if (toonstatsScrollPane != null) {
+            toonstatsScrollPane.revalidate();
+            toonstatsScrollPane.repaint();
+        }
+    });
+}
+
 
 	public static void toonName(JTextField tooncreation, String charName, ArrayList<String> newChar) {
 		boolean inputAccepted = false;
