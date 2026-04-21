@@ -1,5 +1,3 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Horned_Devil.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -56,21 +54,22 @@ public class Horned_Devil extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (Math.random() * 100 < dodgeChance) {
-            // UI messaging removed: enemy classes should not call UI directly.
+            mainGameScreen.appendToMessageTextPane(getName() + " vanishes in a puff of brimstone and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        // UI messaging removed: death message should be handled by caller/UI layer.
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " collapses, its horns shattering on the ground.");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-         this.hitPoints = (level * 5) + (vitality * 7);
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -79,18 +78,22 @@ public class Horned_Devil extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.8));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " gores with its horns, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        return incomingDamage * (100 - reductionPercent) / 100;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " blocks with infernal hide, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -151,10 +154,4 @@ public class Horned_Devil extends Enemies {
     public String getClassName() {
         return "Horned_Devil";
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

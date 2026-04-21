@@ -1,13 +1,9 @@
 
-// src/DungeonoftheBrutalKing/Enemies/Guardian.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
-
-import java.io.IOException;
-import java.text.ParseException;
 
 public class Guardian extends Enemies {
     private int level;
@@ -48,17 +44,6 @@ public class Guardian extends Enemies {
         this.hitPoints = (level * 6) + (vitality * 8);
     }
 
-    private void appendMsg(String msg) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(msg);
-        } catch (IOException | InterruptedException | ParseException ex) {
-            ex.printStackTrace();
-            if (ex instanceof InterruptedException) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
     public int getLevel() { return level; }
     public int getStrength() { return strength; }
     public int getCharisma() { return charisma; }
@@ -70,14 +55,16 @@ public class Guardian extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 15;
         if (Math.random() * 100 < blockChance) {
-            appendMsg(getName() + " blocks the attack with a radiant shield!");
+            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a radiant shield!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) appendMsg(getName() + " falls, shield unyielding.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " falls, shield unyielding.");
+        }
     }
 
     @Override
@@ -93,19 +80,21 @@ public class Guardian extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.14;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.1));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " strikes with a radiant blade, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 13;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMsg(getName() + " guards fiercely, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " guards fiercely, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -167,10 +156,4 @@ public class Guardian extends Enemies {
     public String getClassName() {
         return "Guardian";
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -71,11 +71,6 @@ public class Priest extends Enemies {
         return reducedDamage;
     }
 
-    @Override
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Priest");
-        return "Priest";
-    }
 
     @Override
     public int getSpellStrength() {
@@ -149,9 +144,8 @@ public class Priest extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Priest";
+    }
 }

@@ -1,13 +1,9 @@
 
-// File: `src/DungeonoftheBrutalKing/Enemies/Archon.java`
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
-
-import java.io.IOException;
-import java.text.ParseException;
 
 public class Archon extends Enemies {
     private int level;
@@ -17,6 +13,7 @@ public class Archon extends Enemies {
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
 
     public Archon() {
@@ -44,6 +41,7 @@ public class Archon extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -53,12 +51,19 @@ public class Archon extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        super.takeDamage(damage);
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int blockChance = 18;
+        if (Math.random() * 100 < blockChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a celestial barrier!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            appendMessageSafely(getName() + " falls, celestial light dims.");
+            mainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
         }
     }
 
@@ -70,30 +75,39 @@ public class Archon extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return super.isDead();
+        return getHitPoints() <= 0;
     }
 
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 1.3) + (getWisdom() * 1.6) + getSpellStrength());
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = Math.random() < 0.16;
+        int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.6) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " unleashes divine wrath, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
-    public int defend(int incomingDamage) {
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 9;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMessageSafely(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 15) {
+            return GameSettings.MonsterImagePath + "Archon_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -130,7 +144,7 @@ public class Archon extends Enemies {
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 5 + (int) (Math.random() * 3);
     }
 
     @Override
@@ -147,13 +161,5 @@ public class Archon extends Enemies {
     @Override
     public String getClassName() {
         return getName();
-    }
-
-    private void appendMessageSafely(String message) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(message);
-        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
-            // UI unavailable; keep combat logic running.
-        }
     }
 }

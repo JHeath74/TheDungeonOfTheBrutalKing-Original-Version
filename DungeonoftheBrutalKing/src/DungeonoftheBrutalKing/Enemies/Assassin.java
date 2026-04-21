@@ -1,24 +1,19 @@
 
-// File: `src/DungeonoftheBrutalKing/Enemies/Assassin.java`
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
-import java.io.IOException;
-import java.text.ParseException;
-
 public class Assassin extends Enemies {
     private int level;
-
     private final int strength;
     private final int charisma;
     private final int agility;
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
 
     public Assassin() {
@@ -46,6 +41,7 @@ public class Assassin extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -55,47 +51,50 @@ public class Assassin extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        int dodgeChance = 20; // percent
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 20;
         if (Math.random() * 100 < dodgeChance) {
-            appendMessageSafely(getName() + " dodged the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
             return;
         }
-
-        super.takeDamage(defend(damage));
-
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            appendMessageSafely(getName() + " falls, blade stilled.");
+            mainGameScreen.appendToMessageTextPane(getName() + " falls, blade stilled.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return super.isDead();
+        return getHitPoints() <= 0;
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.2;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " strikes from the shadows, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMessageSafely(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -139,14 +138,6 @@ public class Assassin extends Enemies {
     @Override
     public String getClassName() {
         return getName();
-    }
-
-    private void appendMessageSafely(String message) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(message);
-        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
-            // UI unavailable; keep game logic running.
-        }
     }
 
     @Override

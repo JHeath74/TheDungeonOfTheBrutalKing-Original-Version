@@ -1,13 +1,10 @@
 
-// src/DungeonoftheBrutalKing/Enemies/Goblin.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
-
-import java.io.IOException;
-import java.text.ParseException;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Goblin extends Enemies {
     private int level;
@@ -17,6 +14,7 @@ public class Goblin extends Enemies {
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
 
     public Goblin() {
@@ -25,17 +23,17 @@ public class Goblin extends Enemies {
 
     public Goblin(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Goblin",
-                level,
-                (level * 5) + (vitality * 7),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Goblin.png",
-                false,
-                vitality
+            "Goblin",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Goblin.png",
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -44,16 +42,7 @@ public class Goblin extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
-        // Hit points are managed by the Enemies base class.
-    }
-
-    private void appendMsg(String msg) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(msg);
-        } catch (IOException | InterruptedException | ParseException ex) {
-            ex.printStackTrace();
-            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
-        }
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -63,45 +52,50 @@ public class Goblin extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 11;
-        if (Math.random() * 100 < dodgeChance) {
-            appendMsg(getName() + " ducks and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " ducks and dodges the attack!");
             return;
         }
-        int reduced = defend(damage);
-        super.takeDamage(reduced);
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            appendMsg(getName() + " has died.");
+            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return super.isDead();
+        return getHitPoints() <= 0;
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.13;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.13;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 0.8));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " swings a jagged blade for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -116,24 +110,24 @@ public class Goblin extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 2 + (int) (Math.random() * 3);
+        return 2 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 
@@ -145,22 +139,22 @@ public class Goblin extends Enemies {
     @Override
     public String toString() {
         return "Goblin{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
 
     @Override
     public String getClassName() {
-        return "Goblin";
+        return getName();
     }
 }

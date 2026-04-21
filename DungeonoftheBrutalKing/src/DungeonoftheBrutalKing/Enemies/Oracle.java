@@ -1,5 +1,3 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Oracle.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -59,11 +57,11 @@ public class Oracle extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " glimpses the future and dodges the attack!");
+            MainGameScreen.appendToMessageTextPane(getName() + " glimpses the future and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, visions fade.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, visions fade.");
     }
 
     @Override
@@ -72,14 +70,8 @@ public class Oracle extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " foresees the blow, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " foresees the blow, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
-    }
-
-    @Override
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Oracle");
-        return "Oracle";
     }
 
     @Override

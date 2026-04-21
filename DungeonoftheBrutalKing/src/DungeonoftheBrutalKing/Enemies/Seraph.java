@@ -2,9 +2,9 @@
 // src/DungeonoftheBrutalKing/Enemies/Seraph.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing.Status.HasHitPoints;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 public class Seraph extends Enemies {
     private int level;
@@ -15,29 +15,27 @@ public class Seraph extends Enemies {
     private final int wisdom;
     private final int vitality;
     private int hitPoints;
+    private final int spellStrength;
     private final Alignment alignment = Alignment.GOOD;
 
     public Seraph() {
-        this(randomLevel(), 7, 15, 8, 13, 15, 8);
+        this(randomLevel(), 7, 15, 8, 13, 15, 8, 30);
     }
 
-    public Seraph(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
+    public Seraph(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality, int spellStrength) {
         super(
-                "Seraph",
-                level,
-                (level * 5) + (vitality * 7),
-                strength,
-                agility,
-                intelligence,
-                wisdom,
-                0,
-                "",
-                false,
-                vitality
+            "Seraph",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.MonsterImagePath + "Seraph.png",
+            true,
+            vitality
         );
-        try {
-            super.setMagicUser(true);
-        } catch (Throwable ignored) {}
         this.level = level;
         this.strength = strength;
         this.charisma = charisma;
@@ -46,6 +44,7 @@ public class Seraph extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
+        this.spellStrength = spellStrength;
     }
 
     public int getLevel() { return level; }
@@ -57,27 +56,17 @@ public class Seraph extends Enemies {
     public int getVitality() { return vitality; }
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+    public int getSpellStrength() { return spellStrength; }
 
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 10;
+        if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " evades the attack with celestial grace!");
+            return;
+        }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
-    }
-
-    @Override
-    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
-        int baseDefense = 7;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 80) reductionPercent = 80;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        MainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
-    }
-
-
-    @Override
-    public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
     }
 
     @Override
@@ -91,8 +80,30 @@ public class Seraph extends Enemies {
     }
 
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 0.8) + (getWisdom() * 2.4) + getSpellStrength());
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = Math.random() < 0.18;
+        int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.4) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " unleashes radiant energy, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 7;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 80) reductionPercent = 80;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public String getImagePath() {
+        if (getHitPoints() < 15) {
+            return GameSettings.MonsterImagePath + "Seraph_injured.png";
+        }
+        return super.getImagePath();
     }
 
     @Override
@@ -125,10 +136,25 @@ public class Seraph extends Enemies {
     }
 
     @Override
+    public String toString() {
+        return "Seraph{" +
+                "name='" + getName() + '\'' +
+                ", level=" + getLevel() +
+                ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() +
+                ", charisma=" + getCharisma() +
+                ", agility=" + getAgility() +
+                ", intelligence=" + getIntelligence() +
+                ", wisdom=" + getWisdom() +
+                ", vitality=" + getVitality() +
+                ", spellStrength=" + getSpellStrength() +
+                ", imagePath='" + getImagePath() + '\'' +
+                ", isMagicUser=" + isMagicUser() +
+                '}';
+    }
+
+    @Override
     public String getClassName() {
         return "Seraph";
     }
-
-
-
 }

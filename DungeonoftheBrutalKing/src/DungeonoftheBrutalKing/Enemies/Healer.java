@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -17,7 +16,7 @@ public class Healer extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Healer() {
-        this(randomLevel(), 4, 10, 6, 10, 13, 7); // Default stats
+        this(randomLevel(), 4, 10, 6, 10, 13, 7);
     }
 
     public Healer(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -55,9 +54,16 @@ public class Healer extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - damage);
-        // UI messaging removed: MainGameScreen.appendToMessageTextPane(...) is non-static and should not be called here.
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 12;
+        if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " gracefully evades the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " collapses, their healing light extinguished.");
+        }
     }
 
     @Override
@@ -68,8 +74,6 @@ public class Healer extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -77,22 +81,28 @@ public class Healer extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    @Override
-    public int attack() {
-        return (int) ((getStrength() * 0.6) + (getWisdom() * 2.0) + getSpellStrength());
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = Math.random() < 0.10;
+        int base = (int) ((getStrength() * 0.6) + (getWisdom() * 2.0) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " invokes a radiant blast, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        // UI messaging removed: MainGameScreen.appendToMessageTextPane(...) is non-static and should not be called here.
+        mainGameScreen.appendToMessageTextPane(getName() + " shields with holy light, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.MonsterImagePath + "Healer_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -147,10 +157,4 @@ public class Healer extends Enemies {
     public String getClassName() {
         return "Healer";
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

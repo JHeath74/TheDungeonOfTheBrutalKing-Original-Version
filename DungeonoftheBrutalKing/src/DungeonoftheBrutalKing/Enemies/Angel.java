@@ -1,28 +1,19 @@
 
-// File: `src/DungeonoftheBrutalKing/Enemies/Angel.java`
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
-import java.io.IOException;
-import java.text.ParseException;
-
-/**
- * Represents an Angel enemy with specific stats and abilities.
- * Inherits from the Enemies base class.
- */
 public class Angel extends Enemies {
     private int level;
-
     private final int strength;
     private final int charisma;
     private final int agility;
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
-
+    private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
 
     public Angel() {
@@ -50,6 +41,7 @@ public class Angel extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     public int getLevel() { return level; }
@@ -59,12 +51,19 @@ public class Angel extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        super.takeDamage(damage);
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int blockChance = 16;
+        if (Math.random() * 100 < blockChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with radiant wings!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            appendMessageSafely(getName() + " fades, but grace remains.");
+            mainGameScreen.appendToMessageTextPane(getName() + " fades, but grace remains.");
         }
     }
 
@@ -76,30 +75,39 @@ public class Angel extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
+        // Optionally, recalculate hitPoints if level changes:
+        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
     public boolean isDead() {
-        return super.isDead();
+        return getHitPoints() <= 0;
     }
 
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 1.2) + (getWisdom() * 1.5) + getSpellStrength());
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = Math.random() < 0.16;
+        int base = (int) ((getStrength() * 1.2) + (getWisdom() * 1.5) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant grace, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
-    public int defend(int incomingDamage) {
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMessageSafely(getName() + " spreads radiant wings, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " spreads radiant wings, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 12) {
+            return GameSettings.MonsterImagePath + "Angel_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -137,11 +145,21 @@ public class Angel extends Enemies {
         return getName();
     }
 
-    private void appendMessageSafely(String message) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(message);
-        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
-            // Ignore when UI is unavailable.
-        }
+    @Override
+    public String toString() {
+        return "Angel{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 }

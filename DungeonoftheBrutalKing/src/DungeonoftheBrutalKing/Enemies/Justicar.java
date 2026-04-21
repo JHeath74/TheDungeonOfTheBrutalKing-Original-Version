@@ -1,13 +1,9 @@
 
-// src/DungeonoftheBrutalKing/Enemies/Justicar.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
-
-import java.io.IOException;
-import java.text.ParseException;
 
 public class Justicar extends Enemies {
     private int level;
@@ -49,17 +45,6 @@ public class Justicar extends Enemies {
         this.hitPoints = (level * 6) + (vitality * 8);
     }
 
-    private void appendMsg(String msg) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(msg);
-        } catch (IOException | InterruptedException | ParseException ex) {
-            ex.printStackTrace();
-            if (ex instanceof InterruptedException) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
     public int getLevel() { return level; }
     public int getStrength() { return strength; }
     public int getCharisma() { return charisma; }
@@ -71,16 +56,19 @@ public class Justicar extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) appendMsg(getName() + " falls, justice denied.");
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 10;
+        if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " parries the attack with unwavering resolve!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, justice denied.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
     @Override
@@ -89,19 +77,21 @@ public class Justicar extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.10;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.4));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " delivers a righteous blow, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 15;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMsg(getName() + " upholds the law, reducing damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " upholds the law, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -158,10 +148,4 @@ public class Justicar extends Enemies {
     public String getClassName() {
         return "Justicar";
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -399,7 +399,7 @@ public class CharacterCreation {
 		SwingUtilities.invokeLater(() -> {
 			// Use a clear, single setText rather than multiple appends for predictability
 			StringBuilder sb = new StringBuilder();
-			sb.append("DEBUG STATS VIEW\n");
+			sb.append("CHARECTOR STATS\n");
 			sb.append("\nSTAMINA: \t\t").append(s[STAT_STAMINA]);
 			sb.append("\nCHARISMA: \t\t").append(s[STAT_CHARISMA]);
 			sb.append("\nSTRENGTH: \t\t").append(s[STAT_STRENGTH]);

@@ -240,8 +240,5 @@ public abstract class Enemies implements HasHitPoints {
 		return 0;
 	}
 
-	public String getClassName(MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }

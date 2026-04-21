@@ -76,11 +76,6 @@ public class Protector extends Enemies {
         return reducedDamage;
     }
 
-    @Override
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Protector");
-        return "Protector";
-    }
 
     @Override
     public void setLevel(int level) {
@@ -154,9 +149,8 @@ public class Protector extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Protector";
+    }
 }

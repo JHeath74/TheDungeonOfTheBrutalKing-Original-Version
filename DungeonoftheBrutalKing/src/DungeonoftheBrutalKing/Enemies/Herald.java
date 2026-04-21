@@ -1,5 +1,3 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Herald.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -56,19 +54,21 @@ public class Herald extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
+            mainGameScreen.appendToMessageTextPane(getName() + " raises a shining banner and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " falls, their proclamation echoing in the halls.");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally recalc HP:
-        // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
     @Override
@@ -77,18 +77,22 @@ public class Herald extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.14;
         int base = (int) ((getStrength() * 1.1) + (getCharisma() * 1.4));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " proclaims a mighty challenge, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 12;
         int reductionPercent = (baseDefense + getCharisma()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        return incomingDamage * (100 - reductionPercent) / 100;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " inspires allies, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -149,10 +153,4 @@ public class Herald extends Enemies {
     public String getClassName() {
         return "Herald";
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

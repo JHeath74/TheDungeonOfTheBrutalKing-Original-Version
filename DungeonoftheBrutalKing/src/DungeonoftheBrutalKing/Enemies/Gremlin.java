@@ -1,13 +1,8 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Gremlin.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
-
-import java.io.IOException;
-import java.text.ParseException;
 
 public class Gremlin extends Enemies {
     private int level;
@@ -48,15 +43,6 @@ public class Gremlin extends Enemies {
         this.hitPoints = (level * 5) + (vitality * 7);
     }
 
-    private void appendMsg(String msg) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(msg);
-        } catch (IOException | InterruptedException | ParseException ex) {
-            ex.printStackTrace();
-            if (ex instanceof InterruptedException) Thread.currentThread().interrupt();
-        }
-    }
-
     public int getLevel() { return level; }
     public int getStrength() { return strength; }
     public int getCharisma() { return charisma; }
@@ -68,21 +54,19 @@ public class Gremlin extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 13;
         if (Math.random() * 100 < dodgeChance) {
-            appendMsg(getName() + " slips away and dodges the attack!");
+            mainGameScreen.appendToMessageTextPane(getName() + " slips away and dodges the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        if (isDead()) appendMsg(getName() + " has died.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has died.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -91,19 +75,21 @@ public class Gremlin extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.2));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " attacks with sharp claws, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 9;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 

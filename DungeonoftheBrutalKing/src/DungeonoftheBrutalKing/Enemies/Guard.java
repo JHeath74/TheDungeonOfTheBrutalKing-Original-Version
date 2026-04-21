@@ -1,13 +1,9 @@
 
-// src/DungeonoftheBrutalKing/Enemies/Guard.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
-
-import java.io.IOException;
-import java.text.ParseException;
 
 public class Guard extends Enemies {
     private int level;
@@ -49,17 +45,6 @@ public class Guard extends Enemies {
         setMagicUser(false);
     }
 
-    private void appendMsg(String msg) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(msg);
-        } catch (IOException | InterruptedException | ParseException ex) {
-            ex.printStackTrace();
-            if (ex instanceof InterruptedException) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
     @Override
     public String getClassName() {
         return "Guard";
@@ -76,15 +61,15 @@ public class Guard extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 10;
         if (Math.random() * 100 < blockChance) {
-            appendMsg(getName() + " blocks the attack with a sturdy shield!");
+            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a sturdy shield!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            appendMsg(getName() + " has died.");
+            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -99,19 +84,21 @@ public class Guard extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.12;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 0.7));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " strikes with a sword, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 11;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMsg(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -168,10 +155,4 @@ public class Guard extends Enemies {
                 ", isMagicUser=" + isMagicUser() +
                 '}';
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

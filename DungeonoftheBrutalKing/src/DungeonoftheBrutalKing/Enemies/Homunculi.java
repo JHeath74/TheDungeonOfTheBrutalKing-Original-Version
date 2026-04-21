@@ -1,5 +1,3 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Homunculi.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -56,21 +54,21 @@ public class Homunculi extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
     @Override
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
         if (Math.random() * 100 < dodgeChance) {
-            // UI messaging removed: enemy classes should not call UI directly.
+            mainGameScreen.appendToMessageTextPane(getName() + " dissolves and reforms, dodging the attack!");
             return;
         }
-        setHitPoints(getHitPoints() - defend(damage));
-        // UI messaging removed: dissolving message should be handled by caller/UI layer if needed.
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            mainGameScreen.appendToMessageTextPane(getName() + " dissolves into a puddle of alchemical goo.");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally recalc HP:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -79,18 +77,22 @@ public class Homunculi extends Enemies {
     }
 
     @Override
-    public int attack() {
+    public int attack(MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.13;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
-        return critical ? base * 2 : base;
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " lashes out with shifting limbs, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-        return incomingDamage * (100 - reductionPercent) / 100;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        mainGameScreen.appendToMessageTextPane(getName() + " morphs defensively, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
     }
 
     @Override
@@ -151,10 +153,4 @@ public class Homunculi extends Enemies {
     public String getClassName() {
         return "Homunculi";
     }
-
-	@Override
-	public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-		// TODO Auto-generated method stub
-		
-	}
 }

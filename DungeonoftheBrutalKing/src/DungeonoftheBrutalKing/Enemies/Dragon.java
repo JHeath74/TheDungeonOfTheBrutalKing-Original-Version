@@ -1,5 +1,4 @@
 
-// File: `src/DungeonoftheBrutalKing/Enemies/Dragon.java`
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Charecter;
@@ -9,21 +8,12 @@ import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.Status.FireStatus;
 
-import java.io.IOException;
-import java.text.ParseException;
-
-/**
- * Represents a Dragon enemy with advanced combat abilities.
- */
 public class Dragon extends Enemies {
 
-    private int level; // Used for rewards and scaling
+    private int level;
     private final Alignment alignment = Alignment.EVIL;
     private final int alignmentImpact = 5;
 
-    /**
-     * Constructs a Dragon with predefined stats and image.
-     */
     public Dragon() {
         super(
             "Dragon",
@@ -42,32 +32,29 @@ public class Dragon extends Enemies {
     }
 
     @Override
-    public void takeDamage(int damage) {
-        int mitigated = defend(damage);
-        super.takeDamage(mitigated);
-
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChancePercent = 10;
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChancePercent) {
+            mainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            appendMessageSafely(getName() + " has died.\n");
+            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
-    /**
-     * Attacks a target character, with a chance to inflict burn.
-     * @param target The character being attacked.
-     * @return The damage dealt.
-     */
-    public int attack(Charecter target) {
+    public int attack(Charecter target, MainGameScreen mainGameScreen) {
         int damage = getAttackDamage();
-
         double baseBurnChance = 0.30;
         double defenseFactor = Math.max(0.0, 1.0 - (target.getDefense() / 100.0));
         double finalBurnChance = baseBurnChance * defenseFactor;
 
-        appendMessageSafely(getName() + " attacks for " + damage + " damage.\n");
+        mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage.");
         target.takeDamage(damage);
 
         if (RandomFactory.gameplayDouble() < finalBurnChance) {
-            appendMessageSafely(getName() + " breathes fire! The target is burned.\n");
+            mainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.");
             FireStatus fireStatus = new FireStatus();
             target.getStatusManager().addStatus(fireStatus, target);
         }
@@ -75,35 +62,28 @@ public class Dragon extends Enemies {
         return damage;
     }
 
-    /**
-     * Throws an exception; use attack(Charecter target) instead.
-     * @throws UnsupportedOperationException Always thrown to enforce correct usage.
-     */
     @Override
-    public int attack() {
-        throw new UnsupportedOperationException("Use attack(Charecter target) instead.");
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = getAttackDamage();
+        int damage = critical ? base * 2 : base;
+        mainGameScreen.appendToMessageTextPane(getName() + " unleashes a mighty attack, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
 
-    /**
-     * Calculates reduced damage when defending, based on base defense and agility.
-     * Caps reduction at 80%. Displays a message with the reduced damage.
-     * @param incomingDamage The original damage to be reduced.
-     * @return The reduced damage after defense.
-     */
     @Override
-    public int defend(int incomingDamage) {
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 10;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
-
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        appendMessageSafely(getName() + " defends and reduces damage to " + reducedDamage + ".\n");
+        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public boolean isDead() {
-        return super.isDead();
+        return getHitPoints() <= 0;
     }
 
     @Override
@@ -165,13 +145,5 @@ public class Dragon extends Enemies {
     @Override
     public String getClassName() {
         return getName();
-    }
-
-    private void appendMessageSafely(String message) {
-        try {
-            MainGameScreen.getInstance().appendToMessageTextPane(message);
-        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
-            // UI unavailable; keep combat logic running.
-        }
     }
 }

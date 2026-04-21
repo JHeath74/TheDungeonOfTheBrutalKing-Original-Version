@@ -77,12 +77,6 @@ public class Paragon extends Enemies {
     }
 
     @Override
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Paragon");
-        return "Paragon";
-    }
-
-    @Override
     public void setLevel(int level) {
         this.level = level;
     }
@@ -154,9 +148,8 @@ public class Paragon extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return "Paragon";
+    }
 }
