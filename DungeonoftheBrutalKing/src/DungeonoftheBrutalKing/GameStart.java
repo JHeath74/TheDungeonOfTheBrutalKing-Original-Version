@@ -138,7 +138,7 @@ public class GameStart extends JFrame {
         newGameBtn.addActionListener(e -> {
             // Wrap the entire operation to prevent an uncaught exception from terminating the app
             try {
-                System.out.println("Start New Game button clicked");
+
                 MusicPlayer.stopMidi();
 
                 // Ensure the save directory exists before we check for files
@@ -162,7 +162,7 @@ public class GameStart extends JFrame {
                         if (saveFile.delete()) {
                             // Notify user and run the character creation on the EDT to ensure UI operations are safe
                             SwingUtilities.invokeLater(() -> {
-                                JOptionPane.showMessageDialog(StartMenuFrame, "Starting new character creation...");
+                           
                                 proceedToCreateCharacter();
                             });
                         } else {
@@ -171,7 +171,7 @@ public class GameStart extends JFrame {
                     }
                 } else {
                    SwingUtilities.invokeLater(() -> {
-                       JOptionPane.showMessageDialog(StartMenuFrame, "Starting new character creation...");
+                     
                        proceedToCreateCharacter();
                    });
                 }

@@ -1,12 +1,9 @@
+
 package DungeonoftheBrutalKing;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 import javax.swing.*;
 import DungeonoftheBrutalKing.Quests.Quest;
@@ -14,10 +11,8 @@ import DungeonoftheBrutalKing.Quests.QuestImpl;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 import DungeonoftheBrutalKing.SharedData.GuildType;
-import DungeonoftheBrutalKing.SharedData.KeyManager;
-import DungeonoftheBrutalKing.SharedData.EncryptionUtil;
 
-public class LoadSaveGame {
+public class LoadSaveGame2 {
 
     Charecter myChar = Charecter.getInstance();
     int width, height = 0;
@@ -27,7 +22,7 @@ public class LoadSaveGame {
         String autoSaveGamePath = GameSettings.SavedGameDirectory + File.separator + savedGameName;
         if (!savedGameName.equals("InitialCharecterSave.txt")) {
             try (FileWriter writer = new FileWriter(autoSaveGamePath)) {
-                saveAllEncrypted(writer);
+                saveAll(writer);
                 JOptionPane.showMessageDialog(null, "Game Saved: " + savedGameName);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error saving game: " + e.getMessage());
@@ -51,7 +46,7 @@ public class LoadSaveGame {
         }
         String fullPath = GameSettings.SavedGameDirectory + File.separator + saveFileName;
         try (FileWriter writer = new FileWriter(fullPath)) {
-            saveAllEncrypted(writer);
+            saveAll(writer);
         }
         JOptionPane.showMessageDialog(null, "Game Saved: " + saveFileName);
     }
@@ -62,14 +57,16 @@ public class LoadSaveGame {
             JOptionPane.showMessageDialog(null, "No valid save file found to load the charecter.");
             return;
         }
-        loadAllEncrypted(chosenFile);
-        
-        
-        
+        loadAll(chosenFile);
+
         myChar.getDirection();
-        
-        
-      
+
+        ArrayList<String> charInfo = myChar.getCharInfo();
+        StringBuilder info = new StringBuilder("Character Info:\n");
+        for (int i = 0; i < charInfo.size(); i++) {
+            info.append("[").append(i).append("]: ").append(charInfo.get(i)).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, info.toString());
     }
 
     public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {
@@ -78,7 +75,7 @@ public class LoadSaveGame {
             JOptionPane.showMessageDialog(null, "No valid save file found to continue the game.");
             return;
         }
-        loadAllEncrypted(chosenFile);
+        loadAll(chosenFile);
         MainGameScreen.getInstance();
     }
 
@@ -122,7 +119,7 @@ public class LoadSaveGame {
                 }
             }
             try {
-                loadAllEncrypted(new File(GameSettings.SavedGameDirectory + File.separator + gameInfo));
+                loadAll(new File(GameSettings.SavedGameDirectory + File.separator + gameInfo));
                 JOptionPane.showMessageDialog(null, "Game Loaded: " + gameInfo);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "Error loading game: " + ex.getMessage());
@@ -139,7 +136,7 @@ public class LoadSaveGame {
         loadGame.setVisible(true);
     }
 
-    void saveAllEncrypted(FileWriter writer) throws IOException {
+    void saveAll(FileWriter writer) throws IOException {
         StringBuilder sb = new StringBuilder();
 
         for (String info : myChar.getCharInfo()) {
@@ -165,56 +162,22 @@ public class LoadSaveGame {
               .append(System.lineSeparator());
         }
 
-        System.out.println("Saving data (before encryption):");
-        System.out.println(sb);
-
         if (sb.length() == 0) {
             throw new IOException("No data to save.");
         }
 
-        String salt = EncryptionUtil.generateSalt();
-        String encryptionKey = KeyManager.getOrCreateKey();
-        try {
-            String encrypted = EncryptionUtil.encrypt(sb.toString(), encryptionKey, salt);
-            writer.write(salt + System.lineSeparator());
-            writer.write(encrypted);
-            writer.flush();
-        } catch (Exception e) {
-            throw new IOException("Encryption failed: " + e.getMessage(), e);
-        }
+        writer.write(sb.toString());
+        writer.flush();
     }
 
-    private void loadAllEncrypted(File file) throws IOException {
+    private void loadAll(File file) throws IOException {
         myChar.getCharInfo().clear();
         myChar.getSpellsLearned().clear();
         myChar.getGuildSpells().clear();
         myChar.getCharInventory().clear();
         myChar.getActiveQuests().clear();
 
-        String salt;
-        StringBuilder encryptedContent = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            salt = reader.readLine();
-            if (salt == null || salt.isEmpty()) {
-                throw new IOException("Invalid save file: missing salt");
-            }
-            String line;
-            while ((line = reader.readLine()) != null) {
-                encryptedContent.append(line);
-            }
-        }
-        if (encryptedContent.length() == 0) {
-            throw new IOException("Invalid save file: empty encrypted content");
-        }
-        String encryptionKey = KeyManager.getOrCreateKey();
-        String decrypted;
-        try {
-            decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), encryptionKey, salt);
-        } catch (Exception e) {
-            throw new IOException("Decryption failed: " + e.getMessage(), e);
-        }
-
-        try (BufferedReader reader = new BufferedReader(new StringReader(decrypted))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("CHARINFO:")) {
@@ -237,8 +200,6 @@ public class LoadSaveGame {
                 }
             }
         }
-
-   
     }
 
     public static File getLastModified(String SavedGameDirectory) {
@@ -269,37 +230,12 @@ public class LoadSaveGame {
         return count;
     }
 
-    public void saveAllEncrypted(ArrayList<String> data, String filename) throws IOException {
+    public void saveAll(ArrayList<String> data, String filename) throws IOException {
         String filePath = GameSettings.SavedGameDirectory + File.separator + filename;
-        StringBuilder sb = new StringBuilder();
-        for (String line : data) {
-            sb.append(line).append(System.lineSeparator());
-        }
-        String salt = EncryptionUtil.generateSalt();
-        String encryptionKey = KeyManager.getOrCreateKey();
         try (FileWriter writer = new FileWriter(filePath)) {
-            String encrypted = EncryptionUtil.encrypt(sb.toString(), encryptionKey, salt);
-            writer.write(salt + System.lineSeparator());
-            writer.write(encrypted);
-        } catch (Exception e) {
-            throw new IOException("Encryption failed: " + e.getMessage(), e);
-        }
-    }
-
-    public static void readSaveFileDemo() {
-        File file = new File(GameSettings.SavedGameDirectory + File.separator + "InitialCharecterSave.txt");
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String salt = reader.readLine();
-            StringBuilder encryptedContent = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                encryptedContent.append(line);
+            for (String line : data) {
+                writer.write(line + System.lineSeparator());
             }
-            String encryptionKey = KeyManager.getOrCreateKey();
-            String decrypted = EncryptionUtil.decrypt(encryptedContent.toString().trim(), encryptionKey, salt);
-            System.out.println(decrypted);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

@@ -1,5 +1,5 @@
 
-// File: `src/DungeonoftheBrutalKing/MainGameScreen.java`
+// src/DungeonoftheBrutalKing/MainGameScreen.java
 package DungeonoftheBrutalKing;
 
 import DungeonoftheBrutalKing.GameEngine.Camera;
@@ -10,41 +10,27 @@ import DungeonoftheBrutalKing.SharedData.MusicPlayer;
 import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
-import javax.swing.text.TabSet;
-import javax.swing.text.TabStop;
+import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
+import java.awt.event.*;
+import java.io.*;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
     private static MainGameScreen instance;
 
-    private double preCombatX, preCombatY;
-    private double postCombatX, postCombatY;
-
+    private double preCombatX, preCombatY, postCombatX, postCombatY;
     private final Charecter myChar = Charecter.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
+   // private final LoadSaveGame2 myGameState = new LoadSaveGame2();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
 
     private JFrame mainFrame;
     private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel;
-	private static JPanel originalPanel;
+    private static JPanel originalPanel;
     private JTextField charNameClassLevelField, charXPHPGoldField;
     private JTextPane charStatsField, charStats2Field;
     private static JTextPane messageTextPane;
@@ -97,6 +83,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     private void initGame() {
         try {
+        	
+        	
+        	
             game = new Game();
             renderPanel = game.getRenderPanel();
             if (renderPanel != null) {
@@ -147,6 +136,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {}
 
     public void updateCombatMessageArea(String text) {
+        combatMessageArea.setFont(new Font("Monospaced", Font.BOLD, 16));
+        combatMessageArea.setBackground(Color.BLACK);
+        combatMessageArea.setForeground(Color.GREEN);
         combatMessageArea.setText(text);
     }
 
@@ -175,7 +167,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         messageTextPane.setFont(new Font("Arial", Font.PLAIN, 14));
 
         combatMessageArea.setEditable(false);
-        combatMessageArea.setFont(new Font("Arial", Font.BOLD, 16));
+        combatMessageArea.setFont(new Font("Monospaced", Font.BOLD, 16));
         combatMessageArea.setBackground(Color.BLACK);
         combatMessageArea.setForeground(Color.GREEN);
         combatMessageArea.setRows(4);
@@ -183,29 +175,43 @@ public class MainGameScreen extends JFrame implements KeyListener {
         combatMessageArea.setWrapStyleWord(true);
 
         try {
-            myChar.setName(myChar.getCharInfo().get(0));
             myGameState.StartGameLoadCharacter();
+            if (!myChar.getCharInfo().isEmpty()) {
+                myChar.setName(myChar.getCharInfo().get(0));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        // Make the name/class/level field and stats fields very wide
+        int infoWidth = 1600;
         charNameClassLevelField = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorGreen(), myGameSettings.getColorWhite(), 3, false);
-        charStatsField = createTextPane(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
-        charStats2Field = createTextPane(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
+        charNameClassLevelField.setPreferredSize(new Dimension(infoWidth, 28));
+        charNameClassLevelField.setMinimumSize(new Dimension(infoWidth, 28));
+        charNameClassLevelField.setMaximumSize(new Dimension(Short.MAX_VALUE, 28));
+        charStatsField = createTextPane(new Font("Monospaced", Font.BOLD, 16), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
+        charStats2Field = createTextPane(new Font("Monospaced", Font.PLAIN, 16), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
         charXPHPGoldField = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorPurple(), myGameSettings.getColorWhite(), 3, false);
 
         p1Panel.add(p2Panel, BorderLayout.NORTH);
         p1Panel.add(p3Panel, BorderLayout.CENTER);
         p1Panel.add(p4Panel, BorderLayout.SOUTH);
-        p2Panel.add(charNameClassLevelField);
-        // Wrap stat areas in scroll panes so their content is visible and layout respects preferred sizes
+        p2Panel.add(charNameClassLevelField, BorderLayout.CENTER);
+
         JScrollPane statsScroll1 = new JScrollPane(charStatsField, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         JScrollPane statsScroll2 = new JScrollPane(charStats2Field, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        statsScroll1.setPreferredSize(new Dimension(980, 24));
-        statsScroll2.setPreferredSize(new Dimension(980, 24));
+        statsScroll1.setPreferredSize(new Dimension(infoWidth, 24));
+        statsScroll2.setPreferredSize(new Dimension(infoWidth, 24));
         p3Panel.add(statsScroll1, BorderLayout.NORTH);
         p3Panel.add(statsScroll2, BorderLayout.SOUTH);
         p4Panel.add(charXPHPGoldField);
+        
+        ArrayList<String> charInfo = myChar.getCharInfo();
+    	StringBuilder info = new StringBuilder("Character Info:\n");
+    	for (int i = 0; i < charInfo.size(); i++) {
+    	    info.append("[").append(i).append("]: ").append(charInfo.get(i)).append("\n");
+    	}
+    	JOptionPane.showMessageDialog(null, info.toString());
     }
 
     private JTextField createTextField(Font font, Color bg, Color fg, int columns, boolean editable) {
@@ -227,7 +233,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
         SimpleAttributeSet sas = new SimpleAttributeSet();
         StyleConstants.setTabSet(sas, createStatsTabSet());
-        // apply to the whole pane (true = replace existing paragraph attributes)
         pane.setParagraphAttributes(sas, true);
 
         return pane;
@@ -235,23 +240,14 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     private TabSet createStatsTabSet() {
         return new TabSet(new TabStop[] {
-            new TabStop(120f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
-            new TabStop(280f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
-            new TabStop(440f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(150f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(300f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(450f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
             new TabStop(600f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
-            new TabStop(760f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
-            new TabStop(920f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
-            new TabStop(1080f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(800f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(1000f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
+            new TabStop(1200f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
         });
-    }
-
-    // Apply the same tab stops to a pane — useful to call after setText() which may
-    // reset some document/paragraph attributes depending on implementation.
-    private void applyStatsTabStops(JTextPane pane) {
-        if (pane == null) return;
-        SimpleAttributeSet sas = new SimpleAttributeSet();
-        StyleConstants.setTabSet(sas, createStatsTabSet());
-        pane.setParagraphAttributes(sas, true);
     }
 
     private void setupMenuBar() {
@@ -543,30 +539,44 @@ public class MainGameScreen extends JFrame implements KeyListener {
         ActionListener task = _ -> {
             if (myChar.getCharInfo().size() >= 5) {
                 charNameClassLevelField.setText(
-                    "Name: " + myChar.getCharInfo().get(0) + "\t\t" +
-                    "Class: " + myChar.getCharInfo().get(1) + "\t\t" +
-                    "Race: " + myChar.getCharInfo().get(2) + "\t\t" +
-                    "Level: " + myChar.getCharInfo().get(3) + "\t\t" +
-                    "XP: " + myChar.getCharInfo().get(4)
+                    String.format("Name: %-20s  Class: %-15s  Race: %-15s  Level: %-10s  XP: %-10s",
+                        myChar.getCharInfo().get(0),
+                        myChar.getCharInfo().get(1),
+                        myChar.getCharInfo().get(2),
+                        myChar.getCharInfo().get(3),
+                        myChar.getCharInfo().get(4))
                 );
             }
 
-            charStatsField.setText(
-                "Vitality\t\tStamina\t\tCharisma\t\tStrength\t\tIntelligence\t\tWisdom\t\tAgility"
-            );
-            charStats2Field.setText(
-                myChar.getVitality() + "\t\t" +
-                myChar.getStamina() + "\t\t" +
-                myChar.getCharisma() + "\t\t" +
-                myChar.getStrength() + "\t\t" +
-                myChar.getIntelligence() + "\t\t" +
-                myChar.getWisdom() + "\t\t" +
-                myChar.getAgility()
-            );
-            // Ensure paragraph tab stops are applied after setting the text (setText may reset attributes)
-            applyStatsTabStops(charStatsField);
-            applyStatsTabStops(charStats2Field);
-         };
+            String header = "Vitality\tStamina\tCharisma\tStrength\tIntelligence\tWisdom\tAgility";
+            String values = String.format("%d\t%d\t%d\t%d\t%d\t%d\t%d",
+                myChar.getVitality(), myChar.getStamina(), myChar.getCharisma(), myChar.getStrength(),
+                myChar.getIntelligence(), myChar.getWisdom(), myChar.getAgility());
+
+            SimpleAttributeSet attr = new SimpleAttributeSet();
+            StyleConstants.setFontFamily(attr, "Monospaced");
+            StyleConstants.setFontSize(attr, 16);
+            StyleConstants.setBold(attr, true);
+            StyleConstants.setForeground(attr, Color.GREEN);
+
+            TabStop[] tabs = new TabStop[] {
+                new TabStop(150f), new TabStop(300f), new TabStop(450f),
+                new TabStop(600f), new TabStop(800f), new TabStop(1000f), new TabStop(1200f)
+            };
+            StyleConstants.setTabSet(attr, new TabSet(tabs));
+
+            charStatsField.setText("");
+            charStats2Field.setText("");
+            charStatsField.setCharacterAttributes(attr, true);
+            charStats2Field.setCharacterAttributes(attr, true);
+
+            try {
+                charStatsField.getDocument().insertString(0, header, attr);
+                charStats2Field.getDocument().insertString(0, values, attr);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        };
 
         timer = new Timer(100, task);
         timer.setRepeats(true);

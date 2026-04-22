@@ -2,9 +2,13 @@
 // src/Classes/Class.java
 package DungeonoftheBrutalKing.Classes;
 
+import DungeonoftheBrutalKing.SharedData.Stat;
+
 // Abstract class representing a character class in the game
 public abstract class Class {
 
+	public abstract boolean isMagicUser();
+	
     // Array of available character classes
     public static final String[] toonclassarray = {
             "Mage", "Ministrel", "Ranger", "Thief", "Paladin", "Wizard",
@@ -19,6 +23,8 @@ public abstract class Class {
 
     // Name of the character class
     protected String charClass = "";
+    
+    
 
     // Constructor to initialize default values
     public Class() {
@@ -67,4 +73,7 @@ public abstract class Class {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public abstract Stat getPrimaryStat();
+    public abstract Stat getSecondaryStat();
 }

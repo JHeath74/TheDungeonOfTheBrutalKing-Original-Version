@@ -61,6 +61,11 @@ public class Ranger extends Class {
     public String getClassDescription() {
         return DESCRIPTION;
     }
+    
+    @Override
+    public boolean isMagicUser() {
+        return false;
+    }
 
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
     public Stat getSecondaryStat() { return SECONDARY_STAT; }

@@ -83,4 +83,10 @@ public class Hunter extends Class {
     public int getWisPerLevel() { return WIS_PER_LEVEL; }
     public int getAgiPerLevel() { return AGI_PER_LEVEL; }
     public int getVitPerLevel() { return VIT_PER_LEVEL; }
+
+	@Override
+	public boolean isMagicUser() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -25,11 +25,13 @@ import DungeonoftheBrutalKing.Classes.Warrior;
 import DungeonoftheBrutalKing.Classes.Wizard;
 import DungeonoftheBrutalKing.Races.RaceEnum;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.Stat;
 import DungeonoftheBrutalKing.Weapon.Hand;
 import DungeonoftheBrutalKing.Armour.Skin;
 
 public class CharacterCreation {
 
+	//static LoadSaveGame2 myGameState = new LoadSaveGame2();
 	static LoadSaveGame myGameState = new LoadSaveGame();
 	static GameSettings myGameSettings = new GameSettings();
 	Charecter myChar = Charecter.getInstance();
@@ -92,7 +94,7 @@ public class CharacterCreation {
 	private int[] setAndCalculateStats(Integer[] stat, Object weapon, Object armour) {
 		// Use names for equipped weapon and armour
 		
-		System.out.println("CharacterCreation class loaded, stat indexes defined.");
+		
 		myChar.setEquippedWeapon("Hand");
 		myChar.setEquippedArmour("Skin");
 		myChar.setAgility(stat[STAT_AGILITY]);
@@ -117,7 +119,7 @@ public class CharacterCreation {
 	    while (charName == null || charName.trim().isEmpty()) {
 	        charName = JOptionPane.showInputDialog("Please Enter a Name for Your Character.");
 	    }
-	    System.out.println("Creating character with name: " + charName);
+	  
 
 	    size = Toolkit.getDefaultToolkit().getScreenSize();
 	    width = (int) size.getWidth();
@@ -215,7 +217,6 @@ public class CharacterCreation {
 	            toonClass = charectorClass.getSelectedItem() != null ? charectorClass.getSelectedItem().toString() : "";
 	            displayStats(stat);
 	            StringBuilder info = new StringBuilder();
-	            System.out.println("Selected class: " + toonClass);
 	            info.append("Class: ").append(toonClass).append("\n\n");
 	            Class<?> clazz = classMap.get(toonClass);
 	            String imageName = toonClass;
@@ -259,6 +260,8 @@ public class CharacterCreation {
 	            if (!saveDir.exists()) {
 	                saveDir.mkdirs();
 	            }
+	            
+	           
 	            ArrayList<String> saveData = new ArrayList<>();
 	            saveData.add(charName);
 	            saveData.add(toonClass);
@@ -281,6 +284,7 @@ public class CharacterCreation {
 	            saveData.add("0");
 	            myChar.setEquippedWeapon("Hand");
 	            myChar.setEquippedArmour("Skin");
+	            myChar.setPosition(3, 4, 0);
 	            saveData.add(myChar.getEquippedWeapon() != null ? myChar.getEquippedWeapon() : "Hand");
 	            saveData.add(myChar.getEquippedArmour() != null ? myChar.getEquippedArmour() : "Skin");
 	            saveData.add("None");
@@ -295,16 +299,29 @@ public class CharacterCreation {
 	            saveData.add(String.valueOf(defense));
 	            saveData.add(String.valueOf(attack));
 	            saveData.add(String.valueOf(ToonHP(stat, saveData)));
-	            System.out.println("Saving data: " + saveData);
+	           
+	            
+	            
+	            
 	            try {
-	                // Use the API that accepts the data and filename directly to avoid relying on a FileWriter overload
 	                myGameState.saveAllEncrypted(saveData, "InitialCharecterSave.txt");
+	           // 	myGameState.saveAll(saveData, "InitialCharecterSave.txt");
+	            	myChar.getCharInfo().clear();
+	                myChar.getCharInfo().addAll(saveData);
+	                
+	        
+	                
 	                CharecterCreationFrame.dispose();
-	                MainGameScreen.getInstance();
+	                MainGameScreen mainGame = MainGameScreen.getInstance();
+	                if (mainGame != null) {
+	                    mainGame.setVisible(true);
+	                } else {
+	                    System.err.println("Failed to open main game screen after saving character.");
+	                }
 	            } catch (Exception e1) {
-                 JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
-                 e1.printStackTrace();
-             }
+	                JOptionPane.showMessageDialog(null, "Error saving character:\n" + e1.getMessage());
+	                e1.printStackTrace();
+	            }
          }
      });
 
@@ -461,7 +478,7 @@ private static void displayStats(Integer[] stat) {
 	}
 
 	public static Integer[] rollstats() {
-		System.out.println("rollstats() called");
+	
 		int range = 20;
 		int lowerbound = 10;
 
@@ -470,9 +487,7 @@ private static void displayStats(Integer[] stat) {
 		for (int i = 0; i < stats.length; i++) {
 			stats[i] = (int) (Math.random() * range) + lowerbound;
 		}
-		
-		System.out.println("Rolled stats: " + java.util.Arrays.toString(stats));
-		System.out.flush();
+
 		return stats;
 	}
 
@@ -502,34 +517,69 @@ private static void displayStats(Integer[] stat) {
 		if (isMagicUser(characterClass)) {
 			points = calculateMagicPoints(stat, characterClass);
 		} else {
-			points = ToonActionPoints(stat);
+			points = ToonActionPoints(stat, characterClass);
 		}
 		return points;
 	}
 
-	static boolean isMagicUser(String characterClass) {
-		return Arrays.asList("Cleric", "Paladin", "Bard", "Wizard").contains(characterClass);
-	}
 
-	private static int calculateMagicPoints(Integer[] stat, String characterClass) {
-		int baseMP = switch (characterClass) {
-		case "Paladin" -> 14;
-		case "Cleric" -> 20;
-		case "Bard" -> 12;
-		case "Wizard" -> 25;
-		default -> 1;
-		};
-		Random rand = new Random();
-		int randomBonus = rand.nextInt(6);
-		return baseMP + ((stat[STAT_INTELLIGENCE] * 2) + stat[STAT_WISDOM]) + randomBonus;
-	}
 
-	public static int ToonActionPoints(Integer[] stat) {
-		Random rand = new Random();
-		double multiplier = 1.0 + (rand.nextDouble() * 0.5);
-		int randomBonus = rand.nextInt(4);
-		return (int) Math.round(((stat[STAT_STRENGTH] * 2) + stat[STAT_AGILITY]) * multiplier) + randomBonus;
-	}
+static boolean isMagicUser(String characterClass) {
+    Class<?> clazz = classMap.get(characterClass);
+    if (clazz != null) {
+        try {
+            DungeonoftheBrutalKing.Classes.Class classInstance =
+                (DungeonoftheBrutalKing.Classes.Class) clazz.getDeclaredConstructor().newInstance();
+            return classInstance.isMagicUser();
+        } catch (Exception e) {
+            // Optionally log the error
+            return false;
+        }
+    }
+    return false;
+}
+
+
+
+
+
+private static int calculateMagicPoints(Integer[] stat, String characterClass) {
+    Class<?> clazz = classMap.get(characterClass);
+    if (clazz != null) {
+        try {
+            DungeonoftheBrutalKing.Classes.Class classInstance =
+                (DungeonoftheBrutalKing.Classes.Class) clazz.getDeclaredConstructor().newInstance();
+            Stat primary = classInstance.getPrimaryStat();
+            Stat secondary = classInstance.getSecondaryStat();
+            Random rand = new Random();
+            int randomBonus = rand.nextInt(6);
+            return 10 + (stat[primary.ordinal()] * 2 + stat[secondary.ordinal()]) + randomBonus;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    return 0;
+}
+
+public static int ToonActionPoints(Integer[] stat, String characterClass) {
+    Class<?> clazz = classMap.get(characterClass);
+    if (clazz != null) {
+        try {
+            DungeonoftheBrutalKing.Classes.Class classInstance =
+                (DungeonoftheBrutalKing.Classes.Class) clazz.getDeclaredConstructor().newInstance();
+            Stat primary = classInstance.getPrimaryStat();
+            Stat secondary = classInstance.getSecondaryStat();
+            Random rand = new Random();
+            double multiplier = 1.0 + (rand.nextDouble() * 0.5);
+            int randomBonus = rand.nextInt(4);
+            return (int) Math.round((stat[primary.ordinal()] * 2 + stat[secondary.ordinal()]) * multiplier) + randomBonus;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    return 0;
+}
+
 
 	public static Integer gold() {
 		Random random = new Random();

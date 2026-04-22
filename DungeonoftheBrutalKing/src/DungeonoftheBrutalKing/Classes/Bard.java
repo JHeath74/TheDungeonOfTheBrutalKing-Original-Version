@@ -62,6 +62,11 @@ public class Bard extends Class {
     public String getClassDescription() {
         return DESCRIPTION;
     }
+    
+    @Override
+    public boolean isMagicUser() {
+        return true;
+    }
 
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
