@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +61,7 @@ public class ObsidianHexCovenGuildSpellsManager {
     }
 
     // Cast spell by name and caster
-    public void cast(String spellName, Charecter caster) {
+    public void cast(String spellName, Character caster) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster);
@@ -69,7 +69,7 @@ public class ObsidianHexCovenGuildSpellsManager {
     }
 
     // Cast spell by name, caster, and target
-    public void cast(String spellName, Charecter caster, Charecter target) {
+    public void cast(String spellName, Character caster, Character target) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, target);
@@ -77,7 +77,7 @@ public class ObsidianHexCovenGuildSpellsManager {
     }
 
     // Cast spell by name, caster, and list of targets
-    public void cast(String spellName, Charecter caster, List<Charecter> targets) {
+    public void cast(String spellName, Character caster, List<Character> targets) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, targets);

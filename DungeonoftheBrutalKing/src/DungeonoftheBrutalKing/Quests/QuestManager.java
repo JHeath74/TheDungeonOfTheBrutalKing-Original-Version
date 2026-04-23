@@ -2,7 +2,7 @@
 // File: `src/DungeonoftheBrutalKing/Quests/QuestManager.java`
 package DungeonoftheBrutalKing.Quests;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
 import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
@@ -20,9 +20,9 @@ public class QuestManager {
     private final List<Quest> mainQuestChain;
 
     private final List<Quest> activeQuests;
-    private final Charecter character;
+    private final Character character;
 
-    public QuestManager(Charecter character) throws IOException, InterruptedException, ParseException {
+    public QuestManager(Character character) throws IOException, InterruptedException, ParseException {
         this.standardQuests = new ArrayList<>();
         this.guildQuests = new ArrayList<>();
         this.mainQuestChain = new ArrayList<>();

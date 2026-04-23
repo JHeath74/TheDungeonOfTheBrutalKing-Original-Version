@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class DamageUpStatus extends Status {
 
@@ -13,13 +13,13 @@ public final class DamageUpStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null) return;
         target.addDamageBonus(bonusDamage);
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null) return;
         target.addDamageBonus(-bonusDamage);
     }

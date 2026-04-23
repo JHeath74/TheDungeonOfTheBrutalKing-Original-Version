@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -44,7 +44,7 @@ public class Dragon extends Enemies {
         }
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         int damage = getAttackDamage();
         double baseBurnChance = 0.30;
         double defenseFactor = Math.max(0.0, 1.0 - (target.getDefense() / 100.0));

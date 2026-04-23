@@ -2,7 +2,7 @@
 // src/Status/FireStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class FireStatus extends Status {
     private static final int DEFAULT_DURATION_MINUTES = 4;
@@ -20,7 +20,7 @@ public final class FireStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         originalAttackDamage = character.getAttackDamage();
@@ -32,7 +32,7 @@ public final class FireStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         if (character == null) return;
         character.setAttack(Math.max(0, originalAttackDamage));
     }

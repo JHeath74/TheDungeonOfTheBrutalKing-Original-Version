@@ -3,7 +3,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.TimeClock;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -19,17 +19,17 @@ public class TimeDialation implements Spell {
     private boolean active = false;
     private int enemySilenceRounds = 0;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == SPELL_GUILD;
     }
 
-    public int calculateSlowAmount(Charecter charecter) {
+    public int calculateSlowAmount(Character charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
         return BASE_SLOW_PERCENT + (int)(intelligence * 0.5) + (level * 1);
     }
 
-    public void activate(Charecter caster) {
+    public void activate(Character caster) {
         timer = new TimeClock(TimeClock.Month.REBIRTH, null, null);
         timer.startClock();
         enemySilenceRounds = 2;
@@ -55,7 +55,7 @@ public class TimeDialation implements Spell {
         return enemySilenceRounds > 0;
     }
 
-    public int applySlow(Charecter enemy, int originalSpeed, Charecter caster) {
+    public int applySlow(Character enemy, int originalSpeed, Character caster) {
         if (isActive()) {
             int slowPercent = calculateSlowAmount(caster);
             int slowedSpeed = originalSpeed - (originalSpeed * slowPercent / 100);
@@ -105,14 +105,14 @@ public class TimeDialation implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster)) {
             cast(caster);
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             activate(caster);
         }
@@ -124,7 +124,7 @@ public class TimeDialation implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster)) {
             if (target != null) {
                 activate(target);
@@ -135,12 +135,12 @@ public class TimeDialation implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) {
+    public void castWithStrength(Character enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

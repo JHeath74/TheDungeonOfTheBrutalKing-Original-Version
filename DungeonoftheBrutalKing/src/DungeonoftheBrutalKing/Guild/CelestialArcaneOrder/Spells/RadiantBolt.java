@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class RadiantBolt implements Spell {
     public RadiantBolt() {}
 
     // Core spell logic: deals radiant damage to the target character
-    private void dealRadiantDamage(Charecter caster, Charecter target) {
+    private void dealRadiantDamage(Character caster, Character target) {
         if (target == null) return;
         int intelligence = caster != null ? caster.getIntelligence() : 0;
         int damage = BASE_DAMAGE + intelligence;
@@ -31,21 +31,21 @@ public class RadiantBolt implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         dealRadiantDamage(caster, target);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (allCharacters != null && !allCharacters.isEmpty()) {
-            for (Charecter ch : allCharacters) {
+            for (Character ch : allCharacters) {
                 dealRadiantDamage(caster, ch);
             }
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // Not applicable: needs a target
     }
 
@@ -96,13 +96,13 @@ public class RadiantBolt implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

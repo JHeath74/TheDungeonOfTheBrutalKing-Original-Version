@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 import java.util.Random;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing. SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -33,7 +33,7 @@ public final class Dawnbind implements Spell {
     @Override public int getRequiredMagicPoints() { return REQUIRED_MP; }
     @Override public String getDescription() { return "A radiant strike that may bind the foe, preventing movement for a short time."; }
 
-    private void applyDawnbind(Charecter caster, Enemies target) {
+    private void applyDawnbind(Character caster, Enemies target) {
         if (caster == null || target == null) return;
 
         // Guild check
@@ -70,7 +70,7 @@ public final class Dawnbind implements Spell {
         }
     }
 
-    private int computeDamage(Charecter caster) {
+    private int computeDamage(Character caster) {
         int str = Math.max(0, caster.getStrength());
         double dmg = BASE_DAMAGE + (str * STRENGTH_SCALING);
         return (int) Math.max(1, Math.round(dmg));
@@ -81,9 +81,9 @@ public final class Dawnbind implements Spell {
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
     @Override public void cast(int toonWisdom, int toonIntelligence) {}
-    @Override public void cast(Charecter caster) {}
-    @Override public void cast(Charecter caster, Charecter target) {}
-    @Override public void cast(Charecter caster, List<Charecter> allCharacters) {}
-    @Override public void castWithStrength(Charecter enemy, double d) {}
-    @Override public void cast(Charecter caster, Enemies target) { applyDawnbind(caster, target); }
+    @Override public void cast(Character caster) {}
+    @Override public void cast(Character caster, Character target) {}
+    @Override public void cast(Character caster, List<Character> allCharacters) {}
+    @Override public void castWithStrength(Character enemy, double d) {}
+    @Override public void cast(Character caster, Enemies target) { applyDawnbind(caster, target); }
 }

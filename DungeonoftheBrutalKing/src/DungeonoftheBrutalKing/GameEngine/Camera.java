@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Random;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Combat;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Enemies.MonsterSelector;
@@ -127,7 +127,7 @@ public class Camera implements KeyListener {
         }
 
         if (moved) {
-            Charecter.getInstance().setPosition(getX(), getY(), 0);
+            Character.getInstance().setPosition(getX(), getY(), 0);
 
             LocationType type = game.detectLocation(getX(), getY());
             game.handleLocationEvent(type);

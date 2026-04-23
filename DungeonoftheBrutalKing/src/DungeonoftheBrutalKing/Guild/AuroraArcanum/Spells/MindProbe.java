@@ -3,7 +3,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -15,12 +15,12 @@ public class MindProbe implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 7;
     private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == SPELL_GUILD;
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster)) {
             caster.addStatus(new MindProbeStatus(DURATION, EVADE_BONUS));
             // Optionally: read/display target's thoughts here
@@ -28,16 +28,16 @@ public class MindProbe implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster)) {
-            cast(caster, (Charecter) null);
+            cast(caster, (Character) null);
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
-            cast(caster, (Charecter) null);
+            cast(caster, (Character) null);
         }
     }
 
@@ -87,12 +87,12 @@ public class MindProbe implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) {
+    public void castWithStrength(Character enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -9,11 +9,11 @@ import java.util.List;
 public class RestoringLight implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 5;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.DAWNWARD_PALADINS;
     }
 
-    private int calculateHealAmount(Charecter caster) {
+    private int calculateHealAmount(Character caster) {
         int level = caster.getLevel();
         int wisdom = caster.getWisdom();
         return Math.max(1, (level * wisdom) / 2);
@@ -40,7 +40,7 @@ public class RestoringLight implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             int healAmount = calculateHealAmount(caster);
             int currentHP = caster.getHitPoints();
@@ -53,7 +53,7 @@ public class RestoringLight implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || target == null) return;
         int amount = calculateHealAmount(caster);
 
@@ -72,7 +72,7 @@ public class RestoringLight implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { }
+    public void cast(Character caster, List<Character> allCharacters) { }
 
     @Override
     public void cast(int toonWisdom) { }
@@ -92,10 +92,10 @@ public class RestoringLight implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

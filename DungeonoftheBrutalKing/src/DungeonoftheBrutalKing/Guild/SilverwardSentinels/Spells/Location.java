@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 import java.util.List;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
@@ -38,7 +38,7 @@ public class Location implements Spell {
      * the active player character and manipulates their position.
      */
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
-        Charecter myChar = Singleton.myCharSingleton();
+        Character myChar = Singleton.myCharSingleton();
         if (myChar == null) return;
 
         // Use proper accessors instead of raw charInfo indices
@@ -84,7 +84,7 @@ public class Location implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster != null) {
             cast(caster.getWisdom());
         } else {
@@ -93,7 +93,7 @@ public class Location implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster != null) {
             cast(caster.getWisdom());
             // Optionally: teleport target or reveal their location in a future enhancement
@@ -103,9 +103,9 @@ public class Location implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (targets != null) {
-            for (Charecter target : targets) {
+            for (Character target : targets) {
                 cast(caster, target);
             }
         }
@@ -151,13 +151,13 @@ public class Location implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -2,7 +2,7 @@
 // src/Guild/AuroraArcanum/Spells/EchoOfEternity.java
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -13,12 +13,12 @@ public class EchoOfEternity implements Spell {
     private static final int DURATION = 8; // seconds
     private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.AURORA_ARCANUM;
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster)) {
             caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
         }
@@ -60,7 +60,7 @@ public class EchoOfEternity implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             caster.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
         }
@@ -72,7 +72,7 @@ public class EchoOfEternity implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster) && target != null) {
             target.addStatus(new EchoOfEternityAuraStatus(DURATION, caster));
         }
@@ -84,12 +84,12 @@ public class EchoOfEternity implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) {
+    public void castWithStrength(Character enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

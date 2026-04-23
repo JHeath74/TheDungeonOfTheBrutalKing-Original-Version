@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Armour;
 import java.util.ArrayList;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class ArmourManager {
@@ -71,11 +71,11 @@ public class ArmourManager {
         return (double) weight;
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         return false;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         return false;
     }
 

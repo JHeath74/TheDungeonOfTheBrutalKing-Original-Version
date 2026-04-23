@@ -2,7 +2,7 @@
 // src/Guild/AuroraArcanum/Weapon/MagicalRod.java
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -28,7 +28,7 @@ public class MagicalRod extends WeaponManager {
         super("Magical Rod", requiredIntelligence, damage, effect, weight);
     }
 
-    public static MagicalRod createMagicalRod(Charecter character, int damage, String effect) {
+    public static MagicalRod createMagicalRod(Character character, int damage, String effect) {
         int intelligence = character.getIntelligence();
         if (intelligence >= REQUIRED_INTELLIGENCE) {
             return new MagicalRod(REQUIRED_INTELLIGENCE, damage, effect, WEIGHT);
@@ -37,7 +37,7 @@ public class MagicalRod extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && wielder.getGuild() == GUILDname) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
@@ -50,7 +50,7 @@ public class MagicalRod extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
@@ -60,7 +60,7 @@ public class MagicalRod extends WeaponManager {
 		return isEquipped;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         int intelligence = wielder.getIntelligence();
         Random rand = new Random();
         int bonus = rand.nextInt((intelligence / 2) + 1);
@@ -68,7 +68,7 @@ public class MagicalRod extends WeaponManager {
         enemy.takeDamage(totalDamage);
     }
 
-    public void absorbSpell(Charecter wielder) {
+    public void absorbSpell(Character wielder) {
         // Logic for absorbing a spell and converting it to mana or health
     }
 

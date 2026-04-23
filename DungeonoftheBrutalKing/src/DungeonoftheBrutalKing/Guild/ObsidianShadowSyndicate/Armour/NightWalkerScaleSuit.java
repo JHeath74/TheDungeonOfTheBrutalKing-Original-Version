@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class NightWalkerScaleSuit {
@@ -22,7 +22,7 @@ public class NightWalkerScaleSuit {
     private int lastDefBonus = 0;
     private int lastAgiBonus = 0;
 
-    public static NightWalkerScaleSuit createNightwalkerScaleSuit(Charecter character) {
+    public static NightWalkerScaleSuit createNightwalkerScaleSuit(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Shadow Syndicate members can wear the NightwalkerScaleSuit.");
@@ -32,7 +32,7 @@ public class NightWalkerScaleSuit {
         return new NightWalkerScaleSuit();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -46,7 +46,7 @@ public class NightWalkerScaleSuit {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

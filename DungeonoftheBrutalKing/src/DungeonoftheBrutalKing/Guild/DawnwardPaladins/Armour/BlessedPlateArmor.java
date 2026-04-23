@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
@@ -22,7 +22,7 @@ public class BlessedPlateArmor extends ArmourManager {
         super("Blessed Plate Armor", requiredStrength, defense, weight, effect);
     }
 
-    public static BlessedPlateArmor createBlessedPlateArmor(Charecter character, int defense, String effect) {
+    public static BlessedPlateArmor createBlessedPlateArmor(Character character, int defense, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(3));
         if (strength >= REQUIRED_STRENGTH) {
             return new BlessedPlateArmor(REQUIRED_STRENGTH, defense, WEIGHT, effect);
@@ -31,7 +31,7 @@ public class BlessedPlateArmor extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!isEquipped && wearer.getGuild() == GUILDname) {
             wearer.setDefense(wearer.getDefense() + DEFENSE_BONUS);
             wearer.setStrength(wearer.getStrength() + STRENGTH_BONUS);
@@ -42,7 +42,7 @@ public class BlessedPlateArmor extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (isEquipped) {
             wearer.setDefense(wearer.getDefense() - DEFENSE_BONUS);
             wearer.setStrength(wearer.getStrength() - STRENGTH_BONUS);

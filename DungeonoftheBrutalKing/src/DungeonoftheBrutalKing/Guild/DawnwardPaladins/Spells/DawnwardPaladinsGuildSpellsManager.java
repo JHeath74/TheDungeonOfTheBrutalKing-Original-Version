@@ -6,7 +6,7 @@ package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Spells.SpellFactory;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,21 +64,21 @@ public class DawnwardPaladinsGuildSpellsManager {
         }
     }
 
-    public void cast(String spellName, Charecter caster) {
+    public void cast(String spellName, Character caster) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster);
         }
     }
 
-    public void cast(String spellName, Charecter caster, Charecter target) {
+    public void cast(String spellName, Character caster, Character target) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, target);
         }
     }
 
-    public void cast(String spellName, Charecter caster, List<Charecter> targets) {
+    public void cast(String spellName, Character caster, List<Character> targets) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, targets);

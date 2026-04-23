@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class DivineInterventionStatus extends Status {
 
@@ -13,12 +13,12 @@ public final class DivineInterventionStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter charecter) {
+    public void applyEffect(Character charecter) {
         // No immediate effect; checked via onLowHealth(...)
     }
 
     @Override
-    public void removeEffect(Charecter charecter) {
+    public void removeEffect(Character charecter) {
         // No stat changes to undo
     }
 
@@ -26,7 +26,7 @@ public final class DivineInterventionStatus extends Status {
      * Call this from the character's HP update logic.
      * Returns true if the intervention triggered and consumed the status.
      */
-    public boolean onLowHealth(Charecter charecter) {
+    public boolean onLowHealth(Character charecter) {
         if (charecter == null || isExpired()) return false;
 
         int maxHp = charecter.getMaxHitPoints();

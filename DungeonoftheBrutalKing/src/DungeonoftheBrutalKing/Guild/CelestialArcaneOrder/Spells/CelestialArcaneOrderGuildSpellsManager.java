@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,21 +53,21 @@ public class CelestialArcaneOrderGuildSpellsManager {
     }
 
     // Cast spell by name with various overloads
-    public void castSpell(String name, Charecter caster, Charecter target) {
+    public void castSpell(String name, Character caster, Character target) {
         Spell spell = getSpell(name);
         if (spell != null) {
             spell.cast(caster, target);
         }
     }
 
-    public void castSpell(String name, Charecter caster, List<Charecter> targets) {
+    public void castSpell(String name, Character caster, List<Character> targets) {
         Spell spell = getSpell(name);
         if (spell != null) {
             spell.cast(caster, targets);
         }
     }
 
-    public void castSpell(String name, Charecter caster) {
+    public void castSpell(String name, Character caster) {
         Spell spell = getSpell(name);
         if (spell != null) {
             spell.cast(caster);

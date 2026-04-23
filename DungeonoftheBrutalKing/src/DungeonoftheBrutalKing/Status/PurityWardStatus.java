@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * PurityWardStatus: prevents new negative statuses from being applied while active.
@@ -19,13 +19,13 @@ public final class PurityWardStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null) return;
         System.out.println(target.getName() + " is surrounded by a shimmering Purity Ward; negative effects will be resisted.");
         // Best-effort: mark the character as protected against new negative effects
         try {
             // If Charecter exposes a protectedEffects set, add a marker so other code can check it.
-            java.lang.reflect.Field f = Charecter.class.getDeclaredField("protectedEffects");
+            java.lang.reflect.Field f = Character.class.getDeclaredField("protectedEffects");
             f.setAccessible(true);
             Object o = f.get(target);
             if (o instanceof java.util.Set) {
@@ -37,10 +37,10 @@ public final class PurityWardStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null) return;
         try {
-            java.lang.reflect.Field f = Charecter.class.getDeclaredField("protectedEffects");
+            java.lang.reflect.Field f = Character.class.getDeclaredField("protectedEffects");
             f.setAccessible(true);
             Object o = f.get(target);
             if (o instanceof java.util.Set) {

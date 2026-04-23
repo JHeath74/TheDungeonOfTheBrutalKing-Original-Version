@@ -2,7 +2,7 @@
 // src/Status/IceStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class IceStatus extends Status {
     private static final int DURATION_MINUTES = 5;
@@ -18,7 +18,7 @@ public class IceStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         // Capture baseline once so repeated apply calls don't keep reducing attack.
@@ -35,11 +35,11 @@ public class IceStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         restore(character);
     }
 
-    private void restore(Charecter character) {
+    private void restore(Character character) {
         if (character == null) return;
         if (originalAttack != null) {
             character.setAttack(Math.max(0, originalAttack));

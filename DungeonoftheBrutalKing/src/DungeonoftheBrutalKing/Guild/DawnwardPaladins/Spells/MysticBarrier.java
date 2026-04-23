@@ -2,7 +2,7 @@
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -14,7 +14,7 @@ public class MysticBarrier implements Spell {
     private static final int BASE_DURATION = 2;
     private static final Guild SPELL_GUILD = Guild.DAWNWARD_PALADINS;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.DAWNWARD_PALADINS;
     }
 
@@ -48,21 +48,21 @@ public class MysticBarrier implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
-            Charecter target = allCharacters.get(0);
+            Character target = allCharacters.get(0);
             applyBarrier(target, caster.getIntelligence());
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             applyBarrier(caster, caster.getIntelligence());
         }
     }
 
-    public void applyBarrier(Charecter target, int intelligence) {
+    public void applyBarrier(Character target, int intelligence) {
         int reduction = BASE_REDUCTION + (intelligence / 4);
         int duration = BASE_DURATION + (intelligence / 10);
         // Assuming DefenseUpStatus takes (duration, value)
@@ -73,7 +73,7 @@ public class MysticBarrier implements Spell {
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster) && target != null) {
             applyBarrier(target, caster.getIntelligence());
         }
@@ -85,10 +85,10 @@ public class MysticBarrier implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

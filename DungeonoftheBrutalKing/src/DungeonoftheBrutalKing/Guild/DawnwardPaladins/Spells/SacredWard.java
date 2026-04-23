@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -15,7 +15,7 @@ public class SacredWard implements Spell {
     private static final int BASE_DEFENSE_BONUS = 3;
     private static final int BASE_DURATION = 3;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.DAWNWARD_PALADINS;
     }
 
@@ -49,14 +49,14 @@ public class SacredWard implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
             cast(caster, allCharacters.get(0));
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             cast(caster, caster);
         }
@@ -66,7 +66,7 @@ public class SacredWard implements Spell {
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (!canUseSpell(caster) || target == null) return;
 
         int defenseBonus = computeDefenseBonus(caster);
@@ -76,12 +76,12 @@ public class SacredWard implements Spell {
         target.applyStatusEffect(StatusType.DEFENSE_UP_STATUS, duration, defenseBonus, null);
     }
 
-    private int computeDefenseBonus(Charecter caster) {
+    private int computeDefenseBonus(Character caster) {
         int intelligence = caster.getIntelligence();
         return BASE_DEFENSE_BONUS + Math.max(0, intelligence / 6);
     }
 
-    private int computeDuration(Charecter caster) {
+    private int computeDuration(Character caster) {
         int intelligence = caster.getIntelligence();
         return BASE_DURATION + Math.max(0, intelligence / 12);
     }
@@ -92,10 +92,10 @@ public class SacredWard implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

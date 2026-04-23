@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -33,7 +33,7 @@ public class SilverwardSentinels extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         // Enforce one-guild-at-a-time membership
@@ -226,7 +226,7 @@ public class SilverwardSentinels extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int wisdom = character.getWisdom();
         int alignmentValue = character.getAlignment();
@@ -262,7 +262,7 @@ public class SilverwardSentinels extends JPanel {
                 new SilverwardSentinelsGuildSpellsManager(Guild.SILVERWARD_SENTINELS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
-        java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
+        java.util.Set<String> owned = Character.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
 
@@ -288,7 +288,7 @@ public class SilverwardSentinels extends JPanel {
         desc.setWrapStyleWord(true);
 
         JLabel infoLabel = new JLabel("Select a spell to view details.");
-        final Charecter player = Charecter.getInstance();
+        final Character player = Character.getInstance();
         final JLabel goldLabel = new JLabel("Your gold: " + player.getGold());
 
         list.addListSelectionListener(_ev -> {
@@ -391,7 +391,7 @@ public class SilverwardSentinels extends JPanel {
         });
 
         sellBtn.addActionListener(_ev -> {
-            java.util.List<String> ownedList = new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells());
+            java.util.List<String> ownedList = new java.util.ArrayList<>(Character.getInstance().getGuildSpells());
             if (ownedList.isEmpty()) {
                 JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell.");
                 return;
@@ -435,23 +435,23 @@ public class SilverwardSentinels extends JPanel {
     public GuildType getGuildType() { return guildType; }
 
     public int getGuildSpellsCount() {
-        return Charecter.getInstance().getGuildSpells().size();
+        return Character.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public boolean removeGuildSpell(String spell) {
-        return Charecter.getInstance().getGuildSpells().remove(spell);
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
+        return new ArrayList<>(Character.getInstance().getGuildSpells());
     }
 
     private void exitToMainGame() {

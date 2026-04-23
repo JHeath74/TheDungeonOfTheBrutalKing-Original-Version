@@ -14,7 +14,7 @@ import DungeonoftheBrutalKing.SharedData.GuildType;
 
 public class LoadSaveGame2 {
 
-    Charecter myChar = Charecter.getInstance();
+    Character myChar = Character.getInstance();
     int width, height = 0;
 
     public void AutoSaveGame() throws IOException {

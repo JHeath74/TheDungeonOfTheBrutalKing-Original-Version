@@ -2,7 +2,7 @@
 // src/Status/IllusoryDoubleStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class IllusoryDoubleStatus extends Status {
     private final double evadeBonus;
@@ -13,13 +13,13 @@ public final class IllusoryDoubleStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
         character.setEvadeChance(character.getEvadeChance() + evadeBonus);
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         if (character == null) return;
         character.setEvadeChance(character.getEvadeChance() - evadeBonus);
     }

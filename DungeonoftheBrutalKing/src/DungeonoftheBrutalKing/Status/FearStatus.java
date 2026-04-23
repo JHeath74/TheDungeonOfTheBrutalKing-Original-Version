@@ -2,7 +2,7 @@
 // src/Status/FearStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class FearStatus extends Status {
     private static final double DEFENSE_REDUCTION = 0.3; // 30% defense reduction
@@ -14,7 +14,7 @@ public final class FearStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         originalDefense = character.getDefense();
@@ -23,7 +23,7 @@ public final class FearStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         if (character == null) return;
         character.setDefense(originalDefense);
     }

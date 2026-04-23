@@ -2,7 +2,7 @@
 // src/Guild/DirgeweaversChorus/Weapon/GravesongVirtuososRapier.java
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -34,7 +34,7 @@ public class GravesongVirtuososRapier extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && wielder != null && wielder.getGuild() == GUILDname) {
             isEquipped = true;
             return true;
@@ -43,7 +43,7 @@ public class GravesongVirtuososRapier extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             isEquipped = false;
         }
@@ -53,7 +53,7 @@ public class GravesongVirtuososRapier extends WeaponManager {
     /**
      * Call after a successful hit where damage was dealt.
      */
-    public void onHit(Charecter attacker, Enemies target, int damageDealt) {
+    public void onHit(Character attacker, Enemies target, int damageDealt) {
         if (!isEquipped) return;
         if (attacker == null || attacker.getGuild() != GUILDname) return;
 

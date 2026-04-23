@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Status.HasHitPoints;
@@ -22,7 +22,7 @@ public class ReliquarySpear extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer != null && wearer.getCurrentGuild() == GUILDtype && (wearer.getEquippedWeapon() == null || !wearer.getEquippedWeapon().equals(getName()))) {
             wearer.setEquippedWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + 2);
@@ -36,7 +36,7 @@ public class ReliquarySpear extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer != null && wearer.getEquippedWeapon() != null && wearer.getEquippedWeapon().equals(getName())) {
             wearer.setEquippedWeapon(null);
             int newWisdom = wearer.getWisdom() - 2;
@@ -52,8 +52,8 @@ public class ReliquarySpear extends WeaponManager {
 
     @Override
     public void applyCombatEffect(HasHitPoints target) {
-        if (target instanceof Charecter) {
-            ((Charecter) target).addStatus(new ReduceDefenseStatus());
+        if (target instanceof Character) {
+            ((Character) target).addStatus(new ReduceDefenseStatus());
         }
     }
 

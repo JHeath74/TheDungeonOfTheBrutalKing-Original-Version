@@ -2,7 +2,7 @@
 // src/Status/StunStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class StunStatus extends Status {
     private boolean applied;
@@ -12,7 +12,7 @@ public final class StunStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
         if (applied) return;
 
@@ -21,7 +21,7 @@ public final class StunStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         if (character == null) return;
         if (!applied) return;
 

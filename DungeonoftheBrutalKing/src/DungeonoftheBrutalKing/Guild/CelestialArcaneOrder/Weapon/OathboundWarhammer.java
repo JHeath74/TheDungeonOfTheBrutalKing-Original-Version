@@ -4,7 +4,7 @@ import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Status.HasHitPoints;
 import DungeonoftheBrutalKing.Status.RadiantStatus;
 import DungeonoftheBrutalKing.Status.Status;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -22,7 +22,7 @@ public class OathboundWarhammer extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer != null && wearer.getGuild() == GUILDname) {
             wearer.setEquippedWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + 2);
@@ -32,7 +32,7 @@ public class OathboundWarhammer extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer != null
                 && wearer.getEquippedWeapon() != null
                 && wearer.getEquippedWeapon().equals(getName())) {
@@ -52,8 +52,8 @@ public class OathboundWarhammer extends WeaponManager {
             target.setHitPoints(target.getHitPoints() - extraRadiantDamage);
 
             Status radiant = new RadiantStatus(extraRadiantDamage);
-            if (target instanceof Charecter) {
-                ((Charecter) target).addStatus(radiant);
+            if (target instanceof Character) {
+                ((Character) target).addStatus(radiant);
             } else if (target instanceof Enemies) {
                 ((Enemies) target).addStatus(radiant);
             }

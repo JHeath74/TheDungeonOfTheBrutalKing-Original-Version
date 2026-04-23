@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.Quests.QuestType;
@@ -59,8 +59,8 @@ public class QuestLieToTheLost extends JPanel implements Quest {
         add(choicePanel, BorderLayout.SOUTH);
 
         lieButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You lie to the lost, sending them astray for your own benefit. The spirit suffers, and your alignment decreases."
@@ -85,8 +85,8 @@ public class QuestLieToTheLost extends JPanel implements Quest {
         });
 
         helpButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You help the lost find peace. Your compassion increases your alignment."

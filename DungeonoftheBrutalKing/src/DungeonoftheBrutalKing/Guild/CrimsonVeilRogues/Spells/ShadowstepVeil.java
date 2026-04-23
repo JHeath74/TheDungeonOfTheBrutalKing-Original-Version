@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -18,19 +18,19 @@ public class ShadowstepVeil implements Spell {
     private static final int ACCURACY_MODIFIER = 30;
     private static final int DURATION = 1;
 
-    private Charecter caster;
+    private Character caster;
     private Enemies target;
 
     public ShadowstepVeil() {
         // no-arg ctor for SpellFactory
     }
 
-    public ShadowstepVeil(Charecter caster, Enemies target) {
+    public ShadowstepVeil(Character caster, Enemies target) {
         this.caster = caster;
         this.target = target;
     }
 
-    private boolean apply(Charecter user, Enemies enemy) {
+    private boolean apply(Character user, Enemies enemy) {
         if (user == null || enemy == null) return false;
         if (user.getGuild() != REQUIRED_GUILD) return false;
 
@@ -73,19 +73,19 @@ public class ShadowstepVeil implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         this.caster = caster;
         cast();
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // Not applicable (this spell targets an Enemies instance)
         this.caster = caster;
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         this.caster = caster;
     }
 
@@ -105,12 +105,12 @@ public class ShadowstepVeil implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // Not applicable
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         this.caster = caster;
         this.target = target;
         cast();

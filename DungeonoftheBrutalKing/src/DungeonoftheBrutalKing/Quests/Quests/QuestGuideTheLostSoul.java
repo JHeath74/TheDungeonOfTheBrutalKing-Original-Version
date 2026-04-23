@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.Quests.QuestType;
@@ -59,8 +59,8 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
         add(choicePanel, BorderLayout.SOUTH);
 
         helpButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You listen to the lost soul's story and offer comforting words. With your guidance, the spirit finds peace and moves on. Your compassion increases your alignment."
@@ -85,8 +85,8 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
         });
 
         ignoreButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You turn away from the lost soul. The spirit wails in despair and fades. Your indifference decreases your alignment."

@@ -2,7 +2,7 @@
 // src/Classes/Wizard.java
 package DungeonoftheBrutalKing.Classes;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Stat;
 
 public class Wizard extends Class {

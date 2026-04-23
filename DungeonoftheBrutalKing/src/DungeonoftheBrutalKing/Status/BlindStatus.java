@@ -2,7 +2,7 @@
 // src/Status/BlindStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class BlindStatus extends Status {
 
@@ -20,7 +20,7 @@ public final class BlindStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         originalHitChance = character.getHitChance();
@@ -28,11 +28,11 @@ public final class BlindStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         restore(character);
     }
 
-    private void restore(Charecter character) {
+    private void restore(Character character) {
         if (character == null) return;
         character.setHitChance(originalHitChance);
     }

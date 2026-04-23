@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class Heal implements Spell {
     public Heal() {}
 
     // Core spell logic: heals the target character
-    private void healCharacter(Charecter target) {
+    private void healCharacter(Character target) {
         if (target == null) return;
         int intelligence = target.getIntelligence();
         int maxHealth = target.getMaxHitPoints();
@@ -31,21 +31,21 @@ public class Heal implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         healCharacter(target != null ? target : caster);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (allCharacters != null && !allCharacters.isEmpty()) {
-            for (Charecter ch : allCharacters) {
+            for (Character ch : allCharacters) {
                 healCharacter(ch);
             }
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         healCharacter(caster);
     }
 
@@ -96,13 +96,13 @@ public class Heal implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

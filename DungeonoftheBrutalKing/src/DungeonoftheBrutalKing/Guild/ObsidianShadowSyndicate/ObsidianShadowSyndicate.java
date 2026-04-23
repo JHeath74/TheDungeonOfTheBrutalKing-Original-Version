@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import javax.swing.*;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
@@ -27,7 +27,7 @@ public class ObsidianShadowSyndicate extends JPanel {
 
     public ObsidianShadowSyndicate() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         GuildMembershipStatus status = character.getCurrentGuildStatus();
 
         if (status == GuildMembershipStatus.FULL_MEMBER && isEvil(character.getAlignment())) {
@@ -218,7 +218,7 @@ public class ObsidianShadowSyndicate extends JPanel {
     }
 
     private void showGuildSpells() {
-        Charecter player = Charecter.getInstance();
+        Character player = Character.getInstance();
         int maxSpells = 6;
 
         if (!isEvil(player.getAlignment())) {
@@ -394,23 +394,23 @@ public class ObsidianShadowSyndicate extends JPanel {
     }
 
     public int getGuildSpellsCount() {
-        return Charecter.getInstance().getGuildSpells().size();
+        return Character.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public boolean removeGuildSpell(String spell) {
-        return Charecter.getInstance().getGuildSpells().remove(spell);
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public java.util.ArrayList<String> getGuildSpells() {
-        return new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells());
+        return new java.util.ArrayList<>(Character.getInstance().getGuildSpells());
     }
 
     public String getDescription() {

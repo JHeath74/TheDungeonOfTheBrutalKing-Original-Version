@@ -13,7 +13,7 @@ import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells.DirgeweaversChorusGuildSpellsManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -33,7 +33,7 @@ public class DirgeweaversChorus extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!this.isMember || !isEvil(character.getAlignment())) {
@@ -81,7 +81,7 @@ public class DirgeweaversChorus extends JPanel {
         if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(_ -> {
-                Charecter ch = Charecter.getInstance();
+                Character ch = Character.getInstance();
                 if (!isEvil(ch.getAlignment())) {
                     JOptionPane.showMessageDialog(this, "You are not evil (`alignment < 0`). The Dirgeweavers Chorus rejects you.");
                     return;
@@ -119,7 +119,7 @@ public class DirgeweaversChorus extends JPanel {
                 DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (Frame) owner,
-                        Charecter.getInstance(),
+                        Character.getInstance(),
                         DungeonoftheBrutalKing.SharedData.Guild.DIRGEWEAVERS_CHORUS,
                         sm
                 );
@@ -167,7 +167,7 @@ public class DirgeweaversChorus extends JPanel {
 
         DefaultListModel<String> invModel = new DefaultListModel<>();
         DefaultListModel<String> storageModel = new DefaultListModel<>();
-        Charecter ch = Charecter.getInstance();
+        Character ch = Character.getInstance();
         for (String s : ch.getCharInventory()) invModel.addElement(s);
         for (String s : ch.getGuildStorage()) storageModel.addElement(s);
 
@@ -224,7 +224,7 @@ public class DirgeweaversChorus extends JPanel {
         panel.add(imageLabel, BorderLayout.NORTH);
 
         DefaultListModel<String> invModel = new DefaultListModel<>();
-        Charecter ch = Charecter.getInstance();
+        Character ch = Character.getInstance();
         for (String s : ch.getCharInventory()) invModel.addElement(s);
 
         JList<String> invList = new JList<>(invModel);
@@ -287,7 +287,7 @@ public class DirgeweaversChorus extends JPanel {
         JButton leaveBtn = new JButton("Leave");
 
         sleepBtn.addActionListener(_ -> {
-            Charecter ch = Charecter.getInstance();
+            Character ch = Character.getInstance();
             ch.restoreHitPoints(ch.getMaxHitPoints());
             JOptionPane.showMessageDialog(dialog, "You sleep and feel fully restored.");
         });
@@ -319,7 +319,7 @@ public class DirgeweaversChorus extends JPanel {
         JButton leaveBtn = new JButton("Leave");
 
         buyFoodBtn.addActionListener(_ -> {
-            Charecter ch = Charecter.getInstance();
+            Character ch = Character.getInstance();
             if (ch.getGold() >= 20) {
                 ch.setGold(ch.getGold() - 20);
                 ch.getCharInventory().add("Food");
@@ -329,7 +329,7 @@ public class DirgeweaversChorus extends JPanel {
             }
         });
         buyDrinkBtn.addActionListener(_ -> {
-            Charecter ch = Charecter.getInstance();
+            Character ch = Character.getInstance();
             if (ch.getGold() >= 10) {
                 ch.setGold(ch.getGold() - 10);
                 ch.getCharInventory().add("Drink");
@@ -339,7 +339,7 @@ public class DirgeweaversChorus extends JPanel {
             }
         });
         eatBtn.addActionListener(_ -> {
-            Charecter ch = Charecter.getInstance();
+            Character ch = Character.getInstance();
             if (ch.getCharInventory().remove("Food")) {
                 ch.setHungerLevel(0);
                 JOptionPane.showMessageDialog(dialog, "You eat and are no longer hungry.");
@@ -348,7 +348,7 @@ public class DirgeweaversChorus extends JPanel {
             }
         });
         drinkBtn.addActionListener(_ -> {
-            Charecter ch = Charecter.getInstance();
+            Character ch = Character.getInstance();
             if (ch.getCharInventory().remove("Drink")) {
                 ch.setThirstLevel(0);
                 JOptionPane.showMessageDialog(dialog, "You drink and are no longer thirsty.");
@@ -407,13 +407,13 @@ public class DirgeweaversChorus extends JPanel {
     }
 
     private void removeCursesAndEffects() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         character.clearCurses();
         character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int maxSpells = 6;
         if (!isMember) {
@@ -434,7 +434,7 @@ public class DirgeweaversChorus extends JPanel {
         }
         DirgeweaversChorusGuildSpellsManager manager = new DirgeweaversChorusGuildSpellsManager(Guild.DIRGEWEAVERS_CHORUS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
-        java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
+        java.util.Set<String> owned = Character.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
         java.util.List<String> available = new java.util.ArrayList<>();
@@ -462,14 +462,14 @@ public class DirgeweaversChorus extends JPanel {
     public Alignment getAlignment() { return alignment; }
     public String getGuildName() { return guildName; }
     public GuildType getGuildType() { return guildType; }
-    public boolean removeGuildSpell(String spell) { return Charecter.getInstance().getGuildSpells().remove(spell); }
-    public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
+    public boolean removeGuildSpell(String spell) { return Character.getInstance().getGuildSpells().remove(spell); }
+    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
-    public ArrayList<String> getGuildSpells() { return new ArrayList<>(Charecter.getInstance().getGuildSpells()); }
+    public ArrayList<String> getGuildSpells() { return new ArrayList<>(Character.getInstance().getGuildSpells()); }
 }

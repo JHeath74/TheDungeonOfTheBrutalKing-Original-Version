@@ -2,7 +2,7 @@
 // src/Status/EtherealChainsStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class EtherealChainsStatus extends Status {
 
@@ -15,13 +15,13 @@ public final class EtherealChainsStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         // Effect logic here (e.g., prevent attacking)
         // If you modify character state here, revert it in removeEffect(...).
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // Restore ability to attack if you changed character state in applyEffect(...).
     }
 

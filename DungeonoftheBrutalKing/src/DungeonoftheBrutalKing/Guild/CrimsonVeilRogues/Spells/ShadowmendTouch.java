@@ -2,7 +2,7 @@
 // src/Guild/CrimsonVeilRogues/Spells/ShadowmendTouch.java
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -42,10 +42,10 @@ public class ShadowmendTouch implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { /* Not used */ }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { applyShadowmendTouch(caster); }
+    public void cast(Character caster, List<Character> allCharacters) { applyShadowmendTouch(caster); }
 
     @Override
-    public void cast(Charecter caster) { applyShadowmendTouch(caster); }
+    public void cast(Character caster) { applyShadowmendTouch(caster); }
 
     @Override
     public void cast() {
@@ -53,9 +53,9 @@ public class ShadowmendTouch implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) { applyShadowmendTouch(caster); }
+    public void cast(Character caster, Character target) { applyShadowmendTouch(caster); }
 
-    private void applyShadowmendTouch(Charecter caster) {
+    private void applyShadowmendTouch(Character caster) {
         if (caster == null) return;
         if (caster.getGuild() != SPELL_GUILD) {
             System.out.println("Only members of the Crimson Veil Rogues guild can use Shadowmend Touch.");
@@ -72,10 +72,10 @@ public class ShadowmendTouch implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { /* Not used */ }
+    public void castWithStrength(Character enemy, double d) { /* Not used */ }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

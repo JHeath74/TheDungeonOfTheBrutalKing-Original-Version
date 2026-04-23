@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
@@ -22,7 +22,7 @@ public class RobesOfTheMagi extends ArmourManager {
         super("Robes of the Magi", 0, ARMOUR_DEFENSE, WEIGHT, effect);
     }
 
-    public static RobesOfTheMagi createRobes(Charecter character, String effect) {
+    public static RobesOfTheMagi createRobes(Character character, String effect) {
         int intelligence = character.getIntelligence();
         if (intelligence >= REQUIRED_INTELLIGENCE) {
             return new RobesOfTheMagi(effect);
@@ -32,7 +32,7 @@ public class RobesOfTheMagi extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!isEquipped && wearer.getGuild() == GUILDname && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
             int baseSpellResistance = wearer.getIntelligence() + wearer.getWisdom();
             int bonus = (int) Math.round(baseSpellResistance * SPELL_RESISTANCE_BONUS_PERCENT);
@@ -44,7 +44,7 @@ public class RobesOfTheMagi extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (isEquipped) {
             int baseSpellResistance = wearer.getIntelligence() + wearer.getWisdom();
             int bonus = (int) Math.round(baseSpellResistance * SPELL_RESISTANCE_BONUS_PERCENT);

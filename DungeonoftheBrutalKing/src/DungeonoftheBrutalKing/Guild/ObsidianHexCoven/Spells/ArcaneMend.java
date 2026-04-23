@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -40,8 +40,8 @@ public class ArcaneMend implements Spell {
 
     // Core behaviour: cast on caster (self-targeting)
     @Override
-    public void cast(Charecter caster) {
-        if (caster == null) caster = Charecter.getInstance();
+    public void cast(Character caster) {
+        if (caster == null) caster = Character.getInstance();
         if (caster == null) {
             System.out.println("No caster available for Arcane Mend.");
             return;
@@ -85,13 +85,13 @@ public class ArcaneMend implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // Self-only spell: if a target is supplied, cast on caster instead (keeps backwards compatibility)
         cast(caster != null ? caster : target);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // Cast only affects caster; if null, use first in list
         if (caster == null && allCharacters != null && !allCharacters.isEmpty()) {
             caster = allCharacters.get(0);
@@ -100,22 +100,22 @@ public class ArcaneMend implements Spell {
     }
 
     @Override
-    public void cast() { cast(Charecter.getInstance()); }
+    public void cast() { cast(Character.getInstance()); }
 
     @Override
-    public void cast(int toonWisdom) { cast(Charecter.getInstance()); }
+    public void cast(int toonWisdom) { cast(Character.getInstance()); }
 
     @Override
-    public void castWithIntelligence(int toonIntelligence) { cast(Charecter.getInstance()); }
+    public void castWithIntelligence(int toonIntelligence) { cast(Character.getInstance()); }
 
     @Override
-    public void cast(int toonWisdom, int toonIntelligence) { cast(Charecter.getInstance()); }
+    public void cast(int toonWisdom, int toonIntelligence) { cast(Character.getInstance()); }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { /* Not applicable */ }
+    public void castWithStrength(Character enemy, double d) { /* Not applicable */ }
 
     @Override
-    public void cast(Charecter caster, Enemies target) { cast(caster); }
+    public void cast(Character caster, Enemies target) { cast(caster); }
 
     // Backwards compatibility: other Spell methods already implemented above.
 }

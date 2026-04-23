@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Status.Status;
@@ -53,8 +53,8 @@ public class ChaosHex implements Spell {
     public String getDescription() { return DESCRIPTION; }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
-        if (caster == null) caster = Charecter.getInstance();
+    public void cast(Character caster, Character target) {
+        if (caster == null) caster = Character.getInstance();
         if (target == null) {
             System.out.println("No target for " + NAME + ".");
             return;
@@ -123,7 +123,7 @@ public class ChaosHex implements Spell {
         return null;
     }
 
-    private static String safeName(Charecter c) {
+    private static String safeName(Character c) {
         try {
             String name = c.getName();
             return (name == null || name.isBlank()) ? "target" : name;
@@ -134,29 +134,29 @@ public class ChaosHex implements Spell {
 
     // Minimal compatible Spell interface implementations
     @Override
-    public void cast(Charecter caster) { cast(caster, (Charecter) null); }
+    public void cast(Character caster) { cast(caster, (Character) null); }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (allCharacters == null || allCharacters.isEmpty()) { cast(caster); return; }
         cast(caster, allCharacters.get(0));
     }
 
     @Override
-    public void cast() { cast(Charecter.getInstance(), (Charecter) null); }
+    public void cast() { cast(Character.getInstance(), (Character) null); }
 
     @Override
-    public void cast(int toonWisdom) { cast(Charecter.getInstance(), (Charecter) null); }
+    public void cast(int toonWisdom) { cast(Character.getInstance(), (Character) null); }
 
     @Override
-    public void castWithIntelligence(int toonIntelligence) { cast(Charecter.getInstance(), (Charecter) null); }
+    public void castWithIntelligence(int toonIntelligence) { cast(Character.getInstance(), (Character) null); }
 
     @Override
-    public void cast(int toonWisdom, int toonIntelligence) { cast(Charecter.getInstance(), (Charecter) null); }
+    public void cast(int toonWisdom, int toonIntelligence) { cast(Character.getInstance(), (Character) null); }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { /* not applicable */ }
+    public void castWithStrength(Character enemy, double d) { /* not applicable */ }
 
     @Override
-    public void cast(Charecter caster, Enemies target) { /* best-effort: not implemented for Enemies */ cast(caster); }
+    public void cast(Character caster, Enemies target) { /* best-effort: not implemented for Enemies */ cast(caster); }
 }

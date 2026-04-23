@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.Status.StatusType; // Import the StatusType enum
 
@@ -17,15 +17,15 @@ public class AstralGuidance implements Spell {
     public AstralGuidance() {}
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (target == null) return;
         target.applyStatusEffect(StatusType.ACCURACY_STATUS, DURATION, ACCURACY_BONUS, target);
         System.out.println(target.getName() + "'s accuracy is increased by " + ACCURACY_BONUS + " for " + DURATION + " turn by Astral Guidance!");
     }
 
     // Other cast methods not used for this spell
-    @Override public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {}
-    @Override public void cast(Charecter caster) {}
+    @Override public void cast(Character caster, java.util.List<Character> allCharacters) {}
+    @Override public void cast(Character caster) {}
     @Override public void cast() {}
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
@@ -42,12 +42,12 @@ public class AstralGuidance implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // Not used for this spell
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

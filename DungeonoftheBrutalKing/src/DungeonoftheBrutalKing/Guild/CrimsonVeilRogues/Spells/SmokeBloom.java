@@ -3,7 +3,7 @@
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -44,10 +44,10 @@ public class SmokeBloom implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { /* Not used */ }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { applySmokeBloom(caster); }
+    public void cast(Character caster, List<Character> allCharacters) { applySmokeBloom(caster); }
 
     @Override
-    public void cast(Charecter caster) { applySmokeBloom(caster); }
+    public void cast(Character caster) { applySmokeBloom(caster); }
 
     @Override
     public void cast() {
@@ -55,9 +55,9 @@ public class SmokeBloom implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) { applySmokeBloom(caster); }
+    public void cast(Character caster, Character target) { applySmokeBloom(caster); }
 
-    private void applySmokeBloom(Charecter caster) {
+    private void applySmokeBloom(Character caster) {
         if (caster == null) return;
         if (caster.getGuild() != SPELL_GUILD) {
             System.out.println("Only members of the Crimson Veil Rogues guild can use Smoke Bloom.");
@@ -73,10 +73,10 @@ public class SmokeBloom implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { /* Not used */ }
+    public void castWithStrength(Character enemy, double d) { /* Not used */ }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

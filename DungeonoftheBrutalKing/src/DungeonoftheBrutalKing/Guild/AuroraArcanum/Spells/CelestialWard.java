@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.TimeClock;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -18,7 +18,7 @@ public class CelestialWard implements Spell {
     private TimeClock timer;
     private boolean active = false;
 
-    public int calculateDefenseBoost(Charecter charecter) {
+    public int calculateDefenseBoost(Character charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
         return BASE_DEFENSE + intelligence + (level * 2);
@@ -74,12 +74,12 @@ public class CelestialWard implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         cast(caster);
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         activate();
         int boost = calculateDefenseBoost(caster);
         caster.setDefense(boost);
@@ -91,7 +91,7 @@ public class CelestialWard implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         activate();
         if (target != null) {
             int boost = calculateDefenseBoost(target);
@@ -105,12 +105,12 @@ public class CelestialWard implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) {
+    public void castWithStrength(Character enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

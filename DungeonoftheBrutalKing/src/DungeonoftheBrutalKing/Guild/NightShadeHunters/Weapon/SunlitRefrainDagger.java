@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.NightShadeHunters.Weapon;
 
 import java.util.Random;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -34,7 +34,7 @@ public class SunlitRefrainDagger extends WeaponManager {
         super(NAME, REQUIRED_AGILITY, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static SunlitRefrainDagger createFor(Charecter ch, String effect) {
+    public static SunlitRefrainDagger createFor(Character ch, String effect) {
         if (ch == null) throw new IllegalArgumentException("Character cannot be null.");
         try {
             if (ch.getGuild() == GUILD_NAME || ch.getCurrentGuild() == GUILD_TYPE) {
@@ -46,7 +46,7 @@ public class SunlitRefrainDagger extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (wielder == null) return false;
         try {
             if (wielder.getGuild() != GUILD_NAME && wielder.getCurrentGuild() != GUILD_TYPE) return false;
@@ -62,7 +62,7 @@ public class SunlitRefrainDagger extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (wielder == null) return false;
         try {
             if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
@@ -76,7 +76,7 @@ public class SunlitRefrainDagger extends WeaponManager {
         return false;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         if (wielder == null || enemy == null) return;
         int agility = wielder.getAgility();
         int bonus = RNG.nextInt(Math.max(1, (agility / 3) + 1));

@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.EquipmentRequirement;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -29,7 +29,7 @@ public class AstralChain extends ArmourManager {
         );
     }
 
-    public static AstralChain createAstralChain(Charecter character, String effect) {
+    public static AstralChain createAstralChain(Character character, String effect) {
         if (character.getStrength() >= REQUIREMENT.getStrength()) {
             return new AstralChain(effect);
         }
@@ -39,7 +39,7 @@ public class AstralChain extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!isEquipped && wearer.getGuild() == GUILDname) {
             wearer.setIntelligence(wearer.getIntelligence() + INTELLIGENCE_BONUS);
             lastDefenseBonus = (int) Math.round(wearer.getDefense() * DEFENSE_BONUS_PERCENT);
@@ -51,7 +51,7 @@ public class AstralChain extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (isEquipped) {
             wearer.setIntelligence(wearer.getIntelligence() - INTELLIGENCE_BONUS);
             wearer.setDefense(wearer.getDefense() - lastDefenseBonus);

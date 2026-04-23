@@ -2,7 +2,7 @@
 // src/Status/EvasionStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class EvasionUpStatus extends Status {
 
@@ -21,7 +21,7 @@ public final class EvasionUpStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         // Prefer a dedicated evasion stat if your character supports it.
@@ -34,7 +34,7 @@ public final class EvasionUpStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         if (character == null) return;
 
         try {

@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -57,7 +57,7 @@ public final class WhisperLock implements Spell {
      * Core unlock logic. This expects some target object that represents a lock.
      * Replace the Lockable interface usage with your actual door / chest / lock type.
      */
-    private void tryUnlock(Charecter caster, Object potentialLock) {
+    private void tryUnlock(Character caster, Object potentialLock) {
         if (potentialLock == null) {
             System.out.println(NAME + " finds no lock to affect.");
             return;
@@ -99,8 +99,8 @@ public final class WhisperLock implements Spell {
     // --- Spell interface implementations ---
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
-        if (caster == null) caster = Charecter.getInstance();
+    public void cast(Character caster, Character target) {
+        if (caster == null) caster = Character.getInstance();
         if (caster == null) return;
 
         // Guild enforcement similar to other Obsidian Shadow Syndicate spells
@@ -125,20 +125,20 @@ public final class WhisperLock implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // No lock context; behave like a no-op with flavor.
         cast(caster, caster);
     }
 
     @Override
-    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
+    public void cast(Character caster, java.util.List<Character> allCharacters) {
         // This spell is utility, not combat-AOE; reuse basic behavior.
         cast(caster);
     }
 
     @Override
     public void cast() {
-        cast(Charecter.getInstance());
+        cast(Character.getInstance());
     }
 
     @Override
@@ -157,12 +157,12 @@ public final class WhisperLock implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
-        cast(Charecter.getInstance());
+    public void castWithStrength(Character enemy, double d) {
+        cast(Character.getInstance());
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Non-combat: ignore Enemies-based API.
         cast(caster);
     }

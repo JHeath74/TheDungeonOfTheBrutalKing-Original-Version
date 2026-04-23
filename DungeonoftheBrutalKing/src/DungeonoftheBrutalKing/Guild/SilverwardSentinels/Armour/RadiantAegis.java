@@ -2,7 +2,7 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\SilverwardSentinels\Armour\RadiantAegis.java
 package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
@@ -23,13 +23,13 @@ public class RadiantAegis extends ArmourManager {
     private static final int WISDOM_BONUS = 5;
     private static final int STRENGTH_BONUS = 3;
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public RadiantAegis(String effect) {
         super(NAME, REQUIRED_STRENGTH, BASE_DEFENSE, WEIGHT, effect);
     }
 
-    public static RadiantAegis createRadiantAegis(Charecter character, String effect) {
+    public static RadiantAegis createRadiantAegis(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character is null");
         if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Silverward Sentinels to obtain RadiantAegis.");
         if (character.getWisdom() < REQUIRED_WISDOM) throw new IllegalArgumentException("Insufficient Wisdom to wear RadiantAegis.");
@@ -40,16 +40,16 @@ public class RadiantAegis extends ArmourManager {
     @Override
     public String getName() { return NAME; }
 
-    public static boolean isGuildMember(Charecter c) {
+    public static boolean isGuildMember(Character c) {
         if (c == null) return false;
         try {
             return c.getCurrentGuild() == GuildType.PALADIN && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER;
         } catch (Exception e) { return false; }
     }
-    public static boolean isPurchasableBy(Charecter c) { return isGuildMember(c); }
+    public static boolean isPurchasableBy(Character c) { return isGuildMember(c); }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (!isGuildMember(wearer)) return false;
         if (wearer.getWisdom() < REQUIRED_WISDOM) return false;
@@ -70,7 +70,7 @@ public class RadiantAegis extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
         try {
             String current = wearer.getEquippedArmour();

@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Status.StatusType;
@@ -40,12 +40,12 @@ public class UnyieldingSpirit implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         cast(caster);
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Unyielding Spirit.");
             return;
@@ -55,7 +55,7 @@ public class UnyieldingSpirit implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Unyielding Spirit.");
             return;
@@ -71,7 +71,7 @@ public class UnyieldingSpirit implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter caster, double strengthMultiplier) {
+    public void castWithStrength(Character caster, double strengthMultiplier) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Unyielding Spirit.");
             return;
@@ -83,7 +83,7 @@ public class UnyieldingSpirit implements Spell {
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

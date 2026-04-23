@@ -2,7 +2,7 @@
 // `src/Guild/ObsidianHexCoven/Weapon/VoidScriptGrimoire.java`
 package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Status.DrainStatus;
 import DungeonoftheBrutalKing.Status.Status;
@@ -44,7 +44,7 @@ public class VoidScriptGrimoire extends WeaponManager {
         super(WEAPON_NAME, 0, ATTACK_INCREASE, EFFECT, WEIGHT);
     }
 
-    public static VoidScriptGrimoire createVoidScriptGrimoire(Charecter character) {
+    public static VoidScriptGrimoire createVoidScriptGrimoire(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Hex Coven members can wield the VoidScriptGrimoire.");
@@ -56,7 +56,7 @@ public class VoidScriptGrimoire extends WeaponManager {
         return new VoidScriptGrimoire();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getIntelligence() < REQUIRED_INTELLIGENCE) return false;
@@ -73,7 +73,7 @@ public class VoidScriptGrimoire extends WeaponManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastAttackBonus != 0) wearer.setAttack(Math.max(0, wearer.getAttack() - lastAttackBonus));
@@ -91,7 +91,7 @@ public class VoidScriptGrimoire extends WeaponManager {
      * Call this after a successful hit in your combat pipeline.
      * @return a new DrainStatus to apply, or null if it did not proc.
      */
-    public Status tryProcDrainStatus(Charecter attacker, Charecter target) {
+    public Status tryProcDrainStatus(Character attacker, Character target) {
         if (attacker == null || target == null) return null;
 
         int roll = ThreadLocalRandom.current().nextInt(100);

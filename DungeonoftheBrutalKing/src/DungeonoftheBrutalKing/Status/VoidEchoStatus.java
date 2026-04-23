@@ -2,7 +2,7 @@
 // src/Status/VoidEchoStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class VoidEchoStatus extends Status {
     private final boolean extraDamage;
@@ -13,12 +13,12 @@ public final class VoidEchoStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         // No periodic effect needed
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // No additional effect on remove
     }
 

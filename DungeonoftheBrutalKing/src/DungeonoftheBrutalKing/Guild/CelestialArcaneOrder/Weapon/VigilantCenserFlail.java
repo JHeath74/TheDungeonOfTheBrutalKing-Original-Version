@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Status.HasHitPoints;
@@ -24,7 +24,7 @@ public class VigilantCenserFlail extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer != null && wearer.getGuild() == GUILDname) {
             wearer.setEquippedWeapon(getName());
             wearer.setWisdom(wearer.getWisdom() + BONUS_WISDOM);
@@ -34,7 +34,7 @@ public class VigilantCenserFlail extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer != null
                 && wearer.getEquippedWeapon() != null
                 && wearer.getEquippedWeapon().equals(getName())) {
@@ -62,8 +62,8 @@ public class VigilantCenserFlail extends WeaponManager {
         
         // Basic 1-turn status, non-stacking; adjust duration/stacking as needed
 
-        if (target instanceof Charecter) {
-            ((Charecter) target).addStatus(effectStatus);
+        if (target instanceof Character) {
+            ((Character) target).addStatus(effectStatus);
         } else if (target instanceof Enemies) {
             ((Enemies) target).addStatus(effectStatus);
         }

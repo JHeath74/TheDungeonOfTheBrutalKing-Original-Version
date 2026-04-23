@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -26,7 +26,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
         super("Spellbook of Arcane Might", requiredIntelligence, damage, effect, weight);
     }
 
-    public static SpellbookOfArcaneMight createSpellbook(Charecter character, int damage, String effect) {
+    public static SpellbookOfArcaneMight createSpellbook(Character character, int damage, String effect) {
         int intelligence = character.getIntelligence();
         if (intelligence >= REQUIRED_INTELLIGENCE) {
             return new SpellbookOfArcaneMight(REQUIRED_INTELLIGENCE, damage, effect, WEIGHT);
@@ -35,7 +35,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && wielder.getGuild() == GUILDname) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
@@ -48,7 +48,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
@@ -58,7 +58,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
 		return isEquipped;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         int intelligence = wielder.getIntelligence();
         Random rand = new Random();
         int bonus = rand.nextInt((intelligence / 2) + 1);
@@ -66,7 +66,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
         enemy.takeDamage(totalDamage);
     }
 
-    public void shieldOwner(Charecter wielder) {
+    public void shieldOwner(Character wielder) {
         // Logic to grant a temporary shield or barrier
     }
 

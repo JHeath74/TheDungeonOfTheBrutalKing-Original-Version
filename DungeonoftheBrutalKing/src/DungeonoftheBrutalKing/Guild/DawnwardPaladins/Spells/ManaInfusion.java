@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -12,7 +12,7 @@ public class ManaInfusion implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 7;
     private static final int BASE_DURATION = 3;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.DAWNWARD_PALADINS;
     }
 
@@ -46,21 +46,21 @@ public class ManaInfusion implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
-            Charecter target = allCharacters.get(0);
+            Character target = allCharacters.get(0);
             applyManaRegen(target, caster.getIntelligence());
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             applyManaRegen(caster, caster.getIntelligence());
         }
     }
 
-    public void applyManaRegen(Charecter target, int intelligence) {
+    public void applyManaRegen(Character target, int intelligence) {
         int regen = BASE_REGEN + (intelligence / 5);
         int duration = BASE_DURATION + (intelligence / 12);
         target.applyStatusEffect(StatusType.MANA_REGEN_STATUS, duration, regen, null);
@@ -70,7 +70,7 @@ public class ManaInfusion implements Spell {
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster) && target != null) {
             applyManaRegen(target, caster.getIntelligence());
         }
@@ -82,10 +82,10 @@ public class ManaInfusion implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

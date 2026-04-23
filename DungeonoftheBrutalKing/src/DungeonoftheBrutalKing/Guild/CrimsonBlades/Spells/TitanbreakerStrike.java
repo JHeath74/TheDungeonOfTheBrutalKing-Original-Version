@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -52,12 +52,12 @@ public class TitanbreakerStrike implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Titanbreaker Strike.");
             return;
         }
-        for (Charecter target : allCharacters) {
+        for (Character target : allCharacters) {
             if (target != caster) {
                 target.takeDamage(STRIKE_DAMAGE);
                 System.out.println(caster.getName() + " smashes " + target.getName() +
@@ -67,7 +67,7 @@ public class TitanbreakerStrike implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Titanbreaker Strike.");
             return;
@@ -81,7 +81,7 @@ public class TitanbreakerStrike implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Titanbreaker Strike.");
             return;
@@ -93,10 +93,10 @@ public class TitanbreakerStrike implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter caster, double d) { }
+    public void castWithStrength(Character caster, double d) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.Quests.QuestType;
@@ -61,8 +61,8 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
         add(choicePanel, BorderLayout.SOUTH);
 
         slayButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You kill the defenseless creature. Its blood stains your hands, and your alignment decreases."
@@ -87,8 +87,8 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
         });
 
         spareButton.addActionListener(e -> {
-            int current = Charecter.getInstance().getAlignment();
-            Charecter.getInstance().setAlignment(current + ALIGNMENT_DELTA);
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
             try {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You spare the helpless creature. Mercy fills your heart, and your alignment increases."

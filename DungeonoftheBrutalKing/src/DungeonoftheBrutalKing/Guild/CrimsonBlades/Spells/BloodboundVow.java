@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -43,10 +43,10 @@ public class BloodboundVow implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { /* Not used */ }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { applyBuff(caster); }
+    public void cast(Character caster, List<Character> allCharacters) { applyBuff(caster); }
 
     @Override
-    public void cast(Charecter caster) { applyBuff(caster); }
+    public void cast(Character caster) { applyBuff(caster); }
 
     @Override
     public void cast() {
@@ -54,9 +54,9 @@ public class BloodboundVow implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) { applyBuff(caster); }
+    public void cast(Character caster, Character target) { applyBuff(caster); }
 
-    private void applyBuff(Charecter caster) {
+    private void applyBuff(Character caster) {
         if (caster == null) return;
         if (caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Bloodbound Vow.");
@@ -67,10 +67,10 @@ public class BloodboundVow implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { /* Not used */ }
+    public void castWithStrength(Character enemy, double d) { /* Not used */ }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -2,7 +2,7 @@
 // src/Status/ReduceStrengthStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class ReduceStrengthStatus extends Status {
     private static final int DEFAULT_DURATION_TURNS = 3;
@@ -24,7 +24,7 @@ public final class ReduceStrengthStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
         if (applied) return;
 
@@ -33,7 +33,7 @@ public final class ReduceStrengthStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         if (character == null) return;
         if (!applied) return;
 

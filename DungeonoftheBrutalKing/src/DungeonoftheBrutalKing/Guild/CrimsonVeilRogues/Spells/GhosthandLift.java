@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
 import java.util.List;
 import java.util.Random;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -44,10 +44,10 @@ public class GhosthandLift implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { /* Not used */ }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { /* Not used */ }
+    public void cast(Character caster, List<Character> allCharacters) { /* Not used */ }
 
     @Override
-    public void cast(Charecter caster) { /* Not used */ }
+    public void cast(Character caster) { /* Not used */ }
 
     @Override
     public void cast() {
@@ -55,11 +55,11 @@ public class GhosthandLift implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         applyGhosthandLift(caster, target);
     }
 
-    private void applyGhosthandLift(Charecter caster, Charecter target) {
+    private void applyGhosthandLift(Character caster, Character target) {
         if (caster == null || target == null) return;
         if (caster.getGuild() != SPELL_GUILD) {
             System.out.println("Only members of the Crimson Veil Rogues guild can use Ghosthand Lift.");
@@ -83,10 +83,10 @@ public class GhosthandLift implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { /* Not used */ }
+    public void castWithStrength(Character enemy, double d) { /* Not used */ }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

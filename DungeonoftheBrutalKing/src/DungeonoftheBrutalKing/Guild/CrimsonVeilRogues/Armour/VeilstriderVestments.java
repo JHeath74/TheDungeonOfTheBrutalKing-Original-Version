@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
 
 public class VeilstriderVestments extends ArmourManager {
@@ -16,7 +16,7 @@ public class VeilstriderVestments extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getEquippedArmour() == null || !wearer.getEquippedArmour().equals(getName())) {
             wearer.setEquippedArmour(getName());
@@ -27,7 +27,7 @@ public class VeilstriderVestments extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getEquippedArmour() != null && wearer.getEquippedArmour().equals(getName())) {
             wearer.setEquippedArmour(null);

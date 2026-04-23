@@ -2,7 +2,7 @@
 // src/Status/SilencedStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class SilencedStatus extends Status {
 
@@ -14,7 +14,7 @@ public final class SilencedStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null) return;
         if (applied) return;
 
@@ -24,7 +24,7 @@ public final class SilencedStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null) return;
         if (!applied) return;
 

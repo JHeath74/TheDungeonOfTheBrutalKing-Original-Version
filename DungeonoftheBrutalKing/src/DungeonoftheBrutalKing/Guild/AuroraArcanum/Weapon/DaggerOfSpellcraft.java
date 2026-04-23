@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -26,7 +26,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
         super("Dagger of Spellcraft", requiredIntelligence, damage, effect, weight);
     }
 
-    public static DaggerOfSpellcraft createDaggerOfSpellcraft(Charecter character, int damage, String effect) {
+    public static DaggerOfSpellcraft createDaggerOfSpellcraft(Character character, int damage, String effect) {
         int intelligence = Integer.parseInt(character.getCharInfo().get(6));
         if (intelligence >= REQUIRED_INTELLIGENCE) {
             return new DaggerOfSpellcraft(REQUIRED_INTELLIGENCE, damage, WEIGHT, effect);
@@ -35,7 +35,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && wielder.getGuild() == GUILDname) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
@@ -48,7 +48,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
@@ -59,7 +59,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
 		return isEquipped;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         int intelligence = Integer.parseInt(wielder.getCharInfo().get(6));
         Random rand = new Random();
         int bonus = rand.nextInt((intelligence / 4) + 1);

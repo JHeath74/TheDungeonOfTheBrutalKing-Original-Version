@@ -5,7 +5,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Status.StatusType;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 public class PurifyingChains implements Spell {
@@ -18,7 +18,7 @@ public class PurifyingChains implements Spell {
     public PurifyingChains() {}
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (target == null) return;
         target.applyStatusEffect(StatusType.IMMOBILIZED_STATUS, DURATION, 0, caster);
         target.removeStatusEffect(StatusType.POISON_STATUS); // Assuming removeStatusEffect also uses StatusType
@@ -27,8 +27,8 @@ public class PurifyingChains implements Spell {
     }
 
     // Other cast methods not used for this spell
-    @Override public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {}
-    @Override public void cast(Charecter caster) {}
+    @Override public void cast(Character caster, java.util.List<Character> allCharacters) {}
+    @Override public void cast(Character caster) {}
     @Override public void cast() {}
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
@@ -46,13 +46,13 @@ public class PurifyingChains implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

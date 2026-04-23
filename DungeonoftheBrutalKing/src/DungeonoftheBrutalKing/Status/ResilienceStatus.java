@@ -2,7 +2,7 @@
 // src/Status/ResilienceStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class ResilienceStatus extends Status {
     private final int value;
@@ -17,13 +17,13 @@ public final class ResilienceStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null || value == 0) return;
         target.increaseResilience(value);
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null || value == 0) return;
         target.decreaseResilience(value);
     }

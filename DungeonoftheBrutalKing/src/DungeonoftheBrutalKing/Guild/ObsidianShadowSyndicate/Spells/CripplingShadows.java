@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 import java.util.List;
 import java.util.Random;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -70,9 +70,9 @@ public final class CripplingShadows implements Spell {
     // --- Core single-target behavior ---
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null) {
-            caster = Charecter.getInstance();
+            caster = Character.getInstance();
         }
         if (caster == null || target == null) {
             return;
@@ -148,12 +148,12 @@ public final class CripplingShadows implements Spell {
     // --- Overloads for compatibility ---
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         cast(caster, caster);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (caster == null && allCharacters != null && !allCharacters.isEmpty()) {
             caster = allCharacters.get(0);
         }
@@ -161,7 +161,7 @@ public final class CripplingShadows implements Spell {
             return;
         }
 
-        Charecter target = caster;
+        Character target = caster;
         if (allCharacters != null && allCharacters.size() > 1) {
             target = allCharacters.get(1);
         }
@@ -170,7 +170,7 @@ public final class CripplingShadows implements Spell {
 
     @Override
     public void cast() {
-        Charecter player = Charecter.getInstance();
+        Character player = Character.getInstance();
         cast(player, player);
     }
 
@@ -190,8 +190,8 @@ public final class CripplingShadows implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
-        Charecter caster = Charecter.getInstance();
+    public void castWithStrength(Character enemy, double d) {
+        Character caster = Character.getInstance();
         if (caster == null) {
             return;
         }
@@ -202,9 +202,9 @@ public final class CripplingShadows implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Bridge as needed; for now default to caster vs. self/current foe
-        cast(caster != null ? caster : Charecter.getInstance(),
-             caster != null ? caster : Charecter.getInstance());
+        cast(caster != null ? caster : Character.getInstance(),
+             caster != null ? caster : Character.getInstance());
     }
 }

@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
@@ -27,7 +27,7 @@ public class GravesongVirtuosoHarness {
     private int lastVitBonus = 0;
     private int lastDefBonus = 0;
 
-    public static GravesongVirtuosoHarness create(Charecter character) {
+    public static GravesongVirtuosoHarness create(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD) {
             throw new IllegalArgumentException("Only Dirgeweavers Chorus members can wear the " + ARMOUR_NAME + ".");
@@ -38,7 +38,7 @@ public class GravesongVirtuosoHarness {
         return new GravesongVirtuosoHarness();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
 
@@ -50,7 +50,7 @@ public class GravesongVirtuosoHarness {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastVitBonus != 0) wearer.setVitality(Math.max(0, wearer.getVitality() - lastVitBonus));
@@ -67,7 +67,7 @@ public class GravesongVirtuosoHarness {
      * @param damageTaken final damage actually taken
      * @param isReflectedDamage true if this damage event was caused by reflection (prevents loops)
      */
-    public void onDamaged(Charecter wearer, Enemies attacker, int damageTaken, boolean isReflectedDamage) {
+    public void onDamaged(Character wearer, Enemies attacker, int damageTaken, boolean isReflectedDamage) {
         if (wearer == null || attacker == null) return;
         if (wearer.getGuild() != REQUIRED_GUILD) return;
         if (isReflectedDamage) return;

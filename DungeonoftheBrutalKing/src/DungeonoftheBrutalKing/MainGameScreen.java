@@ -22,7 +22,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private static MainGameScreen instance;
 
     private double preCombatX, preCombatY, postCombatX, postCombatY;
-    private final Charecter myChar = Charecter.getInstance();
+    private final Character myChar = Character.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
    // private final LoadSaveGame2 myGameState = new LoadSaveGame2();
     private final LoadSaveGame myGameState = new LoadSaveGame();
@@ -676,7 +676,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         MainGameScreen.getInstance();
     }
 
-    public Charecter getPlayer() {
+    public Character getPlayer() {
         return myChar;
     }
 

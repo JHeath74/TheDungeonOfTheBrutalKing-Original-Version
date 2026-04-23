@@ -8,7 +8,7 @@ import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Spells.SpellFactory;
 import DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells.HarmonicLightEnsembleGuildSpellsManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GuildSpellsDialog;
@@ -29,7 +29,7 @@ public class HarmonicLightEnsemble extends JPanel {
 
     private void showMainRoom() throws IOException, InterruptedException, ParseException {
         removeAll();
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         character.setCurrentGuild(guildType);
         GuildMembershipStatus status = character.getCurrentGuildStatus();
 
@@ -108,10 +108,10 @@ public class HarmonicLightEnsemble extends JPanel {
 
             performSong.addActionListener(e -> performSongOfHealing());
             eatFood.addActionListener(e -> {
-                int currentFood = Charecter.getInstance().getFood();
+                int currentFood = Character.getInstance().getFood();
                 if (currentFood > 0) {
-                    Charecter.getInstance().setFood(currentFood - 1);
-                    JOptionPane.showMessageDialog(this, "You enjoy a meal. Food left: " + Charecter.getInstance().getFood());
+                    Character.getInstance().setFood(currentFood - 1);
+                    JOptionPane.showMessageDialog(this, "You enjoy a meal. Food left: " + Character.getInstance().getFood());
                 } else {
                     JOptionPane.showMessageDialog(this, "You have no food to eat.");
                 }
@@ -176,7 +176,7 @@ public class HarmonicLightEnsemble extends JPanel {
             JButton exit = new JButton("Exit");
 
             sleep.addActionListener(e -> {
-                Charecter character = Charecter.getInstance();
+                Character character = Character.getInstance();
                 character.setHitPoints(character.getMaxHitPoints());
                 JOptionPane.showMessageDialog(this, "You rest and recover your hit points.");
             });
@@ -195,12 +195,12 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     private void removeNegativeEffects() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         character.clearNegativeEffects();
     }
 
     private void performSongOfHealing() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         int maxHP = character.getMaxHitPoints();
         int maxMP = character.getMaxMagicPoints();
         character.setHitPoints(maxHP);
@@ -209,7 +209,7 @@ public class HarmonicLightEnsemble extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter player = Charecter.getInstance();
+        Character player = Character.getInstance();
         int maxSpells = 6;
         if (!isGood(player.getAlignment())) {
             JOptionPane.showMessageDialog(this, "You are not good (`alignment >= 0`). You cannot use Harmonic Light Ensemble services.");
@@ -218,7 +218,7 @@ public class HarmonicLightEnsemble extends JPanel {
         if (getGuildSpellsCount() >= maxSpells) {}
         HarmonicLightEnsembleGuildSpellsManager manager = new HarmonicLightEnsembleGuildSpellsManager(Guild.HARMONIC_LIGHT_ENSEMBLE);
         java.util.Map<String, Spell> all = manager.getAllSpells();
-        java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
+        java.util.Set<String> owned = Character.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
         java.util.List<String> available = new java.util.ArrayList<>();
@@ -276,8 +276,8 @@ public class HarmonicLightEnsemble extends JPanel {
         buyBtn.addActionListener(ev -> {
             String sel = list.getSelectedValue();
             if (sel == null) { JOptionPane.showMessageDialog(dialog, "Please select a spell first."); return; }
-            if (Charecter.getInstance().getGuildSpells().size() >= maxSpells) { JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells."); return; }
-            for (String o : new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; } }
+            if (Character.getInstance().getGuildSpells().size() >= maxSpells) { JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells."); return; }
+            for (String o : new java.util.ArrayList<>(Character.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; } }
             int price = 250;
             int gold = player.getGold();
             if (gold < price) { JOptionPane.showMessageDialog(dialog, "You need " + price + " gold to buy this spell. You have " + gold + " gold."); return; }
@@ -290,7 +290,7 @@ public class HarmonicLightEnsemble extends JPanel {
             dialog.dispose();
         });
         sellBtn.addActionListener(ev -> {
-            java.util.List<String> ownedList = new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells());
+            java.util.List<String> ownedList = new java.util.ArrayList<>(Character.getInstance().getGuildSpells());
             if (ownedList.isEmpty()) { JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell."); return; }
             String sel = (String) JOptionPane.showInputDialog(dialog, "Select spell to sell:", "Sell Spell", JOptionPane.PLAIN_MESSAGE, null, ownedList.toArray(new String[0]), ownedList.get(0));
             if (sel != null) {
@@ -299,7 +299,7 @@ public class HarmonicLightEnsemble extends JPanel {
                 int confirm = JOptionPane.showConfirmDialog(dialog, "Sell '" + sel + "' for " + refund + " gold?", "Confirm Sell", JOptionPane.YES_NO_OPTION);
                 if (confirm != JOptionPane.YES_OPTION) return;
                 String toRemove = null;
-                for (String o : new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
+                for (String o : new java.util.ArrayList<>(Character.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
                 boolean removed = false; if (toRemove != null) removed = removeGuildSpell(toRemove);
                 if (removed) {
                     player.setGold(player.getGold() + refund);
@@ -314,16 +314,16 @@ public class HarmonicLightEnsemble extends JPanel {
         dialog.setVisible(true);
     }
 
-    public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
+    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
-    public boolean removeGuildSpell(String spell) { return Charecter.getInstance().getGuildSpells().remove(spell); }
-    public java.util.ArrayList<String> getGuildSpells() { return new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells()); }
+    public boolean removeGuildSpell(String spell) { return Character.getInstance().getGuildSpells().remove(spell); }
+    public java.util.ArrayList<String> getGuildSpells() { return new java.util.ArrayList<>(Character.getInstance().getGuildSpells()); }
     public String getDescription() { return description; }
     public Alignment getAlignment() { return alignment; }
     public String getGuildName() { return guildName; }

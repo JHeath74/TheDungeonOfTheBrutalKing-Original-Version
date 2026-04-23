@@ -1,7 +1,7 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Weapons\ShadowShuriken.java
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -29,7 +29,7 @@ public class ShadowShuriken extends WeaponManager {
 
     private static final Random RNG = new Random();
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public ShadowShuriken(int damage, String effect) {
         super(WEAPON_NAME, REQUIRED_STRENGTH, damage, effect, WEIGHT);
@@ -39,7 +39,7 @@ public class ShadowShuriken extends WeaponManager {
         super(WEAPON_NAME, requiredStrength, damage, effect, WEIGHT);
     }
 
-    public static ShadowShuriken createShadowShuriken(Charecter character, int damage, String effect) {
+    public static ShadowShuriken createShadowShuriken(Character character, int damage, String effect) {
         try {
             if (character == null) throw new IllegalArgumentException("Character is null");
             if (!isGuildMember(character)) {
@@ -102,7 +102,7 @@ public class ShadowShuriken extends WeaponManager {
         super.setEffect(effect);
     }
 
-    public static boolean isGuildMember(Charecter character) {
+    public static boolean isGuildMember(Character character) {
         if (character == null) return false;
         try {
             return character.getCurrentGuild() == GuildType.THIEF
@@ -112,12 +112,12 @@ public class ShadowShuriken extends WeaponManager {
         }
     }
 
-    public static boolean isPurchasableBy(Charecter character) {
+    public static boolean isPurchasableBy(Character character) {
         return isGuildMember(character);
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (!isGuildMember(wearer)) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -135,9 +135,9 @@ public class ShadowShuriken extends WeaponManager {
      * Higher INT biases toward POISON; otherwise BLEED. Durations scale with INT or AGI.
      */
     @Override
-    public void applyCombatEffect(Charecter target) {
+    public void applyCombatEffect(Character target) {
         if (target == null) return;
-        Charecter attacker = myChar != null ? myChar : Charecter.getInstance();
+        Character attacker = myChar != null ? myChar : Character.getInstance();
         int inti = (attacker != null) ? attacker.getIntelligence() : 0;
         int agi = (attacker != null) ? attacker.getAgility() : 0;
         double chance = 0.12 + (inti * 0.02);

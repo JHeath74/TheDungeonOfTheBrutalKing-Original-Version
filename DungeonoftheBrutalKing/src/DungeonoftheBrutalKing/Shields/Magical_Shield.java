@@ -1,14 +1,14 @@
 
 package DungeonoftheBrutalKing.Shields;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Magical_Shield extends ShieldManager {
 
     private int requiredStrength;
    	private int defenseProvided;
 
-   	private static Charecter myChar = Charecter.getInstance();
+   	private static Character myChar = Character.getInstance();
 
     public Magical_Shield(int requiredStrength, int defenseProvided ) {
         super("Magical Shield", requiredStrength, defenseProvided); // Initialize with name, required strength, and defense provided
@@ -18,7 +18,7 @@ public class Magical_Shield extends ShieldManager {
         allShields.add(this);
     }
 
-    public static Magical_Shield createMagical_Shield(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
+    public static Magical_Shield createMagical_Shield(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
    	 int requiredStrength = REQUIRED_STRENGTH;
         try {
 

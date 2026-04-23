@@ -3,7 +3,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.TimeClock;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -18,17 +18,17 @@ public class ManaSurge implements Spell {
     private TimeClock timer;
     private boolean active = false;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == SPELL_GUILD;
     }
 
-    public int calculateMagicBoost(Charecter charecter) {
+    public int calculateMagicBoost(Character charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
         return BASE_MAGIC_BOOST + (intelligence * 2) + (level * 1);
     }
 
-    public void activate(Charecter charecter) {
+    public void activate(Character charecter) {
         timer = new TimeClock(TimeClock.Month.REBIRTH, null, null);
         timer.startClock();
         healCaster(charecter);
@@ -36,7 +36,7 @@ public class ManaSurge implements Spell {
         // Optionally, apply magic boost to charecter here
     }
 
-    private void healCaster(Charecter charecter) {
+    private void healCaster(Character charecter) {
         int maxHealth = charecter.getMaxHitPoints();
         int healAmount = (int) Math.ceil(maxHealth * 0.05);
         int newHealth = Math.min(charecter.getHitPoints() + healAmount, maxHealth);
@@ -87,14 +87,14 @@ public class ManaSurge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster)) {
             cast(caster);
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             activate(caster);
         }
@@ -106,7 +106,7 @@ public class ManaSurge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster)) {
             if (target != null) {
                 activate(target);
@@ -123,13 +123,13 @@ public class ManaSurge implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

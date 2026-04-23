@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell; 
@@ -49,8 +49,8 @@ public void castWithIntelligence(int toonIntelligence) { }
 public void cast(int toonWisdom, int toonIntelligence) { }
 
 @Override
-public void cast(Charecter caster, List<Charecter> allCharacters) {
-    for (Charecter target : allCharacters) {
+public void cast(Character caster, List<Character> allCharacters) {
+    for (Character target : allCharacters) {
         if (target != caster) {
             target.takeDamage(CHARGE_DAMAGE);
             System.out.println(caster.getName() + " charges through " + target.getName() +
@@ -60,7 +60,7 @@ public void cast(Charecter caster, List<Charecter> allCharacters) {
 }
 
 @Override
-public void cast(Charecter caster) {
+public void cast(Character caster) {
     System.out.println(caster.getName() + " prepares Stormclad Charge, but there is no target.");
 }
 
@@ -70,20 +70,20 @@ public void cast() {
 }
 
 @Override
-public void cast(Charecter caster, Charecter target) {
+public void cast(Character caster, Character target) {
     target.takeDamage(CHARGE_DAMAGE);
     System.out.println(caster.getName() + " charges through " + target.getName() +
         " with Stormclad Charge, dealing " + CHARGE_DAMAGE + " damage!");
 }
 
 @Override
-public void castWithStrength(Charecter enemy, double d) {
+public void castWithStrength(Character enemy, double d) {
 	// TODO Auto-generated method stub
 	
 }
 
 @Override
-public void cast(Charecter caster, Enemies target) {
+public void cast(Character caster, Enemies target) {
 	// TODO Auto-generated method stub
 	
 }

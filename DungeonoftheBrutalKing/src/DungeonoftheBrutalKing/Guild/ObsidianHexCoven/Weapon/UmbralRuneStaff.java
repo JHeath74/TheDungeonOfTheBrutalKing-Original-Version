@@ -2,7 +2,7 @@
 // src/Guild/ObsidianHexCoven/Weapon/UmbralRuneStaff.java
 package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Status.FearStatus;
 import DungeonoftheBrutalKing.Status.HasHitPoints;
@@ -47,7 +47,7 @@ public class UmbralRuneStaff extends WeaponManager {
         super(WEAPON_NAME, 0, ATTACK_INCREASE, EFFECT, WEIGHT);
     }
 
-    public static UmbralRuneStaff createUmbralRuneStaff(Charecter character) {
+    public static UmbralRuneStaff createUmbralRuneStaff(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Hex Coven members can wield the UmbralRuneStaff.");
@@ -59,7 +59,7 @@ public class UmbralRuneStaff extends WeaponManager {
         return new UmbralRuneStaff();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getIntelligence() < REQUIRED_INTELLIGENCE) return false;
@@ -76,7 +76,7 @@ public class UmbralRuneStaff extends WeaponManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastAttackBonus != 0) wearer.setAttack(Math.max(0, wearer.getAttack() - lastAttackBonus));
@@ -96,7 +96,7 @@ public class UmbralRuneStaff extends WeaponManager {
      * \- Otherwise returns Fear (if it procs)
      * \- Otherwise null
      */
-    public Status tryProcOnHitStatus(Charecter attacker, Charecter target) {
+    public Status tryProcOnHitStatus(Character attacker, Character target) {
         if (attacker == null || target == null) return null;
 
         // Try LifeSteal

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -37,7 +37,7 @@ public class CrimsonVeilRogues extends JPanel {
     public CrimsonVeilRogues() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         GuildMembershipStatus status = character.getCurrentGuildStatus();
 
         JLabel imageLabel = new JLabel(new ImageIcon(
@@ -106,7 +106,7 @@ public class CrimsonVeilRogues extends JPanel {
 
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
-                        Charecter.getInstance(),
+                        Character.getInstance(),
                         Guild.CRIMSON_VEIL_ROGUES,
                         manager
                 );
@@ -170,7 +170,7 @@ public class CrimsonVeilRogues extends JPanel {
 
     // Legacy fallback for spell buying
     private void buyGuildSpell() {
-        Charecter player = Charecter.getInstance();
+        Character player = Character.getInstance();
         int maxSpells = 6;
 
         if (player.getCurrentGuildStatus() != GuildMembershipStatus.FULL_MEMBER) {
@@ -196,7 +196,7 @@ public class CrimsonVeilRogues extends JPanel {
                 new CrimsonVeilRoguesGuildSpellsManager(Guild.CRIMSON_VEIL_ROGUES);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
-        java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
+        java.util.Set<String> owned = Character.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
 
@@ -213,17 +213,17 @@ public class CrimsonVeilRogues extends JPanel {
         }
     }
 
-    public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
+    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
 
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public boolean removeGuildSpell(String spell) {
-        return Charecter.getInstance().getGuildSpells().remove(spell);
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 }

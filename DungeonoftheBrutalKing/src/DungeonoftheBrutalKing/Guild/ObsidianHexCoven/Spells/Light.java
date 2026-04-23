@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -38,7 +38,7 @@ public class Light implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster != null) {
             if (caster.getMagicPoints() < REQUIRED_MAGIC_POINTS) {
                 System.out.println(caster.getName() + " does not have enough magic points to cast Light!");
@@ -52,7 +52,7 @@ public class Light implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster != null) {
             cast(caster.getWisdom());
             if (target != null) {
@@ -64,9 +64,9 @@ public class Light implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (targets != null) {
-            for (Charecter target : targets) {
+            for (Character target : targets) {
                 cast(caster, target);
             }
         }
@@ -107,13 +107,13 @@ public class Light implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // Light is not a strength-based spell. Provide a graceful no-op / feedback.
         System.out.println("Light is a spell of illumination and does not scale with Strength.");
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Best-effort: apply illumination effect to enemy/group if present, otherwise just cast on caster.
         cast(caster);
         if (target != null) {
@@ -121,7 +121,7 @@ public class Light implements Spell {
         }
     }
 
-    private static String safeName(Charecter c) {
+    private static String safeName(Character c) {
         try {
             String name = c.getName();
             return (name == null || name.isBlank()) ? "target" : name;

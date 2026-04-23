@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -56,8 +56,8 @@ public final class ThiefsInsight implements Spell {
     // --- Core behavior: non-damaging divination buff ---
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
-        if (caster == null) caster = Charecter.getInstance();
+    public void cast(Character caster, Character target) {
+        if (caster == null) caster = Character.getInstance();
         if (caster == null) return;
 
         // Enforce guild like other Obsidian Shadow Syndicate spells
@@ -94,18 +94,18 @@ public final class ThiefsInsight implements Spell {
     // --- Other Spell overloads for compatibility ---
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         cast(caster, caster);
     }
 
     @Override
-    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
-        cast(caster != null ? caster : Charecter.getInstance());
+    public void cast(Character caster, java.util.List<Character> allCharacters) {
+        cast(caster != null ? caster : Character.getInstance());
     }
 
     @Override
     public void cast() {
-        cast(Charecter.getInstance());
+        cast(Character.getInstance());
     }
 
     @Override
@@ -124,12 +124,12 @@ public final class ThiefsInsight implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
-        cast(Charecter.getInstance());
+    public void castWithStrength(Character enemy, double d) {
+        cast(Character.getInstance());
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Utility divination; ignore Enemies-based targeting.
         cast(caster);
     }

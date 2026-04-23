@@ -2,7 +2,7 @@
 package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class RadiantAegisCuirass extends ArmourManager {
@@ -32,7 +32,7 @@ public class RadiantAegisCuirass extends ArmourManager {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, DEFENSE_BONUS, WEIGHT, DESCRIPTION);
     }
 
-    public static RadiantAegisCuirass createRadiantAegisCuirass(Charecter character) {
+    public static RadiantAegisCuirass createRadiantAegisCuirass(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Harmonic Light Ensemble members can wear the RadiantAegisCuirass.");
@@ -46,7 +46,7 @@ public class RadiantAegisCuirass extends ArmourManager {
         return new RadiantAegisCuirass();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getStrength() < REQUIRED_STRENGTH) return false;
@@ -64,7 +64,7 @@ public class RadiantAegisCuirass extends ArmourManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

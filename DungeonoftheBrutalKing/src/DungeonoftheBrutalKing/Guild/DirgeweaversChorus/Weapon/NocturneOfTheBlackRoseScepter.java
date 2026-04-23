@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -39,12 +39,12 @@ public class NocturneOfTheBlackRoseScepter extends WeaponManager {
         return new NocturneOfTheBlackRoseScepter(REQUIRED_STAT, damage, WEIGHT, effect);
     }
 
-    private boolean isGuildMember(Charecter wielder) {
+    private boolean isGuildMember(Character wielder) {
         return wielder != null && wielder.getGuild() == GUILDname;
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && isGuildMember(wielder)) {
             isEquipped = true;
             return true;
@@ -53,7 +53,7 @@ public class NocturneOfTheBlackRoseScepter extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             isEquipped = false;
         }
@@ -63,7 +63,7 @@ public class NocturneOfTheBlackRoseScepter extends WeaponManager {
     /**
      * Call after a successful hit where damage was dealt.
      */
-    public void onHit(Charecter attacker, Enemies target, int damageDealt) {
+    public void onHit(Character attacker, Enemies target, int damageDealt) {
         if (!isEquipped) return;
         if (!isGuildMember(attacker)) return;
 

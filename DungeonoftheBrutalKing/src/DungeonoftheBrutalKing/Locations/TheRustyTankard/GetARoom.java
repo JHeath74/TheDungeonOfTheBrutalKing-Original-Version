@@ -2,7 +2,7 @@
 // File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/GetARoom.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
@@ -61,9 +61,9 @@ public class GetARoom extends JPanel {
     private void handleRoomPurchase() {
         if (mainGameScreen == null) return;
 
-        Charecter player;
+        Character player;
         try {
-            player = Charecter.getInstance();
+            player = Character.getInstance();
         } catch (RuntimeException ex) {
             return;
         }

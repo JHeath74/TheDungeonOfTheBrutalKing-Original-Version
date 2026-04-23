@@ -2,7 +2,7 @@
 // src/Guild/DirgeweaversChorus/Armour/ChorusKnightsLamentPlate.java
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
@@ -41,7 +41,7 @@ public class ChorusKnightsLamentPlate {
         this.statusEffect = (statusEffect == null) ? StatusEffect.NONE : statusEffect;
     }
 
-    public static ChorusKnightsLamentPlate createChorusKnightsLamentPlate(Charecter character, StatusEffect statusEffect) {
+    public static ChorusKnightsLamentPlate createChorusKnightsLamentPlate(Character character, StatusEffect statusEffect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Dirgeweavers Chorus members can wear the ChorusKnightsLamentPlate.");
@@ -50,7 +50,7 @@ public class ChorusKnightsLamentPlate {
        return new ChorusKnightsLamentPlate(statusEffect);
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
 
@@ -68,7 +68,7 @@ public class ChorusKnightsLamentPlate {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastVitBonus != 0) {
@@ -89,7 +89,7 @@ public class ChorusKnightsLamentPlate {
      * Call this from your combat flow when the wearer hits an enemy (or when the enemy hits the wearer,
      * depending on the design you want).
      */
-    public void onHit(Charecter wearer, Enemies enemy) {
+    public void onHit(Character wearer, Enemies enemy) {
         if (wearer == null || enemy == null) return;
         if (wearer.getGuild() != REQUIRED_GUILD) return;
         if (statusEffect == StatusEffect.NONE) return;

@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -27,7 +27,7 @@ public class BloodshadeStiletto extends WeaponManager {
         super(WEAPON_NAME, REQUIRED_AGILITY, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static BloodshadeStiletto createBloodshadeStiletto(Charecter character, String effect) {
+    public static BloodshadeStiletto createBloodshadeStiletto(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != Guild.CRIMSON_VEIL_ROGUES)
             throw new IllegalArgumentException("Only Crimson Veil Rogues members can wield the Bloodshade Stiletto.");
@@ -38,7 +38,7 @@ public class BloodshadeStiletto extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getGuild() != Guild.CRIMSON_VEIL_ROGUES) return false;
         if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
@@ -52,7 +52,7 @@ public class BloodshadeStiletto extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
             wielder.setEquippedWeapon(null);
@@ -64,7 +64,7 @@ public class BloodshadeStiletto extends WeaponManager {
         return false;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         if (wielder == null || enemy == null) return;
         int agility = wielder.getAgility();
         Random rand = new Random();

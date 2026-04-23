@@ -1,7 +1,7 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Weapons\ShadowKnife.java
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -31,7 +31,7 @@ public class ShadowKnife extends WeaponManager {
 
 
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public ShadowKnife(int damage, String effect) {
         super(WEAPON_NAME, REQUIRED_STRENGTH, damage, effect, WEIGHT);
@@ -44,7 +44,7 @@ public class ShadowKnife extends WeaponManager {
     /**
      * Factory that validates the wearer's strength and guild membership before creating the weapon.
      */
-    public static ShadowKnife createShadowKnife(Charecter character, int damage, String effect) {
+    public static ShadowKnife createShadowKnife(Character character, int damage, String effect) {
         try {
             if (character == null) throw new IllegalArgumentException("Character is null");
             if (!isGuildMember(character)) {
@@ -129,7 +129,7 @@ public class ShadowKnife extends WeaponManager {
     /**
      * Returns true if the character is a FULL_MEMBER of the Thief guild (required to buy/wield).
      */
-    public static boolean isGuildMember(Charecter character) {
+    public static boolean isGuildMember(Character character) {
         if (character == null) return false;
         try {
             return character.getCurrentGuild() == GuildType.THIEF
@@ -142,7 +142,7 @@ public class ShadowKnife extends WeaponManager {
     /**
      * Convenience for shop logic: whether the weapon may be purchased by the character.
      */
-    public static boolean isPurchasableBy(Charecter character) {
+    public static boolean isPurchasableBy(Character character) {
         return isGuildMember(character);
     }
 
@@ -150,7 +150,7 @@ public class ShadowKnife extends WeaponManager {
      * Equip the weapon if the wearer meets guild and strength requirements. Returns true on success.
      */
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (!isGuildMember(wearer)) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -168,9 +168,9 @@ public class ShadowKnife extends WeaponManager {
      * Base chance = 0.15 + INT * 0.02 (capped at 0.8). Duration = 1 + INT/10.
      */
     @Override
-    public void applyCombatEffect(Charecter target) {
+    public void applyCombatEffect(Character target) {
         if (target == null) return;
-        Charecter attacker = myChar != null ? myChar : Charecter.getInstance();
+        Character attacker = myChar != null ? myChar : Character.getInstance();
         int inti = (attacker != null) ? attacker.getIntelligence() : 0;
         double chance = 0.15 + (inti * 0.02);
         chance = Math.min(0.80, chance);

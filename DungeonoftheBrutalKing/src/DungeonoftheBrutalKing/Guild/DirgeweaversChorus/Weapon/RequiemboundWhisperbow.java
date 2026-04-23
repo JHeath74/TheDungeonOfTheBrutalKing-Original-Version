@@ -2,7 +2,7 @@
 // src/Guild/DirgeweaversChorus/Weapon/RequiemboundWhisperbow.java
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -36,7 +36,7 @@ public class RequiemboundWhisperbow extends WeaponManager {
         super(WEAPON_NAME, REQUIRED_CHARISMA, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static RequiemboundWhisperbow createRequiemboundWhisperbow(Charecter character, String effect) {
+    public static RequiemboundWhisperbow createRequiemboundWhisperbow(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD) {
             throw new IllegalArgumentException("Only Dirgeweavers Chorus members can wield the RequiemboundWhisperbow.");
@@ -47,12 +47,12 @@ public class RequiemboundWhisperbow extends WeaponManager {
         return new RequiemboundWhisperbow(effect);
     }
 
-    private boolean isGuildMember(Charecter wielder) {
+    private boolean isGuildMember(Character wielder) {
         return wielder != null && wielder.getGuild() == REQUIRED_GUILD;
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isGuildMember(wielder)) return false;
 
         if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
@@ -65,7 +65,7 @@ public class RequiemboundWhisperbow extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (wielder == null) return false;
 
         if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
@@ -84,7 +84,7 @@ public class RequiemboundWhisperbow extends WeaponManager {
      * @param target the enemy that was hit
      * @param damageDealt final damage actually dealt
      */
-    public void onHit(Charecter attacker, Enemies target, int damageDealt) {
+    public void onHit(Character attacker, Enemies target, int damageDealt) {
         if (!isGuildMember(attacker)) return;
 
         if (target == null || target.isDead()) return;

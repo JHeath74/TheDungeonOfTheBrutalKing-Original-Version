@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class DawnwardMail {
@@ -27,7 +27,7 @@ public class DawnwardMail {
     private int lastVitBonus = 0;
     private int lastChaBonus = 0;
 
-    public static DawnwardMail createHarmonicLightResonantVestments(Charecter character) {
+    public static DawnwardMail createHarmonicLightResonantVestments(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Harmonic Light Ensemble members can wear the HarmonicLightResonantVestments.");
@@ -39,7 +39,7 @@ public class DawnwardMail {
         return new DawnwardMail();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getVitality() < REQUIRED_VITALITY) return false;
@@ -56,7 +56,7 @@ public class DawnwardMail {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) {

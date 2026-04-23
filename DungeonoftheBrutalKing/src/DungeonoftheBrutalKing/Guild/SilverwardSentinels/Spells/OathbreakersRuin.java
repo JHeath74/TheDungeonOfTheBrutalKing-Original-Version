@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -31,7 +31,7 @@ public final class OathbreakersRuin implements Spell {
              + "weakened under the weight of their betrayal.";
     }
 
-    private void applyRuin(Charecter caster, Enemies target) {
+    private void applyRuin(Character caster, Enemies target) {
         if (caster == null || target == null) return;
         Guild casterGuild = caster.getGuild();
         if (casterGuild == null || casterGuild != getSpellGuild()) return;
@@ -47,7 +47,7 @@ public final class OathbreakersRuin implements Spell {
         target.addStatus(debuff);
     }
 
-    private int computeDamage(Charecter caster, Guild oath) {
+    private int computeDamage(Character caster, Guild oath) {
         int wis = Math.max(0, caster.getWisdom());
         int str = Math.max(0, caster.getStrength());
         double base = BASE_DAMAGE + (wis * WISDOM_SCALING) + (str * STRENGTH_SCALING);
@@ -60,9 +60,9 @@ public final class OathbreakersRuin implements Spell {
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
     @Override public void cast(int toonWisdom, int toonIntelligence) {}
-    @Override public void cast(Charecter caster) {}
-    @Override public void cast(Charecter caster, Charecter target) {}
-    @Override public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {}
-    @Override public void castWithStrength(Charecter enemy, double strengthScaling) {}
-    @Override public void cast(Charecter caster, Enemies target) { applyRuin(caster, target); }
+    @Override public void cast(Character caster) {}
+    @Override public void cast(Character caster, Character target) {}
+    @Override public void cast(Character caster, java.util.List<Character> allCharacters) {}
+    @Override public void castWithStrength(Character enemy, double strengthScaling) {}
+    @Override public void cast(Character caster, Enemies target) { applyRuin(caster, target); }
 }

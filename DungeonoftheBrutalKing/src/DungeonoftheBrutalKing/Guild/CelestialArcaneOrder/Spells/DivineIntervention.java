@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Spells.Spell;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Status.DivineInterventionStatus;
@@ -19,7 +19,7 @@ public class DivineIntervention implements Spell {
     private static final String SPELL_NAME = "Resurrection";
     
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (target == null) return;
         DivineInterventionStatus status = new DivineInterventionStatus(10); // 10 minutes duration
         target.addStatus(status); // Apply the status effect
@@ -69,13 +69,13 @@ public class DivineIntervention implements Spell {
 	}
 
 	@Override
-	public void cast(Charecter caster, List<Charecter> allCharacters) {
+	public void cast(Character caster, List<Character> allCharacters) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster) {
+	public void cast(Character caster) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -93,13 +93,13 @@ public class DivineIntervention implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

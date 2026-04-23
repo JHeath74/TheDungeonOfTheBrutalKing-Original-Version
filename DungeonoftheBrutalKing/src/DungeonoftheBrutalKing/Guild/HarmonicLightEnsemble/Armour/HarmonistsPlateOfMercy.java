@@ -2,7 +2,7 @@
 package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class HarmonistsPlateOfMercy extends ArmourManager {
@@ -33,7 +33,7 @@ public class HarmonistsPlateOfMercy extends ArmourManager {
         super(ARMOUR_NAME, REQUIRED_STRENGTH, ARMOUR_DEFENSE, WEIGHT, DESCRIPTION);
     }
 
-    public static HarmonistsPlateOfMercy create(Charecter character) {
+    public static HarmonistsPlateOfMercy create(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Harmonic Light Ensemble members can wear the HarmonistsPlateOfMercy.");
@@ -45,7 +45,7 @@ public class HarmonistsPlateOfMercy extends ArmourManager {
         return new HarmonistsPlateOfMercy();
     }
 
-    public boolean canEquip(Charecter wearer) {
+    public boolean canEquip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getVitality() < REQUIRED_VITALITY) return false;
@@ -53,7 +53,7 @@ public class HarmonistsPlateOfMercy extends ArmourManager {
         return true;
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!canEquip(wearer)) return false;
 
         lastDefBonus = DEFENSE_BONUS;
@@ -67,7 +67,7 @@ public class HarmonistsPlateOfMercy extends ArmourManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) {

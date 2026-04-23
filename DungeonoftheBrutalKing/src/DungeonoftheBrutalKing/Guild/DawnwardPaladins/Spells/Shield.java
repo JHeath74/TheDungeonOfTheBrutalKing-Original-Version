@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 import java.util.List;
@@ -42,28 +42,28 @@ public class Shield implements Spell {
 
     // Main spell effect for singleton character
     public void cast() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         applyShieldEffect(character);
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster != null) {
             applyShieldEffect(caster);
         }
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (target != null) {
             applyShieldEffect(target);
         }
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (targets != null) {
-            for (Charecter target : targets) {
+            for (Character target : targets) {
                 if (target != null) {
                     applyShieldEffect(target);
                 }
@@ -87,7 +87,7 @@ public class Shield implements Spell {
     }
 
     // Helper: applies shield effect and schedules removal
-    private void applyShieldEffect(Charecter character) {
+    private void applyShieldEffect(Character character) {
         int totalDefense = calculateDefense(character, true);
         character.setDefense(totalDefense);
 
@@ -102,13 +102,13 @@ public class Shield implements Spell {
     }
 
     // Helper: removes shield effect
-    private void removeShieldEffect(Charecter character) {
+    private void removeShieldEffect(Character character) {
         int totalDefense = calculateDefense(character, false);
         character.setDefense(totalDefense);
     }
 
     // Helper: calculates defense, with or without shield bonus
-    private int calculateDefense(Charecter character, boolean withShieldBonus) {
+    private int calculateDefense(Character character, boolean withShieldBonus) {
         int baseDefense = 10;
         int agility = parseIntSafe(character.getCharInfo().get(10));
         int dexterityModifier = (agility - 10) / 2;
@@ -134,13 +134,13 @@ public class Shield implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

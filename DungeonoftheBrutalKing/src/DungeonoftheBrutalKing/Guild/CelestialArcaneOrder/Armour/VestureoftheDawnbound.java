@@ -2,7 +2,7 @@
 package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 
@@ -16,7 +16,7 @@ public class VestureoftheDawnbound extends ArmourManager {
     private static final GuildType GUILD_TYPE = GuildType.CLERIC;
 
     // Track equipped state and fire protection per wearer
-    private Charecter equippedWearer = null;
+    private Character equippedWearer = null;
     private boolean fireProtectionApplied = false;
     private boolean wearerHadFireProtection = false;
 
@@ -26,7 +26,7 @@ public class VestureoftheDawnbound extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer != null
                 && equippedWearer == null
                 && wearer.getGuild() == GUILD_NAME
@@ -48,7 +48,7 @@ public class VestureoftheDawnbound extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer != null && equippedWearer == wearer) {
             wearer.setEuippedArmour(null);
             wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);

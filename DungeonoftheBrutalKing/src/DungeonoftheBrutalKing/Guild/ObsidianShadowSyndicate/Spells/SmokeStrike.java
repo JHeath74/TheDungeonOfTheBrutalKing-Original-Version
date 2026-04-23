@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -59,8 +59,8 @@ public final class SmokeStrike implements Spell {
 
     // Single\-target: caster vs target Charecter
     @Override
-    public void cast(Charecter caster, Charecter target) {
-        if (caster == null) caster = Charecter.getInstance();
+    public void cast(Character caster, Character target) {
+        if (caster == null) caster = Character.getInstance();
         if (caster == null || target == null) return;
 
         // Optional: enforce guild by comparing the caster's guild (if you track it)
@@ -110,10 +110,10 @@ public final class SmokeStrike implements Spell {
     // --- Other Spell interface overloads (mirroring ArcaneMend for compatibility) ---
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // If only caster is provided, treat caster as both attacker and target (self\-buff, no damage),
         // or you can choose not to deal damage. Here we just buff.
-        if (caster == null) caster = Charecter.getInstance();
+        if (caster == null) caster = Character.getInstance();
         if (caster == null) return;
 
         // Reuse logic by targeting self but skipping damage:
@@ -121,13 +121,13 @@ public final class SmokeStrike implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // If target list is provided, choose first enemy or first non\-caster as target; fallback to self
         if (caster == null && allCharacters != null && !allCharacters.isEmpty()) {
             caster = allCharacters.get(0);
         }
         if (allCharacters != null && allCharacters.size() > 1) {
-            Charecter target = allCharacters.get(1);
+            Character target = allCharacters.get(1);
             cast(caster, target);
         } else {
             cast(caster, caster);
@@ -136,7 +136,7 @@ public final class SmokeStrike implements Spell {
 
     @Override
     public void cast() {
-        cast(Charecter.getInstance(), Charecter.getInstance());
+        cast(Character.getInstance(), Character.getInstance());
     }
 
     @Override
@@ -155,16 +155,16 @@ public final class SmokeStrike implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         if (enemy == null) {
             cast();
         } else {
-            cast(Charecter.getInstance(), enemy);
+            cast(Character.getInstance(), enemy);
         }
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // If Enemies\-based API is used, just treat it as a buff to caster
         cast(caster);
     }

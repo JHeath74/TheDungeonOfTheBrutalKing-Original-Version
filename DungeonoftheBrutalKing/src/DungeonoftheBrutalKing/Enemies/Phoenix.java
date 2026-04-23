@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.Status.FireStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Phoenix extends Enemies {
     private int level;
@@ -72,7 +72,7 @@ public class Phoenix extends Enemies {
     }
 
     // Overload for attack with status
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.18;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
         int damage = critical ? base * 2 : base;

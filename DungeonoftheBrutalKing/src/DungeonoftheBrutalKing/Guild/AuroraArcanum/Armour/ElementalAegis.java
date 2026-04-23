@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 
@@ -25,7 +25,7 @@ public class ElementalAegis extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!isEquipped
                 && wearer.getGuild() == GUILDname
                 && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
@@ -44,7 +44,7 @@ public class ElementalAegis extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (isEquipped) {
             wearer.setDefense(wearer.getDefense() - defenseBonus);
 
@@ -59,7 +59,7 @@ public class ElementalAegis extends ArmourManager {
     }
 
     // Optional offensive channel, currently a no-op until you add APIs to Charecter
-    public void channelElement(Charecter caster, Charecter target) {
+    public void channelElement(Character caster, Character target) {
         // TODO: add getSpellPower() and takeElementalDamage(...) to Charecter, then:
         // target.takeElementalDamage(elementType, caster.getSpellPower());
     }

@@ -5,7 +5,7 @@ package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -22,7 +22,7 @@ public class SunderArmour implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || target == null) return;
 
         if (caster.getMagicPoints() < MAGIC_POINTS_COST) return;
@@ -66,10 +66,10 @@ public class SunderArmour implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { }
+    public void cast(Character caster, List<Character> allCharacters) { }
 
     @Override
-    public void cast(Charecter caster) { }
+    public void cast(Character caster) { }
 
     @Override
     public void cast() { }
@@ -80,10 +80,10 @@ public class SunderArmour implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { }
+    public void castWithStrength(Character enemy, double d) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

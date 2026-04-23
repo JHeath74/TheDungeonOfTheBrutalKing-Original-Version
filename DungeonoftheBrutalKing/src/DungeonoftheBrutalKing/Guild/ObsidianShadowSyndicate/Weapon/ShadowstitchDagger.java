@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
@@ -43,7 +43,7 @@ public class ShadowstitchDagger extends WeaponManager {
         super(WEAPON_NAME, 0, ATTACK_INCREASE, EFFECT, WEIGHT);
     }
 
-    public static ShadowstitchDagger createShadowstitchDagger(Charecter character) {
+    public static ShadowstitchDagger createShadowstitchDagger(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Shadow Syndicate members can wield the ShadowstitchDagger.");
@@ -53,7 +53,7 @@ public class ShadowstitchDagger extends WeaponManager {
         return new ShadowstitchDagger();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -67,7 +67,7 @@ public class ShadowstitchDagger extends WeaponManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastAttackBonus != 0) wearer.setAttack(Math.max(0, wearer.getAttack() - lastAttackBonus));
@@ -83,7 +83,7 @@ public class ShadowstitchDagger extends WeaponManager {
      * Call this from your combat/on-hit pipeline, e.g. right after damage is dealt.
      * @return the applied status name, or null if nothing procced.
      */
-    public String tryApplyRandomStatus(Charecter attacker, Charecter target) {
+    public String tryApplyRandomStatus(Character attacker, Character target) {
         if (attacker == null || target == null) return null;
 
         int roll = ThreadLocalRandom.current().nextInt(100);

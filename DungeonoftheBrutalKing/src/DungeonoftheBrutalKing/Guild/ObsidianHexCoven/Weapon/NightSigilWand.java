@@ -5,7 +5,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.DazeStatus;
 import DungeonoftheBrutalKing.Status.Status;
 
@@ -18,7 +18,7 @@ public class NightSigilWand /* extends WeaponManager */ {
      * Call this after a successful hit.
      * @return a new DazeStatus to apply, or null if it did not proc.
      */
-    public Status tryProcDazeStatus(Charecter attacker, Charecter target) {
+    public Status tryProcDazeStatus(Character attacker, Character target) {
         if (attacker == null || target == null) return null;
 
         int roll = ThreadLocalRandom.current().nextInt(100);

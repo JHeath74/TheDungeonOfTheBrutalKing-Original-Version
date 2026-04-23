@@ -3,12 +3,12 @@
 package DungeonoftheBrutalKing.Classes;
 
 import DungeonoftheBrutalKing.SharedData.Stat;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Mage extends Class {
 
     @SuppressWarnings("unused")
-    private static final Charecter myChar = Charecter.getInstance();
+    private static final Character myChar = Character.getInstance();
 
     public static final String CHAR_CLASS = "Mage";
     public static final String IMAGE = "Mage.webp";

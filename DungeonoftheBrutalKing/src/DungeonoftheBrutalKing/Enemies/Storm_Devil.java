@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Status.StunStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Storm_Devil extends Enemies {
     private int level;
@@ -91,7 +91,7 @@ public class Storm_Devil extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.20;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 1.2) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;

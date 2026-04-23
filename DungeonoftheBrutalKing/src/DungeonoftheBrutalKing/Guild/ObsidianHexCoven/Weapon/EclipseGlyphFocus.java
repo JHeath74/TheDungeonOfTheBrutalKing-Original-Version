@@ -2,7 +2,7 @@
 // src/Guild/ObsidianHexCoven/Weapon/EclipseGlyphFocus.java
 package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
@@ -42,7 +42,7 @@ public class EclipseGlyphFocus extends WeaponManager {
         super(WEAPON_NAME, 0, ATTACK_INCREASE, EFFECT, WEIGHT);
     }
 
-    public static EclipseGlyphFocus createEclipseGlyphFocus(Charecter character) {
+    public static EclipseGlyphFocus createEclipseGlyphFocus(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Hex Coven members can wield the EclipseGlyphFocus.");
@@ -54,7 +54,7 @@ public class EclipseGlyphFocus extends WeaponManager {
         return new EclipseGlyphFocus();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getIntelligence() < REQUIRED_INTELLIGENCE) return false;
@@ -71,7 +71,7 @@ public class EclipseGlyphFocus extends WeaponManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastAttackBonus != 0) wearer.setAttack(Math.max(0, wearer.getAttack() - lastAttackBonus));
@@ -89,7 +89,7 @@ public class EclipseGlyphFocus extends WeaponManager {
      * Call this from your combat/on-hit pipeline after a successful hit.
      * Returns the single status class to instantiate/apply (or null if it did not proc).
      */
-    public Class<?> tryProcStatusClass(Charecter attacker, Charecter target) {
+    public Class<?> tryProcStatusClass(Character attacker, Character target) {
         if (attacker == null || target == null) return null;
 
         int roll = ThreadLocalRandom.current().nextInt(100);

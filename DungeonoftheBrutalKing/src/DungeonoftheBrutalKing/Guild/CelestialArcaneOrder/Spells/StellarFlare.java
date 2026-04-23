@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 import java.util.List;
@@ -18,11 +18,11 @@ public class StellarFlare implements Spell {
     public StellarFlare() {}
 
     // Deals radiant damage to all targets in the list
-    private void dealStellarFlareDamage(Charecter caster, List<Charecter> targets) {
+    private void dealStellarFlareDamage(Character caster, List<Character> targets) {
         if (targets == null || targets.isEmpty()) return;
         int intelligence = caster != null ? caster.getIntelligence() : 0;
         int damage = BASE_DAMAGE + intelligence;
-        for (Charecter target : targets) {
+        for (Character target : targets) {
             if (target == null) continue;
             int currentHealth = target.getHitPoints();
             int newHealth = Math.max(currentHealth - damage, 0);
@@ -32,18 +32,18 @@ public class StellarFlare implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // Single target version
         dealStellarFlareDamage(caster, List.of(target));
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         dealStellarFlareDamage(caster, allCharacters);
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // Not applicable: needs targets
     }
 
@@ -94,13 +94,13 @@ public class StellarFlare implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

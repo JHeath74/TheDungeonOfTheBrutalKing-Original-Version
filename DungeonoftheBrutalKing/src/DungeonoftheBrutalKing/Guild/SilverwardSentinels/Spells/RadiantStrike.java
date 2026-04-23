@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.Random;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -42,7 +42,7 @@ public final class RadiantStrike implements Spell {
     @Override
     public String getDescription() { return "A concentrated strike of radiant energy that can brand the foe, causing them to take increased damage."; }
 
-    private void applyRadiantStrike(Charecter caster, Enemies target) {
+    private void applyRadiantStrike(Character caster, Enemies target) {
         if (caster == null || target == null) return;
 
         // Guild check
@@ -81,7 +81,7 @@ public final class RadiantStrike implements Spell {
         }
     }
 
-    private int computeDamage(Charecter caster, Enemies target) {
+    private int computeDamage(Character caster, Enemies target) {
         int strength = Math.max(0, caster.getStrength());
         double dmg = BASE_DAMAGE + (strength * STRENGTH_SCALING);
         return (int) Math.max(1, Math.round(dmg));
@@ -92,9 +92,9 @@ public final class RadiantStrike implements Spell {
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
     @Override public void cast(int toonWisdom, int toonIntelligence) {}
-    @Override public void cast(Charecter caster) {}
-    @Override public void cast(Charecter caster, Charecter target) {}
-    @Override public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {}
-    @Override public void castWithStrength(Charecter enemy, double d) {}
-    @Override public void cast(Charecter caster, Enemies target) { applyRadiantStrike(caster, target); }
+    @Override public void cast(Character caster) {}
+    @Override public void cast(Character caster, Character target) {}
+    @Override public void cast(Character caster, java.util.List<Character> allCharacters) {}
+    @Override public void castWithStrength(Character enemy, double d) {}
+    @Override public void cast(Character caster, Enemies target) { applyRadiantStrike(caster, target); }
 }

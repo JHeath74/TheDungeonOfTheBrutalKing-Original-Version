@@ -2,7 +2,7 @@
 // src/Status/DefenseUpStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class DefenseUpStatus extends Status {
 
@@ -14,13 +14,13 @@ public final class DefenseUpStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null) return;
         target.setDefense(target.getDefense() + defenseBonus);
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null) return;
         target.setDefense(target.getDefense() - defenseBonus);
     }

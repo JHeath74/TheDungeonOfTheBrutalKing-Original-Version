@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class ObsidianShadowSyndicateGuildSpellsManager {
 
@@ -82,21 +82,21 @@ public final class ObsidianShadowSyndicateGuildSpellsManager {
         }
     }
 
-    public void castSpell(String name, Charecter caster) {
+    public void castSpell(String name, Character caster) {
         Spell spell = getSpell(name);
         if (spell != null) {
             spell.cast(caster);
         }
     }
 
-    public void castSpell(String name, Charecter caster, Charecter target) {
+    public void castSpell(String name, Character caster, Character target) {
         Spell spell = getSpell(name);
         if (spell != null) {
             spell.cast(caster, target);
         }
     }
 
-    public void castSpell(String name, Charecter caster, List<Charecter> targets) {
+    public void castSpell(String name, Character caster, List<Character> targets) {
         Spell spell = getSpell(name);
         if (spell != null) {
             spell.cast(caster, targets);

@@ -2,7 +2,7 @@
 // `src/DungeonoftheBrutalKing/Quests/Quests/QuestForgiveBetrayer.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.Quests.QuestType;
@@ -69,8 +69,8 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     }
 
     private void applyAlignmentDelta(int delta) {
-        int current = Charecter.getInstance().getAlignment();
-        Charecter.getInstance().setAlignment(current + delta);
+        int current = Character.getInstance().getAlignment();
+        Character.getInstance().setAlignment(current + delta);
     }
 
     private void finishChoice(JButton releaseButton, JButton killButton, String message) {

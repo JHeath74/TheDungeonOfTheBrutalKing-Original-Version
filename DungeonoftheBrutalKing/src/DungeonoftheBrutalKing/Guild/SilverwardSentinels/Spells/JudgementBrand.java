@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -50,7 +50,7 @@ public final class JudgementBrand implements Spell {
              + "causing them to take extra damage from you and your allies for a short time.";
     }
 
-    private void applyJudgement(Charecter caster, Enemies target) {
+    private void applyJudgement(Character caster, Enemies target) {
         if (caster == null || target == null) {
             return;
         }
@@ -70,7 +70,7 @@ public final class JudgementBrand implements Spell {
         applyJudgementBrandStatus(caster);
     }
 
-    private int computeDamage(Charecter caster, Enemies target) {
+    private int computeDamage(Character caster, Enemies target) {
         int wis = Math.max(0, caster.getWisdom());
         int str = Math.max(0, caster.getStrength());
 
@@ -85,7 +85,7 @@ public final class JudgementBrand implements Spell {
      * Applies a `JudgementBrandStatus` to the caster (or wherever you track marks).
      * Adjust to your own status system as needed.
      */
-    private void applyJudgementBrandStatus(Charecter caster) {
+    private void applyJudgementBrandStatus(Character caster) {
         // durationMinutes: reuse BRAND_DURATION_ROUNDS as minutes, or map rounds->minutes as needed
         int durationMinutes = BRAND_DURATION_ROUNDS;
 
@@ -124,27 +124,27 @@ public final class JudgementBrand implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // needs an enemy target
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // offensive mark; not for allies
     }
 
     @Override
-    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
+    public void cast(Character caster, java.util.List<Character> allCharacters) {
         // unused
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strengthScaling) {
+    public void castWithStrength(Character enemy, double strengthScaling) {
         // unused legacy overload
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         applyJudgement(caster, target);
     }
 }

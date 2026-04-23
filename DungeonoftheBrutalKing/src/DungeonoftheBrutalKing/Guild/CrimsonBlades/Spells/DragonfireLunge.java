@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -57,12 +57,12 @@ public class DragonfireLunge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Dragonfire Lunge.");
             return;
         }
-        for (Charecter target : allCharacters) {
+        for (Character target : allCharacters) {
             if (target != caster) {
                 applyFireDamage(caster, target);
             }
@@ -70,7 +70,7 @@ public class DragonfireLunge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Dragonfire Lunge.");
             return;
@@ -84,7 +84,7 @@ public class DragonfireLunge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || caster.getGuild() != Guild.CRIMSON_BLADES) {
             System.out.println("Only members of the Crimson Blades guild can use Dragonfire Lunge.");
             return;
@@ -92,7 +92,7 @@ public class DragonfireLunge implements Spell {
         applyFireDamage(caster, target);
     }
 
-    private void applyFireDamage(Charecter caster, Charecter target) {
+    private void applyFireDamage(Character caster, Character target) {
         if (target == null || caster == null) return;
         int strength = caster.getStrength();
         int fireDamage = (int) Math.round(strength * 1.5); // Example scaling
@@ -102,12 +102,12 @@ public class DragonfireLunge implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // Not used for this spell
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

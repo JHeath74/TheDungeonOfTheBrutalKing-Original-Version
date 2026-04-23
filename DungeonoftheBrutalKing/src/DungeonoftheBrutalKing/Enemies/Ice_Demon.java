@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -85,7 +85,7 @@ public class Ice_Demon extends Enemies {
         return damage;
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         int damage = attack(mainGameScreen);
         if (Math.random() < 0.25) {
             mainGameScreen.appendToMessageTextPane(getName() + " unleashes a freezing blast! The target is frozen!");

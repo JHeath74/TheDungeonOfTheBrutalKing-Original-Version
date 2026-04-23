@@ -1,11 +1,11 @@
 package DungeonoftheBrutalKing.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Dart extends WeaponManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     private static final int REQUIRED_STRENGTH = 15;
     private static int weight = 20;
@@ -19,7 +19,7 @@ public class Dart extends WeaponManager {
         super("Dart", requiredStrength, damage, effect, weight);
     }
 
-    public static Dart createDart(Charecter character, int damage, String effect) throws NumberFormatException {
+    public static Dart createDart(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

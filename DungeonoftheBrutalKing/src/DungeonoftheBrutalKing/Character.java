@@ -55,11 +55,10 @@ import DungeonoftheBrutalKing.Status.StatusManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.Status.PurityWardStatus;
 import DungeonoftheBrutalKing.Status.AstralWardStatus;
-import DungeonoftheBrutalKing.MainGameScreen;
 
-public class Charecter implements HasHitPoints {
+public class Character implements HasHitPoints {
 
-    private static Charecter instance;
+    private static Character instance;
 
     private ArrayList<String> charInfo = new ArrayList<>(Collections.nCopies(34, "0"));
     private Set<String> spellsLearned = new HashSet<>();
@@ -86,7 +85,11 @@ public class Charecter implements HasHitPoints {
     private int damageBonus = 0;
     private Set<String> resistances = new HashSet<>();
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
-
+    public void setX(int x) { setInt(IDX_POS_X, x); }
+    public void setY(int y) { setInt(IDX_POS_Y, y); }
+    public void setZ(int z) { setInt(IDX_POS_Z, z); }
+    
+    
     private static final int IDX_NAME = 0;
     private static final int IDX_CLASS = 2;
     private static final int IDX_LEVEL = 3;
@@ -124,12 +127,12 @@ public class Charecter implements HasHitPoints {
     private int hungerLevel = 100;
     private int thirstLevel = 100;
 
-    public static Charecter getInstance() {
-        if (instance == null) instance = new Charecter();
+    public static Character getInstance() {
+        if (instance == null) instance = new Character();
         return instance;
     }
 
-    public Charecter() {
+    public Character() {
         this.baseStrength = 8 + new Random().nextInt(7);
         this.baseIntelligence = 8 + new Random().nextInt(7);
         this.baseWisdom = 8 + new Random().nextInt(7);
@@ -253,7 +256,7 @@ public class Charecter implements HasHitPoints {
         if (g >= amount) { setGold(g - amount); return true; }
         return false;
     }
-    public void takeDamage(int amount, Charecter source) { takeDamage(amount); }
+    public void takeDamage(int amount, Character source) { takeDamage(amount); }
     public void removeOneNegativeEffect() {
         try {
             if (statuses != null) {
@@ -320,7 +323,7 @@ public class Charecter implements HasHitPoints {
     public void setStatusManager(StatusManager statusManager) { this.statusManager = (statusManager == null) ? new StatusManager() : statusManager; }
     public List<Status> getStatuses() { return statuses; }
     public void setStatuses(List<Status> statuses) { this.statuses = (statuses == null) ? new ArrayList<>() : statuses; }
-    public void applyStatusEffect(StatusType type, int duration, int value, Charecter caster) { }
+    public void applyStatusEffect(StatusType type, int duration, int value, Character caster) { }
     public void removeStatusEffect(StatusType type) {
         if (type == null) return;
         if (statuses != null) statuses.removeIf(s -> s != null && type.equals(s.getType()));

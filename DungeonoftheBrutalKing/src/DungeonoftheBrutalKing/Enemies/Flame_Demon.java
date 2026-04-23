@@ -5,7 +5,7 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.Status.FireStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Flame_Demon extends Enemies {
     private int level;
@@ -85,7 +85,7 @@ public class Flame_Demon extends Enemies {
         return damage;
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         int damage = attack(mainGameScreen);
         boolean fireStatusApplied = Math.random() < 0.3;
         if (fireStatusApplied) {

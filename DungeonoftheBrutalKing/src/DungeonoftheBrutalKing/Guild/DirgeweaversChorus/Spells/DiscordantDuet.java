@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
@@ -34,7 +34,7 @@ public class DiscordantDuet implements Spell {
     private static final double BOTH_SMALL_MP_MULT = 0.35;
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (caster == null || allCharacters == null) return;
 
         if (caster.getCurrentGuildStatus() != GuildMembershipStatus.FULL_MEMBER) return;
@@ -42,7 +42,7 @@ public class DiscordantDuet implements Spell {
 
         if (caster.getMagicPoints() < MAGIC_POINTS_COST) return;
 
-        List<Charecter> enemies = extractEnemiesExcludingCaster(caster, allCharacters);
+        List<Character> enemies = extractEnemiesExcludingCaster(caster, allCharacters);
         if (enemies.size() != 1 && enemies.size() != 2) return;
 
         caster.setMagicPoints(caster.getMagicPoints() - MAGIC_POINTS_COST);
@@ -50,7 +50,7 @@ public class DiscordantDuet implements Spell {
         int damage = computeDamage(caster);
 
         if (enemies.size() == 1) {
-            Charecter enemy = enemies.get(0);
+            Character enemy = enemies.get(0);
 
             // Damage enemy
             enemy.setHitPoints(Math.max(0, enemy.getHitPoints() - damage));
@@ -62,8 +62,8 @@ public class DiscordantDuet implements Spell {
         }
 
         // Exactly 2 enemies: make them "attack each other" 1 or 2 times.
-        Charecter e1 = enemies.get(0);
-        Charecter e2 = enemies.get(1);
+        Character e1 = enemies.get(0);
+        Character e2 = enemies.get(1);
 
         int swings = ThreadLocalRandom.current().nextInt(1, 3); // 1..2
         for (int i = 0; i < swings; i++) {
@@ -78,7 +78,7 @@ public class DiscordantDuet implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || target == null) return;
 
         if (caster.getCurrentGuildStatus() != GuildMembershipStatus.FULL_MEMBER) return;
@@ -91,7 +91,7 @@ public class DiscordantDuet implements Spell {
         target.setHitPoints(Math.max(0, target.getHitPoints() - damage));
     }
 
-    private void applyRandomRestore(Charecter caster, int baseRestore) {
+    private void applyRandomRestore(Character caster, int baseRestore) {
         if (caster == null || baseRestore <= 0) return;
 
         int roll = ThreadLocalRandom.current().nextInt(100); // 0..99
@@ -112,9 +112,9 @@ public class DiscordantDuet implements Spell {
         restoreMagicPointsClamped(caster, mpSmall);
     }
 
-    private List<Charecter> extractEnemiesExcludingCaster(Charecter caster, List<Charecter> allCharacters) {
-        List<Charecter> enemies = new ArrayList<>();
-        for (Charecter c : allCharacters) {
+    private List<Character> extractEnemiesExcludingCaster(Character caster, List<Character> allCharacters) {
+        List<Character> enemies = new ArrayList<>();
+        for (Character c : allCharacters) {
             if (c == null) continue;
             if (c == caster) continue;
             enemies.add(c);
@@ -122,7 +122,7 @@ public class DiscordantDuet implements Spell {
         return enemies;
     }
 
-    private int computeDamage(Charecter caster) {
+    private int computeDamage(Character caster) {
         int level = 1;
         try {
             level = Math.max(1, caster.getLevel());
@@ -132,7 +132,7 @@ public class DiscordantDuet implements Spell {
         return Math.min(MAX_DAMAGE, dmg);
     }
 
-    private int computeRestoreFromEnemyHp(Charecter enemy) {
+    private int computeRestoreFromEnemyHp(Character enemy) {
         int enemyHpPool = Math.max(0, safeGetMaxHitPoints(enemy));
         if (enemyHpPool <= 0) {
             enemyHpPool = Math.max(0, enemy.getHitPoints());
@@ -142,7 +142,7 @@ public class DiscordantDuet implements Spell {
         return Math.max(0, restore);
     }
 
-    private int safeGetMaxHitPoints(Charecter c) {
+    private int safeGetMaxHitPoints(Character c) {
         try {
             return c.getMaxHitPoints();
         } catch (Throwable ignored) {
@@ -150,7 +150,7 @@ public class DiscordantDuet implements Spell {
         }
     }
 
-    private void healHitPointsClamped(Charecter target, int amount) {
+    private void healHitPointsClamped(Character target, int amount) {
         if (target == null || amount <= 0) return;
 
         int current = Math.max(0, target.getHitPoints());
@@ -167,7 +167,7 @@ public class DiscordantDuet implements Spell {
         target.setHitPoints(newHp);
     }
 
-    private void restoreMagicPointsClamped(Charecter target, int amount) {
+    private void restoreMagicPointsClamped(Character target, int amount) {
         if (target == null || amount <= 0) return;
 
         int current = Math.max(0, target.getMagicPoints());
@@ -206,7 +206,7 @@ public class DiscordantDuet implements Spell {
     public String getName() { return "Discordant Duet"; }
 
     @Override
-    public void cast(Charecter caster) { }
+    public void cast(Character caster) { }
 
     @Override
     public void cast() { }
@@ -217,10 +217,10 @@ public class DiscordantDuet implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { }
+    public void castWithStrength(Character enemy, double d) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

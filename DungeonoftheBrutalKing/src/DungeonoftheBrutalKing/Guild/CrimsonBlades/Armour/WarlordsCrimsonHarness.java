@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 
@@ -29,7 +29,7 @@ public class WarlordsCrimsonHarness extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getEquippedArmour() == null || !wearer.getEquippedArmour().equals(getName())) {
             wearer.setEquippedArmour(getName());
@@ -48,7 +48,7 @@ public class WarlordsCrimsonHarness extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getEquippedArmour() != null && wearer.getEquippedArmour().equals(getName())) {
             wearer.setEquippedArmour(null);

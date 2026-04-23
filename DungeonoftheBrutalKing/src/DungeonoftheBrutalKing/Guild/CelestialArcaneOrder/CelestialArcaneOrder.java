@@ -21,7 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -47,7 +47,7 @@ public class CelestialArcaneOrder extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!this.isMember || !isGood(character.getAlignment())) {
@@ -104,7 +104,7 @@ public class CelestialArcaneOrder extends JPanel {
         if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(e -> {
-                Charecter ch = Charecter.getInstance();
+                Character ch = Character.getInstance();
                 if (!isGood(ch.getAlignment())) {
                     JOptionPane.showMessageDialog(
                             this,
@@ -183,7 +183,7 @@ try {
     }
 
     private void removeCursesAndEffects() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         character.clearCurses();
         character.clearNegativeEffects();
     }
@@ -205,8 +205,8 @@ try {
     public String getDescription() { return description; }
     public String getGuildName() { return guildName; }
     public GuildType getGuildType() { return guildType; }
-    public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
+    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
     public void addGuildSpell(String spell) { /* unchanged */ }
-    public boolean removeGuildSpell(String spell) { return Charecter.getInstance().getGuildSpells().remove(spell); }
-    public ArrayList<String> getGuildSpells() { return new ArrayList<>(Charecter.getInstance().getGuildSpells()); }
+    public boolean removeGuildSpell(String spell) { return Character.getInstance().getGuildSpells().remove(spell); }
+    public ArrayList<String> getGuildSpells() { return new ArrayList<>(Character.getInstance().getGuildSpells()); }
 }

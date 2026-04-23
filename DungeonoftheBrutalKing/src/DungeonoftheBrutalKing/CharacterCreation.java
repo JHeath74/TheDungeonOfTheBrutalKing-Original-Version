@@ -34,7 +34,7 @@ public class CharacterCreation {
 	//static LoadSaveGame2 myGameState = new LoadSaveGame2();
 	static LoadSaveGame myGameState = new LoadSaveGame();
 	static GameSettings myGameSettings = new GameSettings();
-	Charecter myChar = Charecter.getInstance();
+	Character myChar = Character.getInstance();
 
 	static String InitialCharecterSave = " ";
 	static String toonClass, charName = " ";
@@ -301,7 +301,7 @@ public class CharacterCreation {
 	            saveData.add(String.valueOf(ToonHP(stat, saveData)));
 	           
 	            
-	            
+	            System.out.println("Saving character with data: " + saveData);
 	            
 	            try {
 	                myGameState.saveAllEncrypted(saveData, "InitialCharecterSave.txt");

@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -39,12 +39,12 @@ public class IceBarrier implements Spell {
 
     @Override
     public void cast() {
-        Charecter c = Charecter.getInstance();
+        Character c = Character.getInstance();
         cast(c);
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null) { System.out.println("No caster available for " + NAME + "."); return; }
 
         int wis = Math.max(0, caster.getWisdom());
@@ -71,7 +71,7 @@ public class IceBarrier implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null) { cast(); return; }
         if (target == null) { cast(caster); return; }
 
@@ -99,7 +99,7 @@ public class IceBarrier implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (caster == null) { cast(); return; }
         if (targets == null || targets.isEmpty()) { cast(caster); return; }
 
@@ -112,7 +112,7 @@ public class IceBarrier implements Spell {
         }
 
         caster.setMagicPoints(caster.getMagicPoints() - REQUIRED_MAGIC_POINTS);
-        for (Charecter t : targets) {
+        for (Character t : targets) {
             IceBarrierStatus status = new IceBarrierStatus();
             try {
                 if (t.getStatusManager() != null) {
@@ -140,15 +140,15 @@ public class IceBarrier implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { System.out.println(NAME + " does not scale with Strength."); }
+    public void castWithStrength(Character enemy, double d) { System.out.println(NAME + " does not scale with Strength."); }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         cast(caster);
         if (target != null) System.out.println("Ice Barrier shimmers — foes near the bearer will be chilled if the barrier shatters (Enemies integration not implemented).");
     }
 
-    private static String safeName(Charecter c) { try { String name = c.getName(); return (name == null || name.isBlank()) ? "target" : name; } catch (Exception ignored) { return "target"; } }
+    private static String safeName(Character c) { try { String name = c.getName(); return (name == null || name.isBlank()) ? "target" : name; } catch (Exception ignored) { return "target"; } }
 
     @Override
     public void cast(int toonWisdom) {

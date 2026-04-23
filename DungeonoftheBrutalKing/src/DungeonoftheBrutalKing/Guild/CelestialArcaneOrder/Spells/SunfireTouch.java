@@ -5,7 +5,7 @@ import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
 import DungeonoftheBrutalKing.Status.FireStatus;
 import DungeonoftheBrutalKing.Status.Status;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 public class SunfireTouch implements Spell {
@@ -18,7 +18,7 @@ public class SunfireTouch implements Spell {
     public SunfireTouch() {}
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (target == null) return;
         int currentHealth = target.getHitPoints();
         int newHealth = Math.max(currentHealth - DAMAGE, 0);
@@ -31,8 +31,8 @@ public class SunfireTouch implements Spell {
     }
 
     // Other cast methods not used for this spell
-    @Override public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {}
-    @Override public void cast(Charecter caster) {}
+    @Override public void cast(Character caster, java.util.List<Character> allCharacters) {}
+    @Override public void cast(Character caster) {}
     @Override public void cast() {}
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
@@ -50,13 +50,13 @@ public class SunfireTouch implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

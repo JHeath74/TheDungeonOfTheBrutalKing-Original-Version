@@ -21,7 +21,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionListener;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -47,7 +47,7 @@ public class AuroraArcanum extends JPanel {
     public AuroraArcanum() throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
-        Charecter charecter = Charecter.getInstance();
+        Character charecter = Character.getInstance();
 
         // Keep current guild in sync (prevents unused field warning and matches other guild panels).
         charecter.setCurrentGuild(guildType);
@@ -137,7 +137,7 @@ public class AuroraArcanum extends JPanel {
                 // Show the reusable guild spell dialog
                 java.awt.Window owner = SwingUtilities.getWindowAncestor(this);
                 DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
-                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Charecter.getInstance(), Guild.AURORA_ARCANUM, sm);
+                GuildSpellsDialog dlg = new GuildSpellsDialog((Frame) owner, Character.getInstance(), Guild.AURORA_ARCANUM, sm);
                 dlg.setVisible(true);
             } catch (Exception ex) {
                 // fallback to legacy flow if anything goes wrong
@@ -179,7 +179,7 @@ public class AuroraArcanum extends JPanel {
 
 
     private void buyGuildSpell() {
-        Charecter charecter = Charecter.getInstance();
+        Character charecter = Character.getInstance();
         int wisdom = charecter.getWisdom();
         int maxSpells = 6;
         int currentGuildSpells = getGuildSpellsCount();
@@ -218,7 +218,7 @@ public class AuroraArcanum extends JPanel {
         Map<String, Spell> all = manager.getAllSpells();
 
         // Determine which spells are not owned yet (case-insensitive)
-        Set<String> owned = Charecter.getInstance().getGuildSpells();
+        Set<String> owned = Character.getInstance().getGuildSpells();
         Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
         List<String> available = new ArrayList<>();
@@ -247,7 +247,7 @@ public class AuroraArcanum extends JPanel {
 
         JLabel infoLabel = new JLabel("Select a spell to view details.");
         // show player's current gold in the dialog and reuse below
-        final Charecter player = Charecter.getInstance();
+        final Character player = Character.getInstance();
         final JLabel goldLabel = new JLabel("Your gold: " + player.getGold());
 
         list.addListSelectionListener(ev -> {
@@ -320,12 +320,12 @@ public class AuroraArcanum extends JPanel {
         buyBtn.addActionListener(ev -> {
             String sel = list.getSelectedValue();
             if (sel == null) { JOptionPane.showMessageDialog(dialog, "Please select a spell first."); return; }
-            if (Charecter.getInstance().getGuildSpells().size() >= maxSpells) {
+            if (Character.getInstance().getGuildSpells().size() >= maxSpells) {
                 JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells.");
                 return;
             }
             // Prevent purchasing a spell already owned (case-insensitive)
-            for (String o : new java.util.ArrayList<>(Charecter.getInstance().getGuildSpells())) {
+            for (String o : new java.util.ArrayList<>(Character.getInstance().getGuildSpells())) {
                 if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; }
             }
             Spell s = SpellFactory.createGuildSpell(sel, Guild.AURORA_ARCANUM);
@@ -349,7 +349,7 @@ public class AuroraArcanum extends JPanel {
         });
 
         sellBtn.addActionListener(ev -> {
-            List<String> ownedList = new ArrayList<>(Charecter.getInstance().getGuildSpells());
+            List<String> ownedList = new ArrayList<>(Character.getInstance().getGuildSpells());
             if (ownedList.isEmpty()) { JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell."); return; }
             String sel = (String) JOptionPane.showInputDialog(dialog, "Select spell to sell:", "Sell Spell", JOptionPane.PLAIN_MESSAGE, null, ownedList.toArray(new String[0]), ownedList.get(0));
             if (sel != null) {
@@ -359,14 +359,14 @@ public class AuroraArcanum extends JPanel {
                 if (confirm != JOptionPane.YES_OPTION) return;
 
                 String toRemove = null;
-                for (String o : new ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
+                for (String o : new ArrayList<>(Character.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
                 boolean removed = false; if (toRemove != null) removed = removeGuildSpell(toRemove);
                 if (removed) {
                     player.setGold(player.getGold() + refund);
                     JOptionPane.showMessageDialog(dialog, "You sold " + sel + " and received " + refund + " gold. Gold now: " + player.getGold());
                     goldLabel.setText("Your gold: " + player.getGold());
                     // refresh available list
-                    owned.clear(); owned.addAll(Charecter.getInstance().getGuildSpells());
+                    owned.clear(); owned.addAll(Character.getInstance().getGuildSpells());
                     ownedLower.clear(); for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
                     available.clear(); for (Spell sp : all.values()) { if (sp == null) continue; if (!ownedLower.contains(sp.getName().toLowerCase())) available.add(sp.getName()); }
                     list.setListData(available.toArray(new String[0]));
@@ -387,7 +387,7 @@ public class AuroraArcanum extends JPanel {
     }
 
     private void removeCursesAndEffects() {
-        Charecter charecter = Charecter.getInstance();
+        Character charecter = Character.getInstance();
         charecter.clearCurses();
         charecter.clearNegativeEffects();
     }
@@ -409,16 +409,16 @@ public class AuroraArcanum extends JPanel {
     public String getGuildName() { return guildName; }
 
     public boolean removeGuildSpell(String spell) {
-        return Charecter.getInstance().getGuildSpells().remove(spell);
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
-        return Charecter.getInstance().getGuildSpells().size();
+        return Character.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }

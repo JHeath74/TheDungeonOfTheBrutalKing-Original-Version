@@ -2,7 +2,7 @@
 // src/Status/LifeStealStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class LifeStealStatus extends Status {
     private static final int DEFAULT_AMOUNT = 2; // tune as needed
@@ -37,7 +37,7 @@ public final class LifeStealStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter caster) {
+    public void applyEffect(Character caster) {
         if (!(caster instanceof HasHitPoints)) return;
         if (storedTarget == null) return;
 
@@ -45,7 +45,7 @@ public final class LifeStealStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter entity) {
+    public void removeEffect(Character entity) {
         // No-op (instant/on-hit effect; nothing to undo)
     }
 

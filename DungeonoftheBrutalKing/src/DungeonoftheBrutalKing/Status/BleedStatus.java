@@ -2,7 +2,7 @@
 // src/Status/BleedStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class BleedStatus extends Status {
     private static final int DURATION_MINUTES = 5;
@@ -13,13 +13,13 @@ public final class BleedStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
         character.setHitPoints(character.getHitPoints() - HP_LOSS_PER_TURN);
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // Nothing to revert for BleedStatus
     }
 

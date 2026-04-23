@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class RunedVestments extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!isEquipped
                 && wearer.getGuild() == GUILDname
                 && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
@@ -43,7 +43,7 @@ public class RunedVestments extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (isEquipped) {
             int bonus = (int) Math.round(
                     wearer.getDefense() / (1 + DEFENSE_BONUS_PERCENT) * DEFENSE_BONUS_PERCENT);

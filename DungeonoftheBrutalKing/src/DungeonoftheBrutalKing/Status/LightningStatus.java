@@ -2,7 +2,7 @@
 // src/Status/LightningStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * Negative status: applies lightning damage each tick/turn while active.
@@ -23,7 +23,7 @@ public final class LightningStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         if (damagePerTurn > 0) {
@@ -33,7 +33,7 @@ public final class LightningStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // No persistent stat changes to restore.
     }
 

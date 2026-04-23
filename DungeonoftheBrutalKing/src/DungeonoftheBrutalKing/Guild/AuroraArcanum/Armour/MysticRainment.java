@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
@@ -26,7 +26,7 @@ public class MysticRainment extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (!isEquipped
                 && wearer.getGuild() == GUILDname
                 && wearer.getIntelligence() >= REQUIRED_INTELLIGENCE) {
@@ -45,7 +45,7 @@ public class MysticRainment extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (isEquipped) {
             double bonus = wearer.getEvadeChance() / (1 + CONCEALMENT_BONUS_PERCENT) * CONCEALMENT_BONUS_PERCENT;
             wearer.setEvadeChance(Math.max(wearer.getEvadeChance() - bonus, 0.0));

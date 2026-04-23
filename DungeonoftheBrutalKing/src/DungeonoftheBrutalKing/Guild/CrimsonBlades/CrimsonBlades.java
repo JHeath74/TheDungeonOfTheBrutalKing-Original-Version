@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -40,7 +40,7 @@ public class CrimsonBlades extends JPanel {
 
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!this.isMember || !isEvil(character.getAlignment())) {
@@ -98,7 +98,7 @@ public class CrimsonBlades extends JPanel {
         if (!this.isMember) {
             JButton joinGuildButton = new JButton("Join Guild");
             joinGuildButton.addActionListener(e -> {
-                Charecter ch = Charecter.getInstance();
+                Character ch = Character.getInstance();
                 if (!isEvil(ch.getAlignment())) {
                     JOptionPane.showMessageDialog(
                             this,
@@ -144,7 +144,7 @@ public class CrimsonBlades extends JPanel {
                 DungeonoftheBrutalKing.Spells.SpellsManager sm = new DungeonoftheBrutalKing.Spells.SpellsManager();
                 GuildSpellsDialog dlg = new GuildSpellsDialog(
                         (java.awt.Frame) owner,
-                        Charecter.getInstance(),
+                        Character.getInstance(),
                         Guild.CRIMSON_BLADES,
                         sm
                 );
@@ -192,13 +192,13 @@ public class CrimsonBlades extends JPanel {
     }
 
     private void removeCursesAndEffects() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         character.clearCurses();
         character.clearNegativeEffects();
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int maxSpells = 6;
 
@@ -229,7 +229,7 @@ public class CrimsonBlades extends JPanel {
         CrimsonBladesGuildSpellsManager manager = new CrimsonBladesGuildSpellsManager(Guild.CRIMSON_BLADES);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
-        java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
+        java.util.Set<String> owned = Character.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) {
             if (o != null) ownedLower.add(o.toLowerCase());
@@ -290,22 +290,22 @@ public class CrimsonBlades extends JPanel {
     }
 
     public boolean removeGuildSpell(String spell) {
-        return Charecter.getInstance().getGuildSpells().remove(spell);
+        return Character.getInstance().getGuildSpells().remove(spell);
     }
 
     public int getGuildSpellsCount() {
-        return Charecter.getInstance().getGuildSpells().size();
+        return Character.getInstance().getGuildSpells().size();
     }
 
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
 
     public ArrayList<String> getGuildSpells() {
-        return new ArrayList<>(Charecter.getInstance().getGuildSpells());
+        return new ArrayList<>(Character.getInstance().getGuildSpells());
     }
 }

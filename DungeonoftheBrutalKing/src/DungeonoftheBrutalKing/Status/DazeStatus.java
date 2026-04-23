@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Status;
 
 import java.lang.reflect.Method;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class DazeStatus extends Status {
     private static final int DEFAULT_PENALTY = 0;
@@ -25,7 +25,7 @@ public class DazeStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         originalDefense = character.getDefense();
@@ -38,11 +38,11 @@ public class DazeStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         restore(character);
     }
 
-    private void restore(Charecter character) {
+    private void restore(Character character) {
         if (character == null) return;
 
         character.setDefense(originalDefense);
@@ -52,7 +52,7 @@ public class DazeStatus extends Status {
         }
     }
 
-    private static Integer tryGetAccuracy(Charecter character) {
+    private static Integer tryGetAccuracy(Character character) {
         try {
             Method m = character.getClass().getMethod("getAccuracy");
             Object v = m.invoke(character);
@@ -64,7 +64,7 @@ public class DazeStatus extends Status {
         }
     }
 
-    private static void trySetAccuracy(Charecter character, int value) {
+    private static void trySetAccuracy(Character character, int value) {
         try {
             Method m = character.getClass().getMethod("setAccuracy", int.class);
             m.invoke(character, value);

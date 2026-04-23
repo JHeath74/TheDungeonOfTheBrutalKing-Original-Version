@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
@@ -20,7 +20,7 @@ public class SonicRequiem implements Spell {
     private static final int MAX_DAMAGE = 60;
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || target == null) return;
 
         if (caster.getCurrentGuildStatus() != GuildMembershipStatus.FULL_MEMBER) return;
@@ -40,7 +40,7 @@ public class SonicRequiem implements Spell {
      * If your project uses a different API, swap `getLevel()` for a bard stat,
      * e.g. `getCharisma()` or `getDexterity()`.
      */
-    private int computeDamage(Charecter caster) {
+    private int computeDamage(Character caster) {
         int level = 1;
         try {
             level = Math.max(1, caster.getLevel());
@@ -74,10 +74,10 @@ public class SonicRequiem implements Spell {
     public String getName() { return "Sonic Requiem"; }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { }
+    public void cast(Character caster, List<Character> allCharacters) { }
 
     @Override
-    public void cast(Charecter caster) { }
+    public void cast(Character caster) { }
 
     @Override
     public void cast() { }
@@ -88,10 +88,10 @@ public class SonicRequiem implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { }
+    public void castWithStrength(Character enemy, double d) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

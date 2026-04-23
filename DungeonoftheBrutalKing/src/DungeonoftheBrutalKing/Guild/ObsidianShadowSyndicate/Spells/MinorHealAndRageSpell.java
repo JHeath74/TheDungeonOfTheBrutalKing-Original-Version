@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -25,7 +25,7 @@ public final class MinorHealAndRageSpell implements Spell {
     }
 
     // internal helper that returns healed amount
-    private int doHealAndRage(Charecter caster) {
+    private int doHealAndRage(Character caster) {
         if (caster == null) return 0;
 
         int maxHp = Math.max(0, caster.getMaxHealth());
@@ -50,7 +50,7 @@ public final class MinorHealAndRageSpell implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         doHealAndRage(caster);
     }
 
@@ -90,7 +90,7 @@ public final class MinorHealAndRageSpell implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // apply effect to caster only for now
         doHealAndRage(caster);
     }
@@ -101,18 +101,18 @@ public final class MinorHealAndRageSpell implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // apply to target instead of caster
         doHealAndRage(target);
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // not used for this spell
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // not used for this spell
     }
 }

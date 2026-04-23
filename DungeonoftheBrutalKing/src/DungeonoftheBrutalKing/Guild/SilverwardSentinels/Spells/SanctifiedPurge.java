@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 import java.util.Iterator;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -53,7 +53,7 @@ public final class SanctifiedPurge implements Spell {
     /**
      * Core cleansing logic with guild check.
      */
-    private void applyCleansing(Charecter caster, Charecter target) {
+    private void applyCleansing(Character caster, Character target) {
         if (target == null) {
             return;
         }
@@ -137,30 +137,30 @@ public final class SanctifiedPurge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // self-cleanse
         applyCleansing(caster, caster);
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // cleanse target (ally or self)
         applyCleansing(caster, target);
     }
 
     @Override
-    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
+    public void cast(Character caster, java.util.List<Character> allCharacters) {
         // simple behavior: cleanse caster only
         applyCleansing(caster, caster);
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // not meaningful for a dispel; no-op
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // dispel does not affect enemies here; no-op
     }
 }

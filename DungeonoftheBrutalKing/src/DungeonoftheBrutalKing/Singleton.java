@@ -24,7 +24,7 @@ public class Singleton
         // Initialize other indices as needed
     }
 
-    public static Charecter myCharSingleton()
+    public static Character myCharSingleton()
     {
         return myChar;
     }
@@ -33,7 +33,7 @@ public class Singleton
         return charInfo[index];
     }
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     private static WeaponManager myWeapon = WeaponManager.Singleton();
 

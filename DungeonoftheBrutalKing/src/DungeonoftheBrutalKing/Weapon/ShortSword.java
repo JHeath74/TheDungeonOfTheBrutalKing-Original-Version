@@ -1,12 +1,12 @@
 // src/Weapon/ShortSword.java
 package DungeonoftheBrutalKing.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class ShortSword extends WeaponManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
 
     private static int weight = 25;
     private static int damage = 35;
@@ -20,7 +20,7 @@ public class ShortSword extends WeaponManager {
         super("Short Sword", requiredStrength, damage, effect, weight);
     }
 
-    public static ShortSword createShortSword(Charecter character, int damage, String effect) throws NumberFormatException {
+    public static ShortSword createShortSword(Character character, int damage, String effect) throws NumberFormatException {
         int requiredStrength = REQUIRED_STRENGTH;
         try {
             int strength = Integer.parseInt(myChar.getCharInfo().get(8));

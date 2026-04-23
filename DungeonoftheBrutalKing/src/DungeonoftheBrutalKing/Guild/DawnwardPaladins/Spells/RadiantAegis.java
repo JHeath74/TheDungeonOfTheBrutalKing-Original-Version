@@ -2,7 +2,7 @@
 // src/Guild/DawnwardPaladins/Spells/RadiantAegis.java
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -14,7 +14,7 @@ public class RadiantAegis implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 9;
     private static final int BASE_DURATION = 2;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.DAWNWARD_PALADINS;
     }
 
@@ -48,21 +48,21 @@ public class RadiantAegis implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
-            Charecter target = allCharacters.get(0);
+            Character target = allCharacters.get(0);
             applyShield(target, caster.getWisdom());
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             applyShield(caster, caster.getWisdom());
         }
     }
 
-    public void applyShield(Charecter target, int wisdom) {
+    public void applyShield(Character target, int wisdom) {
         int shield = BASE_SHIELD + (wisdom / 3);
         int duration = BASE_DURATION + (wisdom / 12);
         target.applyStatusEffect(StatusType.DEFENSE_UP_STATUS, duration, shield, null);
@@ -72,7 +72,7 @@ public class RadiantAegis implements Spell {
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster) && target != null) {
             applyShield(target, caster.getWisdom());
         }
@@ -84,10 +84,10 @@ public class RadiantAegis implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

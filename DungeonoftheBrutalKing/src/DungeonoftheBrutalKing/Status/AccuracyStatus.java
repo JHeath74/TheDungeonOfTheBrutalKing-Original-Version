@@ -2,7 +2,7 @@
 // src/Status/AccuracyStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class AccuracyStatus extends Status {
     private final int accuracyBonus;
@@ -17,13 +17,13 @@ public final class AccuracyStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter charecter) {
+    public void applyEffect(Character charecter) {
         if (charecter == null || accuracyBonus == 0) return;
         charecter.setAccuracy(charecter.getAccuracy() + accuracyBonus);
     }
 
     @Override
-    public void removeEffect(Charecter charecter) {
+    public void removeEffect(Character charecter) {
         if (charecter == null || accuracyBonus == 0) return;
         charecter.setAccuracy(charecter.getAccuracy() - accuracyBonus);
     }

@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 import java.util.List;
 import java.util.Random;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -16,7 +16,7 @@ public class Fireball implements Spell {
     private static final Guild SPELL_GUILD = Guild.OBSIDIAN_HEX_COVEN;
 
     private static final Random RNG = new Random();
-    private static final Charecter MY_CHAR = Charecter.getInstance();
+    private static final Character MY_CHAR = Character.getInstance();
 
     @Override
     public String getName() {
@@ -46,7 +46,7 @@ public class Fireball implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null) {
             cast();
             return;
@@ -55,7 +55,7 @@ public class Fireball implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null) {
             caster = MY_CHAR;
         }
@@ -78,12 +78,12 @@ public class Fireball implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (targets == null || targets.isEmpty()) {
             cast(caster);
             return;
         }
-        for (Charecter target : targets) {
+        for (Character target : targets) {
             cast(caster, target);
         }
     }
@@ -127,7 +127,7 @@ public class Fireball implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strengthScalar) {
+    public void castWithStrength(Character enemy, double strengthScalar) {
         int base = (enemy != null) ? Math.max(0, enemy.getStrength()) : 0;
         int scaled = (int) Math.round(base * Math.max(0.0, strengthScalar));
         int damage = rollDamage(scaled);
@@ -135,12 +135,12 @@ public class Fireball implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         cast(caster);
         // Status application here depends on your Enemies API (e.g., addStatus/statusManager).
     }
 
-    private static void applyFireStatus(Charecter target) {
+    private static void applyFireStatus(Character target) {
         try {
             // Prefer a direct API if your Character supports it.
             // This call name may differ in your project; adjust as needed.
@@ -156,7 +156,7 @@ public class Fireball implements Spell {
         return RNG.nextInt(bound) + 1;
     }
 
-    private static int safeParseStatFromCharInfo(Charecter ch, int index) {
+    private static int safeParseStatFromCharInfo(Character ch, int index) {
         try {
             if (ch == null || ch.getCharInfo() == null) return 0;
             String value = ch.getCharInfo().get(index);

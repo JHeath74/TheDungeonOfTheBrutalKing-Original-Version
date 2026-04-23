@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.Spells.SpellBalanceManager;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -55,7 +55,7 @@ public final class BlessingofRestoration implements DungeonoftheBrutalKing.Spell
      * Compute the heal amount for the caster (heals 'target', but for this solo spell
      * caster and target are the same). Uses caster Wisdom to scale the percent heal.
      */
-    private int computeHealAmount(Charecter caster, Charecter target) {
+    private int computeHealAmount(Character caster, Character target) {
         if (target == null) return 0;
 
         // Use getMaxHitPoints() which is the project's canonical max HP accessor
@@ -80,7 +80,7 @@ public final class BlessingofRestoration implements DungeonoftheBrutalKing.Spell
      * Apply the heal to the caster only. Verifies caster is non-null, a guild member,
      * and has sufficient MP. Prints informative messages on failure.
      */
-    private void applyHeal(Charecter caster) {
+    private void applyHeal(Character caster) {
         if (caster == null) {
             System.out.println("No caster provided for " + NAME + ". Spell requires a caster.");
             return; // require a caster
@@ -101,7 +101,7 @@ public final class BlessingofRestoration implements DungeonoftheBrutalKing.Spell
         caster.setMagicPoints(Math.max(0, caster.getMagicPoints() - REQUIRED_MP));
 
         // Solo spell: always heal the caster
-        Charecter target = caster;
+        Character target = caster;
 
         int heal = computeHealAmount(caster, target);
         if (heal <= 0) {
@@ -138,29 +138,29 @@ public final class BlessingofRestoration implements DungeonoftheBrutalKing.Spell
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         applyHeal(caster);
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // Solo spell: ignore provided target and heal caster only
         applyHeal(caster);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // Solo spell: ignore list and heal caster only
         applyHeal(caster);
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // No-op for heal
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Healing spell does not affect enemies; no-op
     }
 }

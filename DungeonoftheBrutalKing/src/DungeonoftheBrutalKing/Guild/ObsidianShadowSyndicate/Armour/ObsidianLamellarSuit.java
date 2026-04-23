@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class ObsidianLamellarSuit {
@@ -23,7 +23,7 @@ public class ObsidianLamellarSuit {
     private int lastDefBonus = 0;
     private int lastAgiBonus = 0;
 
-    public static ObsidianLamellarSuit createObsidianLamellarSuit(Charecter character) {
+    public static ObsidianLamellarSuit createObsidianLamellarSuit(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Shadow Syndicate members can wear the ObsidianLamellarSuit.");
@@ -33,7 +33,7 @@ public class ObsidianLamellarSuit {
         return new ObsidianLamellarSuit();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -47,7 +47,7 @@ public class ObsidianLamellarSuit {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

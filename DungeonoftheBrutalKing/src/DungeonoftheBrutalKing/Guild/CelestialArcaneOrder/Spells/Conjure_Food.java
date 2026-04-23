@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import java.util.List;
 import java.util.Random;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -18,7 +18,7 @@ public class Conjure_Food implements Spell {
     public Conjure_Food() {}
 
     // Core spell logic: conjures food for the target character
-    private void conjureFood(Charecter target) {
+    private void conjureFood(Character target) {
         if (target == null) return;
         int wisdom = target.getWisdom();
         int intelligence = target.getIntelligence();
@@ -34,21 +34,21 @@ public class Conjure_Food implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         conjureFood(target != null ? target : caster);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (allCharacters != null && !allCharacters.isEmpty()) {
-            for (Charecter ch : allCharacters) {
+            for (Character ch : allCharacters) {
                 conjureFood(ch);
             }
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         conjureFood(caster);
     }
 
@@ -105,13 +105,13 @@ public class Conjure_Food implements Spell {
 	}
 
 	@Override
-	public void castWithStrength(Charecter enemy, double d) {
+	public void castWithStrength(Character enemy, double d) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

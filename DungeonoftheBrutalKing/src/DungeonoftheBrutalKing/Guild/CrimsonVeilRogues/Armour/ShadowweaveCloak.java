@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
 
 public class ShadowweaveCloak extends ArmourManager {
@@ -16,7 +16,7 @@ public class ShadowweaveCloak extends ArmourManager {
         super(ARMOUR_NAME, REQUIRED_AGILITY, DEFENSE_BONUS, WEIGHT, effect);
     }
 
-    public static ShadowweaveCloak createShadowweaveCloak(Charecter character, String effect) {
+    public static ShadowweaveCloak createShadowweaveCloak(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         int agility = character.getAgility();
         if (agility >= REQUIRED_AGILITY) {
@@ -25,7 +25,7 @@ public class ShadowweaveCloak extends ArmourManager {
         throw new IllegalArgumentException("Character does not have the required agility to wear the Shadowweave Cloak.");
     }
 
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getEquippedArmour() == null || !wielder.getEquippedArmour().equals(getName())) {
             wielder.setEquippedArmour(getName());
@@ -36,7 +36,7 @@ public class ShadowweaveCloak extends ArmourManager {
         return false;
     }
 
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getEquippedArmour() != null && wielder.getEquippedArmour().equals(getName())) {
             wielder.setEquippedArmour(null);

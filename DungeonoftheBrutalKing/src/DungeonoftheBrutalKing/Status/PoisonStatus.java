@@ -2,7 +2,7 @@
 // src/Status/PoisonStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class PoisonStatus extends Status {
     private static final int POISON_DAMAGE = 5; // HP lost per turn
@@ -12,13 +12,13 @@ public final class PoisonStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
         character.takeDamage(Math.max(0, POISON_DAMAGE));
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // No persistent stat changes to restore.
     }
 

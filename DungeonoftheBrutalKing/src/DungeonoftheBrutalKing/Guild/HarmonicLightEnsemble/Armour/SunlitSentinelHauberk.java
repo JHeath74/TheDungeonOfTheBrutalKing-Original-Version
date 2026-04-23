@@ -2,7 +2,7 @@
 // `src/Guild/HarmonicLightEnsemble/Armour/SunlitSentinelHauberk.java`
 package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class SunlitSentinelHauberk {
@@ -32,7 +32,7 @@ public class SunlitSentinelHauberk {
         // use factory
     }
 
-    public static SunlitSentinelHauberk createSunlitSentinelHauberk(Charecter character) {
+    public static SunlitSentinelHauberk createSunlitSentinelHauberk(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Harmonic Light Ensemble members can wear the SunlitSentinelHauberk.");
@@ -44,7 +44,7 @@ public class SunlitSentinelHauberk {
         return new SunlitSentinelHauberk();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getVitality() < REQUIRED_VITALITY) return false;
@@ -61,7 +61,7 @@ public class SunlitSentinelHauberk {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

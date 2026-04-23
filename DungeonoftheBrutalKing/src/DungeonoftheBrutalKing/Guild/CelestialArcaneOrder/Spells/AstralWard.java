@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.Status.AstralWardStatus;
 import DungeonoftheBrutalKing.Status.Status;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
@@ -17,7 +17,7 @@ public class AstralWard implements Spell {
     private static final String SPELL_NAME = "Astral Ward";
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (target == null) return;
         Status status = new AstralWardStatus(5); // 5 minutes duration
         target.addStatus(status);
@@ -44,7 +44,7 @@ public class AstralWard implements Spell {
     public void cast() {}
 
     @Override
-    public void cast(Charecter caster) {}
+    public void cast(Character caster) {}
 
     @Override
     public void cast(int x) {}
@@ -53,16 +53,16 @@ public class AstralWard implements Spell {
     public void cast(int x, int y) {}
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {}
+    public void cast(Character caster, List<Character> targets) {}
 
     @Override
-    public void castWithStrength(Charecter caster, double strength) {}
+    public void castWithStrength(Character caster, double strength) {}
 
     @Override
     public void castWithIntelligence(int intelligence) {}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -2,7 +2,7 @@
 // src/Weapon/WeaponManager.java
 package DungeonoftheBrutalKing.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Singleton;
 import DungeonoftheBrutalKing.Status.HasHitPoints;
 import DungeonoftheBrutalKing.Status.StatusType;
@@ -77,7 +77,7 @@ public class WeaponManager {
         return null;
     }
 
-    public void applyCombatEffect(Charecter target) {
+    public void applyCombatEffect(Character target) {
         // TODO Auto-generated method stub
     }
 
@@ -85,12 +85,12 @@ public class WeaponManager {
         // TODO Auto-generated method stub
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         // TODO Auto-generated method stub
         return false;
         // TODO Auto-generated method stub

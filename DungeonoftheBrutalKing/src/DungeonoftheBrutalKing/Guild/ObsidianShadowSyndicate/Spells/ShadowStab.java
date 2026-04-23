@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -59,8 +59,8 @@ public final class ShadowStab implements Spell {
     // --- Core single-target behavior ---
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
-        if (caster == null) caster = Charecter.getInstance();
+    public void cast(Character caster, Character target) {
+        if (caster == null) caster = Character.getInstance();
         if (caster == null || target == null) return;
 
         // Optional guild enforcement similar to SmokeStrike
@@ -104,19 +104,19 @@ public final class ShadowStab implements Spell {
     // --- Other Spell overloads for compatibility ---
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // If only caster is known, treat as self-target (may be used in special flows)
         cast(caster, caster);
     }
 
     @Override
-    public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {
+    public void cast(Character caster, java.util.List<Character> allCharacters) {
         if (caster == null && allCharacters != null && !allCharacters.isEmpty()) {
             caster = allCharacters.get(0);
         }
         if (caster == null) return;
 
-        Charecter target = caster;
+        Character target = caster;
         if (allCharacters != null && allCharacters.size() > 1) {
             // Simple heuristic: second entry as target
             target = allCharacters.get(1);
@@ -126,7 +126,7 @@ public final class ShadowStab implements Spell {
 
     @Override
     public void cast() {
-        Charecter player = Charecter.getInstance();
+        Character player = Character.getInstance();
         cast(player, player);
     }
 
@@ -146,18 +146,18 @@ public final class ShadowStab implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
-        Charecter caster = Charecter.getInstance();
+    public void castWithStrength(Character enemy, double d) {
+        Character caster = Character.getInstance();
         if (caster == null) return;
         if (enemy == null) enemy = caster;
         cast(caster, enemy);
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // If the Enemies-API is used, treat as a strike against an enemy abstraction or fallback
         // to buffing / using self if no mapping exists. Here we just use caster as both.
-        cast(caster != null ? caster : Charecter.getInstance(),
-             caster != null ? caster : Charecter.getInstance());
+        cast(caster != null ? caster : Character.getInstance(),
+             caster != null ? caster : Character.getInstance());
     }
 }

@@ -2,7 +2,7 @@
 // src/Guild/AuroraArcanum/Spells/ElementalRay.java
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -20,18 +20,18 @@ public class ElementalRay implements Spell {
     private Element currentElement;
     private final Random random = new Random();
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == SPELL_GUILD;
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (!canUseSpell(caster) || target == null) return;
         currentElement = Element.values()[random.nextInt(Element.values().length)];
         applyEffect(caster, target, currentElement);
     }
 
-    private void applyEffect(Charecter caster, Charecter target, Element element) {
+    private void applyEffect(Character caster, Character target, Element element) {
         switch (element) {
             case FIRE:
                 int fireDamage = 15 + caster.getIntelligence();
@@ -85,14 +85,14 @@ public class ElementalRay implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
             cast(caster, allCharacters.get(0));
         }
     }
 
     @Override
-    public void cast(Charecter caster) { }
+    public void cast(Character caster) { }
 
     @Override
     public void cast() { }
@@ -103,12 +103,12 @@ public class ElementalRay implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) {
+    public void castWithStrength(Character enemy, double strength) {
         // Not applicable for this spell, so do nothing
     }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

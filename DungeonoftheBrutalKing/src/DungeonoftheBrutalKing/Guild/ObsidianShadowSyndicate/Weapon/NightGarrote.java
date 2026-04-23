@@ -1,7 +1,7 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Weapons\NightGarrote.java
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -23,7 +23,7 @@ public class NightGarrote extends WeaponManager {
     private static final int BASE_DAMAGE = 12;
 
     private static final Random RNG = new Random();
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public NightGarrote(int damage, String effect) {
         super(WEAPON_NAME, REQUIRED_STRENGTH, damage, effect, WEIGHT);
@@ -33,7 +33,7 @@ public class NightGarrote extends WeaponManager {
         super(WEAPON_NAME, requiredStrength, damage, effect, WEIGHT);
     }
 
-    public static NightGarrote createNightGarrote(Charecter character, int damage, String effect) {
+    public static NightGarrote createNightGarrote(Character character, int damage, String effect) {
         try {
             if (character == null) throw new IllegalArgumentException("Character is null");
             if (!isGuildMember(character))
@@ -86,7 +86,7 @@ public class NightGarrote extends WeaponManager {
     @Override
     public void setEffect(String effect) { super.setEffect(effect); }
 
-    public static boolean isGuildMember(Charecter character) {
+    public static boolean isGuildMember(Character character) {
         if (character == null) return false;
         try {
             return character.getCurrentGuild() == GuildType.THIEF
@@ -96,10 +96,10 @@ public class NightGarrote extends WeaponManager {
         }
     }
 
-    public static boolean isPurchasableBy(Charecter character) { return isGuildMember(character); }
+    public static boolean isPurchasableBy(Character character) { return isGuildMember(character); }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (!isGuildMember(wearer)) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -112,9 +112,9 @@ public class NightGarrote extends WeaponManager {
      * This method is intended to be called from combat resolution when this weapon hits a target.
      */
     @Override
-    public void applyCombatEffect(Charecter target) {
+    public void applyCombatEffect(Character target) {
         if (target == null) return;
-        Charecter attacker = myChar != null ? myChar : Charecter.getInstance();
+        Character attacker = myChar != null ? myChar : Character.getInstance();
         int inti = (attacker != null) ? attacker.getIntelligence() : 0;
         // Base 20% chance + 2% per INT point
         double chance = 0.20 + (inti * 0.02);

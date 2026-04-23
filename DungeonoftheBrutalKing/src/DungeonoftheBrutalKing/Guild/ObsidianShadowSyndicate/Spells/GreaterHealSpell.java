@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -34,7 +34,7 @@ public final class GreaterHealSpell implements Spell {
     }
 
     // Core heal logic in a private helper that returns the healed amount
-    private int doHeal(Charecter caster) {
+    private int doHeal(Character caster) {
         if (caster == null) return 0;
 
         int maxHp = Math.max(0, caster.getMaxHealth());
@@ -50,7 +50,7 @@ public final class GreaterHealSpell implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         doHeal(caster);
     }
 
@@ -75,24 +75,24 @@ public final class GreaterHealSpell implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // for now, just heal the caster
         doHeal(caster);
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // heal the target instead of caster
         doHeal(target);
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // not really used for healing; leave empty or repurpose if needed
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // GreaterHeal does not affect enemies; leave empty
     }
 

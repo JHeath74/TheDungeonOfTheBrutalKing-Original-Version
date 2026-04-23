@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -12,7 +12,7 @@ public class SanctifiedLeech implements Spell {
     private static final int BASE_DURATION = 2;
     private static final double LEECH_PERCENT = 0.10;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.DAWNWARD_PALADINS;
     }
 
@@ -46,21 +46,21 @@ public class SanctifiedLeech implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
-            Charecter target = allCharacters.get(0);
+            Character target = allCharacters.get(0);
             applyLeech(target, caster.getWisdom());
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (canUseSpell(caster)) {
             applyLeech(caster, caster.getWisdom());
         }
     }
 
-    public void applyLeech(Charecter target, int wisdom) {
+    public void applyLeech(Character target, int wisdom) {
         int duration = BASE_DURATION + (wisdom / 10);
         // Amount is 0; combat system should use LEECH_PERCENT when applying the effect
         LifeStealStatus status = new LifeStealStatus(0, duration);
@@ -71,7 +71,7 @@ public class SanctifiedLeech implements Spell {
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster) && target != null) {
             applyLeech(target, caster.getWisdom());
         }
@@ -83,10 +83,10 @@ public class SanctifiedLeech implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

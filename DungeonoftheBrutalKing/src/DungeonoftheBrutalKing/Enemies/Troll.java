@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Troll extends Enemies {
     private int level;
@@ -75,7 +75,7 @@ public class Troll extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
         int damage = critical ? base * 2 : base;

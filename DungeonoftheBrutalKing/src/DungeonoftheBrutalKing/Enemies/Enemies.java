@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing. Status.HasHitPoints;
@@ -166,9 +166,9 @@ public abstract class Enemies implements HasHitPoints {
 
     // \[Hooks for subclasses / AI\]
 
-    public void attemptApplyEffect(Charecter target) { }
+    public void attemptApplyEffect(Character target) { }
 
-    public int attack(Charecter target) { return 0; }
+    public int attack(Character target) { return 0; }
 
     public int attack() { return 0; }
 
@@ -206,7 +206,7 @@ public abstract class Enemies implements HasHitPoints {
         return undead;
     }
 
-	public void applyStatusEffect(StatusType statusType, int duration, int intensity, Charecter source) {
+	public void applyStatusEffect(StatusType statusType, int duration, int intensity, Character source) {
 		if (statusType == null) return;
 
 		int safeDurationSeconds = Math.max(1, duration);

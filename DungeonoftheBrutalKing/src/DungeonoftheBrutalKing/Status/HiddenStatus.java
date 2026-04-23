@@ -2,7 +2,7 @@
 // src/Status/HiddenStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class HiddenStatus extends Status {
 
@@ -11,13 +11,13 @@ public final class HiddenStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null) return;
         target.setHidden(true);
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null) return;
         target.setHidden(false);
     }

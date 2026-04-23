@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * Judgement Brand status:
@@ -18,7 +18,7 @@ public class JudgementBrandStatus extends Status {
     // Stored intensity of the brand (percent damage increase)
     private final int damageIncreasePercent;
 
-    public JudgementBrandStatus(int durationMinutes, int value, Charecter source) {
+    public JudgementBrandStatus(int durationMinutes, int value, Character source) {
         // Matches Status(String name, int durationMinutes, StatusPolarity positive, StatusType type)
         super(
             "Judgement Brand",
@@ -31,7 +31,7 @@ public class JudgementBrandStatus extends Status {
         // e.g. setSource(source); \- adapt to your actual API.
     }
 
-    public JudgementBrandStatus(int durationMinutes, Charecter source) {
+    public JudgementBrandStatus(int durationMinutes, Character source) {
         this(durationMinutes, DEFAULT_DAMAGE_INCREASE_PERCENT, source);
     }
 

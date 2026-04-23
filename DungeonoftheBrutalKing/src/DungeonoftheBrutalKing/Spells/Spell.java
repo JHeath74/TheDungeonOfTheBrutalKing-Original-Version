@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
@@ -18,11 +18,11 @@ public interface Spell {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	void cast(Charecter caster, List<Charecter> allCharacters);
-	void cast(Charecter caster);
+	void cast(Character caster, List<Character> allCharacters);
+	void cast(Character caster);
 	void cast();
-	void cast(Charecter caster, Charecter target);
+	void cast(Character caster, Character target);
 	String getDescription();
-	void castWithStrength(Charecter enemy, double d);
-	void cast(Charecter caster, Enemies target);
+	void castWithStrength(Character enemy, double d);
+	void cast(Character caster, Enemies target);
 }

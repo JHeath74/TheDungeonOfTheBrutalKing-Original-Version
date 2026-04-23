@@ -1,7 +1,7 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Armour\ShadowCloak.java
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -19,13 +19,13 @@ public class VipercoilHarness extends ArmourManager {
     private static final int BASE_DEFENSE = 8;
     private static final int WEIGHT = 6;
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public VipercoilHarness(String effect) {
         super(NAME, REQUIRED_STRENGTH, BASE_DEFENSE, WEIGHT, effect);
     }
 
-    public static VipercoilHarness createShadowCloak(Charecter character, String effect) {
+    public static VipercoilHarness createShadowCloak(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character is null");
         if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Obsidian Shadow Syndicate to obtain the Shadow Cloak.");
         if (character.getAgility() < REQUIRED_AGILITY) throw new IllegalArgumentException("Insufficient Agility to wear Shadow Cloak.");
@@ -36,15 +36,15 @@ public class VipercoilHarness extends ArmourManager {
     @Override
     public String getName() { return NAME; }
 
-    public static boolean isGuildMember(Charecter c) {
+    public static boolean isGuildMember(Character c) {
         if (c == null) return false;
         try { return c.getCurrentGuild() == GuildType.THIEF && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER; } catch (Exception e) { return false; }
     }
 
-    public static boolean isPurchasableBy(Charecter c) { return isGuildMember(c); }
+    public static boolean isPurchasableBy(Character c) { return isGuildMember(c); }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (!isGuildMember(wearer)) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -61,7 +61,7 @@ public class VipercoilHarness extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
         try {
             wearer.setEquippedArmour("");

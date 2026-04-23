@@ -1,7 +1,7 @@
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Spells;
 
 import java.util.List;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -11,7 +11,7 @@ public class ArcaneMissile implements Spell {
     private static final int REQUIRED_MAGIC_POINTS = 6;
     private static final Guild SPELL_GUILD = Guild.AURORA_ARCANUM;
 
-    private boolean canUseSpell(Charecter caster) {
+    private boolean canUseSpell(Character caster) {
         return caster != null && caster.getGuild() == Guild.AURORA_ARCANUM;
     }
 
@@ -45,18 +45,18 @@ public class ArcaneMissile implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (canUseSpell(caster) && allCharacters != null && !allCharacters.isEmpty()) {
-            Charecter target = allCharacters.get(0);
+            Character target = allCharacters.get(0);
             int damage = calculatePower(caster);
             target.takeDamage(damage);
         }
     }
 
     @Override
-    public void cast(Charecter caster) { }
+    public void cast(Character caster) { }
 
-    public int calculatePower(Charecter charecter) {
+    public int calculatePower(Character charecter) {
         int intelligence = charecter.getIntelligence();
         int level = charecter.getLevel();
         return BASE_POWER + (intelligence * 2) + (level * 1);
@@ -66,7 +66,7 @@ public class ArcaneMissile implements Spell {
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (canUseSpell(caster) && target != null) {
             int damage = calculatePower(caster);
             target.takeDamage(damage);
@@ -79,10 +79,10 @@ public class ArcaneMissile implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strength) { }
+    public void castWithStrength(Character enemy, double strength) { }
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

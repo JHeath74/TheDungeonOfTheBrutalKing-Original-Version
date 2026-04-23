@@ -6,7 +6,7 @@ import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Status.PoisonStatus;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class Slime extends Enemies {
     private int level;
@@ -91,7 +91,7 @@ public class Slime extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.10;
         int base = (int) ((getStrength() * 1.1) + (getAgility() * 0.8));
         int damage = critical ? base * 2 : base;

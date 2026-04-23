@@ -2,7 +2,7 @@
 package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Armour;
 
 import DungeonoftheBrutalKing.Armour.ArmourManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 
@@ -25,7 +25,7 @@ public class SanctumAegisPlate extends ArmourManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer != null
                 && !isEquipped
                 && wearer.getGuild() == GUILDname
@@ -47,7 +47,7 @@ public class SanctumAegisPlate extends ArmourManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer != null && isEquipped) {
             wearer.setEuippedArmour(null);
             wearer.setWisdom(wearer.getWisdom() - WISDOM_BONUS);

@@ -2,7 +2,7 @@
 // src/Status/DrainStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class DrainStatus extends Status {
     public enum DrainType { MAGIC, ACTION }
@@ -32,7 +32,7 @@ public class DrainStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         switch (type) {
@@ -48,7 +48,7 @@ public class DrainStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // No persistent stat to restore.
     }
 

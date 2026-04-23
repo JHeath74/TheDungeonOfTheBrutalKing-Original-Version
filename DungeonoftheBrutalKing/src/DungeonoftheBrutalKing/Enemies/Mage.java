@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 
 import java.io.IOException;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -92,7 +92,7 @@ public class Mage extends Enemies {
         return damage;
     }
 
-    public int attack(Charecter target, Status statusEffect, MainGameScreen mainGameScreen) throws IOException {
+    public int attack(Character target, Status statusEffect, MainGameScreen mainGameScreen) throws IOException {
         int spellDamage = attack(mainGameScreen);
         if (Math.random() < 0.25) {
             mainGameScreen.appendToMessageTextPane(getName() + " applies " + statusEffect.getName() + " to " + target.getName() + "!");

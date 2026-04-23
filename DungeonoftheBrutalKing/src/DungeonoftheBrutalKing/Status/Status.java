@@ -1,7 +1,7 @@
 // src/Status/Status.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.TimeClock;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
@@ -23,18 +23,18 @@ public class Status {
         return name;
     }
 
-    public void applyStatusEffect(Charecter character) {
+    public void applyStatusEffect(Character character) {
         if (startTimeSeconds == -1) {
             startTimeSeconds = TimeClock.Singleton().getElapsedSeconds();
         }
         // To be overridden by subclasses
     }
 
-    public void expireEffect(Charecter character) {
+    public void expireEffect(Character character) {
         // To be overridden by subclasses
     }
 
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // To be overridden by subclasses
     }
 
@@ -59,7 +59,7 @@ public class Status {
         return 1.0;
     }
 
-    public void applyEffect(Charecter charecter) {
+    public void applyEffect(Character charecter) {
         // To be overridden by subclasses
     }
 
@@ -91,11 +91,11 @@ public class Status {
 		// Optional override in subclasses
 	}
 
-	public void onExpire(Charecter target) {
+	public void onExpire(Character target) {
 		// Optional override in subclasses
 	}
 
-	public void onApply(Charecter target) {
+	public void onApply(Character target) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -116,11 +116,11 @@ public class Status {
 		// Optional override in subclasses
 	}
 
-	public void expire(Charecter target) {
+	public void expire(Character target) {
 		onExpire(target);
 	}
 
-	public void onTurnStart(Charecter target) {
+	public void onTurnStart(Character target) {
 		// Optional override in subclasses
 	}
 

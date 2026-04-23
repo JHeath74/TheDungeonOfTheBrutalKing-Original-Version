@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.DevTools;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells.BlessingofRestoration;
 
@@ -9,7 +9,7 @@ public class TestBlessingofRestoration {
         System.out.println("== Blessing of Restoration Tests ==");
 
         // Scenario 1: Proper Silverward caster with sufficient MP
-        Charecter paladin = new Charecter();
+        Character paladin = new Character();
         paladin.setName("PaladinBob");
         paladin.setGuild(Guild.SILVERWARD_SENTINELS);
         paladin.setVitality(5); // gives a reasonable max HP
@@ -22,7 +22,7 @@ public class TestBlessingofRestoration {
         printStatus(paladin);
 
         // Scenario 2: Wrong guild
-        Charecter rogue = new Charecter();
+        Character rogue = new Character();
         rogue.setName("RogueRick");
         rogue.setGuild(Guild.AURORA_ARCANUM); // wrong guild
         rogue.setVitality(5);
@@ -35,7 +35,7 @@ public class TestBlessingofRestoration {
         printStatus(rogue);
 
         // Scenario 3: Insufficient MP
-        Charecter paladinPoor = new Charecter();
+        Character paladinPoor = new Character();
         paladinPoor.setName("PaladinPoor");
         paladinPoor.setGuild(Guild.SILVERWARD_SENTINELS);
         paladinPoor.setVitality(5);
@@ -50,7 +50,7 @@ public class TestBlessingofRestoration {
         System.out.println("== Tests Complete ==");
     }
 
-    private static void printStatus(Charecter c) {
+    private static void printStatus(Character c) {
         try {
             System.out.println(c.getName() + " - HP: " + c.getHitPoints() + "/" + c.getMaxHitPoints() + ", MP: " + c.getMagicPoints() + ", Guild: " + c.getGuild());
         } catch (Exception e) {

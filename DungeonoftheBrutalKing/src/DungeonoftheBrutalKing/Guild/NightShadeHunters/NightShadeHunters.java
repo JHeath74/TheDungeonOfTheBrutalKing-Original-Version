@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -30,7 +30,7 @@ public class NightShadeHunters extends JPanel {
         this.description = "The NightShade Hunters are a secretive guild of rangers who master the shadows and hunt in darkness.";
         setLayout(new BorderLayout());
 
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         // Show description for non-members or non-evil
@@ -175,8 +175,8 @@ public class NightShadeHunters extends JPanel {
             JButton exitButton = new JButton("Exit");
 
             removeDebuffButton.addActionListener(e -> {
-                Charecter.getInstance().clearCurses();
-                Charecter.getInstance().clearNegativeEffects();
+                Character.getInstance().clearCurses();
+                Character.getInstance().clearNegativeEffects();
                 JOptionPane.showMessageDialog(this, "All debuffs and negative statuses removed!");
             });
             exitButton.addActionListener(e -> showMainRoom());
@@ -216,7 +216,7 @@ public class NightShadeHunters extends JPanel {
             JButton exitButton = new JButton("Exit");
 
             sleepButton.addActionListener(e -> {
-                Charecter.getInstance().restoreHitPoints(Charecter.getInstance().getMaxHitPoints());
+                Character.getInstance().restoreHitPoints(Character.getInstance().getMaxHitPoints());
                 JOptionPane.showMessageDialog(this, "You sleep and restore your hit points!");
             });
             exitButton.addActionListener(e -> showMainRoom());
@@ -234,7 +234,7 @@ public class NightShadeHunters extends JPanel {
     }
 
     private void buyGuildSpell() {
-        Charecter character = Charecter.getInstance();
+        Character character = Character.getInstance();
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
         int maxSpells = 6;
 
@@ -265,7 +265,7 @@ public class NightShadeHunters extends JPanel {
         NightShadeHuntersGuildSpellsManager manager = new NightShadeHuntersGuildSpellsManager(Guild.NIGHT_SHADE_HUNTERS);
         java.util.Map<String, Spell> all = manager.getAllSpells();
 
-        java.util.Set<String> owned = Charecter.getInstance().getGuildSpells();
+        java.util.Set<String> owned = Character.getInstance().getGuildSpells();
         java.util.Set<String> ownedLower = new java.util.HashSet<>();
         for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
 
@@ -291,7 +291,7 @@ public class NightShadeHunters extends JPanel {
         desc.setWrapStyleWord(true);
 
         JLabel infoLabel = new JLabel("Select a spell to view details.");
-        final Charecter player = Charecter.getInstance();
+        final Character player = Character.getInstance();
         final JLabel goldLabel = new JLabel("Your gold: " + player.getGold());
 
         list.addListSelectionListener(ev -> {
@@ -347,8 +347,8 @@ public class NightShadeHunters extends JPanel {
         buyBtn.addActionListener(ev -> {
             String sel = list.getSelectedValue();
             if (sel == null) { JOptionPane.showMessageDialog(dialog, "Please select a spell first."); return; }
-            if (Charecter.getInstance().getGuildSpells().size() >= maxSpells) { JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells."); return; }
-            for (String o : new ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; } }
+            if (Character.getInstance().getGuildSpells().size() >= maxSpells) { JOptionPane.showMessageDialog(dialog, "You cannot have more than " + maxSpells + " guild spells."); return; }
+            for (String o : new ArrayList<>(Character.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { JOptionPane.showMessageDialog(dialog, "You already own " + sel + "."); return; } }
             int price = 250;
             int gold = player.getGold();
             if (gold < price) { JOptionPane.showMessageDialog(dialog, "You need " + price + " gold to buy this spell. You have " + gold + " gold."); return; }
@@ -363,7 +363,7 @@ public class NightShadeHunters extends JPanel {
         });
 
         sellBtn.addActionListener(ev -> {
-            ArrayList<String> ownedList = new ArrayList<>(Charecter.getInstance().getGuildSpells());
+            ArrayList<String> ownedList = new ArrayList<>(Character.getInstance().getGuildSpells());
             if (ownedList.isEmpty()) { JOptionPane.showMessageDialog(dialog, "You have no guild spells to sell."); return; }
             String sel = (String) JOptionPane.showInputDialog(dialog, "Select spell to sell:", "Sell Spell", JOptionPane.PLAIN_MESSAGE, null, ownedList.toArray(new String[0]), ownedList.get(0));
             if (sel != null) {
@@ -372,13 +372,13 @@ public class NightShadeHunters extends JPanel {
                 int confirm = JOptionPane.showConfirmDialog(dialog, "Sell '" + sel + "' for " + refund + " gold?", "Confirm Sell", JOptionPane.YES_NO_OPTION);
                 if (confirm != JOptionPane.YES_OPTION) return;
                 String toRemove = null;
-                for (String o : new ArrayList<>(Charecter.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
+                for (String o : new ArrayList<>(Character.getInstance().getGuildSpells())) { if (o != null && o.equalsIgnoreCase(sel)) { toRemove = o; break; } }
                 boolean removed = false; if (toRemove != null) removed = removeGuildSpell(toRemove);
                 if (removed) {
                     player.setGold(player.getGold() + refund);
                     JOptionPane.showMessageDialog(dialog, "You sold " + sel + " and received " + refund + " gold. Gold now: " + player.getGold());
                     goldLabel.setText("Your gold: " + player.getGold());
-                    owned.clear(); owned.addAll(Charecter.getInstance().getGuildSpells());
+                    owned.clear(); owned.addAll(Character.getInstance().getGuildSpells());
                     ownedLower.clear(); for (String o : owned) if (o != null) ownedLower.add(o.toLowerCase());
                     available.clear(); for (Spell sp : all.values()) { if (sp == null) continue; if (!ownedLower.contains(sp.getName().toLowerCase())) available.add(sp.getName()); }
                     list.setListData(available.toArray(new String[0]));
@@ -404,14 +404,14 @@ public class NightShadeHunters extends JPanel {
     public Alignment getAlignment() { return alignment; }
     public String getGuildName() { return guildName; }
     public GuildType getGuildType() { return guildType; }
-    public boolean removeGuildSpell(String spell) { return Charecter.getInstance().getGuildSpells().remove(spell); }
-    public int getGuildSpellsCount() { return Charecter.getInstance().getGuildSpells().size(); }
+    public boolean removeGuildSpell(String spell) { return Character.getInstance().getGuildSpells().remove(spell); }
+    public int getGuildSpellsCount() { return Character.getInstance().getGuildSpells().size(); }
     public void addGuildSpell(String spell) {
-        if (Charecter.getInstance().getGuildSpells().size() < 6) {
-            Charecter.getInstance().getGuildSpells().add(spell);
+        if (Character.getInstance().getGuildSpells().size() < 6) {
+            Character.getInstance().getGuildSpells().add(spell);
         } else {
             JOptionPane.showMessageDialog(this, "You cannot add more than 6 guild spells.");
         }
     }
-    public ArrayList<String> getGuildSpells() { return new ArrayList<>(Charecter.getInstance().getGuildSpells()); }
+    public ArrayList<String> getGuildSpells() { return new ArrayList<>(Character.getInstance().getGuildSpells()); }
 }

@@ -2,7 +2,7 @@
 // src/Status/RadiantStatus.java
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public final class RadiantStatus extends Status {
     private static final double HEAL_PERCENT = 0.10; // 10% of max HP per turn
@@ -12,7 +12,7 @@ public final class RadiantStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         int maxHP = Math.max(0, character.getMaxHitPoints());
@@ -23,7 +23,7 @@ public final class RadiantStatus extends Status {
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // No additional effect on remove
     }
 

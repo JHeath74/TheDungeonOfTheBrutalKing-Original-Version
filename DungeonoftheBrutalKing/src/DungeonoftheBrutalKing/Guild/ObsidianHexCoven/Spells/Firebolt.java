@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -45,7 +45,7 @@ public class Firebolt implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null) {
             cast();
             return;
@@ -54,7 +54,7 @@ public class Firebolt implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null) {
             cast();
             return;
@@ -78,12 +78,12 @@ public class Firebolt implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (targets == null || targets.isEmpty()) {
             cast(caster);
             return;
         }
-        for (Charecter target : targets) {
+        for (Character target : targets) {
             cast(caster, target);
         }
     }
@@ -130,7 +130,7 @@ public class Firebolt implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strengthScalar) {
+    public void castWithStrength(Character enemy, double strengthScalar) {
         int base = (enemy != null) ? Math.max(0, enemy.getStrength()) : 0;
         int scaled = (int) Math.round(base * Math.max(0.0, strengthScalar));
         int damage = rollDamage(scaled);
@@ -138,7 +138,7 @@ public class Firebolt implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // If Enemies has its own status system, wire it here (API unknown).
         cast(caster);
     }
@@ -148,7 +148,7 @@ public class Firebolt implements Spell {
         return RandomFactory.gameplayInt(bound) + 1;
     }
 
-    private static void maybeApplyFireStatus(Charecter target) {
+    private static void maybeApplyFireStatus(Character target) {
         if (target == null) return;
 
         if (RandomFactory.gameplayDouble() <= FIRE_STATUS_CHANCE) {
@@ -161,7 +161,7 @@ public class Firebolt implements Spell {
         }
     }
 
-    private static String safeName(Charecter c) {
+    private static String safeName(Character c) {
         try {
             String name = c.getName();
             return (name == null || name.isBlank()) ? "target" : name;

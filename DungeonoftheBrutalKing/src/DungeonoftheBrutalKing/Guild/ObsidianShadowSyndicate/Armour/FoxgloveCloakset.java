@@ -1,7 +1,7 @@
 // filepath: g:\Programs\Github\Java\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\Guild\ObsidianShadowSyndicate\Armour\SilentBoots.java
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Armour.ArmourManager;
 import DungeonoftheBrutalKing.Status.StatusType;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -18,14 +18,14 @@ public class FoxgloveCloakset extends ArmourManager {
     private static final int BASE_DEFENSE = 6;
     private static final int WEIGHT = 4;
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
 
     public FoxgloveCloakset(String effect) {
         super(NAME, REQUIRED_STRENGTH, BASE_DEFENSE, WEIGHT, effect);
         setEffect("EVASION_STATUS");
     }
 
-    public static FoxgloveCloakset createSilentBoots(Charecter character, String effect) {
+    public static FoxgloveCloakset createSilentBoots(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character is null");
         if (!isGuildMember(character)) throw new IllegalArgumentException("Must be a full member of Obsidian Shadow Syndicate to obtain FoxgloveCloakset.");
         if (character.getAgility() < REQUIRED_AGILITY) throw new IllegalArgumentException("Insufficient Agility to wear FoxgloveCloakset.");
@@ -36,11 +36,11 @@ public class FoxgloveCloakset extends ArmourManager {
     @Override
     public String getName() { return NAME; }
 
-    public static boolean isGuildMember(Charecter c) { if (c == null) return false; try { return c.getCurrentGuild() == GuildType.THIEF && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER; } catch (Exception e) { return false; } }
-    public static boolean isPurchasableBy(Charecter c) { return isGuildMember(c); }
+    public static boolean isGuildMember(Character c) { if (c == null) return false; try { return c.getCurrentGuild() == GuildType.THIEF && c.getCurrentGuildStatus() == GuildMembershipStatus.FULL_MEMBER; } catch (Exception e) { return false; } }
+    public static boolean isPurchasableBy(Character c) { return isGuildMember(c); }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (!isGuildMember(wearer)) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -60,7 +60,7 @@ public class FoxgloveCloakset extends ArmourManager {
      }
  
      @Override
-     public boolean unequip(Charecter wearer) {
+     public boolean unequip(Character wearer) {
          if (wearer == null) return false;
          try {
             // only unequip if this armour is currently equipped

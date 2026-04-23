@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Spells;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -37,11 +37,11 @@ public class RequiemDrain implements Spell {
         return DESCRIPTION;
     }
 
-    public boolean canCast(Charecter caster) {
+    public boolean canCast(Character caster) {
         return caster != null && caster.getWisdom() >= REQUIRED_WISDOM;
     }
 
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         if (caster == null || target == null) return;
         if (target.isDead()) return;
         if (!canCast(caster)) return;
@@ -91,12 +91,12 @@ public class RequiemDrain implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // No-op: this spell is single-target and needs an enemy target.
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // No-op: needs a target.
     }
 
@@ -106,13 +106,13 @@ public class RequiemDrain implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || target == null) return;
         // No-op: cannot safely treat Charecter as Enemies with current types.
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // No-op: not strength-based.
     }
 }

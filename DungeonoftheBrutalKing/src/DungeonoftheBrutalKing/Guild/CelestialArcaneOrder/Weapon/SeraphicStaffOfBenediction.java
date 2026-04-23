@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Weapon;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 import DungeonoftheBrutalKing.Status.DrainStatus;
 import DungeonoftheBrutalKing.Status.StatusManager;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
 import DungeonoftheBrutalKing.Status.HasHitPoints;
@@ -22,7 +22,7 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer != null
             && wearer.getCurrentGuild() == GUILDtype
             && wearer.getWisdom() >= REQUIRED_WISDOM) {
@@ -33,7 +33,7 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer != null && getName().equals(wearer.getEquippedWeapon())) {
             wearer.setEquippedWeapon(null);
         }
@@ -42,8 +42,8 @@ public class SeraphicStaffOfBenediction extends WeaponManager {
 
     @Override
     public void applyCombatEffect(HasHitPoints target) {
-        if (target instanceof Charecter) {
-            Charecter character = (Charecter) target;
+        if (target instanceof Character) {
+            Character character = (Character) target;
             // Apply DrainStatus for 2 turns
             character.addStatus(new DrainStatus(2, requiredStrength, null));
         }

@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.CrimsonBlades.Spells;
 
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -36,21 +36,21 @@ public final class CrimsonBladesGuildSpellsManager {
         return Collections.unmodifiableMap(guildSpells);
     }
 
-    public void castSpell(String spellName, Charecter caster) {
+    public void castSpell(String spellName, Character caster) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster);
         }
     }
 
-    public void castSpell(String spellName, Charecter caster, Charecter target) {
+    public void castSpell(String spellName, Character caster, Character target) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, target);
         }
     }
 
-    public void castSpell(String spellName, Charecter caster, List<Charecter> allCharacters) {
+    public void castSpell(String spellName, Character caster, List<Character> allCharacters) {
         Spell spell = getSpell(spellName);
         if (spell != null) {
             spell.cast(caster, allCharacters);

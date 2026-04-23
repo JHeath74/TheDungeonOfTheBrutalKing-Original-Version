@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -42,16 +42,16 @@ public class EmberlanceSurge implements Spell {
     public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
 
     @Override
-    public void cast() { cast(Charecter.getInstance()); }
+    public void cast() { cast(Character.getInstance()); }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null) { System.out.println("No caster available for " + NAME + "."); return; }
         System.out.println("You focus and fire an Emberlance Surge — target a foe to pierce.");
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null) { cast(); return; }
         if (target == null) { cast(caster); return; }
 
@@ -99,13 +99,13 @@ public class EmberlanceSurge implements Spell {
         try {
             Class<?> combatClass = Class.forName("DungeonoftheBrutalKing.Combat");
             try {
-                java.lang.reflect.Method getNearby = combatClass.getMethod("getNearbyEnemies", Charecter.class);
+                java.lang.reflect.Method getNearby = combatClass.getMethod("getNearbyEnemies", Character.class);
                 Object nearby = getNearby.invoke(null, target);
                 if (nearby instanceof java.util.List<?> list) {
                     for (Object o : list) {
                         if (o == target) continue;
-                        if (o instanceof Charecter) {
-                            Charecter ch = (Charecter) o;
+                        if (o instanceof Character) {
+                            Character ch = (Character) o;
                             try { ch.takeDamageWithStatuses(shockTotal); } catch (Exception ex) { ch.takeDamage(shockTotal); }
                         } else if (o instanceof Enemies) {
                             Enemies e = (Enemies) o;
@@ -141,11 +141,11 @@ public class EmberlanceSurge implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (caster == null) { cast(); return; }
         if (targets == null || targets.isEmpty()) { cast(caster); return; }
 
-        for (Charecter t : targets) {
+        for (Character t : targets) {
             cast(caster, t);
         }
     }
@@ -167,10 +167,10 @@ public class EmberlanceSurge implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { System.out.println(NAME + " does not scale with Strength."); }
+    public void castWithStrength(Character enemy, double d) { System.out.println(NAME + " does not scale with Strength."); }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         if (caster == null) { cast(); return; }
         if (target == null) { cast(caster); return; }
 
@@ -202,7 +202,7 @@ public class EmberlanceSurge implements Spell {
         System.out.println("The Emberlance erupts in a shockwave dealing " + shock + " damage around the target.");
     }
 
-    private static String safeName(Charecter c) { try { String name = c.getName(); return (name == null || name.isBlank()) ? "target" : name; } catch (Exception ignored) { return "target"; } }
+    private static String safeName(Character c) { try { String name = c.getName(); return (name == null || name.isBlank()) ? "target" : name; } catch (Exception ignored) { return "target"; } }
 
 	@Override
 	public void cast(int toonWisdom) {

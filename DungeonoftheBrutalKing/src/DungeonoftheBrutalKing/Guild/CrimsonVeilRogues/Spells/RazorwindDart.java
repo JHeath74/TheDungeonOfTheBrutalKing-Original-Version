@@ -2,7 +2,7 @@
 // src/Guild/CrimsonVeilRogues/Spells/RazorwindDart.java
 package DungeonoftheBrutalKing.Guild.CrimsonVeilRogues.Spells;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -30,7 +30,7 @@ public class RazorwindDart implements Spell {
     public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster.getGuild() != SPELL_GUILD) {
             System.out.println("Only Crimson Veil Rogues can use Razorwind Dart.");
             return;
@@ -50,13 +50,13 @@ public class RazorwindDart implements Spell {
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
     @Override public void cast(int toonWisdom, int toonIntelligence) {}
-    @Override public void cast(Charecter caster, java.util.List<Charecter> allCharacters) {}
-    @Override public void cast(Charecter caster) {}
+    @Override public void cast(Character caster, java.util.List<Character> allCharacters) {}
+    @Override public void cast(Character caster) {}
     @Override public void cast() {}
-    @Override public void castWithStrength(Charecter enemy, double d) {}
+    @Override public void castWithStrength(Character enemy, double d) {}
 
 	@Override
-	public void cast(Charecter caster, Enemies target) {
+	public void cast(Character caster, Enemies target) {
 		// TODO Auto-generated method stub
 		
 	}

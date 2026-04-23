@@ -1,11 +1,11 @@
 package DungeonoftheBrutalKing.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Plate extends ArmourManager {
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 35;
 
@@ -19,7 +19,7 @@ public class Plate extends ArmourManager {
         Plate.armourDefense = 50;
     }
 
-    public static Plate createPlate(Charecter character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
+    public static Plate createPlate(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
         try {
             int strength = myChar.getStrength();
             if (strength >= REQUIRED_STRENGTH) {

@@ -27,7 +27,7 @@ import DungeonoftheBrutalKing.Status.Status;
 
 public class Combat {
 
-    private final Charecter myChar = Charecter.getInstance();
+    private final Character myChar = Character.getInstance();
     private JTextArea playerInfo;
     private JTextArea enemyInfo;
 
@@ -501,7 +501,7 @@ public class Combat {
         this.myEnemies = enemies;
     }
 
-    public Charecter getMyChar() {
+    public Character getMyChar() {
         return myChar;
     }
 

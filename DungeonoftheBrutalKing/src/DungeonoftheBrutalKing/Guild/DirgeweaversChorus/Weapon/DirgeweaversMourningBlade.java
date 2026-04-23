@@ -2,7 +2,7 @@
 // src/Guild/DirgeweaversChorus/Weapon/DirgeweaversMourningBlade.java
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Status.PoisonStatus;
@@ -28,7 +28,7 @@ public class DirgeweaversMourningBlade extends WeaponManager {
 
     private final Random random = new Random();
 
-    private boolean isGuildMember(Charecter wielder) {
+    private boolean isGuildMember(Character wielder) {
         return wielder != null && wielder.getGuild() == REQUIRED_GUILD;
     }
 
@@ -39,7 +39,7 @@ public class DirgeweaversMourningBlade extends WeaponManager {
      * @param target the enemy that was hit
      * @param damageDealt final damage actually dealt
      */
-    public void onHit(Charecter attacker, Enemies target, int damageDealt) {
+    public void onHit(Character attacker, Enemies target, int damageDealt) {
         if (!isGuildMember(attacker)) return;
 
         if (target == null || target.isDead()) return;

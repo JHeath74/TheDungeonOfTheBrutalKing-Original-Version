@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -50,7 +50,7 @@ public final class SmiteOfTheDawn implements Spell {
              + "briefly illuminating the area and weakening minor magical darkness.";
     }
 
-    private void applySmite(Charecter caster, Enemies target) {
+    private void applySmite(Character caster, Enemies target) {
         if (caster == null || target == null) {
             return;
         }
@@ -73,7 +73,7 @@ public final class SmiteOfTheDawn implements Spell {
         // Hook for light / darkness\-dispelling logic could go here.
     }
 
-    private int computeDamage(Charecter caster, Enemies target) {
+    private int computeDamage(Character caster, Enemies target) {
         int strength = Math.max(0, caster.getStrength());
         double result = BASE_DAMAGE + (strength * STRENGTH_SCALING);
 
@@ -123,27 +123,27 @@ public final class SmiteOfTheDawn implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         // needs an enemy target
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         // offensive smite; does not target allies
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         // unused
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double strengthScaling) {
+    public void castWithStrength(Character enemy, double strengthScaling) {
         // unused legacy overload
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         applySmite(caster, target);
     }
 }

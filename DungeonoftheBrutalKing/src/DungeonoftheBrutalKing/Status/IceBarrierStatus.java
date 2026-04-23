@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 
 /**
@@ -43,7 +43,7 @@ public class IceBarrierStatus extends Status {
     public int getDefenseBonus() { return defenseBonus; }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
         try {
             originalDefense = character.getDefense();
@@ -53,20 +53,20 @@ public class IceBarrierStatus extends Status {
     }
 
     @Override
-    public void expireEffect(Charecter character) {
+    public void expireEffect(Character character) {
         // On expiry the barrier shatters releasing a burst of cold.
         shatterBurst(character);
         restoreDefense(character);
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // If removed prematurely, also shatter and restore.
         shatterBurst(character);
         restoreDefense(character);
     }
 
-    private void restoreDefense(Charecter character) {
+    private void restoreDefense(Character character) {
         if (character == null || originalDefense == null) return;
         try {
             character.setDefense(originalDefense);
@@ -74,7 +74,7 @@ public class IceBarrierStatus extends Status {
         } catch (Exception ignored) { }
     }
 
-    private void shatterBurst(Charecter character) {
+    private void shatterBurst(Character character) {
         if (character == null) return;
         try {
             System.out.println("The Ice Barrier around " + character.getName() + " shatters, releasing a burst of freezing air!");
@@ -84,15 +84,15 @@ public class IceBarrierStatus extends Status {
             try {
                 Class<?> combatClass = Class.forName("DungeonoftheBrutalKing.Combat");
                 try {
-                    java.lang.reflect.Method getNearby = combatClass.getMethod("getNearbyEnemies", Charecter.class);
+                    java.lang.reflect.Method getNearby = combatClass.getMethod("getNearbyEnemies", Character.class);
                     Object result = getNearby.invoke(null, character);
                     if (result instanceof java.util.List<?> list) {
                         for (Object o : list) {
                             if (o instanceof Enemies) {
                                 // cannot reliably apply to Enemies without knowing API; skip
                             }
-                            if (o instanceof DungeonoftheBrutalKing.Charecter) {
-                                Charecter ch = (Charecter) o;
+                            if (o instanceof DungeonoftheBrutalKing.Character) {
+                                Character ch = (Character) o;
                                 // simple heuristic: freeze if their hitpoints are lower than a threshold
                                 int threshold = Math.max(1, ch.getMaxHitPoints() / 4);
                                 if (ch.getHitPoints() <= threshold) {

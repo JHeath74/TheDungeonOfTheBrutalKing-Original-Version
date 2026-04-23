@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.DawnwardPaladins.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -24,7 +24,7 @@ public class SunBlade extends WeaponManager {
         super("Sun Blade", requiredStrength, damage, effect, weight);
     }
 
-    public static SunBlade createSunBlade(Charecter character, int damage, String effect) {
+    public static SunBlade createSunBlade(Character character, int damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(3));
         if (strength >= REQUIRED_STRENGTH) {
             return new SunBlade(REQUIRED_STRENGTH, damage, WEIGHT, effect);
@@ -33,7 +33,7 @@ public class SunBlade extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && wielder.getGuild() == GUILDname) {
             wielder.setStrength(wielder.getStrength() + STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() + AGILITY_BONUS);
@@ -44,7 +44,7 @@ public class SunBlade extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             wielder.setStrength(wielder.getStrength() - STRENGTH_BONUS);
             wielder.setAgility(wielder.getAgility() - AGILITY_BONUS);
@@ -53,7 +53,7 @@ public class SunBlade extends WeaponManager {
         return isEquipped;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         int strength = Integer.parseInt(wielder.getCharInfo().get(3));
         int bonus = strength / 6;
         int totalDamage = ATTACK_DAMAGE + bonus;

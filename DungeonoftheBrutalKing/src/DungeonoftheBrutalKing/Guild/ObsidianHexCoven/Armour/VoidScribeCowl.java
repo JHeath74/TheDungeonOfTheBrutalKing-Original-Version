@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class VoidScribeCowl {
@@ -27,7 +27,7 @@ public class VoidScribeCowl {
     private int lastIntBonus = 0;
     private int lastWisBonus = 0;
 
-    public static VoidScribeCowl createVoidScribeCowl(Charecter character) {
+    public static VoidScribeCowl createVoidScribeCowl(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Hex Coven members can wear the VoidScribeCowl.");
@@ -39,7 +39,7 @@ public class VoidScribeCowl {
         return new VoidScribeCowl();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getIntelligence() < REQUIRED_INTELLIGENCE) return false;
@@ -56,7 +56,7 @@ public class VoidScribeCowl {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

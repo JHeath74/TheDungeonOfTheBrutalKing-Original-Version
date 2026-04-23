@@ -19,7 +19,7 @@ import DungeonoftheBrutalKing.SharedData.EncryptionUtil;
 
 public class LoadSaveGame {
 
-    Charecter myChar = Charecter.getInstance();
+    Character myChar = Character.getInstance();
     int width, height = 0;
 
     public void AutoSaveGame() throws IOException {
@@ -63,13 +63,7 @@ public class LoadSaveGame {
             return;
         }
         loadAllEncrypted(chosenFile);
-        
-        
-        
         myChar.getDirection();
-        
-        
-      
     }
 
     public void ContinueCurrentGame() throws IOException, InterruptedException, ParseException {
@@ -237,8 +231,6 @@ public class LoadSaveGame {
                 }
             }
         }
-
-   
     }
 
     public static File getLastModified(String SavedGameDirectory) {
@@ -269,11 +261,12 @@ public class LoadSaveGame {
         return count;
     }
 
+    // Now writes each line as CHARINFO: to match loader expectations
     public void saveAllEncrypted(ArrayList<String> data, String filename) throws IOException {
         String filePath = GameSettings.SavedGameDirectory + File.separator + filename;
         StringBuilder sb = new StringBuilder();
         for (String line : data) {
-            sb.append(line).append(System.lineSeparator());
+            sb.append("CHARINFO:").append(line).append(System.lineSeparator());
         }
         String salt = EncryptionUtil.generateSalt();
         String encryptionKey = KeyManager.getOrCreateKey();
@@ -303,7 +296,10 @@ public class LoadSaveGame {
         }
     }
 
-    public void setCharecterData(ArrayList<String> saveData) {
+    public void setCharacterData(ArrayList<String> saveData) {
+        for (String line : saveData) {
+            System.out.println("Read line: " + line);
+        }
         myChar.getCharInfo().clear();
         myChar.getCharInfo().addAll(saveData);
     }

@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 import java.lang.reflect.Method;
 
@@ -14,13 +14,13 @@ public final class ManaRegenStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null || regenAmount == 0) return;
         adjustManaRegenBonus(target, regenAmount);
     }
 
     @Override
-    public void removeEffect(Charecter target) {
+    public void removeEffect(Character target) {
         if (target == null || regenAmount == 0) return;
         adjustManaRegenBonus(target, -regenAmount);
     }
@@ -30,7 +30,7 @@ public final class ManaRegenStatus extends Status {
         return "Increases mana regeneration by " + regenAmount + " per turn.";
     }
 
-    private static void adjustManaRegenBonus(Charecter target, int delta) {
+    private static void adjustManaRegenBonus(Character target, int delta) {
         Integer current = tryGetInt(target, "getManaRegenBonus");
         if (current == null) current = tryGetInt(target, "getManaRegen");
 

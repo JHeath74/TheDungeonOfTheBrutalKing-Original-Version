@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.CrimsonBlades.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -28,7 +28,7 @@ public class CrimsonEdgeLongsword extends WeaponManager {
         super(WEAPON_NAME, REQUIRED_STRENGTH, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static CrimsonEdgeLongsword createCrimsonEdgeLongsword(Charecter character, String effect) {
+    public static CrimsonEdgeLongsword createCrimsonEdgeLongsword(Character character, String effect) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != Guild.CRIMSON_BLADES)
             throw new IllegalArgumentException("Only Crimson Blades members can wield the Crimson Edge Longsword.");
@@ -40,7 +40,7 @@ public class CrimsonEdgeLongsword extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getGuild() != Guild.CRIMSON_BLADES) return false;
         if (wielder.getEquippedWeapon() == null || !wielder.getEquippedWeapon().equals(getName())) {
@@ -56,7 +56,7 @@ public class CrimsonEdgeLongsword extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
             wielder.setEquippedWeapon(null);
@@ -69,7 +69,7 @@ public class CrimsonEdgeLongsword extends WeaponManager {
         return false;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         if (wielder == null || enemy == null) return;
         int strength = wielder.getStrength();
         Random rand = new Random();

@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Weapon.WeaponManager;
 
@@ -29,7 +29,7 @@ public class RadiantChordblade extends WeaponManager {
         super(WEAPON_NAME, REQUIRED_STRENGTH, ATTACK_INCREASE, EFFECT, WEIGHT);
     }
 
-    public static RadiantChordblade createRadiantChordblade(Charecter character) {
+    public static RadiantChordblade createRadiantChordblade(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Harmonic Light Ensemble members can wield the RadiantChordblade.");
@@ -41,7 +41,7 @@ public class RadiantChordblade extends WeaponManager {
         return new RadiantChordblade();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getStrength() < REQUIRED_STRENGTH) return false;
@@ -56,7 +56,7 @@ public class RadiantChordblade extends WeaponManager {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastAttackBonus != 0) wearer.setAttack(Math.max(0, wearer.getAttack() - lastAttackBonus));

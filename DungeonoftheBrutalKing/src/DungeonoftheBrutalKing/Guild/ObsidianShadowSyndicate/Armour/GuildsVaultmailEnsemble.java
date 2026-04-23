@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Guild.ObsidianShadowSyndicate.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class GuildsVaultmailEnsemble {
@@ -25,7 +25,7 @@ public class GuildsVaultmailEnsemble {
     private int lastAgiBonus = 0;
     private int lastChrBonus = 0;
 
-    public static GuildsVaultmailEnsemble createGuildsVaultmailEnsemble(Charecter character) {
+    public static GuildsVaultmailEnsemble createGuildsVaultmailEnsemble(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Obsidian Shadow Syndicate members can wear the GuildsVaultmailEnsemble.");
@@ -37,7 +37,7 @@ public class GuildsVaultmailEnsemble {
         return new GuildsVaultmailEnsemble();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getAgility() < REQUIRED_AGILITY) return false;
@@ -54,7 +54,7 @@ public class GuildsVaultmailEnsemble {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

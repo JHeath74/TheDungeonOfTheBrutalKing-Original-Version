@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -34,7 +34,7 @@ public final class BlessingOfPurity implements Spell {
     @Override
     public String getDescription() { return "Removes a single negative status from the target and grants a Purity Ward that blocks new negative effects for a short time."; }
 
-    private void applyBlessing(Charecter caster, Charecter target) {
+    private void applyBlessing(Character caster, Character target) {
         if (caster == null) {
             System.out.println("No caster specified for " + NAME + ". Casting aborted.");
             return;
@@ -100,15 +100,15 @@ public final class BlessingOfPurity implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) { applyBlessing(caster, caster); }
+    public void cast(Character caster) { applyBlessing(caster, caster); }
 
     @Override
-    public void cast(Charecter caster, Charecter target) { applyBlessing(caster, target != null ? target : caster); }
+    public void cast(Character caster, Character target) { applyBlessing(caster, target != null ? target : caster); }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (allCharacters != null) {
-            for (Charecter ch : allCharacters) applyBlessing(caster, ch);
+            for (Character ch : allCharacters) applyBlessing(caster, ch);
         }
     }
 
@@ -116,6 +116,6 @@ public final class BlessingOfPurity implements Spell {
     @Override public void cast(int toonWisdom) {}
     @Override public void castWithIntelligence(int toonIntelligence) {}
     @Override public void cast(int toonWisdom, int toonIntelligence) {}
-    @Override public void castWithStrength(Charecter enemy, double d) {}
-    @Override public void cast(Charecter caster, Enemies target) {}
+    @Override public void castWithStrength(Character enemy, double d) {}
+    @Override public void cast(Character caster, Enemies target) {}
 }

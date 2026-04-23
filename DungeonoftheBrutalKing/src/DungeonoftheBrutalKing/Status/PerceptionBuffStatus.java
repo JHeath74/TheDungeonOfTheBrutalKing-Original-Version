@@ -1,6 +1,6 @@
 package DungeonoftheBrutalKing.Status;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class PerceptionBuffStatus extends Status {
 
@@ -22,7 +22,7 @@ public class PerceptionBuffStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter target) {
+    public void applyEffect(Character target) {
         if (target == null || applied) {
             return;
         }
@@ -36,7 +36,7 @@ public class PerceptionBuffStatus extends Status {
     }
 
     @Override
-    public void onTurnStart(Charecter target) {
+    public void onTurnStart(Character target) {
         if (remainingDuration <= 0) {
             expire(target);
             return;
@@ -48,7 +48,7 @@ public class PerceptionBuffStatus extends Status {
     }
 
     @Override
-    public void expire(Charecter target) {
+    public void expire(Character target) {
         if (!applied || target == null) {
             return;
         }

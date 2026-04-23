@@ -1,7 +1,7 @@
 // `src/DungeonoftheBrutalKing/Guild/DirgeweaversChorus/Weapon/ChorusOfIronStringsHalberd.java`
 package DungeonoftheBrutalKing.Guild.DirgeweaversChorus.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -33,7 +33,7 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
         super(WEAPON_NAME, REQUIRED_CHARISMA, ATTACK_DAMAGE, effect, WEIGHT);
     }
 
-    public static ChorusOfIronStringsHalberd createChorusOfIronStringsHalberd(Charecter character, String effect) {
+    public static ChorusOfIronStringsHalberd createChorusOfIronStringsHalberd(Character character, String effect) {
         if (character == null) {
             throw new IllegalArgumentException("Character cannot be null.");
         }
@@ -49,7 +49,7 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (wielder == null) return false;
         if (wielder.getGuild() != GUILD_NAME) return false;
 
@@ -63,7 +63,7 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (wielder == null) return false;
 
         if (wielder.getEquippedWeapon() != null && wielder.getEquippedWeapon().equals(getName())) {
@@ -75,7 +75,7 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
         return false;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         if (wielder == null || enemy == null) return;
 
         Random rand = new Random();

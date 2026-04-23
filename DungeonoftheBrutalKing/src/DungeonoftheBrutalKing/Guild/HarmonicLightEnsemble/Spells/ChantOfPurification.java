@@ -4,7 +4,7 @@ package DungeonoftheBrutalKing.Guild.HarmonicLightEnsemble.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -35,18 +35,18 @@ public class ChantOfPurification implements Spell {
     @Override
     public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
 
-    private static boolean canCast(Charecter caster) {
+    private static boolean canCast(Character caster) {
         return caster != null
                 && caster.getWisdom() >= REQUIRED_WISDOM
                 && caster.getMagicPoints() >= REQUIRED_MAGIC_POINTS;
     }
 
-    private static void spendMp(Charecter caster) {
+    private static void spendMp(Character caster) {
         caster.setMagicPoints(Math.max(0, caster.getMagicPoints() - REQUIRED_MAGIC_POINTS));
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (!canCast(caster)) return;
 
         spendMp(caster);
@@ -55,7 +55,7 @@ public class ChantOfPurification implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) { }
+    public void cast(Character caster, Character target) { }
 
     @Override
     public void cast(int toonWisdom) { }
@@ -67,14 +67,14 @@ public class ChantOfPurification implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { }
+    public void cast(Character caster, List<Character> allCharacters) { }
 
     @Override
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Enemies target) { }
+    public void cast(Character caster, Enemies target) { }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { }
+    public void castWithStrength(Character enemy, double d) { }
 }

@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.NightShadeHunters.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 
 public class DuskwoodTrackerMail {
@@ -27,7 +27,7 @@ public class DuskwoodTrackerMail {
     private int lastVitBonus = 0;
     private int lastStaBonus = 0;
 
-    public static DuskwoodTrackerMail createDuskwoodTrackerMail(Charecter character) {
+    public static DuskwoodTrackerMail createDuskwoodTrackerMail(Character character) {
         if (character == null) throw new IllegalArgumentException("Character cannot be null.");
         if (character.getGuild() != REQUIRED_GUILD)
             throw new IllegalArgumentException("Only Night Shade Hunters members can wear the DuskwoodTrackerMail.");
@@ -39,7 +39,7 @@ public class DuskwoodTrackerMail {
         return new DuskwoodTrackerMail();
     }
 
-    public boolean equip(Charecter wearer) {
+    public boolean equip(Character wearer) {
         if (wearer == null) return false;
         if (wearer.getGuild() != REQUIRED_GUILD) return false;
         if (wearer.getVitality() < REQUIRED_VITALITY) return false;
@@ -56,7 +56,7 @@ public class DuskwoodTrackerMail {
         return true;
     }
 
-    public boolean unequip(Charecter wearer) {
+    public boolean unequip(Character wearer) {
         if (wearer == null) return false;
 
         if (lastDefBonus != 0) wearer.setDefense(wearer.getDefense() - lastDefBonus);

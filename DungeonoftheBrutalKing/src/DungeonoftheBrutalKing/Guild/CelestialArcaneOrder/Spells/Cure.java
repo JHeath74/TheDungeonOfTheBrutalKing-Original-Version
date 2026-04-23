@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.CelestialArcaneOrder.Spells;
 
 import java.util.List;
 import java.util.Random;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -16,7 +16,7 @@ public class Cure implements Spell {
     public Cure() {}
 
     // Core spell logic: attempts to cure negative effects for the target character
-    private void cureEffects(Charecter target) {
+    private void cureEffects(Character target) {
         if (target == null) return;
         Random random = new Random();
         for (String effect : NEGATIVE_EFFECTS) {
@@ -31,21 +31,21 @@ public class Cure implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         cureEffects(target != null ? target : caster);
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) {
+    public void cast(Character caster, List<Character> allCharacters) {
         if (allCharacters != null && !allCharacters.isEmpty()) {
-            for (Charecter ch : allCharacters) {
+            for (Character ch : allCharacters) {
                 cureEffects(ch);
             }
         }
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         cureEffects(caster);
     }
 
@@ -95,12 +95,12 @@ public class Cure implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) {
+    public void castWithStrength(Character enemy, double d) {
         // Not used for this spell
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Not used for this spell
     }
 }

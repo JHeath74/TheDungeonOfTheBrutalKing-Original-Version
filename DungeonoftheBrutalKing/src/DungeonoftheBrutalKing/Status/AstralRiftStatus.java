@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Status;
 
 import java.lang.reflect.Field;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 /**
  * AstralRiftStatus: applied by the Astral Rift spell. Deals periodic arcane damage
@@ -28,7 +28,7 @@ public class AstralRiftStatus extends Status {
     }
 
     @Override
-    public void applyEffect(Charecter character) {
+    public void applyEffect(Character character) {
         if (character == null) return;
 
         // Apply periodic arcane damage immediately (this project often deals damage in applyEffect)
@@ -63,18 +63,18 @@ public class AstralRiftStatus extends Status {
     }
 
     @Override
-    public void expireEffect(Charecter character) {
+    public void expireEffect(Character character) {
         // restore when expired
         restoreResistance(character);
     }
 
     @Override
-    public void removeEffect(Charecter character) {
+    public void removeEffect(Character character) {
         // restore when explicitly removed
         restoreResistance(character);
     }
 
-    private void restoreResistance(Charecter character) {
+    private void restoreResistance(Character character) {
         if (character == null || originalResistance == null) return;
         try {
             java.lang.reflect.Method setter = character.getClass().getMethod("setSpellResistanceBonus", int.class);

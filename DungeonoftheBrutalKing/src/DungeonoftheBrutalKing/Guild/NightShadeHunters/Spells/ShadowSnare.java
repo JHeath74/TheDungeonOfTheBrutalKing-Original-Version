@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing.Guild.NightShadeHunters.Spells;
 
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -38,31 +38,31 @@ public class ShadowSnare implements Spell {
     @Override
     public int getRequiredMagicPoints() { return REQUIRED_MAGIC_POINTS; }
 
-    private static boolean canCast(Charecter caster) {
+    private static boolean canCast(Character caster) {
         return caster != null
                 && caster.getGuild() == SPELL_GUILD
                 && caster.getAgility() >= REQUIRED_AGILITY
                 && caster.getMagicPoints() >= REQUIRED_MAGIC_POINTS;
     }
 
-    private static void spendMp(Charecter caster) {
+    private static void spendMp(Character caster) {
         caster.setMagicPoints(Math.max(0, caster.getMagicPoints() - REQUIRED_MAGIC_POINTS));
     }
 
-    private static int computeDamage(Charecter caster) {
+    private static int computeDamage(Character caster) {
         int power = caster.getAgility();
         int base = 2;
         return Math.max(1, base + (power / 3));
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (!canCast(caster)) return;
         // No target provided; do nothing.
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null || target == null) return;
         if (!canCast(caster)) return;
 
@@ -82,16 +82,16 @@ public class ShadowSnare implements Spell {
     public void cast(int toonWisdom, int toonIntelligence) { }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> allCharacters) { }
+    public void cast(Character caster, List<Character> allCharacters) { }
 
     @Override
     public void cast() { }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // Intentionally unused: this implementation attacks `Charecter` targets.
     }
 
     @Override
-    public void castWithStrength(Charecter enemy, double d) { }
+    public void castWithStrength(Character enemy, double d) { }
 }

@@ -5,7 +5,7 @@ package DungeonoftheBrutalKing.Enemies;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StunStatus;
 
 public class Wizard extends Enemies {
@@ -77,7 +77,7 @@ public class Wizard extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    public int attack(Charecter target, MainGameScreen mainGameScreen) {
+    public int attack(Character target, MainGameScreen mainGameScreen) {
         boolean critical = Math.random() < 0.15;
         int base = (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;

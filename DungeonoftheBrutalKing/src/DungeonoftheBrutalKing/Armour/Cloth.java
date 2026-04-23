@@ -1,12 +1,12 @@
 // src/Armour/Cloth.java
 package DungeonoftheBrutalKing.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Cloth extends ArmourManager {
 
-	private static Charecter myChar = Charecter.getInstance();
+	private static Character myChar = Character.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 1;
 
@@ -20,7 +20,7 @@ public class Cloth extends ArmourManager {
         Cloth.armourDefense = 1;
     }
 
-    public static Cloth createCloth(Charecter character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
+    public static Cloth createCloth(Character character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
         try {
             int strength = myChar.getStrength();
             if (strength >= requiredStrength) {

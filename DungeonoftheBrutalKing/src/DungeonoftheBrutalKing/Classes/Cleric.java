@@ -2,13 +2,13 @@
 // src/Classes/Cleric.java
 package DungeonoftheBrutalKing.Classes;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Stat;
 
 public class Cleric extends Class {
 
     @SuppressWarnings("unused")
-    private static final Charecter myChar = Charecter.getInstance();
+    private static final Character myChar = Character.getInstance();
 
     public static final String CHAR_CLASS = "Cleric";
 

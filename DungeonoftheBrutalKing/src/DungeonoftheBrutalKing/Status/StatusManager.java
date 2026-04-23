@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 
 public class StatusManager {
     private List<Status> activeStatuses = new ArrayList<>();
 
-    public void addStatus(Status status, Charecter charecter) {
+    public void addStatus(Status status, Character charecter) {
         if (status == null) return;
 
         // If we're adding a negative status, check for a Purity Ward on the target.
@@ -46,7 +46,7 @@ public class StatusManager {
         activeStatuses.add(status);
     }
 
-    public void updateStatuses(Charecter charecter, int timeElapsed) {
+    public void updateStatuses(Character charecter, int timeElapsed) {
         Iterator<Status> iterator = activeStatuses.iterator();
         while (iterator.hasNext()) {
             Status status = iterator.next();
@@ -63,7 +63,7 @@ public class StatusManager {
         return new ArrayList<>(activeStatuses);
     }
 
-    public void removeStatusByName(String statusName, Charecter charecter) {
+    public void removeStatusByName(String statusName, Character charecter) {
         Iterator<Status> iterator = activeStatuses.iterator();
         while (iterator.hasNext()) {
             Status status = iterator.next();

@@ -1,12 +1,12 @@
 // src/Armour/Chainmail.java
 package DungeonoftheBrutalKing.Armour;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Chainmail extends ArmourManager {
 
-    private static Charecter myChar = Charecter.getInstance();
+    private static Character myChar = Character.getInstance();
     private static int armourDefense;
     private static final int REQUIRED_STRENGTH = 15;
 
@@ -20,7 +20,7 @@ public class Chainmail extends ArmourManager {
         Chainmail.armourDefense = 15;
     }
 
-    public static Chainmail createChainmail(Charecter character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
+    public static Chainmail createChainmail(Character character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
         try {
             int strength = myChar.getStrength();
             if (strength >= requiredStrength) {

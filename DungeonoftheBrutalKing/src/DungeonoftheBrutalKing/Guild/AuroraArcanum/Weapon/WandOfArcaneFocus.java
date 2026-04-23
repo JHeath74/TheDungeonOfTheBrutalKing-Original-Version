@@ -1,7 +1,7 @@
 
 package DungeonoftheBrutalKing.Guild.AuroraArcanum.Weapon;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.EquipmentRequirement;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -27,7 +27,7 @@ public class WandOfArcaneFocus extends WeaponManager {
         super("Wand of Arcane Focus", requiredIntelligence, damage, effect, weight);
     }
 
-    public static WandOfArcaneFocus createWandOfArcaneFocus(Charecter character, int damage, String effect) {
+    public static WandOfArcaneFocus createWandOfArcaneFocus(Character character, int damage, String effect) {
         int intelligence = character.getIntelligence();
         if (intelligence >= REQUIREMENT.getIntelligence()) {
             return new WandOfArcaneFocus(REQUIREMENT.getIntelligence(), damage, effect, REQUIREMENT.getWeight());
@@ -36,7 +36,7 @@ public class WandOfArcaneFocus extends WeaponManager {
     }
 
     @Override
-    public boolean equip(Charecter wielder) {
+    public boolean equip(Character wielder) {
         if (!isEquipped && wielder.getGuild() == Guild.AURORA_ARCANUM) {
             wielder.setIntelligence(wielder.getIntelligence() + INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() + WISDOM_BONUS);
@@ -49,7 +49,7 @@ public class WandOfArcaneFocus extends WeaponManager {
     }
 
     @Override
-    public boolean unequip(Charecter wielder) {
+    public boolean unequip(Character wielder) {
         if (isEquipped) {
             wielder.setIntelligence(wielder.getIntelligence() - INTELLIGENCE_BONUS);
             wielder.setWisdom(wielder.getWisdom() - WISDOM_BONUS);
@@ -59,7 +59,7 @@ public class WandOfArcaneFocus extends WeaponManager {
 		return isEquipped;
     }
 
-    public void attackDamage(Charecter wielder, Enemies enemy) {
+    public void attackDamage(Character wielder, Enemies enemy) {
         int intelligence = wielder.getIntelligence();
         Random rand = new Random();
         int bonus = rand.nextInt((intelligence / 3) + 1);

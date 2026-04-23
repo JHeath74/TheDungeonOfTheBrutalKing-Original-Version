@@ -3,7 +3,7 @@ package DungeonoftheBrutalKing.Guild.ObsidianHexCoven.Spells;
 import java.util.List;
 import java.util.Random;
 
-import DungeonoftheBrutalKing.Charecter;
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.Spell;
@@ -43,7 +43,7 @@ public class Chill_Touch implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster) {
+    public void cast(Character caster) {
         if (caster == null) {
             cast();
             return;
@@ -52,7 +52,7 @@ public class Chill_Touch implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Charecter target) {
+    public void cast(Character caster, Character target) {
         if (caster == null) {
             cast();
             return;
@@ -76,12 +76,12 @@ public class Chill_Touch implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, List<Charecter> targets) {
+    public void cast(Character caster, List<Character> targets) {
         if (targets == null || targets.isEmpty()) {
             cast(caster);
             return;
         }
-        for (Charecter target : targets) {
+        for (Character target : targets) {
             cast(caster, target);
         }
     }
@@ -128,7 +128,7 @@ public class Chill_Touch implements Spell {
     }
 
     @Override
-    public void castWithStrength(Charecter caster, double strengthScalar) {
+    public void castWithStrength(Character caster, double strengthScalar) {
         int base = (caster != null) ? Math.max(0, caster.getStrength()) : 0;
         int scaled = (int) Math.round(base * Math.max(0.0, strengthScalar));
         int damage = rollNecroticDamage(scaled);
@@ -136,7 +136,7 @@ public class Chill_Touch implements Spell {
     }
 
     @Override
-    public void cast(Charecter caster, Enemies target) {
+    public void cast(Character caster, Enemies target) {
         // If Enemies has its own status system, wire it similarly later.
         cast(caster);
     }
@@ -150,7 +150,7 @@ public class Chill_Touch implements Spell {
     /**
      * Apply an anti-healing / anti-undead debuff if possible.
      */
-    private static void maybeApplyNecroticDebuff(Charecter caster, Charecter target) {
+    private static void maybeApplyNecroticDebuff(Character caster, Character target) {
         if (target == null) return;
 
         if (RNG.nextDouble() > NECROTIC_STATUS_CHANCE) {
@@ -172,7 +172,7 @@ public class Chill_Touch implements Spell {
         }
     }
 
-    private static boolean isUndead(Charecter target) {
+    private static boolean isUndead(Character target) {
         try {
             // If you have a dedicated flag or race type, prefer that here.
             String race = target.getRace();
@@ -182,7 +182,7 @@ public class Chill_Touch implements Spell {
         }
     }
 
-    private static String safeName(Charecter c) {
+    private static String safeName(Character c) {
         try {
             String name = c.getName();
             return (name == null || name.isBlank()) ? "target" : name;
