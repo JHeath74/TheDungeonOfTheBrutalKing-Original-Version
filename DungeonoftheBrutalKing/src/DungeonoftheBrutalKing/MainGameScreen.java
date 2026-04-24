@@ -24,7 +24,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private double preCombatX, preCombatY, postCombatX, postCombatY;
     private final Character myChar = Character.getInstance();
     private final GameSettings myGameSettings = new GameSettings();
-   // private final LoadSaveGame2 myGameState = new LoadSaveGame2();
     private final LoadSaveGame myGameState = new LoadSaveGame();
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
 
@@ -206,12 +205,12 @@ public class MainGameScreen extends JFrame implements KeyListener {
         p3Panel.add(statsScroll2, BorderLayout.SOUTH);
         p4Panel.add(charXPHPGoldField);
         
-        ArrayList<String> charInfo = myChar.getCharInfo();
-    	StringBuilder info = new StringBuilder("Character Info:\n");
-    	for (int i = 0; i < charInfo.size(); i++) {
-    	    info.append("[").append(i).append("]: ").append(charInfo.get(i)).append("\n");
-    	}
-    	JOptionPane.showMessageDialog(null, info.toString());
+    //    ArrayList<String> charInfo = myChar.getCharInfo();
+   // 	StringBuilder info = new StringBuilder("Character Info:\n");
+    //	for (int i = 0; i < charInfo.size(); i++) {
+    //	    info.append("[").append(i).append("]: ").append(charInfo.get(i)).append("\n");
+    //	}
+    //	JOptionPane.showMessageDialog(null, info.toString());
     }
 
     private JTextField createTextField(Font font, Color bg, Color fg, int columns, boolean editable) {
@@ -535,53 +534,72 @@ public class MainGameScreen extends JFrame implements KeyListener {
         mainFrame.add(p1Panel, BorderLayout.NORTH);
     }
 
-    private void setupTimer() {
-        ActionListener task = _ -> {
-            if (myChar.getCharInfo().size() >= 5) {
-                charNameClassLevelField.setText(
-                    String.format("Name: %-20s  Class: %-15s  Race: %-15s  Level: %-10s  XP: %-10s",
-                        myChar.getCharInfo().get(0),
-                        myChar.getCharInfo().get(1),
-                        myChar.getCharInfo().get(2),
-                        myChar.getCharInfo().get(3),
-                        myChar.getCharInfo().get(4))
-                );
-            }
 
-            String header = "Vitality\tStamina\tCharisma\tStrength\tIntelligence\tWisdom\tAgility";
-            String values = String.format("%d\t%d\t%d\t%d\t%d\t%d\t%d",
-                myChar.getVitality(), myChar.getStamina(), myChar.getCharisma(), myChar.getStrength(),
-                myChar.getIntelligence(), myChar.getWisdom(), myChar.getAgility());
 
-            SimpleAttributeSet attr = new SimpleAttributeSet();
-            StyleConstants.setFontFamily(attr, "Monospaced");
-            StyleConstants.setFontSize(attr, 16);
-            StyleConstants.setBold(attr, true);
-            StyleConstants.setForeground(attr, Color.GREEN);
 
-            TabStop[] tabs = new TabStop[] {
-                new TabStop(150f), new TabStop(300f), new TabStop(450f),
-                new TabStop(600f), new TabStop(800f), new TabStop(1000f), new TabStop(1200f)
-            };
-            StyleConstants.setTabSet(attr, new TabSet(tabs));
+private void setupTimer() {
+    ActionListener task = _ -> {
+        if (myChar.getCharInfo().size() >= 5) {
+            charNameClassLevelField.setText(
+                String.format("Name: %-20s  Class: %-15s  Race: %-15s  Level: %-10s  XP: %-10s",
+                    myChar.getCharInfo().get(0),
+                    myChar.getCharInfo().get(1),
+                    myChar.getCharInfo().get(2),
+                    myChar.getCharInfo().get(3),
+                    myChar.getCharInfo().get(4))
+            );
+        }
 
-            charStatsField.setText("");
-            charStats2Field.setText("");
-            charStatsField.setCharacterAttributes(attr, true);
-            charStats2Field.setCharacterAttributes(attr, true);
+        String header = "Vitality\tStamina\tCharisma\tStrength\tIntelligence\tWisdom\tAgility";
+        String values = String.format("%d\t%d\t%d\t%d\t%d\t%d\t%d",
+            myChar.getVitality(), myChar.getStamina(), myChar.getCharisma(), myChar.getStrength(),
+            myChar.getIntelligence(), myChar.getWisdom(), myChar.getAgility());
 
-            try {
-                charStatsField.getDocument().insertString(0, header, attr);
-                charStats2Field.getDocument().insertString(0, values, attr);
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
+        SimpleAttributeSet attr = new SimpleAttributeSet();
+        StyleConstants.setFontFamily(attr, "Monospaced");
+        StyleConstants.setFontSize(attr, 16);
+        StyleConstants.setBold(attr, true);
+        StyleConstants.setForeground(attr, Color.GREEN);
+
+        TabStop[] tabs = new TabStop[] {
+            new TabStop(150f), new TabStop(300f), new TabStop(450f),
+            new TabStop(600f), new TabStop(800f), new TabStop(1000f), new TabStop(1200f)
         };
+        StyleConstants.setTabSet(attr, new TabSet(tabs));
 
-        timer = new Timer(100, task);
-        timer.setRepeats(true);
-        timer.start();
-    }
+        charStatsField.setText("");
+        charStats2Field.setText("");
+        charStatsField.setCharacterAttributes(attr, true);
+        charStats2Field.setCharacterAttributes(attr, true);
+
+        try {
+            charStatsField.getDocument().insertString(0, header, attr);
+            charStats2Field.getDocument().insertString(0, values, attr);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+
+        charXPHPGoldField.setText(
+        	    String.format(
+        	        "X:%.0f\tY:%.0f\tHP:%d\tGold:%d\t%s:%d",
+        	        (double)myChar.getX(),
+        	        (double)myChar.getY(),
+        	        myChar.getHitPoints(),
+        	        myChar.getGold(),
+        	        ("Mage".equals(myChar.getClassName()) || "Wizard".equals(myChar.getClassName())) ? "MP" : "AP",
+        	        getMagicOrActionPoints()
+        	    )
+        	);
+        
+    };
+
+    timer = new Timer(100, task);
+    timer.setRepeats(true);
+    timer.start();
+}
+
+
+
 
     private void setupClock() {
         clock = new TimeClock(TimeClock.Month.REBIRTH, messageTextPane, this);
