@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Gladiator.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -31,7 +32,7 @@ public class Gladiator extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Gladiator.png",
+            GameSettings.getMonsterImagePath() + "Gladiator.png",
             false,
             vitality
         );
@@ -43,7 +44,6 @@ public class Gladiator extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 5) + (vitality * 7);
-        setMagicUser(false);
     }
 
     public int getLevel() { return level; }
@@ -60,18 +60,16 @@ public class Gladiator extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 12;
         if (RandomFactory.gameplayDouble() * 100 < blockChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " parries the attack with expert skill!");
+            MainGameScreen.appendToMessageTextPane(getName() + " parries the attack with expert skill!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has fallen in the arena.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has fallen in the arena.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -84,7 +82,7 @@ public class Gladiator extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.14;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.8));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes with brutal force for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes with brutal force for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -94,14 +92,14 @@ public class Gladiator extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends with a shield, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends with a shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Gladiator_injured.png";
+            return GameSettings.getMonsterImagePath() + "Gladiator_injured.png";
         }
         return super.getImagePath();
     }

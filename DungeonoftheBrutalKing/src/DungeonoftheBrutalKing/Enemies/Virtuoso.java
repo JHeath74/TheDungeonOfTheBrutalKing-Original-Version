@@ -4,6 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Virtuoso extends Enemies {
@@ -31,7 +32,7 @@ public class Virtuoso extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Virtuoso.png",
+            GameSettings.getMonsterImagePath() + "Virtuoso.png",
             true,
             vitality
         );
@@ -55,9 +56,10 @@ public class Virtuoso extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, the music fades.");
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, the music fades.");
     }
 
     @Override
@@ -80,17 +82,28 @@ public class Virtuoso extends Enemies {
         return (int) ((getStrength() * 0.7) + (getWisdom() * 2.0) + getSpellStrength());
     }
 
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        int damage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " performs a magical aria for " + damage + " damage!");
+        return damage;
+    }
+
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " plays a protective melody, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " plays a protective melody, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.getMonsterImagePath() + "Virtuoso_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -115,24 +128,24 @@ public class Virtuoso extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -141,14 +154,8 @@ public class Virtuoso extends Enemies {
         return alignment;
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Virtuoso");
-        return "Virtuoso";
+    @Override
+    public String getClassName() {
+        return getName();
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

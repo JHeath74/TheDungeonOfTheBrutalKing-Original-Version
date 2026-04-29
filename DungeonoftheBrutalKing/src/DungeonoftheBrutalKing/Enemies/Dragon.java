@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Character;
@@ -24,7 +23,7 @@ public class Dragon extends Enemies {
             7,
             6,
             3,
-            GameSettings.MonsterImagePath + "Dragon.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Dragon.png",
             false,
             8
         );
@@ -35,12 +34,12 @@ public class Dragon extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChancePercent = 10;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChancePercent) {
-            mainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
+            MainGameScreen.appendToMessageTextPane(getName() + " dodged the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -50,11 +49,11 @@ public class Dragon extends Enemies {
         double defenseFactor = Math.max(0.0, 1.0 - (target.getDefense() / 100.0));
         double finalBurnChance = baseBurnChance * defenseFactor;
 
-        mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage.");
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage.");
         target.takeDamage(damage);
 
         if (RandomFactory.gameplayDouble() < finalBurnChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.");
+            MainGameScreen.appendToMessageTextPane(getName() + " breathes fire! The target is burned.");
             FireStatus fireStatus = new FireStatus();
             target.getStatusManager().addStatus(fireStatus, target);
         }
@@ -67,7 +66,7 @@ public class Dragon extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = getAttackDamage();
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " unleashes a mighty attack, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes a mighty attack, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -77,7 +76,7 @@ public class Dragon extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
@@ -94,7 +93,7 @@ public class Dragon extends Enemies {
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Dragon_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Dragon_injured.png";
         }
         return super.getImagePath();
     }

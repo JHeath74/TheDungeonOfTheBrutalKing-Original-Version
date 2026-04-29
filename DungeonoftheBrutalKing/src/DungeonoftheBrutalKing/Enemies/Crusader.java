@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -31,7 +30,7 @@ public class Crusader extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Crusader.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Crusader.png",
             false,
             vitality
         );
@@ -59,20 +58,18 @@ public class Crusader extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChancePercent = 15;
         if (RandomFactory.gameplayDouble() * 100 < blockChancePercent) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a shield!");
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a shield!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, valor undiminished.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, valor undiminished.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -85,7 +82,7 @@ public class Crusader extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.6) + (getWisdom() * 1.1));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " swings a sword with zeal, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " swings a sword with zeal, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -95,14 +92,14 @@ public class Crusader extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " braces behind shield, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " braces behind shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Crusader_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Crusader_injured.png";
         }
         return super.getImagePath();
     }

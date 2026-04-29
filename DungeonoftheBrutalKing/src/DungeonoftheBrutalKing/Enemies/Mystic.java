@@ -1,10 +1,10 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Mystic.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Mystic extends Enemies {
     private int level;
@@ -31,7 +31,7 @@ public class Mystic extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Mystic.png",
+            GameSettings.getMonsterImagePath() + "Mystic.png",
             true,
             vitality
         );
@@ -58,13 +58,13 @@ public class Mystic extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " shimmers and evades the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " shimmers and evades the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, mystical energies dissipate.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, mystical energies dissipate.");
         }
     }
 
@@ -74,18 +74,8 @@ public class Mystic extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " conjures a mystic barrier, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " conjures a mystic barrier, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
-    }
-
-    @Override
-    public String getClassName() {
-        return "Mystic";
-    }
-
-    @Override
-    public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
     }
 
     @Override
@@ -98,13 +88,38 @@ public class Mystic extends Enemies {
         return getHitPoints() <= 0;
     }
 
+    public int getSpellStrength() {
+        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+    }
+
+    public int attack(Character target, MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes a mystic blast for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
     @Override
     public int attack() {
-        return (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        return base;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.getMonsterImagePath() + "Mystic_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -129,29 +144,34 @@ public class Mystic extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
     @Override
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    @Override
+    public String getClassName() {
+        return getName();
     }
 }

@@ -4,6 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
 
@@ -32,7 +33,7 @@ public class Vindicator extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Vindicator.png",
+            GameSettings.getMonsterImagePath() + "Vindicator.png",
             false,
             vitality
         );
@@ -56,14 +57,15 @@ public class Vindicator extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " parries and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " parries and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, justice unfulfilled.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, justice unfulfilled.");
     }
 
     @Override
@@ -77,34 +79,42 @@ public class Vindicator extends Enemies {
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.3));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.3));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
     @Override
     public int attack() {
-        boolean critical = Math.random() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.3));
-        int damage = critical ? base * 2 : base;
-        return damage;
+        return base;
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 14;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " stands resolute, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " stands resolute, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Vindicator_injured.png";
+            return GameSettings.getMonsterImagePath() + "Vindicator_injured.png";
         }
         return super.getImagePath();
     }
@@ -112,24 +122,24 @@ public class Vindicator extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2);
+        return 8 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -3 + offset;
     }
 
@@ -155,14 +165,8 @@ public class Vindicator extends Enemies {
                 '}';
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Vindicator");
-        return "Vindicator";
+    @Override
+    public String getClassName() {
+        return getName();
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

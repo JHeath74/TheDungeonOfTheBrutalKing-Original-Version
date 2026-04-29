@@ -1,3 +1,5 @@
+
+// src/DungeonoftheBrutalKing/Enemies/Knight.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -14,12 +16,10 @@ public class Knight extends Enemies {
     private final int wisdom;
     private final int vitality;
     private int hitPoints;
-
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -3;
 
     public Knight() {
-        this(6, 8, 5, 7, 6, 3, 6);
+        this(randomLevel(), 8, 5, 7, 6, 3, 6);
     }
 
     public Knight(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -32,7 +32,7 @@ public class Knight extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Knight.png",
+            GameSettings.getMonsterImagePath() + "Knight.png",
             false,
             vitality
         );
@@ -44,7 +44,6 @@ public class Knight extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 4) + (vitality * 6);
-        setMagicUser(false);
     }
 
     public int getLevel() { return level; }
@@ -61,12 +60,12 @@ public class Knight extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a shield!");
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a shield!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -85,7 +84,7 @@ public class Knight extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.10;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.5));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes with a sword, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes with a sword, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -95,14 +94,14 @@ public class Knight extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Knight_injured.png";
+            return GameSettings.getMonsterImagePath() + "Knight_injured.png";
         }
         return super.getImagePath();
     }
@@ -121,9 +120,14 @@ public class Knight extends Enemies {
         return Math.max(base + offset, 0);
     }
 
+    private static int randomLevel() {
+        return 6 + RandomFactory.gameplayInt(3);
+    }
+
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -level + offset;
     }
 
     @Override

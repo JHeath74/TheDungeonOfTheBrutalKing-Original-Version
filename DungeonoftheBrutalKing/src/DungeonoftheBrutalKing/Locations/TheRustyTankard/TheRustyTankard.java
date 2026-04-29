@@ -1,5 +1,3 @@
-
-// File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/TheRustyTankard.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -39,7 +37,8 @@ public class TheRustyTankard {
         this.mainPanel = new JPanel(new BorderLayout());
         this.mainPanel.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        this.baseIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - TheRustyTankard.jpeg");
+        // Use the static getter for NPC image path
+        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "Innkeeper - TheRustyTankard.jpeg");
         this.imageLabel = new JLabel();
         this.imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -47,7 +46,7 @@ public class TheRustyTankard {
         promptWhereToSit();
 
         if (myMainGameScreen != null) {
-            uiSafely(() -> myMainGameScreen.replaceWithAnyPanel(mainPanel));
+            uiSafely(() -> MainGameScreen.replaceWithAnyPanel(mainPanel));
         }
     }
 
@@ -103,7 +102,7 @@ public class TheRustyTankard {
 
         getRoomButton.addActionListener(_ -> {
             if (myMainGameScreen == null) return;
-            uiSafely(() -> myMainGameScreen.replaceWithAnyPanel(new GetARoom(myMainGameScreen)));
+            uiSafely(() -> MainGameScreen.replaceWithAnyPanel(new GetARoom(myMainGameScreen)));
         });
 
         leaveButton.addActionListener(_ -> {
@@ -112,7 +111,7 @@ public class TheRustyTankard {
             uiSafely(() -> myMainGameScreen.setMessageTextPane("You leave the inn.\n"));
 
             JPanel fallback = returnPanel != null ? returnPanel : new JPanel();
-            uiSafely(() -> myMainGameScreen.replaceWithAnyPanel(fallback));
+            uiSafely(() -> MainGameScreen.replaceWithAnyPanel(fallback));
 
             SwingUtilities.invokeLater(() -> {
                 try {
@@ -144,7 +143,7 @@ public class TheRustyTankard {
 
     private void loadInformationProvider() {
         if (myMainGameScreen == null) return;
-        uiSafely(() -> myMainGameScreen.replaceWithAnyPanel(new InformationProvider(myMainGameScreen)));
+        uiSafely(() -> MainGameScreen.replaceWithAnyPanel(new InformationProvider(myMainGameScreen)));
     }
 
     private void uiSafely(UiAction action) {

@@ -39,18 +39,15 @@ public class Texture {
         }
     }
 
-    
-  
     // Other textures
-    public static Texture wood = new Texture(GameSettings.DungeonWallTexturePath + "wood.png", 64);
-    public static Texture brick = new Texture(GameSettings.DungeonWallTexturePath + "redbrick.png", 64);
-    public static Texture bluestone = new Texture(GameSettings.DungeonWallTexturePath + "bluestone.png", 64);
-    public static Texture stone = new Texture(GameSettings.DungeonWallTexturePath + "greystone.png", 64);
-    public static Texture stairsup = new Texture(GameSettings.DungeonStairsTexturePath + "stairsup.png", 64);
-    public static Texture stairsdown = new Texture(GameSettings.DungeonStairsTexturePath + "stairsdown.png", 64);
-    public static Texture stairsdownwithgate = new Texture(GameSettings.DungeonStairsTexturePath + "downstairswithgate.png", 64);
-    public static Texture downstairsdownwithgateandtorches = new Texture(GameSettings.DungeonStairsTexturePath + "downstairswithgateandtorches.png", 64);
-    public static Texture GreyDungeonDoor = new Texture(GameSettings.DungeonDoorTexturePath + "GreyDungeonDoor.png", 64);
-    public static Texture GreyDungeonWall = new Texture(GameSettings.DungeonWallTexturePath + "GreyDungeonWall.png", 64);
-
+    public static Texture wood = new Texture(GameSettings.getDungeonWallTexturePath() + "wood.png", 64);
+    public static Texture brick = new Texture(GameSettings.getDungeonWallTexturePath() + "redbrick.png", 64);
+    public static Texture bluestone = new Texture(GameSettings.getDungeonWallTexturePath() + "bluestone.png", 64);
+    public static Texture stone = new Texture(GameSettings.getDungeonWallTexturePath() + "greystone.png", 64);
+    public static Texture stairsup = new Texture(GameSettings.getDungeonStairsTexturePath() + "stairsup.png", 64);
+    public static Texture stairsdown = new Texture(GameSettings.getDungeonStairsTexturePath() + "stairsdown.png", 64);
+    public static Texture stairsdownwithgate = new Texture(GameSettings.getDungeonStairsTexturePath() + "downstairswithgate.png", 64);
+    public static Texture downstairsdownwithgateandtorches = new Texture(GameSettings.getDungeonStairsTexturePath() + "downstairswithgateandtorches.png", 64);
+    public static Texture GreyDungeonDoor = new Texture(GameSettings.getDungeonDoorTexturePath() + "GreyDungeonDoor.png", 64);
+    public static Texture GreyDungeonWall = new Texture(GameSettings.getDungeonWallTexturePath() + "GreyDungeonWall.png", 64);
 }

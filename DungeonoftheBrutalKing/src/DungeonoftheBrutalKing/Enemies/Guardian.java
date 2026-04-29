@@ -1,9 +1,11 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Guardian.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Guardian extends Enemies {
     private int level;
@@ -22,17 +24,17 @@ public class Guardian extends Enemies {
 
     public Guardian(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Guardian",
-                level,
-                (level * 6) + (vitality * 8),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Guardian.png",
-                false,
-                vitality
+            "Guardian",
+            level,
+            (level * 6) + (vitality * 8),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Guardian.png",
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -57,21 +59,19 @@ public class Guardian extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 15;
-        if (Math.random() * 100 < blockChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a radiant shield!");
+        if (RandomFactory.gameplayDouble() * 100 < blockChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a radiant shield!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, shield unyielding.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, shield unyielding.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
     @Override
@@ -81,10 +81,10 @@ public class Guardian extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.14;
+        boolean critical = RandomFactory.gameplayDouble() < 0.14;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.1));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes with a radiant blade, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes with a radiant blade, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -94,14 +94,14 @@ public class Guardian extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " guards fiercely, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " guards fiercely, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Guardian_injured.png";
+            return GameSettings.getMonsterImagePath() + "Guardian_injured.png";
         }
         return super.getImagePath();
     }
@@ -109,24 +109,24 @@ public class Guardian extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 3);
+        return 7 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -level + offset;
     }
 
@@ -138,22 +138,22 @@ public class Guardian extends Enemies {
     @Override
     public String toString() {
         return "Guardian{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
 
     @Override
     public String getClassName() {
-        return "Guardian";
+        return getName();
     }
 }

@@ -1,9 +1,12 @@
+
+// src/DungeonoftheBrutalKing/Enemies/Ice_Demon.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.Status.IceStatus;
 
 public class Ice_Demon extends Enemies {
@@ -23,17 +26,17 @@ public class Ice_Demon extends Enemies {
 
     public Ice_Demon(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Ice Demon",
-                level,
-                (level * 6) + (vitality * 8),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Ice_Demon.png",
-                false,
-                vitality
+            "Ice Demon",
+            level,
+            (level * 6) + (vitality * 8),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Ice_Demon.png",
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -58,12 +61,14 @@ public class Ice_Demon extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 13;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " freezes the air and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " freezes the air and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " shatters into icy shards.");
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " shatters into icy shards.");
+        }
     }
 
     @Override
@@ -78,17 +83,17 @@ public class Ice_Demon extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.13;
+        boolean critical = RandomFactory.gameplayDouble() < 0.13;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " slashes with icy claws, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " slashes with icy claws, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
         int damage = attack(mainGameScreen);
-        if (Math.random() < 0.25) {
-            mainGameScreen.appendToMessageTextPane(getName() + " unleashes a freezing blast! The target is frozen!");
+        if (RandomFactory.gameplayDouble() < 0.25) {
+            MainGameScreen.appendToMessageTextPane(getName() + " unleashes a freezing blast! The target is frozen!");
             target.addStatus(new IceStatus());
         }
         target.takeDamage(damage);
@@ -101,14 +106,14 @@ public class Ice_Demon extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends with icy armor, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends with icy armor, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Ice_Demon_injured.png";
+            return GameSettings.getMonsterImagePath() + "Ice_Demon_injured.png";
         }
         return super.getImagePath();
     }
@@ -116,24 +121,24 @@ public class Ice_Demon extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 12;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 7;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 3);
+        return 6 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 
@@ -145,22 +150,22 @@ public class Ice_Demon extends Enemies {
     @Override
     public String toString() {
         return "Ice_Demon{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
 
     @Override
     public String getClassName() {
-        return "Ice_Demon";
+        return getName();
     }
 }

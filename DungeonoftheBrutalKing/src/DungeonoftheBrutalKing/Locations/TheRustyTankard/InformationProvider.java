@@ -1,5 +1,3 @@
-
-// File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/InformationProvider.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -52,7 +50,8 @@ public class InformationProvider extends JPanel {
 
         setLayout(new BorderLayout());
 
-        String imagePath = GameSettings.NPCImagePath + "Innkeeper - InformationProvider.png";
+        // Use the static getter for NPC image path
+        String imagePath = GameSettings.getNPCImagePath() + "Innkeeper - InformationProvider.png";
         this.baseIcon = new ImageIcon(imagePath);
         this.imageLabel = new JLabel();
         add(imageLabel, BorderLayout.CENTER);
@@ -93,7 +92,8 @@ public class InformationProvider extends JPanel {
         }
 
         JPanel finalTarget = targetPanel != null ? targetPanel : fallback;
-        uiSafely(() -> mainGameScreen.replaceWithAnyPanel(finalTarget));
+        // Call replaceWithAnyPanel statically as required
+        uiSafely(() -> MainGameScreen.replaceWithAnyPanel(finalTarget));
     }
 
     private String provideInformation() {

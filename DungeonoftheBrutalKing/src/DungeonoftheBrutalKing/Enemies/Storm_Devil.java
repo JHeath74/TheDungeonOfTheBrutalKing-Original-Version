@@ -4,6 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Status.StunStatus;
 import DungeonoftheBrutalKing.Character;
@@ -33,7 +34,7 @@ public class Storm_Devil extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Storm Devil.png",
+            GameSettings.getMonsterImagePath() + "Storm Devil.png",
             true,
             vitality
         );
@@ -57,66 +58,60 @@ public class Storm_Devil extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 16;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " crackles and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " crackles and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " is struck down by its own storm.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " is struck down by its own storm.");
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 12;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 85) reductionPercent = 85;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " is surrounded by a storm, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " is surrounded by a storm, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Storm Devil");
-        return "Storm Devil";
-    }
-
-    @Override
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    @Override
-    public boolean isDead() {
-        return getHitPoints() <= 0;
-    }
-
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.20;
+        boolean critical = RandomFactory.gameplayDouble() < 0.20;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 1.2) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;
-        boolean stunApplied = Math.random() < 0.25;
+        boolean stunApplied = RandomFactory.gameplayDouble() < 0.25;
         if (stunApplied) {
-            mainGameScreen.appendToMessageTextPane(getName() + " unleashes a thunderbolt and stuns the target!");
+            MainGameScreen.appendToMessageTextPane(getName() + " unleashes a thunderbolt and stuns the target!");
             target.addStatus(new StunStatus(1));
         } else {
-            mainGameScreen.appendToMessageTextPane(getName() + " attacks with lightning for " + damage + " damage!");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks with lightning for " + damage + " damage!");
         }
         return damage;
     }
 
     @Override
     public int attack() {
-        boolean critical = Math.random() < 0.20;
+        boolean critical = RandomFactory.gameplayDouble() < 0.20;
         int base = (int) ((getIntelligence() * 1.4) + (getStrength() * 1.2) + (getAgility() * 1.0));
         int damage = critical ? base * 2 : base;
         return damage;
     }
 
     @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        int damage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks with lightning for " + damage + " damage!");
+        return damage;
+    }
+
+    @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Storm Devil_injured.png";
+            return GameSettings.getMonsterImagePath() + "Storm Devil_injured.png";
         }
         return super.getImagePath();
     }
@@ -124,24 +119,24 @@ public class Storm_Devil extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 13;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 7;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 7 + (int) (Math.random() * 2);
+        return 7 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 
@@ -167,9 +162,8 @@ public class Storm_Devil extends Enemies {
                 '}';
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
 }

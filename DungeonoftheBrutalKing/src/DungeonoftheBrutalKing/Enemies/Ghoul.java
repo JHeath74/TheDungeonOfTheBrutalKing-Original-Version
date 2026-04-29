@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Ghoul.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -32,7 +33,7 @@ public class Ghoul extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Ghoul.png",
+            GameSettings.getMonsterImagePath() + "Ghoul.png",
             false,
             vitality
         );
@@ -61,20 +62,18 @@ public class Ghoul extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " slithers away and dodges the attack!");
+            MainGameScreen.appendToMessageTextPane(getName() + " slithers away and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -87,7 +86,7 @@ public class Ghoul extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.12;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.7));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " lunges with rotten claws, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " lunges with rotten claws, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -97,14 +96,14 @@ public class Ghoul extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Ghoul_injured.png";
+            return GameSettings.getMonsterImagePath() + "Ghoul_injured.png";
         }
         return super.getImagePath();
     }

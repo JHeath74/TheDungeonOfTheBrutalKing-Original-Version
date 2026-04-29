@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -30,7 +29,7 @@ public class Angel extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Angel.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Angel.png",
             true,
             vitality
         );
@@ -58,12 +57,12 @@ public class Angel extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 16;
         if (Math.random() * 100 < blockChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with radiant wings!");
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with radiant wings!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " fades, but grace remains.");
+            MainGameScreen.appendToMessageTextPane(getName() + " fades, but grace remains.");
         }
     }
 
@@ -75,8 +74,6 @@ public class Angel extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -89,7 +86,7 @@ public class Angel extends Enemies {
         boolean critical = Math.random() < 0.16;
         int base = (int) ((getStrength() * 1.2) + (getWisdom() * 1.5) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant grace, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant grace, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -99,14 +96,14 @@ public class Angel extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " spreads radiant wings, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " spreads radiant wings, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Angel_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Angel_injured.png";
         }
         return super.getImagePath();
     }

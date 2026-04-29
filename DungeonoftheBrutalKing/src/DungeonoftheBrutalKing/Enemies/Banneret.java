@@ -1,9 +1,9 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Banneret extends Enemies {
 
@@ -16,10 +16,9 @@ public class Banneret extends Enemies {
     private final int vitality;
     private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -3;
 
     public Banneret() {
-        this(8, 8, 9, 7, 7, 8, 7);
+        this(randomLevel(), 8, 9, 7, 7, 8, 7);
     }
 
     public Banneret(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -32,7 +31,7 @@ public class Banneret extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Banneret.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Banneret.png",
             false,
             vitality
         );
@@ -59,21 +58,19 @@ public class Banneret extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 15;
-        if (Math.random() * 100 < blockChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack, banner held high!");
+        if (RandomFactory.gameplayDouble() * 100 < blockChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack, banner held high!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, banner lowered.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, banner lowered.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -83,10 +80,10 @@ public class Banneret extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.14;
+        boolean critical = RandomFactory.gameplayDouble() < 0.14;
         int base = (int) ((getStrength() * 1.2) + (getCharisma() * 1.5));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " rallies and strikes, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " rallies and strikes, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -96,16 +93,50 @@ public class Banneret extends Enemies {
         int reductionPercent = (baseDefense + getCharisma()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " rallies allies, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " rallies allies, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Banneret_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Banneret_injured.png";
         }
         return super.getImagePath();
+    }
+
+    @Override
+    public int getExperienceReward() {
+        int base = level * 15;
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    @Override
+    public int getGoldReward() {
+        int base = level * 9;
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
+        return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 1 + RandomFactory.gameplayInt(5);
+    }
+
+    @Override
+    public int getAlignmentImpact() {
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -(level + offset);
+    }
+
+    @Override
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    @Override
+    public String getClassName() {
+        return getName();
     }
 
     @Override
@@ -123,34 +154,5 @@ public class Banneret extends Enemies {
             ", imagePath='" + getImagePath() + '\'' +
             ", isMagicUser=" + isMagicUser() +
             '}';
-    }
-
-    @Override
-    public int getExperienceReward() {
-        int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    @Override
-    public int getGoldReward() {
-        int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
-        return Math.max(base + offset, 0);
-    }
-
-    @Override
-    public int getAlignmentImpact() {
-        return alignmentImpact;
-    }
-
-    @Override
-    public Alignment getAlignment() {
-        return alignment;
-    }
-
-    @Override
-    public String getClassName() {
-        return getName();
     }
 }

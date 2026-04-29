@@ -31,7 +31,7 @@ public class Dwarves extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Dwarves.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Dwarves.png",
             false,
             vitality
         );
@@ -59,20 +59,18 @@ public class Dwarves extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChancePercent = 10;
         if (RandomFactory.gameplayDouble() * 100 < blockChancePercent) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with sturdy armor!");
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with sturdy armor!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -85,7 +83,7 @@ public class Dwarves extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.12;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.7));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " swings a heavy axe, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " swings a heavy axe, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -95,14 +93,14 @@ public class Dwarves extends Enemies {
         int reductionPercent = (baseDefense + getVitality()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Dwarves_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Dwarves_injured.png";
         }
         return super.getImagePath();
     }

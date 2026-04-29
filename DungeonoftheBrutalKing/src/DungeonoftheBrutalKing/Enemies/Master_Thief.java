@@ -5,6 +5,7 @@ package DungeonoftheBrutalKing.Enemies;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Master_Thief extends Enemies {
     private int level;
@@ -31,7 +32,7 @@ public class Master_Thief extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Master_Thief.png",
+            GameSettings.getMonsterImagePath() + "Master_Thief.png",
             false,
             vitality
         );
@@ -58,13 +59,13 @@ public class Master_Thief extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " slips into the shadows and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " slips into the shadows and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has died.");
         }
     }
 
@@ -74,13 +75,30 @@ public class Master_Thief extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends with nimble moves, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends with nimble moves, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 1.5) + (getAgility() * 1.2));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes from the shadows, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public String getImagePath() {
+        if (getHitPoints() < 12) {
+            return GameSettings.getMonsterImagePath() + "Master_Thief_injured.png";
+        }
+        return super.getImagePath();
+    }
+
+    @Override
     public String getClassName() {
-        return "Master_Thief";
+        return getName();
     }
 
     @Override
@@ -94,41 +112,26 @@ public class Master_Thief extends Enemies {
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.15;
-        int base = (int) ((getStrength() * 1.5) + (getAgility() * 1.2));
-        return critical ? base * 2 : base;
-    }
-
-    @Override
-    public String getImagePath() {
-        if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Master_Thief_injured.png";
-        }
-        return super.getImagePath();
-    }
-
-    @Override
     public int getExperienceReward() {
         int base = level * 12;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 3);
+        return 6 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 

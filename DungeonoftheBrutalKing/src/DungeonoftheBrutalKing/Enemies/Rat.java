@@ -1,9 +1,9 @@
 
-// src/DungeonoftheBrutalKing/Enemies/Rat.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Rat extends Enemies {
@@ -14,6 +14,7 @@ public class Rat extends Enemies {
     private final int intelligence;
     private final int wisdom;
     private final int vitality;
+    private int hitPoints;
     private final Alignment alignment = Alignment.EVIL;
 
     public Rat() {
@@ -30,7 +31,7 @@ public class Rat extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Rat.png",
+            GameSettings.getMonsterImagePath() + "Rat.png",
             false,
             vitality
         );
@@ -41,6 +42,7 @@ public class Rat extends Enemies {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.vitality = vitality;
+        this.hitPoints = (level * 3) + (vitality * 4);
     }
 
     public int getLevel() { return level; }
@@ -50,18 +52,45 @@ public class Rat extends Enemies {
     public int getIntelligence() { return intelligence; }
     public int getWisdom() { return wisdom; }
     public int getVitality() { return vitality; }
+    public int getHitPoints() { return hitPoints; }
+    public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " scurries and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " scurries and dodges the attack!");
             return;
         }
-        int reduced = defend(damage, mainGameScreen);
-        super.takeDamage(reduced);
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has been squashed.");
+            MainGameScreen.appendToMessageTextPane(getName() + " has been squashed.");
         }
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 5;
+        int reductionPercent = (baseDefense + getAgility()) / 2;
+        if (reductionPercent > 60) reductionPercent = 60;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " dodges and reduces damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.10;
+        int base = (int) ((getStrength() * 1.1) + (getAgility() * 1.3));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " bites for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public int attack() {
+        int base = (int) ((getStrength() * 1.1) + (getAgility() * 1.3));
+        return base;
     }
 
     @Override
@@ -71,30 +100,13 @@ public class Rat extends Enemies {
 
     @Override
     public boolean isDead() {
-        return super.isDead();
-    }
-
-    @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.10;
-        int base = (int) ((getStrength() * 1.1) + (getAgility() * 1.3));
-        int damage = critical ? base * 2 : base;
-        return damage;
-    }
-
-    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
-        int baseDefense = 5;
-        int reductionPercent = (baseDefense + getAgility()) / 2;
-        if (reductionPercent > 60) reductionPercent = 60;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " dodges and reduces damage to " + reducedDamage + ".");
-        return reducedDamage;
+        return getHitPoints() <= 0;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 5) {
-            return GameSettings.MonsterImagePath + "Rat_injured.png";
+            return GameSettings.getMonsterImagePath() + "Rat_injured.png";
         }
         return super.getImagePath();
     }
@@ -102,24 +114,24 @@ public class Rat extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 3;
-        int offset = (int) ((Math.random() * (2 * level * 2 + 1)) - (level * 2));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 2 + 1)) - (level * 2));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 1;
-        int offset = (int) ((Math.random() * (2 * level * 2 + 1)) - (level * 2));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 2 + 1)) - (level * 2));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 2);
+        return 1 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 
@@ -145,14 +157,8 @@ public class Rat extends Enemies {
                 '}';
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Rat");
-        return "Rat";
+    @Override
+    public String getClassName() {
+        return getName();
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

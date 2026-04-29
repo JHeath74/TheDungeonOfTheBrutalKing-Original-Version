@@ -1,8 +1,11 @@
+
+// src/DungeonoftheBrutalKing/Enemies/Homunculi.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Homunculi extends Enemies {
     private int level;
@@ -21,17 +24,17 @@ public class Homunculi extends Enemies {
 
     public Homunculi(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Homunculi",
-                level,
-                (level * 5) + (vitality * 7),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Homunculi.png",
-                false,
-                vitality
+            "Homunculi",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Homunculi.png",
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -56,13 +59,13 @@ public class Homunculi extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " dissolves and reforms, dodging the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " dissolves and reforms, dodging the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " dissolves into a puddle of alchemical goo.");
+            MainGameScreen.appendToMessageTextPane(getName() + " dissolves into a puddle of alchemical goo.");
         }
     }
 
@@ -78,10 +81,10 @@ public class Homunculi extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.13;
+        boolean critical = RandomFactory.gameplayDouble() < 0.13;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " lashes out with shifting limbs, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " lashes out with shifting limbs, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -91,14 +94,14 @@ public class Homunculi extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " morphs defensively, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " morphs defensively, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Homunculi_injured.png";
+            return GameSettings.getMonsterImagePath() + "Homunculi_injured.png";
         }
         return super.getImagePath();
     }
@@ -106,24 +109,24 @@ public class Homunculi extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 2 + (int) (Math.random() * 3);
+        return 2 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return offset;
     }
 
@@ -135,22 +138,22 @@ public class Homunculi extends Enemies {
     @Override
     public String toString() {
         return "Homunculi{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
 
     @Override
     public String getClassName() {
-        return "Homunculi";
+        return getName();
     }
 }

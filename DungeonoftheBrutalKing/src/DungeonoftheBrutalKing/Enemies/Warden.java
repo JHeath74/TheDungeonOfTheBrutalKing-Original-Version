@@ -1,11 +1,10 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Warden.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Warden extends Enemies {
     private int level;
@@ -32,7 +31,7 @@ public class Warden extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Warden.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Warden.png",
             false,
             vitality
         );
@@ -56,14 +55,15 @@ public class Warden extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " parries and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " parries and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, vigilance broken.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, vigilance broken.");
     }
 
     @Override
@@ -77,34 +77,36 @@ public class Warden extends Enemies {
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getIntelligence() * 1.2));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.15;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getIntelligence() * 1.2));
         int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 17;
         int reductionPercent = (baseDefense + getIntelligence()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " guards the realm, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " guards the realm, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Warden_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Warden_injured.png";
         }
         return super.getImagePath();
     }
@@ -112,24 +114,24 @@ public class Warden extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2);
+        return 8 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -3 + offset;
     }
 
@@ -139,30 +141,24 @@ public class Warden extends Enemies {
     }
 
     @Override
+    public String getClassName() {
+        return getName();
+    }
+
+    @Override
     public String toString() {
         return "Warden{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
-
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Warden");
-        return "Warden";
-    }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

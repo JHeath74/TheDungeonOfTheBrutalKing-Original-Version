@@ -1,9 +1,9 @@
 
-// src/DungeonoftheBrutalKing/Enemies/Vampire.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.DrainStatus;
@@ -25,17 +25,17 @@ public class Vampire extends Enemies {
 
     public Vampire(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Vampire",
-                level,
-                (level * 6) + (vitality * 5),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Vampire.png",
-                true,
-                vitality
+            "Vampire",
+            level,
+            (level * 6) + (vitality * 5),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Vampire.png",
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -45,7 +45,6 @@ public class Vampire extends Enemies {
         this.wisdom = wisdom;
         this.vitality = vitality;
         this.hitPoints = (level * 6) + (vitality * 5);
-        setMagicUser(false);
     }
 
     public int getLevel() { return level; }
@@ -58,14 +57,15 @@ public class Vampire extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 18;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " turns to mist and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " turns to mist and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " crumbles to dust.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " crumbles to dust.");
     }
 
     @Override
@@ -79,42 +79,50 @@ public class Vampire extends Enemies {
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
 
-        boolean drainApplied = Math.random() < 0.15;
+        boolean drainApplied = RandomFactory.gameplayDouble() < 0.15;
         if (drainApplied) {
-            mainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
+            MainGameScreen.appendToMessageTextPane(getName() + " bites and drains life!");
             target.addStatus(new DrainStatus(2, 0.15, DrainStatus.DrainType.ACTION));
             setHitPoints(getHitPoints() + 3);
         } else {
-            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         }
         return damage;
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.15;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
+    @Override
+    public int attack() {
+        int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
+        return base;
+    }
+
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Vampire_injured.png";
+            return GameSettings.getMonsterImagePath() + "Vampire_injured.png";
         }
         return super.getImagePath();
     }
@@ -122,24 +130,24 @@ public class Vampire extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 2);
+        return 5 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return 2 + offset;
     }
 
@@ -165,14 +173,8 @@ public class Vampire extends Enemies {
                 '}';
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Vampire");
-        return "Vampire";
+    @Override
+    public String getClassName() {
+        return getName();
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -1,9 +1,8 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Templar.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
 
@@ -32,7 +31,7 @@ public class Templar extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Templar.png",
+            GameSettings.getMonsterImagePath() + "Templar.png",
             false,
             vitality
         );
@@ -56,14 +55,48 @@ public class Templar extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, honor unbroken.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, honor unbroken.");
+    }
+
+    @Override
+    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
+        int baseDefense = 12;
+        int reductionPercent = (baseDefense + getWisdom()) / 2;
+        if (reductionPercent > 75) reductionPercent = 75;
+        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
+        MainGameScreen.appendToMessageTextPane(getName() + " raises shield, reducing damage to " + reducedDamage + ".");
+        return reducedDamage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    public int attack(Character target, MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public int attack() {
+        int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
+        return base;
     }
 
     @Override
@@ -76,35 +109,10 @@ public class Templar extends Enemies {
         return getHitPoints() <= 0;
     }
 
-    public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
-        int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
-        int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes for " + damage + " damage!");
-        return damage;
-    }
-
-    @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.15;
-        int base = (int) ((getStrength() * 1.4) + (getWisdom() * 1.2));
-        int damage = critical ? base * 2 : base;
-        return damage;
-    }
-
-    public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
-        int baseDefense = 12;
-        int reductionPercent = (baseDefense + getWisdom()) / 2;
-        if (reductionPercent > 75) reductionPercent = 75;
-        int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " raises shield, reducing damage to " + reducedDamage + ".");
-        return reducedDamage;
-    }
-
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Templar_injured.png";
+            return GameSettings.getMonsterImagePath() + "Templar_injured.png";
         }
         return super.getImagePath();
     }
@@ -112,25 +120,25 @@ public class Templar extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 14;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2);
+        return 8 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
-        return -3 + offset;
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -level + offset;
     }
 
     @Override
@@ -155,14 +163,8 @@ public class Templar extends Enemies {
                 '}';
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Templar");
-        return "Templar";
+    @Override
+    public String getClassName() {
+        return getName();
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

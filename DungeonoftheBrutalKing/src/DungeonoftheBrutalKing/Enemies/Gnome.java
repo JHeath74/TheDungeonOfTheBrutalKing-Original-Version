@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Gnome.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -15,7 +16,7 @@ public class Gnome extends Enemies {
     private final int wisdom;
     private final int vitality;
     private int hitPoints;
-    private final Alignment alignment = Alignment.NEUTRAL;
+    private final Alignment alignment = Alignment.EVIL;
 
     public Gnome() {
         this(randomLevel(), 7, 8, 9, 10, 8, 6);
@@ -31,7 +32,7 @@ public class Gnome extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Gnome.png",
+            GameSettings.getMonsterImagePath() + "Gnome.png",
             false,
             vitality
         );
@@ -59,18 +60,16 @@ public class Gnome extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 14;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " nimbly dodges the attack!");
+            MainGameScreen.appendToMessageTextPane(getName() + " nimbly dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has been defeated.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has been defeated.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class Gnome extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.13;
         int base = (int) ((getStrength() * 1.1) + (getAgility() * 1.3));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " attacks with a clever strike for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks with a clever strike for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -93,14 +92,14 @@ public class Gnome extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Gnome_injured.png";
+            return GameSettings.getMonsterImagePath() + "Gnome_injured.png";
         }
         return super.getImagePath();
     }

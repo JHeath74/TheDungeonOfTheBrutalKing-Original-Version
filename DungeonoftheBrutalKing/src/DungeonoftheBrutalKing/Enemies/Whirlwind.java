@@ -1,5 +1,3 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Whirlwind.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -7,6 +5,7 @@ import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.DazeStatus;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Whirlwind extends Enemies {
     private int level;
@@ -33,7 +32,7 @@ public class Whirlwind extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Whirlwind.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Whirlwind.png",
             false,
             vitality
         );
@@ -57,14 +56,15 @@ public class Whirlwind extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 22;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " whirls away and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " whirls away and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " dissipates into the air.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " dissipates into the air.");
     }
 
     @Override
@@ -78,40 +78,42 @@ public class Whirlwind extends Enemies {
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.4));
         int damage = critical ? base * 2 : base;
-        boolean dazeApplied = Math.random() < 0.15;
+        boolean dazeApplied = RandomFactory.gameplayDouble() < 0.15;
         if (dazeApplied) {
-            mainGameScreen.appendToMessageTextPane(getName() + " spins violently, dazing the target!");
+            MainGameScreen.appendToMessageTextPane(getName() + " spins violently, dazing the target!");
             target.addStatus(new DazeStatus(2));
         } else {
-            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
         return damage;
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.15;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 1.4));
         int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " whirls defensively, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " whirls defensively, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Whirlwind_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Whirlwind_injured.png";
         }
         return super.getImagePath();
     }
@@ -119,24 +121,24 @@ public class Whirlwind extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 3 + (int) (Math.random() * 2);
+        return 3 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return 1 + offset;
     }
 
@@ -146,30 +148,24 @@ public class Whirlwind extends Enemies {
     }
 
     @Override
+    public String getClassName() {
+        return getName();
+    }
+
+    @Override
     public String toString() {
         return "Whirlwind{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
-
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Whirlwind");
-        return "Whirlwind";
-    }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

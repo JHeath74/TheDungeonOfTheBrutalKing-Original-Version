@@ -1,5 +1,3 @@
-
-// File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/GetARoom.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import DungeonoftheBrutalKing.Character;
@@ -32,8 +30,8 @@ public class GetARoom extends JPanel {
 
         setLayout(new BorderLayout());
 
-        // Image
-        this.baseIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - Lodging.png");
+        // Use the static getter for NPC image path
+        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "Innkeeper - Lodging.png");
         this.imageLabel = new JLabel();
         add(imageLabel, BorderLayout.CENTER);
 
@@ -97,7 +95,8 @@ public class GetARoom extends JPanel {
         }
 
         JPanel finalTarget = targetPanel != null ? targetPanel : fallback;
-        uiSafely(() -> mainGameScreen.replaceWithAnyPanel(finalTarget));
+        // Call replaceWithAnyPanel statically as required
+        uiSafely(() -> MainGameScreen.replaceWithAnyPanel(finalTarget));
     }
 
     private void refreshScaledImage() {

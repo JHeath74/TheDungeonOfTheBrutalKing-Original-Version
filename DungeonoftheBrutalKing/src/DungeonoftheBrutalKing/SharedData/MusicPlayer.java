@@ -12,7 +12,6 @@ public class MusicPlayer {
     private static Clip midiClip;
     private static Clip waveClip;
     private static Thread mp3Thread;
-    private GameSettings gameSettings = new GameSettings();
 
     public MusicPlayer() {
         midiClip = null;
@@ -23,7 +22,7 @@ public class MusicPlayer {
     public void midiPlayer(String soundFileName) {
         new Thread(() -> {
             try {
-                String path = gameSettings.SoundEffectsPath.trim() + soundFileName.trim();
+                String path = GameSettings.getSoundEffectsPath().trim() + soundFileName.trim();
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
                 midiClip = AudioSystem.getClip();
                 midiClip.open(audioInputStream);
@@ -45,7 +44,7 @@ public class MusicPlayer {
         stopMP3();
         mp3Thread = new Thread(() -> {
             try {
-                String path = GameSettings.SoundEffectsPath.trim() + soundFileName.trim();
+                String path = GameSettings.getSoundEffectsPath().trim() + soundFileName.trim();
                 try (FileInputStream fis = new FileInputStream(path)) {
                     Player player = new Player(fis);
                     player.play();
@@ -67,7 +66,7 @@ public class MusicPlayer {
     public static void wavePlayer(String soundFileName) {
         new Thread(() -> {
             try {
-                String path = GameSettings.SoundEffectsPath.trim() + soundFileName.trim();
+                String path = GameSettings.getSoundEffectsPath().trim() + soundFileName.trim();
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(path).getAbsoluteFile());
                 waveClip = AudioSystem.getClip();
                 waveClip.open(audioInputStream);

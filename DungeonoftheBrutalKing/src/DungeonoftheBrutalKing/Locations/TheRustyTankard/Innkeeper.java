@@ -1,5 +1,3 @@
-
-// File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/Innkeeper.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import DungeonoftheBrutalKing.Character;
@@ -60,7 +58,8 @@ public class Innkeeper {
                 "Tea", 5
         );
 
-        this.baseIcon = new ImageIcon(GameSettings.NPCImagePath + "Innkeeper - innkeeper.jpeg");
+        // Use the static getter for NPC image path
+        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "Innkeeper - innkeeper.jpeg");
         this.imageLabel = new JLabel();
         this.imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -193,7 +192,8 @@ public class Innkeeper {
         }
 
         JPanel finalTarget = targetPanel != null ? targetPanel : fallback;
-        uiSafely(() -> mainGameScreen.replaceWithAnyPanel(finalTarget));
+        // Call replaceWithAnyPanel statically as required
+        uiSafely(() -> MainGameScreen.replaceWithAnyPanel(finalTarget));
     }
 
     private void uiSafely(UiAction action) {

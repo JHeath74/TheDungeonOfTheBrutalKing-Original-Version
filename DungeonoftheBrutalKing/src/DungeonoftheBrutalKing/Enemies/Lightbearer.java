@@ -5,6 +5,7 @@ package DungeonoftheBrutalKing.Enemies;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Lightbearer extends Enemies {
     private int level;
@@ -23,17 +24,17 @@ public class Lightbearer extends Enemies {
 
     public Lightbearer(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Lightbearer",
-                level,
-                (level * 5) + (vitality * 7),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Lightbearer.png",
-                true,
-                vitality
+            "Lightbearer",
+            level,
+            (level * 5) + (vitality * 7),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Lightbearer.png",
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -58,17 +59,19 @@ public class Lightbearer extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " is bathed in light and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " is bathed in light and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, their light fading.");
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, their light fading.");
+        }
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
@@ -83,10 +86,10 @@ public class Lightbearer extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.16;
+        boolean critical = RandomFactory.gameplayDouble() < 0.16;
         int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.1) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant force, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant force, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -96,57 +99,39 @@ public class Lightbearer extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " shields with light, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " shields with light, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Lightbearer_injured.png";
+            return GameSettings.getMonsterImagePath() + "Lightbearer_injured.png";
         }
         return super.getImagePath();
     }
 
     @Override
-    public String toString() {
-        return "Lightbearer{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
-    }
-
-    @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -157,6 +142,24 @@ public class Lightbearer extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Lightbearer";
+        return getName();
+    }
+
+    @Override
+    public String toString() {
+        return "Lightbearer{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 }

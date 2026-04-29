@@ -1,7 +1,10 @@
+
+// src/DungeonoftheBrutalKing/Enemies/Sunblade.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.RadiantStatus;
@@ -31,7 +34,7 @@ public class Sunblade extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Sunblade.png",
+            GameSettings.getMonsterImagePath() + "Sunblade.png",
             false,
             vitality
         );
@@ -58,12 +61,12 @@ public class Sunblade extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " flashes and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " flashes and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, light dimmed.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, light dimmed.");
     }
 
     @Override
@@ -77,40 +80,48 @@ public class Sunblade extends Enemies {
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
-        boolean radiantApplied = Math.random() < 0.15;
+        boolean radiantApplied = RandomFactory.gameplayDouble() < 0.15;
         if (radiantApplied) {
-            mainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant light!");
+            MainGameScreen.appendToMessageTextPane(getName() + " strikes with radiant light!");
             target.addStatus(new RadiantStatus(2));
         } else {
-            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         }
         return damage;
     }
 
     @Override
     public int attack() {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.4) + (getAgility() * 1.2));
         int damage = critical ? base * 2 : base;
         return damage;
     }
 
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        int damage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+        return damage;
+    }
+
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 13;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " shines with valor, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " shines with valor, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Sunblade_injured.png";
+            return GameSettings.getMonsterImagePath() + "Sunblade_injured.png";
         }
         return super.getImagePath();
     }
@@ -118,24 +129,24 @@ public class Sunblade extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2);
+        return 8 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -3 + offset;
     }
 
@@ -161,14 +172,8 @@ public class Sunblade extends Enemies {
                 '}';
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Sunblade");
-        return "Sunblade";
+    @Override
+    public String getClassName() {
+        return getName();
     }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

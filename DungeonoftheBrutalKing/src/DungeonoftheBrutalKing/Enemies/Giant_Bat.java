@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Giant_Bat.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -31,7 +32,7 @@ public class Giant_Bat extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Giant Bat.png",
+            GameSettings.getMonsterImagePath() + "Giant_Bat.png",
             false,
             vitality
         );
@@ -59,18 +60,16 @@ public class Giant_Bat extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 15;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " swoops away and dodges the attack!");
+            MainGameScreen.appendToMessageTextPane(getName() + " swoops away and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class Giant_Bat extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.13;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " bites viciously for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " bites viciously for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -93,14 +92,14 @@ public class Giant_Bat extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 70) reductionPercent = 70;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " dodges and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " dodges and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Giant Bat_injured.png";
+            return GameSettings.getMonsterImagePath() + "Giant_Bat_injured.png";
         }
         return super.getImagePath();
     }

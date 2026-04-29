@@ -1,9 +1,11 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Justicar.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Justicar extends Enemies {
     private int level;
@@ -15,25 +17,24 @@ public class Justicar extends Enemies {
     private final int vitality;
     private int hitPoints;
     private final Alignment alignment = Alignment.GOOD;
-    private final int alignmentImpact = -3;
 
     public Justicar() {
-        this(8, 9, 8, 7, 7, 9, 8);
+        this(randomLevel(), 9, 8, 7, 7, 9, 8);
     }
 
     public Justicar(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
         super(
-                "Justicar",
-                level,
-                (level * 6) + (vitality * 8),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Justicar.png",
-                false,
-                vitality
+            "Justicar",
+            level,
+            (level * 6) + (vitality * 8),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Justicar.png",
+            false,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -58,12 +59,14 @@ public class Justicar extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " parries the attack with unwavering resolve!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " parries the attack with unwavering resolve!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, justice denied.");
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, justice denied.");
+        }
     }
 
     @Override
@@ -78,10 +81,10 @@ public class Justicar extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.10;
+        boolean critical = RandomFactory.gameplayDouble() < 0.10;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.4));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " delivers a righteous blow, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " delivers a righteous blow, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -91,14 +94,14 @@ public class Justicar extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " upholds the law, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " upholds the law, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Justicar_injured.png";
+            return GameSettings.getMonsterImagePath() + "Justicar_injured.png";
         }
         return super.getImagePath();
     }
@@ -106,20 +109,25 @@ public class Justicar extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
+    }
+
+    private static int randomLevel() {
+        return 8 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        return alignmentImpact;
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
+        return -level + offset;
     }
 
     @Override
@@ -130,22 +138,22 @@ public class Justicar extends Enemies {
     @Override
     public String toString() {
         return "Justicar{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
 
     @Override
     public String getClassName() {
-        return "Justicar";
+        return getName();
     }
 }

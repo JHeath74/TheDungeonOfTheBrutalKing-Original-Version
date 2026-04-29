@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing;
 
 import java.awt.BorderLayout;
@@ -37,7 +38,6 @@ public class GameStart extends JFrame {
     private LoadSaveGame myLoadSaveGame;
 
     public static void main(String[] args) {
-        // Ensure Swing UI is created on Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
             try {
                 new GameStart();
@@ -48,7 +48,7 @@ public class GameStart extends JFrame {
     }
 
     public GameStart() throws IOException, InterruptedException {
-        myGameSettings = new GameSettings();
+        myGameSettings = GameSettings.getInstance();
         myCharacterCreation = new CharacterCreation();
         myLoadSaveGame = new LoadSaveGame();
 
@@ -105,7 +105,6 @@ public class GameStart extends JFrame {
             btn.setPreferredSize(buttonSize);
             btn.setBackground(new Color(128, 128, 128));
             btn.setForeground(myGameSettings.getColorWhite());
-            // Ensure buttons are enabled and focusable so they respond to clicks reliably
             btn.setEnabled(true);
             btn.setFocusable(true);
         }
@@ -135,22 +134,16 @@ public class GameStart extends JFrame {
     }
 
     private void setupButtonActions(RoundedButton continueBtn, RoundedButton newGameBtn, RoundedButton loadBtn, RoundedButton settingsBtn, RoundedButton exitBtn) {
-        newGameBtn.addActionListener(e -> {
-            // Wrap the entire operation to prevent an uncaught exception from terminating the app
+        newGameBtn.addActionListener(event -> {
             try {
-
                 MusicPlayer.stopMidi();
-
-                // Ensure the save directory exists before we check for files
                 File saveDir = new File(GameSettings.SavedGameDirectory);
                 if (!saveDir.exists()) {
                     if (!saveDir.mkdirs()) {
-                        // If we can't create the directory, show an error and abort
                         JOptionPane.showMessageDialog(StartMenuFrame, "Unable to create save directory: " + saveDir.getAbsolutePath(), "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 }
-
                 File saveFile = new File(saveDir, "InitialCharecterSave.txt");
                 if (saveFile.exists()) {
                     int response = JOptionPane.showConfirmDialog(null,
@@ -160,36 +153,27 @@ public class GameStart extends JFrame {
                             JOptionPane.QUESTION_MESSAGE);
                     if (response == JOptionPane.YES_OPTION) {
                         if (saveFile.delete()) {
-                            // Notify user and run the character creation on the EDT to ensure UI operations are safe
-                            SwingUtilities.invokeLater(() -> {
-                           
-                                proceedToCreateCharacter();
-                            });
+                            SwingUtilities.invokeLater(this::proceedToCreateCharacter);
                         } else {
                             JOptionPane.showMessageDialog(null, "Failed to delete the file. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } else {
-                   SwingUtilities.invokeLater(() -> {
-                     
-                       proceedToCreateCharacter();
-                   });
+                    SwingUtilities.invokeLater(this::proceedToCreateCharacter);
                 }
             } catch (Exception ex) {
-                // Catch everything and show a dialog rather than letting the JVM crash
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(StartMenuFrame, "An error occurred while starting a new game:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        continueBtn.addActionListener(e -> {
+        continueBtn.addActionListener(event -> {
             MusicPlayer.stopMidi();
             try {
-                Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+                Window window = SwingUtilities.getWindowAncestor((Component) event.getSource());
                 try {
                     myLoadSaveGame.ContinueCurrentGame();
                 } catch (ParseException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
                 if (window != null) {
@@ -200,16 +184,16 @@ public class GameStart extends JFrame {
             }
         });
 
-        loadBtn.addActionListener(e -> {
+        loadBtn.addActionListener(event -> {
             MusicPlayer.stopMidi();
-            Window window = SwingUtilities.getWindowAncestor((Component) e.getSource());
+            Window window = SwingUtilities.getWindowAncestor((Component) event.getSource());
             myLoadSaveGame.LoadGame();
             if (window != null) {
                 window.dispose();
             }
         });
 
-        settingsBtn.addActionListener(_unused -> {
+        settingsBtn.addActionListener(event -> {
             MusicPlayer.stopMidi();
             SwingUtilities.invokeLater(() -> {
                 try {
@@ -221,14 +205,13 @@ public class GameStart extends JFrame {
             });
         });
 
-        exitBtn.addActionListener(_unused -> {
+        exitBtn.addActionListener(event -> {
             MusicPlayer.stopMidi();
             System.exit(0);
         });
     }
 
     private void proceedToCreateCharacter() {
-        // Dispose the current start menu frame, stop music, then start character creation
         MusicPlayer.stopMidi();
         if (StartMenuFrame != null) {
             StartMenuFrame.dispose();
@@ -236,7 +219,6 @@ public class GameStart extends JFrame {
         try {
             myCharacterCreation.createCharector();
         } catch (Exception ex) {
-            // If character creation fails, show a message and bring back the start menu so the user can try again
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to start character creation:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             if (StartMenuFrame != null) {

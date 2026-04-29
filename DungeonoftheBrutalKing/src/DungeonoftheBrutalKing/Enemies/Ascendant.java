@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -31,7 +30,7 @@ public class Ascendant extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Ascendant.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Ascendant.png",
             true,
             vitality
         );
@@ -58,13 +57,13 @@ public class Ascendant extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 17;
-        if (Math.random() * 100 < blockChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a radiant shield!");
+        if (RandomFactory.gameplayDouble() * 100 < blockChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a radiant shield!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, ascension interrupted.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, ascension interrupted.");
         }
     }
 
@@ -76,8 +75,6 @@ public class Ascendant extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -87,10 +84,10 @@ public class Ascendant extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.16;
+        boolean critical = RandomFactory.gameplayDouble() < 0.16;
         int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.3) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " channels ascendant power, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " channels ascendant power, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -100,34 +97,16 @@ public class Ascendant extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " manifests a radiant shield, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " manifests a radiant shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Ascendant_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Ascendant_injured.png";
         }
         return super.getImagePath();
-    }
-
-    @Override
-    public String toString() {
-        return "Ascendant{" +
-            "name='" + getName() + '\'' +
-            ", level=" + getLevel() +
-            ", hitPoints=" + getHitPoints() +
-            ", strength=" + getStrength() +
-            ", charisma=" + getCharisma() +
-            ", agility=" + getAgility() +
-            ", intelligence=" + getIntelligence() +
-            ", wisdom=" + getWisdom() +
-            ", vitality=" + getVitality() +
-            ", imagePath='" + getImagePath() + '\'' +
-            ", isMagicUser=" + isMagicUser() +
-            ", spellStrength=" + getSpellStrength() +
-            '}';
     }
 
     @Override
@@ -162,5 +141,23 @@ public class Ascendant extends Enemies {
     @Override
     public String getClassName() {
         return getName();
+    }
+
+    @Override
+    public String toString() {
+        return "Ascendant{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 }

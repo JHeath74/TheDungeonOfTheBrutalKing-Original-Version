@@ -1,5 +1,3 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Wizard.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -7,6 +5,7 @@ import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StunStatus;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Wizard extends Enemies {
     private int level;
@@ -33,7 +32,7 @@ public class Wizard extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Wizard.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Wizard.png",
             true,
             vitality
         );
@@ -57,14 +56,15 @@ public class Wizard extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " conjures a shield and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " conjures a shield and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " collapses, magic spent.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " collapses, magic spent.");
     }
 
     @Override
@@ -78,40 +78,42 @@ public class Wizard extends Enemies {
     }
 
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;
-        boolean stunApplied = Math.random() < 0.15;
+        boolean stunApplied = RandomFactory.gameplayDouble() < 0.15;
         if (stunApplied) {
-            mainGameScreen.appendToMessageTextPane(getName() + " casts a stunning spell!");
+            MainGameScreen.appendToMessageTextPane(getName() + " casts a stunning spell!");
             target.addStatus(new StunStatus(2));
         } else {
-            mainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!");
         }
         return damage;
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.15;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getIntelligence() * 1.4) + (getWisdom() * 1.2));
         int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " conjures a barrier, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " conjures a barrier, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Wizard_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Wizard_injured.png";
         }
         return super.getImagePath();
     }
@@ -119,24 +121,24 @@ public class Wizard extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 6 + (int) (Math.random() * 2);
+        return 6 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return 2 + offset;
     }
 
@@ -146,30 +148,24 @@ public class Wizard extends Enemies {
     }
 
     @Override
+    public String getClassName() {
+        return getName();
+    }
+
+    @Override
     public String toString() {
         return "Wizard{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            '}';
     }
-
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Wizard");
-        return "Wizard";
-    }
-
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

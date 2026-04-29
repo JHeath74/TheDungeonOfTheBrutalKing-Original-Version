@@ -1,4 +1,5 @@
 
+// src/DungeonoftheBrutalKing/Enemies/Gnoll.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -31,7 +32,7 @@ public class Gnoll extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Gnoll.png",
+            GameSettings.getMonsterImagePath() + "Gnoll.png",
             false,
             vitality
         );
@@ -59,18 +60,16 @@ public class Gnoll extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " dodges the attack with a snarl!");
+            MainGameScreen.appendToMessageTextPane(getName() + " dodges the attack with a snarl!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has died.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has died.");
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class Gnoll extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.12;
         int base = (int) ((getStrength() * 1.5) + (getAgility() * 0.7));
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " slashes with a crude blade for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " slashes with a crude blade for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -93,14 +92,14 @@ public class Gnoll extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Gnoll_injured.png";
+            return GameSettings.getMonsterImagePath() + "Gnoll_injured.png";
         }
         return super.getImagePath();
     }

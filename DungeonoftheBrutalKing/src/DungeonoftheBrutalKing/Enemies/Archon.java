@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -30,7 +29,7 @@ public class Archon extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Archon.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Archon.png",
             true,
             vitality
         );
@@ -58,12 +57,12 @@ public class Archon extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int blockChance = 18;
         if (Math.random() * 100 < blockChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a celestial barrier!");
+            MainGameScreen.appendToMessageTextPane(getName() + " blocks the attack with a celestial barrier!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial light dims.");
         }
     }
 
@@ -75,8 +74,6 @@ public class Archon extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -89,7 +86,7 @@ public class Archon extends Enemies {
         boolean critical = Math.random() < 0.16;
         int base = (int) ((getStrength() * 1.3) + (getWisdom() * 1.6) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " unleashes divine wrath, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes divine wrath, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -99,34 +96,16 @@ public class Archon extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " radiates divine shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Archon_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Archon_injured.png";
         }
         return super.getImagePath();
-    }
-
-    @Override
-    public String toString() {
-        return "Archon{" +
-            "name='" + getName() + '\'' +
-            ", level=" + getLevel() +
-            ", hitPoints=" + getHitPoints() +
-            ", strength=" + getStrength() +
-            ", charisma=" + getCharisma() +
-            ", agility=" + getAgility() +
-            ", intelligence=" + getIntelligence() +
-            ", wisdom=" + getWisdom() +
-            ", vitality=" + getVitality() +
-            ", imagePath='" + getImagePath() + '\'' +
-            ", isMagicUser=" + isMagicUser() +
-            ", spellStrength=" + getSpellStrength() +
-            '}';
     }
 
     @Override
@@ -161,5 +140,23 @@ public class Archon extends Enemies {
     @Override
     public String getClassName() {
         return getName();
+    }
+
+    @Override
+    public String toString() {
+        return "Archon{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 }

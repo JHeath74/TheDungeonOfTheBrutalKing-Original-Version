@@ -1,8 +1,11 @@
+
+// src/DungeonoftheBrutalKing/Enemies/Healer.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Healer extends Enemies {
     private int level;
@@ -29,7 +32,7 @@ public class Healer extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Healer.png",
+            GameSettings.getMonsterImagePath() + "Healer.png",
             true,
             vitality
         );
@@ -56,19 +59,19 @@ public class Healer extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " gracefully evades the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " gracefully evades the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " collapses, their healing light extinguished.");
+            MainGameScreen.appendToMessageTextPane(getName() + " collapses, their healing light extinguished.");
         }
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
@@ -81,70 +84,54 @@ public class Healer extends Enemies {
         return getHitPoints() <= 0;
     }
 
+    @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.10;
+        boolean critical = RandomFactory.gameplayDouble() < 0.10;
         int base = (int) ((getStrength() * 0.6) + (getWisdom() * 2.0) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " invokes a radiant blast, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " invokes a radiant blast, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " shields with holy light, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " shields with holy light, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Healer_injured.png";
+            return GameSettings.getMonsterImagePath() + "Healer_injured.png";
         }
         return super.getImagePath();
     }
 
     @Override
-    public String toString() {
-        return "Healer{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
-    }
-
-    @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -154,7 +141,25 @@ public class Healer extends Enemies {
     }
 
     @Override
+    public String toString() {
+        return "Healer{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
+    }
+
+    @Override
     public String getClassName() {
-        return "Healer";
+        return getName();
     }
 }

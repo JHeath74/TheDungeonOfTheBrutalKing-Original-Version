@@ -1,9 +1,8 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Redeemer.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Redeemer extends Enemies {
@@ -31,7 +30,7 @@ public class Redeemer extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Redeemer.png",
+            GameSettings.getMonsterImagePath() + "Redeemer.png",
             true,
             vitality
         );
@@ -55,23 +54,25 @@ public class Redeemer extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 10;
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " moves with grace and dodges the attack!");
+            return;
+        }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, redemption denied.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, redemption denied.");
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " invokes a shield of mercy, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " invokes a shield of mercy, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
-    }
-
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Redeemer");
-        return "Redeemer";
     }
 
     @Override
@@ -90,12 +91,25 @@ public class Redeemer extends Enemies {
     }
 
     @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.16;
+        int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes redemptive force for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
     public int attack() {
-        return (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        return base;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.getMonsterImagePath() + "Redeemer_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -120,24 +134,24 @@ public class Redeemer extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -146,9 +160,8 @@ public class Redeemer extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
 }

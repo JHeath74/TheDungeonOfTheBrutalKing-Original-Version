@@ -3,6 +3,8 @@ package DungeonoftheBrutalKing.Enemies;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Character;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Oracle extends Enemies {
     private int level;
@@ -29,7 +31,7 @@ public class Oracle extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Oracle.png",
+            GameSettings.getMonsterImagePath() + "Oracle.png",
             true,
             vitality
         );
@@ -56,7 +58,7 @@ public class Oracle extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
             MainGameScreen.appendToMessageTextPane(getName() + " glimpses the future and dodges the attack!");
             return;
         }
@@ -89,13 +91,34 @@ public class Oracle extends Enemies {
         return getHitPoints() <= 0;
     }
 
+    public int attack(Character target, MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.0) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " utters a prophecy for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.0) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
     @Override
     public int attack() {
-        return (int) ((getStrength() * 0.8) + (getWisdom() * 2.0) + getSpellStrength());
+        int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.0) + getSpellStrength());
+        return base;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.getMonsterImagePath() + "Oracle_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -120,24 +143,24 @@ public class Oracle extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 16;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 8 + 1)) - (level * 8));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 8 + 1)) - (level * 8));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -148,6 +171,6 @@ public class Oracle extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Oracle";
+        return getName();
     }
 }

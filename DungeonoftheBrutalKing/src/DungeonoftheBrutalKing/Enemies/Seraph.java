@@ -5,6 +5,7 @@ package DungeonoftheBrutalKing.Enemies;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Seraph extends Enemies {
     private int level;
@@ -32,7 +33,7 @@ public class Seraph extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Seraph.png",
+            GameSettings.getMonsterImagePath() + "Seraph.png",
             true,
             vitality
         );
@@ -61,30 +62,26 @@ public class Seraph extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " evades the attack with celestial grace!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " evades the attack with celestial grace!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, celestial fire extinguished.");
     }
 
     @Override
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    @Override
-    public boolean isDead() {
-        return getHitPoints() <= 0;
+    public int attack() {
+        boolean critical = RandomFactory.gameplayDouble() < 0.18;
+        int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.4) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        return damage;
     }
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.18;
-        int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.4) + getSpellStrength());
-        int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " unleashes radiant energy, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        int damage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes radiant energy, dealing " + damage + " damage!" + (damage > ((getStrength() * 0.8) + (getWisdom() * 2.4) + getSpellStrength()) ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -94,14 +91,14 @@ public class Seraph extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " conjures a fiery barrier, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Seraph_injured.png";
+            return GameSettings.getMonsterImagePath() + "Seraph_injured.png";
         }
         return super.getImagePath();
     }
@@ -109,30 +106,35 @@ public class Seraph extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
     @Override
     public Alignment getAlignment() {
         return alignment;
+    }
+
+    @Override
+    public boolean isDead() {
+        return getHitPoints() <= 0;
     }
 
     @Override
@@ -155,6 +157,6 @@ public class Seraph extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Seraph";
+        return getName();
     }
 }

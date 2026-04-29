@@ -1,5 +1,4 @@
 
-// src/SharedData/SettingsAndPreferences.java
 package DungeonoftheBrutalKing.SharedData;
 
 import java.awt.BasicStroke;
@@ -40,7 +39,7 @@ public class SettingsAndPreferences extends JFrame {
     private boolean isFullScreen = false;
 
     public SettingsAndPreferences() {
-        GameSettings myGameSettings = new GameSettings();
+        GameSettings myGameSettings = GameSettings.getInstance();
 
         setTitle("Settings");
         setSize(400, 400);

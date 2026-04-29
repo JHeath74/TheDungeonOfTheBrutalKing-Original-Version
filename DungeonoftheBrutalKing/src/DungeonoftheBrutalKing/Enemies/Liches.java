@@ -1,9 +1,11 @@
+
 // src/DungeonoftheBrutalKing/Enemies/Liches.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Liches extends Enemies {
     private int level;
@@ -19,22 +21,21 @@ public class Liches extends Enemies {
 
     public Liches() {
         this(randomLevel(), 7, 6, 6, 10, 8, 6, 12);
-        this.undead = true;
     }
 
     public Liches(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality, int spellStrength) {
         super(
-                "Liches",
-                level,
-                (level * 6) + (vitality * 8),
-                strength,
-                charisma,
-                agility,
-                intelligence,
-                wisdom,
-                GameSettings.MonsterImagePath + "Liches.png",
-                true,
-                vitality
+            "Liches",
+            level,
+            (level * 6) + (vitality * 8),
+            strength,
+            charisma,
+            agility,
+            intelligence,
+            wisdom,
+            GameSettings.getMonsterImagePath() + "Liches.png",
+            true,
+            vitality
         );
         this.level = level;
         this.strength = strength;
@@ -45,7 +46,6 @@ public class Liches extends Enemies {
         this.vitality = vitality;
         this.hitPoints = (level * 6) + (vitality * 8);
         this.spellStrength = spellStrength;
-        this.undead = true;
     }
 
     public int getLevel() { return level; }
@@ -59,24 +59,22 @@ public class Liches extends Enemies {
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
     public int getSpellStrength() { return spellStrength; }
 
-    // Remove old takeDamage(int) method
-
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 14;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " phases through the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " phases through the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " collapses into a pile of ancient bones!");
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " collapses into a pile of ancient bones!");
+        }
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 6) + (vitality * 8);
     }
 
     @Override
@@ -86,10 +84,10 @@ public class Liches extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 1.0) + (getIntelligence() * 1.7) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " casts a necrotic spell, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " casts a necrotic spell, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -99,14 +97,14 @@ public class Liches extends Enemies {
         int reductionPercent = (baseDefense + getIntelligence()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " conjures a spectral shield, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " conjures a spectral shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 15) {
-            return GameSettings.MonsterImagePath + "Liches_injured.png";
+            return GameSettings.getMonsterImagePath() + "Liches_injured.png";
         }
         return super.getImagePath();
     }
@@ -114,24 +112,24 @@ public class Liches extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 14;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 3);
+        return 8 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 
@@ -143,24 +141,24 @@ public class Liches extends Enemies {
     @Override
     public String toString() {
         return "Liches{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", spellStrength=" + getSpellStrength() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", isUndead=" + isUndead() +
-                '}';
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", spellStrength=" + getSpellStrength() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", isUndead=" + isUndead() +
+            '}';
     }
 
     @Override
     public String getClassName() {
-        return "Liches";
+        return getName();
     }
 }

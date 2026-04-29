@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import DungeonoftheBrutalKing.SharedData.RandomFactory;
-
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
@@ -77,19 +76,18 @@ public class Combat {
             String playerClass = myChar.getClassName();
             String imagePath;
             switch (playerClass) {
-                case "Bard":      imagePath = GameSettings.ClassImagesPath + "bard.png"; break;
-                case "Cleric":    imagePath = GameSettings.ClassImagesPath + "cleric.png"; break;
-                case "Hunter":    imagePath = GameSettings.ClassImagesPath + "hunter.png"; break;
-                case "Mage":      imagePath = GameSettings.ClassImagesPath + "mage.png"; break;
-                case "Ministrel": imagePath = GameSettings.ClassImagesPath + "ministrel.png"; break;
-                case "Oaladin":   imagePath = GameSettings.ClassImagesPath + "oaladin.png"; break;
-                case "Paladin":   imagePath = GameSettings.ClassImagesPath + "paladin.png"; break;
-                case "Ranger":    imagePath = GameSettings.ClassImagesPath + "ranger.png"; break;
-                case "Rogue":     imagePath = GameSettings.ClassImagesPath + "rogue.png"; break;
-                case "Thief":     imagePath = GameSettings.ClassImagesPath + "thief.png"; break;
-                case "Warrior":   imagePath = GameSettings.ClassImagesPath + "warrior.png"; break;
-                case "Wizard":    imagePath = GameSettings.ClassImagesPath + "wizard.png"; break;
-                default:          imagePath = GameSettings.ClassImagesPath + "default.png"; break;
+            case "Bard":      imagePath = GameSettings.getClassImagesPath() + "bard.png"; break;
+            case "Cleric":    imagePath = GameSettings.getClassImagesPath() + "cleric.png"; break;
+            case "Hunter":    imagePath = GameSettings.getClassImagesPath() + "hunter.png"; break;
+            case "Mage":      imagePath = GameSettings.getClassImagesPath() + "mage.png"; break;
+            case "Minstrel":  imagePath = GameSettings.getClassImagesPath() + "minstrel.png"; break;
+            case "Paladin":   imagePath = GameSettings.getClassImagesPath() + "paladin.png"; break;
+            case "Ranger":    imagePath = GameSettings.getClassImagesPath() + "ranger.png"; break;
+            case "Rogue":     imagePath = GameSettings.getClassImagesPath() + "rogue.png"; break;
+            case "Thief":     imagePath = GameSettings.getClassImagesPath() + "thief.png"; break;
+            case "Warrior":   imagePath = GameSettings.getClassImagesPath() + "warrior.png"; break;
+            case "Wizard":    imagePath = GameSettings.getClassImagesPath() + "wizard.png"; break;
+            default:          imagePath = GameSettings.getClassImagesPath() + "default.png"; break;
             }
             BufferedImage playerImg = ImageIO.read(new File(imagePath));
             Image scaledPlayerImg = playerImg.getScaledInstance(300, 400, Image.SCALE_SMOOTH);
@@ -101,7 +99,9 @@ public class Combat {
         playerPanel.add(playerPicLabel);
 
         playerInfo = new JTextArea(
-            myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+            myChar.getName() + "\nHP: " + myChar.getHitPoints() +
+            "\nMP: " + myChar.getMagicPoints() +
+            "\n" + getEquipmentInfo()
         );
         playerInfo.setMaximumSize(new Dimension(300, playerInfo.getPreferredSize().height));
         playerInfo.setPreferredSize(new Dimension(300, playerInfo.getPreferredSize().height));
@@ -180,6 +180,16 @@ public class Combat {
         selectSpellButton.addActionListener(_ -> handleSelectSpell());
         castSelectedSpellButton.addActionListener(_ -> handleCastSpell());
         combatRunButton.addActionListener(_ -> handleRun());
+    }
+
+    private String getEquipmentInfo() {
+    	String weapon = (myChar.getEquippedWeapon() != null && !myChar.getEquippedWeapon().isBlank())
+    		    ? myChar.getEquippedWeapon()
+    		    : "None";
+    		String armor = (myChar.getEquippedArmour() != null && !myChar.getEquippedArmour().isBlank())
+    		    ? myChar.getEquippedArmour()
+    		    : "None";
+        return "Weapon: " + weapon + "\nArmor: " + armor;
     }
 
     private void handleAttack() {
@@ -477,7 +487,9 @@ public class Combat {
     private void updateNameAndHP() {
         if (playerInfo != null) {
             playerInfo.setText(
-                myChar.getName() + "\nHP: " + myChar.getHitPoints() + "\nMP: " + myChar.getMagicPoints()
+                myChar.getName() + "\nHP: " + myChar.getHitPoints() +
+                "\nMP: " + myChar.getMagicPoints() +
+                "\n" + getEquipmentInfo()
             );
         }
 

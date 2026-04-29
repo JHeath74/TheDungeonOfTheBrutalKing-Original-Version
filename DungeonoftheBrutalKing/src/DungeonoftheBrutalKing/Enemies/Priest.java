@@ -1,9 +1,8 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Priest.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Priest extends Enemies {
@@ -31,7 +30,7 @@ public class Priest extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Priest.png",
+            GameSettings.getMonsterImagePath() + "Priest.png",
             true,
             vitality
         );
@@ -57,8 +56,13 @@ public class Priest extends Enemies {
 
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 10;
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " prays and dodges the attack!");
+            return;
+        }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, faith shaken.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, faith shaken.");
     }
 
     @Override
@@ -67,10 +71,9 @@ public class Priest extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " prays for protection, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " prays for protection, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
-
 
     @Override
     public int getSpellStrength() {
@@ -88,12 +91,25 @@ public class Priest extends Enemies {
     }
 
     @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
+        int base = (int) ((getStrength() * 1.0) + (getWisdom() * 1.8) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " invokes divine wrath for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
+    }
+
+    @Override
     public int attack() {
-        return (int) ((getStrength() * 1.0) + (getWisdom() * 1.8) + getSpellStrength());
+        int base = (int) ((getStrength() * 1.0) + (getWisdom() * 1.8) + getSpellStrength());
+        return base;
     }
 
     @Override
     public String getImagePath() {
+        if (getHitPoints() < 10) {
+            return GameSettings.getMonsterImagePath() + "Priest_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -118,24 +134,24 @@ public class Priest extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 14;
-        int offset = (int) ((Math.random() * (2 * level * 6 + 1)) - (level * 6));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 6 + 1)) - (level * 6));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 7;
-        int offset = (int) ((Math.random() * (2 * level * 6 + 1)) - (level * 6));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 6 + 1)) - (level * 6));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -146,6 +162,6 @@ public class Priest extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Priest";
+        return getName();
     }
 }

@@ -8,6 +8,7 @@ import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.Status.Status;
 
 public class Mage extends Enemies {
@@ -36,7 +37,7 @@ public class Mage extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Mage.png",
+            GameSettings.getMonsterImagePath() + "Mage.png",
             true,
             vitality
         );
@@ -65,12 +66,12 @@ public class Mage extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " swiftly dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " swiftly dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has been defeated!");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has been defeated!");
     }
 
     @Override
@@ -85,17 +86,17 @@ public class Mage extends Enemies {
 
     @Override
     public int attack(MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.15;
+        boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getIntelligence() * 1.5) + (getAgility() * 0.7) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " casts a spell, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " casts a spell, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
     public int attack(Character target, Status statusEffect, MainGameScreen mainGameScreen) throws IOException {
         int spellDamage = attack(mainGameScreen);
-        if (Math.random() < 0.25) {
-            mainGameScreen.appendToMessageTextPane(getName() + " applies " + statusEffect.getName() + " to " + target.getName() + "!");
+        if (RandomFactory.gameplayDouble() < 0.25) {
+            MainGameScreen.appendToMessageTextPane(getName() + " applies " + statusEffect.getName() + " to " + target.getName() + "!");
             statusEffect.applyEffect(target);
         }
         return spellDamage;
@@ -107,14 +108,14 @@ public class Mage extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage by " + reductionPercent + "%!");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage by " + reductionPercent + "%!");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Mage_injured.png";
+            return GameSettings.getMonsterImagePath() + "Mage_injured.png";
         }
         return super.getImagePath();
     }
@@ -122,24 +123,24 @@ public class Mage extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 11;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 6;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 5 + (int) (Math.random() * 3);
+        return 5 + RandomFactory.gameplayInt(3);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return level + offset;
     }
 
@@ -168,6 +169,6 @@ public class Mage extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Mage";
+        return getName();
     }
 }

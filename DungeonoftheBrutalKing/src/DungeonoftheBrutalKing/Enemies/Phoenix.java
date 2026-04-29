@@ -1,10 +1,9 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Phoenix.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.Status.FireStatus;
 import DungeonoftheBrutalKing.Character;
 
@@ -34,7 +33,7 @@ public class Phoenix extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Phoenix.png",
+            GameSettings.getMonsterImagePath() + "Phoenix.png",
             true,
             vitality
         );
@@ -58,40 +57,47 @@ public class Phoenix extends Enemies {
     public int getVitality() { return vitality; }
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
+    @Override
     public int getSpellStrength() { return spellStrength; }
 
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 12;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " bursts into flame and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " bursts into flame and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " is reduced to ashes.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " is reduced to ashes.");
     }
 
-    // Overload for attack with status
     public int attack(Character target, MainGameScreen mainGameScreen) {
-        boolean critical = Math.random() < 0.18;
+        boolean critical = RandomFactory.gameplayDouble() < 0.18;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
         int damage = critical ? base * 2 : base;
-        boolean fireStatusApplied = Math.random() < 0.3;
+        boolean fireStatusApplied = RandomFactory.gameplayDouble() < 0.3;
         if (fireStatusApplied) {
-            mainGameScreen.appendToMessageTextPane(getName() + " engulfs the target in flames and applies fire status!");
+            MainGameScreen.appendToMessageTextPane(getName() + " engulfs the target in flames and applies fire status!");
             target.addStatus(new FireStatus());
         } else {
-            mainGameScreen.appendToMessageTextPane(getName() + " attacks with blazing fire for " + damage + " damage!");
+            MainGameScreen.appendToMessageTextPane(getName() + " attacks with blazing fire for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         }
         return damage;
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.18;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.18;
         int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
         int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " attacks with blazing fire for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
+    }
+
+    @Override
+    public int attack() {
+        int base = (int) ((getStrength() * 1.2) + (getAgility() * 0.8) + (getSpellStrength() * 1.5));
+        return base;
     }
 
     @Override
@@ -100,10 +106,9 @@ public class Phoenix extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends with fiery wings, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends with fiery wings, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
-
 
     @Override
     public void setLevel(int level) {
@@ -118,7 +123,7 @@ public class Phoenix extends Enemies {
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Phoenix_injured.png";
+            return GameSettings.getMonsterImagePath() + "Phoenix_injured.png";
         }
         return super.getImagePath();
     }
@@ -126,24 +131,24 @@ public class Phoenix extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 12;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 8 + 1)) - (level * 8));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 6;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 8 + 1)) - (level * 8));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 8 + (int) (Math.random() * 2);
+        return 8 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -level + offset;
     }
 
@@ -172,6 +177,6 @@ public class Phoenix extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Phoenix";
+        return getName();
     }
 }

@@ -16,7 +16,7 @@ import DungeonoftheBrutalKing.SharedData.GameSettings;
 public class GameMenuItems {
 
     Character myChar = Character.getInstance();
-    GameSettings myGamePreferences = new GameSettings();
+    GameSettings myGamePreferences = GameSettings.getInstance();
 
     public void Stats() {
         JFrame statsFrame = new JFrame("Charecter Stats");

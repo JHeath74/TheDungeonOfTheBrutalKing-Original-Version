@@ -1,5 +1,4 @@
 
-// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestRescuetheForgottenPrisoner.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import DungeonoftheBrutalKing.Character;
@@ -26,9 +25,7 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
     private final String imprisonmentReason = "Imprisoned for refusing to betray his friends.";
     private final QuestType questType = QuestType.RESCUE;
 
-    // High-level category for quest log grouping
-    private final QuestType category = QuestType.STANDARD; // treat as a standard side quest by default
-    // Tags to describe mechanics/flavor
+    private final QuestType category = QuestType.STANDARD;
     private final EnumSet<QuestType> tags = EnumSet.of(QuestType.RESCUE, QuestType.NEGOTIATION);
 
     private final EncounterType encounterType = EncounterType.STATIC_PERSON;
@@ -74,7 +71,7 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
 
     public JPanel createEncounterPanel(Character player) {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.QuestImagesPath + "/Prisoner.png"));
+        JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.getQuestImagesPath() + "Prisoner.png"));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(imageLabel, BorderLayout.NORTH);
 
@@ -93,7 +90,7 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
                 e.printStackTrace();
             }
             if (mainGameScreen != null) {
-                mainGameScreen.replaceWithAnyPanel(new JPanel());
+                MainGameScreen.replaceWithAnyPanel(new JPanel());
             }
         });
 
@@ -104,7 +101,7 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
                 e.printStackTrace();
             }
             if (mainGameScreen != null) {
-                mainGameScreen.replaceWithAnyPanel(new JPanel());
+                MainGameScreen.replaceWithAnyPanel(new JPanel());
             }
         });
 

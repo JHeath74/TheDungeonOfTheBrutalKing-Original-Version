@@ -4,6 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Saint extends Enemies {
@@ -31,7 +32,7 @@ public class Saint extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Saint.png",
+            GameSettings.getMonsterImagePath() + "Saint.png",
             true,
             vitality
         );
@@ -55,28 +56,40 @@ public class Saint extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, sanctity lost.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, sanctity lost.");
     }
 
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 8;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " invokes holy protection, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " invokes holy protection, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Saint");
-        return "Saint";
+    @Override
+    public int attack() {
+        boolean critical = RandomFactory.gameplayDouble() < 0.16;
+        int base = (int) ((getStrength() * 0.9) + (getWisdom() * 2.1) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        return damage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        int damage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " channels divine power for " + damage + " damage!" + (damage > ((getStrength() * 0.9) + (getWisdom() * 2.1) + getSpellStrength()) ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
@@ -90,12 +103,10 @@ public class Saint extends Enemies {
     }
 
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 0.9) + (getWisdom() * 2.1) + getSpellStrength());
-    }
-
-    @Override
     public String getImagePath() {
+        if (getHitPoints() < 15) {
+            return GameSettings.getMonsterImagePath() + "Saint_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -120,24 +131,24 @@ public class Saint extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 17;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 8 + 1)) - (level * 8));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 9;
-        int offset = (int) ((Math.random() * (2 * level * 8 + 1)) - (level * 8));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 8 + 1)) - (level * 8));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -146,9 +157,8 @@ public class Saint extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
 }

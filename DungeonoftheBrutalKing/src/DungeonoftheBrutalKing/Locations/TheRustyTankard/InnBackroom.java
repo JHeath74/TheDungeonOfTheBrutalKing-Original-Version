@@ -1,5 +1,3 @@
-
-// File: `src/DungeonoftheBrutalKing/Locations/TheRustyTankard/InnBackroom.java`
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -28,8 +26,8 @@ public class InnBackroom {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
 
-        // Image (scaled to container)
-        String imagePath = GameSettings.NPCImagePath + "Innkeeper - Backroom.jpeg";
+        // Use the static getter for NPC image path
+        String imagePath = GameSettings.getNPCImagePath() + "Innkeeper - Backroom.jpeg";
         ImageIcon baseIcon = new ImageIcon(imagePath);
 
         JLabel pictureLabel = new JLabel();
@@ -101,7 +99,8 @@ public class InnBackroom {
         }
 
         JPanel finalTarget = targetPanel != null ? targetPanel : fallback;
-        uiSafely(myMainGameScreen, () -> myMainGameScreen.replaceWithAnyPanel(finalTarget));
+        // Call replaceWithAnyPanel statically as required
+        uiSafely(myMainGameScreen, () -> MainGameScreen.replaceWithAnyPanel(finalTarget));
     }
 
     private static void uiSafely(MainGameScreen myMainGameScreen, UiAction action) {

@@ -4,6 +4,7 @@ package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 import DungeonoftheBrutalKing.MainGameScreen;
 
 public class Seer extends Enemies {
@@ -31,7 +32,7 @@ public class Seer extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Seer.png",
+            GameSettings.getMonsterImagePath() + "Seer.png",
             true,
             vitality
         );
@@ -55,31 +56,40 @@ public class Seer extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-    // Updated to accept MainGameScreen and use appendToMessageTextPane
+    @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " falls, visions fade.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " falls, visions fade.");
     }
 
-    // Updated to accept MainGameScreen and use appendToMessageTextPane
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " foresees the attack, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " foresees the attack, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
-    // Updated to accept MainGameScreen and use appendToMessageTextPane
-    public String getClassName(MainGameScreen mainGameScreen) {
-        mainGameScreen.appendToMessageTextPane("Class: Seer");
-        return "Seer";
+    @Override
+    public int attack() {
+        boolean critical = RandomFactory.gameplayDouble() < 0.18;
+        int base = (int) ((getStrength() * 0.6) + (getWisdom() * 2.3) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        return damage;
+    }
+
+    @Override
+    public int attack(MainGameScreen mainGameScreen) {
+        int damage = attack();
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes a vision blast for " + damage + " damage!" + (damage > ((getStrength() * 0.6) + (getWisdom() * 2.3) + getSpellStrength()) ? " Critical hit!" : ""));
+        return damage;
     }
 
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
@@ -93,12 +103,10 @@ public class Seer extends Enemies {
     }
 
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 0.6) + (getWisdom() * 2.3) + getSpellStrength());
-    }
-
-    @Override
     public String getImagePath() {
+        if (getHitPoints() < 15) {
+            return GameSettings.getMonsterImagePath() + "Seer_injured.png";
+        }
         return super.getImagePath();
     }
 
@@ -123,24 +131,24 @@ public class Seer extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -149,9 +157,8 @@ public class Seer extends Enemies {
         return alignment;
     }
 
-	@Override
-	public String getClassName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getClassName() {
+        return getName();
+    }
 }

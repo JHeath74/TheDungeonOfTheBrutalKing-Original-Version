@@ -1,10 +1,11 @@
 
-// src/Enemies/Luminary.java
+// src/DungeonoftheBrutalKing/Enemies/Luminary.java
 package DungeonoftheBrutalKing.Enemies;
 
-import DungeonoftheBrutalKing.SharedData.GameSettings;
-import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.SharedData.Alignment;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Luminary extends Enemies {
     private int level;
@@ -18,7 +19,7 @@ public class Luminary extends Enemies {
     private final Alignment alignment = Alignment.GOOD;
 
     public Luminary() {
-        this(randomLevel(), 6, 13, 7, 13, 15, 7); // Default stats
+        this(randomLevel(), 6, 13, 7, 13, 15, 7);
     }
 
     public Luminary(int level, int strength, int charisma, int agility, int intelligence, int wisdom, int vitality) {
@@ -31,7 +32,7 @@ public class Luminary extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Luminary.png",
+            GameSettings.getMonsterImagePath() + "Luminary.png",
             true,
             vitality
         );
@@ -55,17 +56,15 @@ public class Luminary extends Enemies {
     public int getHitPoints() { return hitPoints; }
     public void setHitPoints(int hitPoints) { this.hitPoints = Math.max(hitPoints, 0); }
 
-
     @Override
     public int getSpellStrength() {
-        return (getLevel() * 2) + (getWisdom() * 2) + (getIntelligence());
+        return (getLevel() * 2) + (getWisdom() * 2) + getIntelligence();
     }
 
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-         this.hitPoints = (level * 5) + (vitality * 7);
+        this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -74,63 +73,66 @@ public class Luminary extends Enemies {
     }
 
     @Override
-    public int attack() {
-        return (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.16;
+        int base = (int) ((getStrength() * 0.7) + (getWisdom() * 2.2) + getSpellStrength());
+        int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " unleashes radiant power, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        return damage;
     }
-@Override
+
+    @Override
     public int defend(int incomingDamage, MainGameScreen mainGameScreen) {
         int baseDefense = 7;
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends and reduces damage by " + reductionPercent + "%!");
+        MainGameScreen.appendToMessageTextPane(getName() + " shields with radiant light, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
-    public String getImagePath() {
-        return super.getImagePath();
+    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+        int dodgeChance = 12;
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " is bathed in light and dodges the attack!");
+            return;
+        }
+        setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
+        if (isDead()) {
+            MainGameScreen.appendToMessageTextPane(getName() + " has been defeated!");
+        }
     }
 
     @Override
-    public String toString() {
-        return "Luminary{" +
-                "name='" + getName() + '\'' +
-                ", level=" + getLevel() +
-                ", hitPoints=" + getHitPoints() +
-                ", strength=" + getStrength() +
-                ", charisma=" + getCharisma() +
-                ", agility=" + getAgility() +
-                ", intelligence=" + getIntelligence() +
-                ", wisdom=" + getWisdom() +
-                ", vitality=" + getVitality() +
-                ", imagePath='" + getImagePath() + '\'' +
-                ", isMagicUser=" + isMagicUser() +
-                ", spellStrength=" + getSpellStrength() +
-                '}';
+    public String getImagePath() {
+        if (getHitPoints() < 15) {
+            return GameSettings.getMonsterImagePath() + "Luminary_injured.png";
+        }
+        return super.getImagePath();
     }
 
     @Override
     public int getExperienceReward() {
         int base = level * 15;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 8;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 1 + (int) (Math.random() * 5);
+        return 1 + RandomFactory.gameplayInt(5);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -(level + offset);
     }
 
@@ -141,14 +143,24 @@ public class Luminary extends Enemies {
 
     @Override
     public String getClassName() {
-        return "Luminary";
+        return getName();
     }
 
     @Override
-    public void takeDamage(int damage, MainGameScreen mainGameScreen) {
-        setHitPoints(getHitPoints() - damage);
-        if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " has been defeated!");
-        }
+    public String toString() {
+        return "Luminary{" +
+            "name='" + getName() + '\'' +
+            ", level=" + getLevel() +
+            ", hitPoints=" + getHitPoints() +
+            ", strength=" + getStrength() +
+            ", charisma=" + getCharisma() +
+            ", agility=" + getAgility() +
+            ", intelligence=" + getIntelligence() +
+            ", wisdom=" + getWisdom() +
+            ", vitality=" + getVitality() +
+            ", imagePath='" + getImagePath() + '\'' +
+            ", isMagicUser=" + isMagicUser() +
+            ", spellStrength=" + getSpellStrength() +
+            '}';
     }
 }

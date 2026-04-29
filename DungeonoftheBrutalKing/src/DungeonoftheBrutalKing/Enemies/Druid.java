@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -31,7 +30,7 @@ public class Druid extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Druid.png",
+            GameSettings.getInstance().getMonsterImagePath() + "Druid.png",
             true,
             vitality
         );
@@ -59,12 +58,12 @@ public class Druid extends Enemies {
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChancePercent = 10;
         if (RandomFactory.gameplayDouble() * 100 < dodgeChancePercent) {
-            mainGameScreen.appendToMessageTextPane(getName() + " slips aside as vines tug them clear!");
+            MainGameScreen.appendToMessageTextPane(getName() + " slips aside as vines tug them clear!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
         if (isDead()) {
-            mainGameScreen.appendToMessageTextPane(getName() + " falls, nature's blessing fades.");
+            MainGameScreen.appendToMessageTextPane(getName() + " falls, nature's blessing fades.");
         }
     }
 
@@ -76,8 +75,6 @@ public class Druid extends Enemies {
     @Override
     public void setLevel(int level) {
         this.level = level;
-        // Optionally, recalculate hitPoints if level changes:
-        // this.hitPoints = (level * 5) + (vitality * 7);
     }
 
     @Override
@@ -90,7 +87,7 @@ public class Druid extends Enemies {
         boolean critical = RandomFactory.gameplayDouble() < 0.15;
         int base = (int) ((getStrength() * 0.8) + (getWisdom() * 2.0) + getSpellStrength());
         int damage = critical ? base * 2 : base;
-        mainGameScreen.appendToMessageTextPane(getName() + " conjures nature's wrath, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
+        MainGameScreen.appendToMessageTextPane(getName() + " conjures nature's wrath, dealing " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
     }
 
@@ -100,14 +97,14 @@ public class Druid extends Enemies {
         int reductionPercent = (baseDefense + getWisdom()) / 2;
         if (reductionPercent > 80) reductionPercent = 80;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " calls upon nature's shield, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " calls upon nature's shield, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 10) {
-            return GameSettings.MonsterImagePath + "Druid_injured.png";
+            return GameSettings.getInstance().getMonsterImagePath() + "Druid_injured.png";
         }
         return super.getImagePath();
     }

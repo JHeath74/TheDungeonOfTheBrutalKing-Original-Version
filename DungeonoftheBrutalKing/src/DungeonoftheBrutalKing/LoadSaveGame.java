@@ -45,8 +45,8 @@ public class LoadSaveGame {
             saveFileName = fileName;
         } else {
             Date date = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-            String datetime = dateFormat.format(date).replaceAll(":", ".");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss");
+            String datetime = dateFormat.format(date);
             saveFileName = "SavedGame" + datetime + ".txt";
         }
         String fullPath = GameSettings.SavedGameDirectory + File.separator + saveFileName;
@@ -59,7 +59,7 @@ public class LoadSaveGame {
     public void StartGameLoadCharacter() throws IOException {
         File chosenFile = getLastModified(GameSettings.SavedGameDirectory);
         if (chosenFile == null || !chosenFile.exists()) {
-            JOptionPane.showMessageDialog(null, "No valid save file found to load the charecter.");
+            JOptionPane.showMessageDialog(null, "No valid save file found to load the character.");
             return;
         }
         loadAllEncrypted(chosenFile);
@@ -158,9 +158,6 @@ public class LoadSaveGame {
               .append(entry.getValue().name())
               .append(System.lineSeparator());
         }
-
-        System.out.println("Saving data (before encryption):");
-        System.out.println(sb);
 
         if (sb.length() == 0) {
             throw new IOException("No data to save.");
@@ -261,7 +258,6 @@ public class LoadSaveGame {
         return count;
     }
 
-    // Now writes each line as CHARINFO: to match loader expectations
     public void saveAllEncrypted(ArrayList<String> data, String filename) throws IOException {
         String filePath = GameSettings.SavedGameDirectory + File.separator + filename;
         StringBuilder sb = new StringBuilder();
@@ -297,9 +293,6 @@ public class LoadSaveGame {
     }
 
     public void setCharacterData(ArrayList<String> saveData) {
-        for (String line : saveData) {
-            System.out.println("Read line: " + line);
-        }
         myChar.getCharInfo().clear();
         myChar.getCharInfo().addAll(saveData);
     }

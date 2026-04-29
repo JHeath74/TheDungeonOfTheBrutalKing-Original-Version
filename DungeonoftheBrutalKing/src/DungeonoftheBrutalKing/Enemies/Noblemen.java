@@ -1,10 +1,9 @@
-
-// src/DungeonoftheBrutalKing/Enemies/Noblemen.java
 package DungeonoftheBrutalKing.Enemies;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 public class Noblemen extends Enemies {
     private int level;
@@ -31,7 +30,7 @@ public class Noblemen extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.MonsterImagePath + "Noblemen.png",
+            GameSettings.getMonsterImagePath() + "Noblemen.png",
             false,
             vitality
         );
@@ -58,12 +57,12 @@ public class Noblemen extends Enemies {
     @Override
     public void takeDamage(int damage, MainGameScreen mainGameScreen) {
         int dodgeChance = 10;
-        if (Math.random() * 100 < dodgeChance) {
-            mainGameScreen.appendToMessageTextPane(getName() + " parries with noble grace and dodges the attack!");
+        if (RandomFactory.gameplayDouble() * 100 < dodgeChance) {
+            MainGameScreen.appendToMessageTextPane(getName() + " parries with noble grace and dodges the attack!");
             return;
         }
         setHitPoints(getHitPoints() - defend(damage, mainGameScreen));
-        if (isDead()) mainGameScreen.appendToMessageTextPane(getName() + " has fallen in battle.");
+        if (isDead()) MainGameScreen.appendToMessageTextPane(getName() + " has fallen in battle.");
     }
 
     @Override
@@ -72,13 +71,13 @@ public class Noblemen extends Enemies {
         int reductionPercent = (baseDefense + getAgility()) / 2;
         if (reductionPercent > 75) reductionPercent = 75;
         int reducedDamage = incomingDamage * (100 - reductionPercent) / 100;
-        mainGameScreen.appendToMessageTextPane(getName() + " defends with noble poise, reducing damage to " + reducedDamage + ".");
+        MainGameScreen.appendToMessageTextPane(getName() + " defends with noble poise, reducing damage to " + reducedDamage + ".");
         return reducedDamage;
     }
 
     @Override
     public String getClassName() {
-        return "Noblemen";
+        return getName();
     }
 
     @Override
@@ -92,17 +91,24 @@ public class Noblemen extends Enemies {
     }
 
     @Override
-    public int attack() {
-        boolean critical = Math.random() < 0.13;
+    public int attack(MainGameScreen mainGameScreen) {
+        boolean critical = RandomFactory.gameplayDouble() < 0.13;
         int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
         int damage = critical ? base * 2 : base;
+        MainGameScreen.appendToMessageTextPane(getName() + " strikes with noble fury for " + damage + " damage!" + (critical ? " Critical hit!" : ""));
         return damage;
+    }
+
+    @Override
+    public int attack() {
+        int base = (int) ((getStrength() * 1.3) + (getAgility() * 1.1));
+        return base;
     }
 
     @Override
     public String getImagePath() {
         if (getHitPoints() < 12) {
-            return GameSettings.MonsterImagePath + "Noblemen_injured.png";
+            return GameSettings.getMonsterImagePath() + "Noblemen_injured.png";
         }
         return super.getImagePath();
     }
@@ -110,24 +116,24 @@ public class Noblemen extends Enemies {
     @Override
     public int getExperienceReward() {
         int base = level * 10;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     @Override
     public int getGoldReward() {
         int base = level * 5;
-        int offset = (int) ((Math.random() * (2 * level * 7 + 1)) - (level * 7));
+        int offset = (int) ((RandomFactory.gameplayDouble() * (2 * level * 7 + 1)) - (level * 7));
         return Math.max(base + offset, 0);
     }
 
     private static int randomLevel() {
-        return 4 + (int) (Math.random() * 2);
+        return 4 + RandomFactory.gameplayInt(2);
     }
 
     @Override
     public int getAlignmentImpact() {
-        int offset = (int) (Math.random() * ((level / 5) * 2 + 1)) - (level / 5);
+        int offset = (int) (RandomFactory.gameplayDouble() * ((level / 5) * 2 + 1)) - (level / 5);
         return -level + offset;
     }
 
