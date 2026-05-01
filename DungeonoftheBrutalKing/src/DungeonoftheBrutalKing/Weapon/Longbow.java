@@ -1,4 +1,3 @@
-// src/Weapon/Longbow.java
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Character;
@@ -6,29 +5,22 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Longbow extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
-
-    private static int weight = 25;
-    private static int damage = 35;
     private static final int REQUIRED_STRENGTH = 30;
+    private static final int DEFAULT_WEIGHT = 25;
+    private static final int DEFAULT_DAMAGE = 35;
 
     public Longbow(int damage, String effect) {
-        super("Long bow", REQUIRED_STRENGTH, damage, effect, weight);
+        super("Long bow", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
     }
 
     public Longbow(int requiredStrength, int damage, String effect) {
-        super("Long bow", requiredStrength, damage, effect, weight);
+        super("Long bow", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static Longbow createLongbow(Character character, int damage, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
-        try {
-            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
-            if (strength >= requiredStrength) {
-                return new Longbow(damage, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static Longbow createLongbow(Character character, int damage, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Longbow(damage, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Longbow.");
     }
@@ -42,8 +34,14 @@ public class Longbow extends WeaponManager {
         return REQUIRED_STRENGTH;
     }
 
-    public double getAttackDamage() {
-        return (double) damage;
+    @Override
+    public double getDamage() {
+        return super.getDamage();
+    }
+
+    @Override
+    public double getWeight() {
+        return super.getWeight();
     }
 
     public StatusType getEffect() {

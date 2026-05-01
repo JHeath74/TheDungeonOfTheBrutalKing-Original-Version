@@ -1,4 +1,4 @@
-// src/Weapon/Club.java
+
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Character;
@@ -6,29 +6,22 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Club extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
-
     private static final int REQUIRED_STRENGTH = 15;
-    private static int weight = 20;
-    private static int damage = 20;
+    private static final int DEFAULT_WEIGHT = 20;
+    private static final int DEFAULT_DAMAGE = 20;
 
     public Club(int damage, String effect) {
-        super("Club", REQUIRED_STRENGTH, damage, effect, weight);
+        super("Club", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
     }
 
     public Club(int requiredStrength, int damage, String effect) {
-        super("Club", requiredStrength, damage, effect, weight);
+        super("Club", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static Club createClub(Character character, int damage, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
-        try {
-            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
-            if (strength >= requiredStrength) {
-                return new Club(damage, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static Club createClub(Character character, int damage, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Club(damage, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Club.");
     }
@@ -44,7 +37,7 @@ public class Club extends WeaponManager {
 
     @Override
     public double getDamage() {
-        return damage;
+        return super.getDamage();
     }
 
     public StatusType getEffect() {

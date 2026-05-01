@@ -1,17 +1,22 @@
-
-// src/Classes/Mage.java
 package DungeonoftheBrutalKing.Classes;
 
 import DungeonoftheBrutalKing.SharedData.Stat;
 import DungeonoftheBrutalKing.Character;
 
+/**
+ * Represents the Mage class in the game.
+ * <p>
+ * Mages are masters of arcane arts, wielding powerful spells and unraveling the mysteries of ancient lore.
+ * They excel at dealing magical damage, controlling the battlefield, and providing utility through their vast knowledge of magic.
+ * Their intellect and wisdom allow them to manipulate the forces of the world, making them indispensable in any adventuring party.
+ */
 public class Mage extends Class {
 
     @SuppressWarnings("unused")
     private static final Character myChar = Character.getInstance();
 
     public static final String CHAR_CLASS = "Mage";
-    public static final String IMAGE = "Mage.webp";
+    private static final String IMAGE = "/images/Mage.webp";
 
     private static final String DESCRIPTION =
          "A Mage is a master of arcane arts, wielding powerful spells and unraveling the mysteries of ancient lore. " +
@@ -47,27 +52,39 @@ public class Mage extends Class {
         this.classDescription = DESCRIPTION;
     }
 
-    // Compatibility with existing call sites
+    /**
+     * Returns the class description.
+     */
     public static String ClassDescription() {
         return DESCRIPTION;
     }
 
+    /** @return the name of the character class */
     @Override
     public String getCharClass() {
         return CHAR_CLASS;
     }
 
+    /**
+     * Returns the full resource path for the Mage image.
+     */
+    @Override
     public String getImage() {
         return IMAGE;
     }
 
+    /** @return the class description */
     @Override
     public String getClassDescription() {
         return DESCRIPTION;
     }
 
-    // Metadata getters
+    /** @return the primary stat for Mage */
+    @Override
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
+
+    /** @return the secondary stat for Mage */
+    @Override
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
 
     // Base stat bonus getters
@@ -88,9 +105,12 @@ public class Mage extends Class {
     public int getAgiPerLevel() { return AGI_PER_LEVEL; }
     public int getVitPerLevel() { return VIT_PER_LEVEL; }
 
-	@Override
-	public boolean isMagicUser() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    /**
+     * Returns whether the Mage is a magic user.
+     * @return true, as Mages are magic users.
+     */
+    @Override
+    public boolean isMagicUser() {
+        return true;
+    }
 }

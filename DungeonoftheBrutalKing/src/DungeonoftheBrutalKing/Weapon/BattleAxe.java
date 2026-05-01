@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Character;
@@ -5,32 +6,13 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class BattleAxe extends WeaponManager {
 
-    private static Character myChar = Character.getInstance();
-    private static int weight = 25;
-    private static int damage = 35;
+    private static final int DEFAULT_WEIGHT = 25;
+    private static final int DEFAULT_DAMAGE = 35;
     private static final int REQUIRED_STRENGTH = 30;
 
-    public BattleAxe(int damage, String effect, int weight) {
-        super("Battle Axe", REQUIRED_STRENGTH, damage, effect, weight);
-        BattleAxe.weight = weight;
-    }
-
-    public BattleAxe(int requiredStrength, int damage, String effect, int weight) {
-        super("Battle Axe", requiredStrength, damage, effect, weight);
-        BattleAxe.weight = weight;
-    }
-
-    public static BattleAxe createBattleAxe(Character character, int damage, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
-        try {
-            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
-            if (strength >= requiredStrength) {
-                return new BattleAxe(damage, effect, weight);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+    public BattleAxe(Character owner, String effect) {
+        super("Battle Axe", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check owner's strength here and throw if not enough
     }
 
     @Override
@@ -39,17 +21,17 @@ public class BattleAxe extends WeaponManager {
     }
 
     public int getRequiredStrength() {
-        return Integer.parseInt(myChar.getCharInfo().get(8));
+        return REQUIRED_STRENGTH;
     }
 
     @Override
     public double getWeight() {
-        return (double) weight;
+        return DEFAULT_WEIGHT;
     }
 
     @Override
     public double getDamage() {
-        return (double) damage;
+        return DEFAULT_DAMAGE;
     }
 
     public StatusType getEffect() {

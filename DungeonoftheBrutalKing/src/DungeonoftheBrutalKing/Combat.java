@@ -183,13 +183,10 @@ public class Combat {
     }
 
     private String getEquipmentInfo() {
-    	String weapon = (myChar.getEquippedWeapon() != null && !myChar.getEquippedWeapon().isBlank())
-    		    ? myChar.getEquippedWeapon()
-    		    : "None";
-    		String armor = (myChar.getEquippedArmour() != null && !myChar.getEquippedArmour().isBlank())
-    		    ? myChar.getEquippedArmour()
-    		    : "None";
-        return "Weapon: " + weapon + "\nArmor: " + armor;
+        String weapon = myChar.getEquippedWeapon();
+        String armor = myChar.getEquippedArmour();
+
+        return "Weapon: " + weapon + System.lineSeparator() + "Armor: " + armor;
     }
 
     private void handleAttack() {

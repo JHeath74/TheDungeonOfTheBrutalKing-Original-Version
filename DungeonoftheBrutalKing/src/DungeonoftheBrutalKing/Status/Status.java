@@ -124,4 +124,9 @@ public class Status {
 		// Optional override in subclasses
 	}
 
+	public int getAttackBonus() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
@@ -7,23 +6,32 @@ import java.io.File;
 import java.nio.file.Path;
 
 /**
- * Minimal UI to start/stop log capture to the `logs/` folder.
+ * Dialog for developers to start/stop JVM log capture into a per-run folder under <b>logs/</b>.
+ * <p>
+ * Allows toggling log capture, displays the current log folder, and provides a button to open the folder.
+ * Integrates with {@link GameLogCapture} for log management.
+ * UI updates automatically to reflect the current capture state.
  */
 public final class LoggingToolDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
     private final JLabel statusLabel = new JLabel();
     private final JLabel pathLabel = new JLabel();
+    private final JButton start = new JButton("Start Capture");
+    private final JButton stop = new JButton("Stop Capture");
+    private final JButton openFolder = new JButton("Open Folder");
+
+    @Override
+    public void setVisible(boolean b) {
+        SwingUtilities.invokeLater(() -> super.setVisible(b));
+    }
 
     public LoggingToolDialog(JFrame parent) {
         super(parent, "Logging Tool", true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        JLabel info = new JLabel("<html>Captures JVM logs and System\\.out/System\\.err into a per\\-run folder under <b>logs/</b>.</html>");
+        JLabel info = new JLabel("<html>Captures JVM logs and System.out/System.err into a per-run folder under <b>logs/</b>.</html>");
 
-        JButton start = new JButton("Start Capture");
-        JButton stop = new JButton("Stop Capture");
-        JButton openFolder = new JButton("Open Folder");
         JButton close = new JButton("Close");
 
         start.addActionListener(_ -> {
@@ -36,7 +44,10 @@ public final class LoggingToolDialog extends JDialog {
             refreshUi();
         });
 
-        openFolder.addActionListener(_ -> openCurrentFolder());
+        openFolder.addActionListener(_ -> {
+            openCurrentFolder();
+            refreshUi();
+        });
         close.addActionListener(_ -> dispose());
 
         JPanel center = new JPanel();
@@ -75,22 +86,30 @@ public final class LoggingToolDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
+    /** Updates the UI to reflect the current log capture state and folder. */
     private void refreshUi() {
         boolean on = GameLogCapture.isInstalled();
-        statusLabel.setText("Status: " + (on ? "CAPTURING" : "OFF"));
+        start.setEnabled(!on);
+        stop.setEnabled(on);
 
         Path folder = GameLogCapture.getCurrentRunFolder();
+        boolean folderExists = folder != null && folder.toFile().exists();
+        openFolder.setEnabled(folderExists);
+
+        statusLabel.setText("Status: " + (on ? "CAPTURING" : "OFF"));
         String pathText = (folder == null) ? "(none)" : folder.toAbsolutePath().toString();
         pathLabel.setText("Folder: " + pathText);
     }
 
+    /** Attempts to open the current log folder in the system file explorer. */
     private void openCurrentFolder() {
         Path folder = GameLogCapture.getCurrentRunFolder();
         if (folder == null) return;
 
         try {
-            if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().open(new File(folder.toUri()));
+            File file = folder.toFile();
+            if (file.exists() && Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(file);
             }
         } catch (Exception ignored) {
             // best-effort

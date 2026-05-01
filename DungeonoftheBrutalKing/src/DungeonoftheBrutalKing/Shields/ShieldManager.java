@@ -1,57 +1,84 @@
-
 package DungeonoftheBrutalKing.Shields;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import DungeonoftheBrutalKing.Singleton;
-
+/**
+ * Manages properties and behaviors of a shield item.
+ * Each instance represents a specific shield type.
+ */
 public class ShieldManager {
 
-    // Static instance for Singleton pattern
-    private static ShieldManager single_instance_shields;
+    /** Singleton instance for global access. */
+    private static ShieldManager instance;
 
-    // Reference to the Singleton character instance
-    protected Singleton myChar = new Singleton();
+    /** Name of the shield. */
+    private String name;
 
-    // Shield properties
-    public String name; // Name of the shield
-    public int requiredStrength; // Strength required to use the shield
-    public String charStrength; // Character's strength (not used in this class)
-    public int defenseProvided; // Defense value provided by the shield
+    /** Minimum strength required to equip the shield. */
+    private int requiredStrength;
 
-    // Static list to store all shields
-    protected static List<ShieldManager> allShields = new ArrayList<>();
+    /** Defense value provided by the shield. */
+    private int defenseProvided;
 
-    // Constructor to initialize shield properties
+    /** Static list to store all created shields. */
+    private static final List<ShieldManager> allShields = new ArrayList<>();
+
+    /**
+     * Constructs a shield item and adds it to the global list.
+     * @param name Name of the shield
+     * @param requiredStrength Minimum strength required
+     * @param defenseProvided Defense value
+     */
     public ShieldManager(String name, int requiredStrength, int defenseProvided) {
-        this.name = name; // Set the shield's name
-        this.requiredStrength = requiredStrength; // Set the required strength
-        this.defenseProvided = defenseProvided; // Set the defense value
-        allShields.add(this); // Add the shield to the list of all shields
+        this.name = name;
+        this.requiredStrength = requiredStrength;
+        this.defenseProvided = defenseProvided;
+        allShields.add(this);
     }
 
-    // Method to get the Singleton instance of ShieldManager
-    public static ShieldManager Singleton() {
-        // Check if the instance is null
-        if (single_instance_shields == null) {
-            // Create a default shield instance if none exists
-            single_instance_shields = new ShieldManager("Default Shield", 0, 0);
+    /**
+     * Returns the singleton instance of ShieldManager.
+     * If not created, initializes with a default shield.
+     */
+    public static ShieldManager getInstance() {
+        if (instance == null) {
+            instance = new ShieldManager("Default Shield", 0, 0);
         }
-        return single_instance_shields; // Return the single instance
+        return instance;
     }
 
-    // Method to retrieve the list of all shields
-    public static List<ShieldManager> getAllShields() {
-        return allShields; // Return the list of all shields
+    /** @return the name of the shield */
+    public String getName() {
+        return name;
     }
 
-    // Method to set the required strength for the shield
+    /** @return the required strength to equip the shield */
+    public int getRequiredStrength() {
+        return requiredStrength;
+    }
+
+    /** Sets the required strength to equip this shield. */
     public void setRequiredStrength(int requiredStrength) {
-        this.requiredStrength = requiredStrength; // Update the required strength
+        this.requiredStrength = requiredStrength;
     }
 
-    // Override the toString method to provide a string representation of the shield
+    /** @return the defense value provided by the shield */
+    public int getDefenseProvided() {
+        return defenseProvided;
+    }
+
+    /** Sets the defense value provided by the shield. */
+    public void setDefenseProvided(int defenseProvided) {
+        this.defenseProvided = defenseProvided;
+    }
+
+    /** @return a list of all created shields */
+    public static List<ShieldManager> getAllShields() {
+        return allShields;
+    }
+
+    /** @return a string representation of the shield */
     @Override
     public String toString() {
         return "Shield: " + name + ", Required Strength: " + requiredStrength + ", Defense: " + defenseProvided;

@@ -17,7 +17,7 @@ public class ThingsToWorkOn {
 		//offer guild quests.
 		//at level up,  be able to spend points to increase stats.
 		//update alignment impact for all enemies.
-
+//Add missing Class Images
 		
 	}
 	

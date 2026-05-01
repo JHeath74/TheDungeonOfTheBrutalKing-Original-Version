@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.DevTools;
 
 import DungeonoftheBrutalKing.Maps.DungeonLevel;
@@ -16,9 +15,15 @@ import java.util.function.Supplier;
 public class DevToolsDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
-    // Simple in-memory dev flags (wire to your real game state if you have one)
-    private static GodModeDialog.DevCombatFlags devCombatFlags =
-            new GodModeDialog.DevCombatFlags(false, false);
+    // Use an array to allow mutation inside lambdas
+    private static final GodModeDialog.DevCombatFlags[] devCombatFlags = {
+            new GodModeDialog.DevCombatFlags(false, false)
+    };
+
+    @Override
+    public void setVisible(boolean b) {
+        SwingUtilities.invokeLater(() -> super.setVisible(b));
+    }
 
     public DevToolsDialog(JFrame parent) {
         super(parent, "Developer Tools", true);
@@ -43,7 +48,6 @@ public class DevToolsDialog extends JDialog {
         teleportButton.addActionListener(_ -> {
             TeleportCharacterTool tool = new TeleportCharacterTool(parent, req -> {
                 // TODO: Replace with your real teleport logic.
-                // Example: game.teleportPlayer(req.dungeonLevel(), req.x(), req.y());
                 JOptionPane.showMessageDialog(
                         this,
                         "Teleport requested: level=" + req.dungeonLevel() + ", x=" + req.x() + ", y=" + req.y(),
@@ -75,12 +79,10 @@ public class DevToolsDialog extends JDialog {
         });
 
         godModeButton.addActionListener(_ -> {
-            Supplier<GodModeDialog.DevCombatFlags> getState = () -> devCombatFlags;
+            Supplier<GodModeDialog.DevCombatFlags> getState = () -> devCombatFlags[0];
             Consumer<GodModeDialog.DevCombatFlags> onChange = flags -> {
-                devCombatFlags = Objects.requireNonNull(flags, "flags");
+                devCombatFlags[0] = Objects.requireNonNull(flags, "flags");
                 // TODO: Wire these flags into your combat/damage system.
-                // Example: game.getDevFlags().setGodMode(flags.godMode());
-                // Example: game.getDevFlags().setCombatDisabled(flags.combatDisabled());
             };
 
             GodModeDialog dialog = new GodModeDialog(parent, getState, onChange);

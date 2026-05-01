@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Character;
@@ -5,36 +6,29 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Dagger extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
-
     private static final int REQUIRED_STRENGTH = 15;
-    private static int weight = 20;
-    private static int damage = 20;
+    private static final int DEFAULT_WEIGHT = 20;
+    private static final int DEFAULT_DAMAGE = 20;
 
     public Dagger(int damage, String effect) {
-        super("Dagger", REQUIRED_STRENGTH, damage, effect, weight);
+        super("Dagger", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
     }
 
     public Dagger(int requiredStrength, int damage, String effect) {
-        super("Dagger", requiredStrength, damage, effect, weight);
+        super("Dagger", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static Dagger createDagger(Character character, int damage, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
-        try {
-            int strength = Integer.parseInt(myChar.getCharInfo().get(8));
-            if (strength >= requiredStrength) {
-                return new Dagger(damage, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static Dagger createDagger(Character character, int damage, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Dagger(damage, effect);
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Dagger.");
     }
 
     @Override
     public String getName() {
-        return super.getName();
+        return name;
     }
 
     public int getRequiredStrength() {
@@ -43,7 +37,12 @@ public class Dagger extends WeaponManager {
 
     @Override
     public double getDamage() {
-        return (double) damage;
+        return super.getDamage();
+    }
+
+    @Override
+    public double getWeight() {
+        return super.getWeight();
     }
 
     public StatusType getEffect() {

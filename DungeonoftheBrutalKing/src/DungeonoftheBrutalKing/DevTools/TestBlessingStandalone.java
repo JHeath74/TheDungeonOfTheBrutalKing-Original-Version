@@ -1,15 +1,16 @@
 package DungeonoftheBrutalKing.DevTools;
 
-// Self-contained standalone test harness that demonstrates Blessing of Restoration behavior
-// without compiling the entire project. This file defines minimal mock classes and a local
-// implementation of the BlessingofRestoration spell to validate HP/MP changes and failure messages.
-
+/**
+ * Standalone test harness for the Blessing of Restoration spell.
+ * Provides minimal mock classes and a local implementation of the spell,
+ * allowing validation of HP/MP changes and failure messages without requiring the full project.
+ */
 public class TestBlessingStandalone {
     // Minimal mock Guild enum
     enum Guild { SILVERWARD_SENTINELS, AURORA_ARCANUM, NON_GUILD }
 
-    // Minimal mock Charecter with only the fields/methods used by the spell
-    static class MockCharecter {
+    // Minimal mock Character with only the fields/methods used by the spell
+    static class MockCharacter {
         private String name;
         private Guild guild = Guild.NON_GUILD;
         private int hitPoints;
@@ -17,7 +18,7 @@ public class TestBlessingStandalone {
         private int magicPoints;
         private int wisdom;
 
-        MockCharecter(String name, Guild guild, int maxHp, int hp, int mp, int wisdom) {
+        MockCharacter(String name, Guild guild, int maxHp, int hp, int mp, int wisdom) {
             this.name = name; this.guild = guild; this.maxHitPoints = maxHp; this.hitPoints = hp; this.magicPoints = mp; this.wisdom = wisdom;
         }
         String getName() { return name; }
@@ -38,7 +39,7 @@ public class TestBlessingStandalone {
         private static final double WISDOM_SCALING_PER_10 = 0.03;
         private static final int MIN_FLAT_HEAL = 6;
 
-        void cast(MockCharecter caster) {
+        void cast(MockCharacter caster) {
             if (caster == null) {
                 System.out.println("No caster provided for Blessing of Restoration. Spell requires a caster.");
                 return;
@@ -79,19 +80,19 @@ public class TestBlessingStandalone {
         System.out.println("== Standalone Blessing of Restoration Demo ==\n");
 
         // Scenario 1: Proper Silverward caster with sufficient MP
-        MockCharecter paladin = new MockCharecter("PaladinBob", Guild.SILVERWARD_SENTINELS, 100, 10, 20, 25);
+        MockCharacter paladin = new MockCharacter("PaladinBob", Guild.SILVERWARD_SENTINELS, 100, 10, 20, 25);
         printStatus(paladin);
         new BlessingofRestoration().cast(paladin);
         printStatus(paladin);
 
         // Scenario 2: Wrong guild
-        MockCharecter rogue = new MockCharecter("RogueRick", Guild.AURORA_ARCANUM, 100, 10, 20, 25);
+        MockCharacter rogue = new MockCharacter("RogueRick", Guild.AURORA_ARCANUM, 100, 10, 20, 25);
         printStatus(rogue);
         new BlessingofRestoration().cast(rogue);
         printStatus(rogue);
 
         // Scenario 3: Insufficient MP
-        MockCharecter paladinPoor = new MockCharecter("PaladinPoor", Guild.SILVERWARD_SENTINELS, 100, 10, 2, 25);
+        MockCharacter paladinPoor = new MockCharacter("PaladinPoor", Guild.SILVERWARD_SENTINELS, 100, 10, 2, 25);
         printStatus(paladinPoor);
         new BlessingofRestoration().cast(paladinPoor);
         printStatus(paladinPoor);
@@ -99,7 +100,7 @@ public class TestBlessingStandalone {
         System.out.println("\n== Demo Complete ==");
     }
 
-    private static void printStatus(MockCharecter c) {
+    private static void printStatus(MockCharacter c) {
         System.out.println(c.getName() + " - HP: " + c.getHitPoints() + "/" + c.getMaxHitPoints() + ", MP: " + c.getMagicPoints() + ", Guild: " + c.getGuild());
     }
 }

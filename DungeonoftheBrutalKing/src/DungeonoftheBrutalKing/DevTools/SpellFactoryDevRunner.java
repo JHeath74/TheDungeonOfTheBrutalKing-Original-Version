@@ -3,7 +3,6 @@ package DungeonoftheBrutalKing.DevTools;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Spells.SpellFactory;
 
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +12,12 @@ import java.util.stream.Collectors;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Dev tool for validating all spell classes for each guild.
+ * Scans the `src/Guild` directory, attempts to instantiate each spell via SpellFactory,
+ * and writes a report of successes and failures to `spell-instantiation-report.txt`.
+ * Useful for quickly checking for missing or broken spell implementations.
+ */
 public final class SpellFactoryDevRunner {
 
     public static void main(String[] args) {
@@ -28,7 +33,9 @@ public final class SpellFactoryDevRunner {
         }
 
         try {
-            List<Path> guildDirs = Files.list(guildsDir).filter(Files::isDirectory).collect(Collectors.toList());
+            List<Path> guildDirs = Files.list(guildsDir)
+                    .filter(Files::isDirectory)
+                    .collect(Collectors.toList());
             for (Path guildDir : guildDirs) {
                 String folderName = guildDir.getFileName().toString();
                 Guild guild = folderNameToGuild(folderName);
@@ -40,7 +47,9 @@ public final class SpellFactoryDevRunner {
                 Path spellsDir = guildDir.resolve("Spells");
                 if (!Files.exists(spellsDir) || !Files.isDirectory(spellsDir)) continue;
 
-                List<Path> javaFiles = Files.list(spellsDir).filter(p -> p.toString().endsWith(".java")).collect(Collectors.toList());
+                List<Path> javaFiles = Files.list(spellsDir)
+                        .filter(p -> p.toString().endsWith(".java"))
+                        .collect(Collectors.toList());
                 for (Path jf : javaFiles) {
                     String className = jf.getFileName().toString().replaceFirst("\\.java$", "");
                     String canonical = guild.name() + ":" + className;

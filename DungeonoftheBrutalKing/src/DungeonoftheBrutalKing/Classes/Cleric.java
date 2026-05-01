@@ -1,16 +1,18 @@
-
-// src/Classes/Cleric.java
 package DungeonoftheBrutalKing.Classes;
 
-import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Stat;
 
+/**
+ * Represents the Cleric class in the game.
+ * <p>
+ * Clerics are devoted champions of the divine, wielding both martial prowess and sacred magic.
+ * They heal, protect, and support allies, while also calling down holy wrath upon their foes.
+ * This class defines the Cleric's stat bonuses, per-level increases, and descriptive information.
+ */
 public class Cleric extends Class {
 
-    @SuppressWarnings("unused")
-    private static final Character myChar = Character.getInstance();
-
     public static final String CHAR_CLASS = "Cleric";
+    private static final String IMAGE = "/images/Cleric.webp";
 
     private static final String DESCRIPTION =
          "A Cleric is a devoted champion of the divine, wielding both martial prowess and sacred magic. " +
@@ -46,7 +48,9 @@ public class Cleric extends Class {
         this.classDescription = DESCRIPTION;
     }
 
-    // Compatibility with existing call sites
+    /**
+     * Returns the class description.
+     */
     public static String ClassDescription() {
         return DESCRIPTION;
     }
@@ -61,8 +65,23 @@ public class Cleric extends Class {
         return DESCRIPTION;
     }
 
-    // Metadata getters
+    /**
+     * Returns the full resource path for the Cleric image.
+     */
+    @Override
+    public String getImage() {
+        return IMAGE;
+    }
+
+    @Override
+    public boolean isMagicUser() {
+        return true;
+    }
+
+    /** @return the primary stat for Cleric */
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
+
+    /** @return the secondary stat for Cleric */
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
 
     // Base stat bonus getters
@@ -82,10 +101,4 @@ public class Cleric extends Class {
     public int getWisPerLevel() { return WIS_PER_LEVEL; }
     public int getAgiPerLevel() { return AGI_PER_LEVEL; }
     public int getVitPerLevel() { return VIT_PER_LEVEL; }
-
-	@Override
-	public boolean isMagicUser() {
-		// TODO Auto-generated method stub
-		return true;
-	}
 }

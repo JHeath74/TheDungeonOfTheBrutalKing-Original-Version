@@ -5,28 +5,20 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Plate extends ArmourManager {
 
-    private static Character myChar = Character.getInstance();
-    private static int armourDefense;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 50;
     private static final int REQUIRED_STRENGTH = 35;
 
     public Plate(int requiredStrength, int armourDefense, String effect) {
         super("Plate", requiredStrength, armourDefense, 0, effect);
-        Plate.armourDefense = armourDefense;
     }
 
     public Plate(String effect) {
-        super("Plate", REQUIRED_STRENGTH, 50, 0, effect);
-        Plate.armourDefense = 50;
+        super("Plate", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
     }
 
-    public static Plate createPlate(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
-        try {
-            int strength = myChar.getStrength();
-            if (strength >= REQUIRED_STRENGTH) {
-                return new Plate(REQUIRED_STRENGTH, armourDefense, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static Plate createPlate(Character character, int requiredStrength, int armourDefense, String effect) {
+        if (character.getStrength() >= requiredStrength) {
+            return new Plate(requiredStrength, armourDefense, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wear the Plate.");
     }
@@ -37,7 +29,7 @@ public class Plate extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return myChar.getStrength();
+        return requiredStrength;
     }
 
     @Override

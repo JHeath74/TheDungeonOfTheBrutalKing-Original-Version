@@ -5,31 +5,22 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class StuddedLeather extends ArmourManager {
 
-    private static Character myChar = Character.getInstance();
-    private static int armourDefense;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 15;
     private static final int REQUIRED_STRENGTH = 15;
 
     public StuddedLeather(int requiredStrength, int armourDefense, String effect) {
-        super("Skin", requiredStrength, armourDefense, 0, effect);
-        StuddedLeather.armourDefense = 15;
+        super("StuddedLeather", requiredStrength, armourDefense, 0, effect);
     }
 
     public StuddedLeather(String effect) {
-        super("Skin", REQUIRED_STRENGTH, armourDefense, 0, effect);
-        StuddedLeather.armourDefense = 15;
+        super("StuddedLeather", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
     }
 
-    public static StuddedLeather createSkin(Character character, int REQUIRED_STRENGTH, int armourDefense, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
-        try {
-            int strength = myChar.getStrength();
-            if (strength >= requiredStrength) {
-                return new StuddedLeather(armourDefense, requiredStrength, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static StuddedLeather createStuddedLeather(Character character, int requiredStrength, int armourDefense, String effect) {
+        if (character.getStrength() >= requiredStrength) {
+            return new StuddedLeather(requiredStrength, armourDefense, effect);
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wield the Battle Axe.");
+        throw new IllegalArgumentException("Character does not have the required strength to wear Studded Leather.");
     }
 
     @Override
@@ -38,7 +29,7 @@ public class StuddedLeather extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return myChar.getStrength();
+        return requiredStrength;
     }
 
     @Override

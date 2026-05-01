@@ -14,7 +14,8 @@ public class Singleton
     public static final String CharInfo = null;
     private static Singleton instance;
     private int[] charInfo = new int[25]; // Example: [x, y, z, ..., other indices]
-    private static TimeClock timeClock = TimeClock.Singleton(); // Initialize the singleton instance
+    // Use getInstance() for singleton pattern
+    private static TimeClock timeClock = TimeClock.Singleton();
 
     public Singleton() {
         // Initialize charInfo or other necessary fields
@@ -35,21 +36,18 @@ public class Singleton
 
     private static Character myChar = Character.getInstance();
 
-    private static WeaponManager myWeapon = WeaponManager.Singleton();
-
-    private static ArmourManager myArmour = ArmourManager.Singleton();
-    private static ShieldManager myShields = ShieldManager.Singleton();
+    // Use getInstance() for WeaponManager and ArmourManager
+    private static WeaponManager myWeapon = WeaponManager.getInstance();
+    private static ArmourManager myArmour = ArmourManager.getInstance();
+    private static ShieldManager myShields = ShieldManager.getInstance();
     private static SpellsManager mySpells = new SpellsManager();
-    // Removed invalid Enemies.Singleton() usage
-    // private static Enemies myMonsters = Enemies.Singleton();
 
     private static List<ArmourManager> armourList = addArmour();
     private static List<WeaponManager> weaponList = addWeapon();
     private static List<Spell> spellList = addSpells();
     private static List<ShieldManager> shieldList = addShields();
 
-    //Singletons
-
+    // Singleton list initializers
     private static List<ArmourManager> addArmour()
     {
         armourList = new ArrayList<>();

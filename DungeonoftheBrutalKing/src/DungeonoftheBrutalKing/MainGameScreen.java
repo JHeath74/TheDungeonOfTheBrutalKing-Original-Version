@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing;
 
 import DungeonoftheBrutalKing.GameEngine.Camera;
@@ -13,7 +14,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
@@ -26,7 +26,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private final GameMenuItems myGameMenuItems = new GameMenuItems();
 
     private JFrame mainFrame;
-    private JPanel p1Panel, p2Panel, p3Panel, p4Panel, gameImagesAndCombatPanel;
+    private JPanel characterInfoPanel, characterHeaderPanel, characterStatsPanel, characterFooterPanel, gameImagesAndCombatPanel;
     private static JPanel originalPanel;
     private JTextField charNameClassLevelField, charXPHPGoldField;
     private JTextPane charStatsField, charStats2Field;
@@ -58,7 +58,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private static double savedPlayerY;
     private static int savedDungeonLevel;
 
-    public static MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
+    public static synchronized MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
         if (instance == null) {
             instance = new MainGameScreen();
             instance.initGame();
@@ -66,7 +66,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         return instance;
     }
 
-    public MainGameScreen() throws IOException {
+    private MainGameScreen() throws IOException {
         setupFrame();
         setupPanels();
         setupMenuBar();
@@ -149,10 +149,10 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     private void setupPanels() throws IOException {
-        p1Panel = new JPanel(new BorderLayout());
-        p2Panel = new JPanel(new BorderLayout());
-        p3Panel = new JPanel(new BorderLayout());
-        p4Panel = new JPanel(new BorderLayout());
+        characterInfoPanel = new JPanel(new BorderLayout());
+        characterHeaderPanel = new JPanel(new BorderLayout());
+        characterStatsPanel = new JPanel(new BorderLayout());
+        characterFooterPanel = new JPanel(new BorderLayout());
         gameImagesAndCombatPanel = new JPanel(new BorderLayout());
         originalPanel = gameImagesAndCombatPanel;
 
@@ -186,18 +186,18 @@ public class MainGameScreen extends JFrame implements KeyListener {
         charStats2Field = createTextPane(new Font("Monospaced", Font.PLAIN, 16), myGameSettings.getColorBlue(), myGameSettings.getColorWhite(), 60, false);
         charXPHPGoldField = createTextField(myGameSettings.getFontTimesNewRoman(), myGameSettings.getColorPurple(), myGameSettings.getColorWhite(), 3, false);
 
-        p1Panel.add(p2Panel, BorderLayout.NORTH);
-        p1Panel.add(p3Panel, BorderLayout.CENTER);
-        p1Panel.add(p4Panel, BorderLayout.SOUTH);
-        p2Panel.add(charNameClassLevelField, BorderLayout.CENTER);
+        characterInfoPanel.add(characterHeaderPanel, BorderLayout.NORTH);
+        characterInfoPanel.add(characterStatsPanel, BorderLayout.CENTER);
+        characterInfoPanel.add(characterFooterPanel, BorderLayout.SOUTH);
+        characterHeaderPanel.add(charNameClassLevelField, BorderLayout.CENTER);
 
         JScrollPane statsScroll1 = new JScrollPane(charStatsField, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         JScrollPane statsScroll2 = new JScrollPane(charStats2Field, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         statsScroll1.setPreferredSize(new Dimension(infoWidth, 24));
         statsScroll2.setPreferredSize(new Dimension(infoWidth, 24));
-        p3Panel.add(statsScroll1, BorderLayout.NORTH);
-        p3Panel.add(statsScroll2, BorderLayout.SOUTH);
-        p4Panel.add(charXPHPGoldField);
+        characterStatsPanel.add(statsScroll1, BorderLayout.NORTH);
+        characterStatsPanel.add(statsScroll2, BorderLayout.SOUTH);
+        characterFooterPanel.add(charXPHPGoldField);
     }
 
     private JTextField createTextField(Font font, Color bg, Color fg, int columns, boolean editable) {
@@ -355,9 +355,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        JButton teleportButton = new JButton("Teleport Charecter");
+        JButton teleportButton = new JButton("Teleport Character");
         teleportButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(devDialog, "Teleport Charecter tool launched.");
+            JOptionPane.showMessageDialog(devDialog, "Teleport Character tool launched.");
         });
 
         panel.add(teleportButton);
@@ -389,7 +389,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
                     if (!file.isDirectory()) file.delete();
                 }
                 CharacterCreation characterCreation = new CharacterCreation();
-                characterCreation.createCharector();
+                characterCreation.createCharacter();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -518,7 +518,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         picturesAndTextUpdatesPane.setRightComponent(rightPanel);
 
         mainFrame.add(picturesAndTextUpdatesPane, BorderLayout.CENTER);
-        mainFrame.add(p1Panel, BorderLayout.NORTH);
+        mainFrame.add(characterInfoPanel, BorderLayout.NORTH);
     }
 
     private void setupTimer() {
@@ -539,6 +539,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
                 myChar.getVitality(), myChar.getStamina(), myChar.getCharisma(), myChar.getStrength(),
                 myChar.getIntelligence(), myChar.getWisdom(), myChar.getAgility());
 
+           
+            
             SimpleAttributeSet attr = new SimpleAttributeSet();
             StyleConstants.setFontFamily(attr, "Monospaced");
             StyleConstants.setFontSize(attr, 16);

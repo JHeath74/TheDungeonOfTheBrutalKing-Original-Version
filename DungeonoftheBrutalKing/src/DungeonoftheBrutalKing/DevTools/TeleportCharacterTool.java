@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
@@ -10,6 +9,11 @@ import java.awt.*;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * Dialog tool for developers to teleport the player character to a specific dungeon level and coordinates.
+ * Accepts integer input for dungeon level, X, and Y, and invokes a callback with the teleport request.
+ * Provides input validation and keyboard shortcut to close with Escape.
+ */
 public class TeleportCharacterTool extends JDialog {
     private static final long serialVersionUID = 1L;
 

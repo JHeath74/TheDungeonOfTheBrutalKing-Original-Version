@@ -10,8 +10,18 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Dialog that displays a table of all numbered map entities (excluding 0 and 1)
+ * across provided dungeon levels, showing their number, level, and coordinates.
+ * Useful for developers to inspect and debug map entity placement.
+ */
 public class MapNumbersDialog extends JDialog {
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public void setVisible(boolean b) {
+        SwingUtilities.invokeLater(() -> super.setVisible(b));
+    }
 
     public MapNumbersDialog(JFrame parent, List<DungeonLevel> levels) {
         super(parent, "Map Numbers", true);
@@ -27,7 +37,7 @@ public class MapNumbersDialog extends JDialog {
         textArea.setCaretPosition(0);
 
         JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(e -> dispose());
+        closeButton.addActionListener(_ -> dispose());
 
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottom.add(closeButton);

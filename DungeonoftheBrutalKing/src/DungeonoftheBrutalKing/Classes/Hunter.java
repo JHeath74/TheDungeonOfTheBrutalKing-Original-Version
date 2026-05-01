@@ -1,16 +1,22 @@
-
-// src/Classes/Hunter.java
 package DungeonoftheBrutalKing.Classes;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Stat;
 
+/**
+ * Represents the Hunter class in the game.
+ * <p>
+ * Hunters are masters of survival and tracking, skilled in archery, traps, and guerrilla tactics.
+ * They excel at striking from the shadows, adapting to any environment, and protecting allies from unseen threats.
+ * Their agility and stamina make them formidable scouts and deadly opponents.
+ */
 public class Hunter extends Class {
 
     @SuppressWarnings("unused")
     private static final Character myChar = Character.getInstance();
 
     public static final String CHAR_CLASS = "Hunter";
+    private static final String IMAGE = "/images/Hunter.webp";
 
     private static final String DESCRIPTION =
          "A Hunter is a master of survival and tracking, thriving on the edge of civilization and the wild. " +
@@ -47,7 +53,9 @@ public class Hunter extends Class {
         this.classDescription = DESCRIPTION;
     }
 
-    // Compatibility with existing call sites
+    /**
+     * Returns the class description.
+     */
     public static String ClassDescription() {
         return DESCRIPTION;
     }
@@ -62,8 +70,18 @@ public class Hunter extends Class {
         return DESCRIPTION;
     }
 
-    // Metadata getters
+    /**
+     * Returns the full resource path for the Hunter image.
+     */
+    @Override
+    public String getImage() {
+        return IMAGE;
+    }
+
+    /** @return the primary stat for Hunter */
     public Stat getPrimaryStat() { return PRIMARY_STAT; }
+
+    /** @return the secondary stat for Hunter */
     public Stat getSecondaryStat() { return SECONDARY_STAT; }
 
     // Base stat bonus getters
@@ -84,9 +102,12 @@ public class Hunter extends Class {
     public int getAgiPerLevel() { return AGI_PER_LEVEL; }
     public int getVitPerLevel() { return VIT_PER_LEVEL; }
 
-	@Override
-	public boolean isMagicUser() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    /**
+     * Returns whether the Hunter is a magic user.
+     * @return false, as Hunters are not magic users.
+     */
+    @Override
+    public boolean isMagicUser() {
+        return false;
+    }
 }

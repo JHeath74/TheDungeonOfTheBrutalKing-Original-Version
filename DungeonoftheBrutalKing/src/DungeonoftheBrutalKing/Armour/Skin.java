@@ -1,6 +1,6 @@
-
 package DungeonoftheBrutalKing.Armour;
 
+import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Skin extends ArmourManager {
@@ -18,13 +18,20 @@ public class Skin extends ArmourManager {
         super("Skin", requiredStrength, armourDefense, 0, effect);
     }
 
+    public static Skin createSkin(Character character, int requiredStrength, int armourDefense, String effect) {
+        if (character.getStrength() >= requiredStrength) {
+            return new Skin(requiredStrength, armourDefense, effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wear the Skin.");
+    }
+
     @Override
     public String getName() {
         return super.getName();
     }
 
     public int getRequiredStrength() {
-        return REQUIRED_STRENGTH;
+        return requiredStrength;
     }
 
     @Override

@@ -1,4 +1,3 @@
-// src/Weapon/WarNet.java
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Character;
@@ -6,28 +5,21 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class WarNet extends WeaponManager {
 
-	private static Character myChar = Character.getInstance();
-	
-    private static final int WEIGHT = 25;
     private static final int REQUIRED_STRENGTH = 30;
+    private static final int DEFAULT_WEIGHT = 25;
 
     public WarNet(int damage, String effect) {
-        super("WarNet", REQUIRED_STRENGTH, damage, effect, WEIGHT);
+        super("WarNet", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
     }
 
     public WarNet(int requiredStrength, int damage, String effect) {
-        super("WarNet", requiredStrength, damage, effect, WEIGHT);
+        super("WarNet", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static WarNet createWarNet(Character character, int damage, String effect) throws NumberFormatException {
-        int requiredStrength = REQUIRED_STRENGTH;
-        try {
-            int strength = Integer.parseInt(character.getCharInfo().get(8));
-            if (strength >= requiredStrength) {
-                return new WarNet(damage, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static WarNet createWarNet(Character character, int damage, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new WarNet(damage, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the WarNet.");
     }
@@ -44,6 +36,11 @@ public class WarNet extends WeaponManager {
     @Override
     public double getDamage() {
         return super.getDamage();
+    }
+
+    @Override
+    public double getWeight() {
+        return super.getWeight();
     }
 
     public StatusType getEffect() {

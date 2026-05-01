@@ -1,4 +1,3 @@
-// src/Armour/Cloth.java
 package DungeonoftheBrutalKing.Armour;
 
 import DungeonoftheBrutalKing.Character;
@@ -6,28 +5,20 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Cloth extends ArmourManager {
 
-	private static Character myChar = Character.getInstance();
-    private static int armourDefense;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 1;
     private static final int REQUIRED_STRENGTH = 1;
 
     public Cloth(int requiredStrength, int armourDefense, String effect) {
         super("Cloth", requiredStrength, armourDefense, 0, effect);
-        Cloth.armourDefense = armourDefense;
     }
 
     public Cloth(String effect) {
-        super("Cloth", REQUIRED_STRENGTH, 1, 0, effect);
-        Cloth.armourDefense = 1;
+        super("Cloth", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
     }
 
-    public static Cloth createCloth(Character character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
-        try {
-            int strength = myChar.getStrength();
-            if (strength >= requiredStrength) {
-                return new Cloth(requiredStrength, armourDefense, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static Cloth createCloth(Character character, int requiredStrength, int armourDefense, String effect) {
+        if (character.getStrength() >= requiredStrength) {
+            return new Cloth(requiredStrength, armourDefense, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wear the Cloth.");
     }
@@ -38,7 +29,7 @@ public class Cloth extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return myChar.getStrength();
+        return requiredStrength;
     }
 
     @Override

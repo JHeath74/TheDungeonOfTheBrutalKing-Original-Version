@@ -4,6 +4,11 @@ import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.Guild.SilverwardSentinels.Spells.BlessingofRestoration;
 
+/**
+ * Simple test harness for the Blessing of Restoration spell.
+ * Runs scenarios to verify correct behavior for valid and invalid casters,
+ * and for insufficient magic points.
+ */
 public class TestBlessingofRestoration {
     public static void main(String[] args) {
         System.out.println("== Blessing of Restoration Tests ==");

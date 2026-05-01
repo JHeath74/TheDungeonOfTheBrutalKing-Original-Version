@@ -134,7 +134,7 @@ public class GameStart extends JFrame {
     }
 
     private void setupButtonActions(RoundedButton continueBtn, RoundedButton newGameBtn, RoundedButton loadBtn, RoundedButton settingsBtn, RoundedButton exitBtn) {
-        newGameBtn.addActionListener(event -> {
+        newGameBtn.addActionListener(_ -> {
             try {
                 MusicPlayer.stopMidi();
                 File saveDir = new File(GameSettings.SavedGameDirectory);
@@ -144,10 +144,10 @@ public class GameStart extends JFrame {
                         return;
                     }
                 }
-                File saveFile = new File(saveDir, "InitialCharecterSave.txt");
+                File saveFile = new File(saveDir, "InitialCharacterSave.txt");
                 if (saveFile.exists()) {
                     int response = JOptionPane.showConfirmDialog(null,
-                            "InitalCharecterSave.txt exists. Do you want to delete it and start a new game?",
+                            "InitialCharacterSave.txt exists. Do you want to delete it and start a new game?",
                             "File Exists",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
@@ -193,7 +193,7 @@ public class GameStart extends JFrame {
             }
         });
 
-        settingsBtn.addActionListener(event -> {
+        settingsBtn.addActionListener(_ -> {
             MusicPlayer.stopMidi();
             SwingUtilities.invokeLater(() -> {
                 try {
@@ -205,7 +205,7 @@ public class GameStart extends JFrame {
             });
         });
 
-        exitBtn.addActionListener(event -> {
+        exitBtn.addActionListener(_ -> {
             MusicPlayer.stopMidi();
             System.exit(0);
         });
@@ -217,7 +217,7 @@ public class GameStart extends JFrame {
             StartMenuFrame.dispose();
         }
         try {
-            myCharacterCreation.createCharector();
+            myCharacterCreation.createCharacter();
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Failed to start character creation:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.DevTools;
 
 import java.io.IOException;
@@ -14,8 +13,11 @@ import java.util.Objects;
 import java.util.logging.*;
 
 /**
- * Captures JVM-wide logs into a dedicated per-run folder under `logs/`.
- * Also mirrors System.out/System.err into JUL so it lands in the same files.
+ * Utility for capturing all JVM logs and standard output/error streams into a dedicated per-run log folder.
+ * Installs a rotating file handler under `logs/game_yyyyMMdd_HHmmss/` and redirects System.out/System.err
+ * into the Java Util Logging (JUL) system, ensuring all output is captured in log files.
+ * Provides methods to install and uninstall the log capture, and to retrieve the current log folder.
+ * Useful for debugging and post-mortem analysis of game sessions.
  */
 public final class GameLogCapture {
     private static final Object LOCK = new Object();
@@ -30,23 +32,29 @@ public final class GameLogCapture {
 
     private GameLogCapture() { }
 
+    /** Returns true if log capture is currently installed. */
     public static boolean isInstalled() {
         return installed;
     }
 
+    /** Returns the path to the current run's log folder, or null if not installed. */
     public static Path getCurrentRunFolder() {
         return currentRunFolder;
     }
 
     /**
      * Installs a rotating file handler under `logs/game_yyyyMMdd_HHmmss/`.
-     * Safe to call multiple times.
+     * Safe to call multiple times. Redirects System.out and System.err to JUL.
      */
     public static void install() {
         synchronized (LOCK) {
             if (installed) return;
 
             Path runFolder = ensureRunFolder();
+            if (runFolder == null) {
+                System.err.println("Failed to create log folder. Logging disabled.");
+                return;
+            }
             currentRunFolder = runFolder;
 
             try {
@@ -76,13 +84,16 @@ public final class GameLogCapture {
                 Logger.getLogger(GameLogCapture.class.getName())
                         .log(Level.INFO, "Log capture installed. Folder: {0}", runFolder.toAbsolutePath());
             } catch (IOException ex) {
-                // If file logging fails, do not break the game.
                 ex.printStackTrace();
                 cleanupOnFailure();
             }
         }
     }
 
+    /**
+     * Uninstalls the log capture, restores System.out/System.err, and closes the file handler.
+     * Safe to call multiple times.
+     */
     public static void uninstall() {
         synchronized (LOCK) {
             if (!installed) return;
@@ -124,9 +135,12 @@ public final class GameLogCapture {
         originalOut = null;
         originalErr = null;
         installed = false;
+        currentRunFolder = null;
     }
 
+    /** Ensures the per-run log folder exists, falling back to temp if needed. */
     private static Path ensureRunFolder() {
+        if (currentRunFolder != null) return currentRunFolder;
         String sessionId = LocalDateTime.now().format(TS);
 
         Path base = Paths.get("logs");
@@ -141,11 +155,16 @@ public final class GameLogCapture {
                 Files.createDirectories(tmp);
                 return tmp;
             } catch (IOException ex2) {
-                return run; // may fail later, but keep behavior consistent
+                ex2.printStackTrace();
+                return null;
             }
         }
     }
 
+    /**
+     * OutputStream that forwards all output to a JUL logger at the given level.
+     * Buffers until newline, then logs the line.
+     */
     private static final class JulOutputStream extends OutputStream {
         private final Logger logger;
         private final Level level;

@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Status.StatusType;
@@ -30,7 +29,12 @@ public class Hand extends WeaponManager {
 
     @Override
     public double getDamage() {
-        return damage;
+        return super.getDamage();
+    }
+
+    @Override
+    public double getWeight() {
+        return super.getWeight();
     }
 
     public StatusType getEffect() {

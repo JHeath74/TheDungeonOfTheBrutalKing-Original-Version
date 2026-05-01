@@ -7,20 +7,28 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Simple DevTools dialog for toggling God Mode and disabling combat.
- *
- * Wire it to your game state by providing:
- * - getState: returns current flags for initial UI state
- * - onChange: applies new flags to the game (and should persist them wherever you keep dev toggles)
+ * Developer dialog for toggling God Mode and disabling combat in the game.
+ * <p>
+ * Allows developers to quickly enable invulnerability (God Mode) or disable all combat interactions.
+ * The dialog is initialized with the current state via a Supplier, and changes are applied via a Consumer.
+ * Includes keyboard shortcut (Escape) to close the dialog.
  */
 public final class GodModeDialog extends JDialog {
     private static final long serialVersionUID = 1L;
 
+    /** Immutable record representing the dev combat flags. */
     public record DevCombatFlags(boolean godMode, boolean combatDisabled) { }
 
     private final JCheckBox godModeCheck = new JCheckBox("God Mode (invulnerable)");
     private final JCheckBox combatDisabledCheck = new JCheckBox("Disable Combat (no damage / no fighting)");
 
+    /**
+     * Constructs the GodModeDialog.
+     *
+     * @param parent   the parent JFrame (may be null)
+     * @param getState supplies the current DevCombatFlags for initial UI state
+     * @param onChange called with new DevCombatFlags when Apply is pressed
+     */
     public GodModeDialog(JFrame parent,
                          Supplier<DevCombatFlags> getState,
                          Consumer<DevCombatFlags> onChange) {
@@ -44,8 +52,8 @@ public final class GodModeDialog extends JDialog {
         JButton applyButton = new JButton("Apply");
         JButton closeButton = new JButton("Close");
 
-        applyButton.addActionListener(e -> onChange.accept(readFlags()));
-        closeButton.addActionListener(e -> dispose());
+        applyButton.addActionListener(_ -> onChange.accept(readFlags()));
+        closeButton.addActionListener(_ -> dispose());
 
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottom.add(applyButton);
@@ -62,10 +70,12 @@ public final class GodModeDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
+    /** Reads the current state of the checkboxes as DevCombatFlags. */
     private DevCombatFlags readFlags() {
         return new DevCombatFlags(godModeCheck.isSelected(), combatDisabledCheck.isSelected());
     }
 
+    /** Safely gets the initial DevCombatFlags, falling back to defaults if needed. */
     private static DevCombatFlags safeGet(Supplier<DevCombatFlags> getState) {
         try {
             DevCombatFlags v = getState.get();
@@ -75,6 +85,7 @@ public final class GodModeDialog extends JDialog {
         }
     }
 
+    /** Registers Escape key to close the dialog. */
     private void registerEscapeToClose() {
         JRootPane root = getRootPane();
         InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -89,20 +100,3 @@ public final class GodModeDialog extends JDialog {
         });
     }
 }
-
-/*
-Integration idea (pseudo-code) in your combat system:
-
-// Example: central damage application point
-public void applyDamage(Entity attacker, Entity target, int amount) {
-    if (devFlags.isCombatDisabled()) return;          // disables all combat outcomes
-    if (devFlags.isGodMode() && target.isPlayer()) return; // player invulnerable
-    target.hp -= amount;
-}
-
-// Optional: also block attack initiation / AI aggression
-public boolean canInitiateAttack(Entity attacker, Entity target) {
-    return !devFlags.isCombatDisabled();
-}
-
-*/ 

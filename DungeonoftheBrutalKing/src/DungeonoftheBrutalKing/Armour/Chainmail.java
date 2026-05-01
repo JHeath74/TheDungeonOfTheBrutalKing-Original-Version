@@ -1,4 +1,4 @@
-// src/Armour/Chainmail.java
+
 package DungeonoftheBrutalKing.Armour;
 
 import DungeonoftheBrutalKing.Character;
@@ -6,28 +6,20 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Chainmail extends ArmourManager {
 
-    private static Character myChar = Character.getInstance();
-    private static int armourDefense;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 15;
     private static final int REQUIRED_STRENGTH = 15;
 
     public Chainmail(int requiredStrength, int armourDefense, String effect) {
         super("Chainmail", requiredStrength, armourDefense, 0, effect);
-        Chainmail.armourDefense = armourDefense;
     }
 
     public Chainmail(String effect) {
-        super("Chainmail", REQUIRED_STRENGTH, 15, 0, effect);
-        Chainmail.armourDefense = 15;
+        super("Chainmail", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
     }
 
-    public static Chainmail createChainmail(Character character, int requiredStrength, int armourDefense, String effect) throws NumberFormatException {
-        try {
-            int strength = myChar.getStrength();
-            if (strength >= requiredStrength) {
-                return new Chainmail(requiredStrength, armourDefense, effect);
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+    public static Chainmail createChainmail(Character character, int requiredStrength, int armourDefense, String effect) {
+        if (character.getStrength() >= requiredStrength) {
+            return new Chainmail(requiredStrength, armourDefense, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wear Chainmail.");
     }
@@ -38,7 +30,7 @@ public class Chainmail extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return myChar.getStrength();
+        return requiredStrength;
     }
 
     @Override

@@ -1,9 +1,14 @@
-
 package DungeonoftheBrutalKing.Classes;
 
-import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.SharedData.Stat;
 
+/**
+ * Represents the Bard class in the game.
+ * <p>
+ * Bards are charismatic performers and spellcasters who inspire allies and manipulate enemies.
+ * They excel in versatility, using Charisma and Intelligence as their primary stats.
+ * This class defines the Bard's stat bonuses, per-level increases, and descriptive information.
+ */
 public class Bard extends Class {
 
     private static final String CHAR_CLASS = "Bard";
@@ -20,25 +25,23 @@ public class Bard extends Class {
     private static final Stat PRIMARY_STAT = Stat.CHR;
     private static final Stat SECONDARY_STAT = Stat.INTI;
 
+    // Base stat bonuses at character creation
+    private static final int BASE_STA_BONUS = 0;   // Stamina (STA)
+    private static final int BASE_CHR_BONUS = 5;   // Charisma (CHR)
+    private static final int BASE_STR_BONUS = 0;   // Strength (STR)
+    private static final int BASE_INTI_BONUS = 5;  // Intelligence (INTI)
+    private static final int BASE_WIS_BONUS = 0;   // Wisdom (WIS)
+    private static final int BASE_AGI_BONUS = 0;   // Agility (AGI)
+    private static final int BASE_VIT_BONUS = 0;   // Vitality (VIT)
 
- // Base stat bonuses at character creation
- private static final int BASE_STA_BONUS = 0;   // Stamina (STA)
- private static final int BASE_CHR_BONUS = 5;   // Charisma (CHR)
- private static final int BASE_STR_BONUS = 0;   // Strength (STR)
- private static final int BASE_INTI_BONUS = 5;  // Intelligence (INTI)
- private static final int BASE_WIS_BONUS = 0;   // Wisdom (WIS)
- private static final int BASE_AGI_BONUS = 0;   // Agility (AGI)
- private static final int BASE_VIT_BONUS = 0;   // Vitality (VIT)
-
- // Stat increases per level
- private static final int STA_PER_LEVEL = 1;    // Stamina (STA)
- private static final int CHR_PER_LEVEL = 0;    // Charisma (CHR)
- private static final int STR_PER_LEVEL = 0;    // Strength (STR)
- private static final int INTI_PER_LEVEL = 1;   // Intelligence (INTI)
- private static final int WIS_PER_LEVEL = 1;    // Wisdom (WIS)
- private static final int AGI_PER_LEVEL = 0;    // Agility (AGI)
- private static final int VIT_PER_LEVEL = 1;    // Vitality (VIT)
-
+    // Stat increases per level
+    private static final int STA_PER_LEVEL = 1;    // Stamina (STA)
+    private static final int CHR_PER_LEVEL = 0;    // Charisma (CHR)
+    private static final int STR_PER_LEVEL = 0;    // Strength (STR)
+    private static final int INTI_PER_LEVEL = 1;   // Intelligence (INTI)
+    private static final int WIS_PER_LEVEL = 1;    // Wisdom (WIS)
+    private static final int AGI_PER_LEVEL = 0;    // Agility (AGI)
+    private static final int VIT_PER_LEVEL = 1;    // Vitality (VIT)
 
     public Bard() {
         this.charClass = CHAR_CLASS;
@@ -62,7 +65,7 @@ public class Bard extends Class {
     public String getClassDescription() {
         return DESCRIPTION;
     }
-    
+
     @Override
     public boolean isMagicUser() {
         return true;

@@ -1,49 +1,5 @@
 package DungeonoftheBrutalKing;
 
-/*
-STAT EFFECTS (RPG OVERVIEW)
-
-STAMINA
-- Increases overall durability.
-- Improves endurance for long battles, running, or physical exertion.
-- Enhances resistance to fatigue, poison, and certain physical debuffs.
-
-CHARISMA
-- Boosts persuasion, intimidation, negotiation, and leadership checks.
-- Improves NPC reactions, shop prices, and quest outcomes.
-- May strengthen summoned creatures or companion loyalty.
-
-STRENGTH
-- Increases melee damage and effectiveness with heavy weapons.
-- Raises carrying capacity and ability to wear heavier gear.
-- Improves physical checks such as climbing, lifting, or breaking objects.
-
-INTELLIGENCE
-- Enhances spellcasting power, mana efficiency, or available spell slots.
-- Improves learning speed for skills, crafting, or technical abilities.
-- Boosts investigation, lore knowledge, and puzzle-solving.
-
-WISDOM
-- Improves perception, awareness, and ability to detect hidden threats.
-- Strengthens willpower and resistance to mental effects.
-- Often increases healing or divine magic potency.
-
-AGILITY
-- Increases dodge chance, reaction speed, and initiative order.
-- Improves accuracy with ranged or finesse weapons.
-- Enhances stealth, acrobatics, and mobility-based actions.
-
-VITALITY
-- Increases maximum health points and overall toughness.
-- Boosts natural health regeneration and long-term survivability.
-- Improves resistance to disease, curses, and harmful status effects.
-- May extend duration or stability of buffs and protective effects.
-*/
-
-
-
-
-
 import java.util.*;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.SharedData.Guild;
@@ -53,9 +9,14 @@ import DungeonoftheBrutalKing.Status.HasHitPoints;
 import DungeonoftheBrutalKing.Status.Status;
 import DungeonoftheBrutalKing.Status.StatusManager;
 import DungeonoftheBrutalKing.Status.StatusType;
+import DungeonoftheBrutalKing.Weapon.WeaponManager;
+import DungeonoftheBrutalKing.Weapon.WeaponRegistry;
 import DungeonoftheBrutalKing.Status.PurityWardStatus;
 import DungeonoftheBrutalKing.Status.AstralWardStatus;
 
+/**
+ * Represents a player or NPC character in the game, with stats, inventory, status effects, and methods for combat and progression.
+ */
 public class Character implements HasHitPoints {
 
     private static Character instance;
@@ -66,7 +27,6 @@ public class Character implements HasHitPoints {
     private Set<String> guildSpells = new HashSet<>();
     private List<String> guildStorage = new ArrayList<>();
     private List<Quest> activeQuests = new ArrayList<>();
-    private Set<String> protectedEffects = new HashSet<>();
     private StatusManager statusManager = new StatusManager();
     private int actionPoints;
     private int baseStrength, baseIntelligence, baseWisdom, baseAgility;
@@ -76,21 +36,15 @@ public class Character implements HasHitPoints {
     private GuildType currentGuild;
     private GuildMembershipStatus currentGuildStatus;
     private List<Status> statuses = new ArrayList<>();
-    private double hasteModifier = 0.0;
-    private int spellResistanceBonus = 0;
     private double critChance = 0;
     private double hitChance = 1.0;
     private Guild guild;
-    private int manaRegenBonus = 0;
     private int damageBonus = 0;
-    private Set<String> resistances = new HashSet<>();
     private Map<GuildType, GuildMembershipStatus> guildStatusMap = new HashMap<>();
-    public void setX(int x) { setInt(IDX_POS_X, x); }
-    public void setY(int y) { setInt(IDX_POS_Y, y); }
-    public void setZ(int z) { setInt(IDX_POS_Z, z); }
-    
-    
+
+    // --- Index constants ---
     private static final int IDX_NAME = 0;
+    private static final int IDX_RACE = 1;
     private static final int IDX_CLASS = 2;
     private static final int IDX_LEVEL = 3;
     private static final int IDX_EXPERIENCE = 4;
@@ -102,27 +56,27 @@ public class Character implements HasHitPoints {
     private static final int IDX_INTELLIGENCE = 10;
     private static final int IDX_WISDOM = 11;
     private static final int IDX_AGILITY = 12;
-    private static final int IDX_GOLD = 13;
-    private static final int IDX_FOOD = 14;
-    private static final int IDX_WATER = 15;
-    private static final int IDX_TORCHES = 16;
-    private static final int IDX_GEMS = 17;
-    private static final int IDX_WEAPON = 18;
-    private static final int IDX_ARMOUR = 19;
-    private static final int IDX_SHIELD = 20;
-    private static final int IDX_ALIGNMENT = 21;
+    private static final int IDX_VITALITY = 13;
+    private static final int IDX_GOLD = 14;
+    private static final int IDX_FOOD = 15;
+    private static final int IDX_WATER = 16;
+    private static final int IDX_TORCHES = 17;
+    private static final int IDX_GEMS = 18;
+    private static final int IDX_WEAPON = 19;
+    private static final int IDX_ARMOUR = 20;
+    private static final int IDX_SHIELD = 21;
     private static final int IDX_POS_X = 22;
     private static final int IDX_POS_Y = 23;
     private static final int IDX_POS_Z = 24;
     private static final int IDX_DIRECTION = 25;
-    private static final int IDX_DEFENSE = 26;
-    private static final int IDX_ATTACK = 27;
-    private static final int IDX_FINAL_HP = 28;
-    private static final int IDX_BASE_STR = 29;
-    private static final int IDX_BASE_INT = 30;
-    private static final int IDX_BASE_WIS = 31;
-    private static final int IDX_BASE_AGI = 32;
-    private static final int IDX_VITALITY = 33;
+    private static final int IDX_ALIGNMENT = 26;
+    private static final int IDX_DEFENSE = 27;
+    private static final int IDX_ATTACK = 28;
+    private static final int IDX_FINAL_HP = 29;
+    private static final int IDX_BASE_STR = 30;
+    private static final int IDX_BASE_INT = 31;
+    private static final int IDX_BASE_WIS = 32;
+    private static final int IDX_BASE_AGI = 33;
 
     private int hungerLevel = 100;
     private int thirstLevel = 100;
@@ -166,14 +120,6 @@ public class Character implements HasHitPoints {
     private void setStr(int index, String value) {
         ensureSize(index + 1);
         charInfo.set(index, value == null ? "0" : value);
-    }
-
-    public double getCritChance() {
-        return critChance;
-    }
-
-    public void setCritChance(double critChance) {
-        this.critChance = Math.max(0.0, Math.min(1.0, critChance));
     }
 
     private void ensureSize(int size) {
@@ -249,7 +195,7 @@ public class Character implements HasHitPoints {
     public void setEquippedShield(String shield) { setStr(IDX_SHIELD, shield); }
     public String getShield() { return getEquippedShield(); }
     public String getArmour() { return getEquippedArmour(); }
-    public String getRace() { return getStr(1); }
+    public String getRace() { return getStr(IDX_RACE); }
     public boolean removeGold(int amount) {
         int g = getGold();
         if (amount <= 0) return false;
@@ -258,31 +204,36 @@ public class Character implements HasHitPoints {
     }
     public void takeDamage(int amount, Character source) { takeDamage(amount); }
     public void removeOneNegativeEffect() {
-        try {
-            if (statuses != null) {
-                for (Status s : new ArrayList<>(statuses)) {
-                    if (s != null && s.isNegative()) { statuses.remove(s); break; }
-                }
+        if (statuses != null) {
+            for (Status s : new ArrayList<>(statuses)) {
+                if (s != null && s.isNegative()) { statuses.remove(s); break; }
             }
-            if (statusManager != null) {
-                try { statusManager.getClass().getMethod("removeOneNegativeEffect").invoke(statusManager); } catch (Exception ignored) {}
-            }
-        } catch (Exception ignored) {}
+        }
+        if (statusManager != null) {
+            try { statusManager.getClass().getMethod("removeOneNegativeEffect").invoke(statusManager); } catch (Exception ignored) {}
+        }
     }
     public boolean isUndead() { return false; }
     public void decreaseResilience(int amount) { }
     public int getAlignment() { return getInt(IDX_ALIGNMENT, 0); }
     public void setAlignment(int alignment) { setInt(IDX_ALIGNMENT, alignment); }
-    public void setPosition(int x, int y, int z) { setInt(IDX_POS_X, x); setInt(IDX_POS_Y, y); setInt(IDX_POS_Z, z); }
+    public void setPosition(int x, int y, int z) {
+        setInt(IDX_POS_X, x);
+        setInt(IDX_POS_Y, y);
+        setInt(IDX_POS_Z, z);
+    }
     public void getPosition(int[] pos) {
         if (pos == null || pos.length < 3) return;
         pos[0] = getInt(IDX_POS_X, 0);
         pos[1] = getInt(IDX_POS_Y, 0);
         pos[2] = getInt(IDX_POS_Z, 0);
     }
-    public int getX() { return getInt(IDX_POS_X, 0); }
-    public int getY() { return getInt(IDX_POS_Y, 0); }
+    public double getX() { return Double.parseDouble(getStr(IDX_POS_X)); }
+    public void setX(double x) { setStr(IDX_POS_X, String.valueOf(x)); }
+    public double getY() { return Double.parseDouble(getStr(IDX_POS_Y)); }
+    public void setY(double y) { setStr(IDX_POS_Y, String.valueOf(y)); }
     public int getDungeonLevel() { return getInt(IDX_POS_Z, 0); }
+    public void setDungeonLevel(int level) { setInt(IDX_POS_Z, level); }
     public int getDirection() { return getInt(IDX_DIRECTION, 0); }
     public void setDirection(int degrees) { setInt(IDX_DIRECTION, degrees); }
     public int getDefense() { return getInt(IDX_DEFENSE, 0); }
@@ -347,12 +298,8 @@ public class Character implements HasHitPoints {
             }
         } catch (Exception ignored) { }
     }
-    public List<String> getGuildStorage() {
-        return guildStorage;
-    }
-    public void setGuildStorage(List<String> storage) {
-        this.guildStorage = (storage == null) ? new ArrayList<>() : storage;
-    }
+    public List<String> getGuildStorage() { return guildStorage; }
+    public void setGuildStorage(List<String> storage) { this.guildStorage = (storage == null) ? new ArrayList<>() : storage; }
     public void takeDamage(int amount) { setHitPoints(Math.max(0, getHitPoints() - Math.max(0, amount))); }
     public void restoreHitPoints(int amount) { setHitPoints(getHitPoints() + Math.max(0, amount)); }
     public void takeDamageWithStatuses(int damage) {
@@ -404,11 +351,9 @@ public class Character implements HasHitPoints {
                     }
                 }
                 if (!hasWard && statusManager != null) {
-                    try {
-                        for (Status s : statusManager.getActiveStatuses()) {
-                            if (s instanceof PurityWardStatus) { hasWard = true; break; }
-                        }
-                    } catch (Exception ignored) { }
+                    try { for (Status s : statusManager.getActiveStatuses()) {
+                        if (s instanceof PurityWardStatus) { hasWard = true; break; }
+                    }} catch (Exception ignored) { }
                 }
                 if (hasWard) {
                     try {
@@ -461,7 +406,29 @@ public class Character implements HasHitPoints {
         String clazz = getToonClass();
         return (clazz == null || clazz.isBlank()) ? "Unknown" : clazz;
     }
-    public int getAttackDamage() { return getAttack(); }
+    public int getAttackDamage() {
+        int base = getAttack();
+        int strBonus = getStrength() * 2;
+        int weaponBonus = 0;
+
+        String weaponName = getEquippedWeapon();
+        if (weaponName != null && !weaponName.isBlank()) {
+            WeaponManager weapon = WeaponRegistry.getWeaponByName(weaponName);
+            if (weapon != null) {
+                weaponBonus = (int) weapon.getDamage();
+            }
+        }
+
+        int statusBonus = 0;
+        if (statuses != null) {
+            for (Status s : statuses) {
+                try { statusBonus += s.getAttackBonus(); } catch (Exception ignored) {}
+            }
+        }
+
+        return Math.max(0, base + strBonus + weaponBonus + statusBonus + damageBonus);
+    }
+
     public void gainExperience(int exp) {
         if (exp <= 0) return;
         setExperience(getExperience() + exp);
@@ -581,76 +548,43 @@ public class Character implements HasHitPoints {
     // --- STAT EFFECT METHODS ---
 
     // STAMINA
-    public int getDurability() {
-        return getStamina() * 2;
-    }
-    public int getEndurance() {
-        return getStamina() * 3;
-    }
-    public int getDebuffResistance() {
-        return getStamina() + getVitality();
-    }
+    public int getDurability() { return getStamina() * 2; }
+    public int getEndurance() { return getStamina() * 3; }
+    public int getDebuffResistance() { return getStamina() + getVitality(); }
 
     // CHARISMA
-    public int getPersuasionBonus() {
-        return getCharisma() / 2;
-    }
-    public double getShopDiscount() {
-        return Math.min(0.20, getCharisma() * 0.01);
-    }
-    public int getSummonStrengthBonus() {
-        return getCharisma() / 3;
-    }
+    public int getPersuasionBonus() { return getCharisma() / 2; }
+    public double getShopDiscount() { return Math.min(0.20, getCharisma() * 0.01); }
+    public int getSummonStrengthBonus() { return getCharisma() / 3; }
 
     // STRENGTH
-    public int getMeleeDamageBonus() {
-        return getStrength() * 2;
-    }
-    public int getPhysicalCheckBonus() {
-        return getStrength();
-    }
+    public int getMeleeDamageBonus() { return getStrength() * 2; }
+    public int getPhysicalCheckBonus() { return getStrength(); }
 
     // INTELLIGENCE
-    public int getManaEfficiency() {
-        return Math.min(30, getIntelligence() * 2);
-    }
-    public int getSkillLearningSpeed() {
-        return getIntelligence();
-    }
-    public int getInvestigationBonus() {
-        return getIntelligence() / 2;
-    }
+    public int getManaEfficiency() { return Math.min(30, getIntelligence() * 2); }
+    public int getSkillLearningSpeed() { return getIntelligence(); }
+    public int getInvestigationBonus() { return getIntelligence() / 2; }
 
     // WISDOM
-    public int getPerceptionBonus() {
-        return getWisdom();
-    }
-    public int getWillpower() {
-        return getWisdom() * 2;
-    }
-    public int getHealingPower() {
-        return getWisdom();
-    }
+    public int getPerceptionBonus() { return getWisdom(); }
+    public int getWillpower() { return getWisdom() * 2; }
+    public int getHealingPower() { return getWisdom(); }
 
     // AGILITY
-    public int getDodgeChance() {
-        return Math.min(50, getAgility());
-    }
-    public int getInitiative() {
-        return getAgility() * 2;
-    }
-    public int getStealthBonus() {
-        return getAgility();
-    }
+    public int getDodgeChance() { return Math.min(50, getAgility()); }
+    public int getInitiative() { return getAgility() * 2; }
+    public int getStealthBonus() { return getAgility(); }
 
     // VITALITY
-    public int getNaturalRegen() {
-        return getVitality() / 2;
+    public int getNaturalRegen() { return getVitality() / 2; }
+    public int getDiseaseResistance() { return getVitality(); }
+    public int getBuffDurationBonus() { return getVitality(); }
+
+    public void printPosition() {
+        System.out.println("X: " + charInfo.get(IDX_POS_X) + ", Y: " + charInfo.get(IDX_POS_Y) + ", Z: " + charInfo.get(IDX_POS_Z));
     }
-    public int getDiseaseResistance() {
-        return getVitality();
-    }
-    public int getBuffDurationBonus() {
-        return getVitality();
-    }
+
+    public double getCritChance() { return critChance; }
+    public void setCritChance(double critChance) { this.critChance = Math.max(0.0, Math.min(1.0, critChance)); }
 }
