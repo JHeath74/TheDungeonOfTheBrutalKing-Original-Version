@@ -9,8 +9,9 @@ public class Hand extends WeaponManager {
     private static final int REQUIRED_STRENGTH = 5;
 
     // Default constructor for starting weapon
-    public Hand() {
-        super("Hand", REQUIRED_STRENGTH, DEFAULT_DAMAGE, null, DEFAULT_WEIGHT);
+    public Hand(DungeonoftheBrutalKing.Character owner, String effect) {
+        super("Hand", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check owner's strength here and throw if not enough
     }
 
     // Constructor for custom hand weapons
@@ -20,7 +21,7 @@ public class Hand extends WeaponManager {
 
     @Override
     public String getName() {
-        return name;
+        return super.getName();
     }
 
     public int getRequiredStrength() {

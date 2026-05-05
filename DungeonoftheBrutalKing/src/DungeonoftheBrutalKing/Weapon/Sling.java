@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Weapon;
 
 import DungeonoftheBrutalKing.Character;
@@ -8,6 +9,12 @@ public class Sling extends WeaponManager {
     private static final int REQUIRED_STRENGTH = 30;
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 35;
+
+    // Default constructor using DEFAULT_DAMAGE
+    public Sling(Character character, String effect) {
+        super("Sling", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check character's strength here if needed
+    }
 
     public Sling(int damage, String effect) {
         super("Sling", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
@@ -21,6 +28,15 @@ public class Sling extends WeaponManager {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new Sling(damage, effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Sling.");
+    }
+
+    // Factory for default Sling
+    public static Sling createDefaultSling(Character character, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Sling(character,effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Sling.");
     }

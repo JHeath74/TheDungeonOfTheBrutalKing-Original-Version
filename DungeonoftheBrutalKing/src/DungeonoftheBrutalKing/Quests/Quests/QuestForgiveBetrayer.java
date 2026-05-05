@@ -1,5 +1,3 @@
-
-// `src/DungeonoftheBrutalKing/Quests/Quests/QuestForgiveBetrayer.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import DungeonoftheBrutalKing.Character;
@@ -13,18 +11,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 
 public class QuestForgiveBetrayer extends JPanel implements Quest {
     private static final long serialVersionUID = 1L;
-
     private static final int ALIGNMENT_DELTA = 3;
 
     private final MainGameScreen mainGameScreen;
-
+    private JPanel originalPanel;
     private boolean completed = false;
 
     private final String name = "Forgive the Betrayer";
@@ -32,8 +28,10 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
 
     public QuestForgiveBetrayer(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
-
         setLayout(new BorderLayout());
+
+        originalPanel = mainGameScreen.getGameImagesAndCombatPanel();
+        mainGameScreen.replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Forgive the Betrayer</b><br>"
@@ -76,40 +74,24 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     private void finishChoice(JButton releaseButton, JButton killButton, String message) {
         releaseButton.setEnabled(false);
         killButton.setEnabled(false);
-        completed = true;
-
-        uiSafely(() -> mainGameScreen.setMessageTextPane(message));
-        closeQuestPanel();
-    }
-
-    private void closeQuestPanel() {
-        setVisible(false);
-
-        Container parent = getParent();
-        if (parent != null) {
-            parent.remove(this);
-            parent.revalidate();
-            parent.repaint();
-        }
-    }
-
-    private void uiSafely(UiAction action) {
         try {
-            action.run();
-        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
+            mainGameScreen.setMessageTextPane(message);
+            completeQuest();
+        } catch (IOException | InterruptedException | ParseException ignored) {
             // Keep quest flow working even if UI is unavailable.
         }
     }
 
-    @FunctionalInterface
-    private interface UiAction {
-        void run() throws IOException, InterruptedException, ParseException;
+    @Override
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
+        completed = true;
+        if (mainGameScreen != null && originalPanel != null) {
+            mainGameScreen.replaceWithAnyPanel(originalPanel);
+        }
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
     @Override
     public String getDescription() {
@@ -117,14 +99,7 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     }
 
     @Override
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    @Override
-    public void completeQuest() {
-        completed = true;
-    }
+    public boolean isCompleted() { return completed; }
 
     @Override
     public String serialize() {
@@ -132,7 +107,5 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     }
 
     @Override
-    public QuestType getType() {
-        return type;
-    }
+    public QuestType getType() { return type; }
 }

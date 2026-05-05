@@ -10,6 +10,17 @@ public class Javelin extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 35;
 
+    // Default constructor using DEFAULT_DAMAGE
+    public Javelin(String effect) {
+        super("Javelin", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+    }
+
+    public Javelin(Character owner, String effect) {
+        super("Javelin", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // If you need to store the owner, add: this.owner = owner;
+    }
+
+    // Added constructor for (int damage, String effect)
     public Javelin(int damage, String effect) {
         super("Javelin", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
     }
@@ -22,6 +33,14 @@ public class Javelin extends WeaponManager {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new Javelin(damage, effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Javelin.");
+    }
+
+    public static Javelin createDefaultJavelin(Character character, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Javelin(effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Javelin.");
     }

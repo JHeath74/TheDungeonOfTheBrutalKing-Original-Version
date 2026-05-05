@@ -90,7 +90,7 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
                 e.printStackTrace();
             }
             if (mainGameScreen != null) {
-                MainGameScreen.replaceWithAnyPanel(new JPanel());
+                mainGameScreen.replaceWithAnyPanel(new JPanel());
             }
         });
 
@@ -101,7 +101,7 @@ public class QuestRescuetheForgottenPrisoner implements Quest {
                 e.printStackTrace();
             }
             if (mainGameScreen != null) {
-                MainGameScreen.replaceWithAnyPanel(new JPanel());
+                mainGameScreen.replaceWithAnyPanel(new JPanel());
             }
         });
 

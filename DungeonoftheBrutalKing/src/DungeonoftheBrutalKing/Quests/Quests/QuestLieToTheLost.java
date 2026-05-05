@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -28,10 +27,10 @@ public class QuestLieToTheLost extends JPanel implements Quest {
 
     // Quest metadata
     private final String name = "Lie to the Lost";
-    private final QuestType category = QuestType.STANDARD; // side/moral choice
+    private final QuestType category = QuestType.STANDARD;
     private final EnumSet<QuestType> tags = EnumSet.of(QuestType.NEGOTIATION);
 
-    public QuestLieToTheLost() throws IOException, InterruptedException, ParseException {
+    public QuestLieToTheLost(MainGameScreen mainGameScreen) throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
         // Store the original panel and replace with quest panel
@@ -65,21 +64,10 @@ public class QuestLieToTheLost extends JPanel implements Quest {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You lie to the lost, sending them astray for your own benefit. The spirit suffers, and your alignment decreases."
                 );
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+                completeQuest();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
-            try {
-				completeQuest();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
             lieButton.setEnabled(false);
             helpButton.setEnabled(false);
         });
@@ -91,21 +79,10 @@ public class QuestLieToTheLost extends JPanel implements Quest {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You help the lost find peace. Your compassion increases your alignment."
                 );
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+                completeQuest();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
-            try {
-				completeQuest();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
             lieButton.setEnabled(false);
             helpButton.setEnabled(false);
         });

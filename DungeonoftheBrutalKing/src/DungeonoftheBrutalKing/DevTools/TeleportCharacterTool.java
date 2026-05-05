@@ -1,3 +1,5 @@
+
+// `src/DungeonoftheBrutalKing/DevTools/TeleportCharacterTool.java`
 package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
@@ -6,17 +8,14 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/**
- * Dialog tool for developers to teleport the player character to a specific dungeon level and coordinates.
- * Accepts integer input for dungeon level, X, and Y, and invokes a callback with the teleport request.
- * Provides input validation and keyboard shortcut to close with Escape.
- */
 public class TeleportCharacterTool extends JDialog {
     private static final long serialVersionUID = 1L;
-
     private static final int FIELD_COLUMNS = 10;
 
     private final JTextField dungeonLevelField = new JTextField(FIELD_COLUMNS);
@@ -28,7 +27,9 @@ public class TeleportCharacterTool extends JDialog {
     public TeleportCharacterTool(JFrame parent, Consumer<TeleportRequest> onTeleport) {
         super(parent, "Teleport Character Tool", true);
         this.onTeleport = Objects.requireNonNull(onTeleport, "onTeleport");
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         installIntegerFilter(dungeonLevelField);
         installIntegerFilter(xField);
@@ -45,7 +46,8 @@ public class TeleportCharacterTool extends JDialog {
         c.insets = new Insets(4, 4, 4, 4);
         c.anchor = GridBagConstraints.LINE_END;
 
-        c.gridx = 0; c.gridy = 0;
+        c.gridx = 0;
+        c.gridy = 0;
         panel.add(new JLabel("Dungeon Level:"), c);
         c.gridy = 1;
         panel.add(new JLabel("X Coordinate:"), c);
@@ -56,7 +58,8 @@ public class TeleportCharacterTool extends JDialog {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
 
-        c.gridx = 1; c.gridy = 0;
+        c.gridx = 1;
+        c.gridy = 0;
         panel.add(dungeonLevelField, c);
         c.gridy = 1;
         panel.add(xField, c);
@@ -69,15 +72,16 @@ public class TeleportCharacterTool extends JDialog {
         buttons.add(okButton);
         buttons.add(cancelButton);
 
-        c.gridx = 0; c.gridy = 3;
+        c.gridx = 0;
+        c.gridy = 3;
         c.gridwidth = 2;
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.LINE_END;
         c.weightx = 0;
         panel.add(buttons, c);
 
-        okButton.addActionListener(_ -> onOk());
-        cancelButton.addActionListener(_ -> dispose());
+        okButton.addActionListener(this::onTeleportClicked);
+        cancelButton.addActionListener(_ignored -> dispose());
 
         getRootPane().setDefaultButton(okButton);
         registerEscapeToClose();
@@ -86,45 +90,53 @@ public class TeleportCharacterTool extends JDialog {
         pack();
         setLocationRelativeTo(parent);
 
-        SwingUtilities.invokeLater(dungeonLevelField::requestFocusInWindow);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent _ignored) {
+                setAlwaysOnTop(true);
+                toFront();
+                requestFocus();
+                dungeonLevelField.requestFocusInWindow();
+                setAlwaysOnTop(false);
+            }
+        });
     }
 
-    private void onOk() {
+    private void onTeleportClicked(ActionEvent _ignored) {
         Integer dungeonLevel = parseIntOrNull(dungeonLevelField.getText());
         Integer x = parseIntOrNull(xField.getText());
         Integer y = parseIntOrNull(yField.getText());
 
         if (dungeonLevel == null || x == null || y == null) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Please enter valid integers for all fields.",
-                    "Input Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            showError("Please enter valid integers for all fields.");
+            return;
+        }
+        if (dungeonLevel < 0) {
+            showError("Dungeon Level must be 0 or greater.");
+            return;
+        }
+        if (x < 0 || y < 0) {
+            showError("Coordinates must be 0 or greater.");
             return;
         }
 
-        if (dungeonLevel < 0) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Dungeon Level must be 0 or greater.",
-                    "Input Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            return;
-        }
+        TeleportRequest req = new TeleportRequest(dungeonLevel, x, y);
 
         try {
-            onTeleport.accept(new TeleportRequest(dungeonLevel, x, y));
+            onTeleport.accept(req);
             dispose();
         } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Teleport failed: " + ex.getMessage(),
-                    "Teleport Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            showError("Teleport failed: " + ex.getMessage());
         }
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(
+                this,
+                message,
+                "Input Error",
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
     private void registerEscapeToClose() {
@@ -135,7 +147,7 @@ public class TeleportCharacterTool extends JDialog {
         im.put(KeyStroke.getKeyStroke("ESCAPE"), "close");
         am.put("close", new AbstractAction() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent _ignored) {
                 dispose();
             }
         });
@@ -170,7 +182,9 @@ public class TeleportCharacterTool extends JDialog {
         public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
                 throws BadLocationException {
             String current = fb.getDocument().getText(0, fb.getDocument().getLength());
-            String next = new StringBuilder(current).replace(offset, offset + length, text == null ? "" : text).toString();
+            String next = new StringBuilder(current)
+                    .replace(offset, offset + length, text == null ? "" : text)
+                    .toString();
 
             String candidate = next.trim();
             if (candidate.isEmpty() || "-".equals(candidate) || candidate.matches("-?\\d+")) {

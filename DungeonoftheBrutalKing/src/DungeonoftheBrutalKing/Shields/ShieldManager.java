@@ -22,7 +22,7 @@ public class ShieldManager {
     private int defenseProvided;
 
     /** Static list to store all created shields. */
-    private static final List<ShieldManager> allShields = new ArrayList<>();
+    protected static final List<ShieldManager> allShields = new ArrayList<>();
 
     /**
      * Constructs a shield item and adds it to the global list.

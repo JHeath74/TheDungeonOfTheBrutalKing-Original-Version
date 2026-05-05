@@ -13,8 +13,12 @@ import java.util.Random;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.Quests.Quests.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKing.Quests.Quests.QuestFeedHungryBeast;
 import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Quests.Quests.QuestGuideTheLostSoul;
+import DungeonoftheBrutalKing.Quests.Quests.QuestLieToTheLost;
 import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
+import DungeonoftheBrutalKing.Quests.Quests.QuestSlayTheHelpLess;
 import DungeonoftheBrutalKing.SharedData.LocationType;
 
 
@@ -105,13 +109,18 @@ public abstract class DungeonLevel {
     
 
 
-protected List<Quest> getAvailableQuests() throws IOException, InterruptedException, ParseException {
-    List<Quest> availableQuests = new ArrayList<>();
-    availableQuests.add(new QuestForgiveBetrayer(MainGameScreen.getInstance()));
-    availableQuests.add(new QuestCleanseCursedShrine(MainGameScreen.getInstance()));
-    availableQuests.add(new QuestRescuetheForgottenPrisoner(MainGameScreen.getInstance()));
-    return availableQuests;
-}
+    protected List<Quest> getAvailableQuests() throws IOException, InterruptedException, ParseException {
+        List<Quest> availableQuests = new ArrayList<>();
+        MainGameScreen screen = MainGameScreen.getInstance();
+        availableQuests.add(new QuestCleanseCursedShrine(screen));
+        availableQuests.add(new QuestFeedHungryBeast(screen));
+        availableQuests.add(new QuestForgiveBetrayer(screen));
+        availableQuests.add(new QuestGuideTheLostSoul(screen));
+        availableQuests.add(new QuestLieToTheLost(screen));
+        availableQuests.add(new QuestRescuetheForgottenPrisoner(screen));
+        availableQuests.add(new QuestSlayTheHelpLess(screen));
+        return availableQuests;
+    }
 
     
     public List<Point> getDoorLocations() {

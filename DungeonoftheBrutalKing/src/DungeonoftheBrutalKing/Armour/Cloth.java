@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Armour;
 
 import DungeonoftheBrutalKing.Character;
@@ -5,22 +6,15 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Cloth extends ArmourManager {
 
-    private static final int DEFAULT_ARMOUR_DEFENSE = 1;
     private static final int REQUIRED_STRENGTH = 1;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 1;
 
-    public Cloth(int requiredStrength, int armourDefense, String effect) {
-        super("Cloth", requiredStrength, armourDefense, 0, effect);
-    }
-
-    public Cloth(String effect) {
+    public Cloth(Character owner, String effect) {
         super("Cloth", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
-    }
-
-    public static Cloth createCloth(Character character, int requiredStrength, int armourDefense, String effect) {
-        if (character.getStrength() >= requiredStrength) {
-            return new Cloth(requiredStrength, armourDefense, effect);
+        if (owner.getStrength() < REQUIRED_STRENGTH) {
+            throw new IllegalArgumentException("Character does not have the required strength to equip Cloth.");
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wear the Cloth.");
+        allArmour.add(this);
     }
 
     @Override
@@ -29,7 +23,7 @@ public class Cloth extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return requiredStrength;
+        return REQUIRED_STRENGTH;
     }
 
     @Override

@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Armour;
 
 import DungeonoftheBrutalKing.Character;
@@ -5,22 +6,15 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Plate extends ArmourManager {
 
-    private static final int DEFAULT_ARMOUR_DEFENSE = 50;
     private static final int REQUIRED_STRENGTH = 35;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 50;
 
-    public Plate(int requiredStrength, int armourDefense, String effect) {
-        super("Plate", requiredStrength, armourDefense, 0, effect);
-    }
-
-    public Plate(String effect) {
+    public Plate(Character owner, String effect) {
         super("Plate", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
-    }
-
-    public static Plate createPlate(Character character, int requiredStrength, int armourDefense, String effect) {
-        if (character.getStrength() >= requiredStrength) {
-            return new Plate(requiredStrength, armourDefense, effect);
+        if (owner.getStrength() < REQUIRED_STRENGTH) {
+            throw new IllegalArgumentException("Character does not have the required strength to equip Plate.");
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wear the Plate.");
+        allArmour.add(this);
     }
 
     @Override
@@ -29,7 +23,7 @@ public class Plate extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return requiredStrength;
+        return REQUIRED_STRENGTH;
     }
 
     @Override

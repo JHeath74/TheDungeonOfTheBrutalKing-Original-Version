@@ -9,6 +9,12 @@ public class Longbow extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 35;
 
+    // Default constructor using DEFAULT_DAMAGE
+    public Longbow(Character character, String effect) {
+        super("Long bow", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check character's strength here if needed
+    }
+
     public Longbow(int damage, String effect) {
         super("Long bow", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
     }
@@ -20,7 +26,16 @@ public class Longbow extends WeaponManager {
     public static Longbow createLongbow(Character character, int damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
-            return new Longbow(damage, effect);
+            return new Longbow(character,effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Longbow.");
+    }
+
+    // Factory for default Longbow
+    public static Longbow createDefaultLongbow(Character character, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Longbow(character, effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Longbow.");
     }

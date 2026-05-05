@@ -10,8 +10,14 @@ public class Whip extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 35;
 
-    public Whip(int damage, String effect) {
-        super("Whip", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
+    // Corrected: uses "Whip" instead of "WarNet"
+    public Whip(Character owner, String effect) {
+        super("Whip", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+    }
+
+    // Added: constructor for Whip(String effect)
+    public Whip(String effect) {
+        super("Whip", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
     }
 
     public Whip(int requiredStrength, int damage, String effect) {
@@ -21,7 +27,15 @@ public class Whip extends WeaponManager {
     public static Whip createWhip(Character character, int damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
-            return new Whip(damage, effect);
+            return new Whip(REQUIRED_STRENGTH, damage, effect);
+        }
+        throw new IllegalArgumentException("Character does not have the required strength to wield the Whip.");
+    }
+
+    public static Whip createDefaultWhip(Character character, String effect) {
+        int strength = Integer.parseInt(character.getCharInfo().get(8));
+        if (strength >= REQUIRED_STRENGTH) {
+            return new Whip(effect);
         }
         throw new IllegalArgumentException("Character does not have the required strength to wield the Whip.");
     }

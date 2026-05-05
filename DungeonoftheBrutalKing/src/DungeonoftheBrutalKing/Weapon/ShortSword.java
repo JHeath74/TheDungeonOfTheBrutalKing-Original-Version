@@ -9,15 +9,16 @@ public class ShortSword extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 35;
 
-    public ShortSword(int damage, String effect) {
-        super("Short Sword", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
+    public ShortSword(Character character, String effect) {
+        super("Short Sword", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check character's strength here if needed
     }
 
     public ShortSword(int requiredStrength, int damage, String effect) {
         super("Short Sword", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static ShortSword createShortSword(Character character, int damage, String effect) {
+    public static ShortSword createShortSword(Character character, Character damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new ShortSword(damage, effect);

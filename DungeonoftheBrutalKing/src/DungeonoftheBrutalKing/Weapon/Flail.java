@@ -10,15 +10,16 @@ public class Flail extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 20;
     private static final int DEFAULT_DAMAGE = 20;
 
-    public Flail(int damage, String effect) {
-        super("Flail", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
+    public Flail(Character owner, String effect) {
+        super("Battle Axe", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check owner's strength here and throw if not enough
     }
 
     public Flail(int requiredStrength, int damage, String effect) {
         super("Flail", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static Flail createFlail(Character character, int damage, String effect) {
+    public static Flail createFlail(Character character, Character damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new Flail(damage, effect);

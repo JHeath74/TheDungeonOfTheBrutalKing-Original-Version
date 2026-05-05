@@ -179,23 +179,21 @@ public class DungeonLevel1 extends DungeonLevel{
 	    		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 
 	 
-	    		setSpecialLocation(118, 2, LocationType.STAIRS_DOWN);
-	            setSpecialLocation(4, 2, LocationType.THE_RUSTY_TANKARD);
-	            setSpecialLocation(45, 16, LocationType.DOOR);
-	            setSpecialLocation(44, 99, LocationType.DOOR);
-	            setSpecialLocation(54, 112, LocationType.DOOR);
-	            setSpecialLocation(59, 94, LocationType.DOOR);
-	            setSpecialLocation(66, 56, LocationType.DOOR);
-	            setSpecialLocation(81, 112, LocationType.DOOR);
-	            setSpecialLocation(3, 2, LocationType.WELCOME_MESSAGE_RUSTY_TANKARD);
+	    		setSpecialLocation(118, 2, LocationType.STAIRS_DOWN); // (118,2,1) - Stairs down to Dungeon Level 2
+	            setSpecialLocation(4, 2, LocationType.THE_RUSTY_TANKARD); // (4,2,1) - The Rusty Tankard (Inn)
+	            setSpecialLocation(45, 16, LocationType.DOOR); // (45,16,1) - Door
+	            setSpecialLocation(44, 99, LocationType.DOOR); // (44,99,1) - Door
+	            setSpecialLocation(54, 112, LocationType.DOOR); // (54,112,1) - Door
+	            setSpecialLocation(59, 94, LocationType.DOOR); // (59,94,1) - Door
+	            setSpecialLocation(66, 56, LocationType.DOOR); // (66,56,1) - Door
+	            setSpecialLocation(81, 112, LocationType.DOOR); // (81,112,1) - Door
+	            setSpecialLocation(3, 2, LocationType.WELCOME_MESSAGE_RUSTY_TANKARD); // (3,2,1) - Welcome message for Rusty Tankard
 
-	         // Assign quests to doors
 	            assignRandomQuestsToDoors(getDoorLocations(), getAvailableQuests());
-	        
 	            
  }
 
-		// ...existing code...
+		
 				@Override
 				public DungeonLevel goDown() throws IOException, InterruptedException, ParseException {
 					return new DungeonLevel2();

@@ -1,4 +1,3 @@
-
 package DungeonoftheBrutalKing.Armour;
 
 import DungeonoftheBrutalKing.Character;
@@ -6,22 +5,15 @@ import DungeonoftheBrutalKing.Status.StatusType;
 
 public class Chainmail extends ArmourManager {
 
-    private static final int DEFAULT_ARMOUR_DEFENSE = 15;
     private static final int REQUIRED_STRENGTH = 15;
+    private static final int DEFAULT_ARMOUR_DEFENSE = 15;
 
-    public Chainmail(int requiredStrength, int armourDefense, String effect) {
-        super("Chainmail", requiredStrength, armourDefense, 0, effect);
-    }
-
-    public Chainmail(String effect) {
+    public Chainmail(Character owner, String effect) {
         super("Chainmail", REQUIRED_STRENGTH, DEFAULT_ARMOUR_DEFENSE, 0, effect);
-    }
-
-    public static Chainmail createChainmail(Character character, int requiredStrength, int armourDefense, String effect) {
-        if (character.getStrength() >= requiredStrength) {
-            return new Chainmail(requiredStrength, armourDefense, effect);
+        if (owner.getStrength() < REQUIRED_STRENGTH) {
+            throw new IllegalArgumentException("Character does not have the required strength to equip Chainmail.");
         }
-        throw new IllegalArgumentException("Character does not have the required strength to wear Chainmail.");
+        allArmour.add(this);
     }
 
     @Override
@@ -30,12 +22,7 @@ public class Chainmail extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return requiredStrength;
-    }
-
-    @Override
-    public void setRequiredStrength(int requiredStrength) {
-        super.setRequiredStrength(requiredStrength);
+        return REQUIRED_STRENGTH;
     }
 
     @Override

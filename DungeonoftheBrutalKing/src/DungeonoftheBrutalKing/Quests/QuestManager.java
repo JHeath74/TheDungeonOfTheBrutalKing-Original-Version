@@ -1,11 +1,14 @@
-
-// File: `src/DungeonoftheBrutalKing/Quests/QuestManager.java`
 package DungeonoftheBrutalKing.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
+import DungeonoftheBrutalKing.Quests.Quests.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKing.Quests.Quests.QuestFeedHungryBeast;
 import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Quests.Quests.QuestGuideTheLostSoul;
+import DungeonoftheBrutalKing.Quests.Quests.QuestLieToTheLost;
 import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
+import DungeonoftheBrutalKing.Quests.Quests.QuestSlayTheHelpLess;
 import DungeonoftheBrutalKing.SharedData.RandomFactory;
 
 import javax.swing.JPanel;
@@ -38,6 +41,11 @@ public class QuestManager {
 
         addToPool(new QuestRescuetheForgottenPrisoner(screen));
         addToPool(new QuestForgiveBetrayer(screen));
+        addToPool(new QuestCleanseCursedShrine(screen));
+        addToPool(new QuestFeedHungryBeast(screen));
+        addToPool(new QuestGuideTheLostSoul(screen));
+        addToPool(new QuestLieToTheLost(screen));
+        addToPool(new QuestSlayTheHelpLess(screen));
     }
 
     private void addToPool(Quest quest) {
@@ -128,16 +136,16 @@ public class QuestManager {
     public void displayQuestDetails(Quest quest, MainGameScreen mainGameScreen) {
         if (mainGameScreen == null || quest == null) return;
 
-        uiSafely(() -> mainGameScreen.appendToMessageTextPane(
+        uiSafely(() -> MainGameScreen.appendToMessageTextPane(
             "New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n"
         ));
 
         if (quest instanceof JPanel panel) {
-            uiSafely(() -> mainGameScreen.replaceWithAnyPanel(panel));
+            uiSafely(() -> MainGameScreen.replaceWithAnyPanel(panel));
             return;
         }
 
-        uiSafely(() -> mainGameScreen.replaceWithAnyPanel(new JPanel()));
+        uiSafely(() -> MainGameScreen.replaceWithAnyPanel(new JPanel()));
     }
 
     private void uiSafely(UiAction action) {

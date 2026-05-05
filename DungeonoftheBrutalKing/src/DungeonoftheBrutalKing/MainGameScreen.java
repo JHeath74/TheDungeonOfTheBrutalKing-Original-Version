@@ -519,6 +519,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
         mainFrame.add(picturesAndTextUpdatesPane, BorderLayout.CENTER);
         mainFrame.add(characterInfoPanel, BorderLayout.NORTH);
+        
+        
     }
 
     private void setupTimer() {
@@ -558,6 +560,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
             charStatsField.setCharacterAttributes(attr, true);
             charStats2Field.setCharacterAttributes(attr, true);
 
+
+            
             try {
                 charStatsField.getDocument().insertString(0, header, attr);
                 charStats2Field.getDocument().insertString(0, values, attr);
@@ -619,11 +623,19 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     public int getMagicOrActionPoints() {
         String className = myChar.getClassName();
-        if ("Mage".equals(className) || "Wizard".equals(className)) {
+        // Classes that use Magic Points (MP)
+        if ("Mage".equals(className) || "Wizard".equals(className) || "Cleric".equals(className)) {
             return myChar.getMagicPoints();
-        } else {
-            return myChar.getActionPoints();
         }
+
+        int ap = myChar.getActionPoints();
+
+        // Fallback so AP isn't stuck at 0 if the model never sets it.
+        // Adjust the rule to match your design.
+        if (ap <= 0) {
+            ap = Math.max(1, myChar.getStamina());
+        }
+        return ap;
     }
 
     public void savePlayerPosition() {
@@ -697,4 +709,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public String getPostCombatPosition() {
         return "(" + postCombatX + ", " + postCombatY + ")";
     }
+    
+    
 }

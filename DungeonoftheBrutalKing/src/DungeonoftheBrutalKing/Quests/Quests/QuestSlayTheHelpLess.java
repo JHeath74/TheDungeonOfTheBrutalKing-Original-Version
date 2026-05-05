@@ -1,5 +1,5 @@
 
-// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestSlayTheHelpLess.java`
+// File: 'src/DungeonoftheBrutalKing/Quests/Quests/QuestSlayTheHelpLess.java'
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -33,7 +33,7 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
     private final QuestType category = QuestType.STANDARD; // side/moral choice
     private final EnumSet<QuestType> tags = EnumSet.of(QuestType.COMBAT);
 
-    public QuestSlayTheHelpLess() throws IOException, InterruptedException, ParseException {
+    public QuestSlayTheHelpLess(MainGameScreen mainGameScreen) throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
         // Store the original panel and replace with quest panel
@@ -67,21 +67,10 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You kill the defenseless creature. Its blood stains your hands, and your alignment decreases."
                 );
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+                completeQuest();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
-            try {
-				completeQuest();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
             slayButton.setEnabled(false);
             spareButton.setEnabled(false);
         });
@@ -93,21 +82,10 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
                 MainGameScreen.getInstance().setMessageTextPane(
                     "You spare the helpless creature. Mercy fills your heart, and your alignment increases."
                 );
-            } catch (IOException | InterruptedException | ParseException e1) {
-                e1.printStackTrace();
+                completeQuest();
+            } catch (IOException | InterruptedException | ParseException ex) {
+                ex.printStackTrace();
             }
-            try {
-				completeQuest();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
             slayButton.setEnabled(false);
             spareButton.setEnabled(false);
         });

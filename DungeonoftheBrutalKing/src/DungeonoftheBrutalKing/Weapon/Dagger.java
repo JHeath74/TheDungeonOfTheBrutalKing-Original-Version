@@ -10,15 +10,15 @@ public class Dagger extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 20;
     private static final int DEFAULT_DAMAGE = 20;
 
-    public Dagger(int damage, String effect) {
-        super("Dagger", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
+    public Dagger(Character owner, String effect) {
+        super("Battle Axe", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check owner's strength here and throw if not enough
     }
-
     public Dagger(int requiredStrength, int damage, String effect) {
         super("Dagger", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static Dagger createDagger(Character character, int damage, String effect) {
+    public static Dagger createDagger(Character character, Character damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new Dagger(damage, effect);

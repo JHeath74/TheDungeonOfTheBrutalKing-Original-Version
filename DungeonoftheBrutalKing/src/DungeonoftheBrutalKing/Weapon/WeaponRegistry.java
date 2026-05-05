@@ -31,7 +31,7 @@ public class WeaponRegistry {
         WeaponFactory.register("shortbow", (owner, effect) -> new Shortbow(owner, effect));
         WeaponFactory.register("shortsword", (owner, effect) -> new ShortSword(owner, effect));
         WeaponFactory.register("sling", (owner, effect) -> new Sling(owner, effect));
-        WeaponFactory.register("stillegto", (owner, effect) -> new Stillegto(owner, effect));
+        WeaponFactory.register("stillegto", (owner, effect) -> new Stilleto(owner, effect));
         WeaponFactory.register("sword", (owner, effect) -> new Sword(owner, effect));
         WeaponFactory.register("warnet", (owner, effect) -> new WarNet(owner, effect));
         WeaponFactory.register("whip", (owner, effect) -> new Whip(owner, effect));

@@ -10,15 +10,16 @@ public class Stilleto extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 35;
 
-    public Stilleto(int damage, String effect) {
-        super("Stilleto", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
+    public Stilleto(Character character, String effect) {
+        super("Stilleto", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check character's strength here if needed
     }
 
     public Stilleto(int requiredStrength, int damage, String effect) {
         super("Stilleto", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static Stilleto createStilleto(Character character, int damage, String effect) {
+    public static Stilleto createStilleto(Character character, Character damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new Stilleto(damage, effect);

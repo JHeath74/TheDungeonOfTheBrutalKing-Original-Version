@@ -1,23 +1,19 @@
+
 package DungeonoftheBrutalKing.Armour;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Status.StatusType;
 
 public class BreastPlate extends ArmourManager {
+    private static final int REQUIRED_STRENGTH = 10; // example value
+    private static final int ARMOUR_DEFENSE = 8;     // example value
 
-    public BreastPlate(int requiredStrength, int armourDefense, String effect) {
-        // ArmourManager expects (name, requiredStrength, armourDefense, weight, effect)
-        super("Breast Plate", requiredStrength, armourDefense, 0, effect);
-        // allArmour is now protected in ArmourManager, so this is allowed
-        allArmour.add(this);
-    }
-
-    public static BreastPlate createBreastPlate(Character character, int requiredStrength, int armourDefense, String effect) {
-        int strength = character.getStrength();
-        if (strength >= requiredStrength) {
-            return new BreastPlate(requiredStrength, armourDefense, effect);
+    public BreastPlate(Character owner, String effect) {
+        super("Breast Plate", REQUIRED_STRENGTH, ARMOUR_DEFENSE, 0, effect);
+        if (owner.getStrength() < REQUIRED_STRENGTH) {
+            throw new IllegalArgumentException("Character does not have the required strength to equip the Breast Plate.");
         }
-        throw new IllegalArgumentException("Character does not have the required strength to equip the Breast Plate.");
+        allArmour.add(this);
     }
 
     @Override
@@ -26,7 +22,7 @@ public class BreastPlate extends ArmourManager {
     }
 
     public int getRequiredStrength() {
-        return requiredStrength;
+        return REQUIRED_STRENGTH;
     }
 
     @Override

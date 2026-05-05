@@ -11,15 +11,16 @@ public class BattleHammer extends WeaponManager {
     private static final int DEFAULT_WEIGHT = 25;
     private static final int DEFAULT_DAMAGE = 25;
 
-    public BattleHammer(int damage, String effect) {
-        super("BattleHammer", REQUIRED_STRENGTH, damage, effect, DEFAULT_WEIGHT);
+    public BattleHammer(Character owner, String effect) {
+        super("Battle Axe", REQUIRED_STRENGTH, DEFAULT_DAMAGE, effect, DEFAULT_WEIGHT);
+        // Optionally, check owner's strength here and throw if not enough
     }
 
     public BattleHammer(int requiredStrength, int damage, String effect) {
         super("BattleHammer", requiredStrength, damage, effect, DEFAULT_WEIGHT);
     }
 
-    public static BattleHammer createBattleHammer(Character character, int damage, String effect) {
+    public static BattleHammer createBattleHammer(Character character, Character damage, String effect) {
         int strength = Integer.parseInt(character.getCharInfo().get(8));
         if (strength >= REQUIRED_STRENGTH) {
             return new BattleHammer(damage, effect);

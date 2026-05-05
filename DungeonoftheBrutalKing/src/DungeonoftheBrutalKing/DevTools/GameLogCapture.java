@@ -1,3 +1,5 @@
+
+// src/DungeonoftheBrutalKing/DevTools/GameLogCapture.java
 package DungeonoftheBrutalKing.DevTools;
 
 import java.io.IOException;
@@ -12,40 +14,25 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.logging.*;
 
-/**
- * Utility for capturing all JVM logs and standard output/error streams into a dedicated per-run log folder.
- * Installs a rotating file handler under `logs/game_yyyyMMdd_HHmmss/` and redirects System.out/System.err
- * into the Java Util Logging (JUL) system, ensuring all output is captured in log files.
- * Provides methods to install and uninstall the log capture, and to retrieve the current log folder.
- * Useful for debugging and post-mortem analysis of game sessions.
- */
 public final class GameLogCapture {
     private static final Object LOCK = new Object();
-
-    private static volatile boolean installed;
-    private static volatile Handler fileHandler;
-    private static volatile PrintStream originalOut;
-    private static volatile PrintStream originalErr;
-    private static volatile Path currentRunFolder;
-
+    private static volatile boolean installed = false;
+    private static volatile Handler fileHandler = null;
+    private static volatile PrintStream originalOut = null;
+    private static volatile PrintStream originalErr = null;
+    private static volatile Path currentRunFolder = null;
     private static final DateTimeFormatter TS = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
-    private GameLogCapture() { }
+    private GameLogCapture() {}
 
-    /** Returns true if log capture is currently installed. */
     public static boolean isInstalled() {
         return installed;
     }
 
-    /** Returns the path to the current run's log folder, or null if not installed. */
     public static Path getCurrentRunFolder() {
         return currentRunFolder;
     }
 
-    /**
-     * Installs a rotating file handler under `logs/game_yyyyMMdd_HHmmss/`.
-     * Safe to call multiple times. Redirects System.out and System.err to JUL.
-     */
     public static void install() {
         synchronized (LOCK) {
             if (installed) return;
@@ -58,10 +45,9 @@ public final class GameLogCapture {
             currentRunFolder = runFolder;
 
             try {
-                // Pattern: logs/game_.../game.%g.log, creating game.0.log, game.1.log, ...
                 Path pattern = runFolder.resolve("game.%g.log");
-                int limitBytes = 5 * 1024 * 1024; // 5MB per file
-                int fileCount = 10;               // keep up to 10 files per run
+                int limitBytes = 5 * 1024 * 1024;
+                int fileCount = 10;
                 boolean append = false;
 
                 fileHandler = new FileHandler(pattern.toString(), limitBytes, fileCount, append);
@@ -76,8 +62,15 @@ public final class GameLogCapture {
                 originalOut = System.out;
                 originalErr = System.err;
 
-                System.setOut(new PrintStream(new JulOutputStream(Logger.getLogger("STDOUT"), Level.INFO), true, StandardCharsets.UTF_8));
-                System.setErr(new PrintStream(new JulOutputStream(Logger.getLogger("STDERR"), Level.SEVERE), true, StandardCharsets.UTF_8));
+                @SuppressWarnings("resource")
+                PrintStream outStream = new PrintStream(
+                        new JulOutputStream(Logger.getLogger("STDOUT"), Level.INFO), true, StandardCharsets.UTF_8);
+                @SuppressWarnings("resource")
+                PrintStream errStream = new PrintStream(
+                        new JulOutputStream(Logger.getLogger("STDERR"), Level.SEVERE), true, StandardCharsets.UTF_8);
+
+                System.setOut(outStream);
+                System.setErr(errStream);
 
                 installed = true;
 
@@ -90,10 +83,6 @@ public final class GameLogCapture {
         }
     }
 
-    /**
-     * Uninstalls the log capture, restores System.out/System.err, and closes the file handler.
-     * Safe to call multiple times.
-     */
     public static void uninstall() {
         synchronized (LOCK) {
             if (!installed) return;
@@ -106,7 +95,6 @@ public final class GameLogCapture {
                     fileHandler.close();
                 }
             } catch (RuntimeException ignored) {
-                // best-effort
             } finally {
                 fileHandler = null;
             }
@@ -126,7 +114,7 @@ public final class GameLogCapture {
             if (fileHandler != null) {
                 fileHandler.close();
             }
-        } catch (RuntimeException ignored) { }
+        } catch (RuntimeException ignored) {}
         fileHandler = null;
 
         if (originalOut != null) System.setOut(originalOut);
@@ -138,7 +126,6 @@ public final class GameLogCapture {
         currentRunFolder = null;
     }
 
-    /** Ensures the per-run log folder exists, falling back to temp if needed. */
     private static Path ensureRunFolder() {
         if (currentRunFolder != null) return currentRunFolder;
         String sessionId = LocalDateTime.now().format(TS);
@@ -161,10 +148,6 @@ public final class GameLogCapture {
         }
     }
 
-    /**
-     * OutputStream that forwards all output to a JUL logger at the given level.
-     * Buffers until newline, then logs the line.
-     */
     private static final class JulOutputStream extends OutputStream {
         private final Logger logger;
         private final Level level;
@@ -182,6 +165,13 @@ public final class GameLogCapture {
                 flushBuffer();
             } else if (c != '\r') {
                 buffer.append(c);
+            }
+        }
+
+        @Override
+        public void write(byte[] b, int off, int len) {
+            for (int i = off; i < off + len; i++) {
+                write(b[i]);
             }
         }
 
