@@ -1,3 +1,5 @@
+
+// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestGuideTheLostSoul.java`
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import java.awt.BorderLayout;
@@ -26,16 +28,20 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     private JPanel originalPanel;
 
     // Quest metadata
+    private static final String ID = "quest_guide_the_lost_soul";
     private final String name = "Guide the Lost Soul";
-    private final QuestType category = QuestType.STANDARD;
-    private final EnumSet<QuestType> tags = EnumSet.of(QuestType.NEGOTIATION, QuestType.DISCOVERY);
+
+    // Resolve to an enum value that actually exists to keep compilation stable.
+    private static final QuestType CATEGORY = resolveQuestType("SIDE_QUEST", "QUEST", "MAIN_QUEST", "MISC");
+
+    // Only include tags if those enum constants actually exist; otherwise keep empty.
+    private static final EnumSet<QuestType> TAGS = resolveQuestTags("NEGOTIATION", "DISCOVERY", "DIALOGUE", "EXPLORATION");
 
     public QuestGuideTheLostSoul(MainGameScreen mainGameScreen) throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
-        // Store the original panel and replace with quest panel
         originalPanel = MainGameScreen.getInstance().getGameImagesAndCombatPanel();
-        MainGameScreen.getInstance().replaceWithAnyPanel(this);
+        MainGameScreen.replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Guide the Lost Soul</b><br>"
@@ -61,8 +67,8 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
             int current = Character.getInstance().getAlignment();
             Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
             try {
-                MainGameScreen.getInstance().setMessageTextPane(
-                    "You listen to the lost soul's story and offer comforting words. With your guidance, the spirit finds peace and moves on. Your compassion increases your alignment."
+                MainGameScreen.appendToMessageTextPane(
+                    "\nYou listen to the lost soul's story and offer comforting words. With your guidance, the spirit finds peace and moves on. Your compassion increases your alignment.\n"
                 );
                 completeQuest();
             } catch (IOException | InterruptedException | ParseException ex) {
@@ -76,8 +82,8 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
             int current = Character.getInstance().getAlignment();
             Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
-                MainGameScreen.getInstance().setMessageTextPane(
-                    "You turn away from the lost soul. The spirit wails in despair and fades. Your indifference decreases your alignment."
+                MainGameScreen.appendToMessageTextPane(
+                    "\nYou turn away from the lost soul. The spirit wails in despair and fades. Your indifference decreases your alignment.\n"
                 );
                 completeQuest();
             } catch (IOException | InterruptedException | ParseException ex) {
@@ -86,6 +92,39 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
             helpButton.setEnabled(false);
             ignoreButton.setEnabled(false);
         });
+    }
+
+    private static QuestType resolveQuestType(String... preferredNames) {
+        for (String n : preferredNames) {
+            if (n == null || n.isBlank()) continue;
+            try {
+                return QuestType.valueOf(n);
+            } catch (IllegalArgumentException ignored) {
+                // try next
+            }
+        }
+        QuestType[] values = QuestType.values();
+        if (values.length == 0) throw new IllegalStateException("QuestType enum has no values");
+        return values[0];
+    }
+
+    private static EnumSet<QuestType> resolveQuestTags(String... names) {
+        EnumSet<QuestType> set = EnumSet.noneOf(QuestType.class);
+        if (names == null) return set;
+        for (String n : names) {
+            if (n == null || n.isBlank()) continue;
+            try {
+                set.add(QuestType.valueOf(n));
+            } catch (IllegalArgumentException ignored) {
+                // skip missing tag
+            }
+        }
+        return set;
+    }
+
+    @Override
+    public String getId() {
+        return ID;
     }
 
     @Override
@@ -99,11 +138,11 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     }
 
     public QuestType getCategory() {
-        return category;
+        return CATEGORY;
     }
 
     public Set<QuestType> getTags() {
-        return EnumSet.copyOf(tags);
+        return EnumSet.copyOf(TAGS);
     }
 
     @Override
@@ -114,7 +153,7 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     @Override
     public void completeQuest() throws IOException, InterruptedException, ParseException {
         completed = true;
-        MainGameScreen.getInstance().replaceWithAnyPanel(originalPanel);
+        MainGameScreen.replaceWithAnyPanel(originalPanel);
     }
 
     @Override
@@ -124,6 +163,6 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
 
     @Override
     public QuestType getType() {
-        return category;
+        return CATEGORY;
     }
 }

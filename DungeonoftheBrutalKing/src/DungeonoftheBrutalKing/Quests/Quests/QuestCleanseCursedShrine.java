@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Quests.Quests;
 
 import DungeonoftheBrutalKing.Character;
@@ -19,20 +20,23 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
+    private static final String ID = "quest_cleanse_cursed_shrine";
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
     private boolean completed = false;
 
     private final String name = "Cleanse the Cursed Shrine";
-    private final QuestType type = QuestType.STANDARD;
+    private final QuestType type = QuestType.SIDE;
 
     public QuestCleanseCursedShrine(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
-        originalPanel = mainGameScreen.getGameImagesAndCombatPanel();
-        mainGameScreen.replaceWithAnyPanel(this);
+        if (this.mainGameScreen != null) {
+            originalPanel = this.mainGameScreen.getGameImagesAndCombatPanel();
+            this.mainGameScreen.replaceWithAnyPanel(this);
+        }
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Cleanse the Cursed Shrine</b><br>"
@@ -54,14 +58,18 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
 
         cleanseButton.addActionListener(_ -> {
             applyAlignmentDelta(+ALIGNMENT_DELTA);
-            finishChoice(cleanseButton, leaveButton,
+            finishChoice(
+                cleanseButton,
+                leaveButton,
                 "You bravely cleanse the shrine, dispelling the darkness. Your soul feels lighter."
             );
         });
 
         leaveButton.addActionListener(_ -> {
             applyAlignmentDelta(-ALIGNMENT_DELTA);
-            finishChoice(cleanseButton, leaveButton,
+            finishChoice(
+                cleanseButton,
+                leaveButton,
                 "You leave the shrine to its fate. The darkness lingers, and so does your guilt."
             );
         });
@@ -76,10 +84,12 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
         cleanseButton.setEnabled(false);
         leaveButton.setEnabled(false);
         try {
-            mainGameScreen.setMessageTextPane(message);
+            if (mainGameScreen != null) {
+                mainGameScreen.setMessageTextPane(message);
+            }
             completeQuest();
         } catch (IOException | InterruptedException | ParseException ignored) {
-            // Keep quest flow working even if UI is unavailable.
+            // keep quest flow working even if UI is unavailable
         }
     }
 
@@ -92,7 +102,9 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
     }
 
     @Override
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     @Override
     public String getDescription() {
@@ -100,7 +112,9 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
     }
 
     @Override
-    public boolean isCompleted() { return completed; }
+    public boolean isCompleted() {
+        return completed;
+    }
 
     @Override
     public String serialize() {
@@ -108,5 +122,12 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
     }
 
     @Override
-    public QuestType getType() { return type; }
+    public QuestType getType() {
+        return type;
+    }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
 }

@@ -1,3 +1,5 @@
+
+// File: `src/DungeonoftheBrutalKing/Quests/QuestManager.java`
 package DungeonoftheBrutalKing.Quests;
 
 import DungeonoftheBrutalKing.Character;
@@ -15,10 +17,12 @@ import javax.swing.JPanel;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class QuestManager {
-    private final List<Quest> standardQuests;
+    private final List<Quest> sideQuests;
     private final List<Quest> guildQuests;
     private final List<Quest> mainQuestChain;
 
@@ -26,7 +30,7 @@ public class QuestManager {
     private final Character character;
 
     public QuestManager(Character character) throws IOException, InterruptedException, ParseException {
-        this.standardQuests = new ArrayList<>();
+        this.sideQuests = new ArrayList<>();
         this.guildQuests = new ArrayList<>();
         this.mainQuestChain = new ArrayList<>();
 
@@ -63,7 +67,7 @@ public class QuestManager {
         } else if (type == QuestType.GUILD) {
             guildQuests.add(quest);
         } else {
-            standardQuests.add(quest);
+            sideQuests.add(quest);
         }
     }
 
@@ -93,12 +97,41 @@ public class QuestManager {
         return new ArrayList<>(activeQuests);
     }
 
+    /**
+     * Returns available quests across all pools (side, guild, main), excluding
+     * completed and already-active quests.
+     */
     public List<Quest> getAvailableQuests() {
-        return getStandardQuests();
+        return getAvailableQuests(null);
     }
 
-    public List<Quest> getStandardQuests() {
-        return new ArrayList<>(standardQuests);
+    /**
+     * Returns available quests for the given type.
+     * If type is null, returns across all pools.
+     */
+    public List<Quest> getAvailableQuests(QuestType type) {
+        Set<Quest> candidates = new LinkedHashSet<>();
+
+        if (type == null) {
+            candidates.addAll(sideQuests);
+            candidates.addAll(guildQuests);
+            candidates.addAll(mainQuestChain);
+        } else {
+            candidates.addAll(poolFor(type));
+        }
+
+        List<Quest> available = new ArrayList<>();
+        for (Quest q : candidates) {
+            if (q == null) continue;
+            if (q.isCompleted()) continue;
+            if (activeQuests.contains(q)) continue;
+            available.add(q);
+        }
+        return available;
+    }
+
+    public List<Quest> getSideQuests() {
+        return new ArrayList<>(sideQuests);
     }
 
     public List<Quest> getGuildQuests() {
@@ -122,7 +155,38 @@ public class QuestManager {
     private List<Quest> poolFor(QuestType type) {
         if (type == QuestType.MAIN) return mainQuestChain;
         if (type == QuestType.GUILD) return guildQuests;
-        return standardQuests;
+        return sideQuests;
+    }
+
+    /**
+     * Routes a game event to quests.
+     *
+     * This calls `Quest.onEncounter(...)` on both pooled and active quests and
+     * optionally adds quests to active when an event changes them.
+     */
+    public void onEncounter(EncounterEvent event) {
+        if (event == null) return;
+
+        Set<Quest> targets = new LinkedHashSet<>();
+        targets.addAll(sideQuests);
+        targets.addAll(guildQuests);
+        targets.addAll(mainQuestChain);
+        targets.addAll(activeQuests);
+
+        for (Quest quest : targets) {
+            if (quest == null) continue;
+
+            boolean changed;
+            try {
+                changed = quest.onEncounter(event, this);
+            } catch (RuntimeException ignored) {
+                changed = false;
+            }
+
+            if (changed && character != null && !quest.isCompleted()) {
+                addActiveQuest(quest);
+            }
+        }
     }
 
     public void displayActiveQuests() {
@@ -137,7 +201,7 @@ public class QuestManager {
         if (mainGameScreen == null || quest == null) return;
 
         uiSafely(() -> MainGameScreen.appendToMessageTextPane(
-            "New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n"
+                "New Quest: " + quest.getName() + "\n" + quest.getDescription() + "\n"
         ));
 
         if (quest instanceof JPanel panel) {
@@ -152,7 +216,7 @@ public class QuestManager {
         try {
             action.run();
         } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
-            // Keep quest flow running even if UI calls fail.
+            // keep quest flow running
         }
     }
 

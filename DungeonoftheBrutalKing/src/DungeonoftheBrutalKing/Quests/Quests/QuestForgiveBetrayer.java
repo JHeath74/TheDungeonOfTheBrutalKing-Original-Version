@@ -18,13 +18,15 @@ import java.text.ParseException;
 public class QuestForgiveBetrayer extends JPanel implements Quest {
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
+    
+    private static final String ID = "quest_forgive_betrayer";
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
     private boolean completed = false;
 
     private final String name = "Forgive the Betrayer";
-    private final QuestType type = QuestType.STANDARD;
+    private final QuestType type = QuestType.SIDE;
 
     public QuestForgiveBetrayer(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
@@ -108,4 +110,9 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
 
     @Override
     public QuestType getType() { return type; }
+
+    @Override
+    public String getId() {
+        return ID;
+    }
 }

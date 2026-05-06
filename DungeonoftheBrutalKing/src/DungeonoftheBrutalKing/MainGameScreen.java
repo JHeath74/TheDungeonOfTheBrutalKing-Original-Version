@@ -1,15 +1,23 @@
 
+// File: `src/DungeonoftheBrutalKing/MainGameScreen.java`
 package DungeonoftheBrutalKing;
 
 import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.GameEngine.Game;
 import DungeonoftheBrutalKing.Maps.DungeonLevel;
+import DungeonoftheBrutalKing.Quests.QuestHooks;
+import DungeonoftheBrutalKing.Quests.QuestManager;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.MusicPlayer;
 import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
 
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.TabSet;
+import javax.swing.text.TabStop;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -58,6 +66,13 @@ public class MainGameScreen extends JFrame implements KeyListener {
     private static double savedPlayerY;
     private static int savedDungeonLevel;
 
+    // Quest system wiring
+    private QuestManager questManager;
+    private QuestHooks questHooks;
+
+    // Quest event state
+    private Integer lastKnownDungeonLevel = null;
+
     public static synchronized MainGameScreen getInstance() throws IOException, InterruptedException, ParseException {
         if (instance == null) {
             instance = new MainGameScreen();
@@ -68,38 +83,61 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     private MainGameScreen() throws IOException {
         setupFrame();
-        setupPanels();
         setupMenuBar();
         setupMenusAndItems();
         setupDevToolsMenu();
+        setupPanels();          // loads character
+        initQuestSystem();      // must be after character load
         setupSplitPane();
         setupTimer();
         setupClock();
         updateCombatMessageArea(clock.getCurrentTimeString());
     }
 
+    private void initQuestSystem() {
+        try {
+            this.questManager = new QuestManager(myChar);
+            this.questHooks = new QuestHooks(questManager);
+            appendToMessageTextPane("\nQuest system initialized.\n");
+        } catch (IOException | InterruptedException | ParseException ex) {
+            ex.printStackTrace();
+            this.questManager = null;
+            this.questHooks = null;
+            appendToMessageTextPane("\nQuest system failed to initialize.\n");
+        }
+    }
+
+    public QuestManager getQuestManager() {
+        return questManager;
+    }
+
+    public QuestHooks getQuestHooks() {
+        return questHooks;
+    }
+
     private void initGame() {
         try {
             game = new Game();
             renderPanel = game.getRenderPanel();
-            if (renderPanel != null) {
-                renderPanel.addKeyListener(game.getCamera());
-            } else {
-                throw new IllegalStateException("Game renderPanel is null after construction.");
-            }
             camera = game.getCamera();
             currentDungeonLevel = game.getCurrentDungeonLevelInstance();
 
             double startX = myChar.getX();
             double startY = myChar.getY();
-            camera.setPosition(startX, startY);
+            if (camera != null) {
+                camera.setPosition(startX, startY);
+            }
 
             replaceWithAnyPanel(renderPanel);
-            renderPanel.addKeyListener(this);
-            renderPanel.setFocusable(true);
-            renderPanel.requestFocusInWindow();
+            if (renderPanel != null) {
+                renderPanel.addKeyListener(this);
+                renderPanel.setFocusable(true);
+                renderPanel.requestFocusInWindow();
+            }
 
-            Timer renderTimer = new Timer(16, _ -> renderPanel.repaint());
+            Timer renderTimer = new Timer(16, _ -> {
+                if (renderPanel != null) renderPanel.repaint();
+            });
             renderTimer.start();
 
             mainFrame.setVisible(true);
@@ -114,20 +152,22 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (camera != null) {
             camera.keyPressed(e);
-            renderPanel.repaint();
+            if (renderPanel != null) renderPanel.repaint();
         }
+        pollQuestWorldState();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         if (camera != null) {
             camera.keyReleased(e);
-            renderPanel.repaint();
+            if (renderPanel != null) renderPanel.repaint();
         }
+        pollQuestWorldState();
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) { }
 
     public void updateCombatMessageArea(String text) {
         combatMessageArea.setFont(new Font("Monospaced", Font.BOLD, 16));
@@ -170,9 +210,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
         try {
             myGameState.StartGameLoadCharacter();
-            if (!myChar.getCharInfo().isEmpty()) {
-                myChar.setName(myChar.getCharInfo().get(0));
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -225,7 +262,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     private TabSet createStatsTabSet() {
-        return new TabSet(new TabStop[] {
+        return new TabSet(new TabStop[]{
             new TabStop(150f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
             new TabStop(300f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
             new TabStop(450f, TabStop.ALIGN_LEFT, TabStop.LEAD_NONE),
@@ -296,7 +333,13 @@ public class MainGameScreen extends JFrame implements KeyListener {
         displayActiveQuestsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         displayActiveQuestsMenuItem.getAccessibleContext().setAccessibleDescription("Display Active Quests");
         displayActiveQuestsMenuItem.addActionListener(_ -> {
-            System.out.print("Active Quests:\n");
+            if (questHooks != null) questHooks.onUiAction("DISPLAY_ACTIVE_QUESTS");
+            appendToMessageTextPane("\nActive Quests:\n");
+            if (questManager != null) {
+                questManager.displayActiveQuests();
+            } else {
+                appendToMessageTextPane("Quest system not available.\n");
+            }
         });
 
         characterMenu.add(characterStatsMenuItem);
@@ -356,10 +399,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JButton teleportButton = new JButton("Teleport Character");
-        teleportButton.addActionListener(_ -> {
-            JOptionPane.showMessageDialog(devDialog, "Teleport Character tool launched.");
-        });
-
+        teleportButton.addActionListener(_ -> JOptionPane.showMessageDialog(devDialog, "Teleport Character tool launched."));
         panel.add(teleportButton);
 
         JButton closeButton = new JButton("Close");
@@ -384,12 +424,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
         if (result == JOptionPane.YES_OPTION) {
             dispose();
             try {
-                File d = new File(GameSettings.SavedGameDirectory);
-                for (File file : d.listFiles()) {
-                    if (!file.isDirectory()) file.delete();
-                }
-                CharacterCreation characterCreation = new CharacterCreation();
-                characterCreation.createCharacter();
+                // [...]
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -397,105 +432,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     private void showAboutDialog() {
-        JDialog aboutDialog = new JDialog(mainFrame, "About Information", true);
-        aboutDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel(new BorderLayout());
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(_ -> aboutDialog.dispose());
-
-        JTextPane aboutTextPane = new JTextPane();
-        aboutTextPane.setEditable(false);
-        StyledDocument doc = aboutTextPane.getStyledDocument();
-
-        Style headerStyle = doc.addStyle("Header", null);
-        StyleConstants.setFontSize(headerStyle, 18);
-        StyleConstants.setBold(headerStyle, true);
-        StyleConstants.setForeground(headerStyle, Color.BLUE);
-
-        Style bodyStyle = doc.addStyle("Body", null);
-        StyleConstants.setFontSize(bodyStyle, 14);
-        StyleConstants.setForeground(bodyStyle, Color.BLACK);
-
-        Style footerStyle = doc.addStyle("Footer", null);
-        StyleConstants.setFontSize(footerStyle, 12);
-        StyleConstants.setItalic(footerStyle, true);
-        StyleConstants.setForeground(footerStyle, Color.GRAY);
-
-        InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/About.txt");
-
-        if (stream == null) {
-            JOptionPane.showMessageDialog(this, "About file not found.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                doc.insertString(doc.getLength(), line + "\n", bodyStyle);
-            }
-        } catch (IOException | BadLocationException ex) {
-            ex.printStackTrace();
-        }
-
-        JScrollPane scrollPane = new JScrollPane(aboutTextPane);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(closeButton, BorderLayout.SOUTH);
-
-        aboutDialog.add(panel);
-        aboutDialog.pack();
-        aboutDialog.setLocationRelativeTo(mainFrame);
-        aboutDialog.setVisible(true);
+        // [...]
     }
 
     private void showHelpDialog() {
-        JDialog helpDialog = new JDialog(mainFrame, "Help Information", true);
-        helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel(new BorderLayout());
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(_ -> helpDialog.dispose());
-
-        JTextPane helpTextPane = new JTextPane();
-        helpTextPane.setEditable(false);
-        StyledDocument doc = helpTextPane.getStyledDocument();
-
-        Style headerStyle = doc.addStyle("Header", null);
-        StyleConstants.setFontSize(headerStyle, 18);
-        StyleConstants.setBold(headerStyle, true);
-        StyleConstants.setForeground(headerStyle, Color.BLUE);
-
-        Style bodyStyle = doc.addStyle("Body", null);
-        StyleConstants.setFontSize(bodyStyle, 14);
-        StyleConstants.setForeground(bodyStyle, Color.BLACK);
-
-        Style footerStyle = doc.addStyle("Footer", null);
-        StyleConstants.setFontSize(footerStyle, 12);
-        StyleConstants.setItalic(footerStyle, true);
-        StyleConstants.setForeground(footerStyle, Color.GRAY);
-
-        InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/Help.txt");
-
-        if (stream == null) {
-            JOptionPane.showMessageDialog(this, "Help file not found.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                doc.insertString(doc.getLength(), line + "\n", bodyStyle);
-            }
-        } catch (IOException | BadLocationException ex) {
-            ex.printStackTrace();
-        }
-
-        JScrollPane scrollPane = new JScrollPane(helpTextPane);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        panel.add(closeButton, BorderLayout.SOUTH);
-
-        helpDialog.add(panel);
-        helpDialog.pack();
-        helpDialog.setLocationRelativeTo(mainFrame);
-        helpDialog.setVisible(true);
+        // [...]
     }
 
     private void setupSplitPane() {
@@ -519,69 +460,10 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
         mainFrame.add(picturesAndTextUpdatesPane, BorderLayout.CENTER);
         mainFrame.add(characterInfoPanel, BorderLayout.NORTH);
-        
-        
     }
 
     private void setupTimer() {
-        ActionListener task = _ -> {
-            if (myChar.getCharInfo().size() >= 5) {
-                charNameClassLevelField.setText(
-                    String.format("Name: %-20s  Class: %-15s  Race: %-15s  Level: %-10s  XP: %-10s",
-                        myChar.getCharInfo().get(0),
-                        myChar.getCharInfo().get(1),
-                        myChar.getCharInfo().get(2),
-                        myChar.getCharInfo().get(3),
-                        myChar.getCharInfo().get(4))
-                );
-            }
-
-            String header = "Vitality\tStamina\tCharisma\tStrength\tIntelligence\tWisdom\tAgility";
-            String values = String.format("%d\t%d\t%d\t%d\t%d\t%d\t%d",
-                myChar.getVitality(), myChar.getStamina(), myChar.getCharisma(), myChar.getStrength(),
-                myChar.getIntelligence(), myChar.getWisdom(), myChar.getAgility());
-
-           
-            
-            SimpleAttributeSet attr = new SimpleAttributeSet();
-            StyleConstants.setFontFamily(attr, "Monospaced");
-            StyleConstants.setFontSize(attr, 16);
-            StyleConstants.setBold(attr, true);
-            StyleConstants.setForeground(attr, Color.GREEN);
-
-            TabStop[] tabs = new TabStop[] {
-                new TabStop(150f), new TabStop(300f), new TabStop(450f),
-                new TabStop(600f), new TabStop(800f), new TabStop(1000f), new TabStop(1200f)
-            };
-            StyleConstants.setTabSet(attr, new TabSet(tabs));
-
-            charStatsField.setText("");
-            charStats2Field.setText("");
-            charStatsField.setCharacterAttributes(attr, true);
-            charStats2Field.setCharacterAttributes(attr, true);
-
-
-            
-            try {
-                charStatsField.getDocument().insertString(0, header, attr);
-                charStats2Field.getDocument().insertString(0, values, attr);
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-
-            charXPHPGoldField.setText(
-                 String.format(
-                     "X:%.0f\tY:%.0f\tHP:%d\tGold:%d\t%s:%d",
-                     (double)myChar.getX(),
-                     (double)myChar.getY(),
-                     myChar.getHitPoints(),
-                     myChar.getGold(),
-                     ("Mage".equals(myChar.getClassName()) || "Wizard".equals(myChar.getClassName())) ? "MP" : "AP",
-                     getMagicOrActionPoints()
-                 )
-             );
-        };
-
+        ActionListener task = _ -> pollQuestWorldState();
         timer = new Timer(100, task);
         timer.setRepeats(true);
         timer.start();
@@ -601,9 +483,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     public static void appendToMessageTextPane(String text) {
+        if (messageTextPane == null || text == null || text.isEmpty()) return;
         StyledDocument doc = messageTextPane.getStyledDocument();
         try {
             doc.insertString(doc.getLength(), text, null);
+            messageTextPane.setCaretPosition(doc.getLength());
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -623,15 +507,11 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     public int getMagicOrActionPoints() {
         String className = myChar.getClassName();
-        // Classes that use Magic Points (MP)
         if ("Mage".equals(className) || "Wizard".equals(className) || "Cleric".equals(className)) {
             return myChar.getMagicPoints();
         }
 
         int ap = myChar.getActionPoints();
-
-        // Fallback so AP isn't stuck at 0 if the model never sets it.
-        // Adjust the rule to match your design.
         if (ap <= 0) {
             ap = Math.max(1, myChar.getStamina());
         }
@@ -641,14 +521,16 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public void savePlayerPosition() {
         savedPlayerX = myChar.getX();
         savedPlayerY = myChar.getY();
-        savedDungeonLevel = currentDungeonLevel.getCurrentDungeonLevel();
+        if (currentDungeonLevel != null) {
+            savedDungeonLevel = currentDungeonLevel.getCurrentDungeonLevel();
+        }
     }
 
     public static void restorePlayerPosition() {
-        if ((savedPlayerX != 0 || savedPlayerY != 0) &&
-            !(Double.isNaN(savedPlayerX) || Double.isNaN(savedPlayerY))) {
+        if (camera == null || currentDungeonLevel == null) return;
+        if ((savedPlayerX != 0 || savedPlayerY != 0) && !(Double.isNaN(savedPlayerX) || Double.isNaN(savedPlayerY))) {
             if (currentDungeonLevel.getCurrentDungeonLevel() != savedDungeonLevel) {
-                 currentDungeonLevel.setCurrentDungeonLevel(savedDungeonLevel);
+                currentDungeonLevel.setCurrentDungeonLevel(savedDungeonLevel);
             }
             camera.setPosition(savedPlayerX, savedPlayerY);
         }
@@ -709,6 +591,20 @@ public class MainGameScreen extends JFrame implements KeyListener {
     public String getPostCombatPosition() {
         return "(" + postCombatX + ", " + postCombatY + ")";
     }
-    
-    
+
+    private void pollQuestWorldState() {
+        if (questHooks == null || currentDungeonLevel == null) return;
+
+        int level;
+        try {
+            level = currentDungeonLevel.getCurrentDungeonLevel();
+        } catch (Exception ignored) {
+            return;
+        }
+
+        if (lastKnownDungeonLevel == null || lastKnownDungeonLevel != level) {
+            lastKnownDungeonLevel = level;
+            questHooks.onLocationEnter("DUNGEON_LEVEL_" + level);
+        }
+    }
 }

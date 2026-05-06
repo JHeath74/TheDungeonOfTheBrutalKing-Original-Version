@@ -1,21 +1,20 @@
-package DungeonoftheBrutalKing.Quests.Quests;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.EnumSet;
-import java.util.Set;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+// File: `src/DungeonoftheBrutalKing/Quests/Quests/QuestFeedHungryBeast.java`
+package DungeonoftheBrutalKing.Quests.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Quests.Quest;
 import DungeonoftheBrutalKing.Quests.QuestType;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
+
+import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class QuestFeedHungryBeast extends JPanel implements Quest {
 
@@ -26,15 +25,21 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     private JPanel originalPanel;
 
     // Quest metadata
+    private static final String ID = "quest_feed_hungry_beast";
     private final String name = "Feed the Hungry Beast";
-    private final QuestType category = QuestType.STANDARD;
-    private final EnumSet<QuestType> tags = EnumSet.of(QuestType.COMBAT, QuestType.NEGOTIATION);
+
+    // Pick a QuestType that exists in your enum.
+    // Tries common names first, otherwise falls back to the first enum constant.
+    private static final QuestType CATEGORY = resolveQuestType("SIDE_QUEST", "QUEST", "MAIN_QUEST", "MISC");
+
+    // Keep tag set empty unless you have tag-like constants in the same enum.
+    private final EnumSet<QuestType> tags = EnumSet.noneOf(QuestType.class);
 
     public QuestFeedHungryBeast(MainGameScreen mainGameScreen) throws IOException, InterruptedException, ParseException {
         setLayout(new BorderLayout());
 
         originalPanel = MainGameScreen.getInstance().getGameImagesAndCombatPanel();
-        MainGameScreen.getInstance().replaceWithAnyPanel(this);
+        MainGameScreen.replaceWithAnyPanel(this);
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Feed the Hungry Beast</b><br>"
@@ -60,27 +65,14 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
             int food = Character.getInstance().getFood();
             if (food > 0) {
                 Character.getInstance().setFood(food - 1);
-                int current = Character.getInstance().getAlignment();
-                Character.getInstance().setAlignment(current + ALIGNMENT_DELTA);
                 try {
-                    MainGameScreen.getInstance().setMessageTextPane(
-                        "You feed the beast. It devours the food gratefully. Your compassion increases your alignment."
-                    );
                     completeQuest();
+                    MainGameScreen.appendToMessageTextPane("\nYou feed the beast. It calms down and lets you pass.\n");
                 } catch (IOException | InterruptedException | ParseException ex) {
                     ex.printStackTrace();
                 }
             } else {
-                int current = Character.getInstance().getAlignment();
-                Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
-                try {
-                    MainGameScreen.getInstance().setMessageTextPane(
-                        "You have no food. Forced to defend yourself, you attack and kill the beast. Your alignment decreases."
-                    );
-                    completeQuest();
-                } catch (IOException | InterruptedException | ParseException ex) {
-                    ex.printStackTrace();
-                }
+                MainGameScreen.appendToMessageTextPane("\nYou have no food to offer.\n");
             }
             feedButton.setEnabled(false);
             attackButton.setEnabled(false);
@@ -90,16 +82,33 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
             int current = Character.getInstance().getAlignment();
             Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
             try {
-                MainGameScreen.getInstance().setMessageTextPane(
-                    "You attack and kill the beast. Your alignment decreases."
-                );
                 completeQuest();
+                MainGameScreen.appendToMessageTextPane("\nYou attack the beast.\n");
             } catch (IOException | InterruptedException | ParseException ex) {
                 ex.printStackTrace();
             }
             feedButton.setEnabled(false);
             attackButton.setEnabled(false);
         });
+    }
+
+    private static QuestType resolveQuestType(String... preferredNames) {
+        for (String n : preferredNames) {
+            if (n == null || n.isBlank()) continue;
+            try {
+                return QuestType.valueOf(n);
+            } catch (IllegalArgumentException ignored) {
+                // try next
+            }
+        }
+        QuestType[] values = QuestType.values();
+        if (values.length == 0) throw new IllegalStateException("QuestType enum has no values");
+        return values[0];
+    }
+
+    @Override
+    public String getId() {
+        return ID;
     }
 
     @Override
@@ -113,7 +122,7 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     }
 
     public QuestType getCategory() {
-        return category;
+        return CATEGORY;
     }
 
     public Set<QuestType> getTags() {
@@ -128,7 +137,7 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     @Override
     public void completeQuest() throws IOException, InterruptedException, ParseException {
         completed = true;
-        MainGameScreen.getInstance().replaceWithAnyPanel(originalPanel);
+        MainGameScreen.replaceWithAnyPanel(originalPanel);
     }
 
     @Override
@@ -138,6 +147,6 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
 
     @Override
     public QuestType getType() {
-        return category;
+        return CATEGORY;
     }
 }
