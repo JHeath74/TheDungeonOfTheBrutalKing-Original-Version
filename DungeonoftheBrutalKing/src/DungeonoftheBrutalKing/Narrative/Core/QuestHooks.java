@@ -1,6 +1,6 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestHooks.java`
-package DungeonoftheBrutalKing.Quests;
+package DungeonoftheBrutalKing.Quests.Core;
 
 import java.util.HashMap;
 import java.util.Map;

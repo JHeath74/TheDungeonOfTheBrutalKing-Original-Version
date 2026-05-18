@@ -9,8 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
-import DungeonoftheBrutalKing.Quests.Quest;
-import DungeonoftheBrutalKing.Quests.QuestImpl;
+
+import DungeonoftheBrutalKing.Quests.Api.Quest;
+import DungeonoftheBrutalKing.Quests.Impl.QuestImpl;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 import DungeonoftheBrutalKing.SharedData.GuildType;

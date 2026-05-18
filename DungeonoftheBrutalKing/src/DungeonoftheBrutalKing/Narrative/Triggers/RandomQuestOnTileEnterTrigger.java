@@ -1,10 +1,12 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/RandomQuestOnTileEnterTrigger.java`
-package DungeonoftheBrutalKing.Quests;
+package DungeonoftheBrutalKing.Quests.Triggers;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
+import DungeonoftheBrutalKing.Quests.Api.Quest;
 
 /**
  * A one-shot quest trigger that fires when the player enters a specific tile coordinate,
@@ -16,7 +18,7 @@ import java.util.Random;
  * \- Randomly selects one quest factory from {@code questFactories} and calls it.  
  * \- Wraps any checked/unchecked exception thrown by the selected factory in a {@link RuntimeException}.  
  */
-public final class RandomQuestOnTileEnterTrigger implements QuestTriggerManager.QuestTrigger {
+public final class RandomQuestOnTileEnterTrigger implements TriggerManager.QuestTrigger {
 
     /**
      * Like {@link java.util.function.Supplier} but allows checked exceptions.
@@ -86,7 +88,7 @@ public final class RandomQuestOnTileEnterTrigger implements QuestTriggerManager.
      * @throws RuntimeException if the selected quest factory throws an exception while creating a quest
      */
     @Override
-    public boolean tryFire(QuestTriggerManager.GameContext ctx) {
+    public boolean tryFire(TriggerManager.GameContext ctx) {
         // Already fired: keep reporting "consumed" so the manager can remove/ignore it.
         if (fired) return true;
 

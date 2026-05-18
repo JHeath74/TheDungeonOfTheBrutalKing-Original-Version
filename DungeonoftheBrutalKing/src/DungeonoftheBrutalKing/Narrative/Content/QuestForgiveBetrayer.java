@@ -1,39 +1,39 @@
-package DungeonoftheBrutalKing.Quests.Quests;
+
+package DungeonoftheBrutalKing.Narrative.Content;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Quests.Quest;
-import DungeonoftheBrutalKing.Quests.QuestType;
+import DungeonoftheBrutalKing.Narrative.Api.Quest;
+import DungeonoftheBrutalKing.Narrative.Api.QuestStatus;
+import DungeonoftheBrutalKing.Narrative.Api.QuestType;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 
 public class QuestForgiveBetrayer extends JPanel implements Quest {
+
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
-    
     private static final String ID = "quest_forgive_betrayer";
+    private static final String NAME = "Forgive the Betrayer";
+    private static final QuestType TYPE = QuestType.SIDE;
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
-    private boolean completed = false;
-
-    private final String name = "Forgive the Betrayer";
-    private final QuestType type = QuestType.SIDE;
+    private QuestStatus status = QuestStatus.NOT_STARTED;
 
     public QuestForgiveBetrayer(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
-        originalPanel = mainGameScreen.getGameImagesAndCombatPanel();
-        mainGameScreen.replaceWithAnyPanel(this);
+        if (this.mainGameScreen != null) {
+            originalPanel = this.mainGameScreen.getGameImagesAndCombatPanel();
+            MainGameScreen.replaceWithAnyPanel(this);
+        }
 
         JLabel descLabel = new JLabel(
             "<html><center><b>Forgive the Betrayer</b><br>"
@@ -56,15 +56,13 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
         releaseButton.addActionListener(_ -> {
             applyAlignmentDelta(+ALIGNMENT_DELTA);
             finishChoice(releaseButton, killButton,
-                "You release the betrayer. Mercy may bring future rewards."
-            );
+                "You release the betrayer. Mercy may bring future rewards.");
         });
 
         killButton.addActionListener(_ -> {
             applyAlignmentDelta(-ALIGNMENT_DELTA);
             finishChoice(releaseButton, killButton,
-                "You kill the betrayer. Justice is served, but at a cost."
-            );
+                "You kill the betrayer. Justice is served, but at a cost.");
         });
     }
 
@@ -77,23 +75,50 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
         releaseButton.setEnabled(false);
         killButton.setEnabled(false);
         try {
-            mainGameScreen.setMessageTextPane(message);
-            completeQuest();
+            if (mainGameScreen != null) {
+                mainGameScreen.setMessageTextPane(message);
+            }
+            complete();
         } catch (IOException | InterruptedException | ParseException ignored) {
-            // Keep quest flow working even if UI is unavailable.
+        }
+    }
+
+    @Override
+    public void start() {
+        if (status == QuestStatus.NOT_STARTED) {
+            status = QuestStatus.ACTIVE;
+        }
+    }
+
+    @Override
+    public void complete() throws IOException, InterruptedException, ParseException {
+        status = QuestStatus.COMPLETED;
+        if (mainGameScreen != null && originalPanel != null) {
+            MainGameScreen.replaceWithAnyPanel(originalPanel);
         }
     }
 
     @Override
     public void completeQuest() throws IOException, InterruptedException, ParseException {
-        completed = true;
+        complete();
+    }
+
+    @Override
+    public void fail() {
+        status = QuestStatus.FAILED;
         if (mainGameScreen != null && originalPanel != null) {
-            mainGameScreen.replaceWithAnyPanel(originalPanel);
+            MainGameScreen.replaceWithAnyPanel(originalPanel);
         }
     }
 
     @Override
-    public String getName() { return name; }
+    public String getId() { return ID; }
+
+    @Override
+    public String getName() { return NAME; }
+
+    @Override
+    public String getTitle() { return NAME; }
 
     @Override
     public String getDescription() {
@@ -101,18 +126,19 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
     }
 
     @Override
-    public boolean isCompleted() { return completed; }
+    public QuestType getType() { return TYPE; }
+
+    @Override
+    public QuestStatus getStatus() { return status; }
+
+    @Override
+    public boolean isCompleted() { return status == QuestStatus.COMPLETED; }
+
+    @Override
+    public boolean isActive() { return status == QuestStatus.ACTIVE; }
 
     @Override
     public String serialize() {
-        return "QuestForgiveBetrayer:" + (completed ? "completed" : "not_completed");
-    }
-
-    @Override
-    public QuestType getType() { return type; }
-
-    @Override
-    public String getId() {
-        return ID;
+        return ID + ":" + status.name();
     }
 }

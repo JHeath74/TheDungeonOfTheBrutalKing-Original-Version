@@ -11,14 +11,14 @@ import java.util.Map;
 import java.util.Random;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Quests.Quest;
-import DungeonoftheBrutalKing.Quests.Quests.QuestCleanseCursedShrine;
-import DungeonoftheBrutalKing.Quests.Quests.QuestFeedHungryBeast;
-import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
-import DungeonoftheBrutalKing.Quests.Quests.QuestGuideTheLostSoul;
-import DungeonoftheBrutalKing.Quests.Quests.QuestLieToTheLost;
-import DungeonoftheBrutalKing.Quests.Quests.QuestRescuetheForgottenPrisoner;
-import DungeonoftheBrutalKing.Quests.Quests.QuestSlayTheHelpLess;
+import DungeonoftheBrutalKing.Quests.Api.Quest;
+import DungeonoftheBrutalKing.Quests.Content.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKing.Quests.Content.QuestFeedHungryBeast;
+import DungeonoftheBrutalKing.Quests.Content.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Quests.Content.QuestGuideTheLostSoul;
+import DungeonoftheBrutalKing.Quests.Content.QuestLieToTheLost;
+import DungeonoftheBrutalKing.Quests.Content.QuestRescuetheForgottenPrisoner;
+import DungeonoftheBrutalKing.Quests.Content.QuestSlayTheHelpLess;
 import DungeonoftheBrutalKing.SharedData.LocationType;
 
 

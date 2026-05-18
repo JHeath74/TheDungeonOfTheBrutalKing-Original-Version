@@ -1,11 +1,13 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/EncounterEvent.java`
-package DungeonoftheBrutalKing.Quests;
+package DungeonoftheBrutalKing.Quests.Encounters;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import DungeonoftheBrutalKing.Quests.Core.QuestManager;
 
 /**
  * Quest-routing event sent to {@link QuestManager#onEncounter(EncounterEvent)}.

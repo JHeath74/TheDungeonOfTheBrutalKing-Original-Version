@@ -1,14 +1,15 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestTriggerConfig.java`
-package DungeonoftheBrutalKing.Quests;
+package DungeonoftheBrutalKing.Quests.Triggers;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Quests.Quests.QuestCleanseCursedShrine;
-import DungeonoftheBrutalKing.Quests.Quests.QuestFeedHungryBeast;
-import DungeonoftheBrutalKing.Quests.Quests.QuestForgiveBetrayer;
-import DungeonoftheBrutalKing.Quests.Quests.QuestGuideTheLostSoul;
-import DungeonoftheBrutalKing.Quests.Quests.QuestLieToTheLost;
-import DungeonoftheBrutalKing.Quests.Quests.QuestSlayTheHelpLess;
+import DungeonoftheBrutalKing.Quests.Api.Quest;
+import DungeonoftheBrutalKing.Quests.Content.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKing.Quests.Content.QuestFeedHungryBeast;
+import DungeonoftheBrutalKing.Quests.Content.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Quests.Content.QuestGuideTheLostSoul;
+import DungeonoftheBrutalKing.Quests.Content.QuestLieToTheLost;
+import DungeonoftheBrutalKing.Quests.Content.QuestSlayTheHelpLess;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -67,7 +68,7 @@ public final class QuestTriggerConfig {
 
     private QuestTriggerConfig() {}
 
-    public static void register(QuestTriggerManager questTriggerManager, int level) {
+    public static void register(TriggerManager questTriggerManager, int level) {
         if (level < 1 || level > TRIGGER_POINTS_BY_LEVEL.length) {
             throw new IllegalArgumentException("Invalid level: " + level);
         }
@@ -79,7 +80,7 @@ public final class QuestTriggerConfig {
         }
     }
 
-    private static void addRandomQuestTrigger(QuestTriggerManager questTriggerManager, int x, int y) {
+    private static void addRandomQuestTrigger(TriggerManager questTriggerManager, int x, int y) {
         MainGameScreen screen = getScreenUnchecked();
 
         List<RandomQuestOnTileEnterTrigger.ThrowingSupplier<? extends Quest>> questFactories = List.of(

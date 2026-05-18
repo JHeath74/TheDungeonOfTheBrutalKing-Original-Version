@@ -1,6 +1,6 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestType.java`
-package DungeonoftheBrutalKing.Quests;
+package DungeonoftheBrutalKing.Quests.Api;
 
 public enum QuestType {
 

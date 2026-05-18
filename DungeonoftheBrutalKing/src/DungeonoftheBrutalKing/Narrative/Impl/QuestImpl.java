@@ -1,10 +1,14 @@
 
 // File: src/DungeonoftheBrutalKing/Quests/QuestImpl.java
-package DungeonoftheBrutalKing.Quests;
+package DungeonoftheBrutalKing.Quests.Impl;
 
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import DungeonoftheBrutalKing.Quests.Api.Quest;
+import DungeonoftheBrutalKing.Quests.Api.QuestTag;
+import DungeonoftheBrutalKing.Quests.Api.QuestType;
 
 /**
  * Default implementation of the Quest interface.
