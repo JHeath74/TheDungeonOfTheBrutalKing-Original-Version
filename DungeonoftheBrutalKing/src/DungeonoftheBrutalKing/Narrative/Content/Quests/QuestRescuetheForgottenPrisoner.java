@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing.Narrative.Content;
+package DungeonoftheBrutalKing.Narrative.Content.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -9,60 +9,62 @@ import DungeonoftheBrutalKing.Narrative.Api.QuestType;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class QuestSlayTheHelpLess extends JPanel implements Quest {
+public class QuestRescuetheForgottenPrisoner extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
+    private static final String ID = "quest_rescue_the_forgotten_prisoner";
+    private static final String NAME = "Rescue the Forgotten Prisoner";
     private static final int ALIGNMENT_DELTA = 3;
-    private static final String ID = "quest_slay_the_helpless";
-    private static final String NAME = "Slay the Helpless";
     private static final QuestType TYPE = QuestType.SIDE;
+
+    private static final String PRISONER_NAME = "George";
+    private static final String CONVERSATION =
+            "Thank you, stranger! I thought I would never see the light of day again. " +
+            "I was imprisoned here for refusing to betray my friends.";
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
     private QuestStatus status = QuestStatus.NOT_STARTED;
 
-    public QuestSlayTheHelpLess(MainGameScreen mainGameScreen) {
+    public QuestRescuetheForgottenPrisoner(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
         if (this.mainGameScreen != null) {
             originalPanel = this.mainGameScreen.getGameImagesAndCombatPanel();
-            MainGameScreen.replaceWithAnyPanel(this);
         }
 
+        JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.getQuestImagesPath() + "Prisoner.png"));
+        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(imageLabel, BorderLayout.NORTH);
+
         JLabel descLabel = new JLabel(
-            "<html><center><b>Slay the Helpless</b><br>"
-                + "A defenseless creature or NPC stands before you. Will you kill it for loot or convenience, or spare its life?</center></html>",
+            "<html><center>A frail and desperate prisoner named " + PRISONER_NAME +
+            " is locked in a hidden cell, pleading for help.</center></html>",
             JLabel.CENTER
         );
-        add(descLabel, BorderLayout.NORTH);
+        add(descLabel, BorderLayout.CENTER);
 
-        String imagePath = GameSettings.getQuestImagesPath() + "Helpless.png";
-        JLabel imageLabel = new JLabel(new ImageIcon(imagePath), JLabel.CENTER);
-        add(imageLabel, BorderLayout.CENTER);
+        JPanel buttonPanel = new JPanel();
+        JButton freeButton = new JButton("Free");
+        JButton ignoreButton = new JButton("Ignore");
+        buttonPanel.add(freeButton);
+        buttonPanel.add(ignoreButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        JPanel choicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        JButton slayButton = new JButton("Slay the helpless for loot");
-        JButton spareButton = new JButton("Spare the helpless");
-        choicePanel.add(slayButton);
-        choicePanel.add(spareButton);
-        add(choicePanel, BorderLayout.SOUTH);
-
-        slayButton.addActionListener(_ -> {
-            applyAlignmentDelta(-ALIGNMENT_DELTA);
-            finishChoice(slayButton, spareButton,
-                "\nYou kill the defenseless creature. Its blood stains your hands, and your alignment decreases.\n");
+        freeButton.addActionListener(_ -> {
+            applyAlignmentDelta(+ALIGNMENT_DELTA);
+            finishChoice(freeButton, ignoreButton, "\n" + CONVERSATION + "\n", true);
         });
 
-        spareButton.addActionListener(_ -> {
-            applyAlignmentDelta(+ALIGNMENT_DELTA);
-            finishChoice(slayButton, spareButton,
-                "\nYou spare the helpless creature. Mercy fills your heart, and your alignment increases.\n");
+        ignoreButton.addActionListener(_ -> {
+            applyAlignmentDelta(-ALIGNMENT_DELTA);
+            finishChoice(freeButton, ignoreButton,
+                "\nYou ignore the prisoner. He looks at you with despair.\n", false);
         });
     }
 
@@ -71,12 +73,19 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
         Character.getInstance().setAlignment(current + delta);
     }
 
-    private void finishChoice(JButton btn1, JButton btn2, String message) {
+    private void finishChoice(JButton btn1, JButton btn2, String message, boolean succeeded) {
         btn1.setEnabled(false);
         btn2.setEnabled(false);
         MainGameScreen.appendToMessageTextPane(message);
         try {
-            complete();
+            if (succeeded) {
+                complete();
+            } else {
+                fail();
+                if (mainGameScreen != null && originalPanel != null) {
+                    MainGameScreen.replaceWithAnyPanel(originalPanel);
+                }
+            }
         } catch (IOException | InterruptedException | ParseException ignored) {
         }
     }
@@ -104,9 +113,6 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
     @Override
     public void fail() {
         status = QuestStatus.FAILED;
-        if (mainGameScreen != null && originalPanel != null) {
-            MainGameScreen.replaceWithAnyPanel(originalPanel);
-        }
     }
 
     @Override
@@ -120,7 +126,8 @@ public class QuestSlayTheHelpLess extends JPanel implements Quest {
 
     @Override
     public String getDescription() {
-        return "Slay the Helpless: Kill a defenseless NPC or creature for loot or convenience.";
+        return "Rescue the Forgotten Prisoner: Free a starving NPC named " + PRISONER_NAME +
+               ", locked in a hidden cell. No reward, just gratitude.";
     }
 
     @Override

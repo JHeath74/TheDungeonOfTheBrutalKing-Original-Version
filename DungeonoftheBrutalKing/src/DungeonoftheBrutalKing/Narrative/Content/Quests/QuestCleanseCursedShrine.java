@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing.Narrative.Content;
+package DungeonoftheBrutalKing.Narrative.Content.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;

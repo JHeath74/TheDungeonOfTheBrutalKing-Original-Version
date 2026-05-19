@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing.Narrative.Content;
+package DungeonoftheBrutalKing.Narrative.Content.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -14,19 +14,19 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class QuestLieToTheLost extends JPanel implements Quest {
+public class QuestSlayTheHelpLess extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
-    private static final String ID = "quest_lie_to_the_lost";
-    private static final String NAME = "Lie to the Lost";
+    private static final String ID = "quest_slay_the_helpless";
+    private static final String NAME = "Slay the Helpless";
     private static final QuestType TYPE = QuestType.SIDE;
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
     private QuestStatus status = QuestStatus.NOT_STARTED;
 
-    public QuestLieToTheLost(MainGameScreen mainGameScreen) {
+    public QuestSlayTheHelpLess(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
@@ -36,33 +36,33 @@ public class QuestLieToTheLost extends JPanel implements Quest {
         }
 
         JLabel descLabel = new JLabel(
-            "<html><center><b>Lie to the Lost</b><br>"
-                + "A lost spirit or NPC seeks your guidance. Will you mislead them for your own gain, or help them find peace?</center></html>",
+            "<html><center><b>Slay the Helpless</b><br>"
+                + "A defenseless creature or NPC stands before you. Will you kill it for loot or convenience, or spare its life?</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
 
-        String imagePath = GameSettings.getQuestImagesPath() + "LostSoul.png";
+        String imagePath = GameSettings.getQuestImagesPath() + "Helpless.png";
         JLabel imageLabel = new JLabel(new ImageIcon(imagePath), JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel choicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        JButton lieButton = new JButton("Lie and mislead the lost");
-        JButton helpButton = new JButton("Help the lost find peace");
-        choicePanel.add(lieButton);
-        choicePanel.add(helpButton);
+        JButton slayButton = new JButton("Slay the helpless for loot");
+        JButton spareButton = new JButton("Spare the helpless");
+        choicePanel.add(slayButton);
+        choicePanel.add(spareButton);
         add(choicePanel, BorderLayout.SOUTH);
 
-        lieButton.addActionListener(_ -> {
+        slayButton.addActionListener(_ -> {
             applyAlignmentDelta(-ALIGNMENT_DELTA);
-            finishChoice(lieButton, helpButton,
-                "\nYou lie to the lost, sending them astray for your own benefit. The spirit suffers, and your alignment decreases.\n");
+            finishChoice(slayButton, spareButton,
+                "\nYou kill the defenseless creature. Its blood stains your hands, and your alignment decreases.\n");
         });
 
-        helpButton.addActionListener(_ -> {
+        spareButton.addActionListener(_ -> {
             applyAlignmentDelta(+ALIGNMENT_DELTA);
-            finishChoice(lieButton, helpButton,
-                "\nYou help the lost find peace. Your compassion increases your alignment.\n");
+            finishChoice(slayButton, spareButton,
+                "\nYou spare the helpless creature. Mercy fills your heart, and your alignment increases.\n");
         });
     }
 
@@ -120,7 +120,7 @@ public class QuestLieToTheLost extends JPanel implements Quest {
 
     @Override
     public String getDescription() {
-        return "Lie to the Lost: Mislead a spirit or NPC for selfish reasons, causing them harm.";
+        return "Slay the Helpless: Kill a defenseless NPC or creature for loot or convenience.";
     }
 
     @Override

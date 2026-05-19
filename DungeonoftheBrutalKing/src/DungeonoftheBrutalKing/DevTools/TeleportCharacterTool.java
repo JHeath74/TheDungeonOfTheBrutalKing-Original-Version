@@ -1,5 +1,4 @@
 
-// `src/DungeonoftheBrutalKing/DevTools/TeleportCharacterTool.java`
 package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
@@ -9,169 +8,159 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 public class TeleportCharacterTool extends JDialog {
+
     private static final long serialVersionUID = 1L;
     private static final int FIELD_COLUMNS = 10;
 
     private final JTextField dungeonLevelField = new JTextField(FIELD_COLUMNS);
-    private final JTextField xField = new JTextField(FIELD_COLUMNS);
-    private final JTextField yField = new JTextField(FIELD_COLUMNS);
+    private final JTextField xField            = new JTextField(FIELD_COLUMNS);
+    private final JTextField yField            = new JTextField(FIELD_COLUMNS);
 
     private final Consumer<TeleportRequest> onTeleport;
 
     public TeleportCharacterTool(JFrame parent, Consumer<TeleportRequest> onTeleport) {
         super(parent, "Teleport Character Tool", true);
-        this.onTeleport = Objects.requireNonNull(onTeleport, "onTeleport");
+        this.onTeleport = Objects.requireNonNull(onTeleport, "onTeleport must not be null");
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        installIntegerFilter(dungeonLevelField);
-        installIntegerFilter(xField);
-        installIntegerFilter(yField);
+        installNonNegativeFilter(dungeonLevelField);
+        installNonNegativeFilter(xField);
+        installNonNegativeFilter(yField);
 
-        dungeonLevelField.setToolTipText("Integer (e.g. 1)");
-        xField.setToolTipText("Integer X coordinate");
-        yField.setToolTipText("Integer Y coordinate");
+        dungeonLevelField.setToolTipText("Dungeon level (0 or greater)");
+        xField.setToolTipText("X coordinate (0 or greater)");
+        yField.setToolTipText("Y coordinate (0 or greater)");
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(4, 4, 4, 4);
-        c.anchor = GridBagConstraints.LINE_END;
-
-        c.gridx = 0;
-        c.gridy = 0;
-        panel.add(new JLabel("Dungeon Level:"), c);
-        c.gridy = 1;
-        panel.add(new JLabel("X Coordinate:"), c);
-        c.gridy = 2;
-        panel.add(new JLabel("Y Coordinate:"), c);
-
-        c.anchor = GridBagConstraints.LINE_START;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1.0;
-
-        c.gridx = 1;
-        c.gridy = 0;
-        panel.add(dungeonLevelField, c);
-        c.gridy = 1;
-        panel.add(xField, c);
-        c.gridy = 2;
-        panel.add(yField, c);
+        JPanel formPanel = buildFormPanel();
 
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton okButton = new JButton("Teleport");
+        JButton okButton     = new JButton("Teleport");
         JButton cancelButton = new JButton("Cancel");
         buttons.add(okButton);
         buttons.add(cancelButton);
 
-        c.gridx = 0;
-        c.gridy = 3;
-        c.gridwidth = 2;
-        c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.LINE_END;
-        c.weightx = 0;
-        panel.add(buttons, c);
+        GridBagConstraints gbc = buttonConstraints();
+        formPanel.add(buttons, gbc);
 
         okButton.addActionListener(this::onTeleportClicked);
-        cancelButton.addActionListener(_ignored -> dispose());
+        cancelButton.addActionListener(_ -> dispose());
 
         getRootPane().setDefaultButton(okButton);
         registerEscapeToClose();
 
-        setContentPane(panel);
+        setContentPane(formPanel);
         pack();
         setLocationRelativeTo(parent);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(WindowEvent _ignored) {
-                setAlwaysOnTop(true);
-                toFront();
-                requestFocus();
-                dungeonLevelField.requestFocusInWindow();
-                setAlwaysOnTop(false);
-            }
-        });
+        // Focus first field after dialog is shown
+        SwingUtilities.invokeLater(dungeonLevelField::requestFocusInWindow);
     }
 
-    private void onTeleportClicked(ActionEvent _ignored) {
-        Integer dungeonLevel = parseIntOrNull(dungeonLevelField.getText());
-        Integer x = parseIntOrNull(xField.getText());
-        Integer y = parseIntOrNull(yField.getText());
+    // ── Form Builder ──────────────────────────────────────────────────────────
 
-        if (dungeonLevel == null || x == null || y == null) {
-            showError("Please enter valid integers for all fields.");
-            return;
-        }
-        if (dungeonLevel < 0) {
-            showError("Dungeon Level must be 0 or greater.");
-            return;
-        }
-        if (x < 0 || y < 0) {
-            showError("Coordinates must be 0 or greater.");
-            return;
-        }
+    private JPanel buildFormPanel() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        TeleportRequest req = new TeleportRequest(dungeonLevel, x, y);
+        addFormRow(panel, "Dungeon Level:", dungeonLevelField, 0);
+        addFormRow(panel, "X Coordinate:", xField,            1);
+        addFormRow(panel, "Y Coordinate:", yField,            2);
+
+        return panel;
+    }
+
+    private static void addFormRow(JPanel panel, String labelText, JComponent field, int row) {
+        GridBagConstraints label = new GridBagConstraints();
+        label.gridx  = 0; label.gridy = row;
+        label.anchor = GridBagConstraints.LINE_END;
+        label.insets = new Insets(4, 4, 4, 4);
+        panel.add(new JLabel(labelText), label);
+
+        GridBagConstraints input = new GridBagConstraints();
+        input.gridx   = 1; input.gridy = row;
+        input.anchor  = GridBagConstraints.LINE_START;
+        input.fill    = GridBagConstraints.HORIZONTAL;
+        input.weightx = 1.0;
+        input.insets  = new Insets(4, 4, 4, 4);
+        panel.add(field, input);
+    }
+
+    private static GridBagConstraints buttonConstraints() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx      = 0; gbc.gridy = 3;
+        gbc.gridwidth  = 2;
+        gbc.fill       = GridBagConstraints.NONE;
+        gbc.anchor     = GridBagConstraints.LINE_END;
+        gbc.insets     = new Insets(4, 4, 4, 4);
+        return gbc;
+    }
+
+    // ── Action Handlers ───────────────────────────────────────────────────────
+
+    private void onTeleportClicked(ActionEvent ignored) {
+        Integer dungeonLevel = parseNonNegativeInt(dungeonLevelField.getText());
+        Integer x            = parseNonNegativeInt(xField.getText());
+        Integer y            = parseNonNegativeInt(yField.getText());
+
+        if (dungeonLevel == null) { showError("Dungeon Level must be a non-negative integer."); return; }
+        if (x == null)            { showError("X Coordinate must be a non-negative integer.");  return; }
+        if (y == null)            { showError("Y Coordinate must be a non-negative integer.");  return; }
 
         try {
-            onTeleport.accept(req);
+            onTeleport.accept(new TeleportRequest(dungeonLevel, x, y));
             dispose();
         } catch (RuntimeException ex) {
             showError("Teleport failed: " + ex.getMessage());
         }
     }
 
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
     private void showError(String message) {
-        JOptionPane.showMessageDialog(
-                this,
-                message,
-                "Input Error",
-                JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this, message, "Input Error", JOptionPane.ERROR_MESSAGE);
     }
 
     private void registerEscapeToClose() {
         JRootPane root = getRootPane();
-        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = root.getActionMap();
-
-        im.put(KeyStroke.getKeyStroke("ESCAPE"), "close");
-        am.put("close", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent _ignored) {
-                dispose();
-            }
+        root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+            .put(KeyStroke.getKeyStroke("ESCAPE"), "close");
+        root.getActionMap().put("close", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent ignored) { dispose(); }
         });
     }
 
-    private static Integer parseIntOrNull(String text) {
-        String t = text == null ? "" : text.trim();
-        if (t.isEmpty() || "-".equals(t)) return null;
+    private static Integer parseNonNegativeInt(String text) {
+        if (text == null) return null;
+        String trimmed = text.trim();
+        if (trimmed.isEmpty()) return null;
         try {
-            return Integer.parseInt(t);
+            int value = Integer.parseInt(trimmed);
+            return value >= 0 ? value : null;
         } catch (NumberFormatException ex) {
             return null;
         }
     }
 
-    private static void installIntegerFilter(JTextField field) {
+    private static void installNonNegativeFilter(JTextField field) {
         if (field.getDocument() instanceof AbstractDocument doc) {
-            doc.setDocumentFilter(new IntegerDocumentFilter());
+            doc.setDocumentFilter(new NonNegativeIntegerFilter());
         }
     }
 
+    // ── Record ────────────────────────────────────────────────────────────────
+
     public record TeleportRequest(int dungeonLevel, int x, int y) { }
 
-    private static final class IntegerDocumentFilter extends DocumentFilter {
+    // ── Document Filter ───────────────────────────────────────────────────────
+
+    private static final class NonNegativeIntegerFilter extends DocumentFilter {
+
         @Override
         public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
                 throws BadLocationException {
@@ -184,10 +173,11 @@ public class TeleportCharacterTool extends JDialog {
             String current = fb.getDocument().getText(0, fb.getDocument().getLength());
             String next = new StringBuilder(current)
                     .replace(offset, offset + length, text == null ? "" : text)
-                    .toString();
+                    .toString()
+                    .trim();
 
-            String candidate = next.trim();
-            if (candidate.isEmpty() || "-".equals(candidate) || candidate.matches("-?\\d+")) {
+            // Only allow empty string or non-negative integer
+            if (next.isEmpty() || next.matches("\\d+")) {
                 fb.replace(offset, length, text, attrs);
             } else {
                 Toolkit.getDefaultToolkit().beep();

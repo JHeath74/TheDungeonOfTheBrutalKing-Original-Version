@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing.Narrative.Content;
+package DungeonoftheBrutalKing.Narrative.Content.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -14,19 +14,20 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class QuestGuideTheLostSoul extends JPanel implements Quest {
+public class QuestFeedHungryBeast extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
-    private static final String ID = "quest_guide_the_lost_soul";
-    private static final String NAME = "Guide the Lost Soul";
+    private static final String ID = "quest_feed_hungry_beast";
+    private static final String NAME = "Feed the Hungry Beast";
     private static final QuestType TYPE = QuestType.SIDE;
 
-    private final MainGameScreen mainGameScreen;
-    private JPanel originalPanel;
     private QuestStatus status = QuestStatus.NOT_STARTED;
+    private JPanel originalPanel;
 
-    public QuestGuideTheLostSoul(MainGameScreen mainGameScreen) {
+    private final MainGameScreen mainGameScreen;
+
+    public QuestFeedHungryBeast(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
@@ -36,45 +37,47 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
         }
 
         JLabel descLabel = new JLabel(
-            "<html><center><b>Guide the Lost Soul</b><br>"
-                + "A confused spirit lingers, unable to find peace. Will you help it find its way to the afterlife?</center></html>",
+            "<html><center><b>Feed the Hungry Beast</b><br>"
+                + "A monstrous creature is starving but not hostile. Feed it instead of killing it.</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
 
-        String imagePath = GameSettings.getQuestImagesPath() + "LostSoul.png";
+        String imagePath = GameSettings.getQuestImagesPath() + "HungryBeast.png";
         JLabel imageLabel = new JLabel(new ImageIcon(imagePath), JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel choicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        JButton helpButton = new JButton("Listen and offer guidance");
-        JButton ignoreButton = new JButton("Dismiss the spirit");
-        choicePanel.add(helpButton);
-        choicePanel.add(ignoreButton);
+        JButton feedButton = new JButton("Feed the beast (use 1 Food)");
+        JButton attackButton = new JButton("Attack the beast");
+        choicePanel.add(feedButton);
+        choicePanel.add(attackButton);
         add(choicePanel, BorderLayout.SOUTH);
 
-        helpButton.addActionListener(_ -> {
-            applyAlignmentDelta(+ALIGNMENT_DELTA);
-            finishChoice(helpButton, ignoreButton,
-                "\nYou listen to the lost soul's story and offer comforting words. With your guidance, the spirit finds peace and moves on.\n");
+        feedButton.addActionListener(_ -> {
+            int food = Character.getInstance().getFood();
+            if (food > 0) {
+                Character.getInstance().setFood(food - 1);
+                MainGameScreen.appendToMessageTextPane("\nYou feed the beast. It calms down and lets you pass.\n");
+                finishQuest();
+            } else {
+                MainGameScreen.appendToMessageTextPane("\nYou have no food to offer.\n");
+            }
+            feedButton.setEnabled(false);
+            attackButton.setEnabled(false);
         });
 
-        ignoreButton.addActionListener(_ -> {
-            applyAlignmentDelta(-ALIGNMENT_DELTA);
-            finishChoice(helpButton, ignoreButton,
-                "\nYou turn away from the lost soul. The spirit wails in despair and fades.\n");
+        attackButton.addActionListener(_ -> {
+            int current = Character.getInstance().getAlignment();
+            Character.getInstance().setAlignment(current - ALIGNMENT_DELTA);
+            MainGameScreen.appendToMessageTextPane("\nYou attack the beast.\n");
+            finishQuest();
+            feedButton.setEnabled(false);
+            attackButton.setEnabled(false);
         });
     }
 
-    private void applyAlignmentDelta(int delta) {
-        int current = Character.getInstance().getAlignment();
-        Character.getInstance().setAlignment(current + delta);
-    }
-
-    private void finishChoice(JButton btn1, JButton btn2, String message) {
-        btn1.setEnabled(false);
-        btn2.setEnabled(false);
-        MainGameScreen.appendToMessageTextPane(message);
+    private void finishQuest() {
         try {
             complete();
         } catch (IOException | InterruptedException | ParseException ignored) {
@@ -97,11 +100,6 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     }
 
     @Override
-    public void completeQuest() throws IOException, InterruptedException, ParseException {
-        complete();
-    }
-
-    @Override
     public void fail() {
         status = QuestStatus.FAILED;
         if (mainGameScreen != null && originalPanel != null) {
@@ -120,7 +118,7 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
 
     @Override
     public String getDescription() {
-        return "Guide the Lost Soul: Help a confused spirit find its way to the afterlife through dialogue and clues.";
+        return "Feed the Hungry Beast: Feed or attack a starving, non-hostile creature.";
     }
 
     @Override
@@ -138,5 +136,10 @@ public class QuestGuideTheLostSoul extends JPanel implements Quest {
     @Override
     public String serialize() {
         return ID + ":" + status.name();
+    }
+
+    @Override
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
+        complete();
     }
 }

@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing.Narrative.Content;
+package DungeonoftheBrutalKing.Narrative.Content.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -14,19 +14,19 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class QuestForgiveBetrayer extends JPanel implements Quest {
+public class QuestGuideTheLostSoul extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
     private static final int ALIGNMENT_DELTA = 3;
-    private static final String ID = "quest_forgive_betrayer";
-    private static final String NAME = "Forgive the Betrayer";
+    private static final String ID = "quest_guide_the_lost_soul";
+    private static final String NAME = "Guide the Lost Soul";
     private static final QuestType TYPE = QuestType.SIDE;
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
     private QuestStatus status = QuestStatus.NOT_STARTED;
 
-    public QuestForgiveBetrayer(MainGameScreen mainGameScreen) {
+    public QuestGuideTheLostSoul(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
@@ -36,33 +36,33 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
         }
 
         JLabel descLabel = new JLabel(
-            "<html><center><b>Forgive the Betrayer</b><br>"
-                + "You confront an enemy who once betrayed you. What will you do?</center></html>",
+            "<html><center><b>Guide the Lost Soul</b><br>"
+                + "A confused spirit lingers, unable to find peace. Will you help it find its way to the afterlife?</center></html>",
             JLabel.CENTER
         );
         add(descLabel, BorderLayout.NORTH);
 
-        String imagePath = GameSettings.getQuestImagesPath() + "Betrayer.png";
+        String imagePath = GameSettings.getQuestImagesPath() + "LostSoul.png";
         JLabel imageLabel = new JLabel(new ImageIcon(imagePath), JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
         JPanel choicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        JButton releaseButton = new JButton("Release");
-        JButton killButton = new JButton("Kill");
-        choicePanel.add(releaseButton);
-        choicePanel.add(killButton);
+        JButton helpButton = new JButton("Listen and offer guidance");
+        JButton ignoreButton = new JButton("Dismiss the spirit");
+        choicePanel.add(helpButton);
+        choicePanel.add(ignoreButton);
         add(choicePanel, BorderLayout.SOUTH);
 
-        releaseButton.addActionListener(_ -> {
+        helpButton.addActionListener(_ -> {
             applyAlignmentDelta(+ALIGNMENT_DELTA);
-            finishChoice(releaseButton, killButton,
-                "You release the betrayer. Mercy may bring future rewards.");
+            finishChoice(helpButton, ignoreButton,
+                "\nYou listen to the lost soul's story and offer comforting words. With your guidance, the spirit finds peace and moves on.\n");
         });
 
-        killButton.addActionListener(_ -> {
+        ignoreButton.addActionListener(_ -> {
             applyAlignmentDelta(-ALIGNMENT_DELTA);
-            finishChoice(releaseButton, killButton,
-                "You kill the betrayer. Justice is served, but at a cost.");
+            finishChoice(helpButton, ignoreButton,
+                "\nYou turn away from the lost soul. The spirit wails in despair and fades.\n");
         });
     }
 
@@ -71,13 +71,11 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
         Character.getInstance().setAlignment(current + delta);
     }
 
-    private void finishChoice(JButton releaseButton, JButton killButton, String message) {
-        releaseButton.setEnabled(false);
-        killButton.setEnabled(false);
+    private void finishChoice(JButton btn1, JButton btn2, String message) {
+        btn1.setEnabled(false);
+        btn2.setEnabled(false);
+        MainGameScreen.appendToMessageTextPane(message);
         try {
-            if (mainGameScreen != null) {
-                mainGameScreen.setMessageTextPane(message);
-            }
             complete();
         } catch (IOException | InterruptedException | ParseException ignored) {
         }
@@ -122,7 +120,7 @@ public class QuestForgiveBetrayer extends JPanel implements Quest {
 
     @Override
     public String getDescription() {
-        return "Forgive the Betrayer: Confront the one who betrayed you and choose their fate.";
+        return "Guide the Lost Soul: Help a confused spirit find its way to the afterlife through dialogue and clues.";
     }
 
     @Override

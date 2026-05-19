@@ -1,5 +1,5 @@
 
-package DungeonoftheBrutalKing.Narrative.Content;
+package DungeonoftheBrutalKing.Narrative.Content.Quests;
 
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -9,62 +9,60 @@ import DungeonoftheBrutalKing.Narrative.Api.QuestType;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.text.ParseException;
 
-public class QuestRescuetheForgottenPrisoner extends JPanel implements Quest {
+public class QuestForgiveBetrayer extends JPanel implements Quest {
 
     private static final long serialVersionUID = 1L;
-    private static final String ID = "quest_rescue_the_forgotten_prisoner";
-    private static final String NAME = "Rescue the Forgotten Prisoner";
     private static final int ALIGNMENT_DELTA = 3;
+    private static final String ID = "quest_forgive_betrayer";
+    private static final String NAME = "Forgive the Betrayer";
     private static final QuestType TYPE = QuestType.SIDE;
-
-    private static final String PRISONER_NAME = "George";
-    private static final String CONVERSATION =
-            "Thank you, stranger! I thought I would never see the light of day again. " +
-            "I was imprisoned here for refusing to betray my friends.";
 
     private final MainGameScreen mainGameScreen;
     private JPanel originalPanel;
     private QuestStatus status = QuestStatus.NOT_STARTED;
 
-    public QuestRescuetheForgottenPrisoner(MainGameScreen mainGameScreen) {
+    public QuestForgiveBetrayer(MainGameScreen mainGameScreen) {
         this.mainGameScreen = mainGameScreen;
         setLayout(new BorderLayout());
 
         if (this.mainGameScreen != null) {
             originalPanel = this.mainGameScreen.getGameImagesAndCombatPanel();
+            MainGameScreen.replaceWithAnyPanel(this);
         }
 
-        JLabel imageLabel = new JLabel(new ImageIcon(GameSettings.getQuestImagesPath() + "Prisoner.png"));
-        imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(imageLabel, BorderLayout.NORTH);
-
         JLabel descLabel = new JLabel(
-            "<html><center>A frail and desperate prisoner named " + PRISONER_NAME +
-            " is locked in a hidden cell, pleading for help.</center></html>",
+            "<html><center><b>Forgive the Betrayer</b><br>"
+                + "You confront an enemy who once betrayed you. What will you do?</center></html>",
             JLabel.CENTER
         );
-        add(descLabel, BorderLayout.CENTER);
+        add(descLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel();
-        JButton freeButton = new JButton("Free");
-        JButton ignoreButton = new JButton("Ignore");
-        buttonPanel.add(freeButton);
-        buttonPanel.add(ignoreButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        String imagePath = GameSettings.getQuestImagesPath() + "Betrayer.png";
+        JLabel imageLabel = new JLabel(new ImageIcon(imagePath), JLabel.CENTER);
+        add(imageLabel, BorderLayout.CENTER);
 
-        freeButton.addActionListener(_ -> {
+        JPanel choicePanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        JButton releaseButton = new JButton("Release");
+        JButton killButton = new JButton("Kill");
+        choicePanel.add(releaseButton);
+        choicePanel.add(killButton);
+        add(choicePanel, BorderLayout.SOUTH);
+
+        releaseButton.addActionListener(_ -> {
             applyAlignmentDelta(+ALIGNMENT_DELTA);
-            finishChoice(freeButton, ignoreButton, "\n" + CONVERSATION + "\n", true);
+            finishChoice(releaseButton, killButton,
+                "You release the betrayer. Mercy may bring future rewards.");
         });
 
-        ignoreButton.addActionListener(_ -> {
+        killButton.addActionListener(_ -> {
             applyAlignmentDelta(-ALIGNMENT_DELTA);
-            finishChoice(freeButton, ignoreButton,
-                "\nYou ignore the prisoner. He looks at you with despair.\n", false);
+            finishChoice(releaseButton, killButton,
+                "You kill the betrayer. Justice is served, but at a cost.");
         });
     }
 
@@ -73,19 +71,14 @@ public class QuestRescuetheForgottenPrisoner extends JPanel implements Quest {
         Character.getInstance().setAlignment(current + delta);
     }
 
-    private void finishChoice(JButton btn1, JButton btn2, String message, boolean succeeded) {
-        btn1.setEnabled(false);
-        btn2.setEnabled(false);
-        MainGameScreen.appendToMessageTextPane(message);
+    private void finishChoice(JButton releaseButton, JButton killButton, String message) {
+        releaseButton.setEnabled(false);
+        killButton.setEnabled(false);
         try {
-            if (succeeded) {
-                complete();
-            } else {
-                fail();
-                if (mainGameScreen != null && originalPanel != null) {
-                    MainGameScreen.replaceWithAnyPanel(originalPanel);
-                }
+            if (mainGameScreen != null) {
+                mainGameScreen.setMessageTextPane(message);
             }
+            complete();
         } catch (IOException | InterruptedException | ParseException ignored) {
         }
     }
@@ -113,6 +106,9 @@ public class QuestRescuetheForgottenPrisoner extends JPanel implements Quest {
     @Override
     public void fail() {
         status = QuestStatus.FAILED;
+        if (mainGameScreen != null && originalPanel != null) {
+            MainGameScreen.replaceWithAnyPanel(originalPanel);
+        }
     }
 
     @Override
@@ -126,8 +122,7 @@ public class QuestRescuetheForgottenPrisoner extends JPanel implements Quest {
 
     @Override
     public String getDescription() {
-        return "Rescue the Forgotten Prisoner: Free a starving NPC named " + PRISONER_NAME +
-               ", locked in a hidden cell. No reward, just gratitude.";
+        return "Forgive the Betrayer: Confront the one who betrayed you and choose their fate.";
     }
 
     @Override
