@@ -3,6 +3,7 @@
 package DungeonoftheBrutalKing.GameEngine;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Screen {
@@ -19,15 +20,40 @@ public class Screen {
         height = h;
     }
 
-    public int[] update(Camera camera, int[] pixels) {
-        for (int n = 0; n < pixels.length / 2; n++) {
-            if (pixels[n] != Color.DARK_GRAY.getRGB()) {
-                pixels[n] = Color.DARK_GRAY.getRGB();
+    private void drawImageStrip(int[] pixels, BufferedImage img, int startRow, int endRow) {
+        int imgW = img.getWidth();
+        int imgH = img.getHeight();
+        for (int y = startRow; y < endRow; y++) {
+            int srcY = (y - startRow) * imgH / (endRow - startRow);
+            for (int x = 0; x < width; x++) {
+                int srcX = x * imgW / width;
+                pixels[y * width + x] = img.getRGB(srcX, srcY);
             }
         }
-        for (int i = pixels.length / 2; i < pixels.length; i++) {
-            if (pixels[i] != Color.gray.getRGB()) {
-                pixels[i] = Color.gray.getRGB();
+    }
+
+    public int[] update(Camera camera, int[] pixels) {
+        int half = height / 2;
+
+        // Ceiling
+        BufferedImage ceilingImage = camera.getCeilingImage();
+        if (ceilingImage != null) {
+            drawImageStrip(pixels, ceilingImage, 0, half);
+        } else {
+            int ceilColor = Color.DARK_GRAY.getRGB();
+            for (int n = 0; n < width * half; n++) {
+                pixels[n] = ceilColor;
+            }
+        }
+
+        // Floor
+        BufferedImage floorImage = camera.getFloorImage();
+        if (floorImage != null) {
+            drawImageStrip(pixels, floorImage, half, height);
+        } else {
+            int floorColor = Color.gray.getRGB();
+            for (int i = width * half; i < pixels.length; i++) {
+                pixels[i] = floorColor;
             }
         }
 
@@ -110,7 +136,7 @@ public class Screen {
             wallX -= Math.floor(wallX);
 
             int texX = (int) (wallX * (textures.get(texNum).SIZE));
-  
+
             if (side == 0 && rayDirX > 0) {
                 texX = textures.get(texNum).SIZE - texX - 1;
             }

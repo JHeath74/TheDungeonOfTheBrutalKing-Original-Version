@@ -29,6 +29,8 @@ public class GameSettings {
     public static String RaceImagesPath = "src/DungeonoftheBrutalKing/Images/Race/";
     public static String QuestImagesPath = "src/DungeonoftheBrutalKing/Images/Quests/";
 
+    
+    
     // Instance colors
     private final Color colorBrown = new Color(165, 42, 42);
     private final Color colorLightBrown = new Color(196, 164, 132);
@@ -137,6 +139,8 @@ public class GameSettings {
     public static String getQuestImagesPath() { return QuestImagesPath; }
     public static String getDungeonFloorTexturePath() { return DungeonFloorTexturePath; }
     public static String getDungeonWallTexturePath() { return DungeonWallTexturePath; }
+    public static String getDungeonStairsTexturePath() { return DungeonStairsTexturePath; }
+    public static String getDungeonDoorTexturePath() { return DungeonDoorTexturePath; }
     public static String getStartMenuPath() { return StartMenuPath; }
     public static String getStoryIntroductionPath() { return StoryIntroductionPath; }
     public static String getClassImagesPath() { return ClassImagesPath; }
@@ -144,4 +148,9 @@ public class GameSettings {
     public static String getSavedGameDirectory() { return SavedGameDirectory; }
     public static String getNPCImagePath() { return NPCImagePath; }
     public static String getRaceImagesPath() { return RaceImagesPath; }
+
+
+
 }
+
+
