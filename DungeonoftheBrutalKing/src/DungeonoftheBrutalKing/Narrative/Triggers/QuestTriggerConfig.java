@@ -1,11 +1,11 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestTriggerConfig.java`
-package DungeonoftheBrutalKing.Quests.Triggers;
+package DungeonoftheBrutalKing.Narrative.Triggers;
 
 import DungeonoftheBrutalKing.MainGameScreen;
-import DungeonoftheBrutalKing.Quests.Api.Quest;
-import DungeonoftheBrutalKing.Quests.Content.QuestCleanseCursedShrine;
-import DungeonoftheBrutalKing.Quests.Content.QuestFeedHungryBeast;
+import DungeonoftheBrutalKing.Narrative.Api.Quest;
+import DungeonoftheBrutalKing.Narrative.Quests.Content.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKingNarrative.Quests.Content.QuestFeedHungryBeast;
 import DungeonoftheBrutalKing.Quests.Content.QuestForgiveBetrayer;
 import DungeonoftheBrutalKing.Quests.Content.QuestGuideTheLostSoul;
 import DungeonoftheBrutalKing.Quests.Content.QuestLieToTheLost;

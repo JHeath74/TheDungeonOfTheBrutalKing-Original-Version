@@ -1,10 +1,13 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestHooks.java`
-package DungeonoftheBrutalKing.Quests.Core;
+package DungeonoftheBrutalKing.Narrative.Core;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import DungeonoftheBrutalKing.Quests.Encounters.EncounterEvent;
+import DungeonoftheBrutalKing.Narrative.*;
 
 public final class QuestHooks {
     private final QuestManager questManager;

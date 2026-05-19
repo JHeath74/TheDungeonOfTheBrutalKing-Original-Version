@@ -1,6 +1,6 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/EncounterType.java`
-package DungeonoftheBrutalKing.Quests.Encounters;
+package DungeonoftheBrutalKing.Narrative.Encounters;
 
 /**
  * High-level categories of game events that can trigger or progress quests.

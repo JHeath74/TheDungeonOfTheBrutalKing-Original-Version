@@ -1,11 +1,12 @@
 
 // src/DungeonoftheBrutalKing/Quests/core/QuestManager.java
-package DungeonoftheBrutalKing.Quests.Core;
+package DungeonoftheBrutalKing.Narrative.Core;
 
-import DungeonoftheBrutalKing.Quests.Api.Quest;
-import DungeonoftheBrutalKing.Quests.Api.QuestStatus;
-import DungeonoftheBrutalKing.Quests.Triggers.TriggerManager;
+import DungeonoftheBrutalKing.Narrative.Api.*;
+import DungeonoftheBrutalKing.Narrative.Triggers.TriggerManager;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 
 public final class QuestManager {
@@ -30,7 +31,20 @@ public final class QuestManager {
     }
 
     public void completeQuest(String id) {
-        getQuest(id).ifPresent(Quest::complete);
+        getQuest(id).ifPresent(t -> {
+			try {
+				t.complete();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
     }
 
     public void failQuest(String id) {

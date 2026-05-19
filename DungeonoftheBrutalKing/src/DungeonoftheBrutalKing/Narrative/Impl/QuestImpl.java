@@ -1,14 +1,17 @@
 
 // File: src/DungeonoftheBrutalKing/Quests/QuestImpl.java
-package DungeonoftheBrutalKing.Quests.Impl;
+package DungeonoftheBrutalKing.Narrative.Impl;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import DungeonoftheBrutalKing.Quests.Api.Quest;
-import DungeonoftheBrutalKing.Quests.Api.QuestTag;
-import DungeonoftheBrutalKing.Quests.Api.QuestType;
+import DungeonoftheBrutalKing.Narrative.Api.Quest;
+import DungeonoftheBrutalKing.Narrative.Api.QuestStatus;
+import DungeonoftheBrutalKing.Narrative.Api.QuestTag;
+import DungeonoftheBrutalKing.Narrative.Api.QuestType;
 
 /**
  * Default implementation of the Quest interface.
@@ -194,4 +197,40 @@ public class QuestImpl implements Quest {
         }
         return set;
     }
+
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public QuestStatus getStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void complete() throws IOException, InterruptedException, ParseException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fail() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isActive() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

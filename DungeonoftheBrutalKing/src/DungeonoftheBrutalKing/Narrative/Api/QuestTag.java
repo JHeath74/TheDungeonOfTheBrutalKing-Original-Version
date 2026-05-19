@@ -1,6 +1,6 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestTag.java`
-package DungeonoftheBrutalKing.Quests.Api;
+package DungeonoftheBrutalKing.Narrative.Api;
 
 /**
  * Optional granular tags for filtering/grouping (not used for pooling).
