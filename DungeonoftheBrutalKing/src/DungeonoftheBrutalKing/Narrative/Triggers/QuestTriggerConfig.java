@@ -1,20 +1,23 @@
 
 // File: `src/DungeonoftheBrutalKing/Quests/QuestTriggerConfig.java`
+
 package DungeonoftheBrutalKing.Narrative.Triggers;
 
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Narrative.Api.Quest;
-import DungeonoftheBrutalKing.Narrative.Quests.Content.QuestCleanseCursedShrine;
-import DungeonoftheBrutalKingNarrative.Quests.Content.QuestFeedHungryBeast;
-import DungeonoftheBrutalKing.Quests.Content.QuestForgiveBetrayer;
-import DungeonoftheBrutalKing.Quests.Content.QuestGuideTheLostSoul;
-import DungeonoftheBrutalKing.Quests.Content.QuestLieToTheLost;
-import DungeonoftheBrutalKing.Quests.Content.QuestSlayTheHelpLess;
+import DungeonoftheBrutalKing.Narrative.Content.Quests.QuestCleanseCursedShrine;
+import DungeonoftheBrutalKing.Narrative.Content.Quests.QuestFeedHungryBeast;
+import DungeonoftheBrutalKing.Narrative.Content.Quests.QuestForgiveBetrayer;
+import DungeonoftheBrutalKing.Narrative.Content.Quests.QuestGuideTheLostSoul;
+import DungeonoftheBrutalKing.Narrative.Content.Quests.QuestLieToTheLost;
+import DungeonoftheBrutalKing.Narrative.Content.Quests.QuestSlayTheHelpLess;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
 
 public final class QuestTriggerConfig {
 
@@ -80,10 +83,11 @@ public final class QuestTriggerConfig {
         }
     }
 
+
     private static void addRandomQuestTrigger(TriggerManager questTriggerManager, int x, int y) {
         MainGameScreen screen = getScreenUnchecked();
 
-        List<RandomQuestOnTileEnterTrigger.ThrowingSupplier<? extends Quest>> questFactories = List.of(
+        List<RandomQuestOnTileEnterTrigger.ThrowingSupplier<? extends Quest>> questFactories = Arrays.asList(
                 () -> new QuestCleanseCursedShrine(screen),
                 () -> new QuestFeedHungryBeast(screen),
                 () -> new QuestForgiveBetrayer(screen),
@@ -94,6 +98,7 @@ public final class QuestTriggerConfig {
 
         questTriggerManager.add(new RandomQuestOnTileEnterTrigger(x, y, questFactories, RNG));
     }
+
 
     private static MainGameScreen getScreenUnchecked() {
         try {

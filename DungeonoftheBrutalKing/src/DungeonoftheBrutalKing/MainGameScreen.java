@@ -5,8 +5,8 @@ package DungeonoftheBrutalKing;
 import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.GameEngine.Game;
 import DungeonoftheBrutalKing.Maps.DungeonLevel;
-import DungeonoftheBrutalKing.Quests.Core.QuestHooks;
-import DungeonoftheBrutalKing.Quests.Core.QuestManager;
+import DungeonoftheBrutalKing.Narrative.Core.QuestHooks;
+import DungeonoftheBrutalKing.Narrative.Core.QuestManager;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.MusicPlayer;
 import DungeonoftheBrutalKing.SharedData.SettingsAndPreferences;
@@ -95,16 +95,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     private void initQuestSystem() {
-        try {
-            this.questManager = new QuestManager(myChar);
-            this.questHooks = new QuestHooks(questManager);
-            appendToMessageTextPane("\nQuest system initialized.\n");
-        } catch (IOException | InterruptedException | ParseException ex) {
-            ex.printStackTrace();
-            this.questManager = null;
-            this.questHooks = null;
-            appendToMessageTextPane("\nQuest system failed to initialize.\n");
-        }
+        this.questManager = new QuestManager();
+		this.questHooks = new QuestHooks(questManager);
+		appendToMessageTextPane("\nQuest system initialized.\n");
     }
 
     public QuestManager getQuestManager() {
@@ -607,4 +600,6 @@ public class MainGameScreen extends JFrame implements KeyListener {
             questHooks.onLocationEnter("DUNGEON_LEVEL_" + level);
         }
     }
+    
+    
 }

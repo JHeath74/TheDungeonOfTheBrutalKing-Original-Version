@@ -1,59 +1,84 @@
 
-// File: `src/DungeonoftheBrutalKing/Quests/EncounterType.java`
 package DungeonoftheBrutalKing.Narrative.Encounters;
 
 /**
- * High-level categories of game events that can trigger or progress quests.
+ * High-level categories of game events that can trigger or progress quests,
+ * encounters, NPCs, puzzles, and other narrative elements.
  *
- * Put specifics (npcId, itemId, locationId, dialogChoiceId, uiActionId, flagId, etc.)
+ * Put specifics (npcId, itemId, locationId, puzzleId, etc.)
  * into {@link EncounterEvent#getKey()} and extra details into {@link EncounterEvent#getData()}.
  */
 public enum EncounterType {
-    // NPC / character interactions
+
+    // ── NPC / Character interactions ────────────────────────────────────────
     NPC_INTERACT,
+    NPC_HOSTILE,
+    NPC_FRIENDLY,
+    NPC_MERCHANT,
     CONVERSATION,
     DIALOG_CHOICE,
+    STATIC_PERSON,
 
-    // UI-driven triggers (quest board, journal action, button click)
+    // ── UI-driven triggers ──────────────────────────────────────────────────
     UI_ACTION,
 
-    // Exploration / world events
+    // ── Exploration / World events ──────────────────────────────────────────
     LOCATION_ENTER,
+    LOCATION_EXIT,
     LOCATION_EVENT,
+    LOCATION_DISCOVERED,
 
-    // Inventory / progression
+    // ── Combat ──────────────────────────────────────────────────────────────
+    COMBAT_START,
+    COMBAT_END,
+    COMBAT_VICTORY,
+    COMBAT_DEFEAT,
+    COMBAT_FLED,
+
+    // ── Puzzle events ───────────────────────────────────────────────────────
+    PUZZLE_START,
+    PUZZLE_SOLVED,
+    PUZZLE_FAILED,
+    PUZZLE_HINT_USED,
+    PUZZLE_RESET,
+
+    // ── Inventory / Progression ─────────────────────────────────────────────
     INVENTORY_GAINED,
     INVENTORY_LOST,
+    ITEM_USED,
+    ITEM_EQUIPPED,
 
-    // Story progression flags
+    // ── Quest events ────────────────────────────────────────────────────────
+    QUEST_STARTED,
+    QUEST_COMPLETED,
+    QUEST_FAILED,
+    QUEST_UPDATED,
+
+    // ── Story progression flags ─────────────────────────────────────────────
     STORY_FLAG_SET,
     STORY_FLAG_CLEARED,
 
-    // Random encounter hooks (player stumbles into a situation)
+    // ── Random / Procedural encounters ─────────────────────────────────────
     RANDOM_ENCOUNTER,
-
-    // Procedural generation hooks (system-generated missions)
     PROCEDURAL_QUEST_GENERATED,
     FACTION_NEED_GENERATED,
 
-    // Chance-based trigger hooks (after X hours / Y actions / RNG roll)
+    // ── Chance-based trigger hooks ──────────────────────────────────────────
     CHANCE_TRIGGER_FIRED,
 
-    // Hidden triggers (obscure actions / secret conditions)
+    // ── Hidden triggers ─────────────────────────────────────────────────────
     HIDDEN_TRIGGER_ACTION,
     HIDDEN_TRIGGER_CONDITION_MET,
 
-    // Sequence-based triggers (ordered steps, puzzles, runes)
+    // ── Sequence-based triggers ─────────────────────────────────────────────
     SEQUENCE_STEP_COMPLETED,
     SEQUENCE_COMPLETED,
     SEQUENCE_FAILED,
 
-    // Meta / fourth-wall triggers
-    ACHIEVEMENT_UNLOCKED,
-
-    // Player behavior tracking (thresholds, patterns)
+    // ── Player behavior tracking ─────────────────────────────────────────────
     BEHAVIOR_THRESHOLD_REACHED,
-    BEHAVIOR_PATTERN_DETECTED, 
-    
-    STATIC_PERSON
+    BEHAVIOR_PATTERN_DETECTED,
+
+    // ── Meta / Achievement ───────────────────────────────────────────────────
+    ACHIEVEMENT_UNLOCKED
 }
