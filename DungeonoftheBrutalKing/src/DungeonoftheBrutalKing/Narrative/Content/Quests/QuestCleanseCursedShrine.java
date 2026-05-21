@@ -138,11 +138,10 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
         return ID + ":" + status.name();
     }
 
-	@Override
-	public void completeQuest() throws IOException, InterruptedException, ParseException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
+        complete();
+    }
 
 	@Override
 	public String getTitle() {
@@ -152,7 +151,8 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
 
 	@Override
 	public void onEncounter(EncounterEvent event) {
-		// TODO Auto-generated method stub
-		
+	    if (status == QuestStatus.NOT_STARTED) {
+	        start();
+	    }
 	}
 }

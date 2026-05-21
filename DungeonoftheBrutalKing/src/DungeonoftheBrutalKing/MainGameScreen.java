@@ -326,10 +326,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
         displayActiveQuestsMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_DOWN_MASK));
         displayActiveQuestsMenuItem.getAccessibleContext().setAccessibleDescription("Display Active Quests");
         displayActiveQuestsMenuItem.addActionListener(_ -> {
-            if (questHooks != null) questHooks.onUiAction("DISPLAY_ACTIVE_QUESTS");
             appendToMessageTextPane("\nActive Quests:\n");
-            if (questManager != null) {
-                questManager.displayActiveQuests();
+            if (questHooks != null) {
+                questHooks.onUiAction("DISPLAY_ACTIVE_QUESTS");
             } else {
                 appendToMessageTextPane("Quest system not available.\n");
             }

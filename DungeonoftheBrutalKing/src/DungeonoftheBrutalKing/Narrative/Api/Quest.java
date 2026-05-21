@@ -19,5 +19,12 @@ public interface Quest {
     default boolean isComplete() { return getStatus() == QuestStatus.COMPLETED; }
     default boolean isFailed() { return getStatus() == QuestStatus.FAILED; }
 
+    
+    
     void onEncounter(EncounterEvent event);
+	String serialize();
+	QuestType getType();
+	boolean isCompleted();
+	void completeQuest() throws IOException, InterruptedException, ParseException;
+	String getName();
 }

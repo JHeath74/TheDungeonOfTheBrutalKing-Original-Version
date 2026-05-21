@@ -1,6 +1,7 @@
 
 package DungeonoftheBrutalKing.Narrative.Core;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Narrative.Encounters.EncounterEvent;
 import DungeonoftheBrutalKing.Narrative.Encounters.EncounterType;
 
@@ -34,4 +35,15 @@ public final class QuestHooks {
         questManager.setFlag(flag);
         questManager.onEncounter(EncounterEvent.of(EncounterType.STORY_FLAG_SET, flag));
     }
+    
+
+public void onUiAction(String action) {
+    if (action == null) return;
+    switch (action) {
+        case "DISPLAY_ACTIVE_QUESTS" -> questManager.displayActiveQuests(msg ->
+            MainGameScreen.appendToMessageTextPane(msg + "\n"));
+        default -> MainGameScreen.appendToMessageTextPane("Unknown UI action: " + action + "\n");
+    }
+}
+
 }

@@ -14,7 +14,7 @@ public final class TileEnterQuestTrigger implements TriggerManager.Trigger {
     public TileEnterQuestTrigger(int targetX, int targetY, Quest quest, boolean oneShot) {
         this.targetX = targetX;
         this.targetY = targetY;
-        this.quest = Objects.requireNonNull(quest);
+        this.quest   = Objects.requireNonNull(quest, "quest must not be null");
         this.oneShot = oneShot;
     }
 
@@ -25,12 +25,5 @@ public final class TileEnterQuestTrigger implements TriggerManager.Trigger {
             return oneShot;
         }
         return false;
-    }
-
-    @Override
-    public void onTileEnter(int tileX, int tileY) throws Exception {
-        if (tileX == targetX && tileY == targetY) {
-            quest.start();
-        }
     }
 }

@@ -146,7 +146,8 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
 
 	@Override
 	public void onEncounter(EncounterEvent event) {
-		// TODO Auto-generated method stub
-		
+	    if (status == QuestStatus.NOT_STARTED) {
+	        start();
+	    }
 	}
 }
