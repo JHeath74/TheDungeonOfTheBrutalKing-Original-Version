@@ -1,9 +1,7 @@
 
-// Screen.java
 package DungeonoftheBrutalKing.GameEngine;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Screen {
@@ -20,45 +18,56 @@ public class Screen {
         height = h;
     }
 
-    private void drawImageStrip(int[] pixels, BufferedImage img, int startRow, int endRow) {
-        int imgW = img.getWidth();
-        int imgH = img.getHeight();
-        for (int y = startRow; y < endRow; y++) {
-            int srcY = (y - startRow) * imgH / (endRow - startRow);
-            for (int x = 0; x < width; x++) {
-                int srcX = x * imgW / width;
-                pixels[y * width + x] = img.getRGB(srcX, srcY);
-            }
-        }
-    }
-
     public int[] update(Camera camera, int[] pixels) {
         int half = height / 2;
 
-        // Ceiling
-        BufferedImage ceilingImage = camera.getCeilingImage();
-        if (ceilingImage != null) {
-            drawImageStrip(pixels, ceilingImage, 0, half);
-        } else {
-            int ceilColor = Color.DARK_GRAY.getRGB();
-            for (int n = 0; n < width * half; n++) {
-                pixels[n] = ceilColor;
+        int[] floorPixels   = camera.getFloorPixels();
+        int[] ceilingPixels = camera.getCeilingPixels();
+
+        // Floor and Ceiling via raycasted world-space coordinates
+        for (int y = half + 1; y < height; y++) {
+            double rayDirX0 = camera.xDir - camera.xPlane;
+            double rayDirY0 = camera.yDir - camera.yPlane;
+            double rayDirX1 = camera.xDir + camera.xPlane;
+            double rayDirY1 = camera.yDir + camera.yPlane;
+
+            int p = y - half;
+            double posZ = 0.5 * height;
+            double rowDistance = posZ / p;
+
+            double floorStepX = rowDistance * (rayDirX1 - rayDirX0) / width;
+            double floorStepY = rowDistance * (rayDirY1 - rayDirY0) / width;
+
+            double floorX = camera.xPos + rowDistance * rayDirX0;
+            double floorY = camera.yPos + rowDistance * rayDirY0;
+
+            for (int x = 0; x < width; x++) {
+                int tx = (int)(floorX * Texture.SIZE) & (Texture.SIZE - 1);
+                int ty = (int)(floorY * Texture.SIZE) & (Texture.SIZE - 1);
+                tx = Math.max(0, Math.min(tx, Texture.SIZE - 1));
+                ty = Math.max(0, Math.min(ty, Texture.SIZE - 1));
+
+                int idx = ty * Texture.SIZE + tx;
+
+                // Floor (bottom half)
+                pixels[y * width + x] = (floorPixels != null)
+                        ? floorPixels[idx]
+                        : Color.GRAY.getRGB();
+
+                // Ceiling (mirrored top half)
+                int ceilingY = height - y - 1;
+                pixels[ceilingY * width + x] = (ceilingPixels != null)
+                        ? ceilingPixels[idx]
+                        : Color.DARK_GRAY.getRGB();
+
+                floorX += floorStepX;
+                floorY += floorStepY;
             }
         }
 
-        // Floor
-        BufferedImage floorImage = camera.getFloorImage();
-        if (floorImage != null) {
-            drawImageStrip(pixels, floorImage, half, height);
-        } else {
-            int floorColor = Color.gray.getRGB();
-            for (int i = width * half; i < pixels.length; i++) {
-                pixels[i] = floorColor;
-            }
-        }
-
-        for (int x = 0; x < width; x = x + 1) {
-            double cameraX = 2 * x / (double) (width) - 1;
+        // Wall raycasting
+        for (int x = 0; x < width; x++) {
+            double cameraX = 2 * x / (double)(width) - 1;
             double rayDirX = camera.xDir + camera.xPlane * cameraX;
             double rayDirY = camera.yDir + camera.yPlane * cameraX;
             int mapX = (int) camera.xPos;
@@ -103,25 +112,18 @@ public class Screen {
             }
 
             if (side == 0) {
-                perpWallDist = Math.abs((mapX - camera.xPos + (1 - stepX) / 2) / rayDirX);
+                perpWallDist = Math.abs((mapX - camera.xPos + (1 - stepX) / 2.0) / rayDirX);
             } else {
-                perpWallDist = Math.abs((mapY - camera.yPos + (1 - stepY) / 2) / rayDirY);
+                perpWallDist = Math.abs((mapY - camera.yPos + (1 - stepY) / 2.0) / rayDirY);
             }
 
-            int lineHeight;
-            if (perpWallDist > 0) {
-                lineHeight = Math.abs((int) (height / perpWallDist));
-            } else {
-                lineHeight = height;
-            }
+            int lineHeight = (perpWallDist > 0) ? Math.abs((int)(height / perpWallDist)) : height;
+
             int drawStart = -lineHeight / 2 + height / 2;
-            if (drawStart < 0) {
-                drawStart = 0;
-            }
+            if (drawStart < 0) drawStart = 0;
+
             int drawEnd = lineHeight / 2 + height / 2;
-            if (drawEnd >= height) {
-                drawEnd = height - 1;
-            }
+            if (drawEnd >= height) drawEnd = height - 1;
 
             if (mapX < 0 || mapX >= mapWidth || mapY < 0 || mapY >= mapHeight) continue;
             int texNum = map[mapX][mapY] - 1;
@@ -129,31 +131,26 @@ public class Screen {
 
             double wallX;
             if (side == 1) {
-                wallX = (camera.xPos + ((mapY - camera.yPos + (1 - stepY) / 2) / rayDirY) * rayDirX);
+                wallX = camera.xPos + ((mapY - camera.yPos + (1 - stepY) / 2.0) / rayDirY) * rayDirX;
             } else {
-                wallX = (camera.yPos + ((mapX - camera.xPos + (1 - stepX) / 2) / rayDirX) * rayDirY);
+                wallX = camera.yPos + ((mapX - camera.xPos + (1 - stepX) / 2.0) / rayDirX) * rayDirY;
             }
             wallX -= Math.floor(wallX);
 
-            int texX = (int) (wallX * (textures.get(texNum).SIZE));
-
-            if (side == 0 && rayDirX > 0) {
-                texX = textures.get(texNum).SIZE - texX - 1;
-            }
-            if (side == 1 && rayDirY < 0) {
-                texX = textures.get(texNum).SIZE - texX - 1;
-            }
-            texX = Math.max(0, Math.min(texX, textures.get(texNum).SIZE - 1));
+            int texX = (int)(wallX * Texture.SIZE);
+            if (side == 0 && rayDirX > 0) texX = Texture.SIZE - texX - 1;
+            if (side == 1 && rayDirY < 0) texX = Texture.SIZE - texX - 1;
+            texX = Math.max(0, Math.min(texX, Texture.SIZE - 1));
 
             for (int y = drawStart; y < drawEnd; y++) {
                 if (y < 0 || y >= height) continue;
                 int texY = (((y * 2 - height + lineHeight) << 6) / lineHeight) / 2;
-                texY = Math.max(0, Math.min(texY, textures.get(texNum).SIZE - 1));
+                texY = Math.max(0, Math.min(texY, Texture.SIZE - 1));
                 int color;
                 if (side == 0) {
-                    color = textures.get(texNum).pixels[texX + (texY * textures.get(texNum).SIZE)];
+                    color = textures.get(texNum).pixels[texX + (texY * Texture.SIZE)];
                 } else {
-                    color = (textures.get(texNum).pixels[texX + (texY * textures.get(texNum).SIZE)] >> 1) & 8355711;
+                    color = (textures.get(texNum).pixels[texX + (texY * Texture.SIZE)] >> 1) & 8355711;
                 }
                 int pixelIndex = x + y * width;
                 if (pixelIndex >= 0 && pixelIndex < pixels.length) {

@@ -28,7 +28,7 @@ public class GameSettings {
     public static String NPCImagePath = "src/DungeonoftheBrutalKing/Images/NPC/";
     public static String RaceImagesPath = "src/DungeonoftheBrutalKing/Images/Race/";
     public static String QuestImagesPath = "src/DungeonoftheBrutalKing/Images/Quests/";
-
+    public static String DungeonCeilingTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Ceiling/";
     
     
     // Instance colors
@@ -148,6 +148,10 @@ public class GameSettings {
     public static String getSavedGameDirectory() { return SavedGameDirectory; }
     public static String getNPCImagePath() { return NPCImagePath; }
     public static String getRaceImagesPath() { return RaceImagesPath; }
+
+    public static String getDungeonCeilingTexturePath() {
+        return DungeonCeilingTexturePath;
+    }
 
 
 

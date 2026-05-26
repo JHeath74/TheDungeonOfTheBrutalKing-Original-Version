@@ -293,6 +293,7 @@ public class Game implements Runnable {
         textures.add(Texture.STAIRS_DOWN);
         textures.add(Texture.STAIRS_DOWN_GATE);
         textures.add(Texture.STAIRS_DOWN_GATE_TORCHES);
+        textures.add(Texture.GREY_DUNGEON_FLOOR);
     }
 
     public LocationType detectLocation(int x, int y) {

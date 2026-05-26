@@ -428,7 +428,54 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     private void showHelpDialog() {
-        // [...]
+        JDialog helpDialog = new JDialog(mainFrame, "Help Information", true);
+        helpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        JButton closeButton = new JButton("Close");
+        closeButton.addActionListener(_ -> helpDialog.dispose());
+
+        JTextPane helpTextPane = new JTextPane();
+        helpTextPane.setEditable(false);
+        StyledDocument doc = helpTextPane.getStyledDocument();
+
+        Style headerStyle = doc.addStyle("Header", null);
+        StyleConstants.setFontSize(headerStyle, 18);
+        StyleConstants.setBold(headerStyle, true);
+        StyleConstants.setForeground(headerStyle, Color.BLUE);
+
+        Style bodyStyle = doc.addStyle("Body", null);
+        StyleConstants.setFontSize(bodyStyle, 14);
+        StyleConstants.setForeground(bodyStyle, Color.BLACK);
+
+        Style footerStyle = doc.addStyle("Footer", null);
+        StyleConstants.setFontSize(footerStyle, 12);
+        StyleConstants.setItalic(footerStyle, true);
+        StyleConstants.setForeground(footerStyle, Color.GRAY);
+
+        InputStream stream = getClass().getResourceAsStream("/DungeonoftheBrutalKing/TextFiles/Help.txt");
+
+        if (stream == null) {
+            JOptionPane.showMessageDialog(this, "Help file not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                doc.insertString(doc.getLength(), line + "\n", bodyStyle);
+            }
+        } catch (IOException | BadLocationException ex) {
+            ex.printStackTrace();
+        }
+
+        JScrollPane scrollPane = new JScrollPane(helpTextPane);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(closeButton, BorderLayout.SOUTH);
+
+        helpDialog.add(panel);
+        helpDialog.pack();
+        helpDialog.setLocationRelativeTo(mainFrame);
+        helpDialog.setVisible(true);
     }
 
     private void setupSplitPane() {
@@ -453,6 +500,8 @@ public class MainGameScreen extends JFrame implements KeyListener {
         mainFrame.add(picturesAndTextUpdatesPane, BorderLayout.CENTER);
         mainFrame.add(characterInfoPanel, BorderLayout.NORTH);
     }
+    
+    
 
     private void setupTimer() {
         ActionListener task = _ -> pollQuestWorldState();

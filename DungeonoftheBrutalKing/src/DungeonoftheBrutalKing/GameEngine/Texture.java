@@ -18,7 +18,10 @@ public enum Texture {
     STAIRS_DOWN_GATE(GameSettings.getDungeonStairsTexturePath() + "downstairswithgate.png"),
     STAIRS_DOWN_GATE_TORCHES(GameSettings.getDungeonStairsTexturePath() + "downstairswithgateandtorches.png"),
     GREY_DUNGEON_DOOR(GameSettings.getDungeonDoorTexturePath() + "GreyDungeonDoor.png"),
-    GREY_DUNGEON_WALL(GameSettings.getDungeonWallTexturePath() + "GreyDungeonWall.png");
+    GREY_DUNGEON_WALL(GameSettings.getDungeonWallTexturePath() + "GreyDungeonWall.png"),
+    GREY_DUNGEON_FLOOR(GameSettings.getDungeonFloorTexturePath() + "GreyDungeonFloor.png"),
+    GREY_DUNGEON_CEILING(GameSettings.getDungeonCeilingTexturePath() + "GreyDungeonCeiling.png"),
+    ;
 
     public static final int SIZE = 64;
     public final int[] pixels = new int[SIZE * SIZE];
