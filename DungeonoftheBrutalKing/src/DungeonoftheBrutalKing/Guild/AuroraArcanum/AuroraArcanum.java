@@ -56,6 +56,7 @@ public class AuroraArcanum extends JPanel {
 
         // Show description for non-members and also for EVIL characters entering a GOOD-only guild.
         if (status == GuildMembershipStatus.NOT_MEMBER || !isGood(charecter.getAlignment())) {
+
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 
@@ -168,7 +169,7 @@ public class AuroraArcanum extends JPanel {
         exitRoomButton.addActionListener(evt -> {
             try {
 
-            	MainGameScreen.getInstance().restoreOriginalPanel();
+               	MainGameScreen.getInstance().restoreOriginalPanel();
 
             } catch (Exception ex) {
                 ex.printStackTrace();

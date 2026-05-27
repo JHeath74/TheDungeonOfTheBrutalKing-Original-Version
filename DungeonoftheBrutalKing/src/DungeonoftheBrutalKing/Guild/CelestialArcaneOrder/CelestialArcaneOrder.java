@@ -51,6 +51,7 @@ public class CelestialArcaneOrder extends JPanel {
         ArrayList<String> inventory = new ArrayList<>(character.getCharInventory());
 
         if (!this.isMember || !isGood(character.getAlignment())) {
+        
             MainGameScreen.getInstance().setMessageTextPane(description);
         }
 

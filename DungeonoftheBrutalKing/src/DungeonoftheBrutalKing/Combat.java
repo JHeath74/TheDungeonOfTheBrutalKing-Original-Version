@@ -1,8 +1,6 @@
 
 package DungeonoftheBrutalKing;
 
-import DungeonoftheBrutalKing.Character;
-import DungeonoftheBrutalKing.*;
 import DungeonoftheBrutalKing.Enemies.Enemies;
 import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.SharedData.Alignment;
@@ -21,6 +19,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,31 +103,46 @@ public class Combat {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        panel.add(loadScaledImage(resolvePlayerImagePath(), "Player image not found"));
+        String playerImagePath = resolvePlayerImagePath();
+        System.out.println("Player image path: " + playerImagePath);
+        JLabel playerImage = loadScaledImage(playerImagePath, "Player image not found");
+        panel.add(playerImage);
 
         playerInfo = makeInfoArea(
             myChar.getName() + "\nHP: " + myChar.getHitPoints() +
             "\nMP: " + myChar.getMagicPoints() + "\n" + getEquipmentInfo()
         );
-        panel.add(Box.createRigidArea(new Dimension(24, 0)));
+        panel.add(Box.createRigidArea(new Dimension(0, 8)));
         panel.add(playerInfo);
         return panel;
     }
 
-    private JPanel buildEnemyPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        panel.add(loadScaledImage(myEnemies.getImagePath(), "Enemy image not found"));
 
-        enemyInfo = makeInfoArea(
-            myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() +
-            "\nAlignment: " + alignmentLabel(myEnemies.getAlignment())
-        );
-        panel.add(Box.createRigidArea(new Dimension(24, 0)));
-        panel.add(enemyInfo);
-        return panel;
-    }
+private JPanel buildEnemyPanel() {
+    JPanel panel = new JPanel();
+    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+    String rawPath = myEnemies.getImagePath();
+    // Convert "src/DungeonoftheBrutalKing/Images/Enemies/X.png"
+    // to classpath resource "/DungeonoftheBrutalKing/Images/Enemies/X.png"
+    String enemyImagePath = rawPath.contains("src/")
+        ? "/" + rawPath.substring(rawPath.indexOf("src/") + 4)
+        : rawPath;
+    System.out.println("Enemy image path resolved: " + enemyImagePath);
+    JLabel enemyImage = loadScaledImage(enemyImagePath, "Enemy image not found");
+    panel.add(enemyImage);
+
+    enemyInfo = makeInfoArea(
+        myEnemies.getName() + "\nHP: " + myEnemies.getHitPoints() +
+        "\nAlignment: " + alignmentLabel(myEnemies.getAlignment())
+    );
+    panel.add(Box.createRigidArea(new Dimension(0, 8)));
+    panel.add(enemyInfo);
+    return panel;
+}
+
+
 
     private JPanel buildButtonPanel() {
         boolean isCaster = isCasterClass();
@@ -225,7 +239,6 @@ public class Combat {
         myChar.setGold(myChar.getGold() + gold);
         appendMessage("You gained " + exp + " EXP and " + gold + " gold!\n");
 
-        // BUG FIX: was setAlignment(impact) — should be additive delta
         int impact = myEnemies.getAlignmentImpact();
         myChar.setAlignment(myChar.getAlignment() + impact);
         appendMessage("Your alignment changed by " + impact + ".\n");
@@ -360,16 +373,26 @@ public class Combat {
                "Armor: "  + myChar.getEquippedArmour();
     }
 
-    private String resolvePlayerImagePath() {
-        String cls = myChar.getClassName();
-        String file = switch (cls) {
-            case "Bard", "Cleric", "Hunter", "Mage", "Minstrel",
-                 "Paladin", "Ranger", "Rogue", "Thief",
-                 "Warrior", "Wizard" -> cls.toLowerCase() + ".png";
-            default -> "default.png";
-        };
-        return GameSettings.getClassImagesPath() + file;
-    }
+
+
+private String resolvePlayerImagePath() {
+    String cls = myChar.getClassName();
+    System.out.println("Raw class name: '" + cls + "'");
+    String normalized = (cls == null) ? "" : cls.trim();
+    String file = switch (normalized.toLowerCase()) {
+        case "bard", "cleric", "hunter", "mage", "minstrel",
+             "paladin", "ranger", "rogue", "thief",
+             "warrior", "wizard" -> normalized.toLowerCase() + ".png";
+        default -> "default.png";
+    };
+    // Strip "src/" prefix — IntelliJ uses src/ as source root, so classpath starts after it
+    String rawPath = GameSettings.getClassImagesPath() + file;
+    return rawPath.contains("src/")
+        ? "/" + rawPath.substring(rawPath.indexOf("src/") + 4)
+        : rawPath;
+}
+
+
 
     private boolean isCasterClass() {
         String cls = myChar.getClassName();
@@ -380,23 +403,60 @@ public class Combat {
         return a == Alignment.GOOD ? "Good" : "Evil";
     }
 
-    private static JLabel loadScaledImage(String path, String fallback) {
-        try {
-            BufferedImage img = ImageIO.read(new File(path));
-            Image scaled = img.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
-            JLabel label = new JLabel(new ImageIcon(scaled));
-            label.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
-            return label;
-        } catch (IOException e) {
-            return new JLabel(fallback);
+
+private JLabel loadScaledImage(String path, String fallback) {
+    BufferedImage img = null;
+
+    // 1. Try as direct filesystem path (GameSettings provides src/ prefixed paths)
+    try {
+        File file = new File(path);
+        if (file.exists()) {
+            img = ImageIO.read(file);
+        }
+    } catch (IOException ignored) { }
+
+    // 2. Try as classpath resource (with and without leading slash)
+    if (img == null) {
+        for (String resourcePath : new String[]{ path, "/" + path }) {
+            try {
+                java.net.URL url = getClass().getResource(resourcePath);
+                if (url != null) { img = ImageIO.read(url); break; }
+            } catch (IOException ignored) { }
         }
     }
+
+    // 3. Try as classpath stream
+    if (img == null) {
+        String resourcePath = path.startsWith("/") ? path : "/" + path;
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
+            if (is != null) img = ImageIO.read(is);
+        } catch (IOException ignored) { }
+    }
+
+    if (img != null) {
+        Image scaled = img.getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_SMOOTH);
+        JLabel label = new JLabel(new ImageIcon(scaled));
+        label.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
+        label.setMaximumSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return label;
+    }
+
+    System.err.println("Could not load image: " + path);
+    JLabel label = new JLabel(fallback);
+    label.setAlignmentX(Component.CENTER_ALIGNMENT);
+    label.setPreferredSize(new Dimension(IMAGE_WIDTH, IMAGE_HEIGHT));
+    return label;
+}
+
+
+
 
     private static JTextArea makeInfoArea(String text) {
         JTextArea area = new JTextArea(text);
         area.setEditable(false);
         area.setBackground(new Color(255, 255, 220));
-        area.setAlignmentX(Component.LEFT_ALIGNMENT);
+        area.setAlignmentX(Component.CENTER_ALIGNMENT);
         area.setMaximumSize(new Dimension(IMAGE_WIDTH, area.getPreferredSize().height));
         return area;
     }
@@ -419,4 +479,6 @@ public class Combat {
         gbc.anchor = GridBagConstraints.CENTER;
         return gbc;
     }
+    
+    
 }
