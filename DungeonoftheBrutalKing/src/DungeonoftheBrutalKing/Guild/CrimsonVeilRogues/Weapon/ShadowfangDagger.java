@@ -72,7 +72,7 @@ public class ShadowfangDagger extends WeaponManager {
         if (rand.nextDouble() < (wielder.getCritChance())) {
             totalDamage *= 2;
         }
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
     }
 
     public Guild getGuild() {

@@ -1,0 +1,96 @@
+ Volume in drive C is Local Disk
+ Volume Serial Number is 60E0-35DF
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Enemies
+
+06/02/2026  04:37 PM    <DIR>          .
+05/18/2026  05:37 PM    <DIR>          ..
+04/28/2026  05:57 PM             5,478 Angel.java
+04/28/2026  05:59 PM             5,492 Archon.java
+04/28/2026  06:03 PM             5,663 Ascendant.java
+04/28/2026  06:04 PM             5,396 Assassin.java
+04/28/2026  06:10 PM             5,422 Banneret.java
+04/28/2026  06:09 PM             5,410 Beacon.java
+04/28/2026  06:11 PM             5,395 Brigand.java
+04/28/2026  06:21 PM             5,427 Champion.java
+04/28/2026  06:22 PM             5,625 Cleric.java
+04/28/2026  06:23 PM             5,441 Crusader.java
+04/28/2026  06:24 PM             5,470 Custodian.java
+04/28/2026  06:39 PM             5,405 Cutthroat.java
+04/28/2026  06:34 PM             6,050 Devourer.java
+04/28/2026  06:32 PM             4,838 Dragon.java
+04/28/2026  06:31 PM             5,645 Druid.java
+04/28/2026  06:31 PM             5,409 Dwarves.java
+06/01/2026  05:24 PM             7,648 Enemies.java
+06/02/2026  04:37 PM                 0 Enemies.txt
+04/28/2026  07:41 PM             5,636 Exemplar.java
+04/28/2026  07:41 PM             6,231 Flame_Demon.java
+04/28/2026  07:43 PM             5,538 Ghost.java
+04/28/2026  07:43 PM             5,505 Ghoul.java
+04/28/2026  07:45 PM             5,393 Giant_Bat.java
+04/28/2026  07:45 PM             5,435 Gladiator.java
+04/28/2026  07:46 PM             5,371 Gnoll.java
+04/28/2026  07:47 PM             5,376 Gnome.java
+04/28/2026  07:48 PM             5,371 Goblin.java
+04/28/2026  07:48 PM             5,337 Gremlin.java
+04/28/2026  07:50 PM             5,378 Guard.java
+04/28/2026  07:50 PM             5,460 Guardian.java
+04/28/2026  07:51 PM             5,667 Healer.java
+04/28/2026  07:52 PM             5,475 Herald.java
+04/28/2026  07:53 PM             5,486 Homunculi.java
+04/28/2026  07:54 PM             5,528 Horned_Devil.java
+04/28/2026  07:55 PM             5,978 Ice_Demon.java
+04/28/2026  07:55 PM             5,393 Imp.java
+04/28/2026  07:56 PM             5,455 Justicar.java
+04/28/2026  07:57 PM             5,406 Knight.java
+04/28/2026  07:57 PM             5,743 Liches.java
+04/28/2026  07:59 PM             5,699 Lightbearer.java
+04/28/2026  08:00 PM             5,728 Luminary.java
+04/28/2026  08:00 PM             6,233 Mage.java
+04/28/2026  08:01 PM             5,534 Master_Thief.java
+04/28/2026  08:02 PM             5,910 Mold.java
+04/28/2026  08:04 PM             5,472 Monk.java
+04/14/2026  07:08 PM             4,696 MonsterSelector.java
+04/28/2026  06:58 PM             6,308 Mystic.java
+04/28/2026  06:59 PM             6,401 Necromancer.java
+04/28/2026  07:01 PM             5,478 Night_Stalker.java
+04/28/2026  07:03 PM             5,576 Noblemen.java
+04/28/2026  07:05 PM             6,278 Oracle.java
+04/28/2026  07:06 PM             5,520 Orc.java
+04/28/2026  07:07 PM             5,811 Paladin.java
+04/28/2026  07:09 PM             5,566 Paragon.java
+04/28/2026  07:10 PM             6,749 Phoenix.java
+04/28/2026  07:11 PM             5,771 Priest.java
+04/28/2026  07:12 PM             5,572 Protector.java
+04/28/2026  07:16 PM             5,512 Rat.java
+04/28/2026  07:17 PM             5,814 Redeemer.java
+04/28/2026  07:40 PM             5,589 Sage.java
+04/28/2026  07:39 PM             5,600 Saint.java
+04/28/2026  07:38 PM             6,231 Salamander.java
+04/28/2026  07:37 PM             5,590 Seer.java
+04/28/2026  07:37 PM             5,508 Sentinel.java
+04/28/2026  07:35 PM             5,810 Seraph.java
+04/28/2026  07:35 PM             6,224 Serpentmen.java
+04/28/2026  07:34 PM             5,568 Skeleton.java
+04/28/2026  07:34 PM             6,111 Slime.java
+04/28/2026  07:32 PM             6,253 Spectre.java
+04/28/2026  07:32 PM             6,109 Spider.java
+04/28/2026  07:31 PM             6,243 Storm_Devil.java
+04/28/2026  07:30 PM             6,326 Sunblade.java
+04/28/2026  07:18 PM             5,998 Templar.java
+04/28/2026  07:20 PM             5,996 Thief.java
+04/28/2026  07:24 PM             5,972 Troll.java
+04/28/2026  07:24 PM             6,002 Valkyrie.java
+04/28/2026  07:27 PM             6,408 Vampire.java
+04/28/2026  07:28 PM             6,080 Vindicator.java
+04/28/2026  07:28 PM             5,383 Virtuoso.java
+04/28/2026  06:54 PM             5,845 Warden.java
+04/28/2026  06:49 PM             6,154 Whirlwind.java
+04/28/2026  06:48 PM             6,132 Wizard.java
+04/28/2026  06:48 PM             6,114 Wolf.java
+04/28/2026  06:41 PM             6,212 Wraith.java
+              84 File(s)        476,462 bytes
+
+     Total Files Listed:
+              84 File(s)        476,462 bytes
+               2 Dir(s)  68,858,273,792 bytes free

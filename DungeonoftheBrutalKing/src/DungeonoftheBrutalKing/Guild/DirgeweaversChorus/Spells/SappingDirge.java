@@ -47,7 +47,7 @@ public class SappingDirge implements Spell {
         if (!canCast(caster)) return;
 
         int damage = Math.max(1, BASE_DAMAGE + (caster.getCharisma() / 10));
-        target.takeDamage(damage);
+        target.takeDamage(damage, null);
 
         if (target.isDead()) return;
 

@@ -54,7 +54,7 @@ public class DivineMace extends WeaponManager {
         int strength = Integer.parseInt(wielder.getCharInfo().get(3));
         int bonus = strength / 8;
         int totalDamage = ATTACK_DAMAGE + bonus;
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
     }
 
     public Guild getGuild() {

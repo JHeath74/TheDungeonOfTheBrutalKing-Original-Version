@@ -66,9 +66,6 @@ public class Combat {
         return eligible.isEmpty() ? null : eligible.get(RandomFactory.gameplayInt(eligible.size()));
     }
 
-    public void monsterTakeDamage(int damage) {
-        if (myEnemies != null) myEnemies.takeDamage(damage);
-    }
 
     public int monsterDefend(int damage) {
         return (myEnemies != null) ? myEnemies.defend(damage) : damage;
@@ -104,7 +101,7 @@ public class Combat {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         String playerImagePath = resolvePlayerImagePath();
-        System.out.println("Player image path: " + playerImagePath);
+    //    System.out.println("Player image path: " + playerImagePath);
         JLabel playerImage = loadScaledImage(playerImagePath, "Player image not found");
         panel.add(playerImage);
 
@@ -129,7 +126,6 @@ private JPanel buildEnemyPanel() {
     String enemyImagePath = rawPath.contains("src/")
         ? "/" + rawPath.substring(rawPath.indexOf("src/") + 4)
         : rawPath;
-    System.out.println("Enemy image path resolved: " + enemyImagePath);
     JLabel enemyImage = loadScaledImage(enemyImagePath, "Enemy image not found");
     panel.add(enemyImage);
 
@@ -171,9 +167,13 @@ private JPanel buildEnemyPanel() {
             combatAttackButton.setEnabled(false);
             return;
         }
-
+        int rawDamage = myChar.getAttackDamage();
         int damage = monsterDefend(myChar.getAttackDamage());
+        
+        System.out.println("Raw damage: " + rawDamage + " | After defend: " + damage); // debug
         applyDamageToEnemy(damage);
+        System.out.println("Enemy HP after attack: " + myEnemies.getHitPoints()); // debug
+        
         appendMessage("You attack " + myEnemies.getName() + " for " + damage + " damage.\n");
         applyIceBarrierEffect(myEnemies, myChar, "You are chilled and slowed by the Ice Barrier!\n");
         updateNameAndHP();
@@ -320,13 +320,17 @@ private JPanel buildEnemyPanel() {
         camera.endCombat();
     }
 
-    private void applyDamageToEnemy(int damage) {
-        try {
-            myEnemies.takeDamageWithStatuses(damage);
-        } catch (Exception ignored) {
-            monsterTakeDamage(damage);
-        }
-    }
+
+
+
+private void applyDamageToEnemy(int damage) {
+
+    myEnemies.takeDamage(damage, null);
+
+}
+
+
+
 
     private void applyIceBarrierEffect(Object bearer, Object target, String message) {
         try {
@@ -377,7 +381,6 @@ private JPanel buildEnemyPanel() {
 
 private String resolvePlayerImagePath() {
     String cls = myChar.getClassName();
-    System.out.println("Raw class name: '" + cls + "'");
     String normalized = (cls == null) ? "" : cls.trim();
     String file = switch (normalized.toLowerCase()) {
         case "bard", "cleric", "hunter", "mage", "minstrel",
@@ -385,11 +388,7 @@ private String resolvePlayerImagePath() {
              "warrior", "wizard" -> normalized.toLowerCase() + ".png";
         default -> "default.png";
     };
-    // Strip "src/" prefix — IntelliJ uses src/ as source root, so classpath starts after it
-    String rawPath = GameSettings.getClassImagesPath() + file;
-    return rawPath.contains("src/")
-        ? "/" + rawPath.substring(rawPath.indexOf("src/") + 4)
-        : rawPath;
+return "src/DungeonoftheBrutalKing/Images/Classes/" + file;
 }
 
 

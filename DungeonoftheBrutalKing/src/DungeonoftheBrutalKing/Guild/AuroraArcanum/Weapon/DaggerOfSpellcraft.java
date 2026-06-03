@@ -64,7 +64,7 @@ public class DaggerOfSpellcraft extends WeaponManager {
         Random rand = new Random();
         int bonus = rand.nextInt((intelligence / 4) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage,null);
     }
 
     public Guild getGuild() {

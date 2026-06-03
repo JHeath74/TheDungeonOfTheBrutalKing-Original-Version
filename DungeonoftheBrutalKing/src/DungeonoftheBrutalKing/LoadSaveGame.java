@@ -65,9 +65,7 @@ public class LoadSaveGame {
         }
         loadAllEncrypted(chosenFile);
         
-        System.out.println("Loaded X: " + myChar.getX());
-        System.out.println("Loaded Y: " + myChar.getY());
-        System.out.println("Loaded Z: " + myChar.getDungeonLevel());
+    
         
         myChar.getDirection();
     }

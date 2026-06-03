@@ -47,7 +47,7 @@ public class DreadVerse implements Spell {
         if (!canCast(caster)) return;
 
         int damage = Math.max(1, BASE_DAMAGE + (caster.getCharisma() / 8));
-        target.takeDamage(damage);
+        target.takeDamage(damage, null);
 
         int roll = ThreadLocalRandom.current().nextInt(1, 101);
         if (roll <= STUN_CHANCE_PERCENT && !target.isDead()) {

@@ -56,7 +56,7 @@ public class RendingRefrain implements Spell {
         if (!canCast(caster)) return;
 
         int damage = Math.max(1, BASE_DAMAGE + (caster.getCharisma() / 9));
-        target.takeDamage(damage);
+        target.takeDamage(damage, null);
         if (target.isDead()) return;
 
         // Option A (percent debuff): reduce defense or strength.

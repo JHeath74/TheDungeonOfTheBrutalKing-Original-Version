@@ -109,7 +109,7 @@ public class EmberlanceSurge implements Spell {
                             try { ch.takeDamageWithStatuses(shockTotal); } catch (Exception ex) { ch.takeDamage(shockTotal); }
                         } else if (o instanceof Enemies) {
                             Enemies e = (Enemies) o;
-                            try { e.takeDamageWithStatuses(shockTotal); } catch (Exception ex) { e.takeDamage(shockTotal); }
+                            try { e.takeDamageWithStatuses(shockTotal); } catch (Exception ex) { e.takeDamage(shockTotal, null); }
                         }
                     }
                     System.out.println("The Emberlance erupts in a shockwave, dealing " + shockTotal + " to nearby foes (radius x" + radiusMultiplier + ").");
@@ -190,7 +190,7 @@ public class EmberlanceSurge implements Spell {
         int base = 6 + intel / 3;
         int initial = base + RNG.nextInt(4);
 
-        try { target.takeDamageWithStatuses(initial); } catch (Exception ignored) { target.takeDamage(initial); }
+        try { target.takeDamageWithStatuses(initial); } catch (Exception ignored) { target.takeDamage(initial, null); }
         System.out.println(caster.getName() + " fires an Emberlance that pierces " + target.getName() + " for " + initial + " fire damage!");
 
         try { target.addStatus(new ReduceDefenseStatus(2)); } catch (Exception ignored) { }
