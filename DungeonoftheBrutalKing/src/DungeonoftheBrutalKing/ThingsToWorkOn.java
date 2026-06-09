@@ -17,34 +17,8 @@ public class ThingsToWorkOn {
 		//at level up,  be able to spend points to increase stats.
 		//update alignment impact for all enemies.
 		//Dev Tools not working
-		//Missing Images: Justicar, Protector, Custodian, LightBearer
-		
-		//| Missing PNG | 
-		//| Guardian | 
-		// | Healer |
-		//| Herald | 
-		//| Justicar | 
-		//| Lightbearer |
-		//| Luminary |
-		//| Monk |
-		//| Mystic |
-		//| Necromancer |
-		//| Oracle |
-		//| Paladin | 
-		//| Paragon |
-		//| Priest | 
-		//| Protector |
-		//| Redeemer |
-		//| Sage | 
-		//| Saint | 
-		//| Seer |
-		//| Sentinel | 
-		//| Seraph | 
-		//| Sunblade |
-		//| Templar |
-		//| Vindicator | 
-		//| Virtuoso | 
-		//| Warden | 
+	
+		//| Missing PNG |
 		//| Wraith |
 	}
 	

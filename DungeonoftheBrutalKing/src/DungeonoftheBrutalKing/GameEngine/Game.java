@@ -332,10 +332,10 @@ public class Game implements Runnable {
             }
             case THE_RUSTY_TANKARD -> {
                 System.out.println("THE_RUSTY_TANKARD event handled");
-                appendToMessageTextPane("You have entered The Rusty Tankard.");
+                MainGameScreen.appendToMessageTextPane("You have entered The Rusty Tankard.");
                 TheRustyTankard rustyTankard = new TheRustyTankard(new JPanel(), mainGameScreen);
-
-           mainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
+                MainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
+            
             }
             default -> {
             }
@@ -344,7 +344,7 @@ public class Game implements Runnable {
 
     public void appendToMessageTextPane(String message) throws IOException, InterruptedException, ParseException {
       
-        mainGameScreen.appendToMessageTextPane(message);
+        MainGameScreen.appendToMessageTextPane(message);
     }
 
     public void checkLocationEvent() throws IOException, InterruptedException, ParseException {

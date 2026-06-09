@@ -1,3 +1,4 @@
+
 package DungeonoftheBrutalKing.Locations.TheRustyTankard;
 
 import DungeonoftheBrutalKing.MainGameScreen;
@@ -26,55 +27,54 @@ public class TheRustyTankard {
     private final JPanel mainPanel;
     private final JPanel returnPanel;
     private final MainGameScreen myMainGameScreen;
-
     private final ImageIcon baseIcon;
     private final JLabel imageLabel;
 
-    public TheRustyTankard(JPanel mainPanel2, MainGameScreen mainGameScreen) {
+    public TheRustyTankard(JPanel returnPanel, MainGameScreen mainGameScreen) {
         this.myMainGameScreen = mainGameScreen;
-        this.returnPanel = mainPanel2;
+        this.returnPanel = returnPanel;
 
         this.mainPanel = new JPanel(new BorderLayout());
         this.mainPanel.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        // Use the static getter for NPC image path
-        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "Innkeeper - TheRustyTankard.jpeg");
+        String imgPath = GameSettings.getNPCImagePath() + "TheRustyTankard/Innkeeper - TheRustyTankard.jpeg";
+        this.baseIcon = new ImageIcon(imgPath);
+
+        if (baseIcon.getImageLoadStatus() != java.awt.MediaTracker.COMPLETE) {
+            System.err.println("Failed to load image: " + imgPath);
+        }
+
         this.imageLabel = new JLabel();
         this.imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         displayImage();
         promptWhereToSit();
+        // Removed: do NOT call replaceWithAnyPanel here — caller is responsible
+    }
 
-        if (myMainGameScreen != null) {
-            uiSafely(() -> MainGameScreen.replaceWithAnyPanel(mainPanel));
-        }
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 
     private void displayImage() {
         mainPanel.add(imageLabel, BorderLayout.CENTER);
-
-        Runnable refresh = this::refreshScaledImage;
-
         mainPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                refresh.run();
+                refreshScaledImage();
             }
         });
-
-        SwingUtilities.invokeLater(refresh);
+        SwingUtilities.invokeLater(this::refreshScaledImage);
     }
 
     private void refreshScaledImage() {
-        int w = Math.max(1, mainPanel.getWidth());
-        int h = Math.max(1, mainPanel.getHeight());
+        int w = mainPanel.getWidth();
+        int h = mainPanel.getHeight();
+        if (w <= 0 || h <= 0) return;
 
-        int targetW = w;
         int targetH = Math.max(1, h - BOTTOM_BAR_HEIGHT);
-
-        Image scaled = baseIcon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
+        Image scaled = baseIcon.getImage().getScaledInstance(w, targetH, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(scaled));
-
         mainPanel.revalidate();
         mainPanel.repaint();
     }
@@ -82,11 +82,11 @@ public class TheRustyTankard {
     private void promptWhereToSit() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JButton barButton = new JButton("Sit at the bar");
-        JButton tableButton = new JButton("Sit at a table");
+        JButton barButton      = new JButton("Sit at the bar");
+        JButton tableButton    = new JButton("Sit at a table");
         JButton backroomButton = new JButton("Go to the backroom");
-        JButton getRoomButton = new JButton("Get a Room");
-        JButton leaveButton = new JButton("Leave the inn");
+        JButton getRoomButton  = new JButton("Get a Room");
+        JButton leaveButton    = new JButton("Leave the inn");
 
         barButton.addActionListener(_ -> {
             if (myMainGameScreen == null) return;
@@ -107,18 +107,16 @@ public class TheRustyTankard {
 
         leaveButton.addActionListener(_ -> {
             if (myMainGameScreen == null) return;
-
             uiSafely(() -> myMainGameScreen.setMessageTextPane("You leave the inn.\n"));
-
             JPanel fallback = returnPanel != null ? returnPanel : new JPanel();
             uiSafely(() -> MainGameScreen.replaceWithAnyPanel(fallback));
-
             SwingUtilities.invokeLater(() -> {
                 try {
                     myMainGameScreen.getGameImagesAndCombatPanel().revalidate();
                     myMainGameScreen.getGameImagesAndCombatPanel().repaint();
-                } catch (RuntimeException ignored) {
-                    // Ignore repaint failures.
+                } catch (RuntimeException e) {
+                    System.err.println("Repaint failed after leaving inn: " + e.getMessage());
+                    e.printStackTrace();
                 }
             });
         });
@@ -137,10 +135,6 @@ public class TheRustyTankard {
         mainPanel.repaint();
     }
 
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-
     private void loadInformationProvider() {
         if (myMainGameScreen == null) return;
         uiSafely(() -> MainGameScreen.replaceWithAnyPanel(new InformationProvider(myMainGameScreen)));
@@ -150,8 +144,12 @@ public class TheRustyTankard {
         if (action == null) return;
         try {
             action.run();
-        } catch (IOException | InterruptedException | ParseException | RuntimeException ignored) {
-            // Keep navigation/UI flow working even if calls fail.
+        } catch (IOException | InterruptedException | ParseException e) {
+            System.err.println("UI action failed: " + e.getMessage());
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            System.err.println("UI action RuntimeException: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
