@@ -74,7 +74,7 @@ public class VenomspikeBlade extends WeaponManager {
             totalDamage *= 2;
             // Optionally, apply a venom effect here
         }
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
     }
 
     public Guild getGuild() {

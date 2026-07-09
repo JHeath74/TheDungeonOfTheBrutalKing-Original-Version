@@ -6,6 +6,7 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Narrative.Api.Quest;
 import DungeonoftheBrutalKing.Narrative.Api.QuestStatus;
 import DungeonoftheBrutalKing.Narrative.Api.QuestType;
+import DungeonoftheBrutalKing.Narrative.Encounters.EncounterEvent;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import javax.swing.ImageIcon;
@@ -137,15 +138,21 @@ public class QuestCleanseCursedShrine extends JPanel implements Quest {
         return ID + ":" + status.name();
     }
 
-	@Override
-	public void completeQuest() throws IOException, InterruptedException, ParseException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void completeQuest() throws IOException, InterruptedException, ParseException {
+        complete();
+    }
 
 	@Override
 	public String getTitle() {
 		// TODO Auto-generated method stub
 		return NAME;
+	}
+
+	@Override
+	public void onEncounter(EncounterEvent event) {
+	    if (status == QuestStatus.NOT_STARTED) {
+	        start();
+	    }
 	}
 }

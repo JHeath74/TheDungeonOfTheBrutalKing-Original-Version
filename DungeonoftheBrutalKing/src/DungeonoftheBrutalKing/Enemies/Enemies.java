@@ -7,7 +7,7 @@ import java.util.List;
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.SharedData.Alignment;
-import DungeonoftheBrutalKing. Status.HasHitPoints;
+import DungeonoftheBrutalKing.Status.HasHitPoints;
 import DungeonoftheBrutalKing.Status.Status;
 import DungeonoftheBrutalKing.Status.StatusPolarity;
 import DungeonoftheBrutalKing.Status.StatusType;
@@ -124,9 +124,12 @@ public abstract class Enemies implements HasHitPoints {
 
     // \[Damage & combat\]
 
-    public void takeDamage(int damage) {
-        this.hitPoints = Math.max(0, this.hitPoints - damage);
-    }
+
+@Override
+public void takeDamage(int damage, MainGameScreen mainGameScreen) {
+    this.hitPoints = Math.max(0, this.hitPoints - damage);
+}
+
 
     /**
      * Apply incoming damage while considering active Status.damageTakenMultiplier()
@@ -135,7 +138,7 @@ public abstract class Enemies implements HasHitPoints {
     public void takeDamageWithStatuses(int damage) {
         double mult = getDamageTakenMultiplier();
         int finalDamage = (int) Math.round(damage * mult);
-        takeDamage(finalDamage);
+        takeDamage(finalDamage, null);
     }
 
     public int defend(int incomingDamage) {

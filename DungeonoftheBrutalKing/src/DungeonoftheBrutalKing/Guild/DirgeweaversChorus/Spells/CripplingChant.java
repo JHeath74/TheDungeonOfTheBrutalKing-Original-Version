@@ -72,7 +72,7 @@ public class CripplingChant implements Spell {
 
         int scaling = Math.max(caster.getWisdom(), caster.getIntelligence()) / 10;
         int damage = Math.max(1, BASE_DAMAGE + scaling);
-        target.takeDamage(damage);
+        target.takeDamage(damage, null);
 
         if (target.isDead()) return;
 

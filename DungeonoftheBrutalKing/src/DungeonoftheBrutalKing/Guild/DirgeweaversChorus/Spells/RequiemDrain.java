@@ -47,7 +47,7 @@ public class RequiemDrain implements Spell {
         if (!canCast(caster)) return;
 
         int damage = Math.max(1, BASE_DAMAGE + (caster.getCharisma() / 6));
-        target.takeDamage(damage);
+        target.takeDamage(damage, null);
 
         int rollPercent = ThreadLocalRandom.current().nextInt(LIFE_STEAL_MIN_PERCENT, LIFE_STEAL_MAX_PERCENT + 1);
 

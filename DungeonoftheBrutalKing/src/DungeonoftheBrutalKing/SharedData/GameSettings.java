@@ -14,7 +14,7 @@ public class GameSettings {
 
     // Static file paths
     public static String MenuBarImagePath = "MenuBar/";
-    public static String MonsterImagePath = "src/DungeonoftheBrutalKing/Images/Monsters/";
+    public static String EnemiesImagePath = "src/DungeonoftheBrutalKing/Images/Enemies/";
     public static String FontPath = "src/DungeonoftheBrutalKing/Fonts/";
     public static String DungeonFloorTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Floor/";
     public static String DungeonWallTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Wall/";
@@ -28,7 +28,7 @@ public class GameSettings {
     public static String NPCImagePath = "src/DungeonoftheBrutalKing/Images/NPC/";
     public static String RaceImagesPath = "src/DungeonoftheBrutalKing/Images/Race/";
     public static String QuestImagesPath = "src/DungeonoftheBrutalKing/Images/Quests/";
-
+    public static String DungeonCeilingTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Ceiling/";
     
     
     // Instance colors
@@ -134,7 +134,7 @@ public class GameSettings {
 
     // Path getters
     public static String getMenuBarImagePath() { return MenuBarImagePath; }
-    public static String getMonsterImagePath() { return MonsterImagePath; }
+    public static String getMonsterImagePath() { return EnemiesImagePath; }
     public static String getFontPath() { return FontPath; }
     public static String getQuestImagesPath() { return QuestImagesPath; }
     public static String getDungeonFloorTexturePath() { return DungeonFloorTexturePath; }
@@ -148,6 +148,10 @@ public class GameSettings {
     public static String getSavedGameDirectory() { return SavedGameDirectory; }
     public static String getNPCImagePath() { return NPCImagePath; }
     public static String getRaceImagesPath() { return RaceImagesPath; }
+
+    public static String getDungeonCeilingTexturePath() {
+        return DungeonCeilingTexturePath;
+    }
 
 
 

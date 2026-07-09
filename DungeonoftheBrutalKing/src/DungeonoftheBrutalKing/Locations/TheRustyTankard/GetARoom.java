@@ -31,7 +31,7 @@ public class GetARoom extends JPanel {
         setLayout(new BorderLayout());
 
         // Use the static getter for NPC image path
-        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "Innkeeper - Lodging.png");
+        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "TheRustyTankard/GetARoom.png");
         this.imageLabel = new JLabel();
         add(imageLabel, BorderLayout.CENTER);
 

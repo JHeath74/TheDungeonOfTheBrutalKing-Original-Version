@@ -84,7 +84,9 @@ public class DirgeweaversFuneralWeave {
         int cap = attacker.getHitPoints();
         if (cap <= 0) return;
 
-        attacker.takeDamage(Math.min(reflected, cap));
+
+        attacker.takeDamage(Math.min(reflected, cap), null);
+
     }
 
     public String getName() {

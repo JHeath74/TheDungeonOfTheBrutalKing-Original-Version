@@ -86,7 +86,7 @@ public class SunlitRefrainDagger extends WeaponManager {
         if (critRoll < critChance) {
             totalDamage *= 2;
         }
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
 
         // Bleed proc: base 8% + 1% per agility point, capped at 40%
         double bleedChance = 0.08 + (agility * 0.01);

@@ -27,7 +27,7 @@ public class InnBackroom {
         mainPanel.setLayout(new BorderLayout());
 
         // Use the static getter for NPC image path
-        String imagePath = GameSettings.getNPCImagePath() + "Innkeeper - Backroom.jpeg";
+        String imagePath = GameSettings.getNPCImagePath() + "TheRustyTankard/Innkeeper - Backroom.jpeg";
         ImageIcon baseIcon = new ImageIcon(imagePath);
 
         JLabel pictureLabel = new JLabel();

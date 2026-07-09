@@ -51,7 +51,7 @@ public class InformationProvider extends JPanel {
         setLayout(new BorderLayout());
 
         // Use the static getter for NPC image path
-        String imagePath = GameSettings.getNPCImagePath() + "Innkeeper - InformationProvider.png";
+        String imagePath = GameSettings.getNPCImagePath() + "TheRustyTankard/Innkeeper - InformationProvider.png";
         this.baseIcon = new ImageIcon(imagePath);
         this.imageLabel = new JLabel();
         add(imageLabel, BorderLayout.CENTER);

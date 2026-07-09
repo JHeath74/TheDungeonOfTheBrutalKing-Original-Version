@@ -6,6 +6,7 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Narrative.Api.Quest;
 import DungeonoftheBrutalKing.Narrative.Api.QuestStatus;
 import DungeonoftheBrutalKing.Narrative.Api.QuestType;
+import DungeonoftheBrutalKing.Narrative.Encounters.EncounterEvent;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import javax.swing.*;
@@ -142,4 +143,11 @@ public class QuestFeedHungryBeast extends JPanel implements Quest {
     public void completeQuest() throws IOException, InterruptedException, ParseException {
         complete();
     }
+
+	@Override
+	public void onEncounter(EncounterEvent event) {
+	    if (status == QuestStatus.NOT_STARTED) {
+	        start();
+	    }
+	}
 }

@@ -283,16 +283,17 @@ public class Game implements Runnable {
     }
 
     private void initializeTextures() {
-        textures.add(Texture.GreyDungeonWall);
-        textures.add(Texture.GreyDungeonDoor);
-        textures.add(Texture.wood);
-        textures.add(Texture.brick);
-        textures.add(Texture.bluestone);
-        textures.add(Texture.stone);
-        textures.add(Texture.stairsup);
-        textures.add(Texture.stairsdown);
-        textures.add(Texture.stairsdownwithgate);
-        textures.add(Texture.downstairsdownwithgateandtorches);
+        textures.add(Texture.GREY_DUNGEON_WALL);
+        textures.add(Texture.GREY_DUNGEON_DOOR);
+        textures.add(Texture.WOOD);
+        textures.add(Texture.BRICK);
+        textures.add(Texture.BLUESTONE);
+        textures.add(Texture.STONE);
+        textures.add(Texture.STAIRS_UP);
+        textures.add(Texture.STAIRS_DOWN);
+        textures.add(Texture.STAIRS_DOWN_GATE);
+        textures.add(Texture.STAIRS_DOWN_GATE_TORCHES);
+        textures.add(Texture.GREY_DUNGEON_FLOOR);
     }
 
     public LocationType detectLocation(int x, int y) {
@@ -331,9 +332,10 @@ public class Game implements Runnable {
             }
             case THE_RUSTY_TANKARD -> {
                 System.out.println("THE_RUSTY_TANKARD event handled");
-                appendToMessageTextPane("You have entered The Rusty Tankard.");
+                MainGameScreen.appendToMessageTextPane("You have entered The Rusty Tankard.");
                 TheRustyTankard rustyTankard = new TheRustyTankard(new JPanel(), mainGameScreen);
-                mainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
+                MainGameScreen.replaceWithAnyPanel(rustyTankard.getMainPanel());
+            
             }
             default -> {
             }
@@ -341,7 +343,8 @@ public class Game implements Runnable {
     }
 
     public void appendToMessageTextPane(String message) throws IOException, InterruptedException, ParseException {
-        mainGameScreen.appendToMessageTextPane(message);
+      
+        MainGameScreen.appendToMessageTextPane(message);
     }
 
     public void checkLocationEvent() throws IOException, InterruptedException, ParseException {

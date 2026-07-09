@@ -2,7 +2,7 @@ package DungeonoftheBrutalKing;
 
 import java.util.*;
 
-import DungeonoftheBrutalKing.Quests.Api.Quest;
+import DungeonoftheBrutalKing.Narrative.Api.Quest;
 import DungeonoftheBrutalKing.SharedData.Guild;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 import DungeonoftheBrutalKing.SharedData.GuildType;

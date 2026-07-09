@@ -59,7 +59,7 @@ public class Innkeeper {
         );
 
         // Use the static getter for NPC image path
-        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "Innkeeper - innkeeper.jpeg");
+        this.baseIcon = new ImageIcon(GameSettings.getNPCImagePath() + "TheRustyTankard/Innkeeper - innkeeper.jpeg");
         this.imageLabel = new JLabel();
         this.imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 

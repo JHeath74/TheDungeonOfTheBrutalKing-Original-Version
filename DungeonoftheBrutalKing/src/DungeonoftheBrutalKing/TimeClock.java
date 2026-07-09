@@ -7,20 +7,30 @@ import java.time.LocalTime;
 import javax.swing.JTextPane;
 import javax.swing.Timer;
 
+
 public class TimeClock {
 
+	public TimeClock(Month startMonth, MainGameScreen mainGameScreen) {
+	    this.currentMonth = startMonth;
+	    this.currentDay = 1;
+	    this.currentTime = LocalTime.of(0, 0);
+	    this.startTime = currentTime.getHour();
+	    this.myMainGameScreen = mainGameScreen;
+	}
+	
     public enum Month {
         REBIRTH, AWAKENING, WINDS, RAINS, SOWINGS, FIRST_FRUITS,
         HARVEST, FINAL_REAPING, THE_FALL, DARKNESS, COLD_WINDS, LIGHTS
     }
 
-    private static final TimeClock timeClock = new TimeClock(Month.REBIRTH, null, null);
+    private static TimeClock timeClock = new TimeClock(Month.REBIRTH, null, null);
 
     private Month currentMonth;
     private int currentDay;
     private LocalTime currentTime;
     private Timer timer;
     private MainGameScreen myMainGameScreen;
+    
 
     int startTime;
     private long startMillis = 0;
@@ -32,6 +42,8 @@ public class TimeClock {
         this.startTime = currentTime.getHour();
         this.myMainGameScreen = mainGameScreen;
     }
+    
+    
 
     TimeClock(Month startMonth, JTextPane messageTextPane) {
         this(startMonth, messageTextPane, null);
@@ -42,7 +54,7 @@ public class TimeClock {
             timer.stop();
         }
         startMillis = System.currentTimeMillis();
-        timer = new Timer(300000, e -> advanceTime()); // 5 minutes
+        timer = new Timer(300000, __ -> advanceTime()); // 5 minutes
         timer.setRepeats(true);
         timer.start();
     }
@@ -105,17 +117,53 @@ public class TimeClock {
         int elapsedHours = currentTime.getHour();
         return elapsedDaysInHours + elapsedHours;
     }
+    
+    public String getTimeOfDay() {
+        int hour = currentTime.getHour();
+        if (hour >= 5  && hour < 8)  return "Dawn";
+        if (hour >= 8  && hour < 12) return "Morning";
+        if (hour >= 12 && hour < 17) return "Afternoon";
+        if (hour >= 17 && hour < 20) return "Evening";
+        if (hour >= 20 && hour < 23) return "Night";
+        return "Midnight";
+    }
+    
+    public boolean isDaytime() {
+        int hour = currentTime.getHour();
+        return hour >= 6 && hour < 20;
+    }
+
+    public boolean isNighttime() {
+        return !isDaytime();
+    }
 
     public int getCurrentHour() {
         return currentTime.getHour();
     }
 
     public static TimeClock Singleton() {
+        if (timeClock == null) {
+            timeClock = new TimeClock(Month.REBIRTH, null, null);
+        }
         return timeClock;
     }
+    
+
+public String getCurrentSeason() {
+    return switch (currentMonth) {
+        case REBIRTH, AWAKENING, WINDS -> "Spring";
+        case RAINS, SOWINGS, FIRST_FRUITS -> "Summer";
+        case HARVEST, FINAL_REAPING, THE_FALL -> "Autumn";
+        case DARKNESS, COLD_WINDS, LIGHTS -> "Winter";
+    };
+}
+
 
     public String getCurrentTimeString() {
-        return String.format("Time: %s\nDay: %d\nMonth: %s", currentTime, currentDay, currentMonth);
+        return String.format("Time: %02d:00 (%s)\nDay: %d | %s\nMonth: %s | %s",
+            currentTime.getHour(), getTimeOfDay(),
+            currentDay, getCurrentSeason(),
+            currentMonth, isDaytime() ? "Day" : "Night");
     }
 
     public int getElapsedSeconds() {

@@ -81,7 +81,7 @@ public class SunlitRefrainDagger extends WeaponManager {
         int bonus = rand.nextInt((charisma / 4) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
 
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
 
         StatusType statusEffect = getStatusEffect();
         if (statusEffect != null && statusEffect != StatusType.NONE) {

@@ -6,6 +6,7 @@ import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Narrative.Api.Quest;
 import DungeonoftheBrutalKing.Narrative.Api.QuestStatus;
 import DungeonoftheBrutalKing.Narrative.Api.QuestType;
+import DungeonoftheBrutalKing.Narrative.Encounters.EncounterEvent;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import javax.swing.*;
@@ -146,4 +147,10 @@ public class QuestRescuetheForgottenPrisoner extends JPanel implements Quest {
     public String serialize() {
         return ID + ":" + status.name();
     }
+
+	@Override
+	public void onEncounter(EncounterEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
 }

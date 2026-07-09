@@ -84,7 +84,7 @@ public class ChorusOfIronStringsHalberd extends WeaponManager {
         int bonus = rand.nextInt((charisma / 4) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
 
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
 
         // Use StatusType from WeaponManager.getStatusEffect()
         StatusType statusEffect = getStatusEffect();

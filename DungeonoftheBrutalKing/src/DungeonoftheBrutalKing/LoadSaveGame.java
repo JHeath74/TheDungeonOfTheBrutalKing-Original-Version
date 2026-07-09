@@ -10,8 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.*;
 
-import DungeonoftheBrutalKing.Quests.Api.Quest;
-import DungeonoftheBrutalKing.Quests.Impl.QuestImpl;
+import DungeonoftheBrutalKing.Narrative.Api.Quest;
+import DungeonoftheBrutalKing.Narrative.Impl.QuestImpl;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.GuildMembershipStatus;
 import DungeonoftheBrutalKing.SharedData.GuildType;
@@ -65,9 +65,7 @@ public class LoadSaveGame {
         }
         loadAllEncrypted(chosenFile);
         
-        System.out.println("Loaded X: " + myChar.getX());
-        System.out.println("Loaded Y: " + myChar.getY());
-        System.out.println("Loaded Z: " + myChar.getDungeonLevel());
+    
         
         myChar.getDirection();
     }

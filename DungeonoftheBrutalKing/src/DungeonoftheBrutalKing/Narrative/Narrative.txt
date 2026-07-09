@@ -1,0 +1,112 @@
+ Volume in drive C is Local Disk
+ Volume Serial Number is 60E0-35DF
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative
+
+05/21/2026  04:44 PM    <DIR>          .
+05/18/2026  05:37 PM    <DIR>          ..
+05/20/2026  05:39 PM    <DIR>          Api
+05/20/2026  05:40 PM    <DIR>          Content
+05/20/2026  05:45 PM    <DIR>          Core
+05/18/2026  05:24 PM    <DIR>          Encounters
+05/18/2026  05:22 PM    <DIR>          Impl
+05/21/2026  04:44 PM                 0 Narrative.txt
+05/20/2026  05:43 PM    <DIR>          Npc
+05/20/2026  05:45 PM    <DIR>          Puzzle
+05/18/2026  05:25 PM    <DIR>          Triggers
+               1 File(s)              0 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Api
+
+05/20/2026  05:39 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  05:39 PM               164 NarrativeEntity.java
+05/20/2026  05:38 PM               724 Quest.java
+05/19/2026  05:51 PM             1,402 QuestHooks.java
+05/20/2026  05:38 PM               140 QuestStatus.java
+05/20/2026  05:02 PM             1,017 QuestTag.java
+05/19/2026  05:52 PM               248 QuestType.java
+               6 File(s)          3,695 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Content
+
+05/20/2026  05:40 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/19/2026  04:49 PM    <DIR>          Dialogues
+05/19/2026  04:47 PM    <DIR>          Quests
+               0 File(s)              0 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Content\Dialogues
+
+05/19/2026  04:49 PM    <DIR>          .
+05/20/2026  05:40 PM    <DIR>          ..
+               0 File(s)              0 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Content\Quests
+
+05/19/2026  04:47 PM    <DIR>          .
+05/20/2026  05:40 PM    <DIR>          ..
+05/20/2026  05:28 PM             5,319 QuestCleanseCursedShrine.java
+05/20/2026  05:28 PM             5,152 QuestFeedHungryBeast.java
+05/20/2026  05:28 PM             5,060 QuestForgiveBetrayer.java
+05/20/2026  05:28 PM             5,143 QuestGuideTheLostSoul.java
+05/20/2026  05:29 PM             5,094 QuestLieToTheLost.java
+05/20/2026  05:29 PM             5,346 QuestRescuetheForgottenPrisoner.java
+05/20/2026  05:29 PM             5,108 QuestSlayTheHelpLess.java
+               7 File(s)         36,222 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Core
+
+05/20/2026  05:45 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  05:46 PM             2,174 BaseQuest.java
+05/20/2026  05:46 PM             1,217 QuestHooks.java
+05/20/2026  05:46 PM             4,935 QuestManager.java
+               3 File(s)          8,326 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Encounters
+
+05/18/2026  05:24 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  05:40 PM             1,186 EncounterEvent.java
+05/20/2026  05:46 PM             3,942 EncounterType.java
+               2 File(s)          5,128 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Impl
+
+05/18/2026  05:22 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  05:28 PM             5,678 QuestImpl.java
+               1 File(s)          5,678 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Npc
+
+05/20/2026  05:43 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  05:42 PM               871 DialogLine.java
+05/20/2026  05:44 PM             2,136 Npc.java
+05/20/2026  05:41 PM               180 NpcRole.java
+               3 File(s)          3,187 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Puzzle
+
+05/20/2026  05:45 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  05:46 PM             2,160 Puzzle.java
+05/20/2026  05:44 PM               191 PuzzleState.java
+05/20/2026  05:46 PM               603 RiddlePuzzle.java
+               3 File(s)          2,954 bytes
+
+ Directory of C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\DungeonoftheBrutalKing\src\DungeonoftheBrutalKing\Narrative\Triggers
+
+05/18/2026  05:25 PM    <DIR>          .
+05/21/2026  04:44 PM    <DIR>          ..
+05/20/2026  04:53 PM             3,710 QuestTriggerConfig.java
+05/20/2026  04:57 PM             1,381 RandomQuestOnTileEnterTrigger.java
+05/20/2026  04:58 PM             1,033 TileEnterQuestTrigger.java
+05/20/2026  05:46 PM             1,401 TriggerManager.java
+               4 File(s)          7,525 bytes
+
+     Total Files Listed:
+              30 File(s)         72,715 bytes
+              32 Dir(s)  119,445,950,464 bytes free

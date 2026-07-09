@@ -1,6 +1,6 @@
 
 // src/DungeonoftheBrutalKing/Narrative/api/QuestHooks.java
-package DungeonoftheBrutalKing.Narrative.api;
+package DungeonoftheBrutalKing.Narrative.Api;
 
 /**
  * Lifecycle callbacks attached to a quest.

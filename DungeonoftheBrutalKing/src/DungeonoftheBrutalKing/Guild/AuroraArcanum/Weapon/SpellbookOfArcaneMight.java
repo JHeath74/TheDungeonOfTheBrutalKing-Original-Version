@@ -63,7 +63,7 @@ public class SpellbookOfArcaneMight extends WeaponManager {
         Random rand = new Random();
         int bonus = rand.nextInt((intelligence / 2) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage,null);
     }
 
     public void shieldOwner(Character wielder) {

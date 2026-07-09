@@ -34,7 +34,7 @@ public class Storm_Devil extends Enemies {
             agility,
             intelligence,
             wisdom,
-            GameSettings.getMonsterImagePath() + "Storm Devil.png",
+            GameSettings.getMonsterImagePath() + "Storm_Devil.png",
             true,
             vitality
         );

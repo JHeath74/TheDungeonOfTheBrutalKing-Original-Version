@@ -73,7 +73,7 @@ public class BloodreaverGreatsword extends WeaponManager {
         Random rand = new Random();
         int bonus = rand.nextInt((strength / 2) + 1);
         int totalDamage = ATTACK_DAMAGE + bonus;
-        enemy.takeDamage(totalDamage);
+        enemy.takeDamage(totalDamage, null);
     }
 
     public Guild getGuild() {

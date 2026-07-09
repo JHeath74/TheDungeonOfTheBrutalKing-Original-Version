@@ -1,82 +1,144 @@
 
-// File: `src/DungeonoftheBrutalKing/Quests/EncounterEvent.java`
-package DungeonoftheBrutalKing.Quests.Encounters;
+package DungeonoftheBrutalKing.Narrative.Encounters;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import DungeonoftheBrutalKing.Quests.Core.QuestManager;
-
-/**
- * Quest-routing event sent to {@link QuestManager#onEncounter(EncounterEvent)}.
- *
- * Specific identifiers (npcId, itemId, locationId, dialogChoiceId, uiActionId, flagId, etc.)
- * go into {@link #getKey()} and extra details go into {@link #getData()}.
- */
 public final class EncounterEvent {
+
     private final EncounterType type;
     private final String key;
+    private final LocationType locationType;
     private final Map<String, Object> data;
 
-    public EncounterEvent(EncounterType type) {
-        this(type, null, null);
+    /**
+     * Full constructor.
+     *
+     * @param type         the encounter event type (required)
+     * @param key          identifier for the specific target (npcId, itemId, etc.)
+     * @param locationType static or random location classification
+     * @param data         optional extra payload
+     */
+    public EncounterEvent(EncounterType type,
+                          String key,
+                          LocationType locationType,
+                          Map<String, Object> data) {
+        this.type         = Objects.requireNonNull(type, "type must not be null");
+        this.key          = key != null ? key : "";
+        this.locationType = locationType != null ? locationType : LocationType.UNKNOWN;
+        this.data         = data != null
+                ? Collections.unmodifiableMap(new HashMap<>(data))
+                : Collections.emptyMap();
     }
 
+    /** Convenience — no extra data map. */
+    public EncounterEvent(EncounterType type, String key, LocationType locationType) {
+        this(type, key, locationType, null);
+    }
+
+    /** Backwards-compatible — defaults to UNKNOWN location type. */
     public EncounterEvent(EncounterType type, String key) {
-        this(type, key, null);
+        this(type, key, LocationType.UNKNOWN, null);
     }
 
-    public EncounterEvent(EncounterType type, String key, Map<String, Object> data) {
-        this.type = Objects.requireNonNull(type, "type");
-        this.key = key;
-        if (data == null || data.isEmpty()) {
-            this.data = Collections.emptyMap();
-        } else {
-            this.data = Collections.unmodifiableMap(new HashMap<>(data));
+    /** Minimal — type only. */
+    public EncounterEvent(EncounterType type) {
+        this(type, "", LocationType.UNKNOWN, null);
+    }
+
+    // ── Static Factory Methods ────────────────────────────────────────────────
+
+    /** Full factory — type, key, locationType and data map. */
+    public static EncounterEvent of(EncounterType type,
+                                    String key,
+                                    LocationType locationType,
+                                    Map<String, Object> data) {
+        return new EncounterEvent(type, key, locationType, data);
+    }
+
+    /** Factory — type, key and locationType. */
+    public static EncounterEvent of(EncounterType type,
+                                    String key,
+                                    LocationType locationType) {
+        return new EncounterEvent(type, key, locationType, null);
+    }
+
+    /** Factory — type and key, defaults to UNKNOWN location type. */
+    public static EncounterEvent of(EncounterType type, String key) {
+        return new EncounterEvent(type, key, LocationType.UNKNOWN, null);
+    }
+
+    /** Factory — type only. */
+    public static EncounterEvent of(EncounterType type) {
+        return new EncounterEvent(type, "", LocationType.UNKNOWN, null);
+    }
+
+    // ── Accessors ────────────────────────────────────────────────────────────
+
+    public EncounterType       getType()         { return type; }
+    public String              getKey()          { return key; }
+    public LocationType        getLocationType() { return locationType; }
+    public Map<String, Object> getData()         { return data; }
+
+    // ── Location helpers — delegate to LocationType.Category ─────────────────
+
+    /** Returns true when this event fired at a fixed map location (inn, shop, temple, etc.). */
+    public boolean isStaticLocation() {
+        return locationType.isStatic();
+    }
+
+    /** Returns true when this event fired at a procedurally placed / random tile. */
+    public boolean isRandomLocation() {
+        return locationType.isRandom();
+    }
+
+    /** Returns true when the location classification is not yet set. */
+    public boolean isUnknownLocation() {
+        return locationType == LocationType.UNKNOWN;
+    }
+
+    // ── Data helpers ──────────────────────────────────────────────────────────
+
+    /** Safely retrieve a typed value from the data map. Returns null if absent or wrong type. */
+    @SuppressWarnings("unchecked")
+    public <T> T get(String dataKey) {
+        try {
+            return (T) data.get(dataKey);
+        } catch (ClassCastException e) {
+            return null;
         }
     }
 
-    public EncounterType getType() {
-        return type;
+    /** Returns true if the data map contains the given key. */
+    public boolean hasData(String dataKey) {
+        return data.containsKey(dataKey);
     }
 
-    /**
-     * Optional identifier for what was encountered (npcId, itemId, locationId, etc.).
-     */
-    public String getKey() {
-        return key;
-    }
-
-    /**
-     * Backward-compatible alias for older code that used `id`.
-     */
-    public String getId() {
-        return key;
-    }
-
-    /**
-     * Extra details for quests to inspect (immutable).
-     */
-    public Map<String, Object> getData() {
-        return data;
-    }
+    // ── Object overrides ──────────────────────────────────────────────────────
 
     @Override
     public String toString() {
-        return "EncounterEvent{type=" + type + ", key=" + key + ", data=" + data + "}";
+        return "EncounterEvent{type=" + type
+                + ", key='" + key + "'"
+                + ", location=" + locationType
+                + (!data.isEmpty() ? ", data=" + data : "")
+                + "}";
     }
 
-    public static EncounterEvent of(EncounterType type) {
-        return new EncounterEvent(type, null, null);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EncounterEvent)) return false;
+        EncounterEvent other = (EncounterEvent) o;
+        return type == other.type
+                && key.equals(other.key)
+                && locationType == other.locationType;
     }
 
-    public static EncounterEvent of(EncounterType type, String key) {
-        return new EncounterEvent(type, key, null);
-    }
-
-    public static EncounterEvent of(EncounterType type, String key, Map<String, Object> data) {
-        return new EncounterEvent(type, key, data);
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, key, locationType);
     }
 }
