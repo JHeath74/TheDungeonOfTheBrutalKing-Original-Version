@@ -123,8 +123,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
             replaceWithAnyPanel(renderPanel);
             if (renderPanel != null) {
                 renderPanel.addKeyListener(this);
-                renderPanel.setFocusable(true);
-                renderPanel.requestFocusInWindow();
+                focusRenderPanel();
             }
 
             Timer renderTimer = new Timer(16, _ -> {
@@ -537,9 +536,18 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     public static void appendToMessageTextPane(String text) {
         if (messageTextPane == null || text == null || text.isEmpty()) return;
+
+        String normalized = text.replace("\r\n", "\n").replace('\r', '\n').strip();
+        if (normalized.isEmpty()) return;
+        if (!normalized.endsWith(" ")) {
+            normalized += " ";
+        }
+        // Enforce exactly one newline separator between appended messages.
+        normalized += "\n";
+
         StyledDocument doc = messageTextPane.getStyledDocument();
         try {
-            doc.insertString(doc.getLength(), text, null);
+            doc.insertString(doc.getLength(), normalized, null);
             messageTextPane.setCaretPosition(doc.getLength());
         } catch (BadLocationException e) {
             e.printStackTrace();
@@ -551,10 +559,41 @@ public class MainGameScreen extends JFrame implements KeyListener {
             try {
                 if (picturesAndTextUpdatesPane != null) {
                     picturesAndTextUpdatesPane.setLeftComponent(newPanel);
+                    picturesAndTextUpdatesPane.revalidate();
+                    picturesAndTextUpdatesPane.repaint();
+                    focusRenderPanel();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void focusRenderPanel() {
+        if (renderPanel == null || picturesAndTextUpdatesPane == null) return;
+
+        Runnable focusTask = () -> {
+            if (picturesAndTextUpdatesPane.getLeftComponent() == renderPanel) {
+                renderPanel.revalidate();
+                renderPanel.repaint();
+                renderPanel.setFocusable(true);
+                if (!renderPanel.requestFocusInWindow()) {
+                    renderPanel.requestFocus();
+                }
+
+                // One more deferred request helps after split-pane component swaps.
+                SwingUtilities.invokeLater(() -> {
+                    if (picturesAndTextUpdatesPane.getLeftComponent() == renderPanel) {
+                        renderPanel.requestFocusInWindow();
+                    }
+                });
+            }
+        };
+
+        if (SwingUtilities.isEventDispatchThread()) {
+            focusTask.run();
+        } else {
+            SwingUtilities.invokeLater(focusTask);
         }
     }
 
@@ -595,6 +634,9 @@ public class MainGameScreen extends JFrame implements KeyListener {
         if (originalPanel != null && picturesAndTextUpdatesPane != null) {
             picturesAndTextUpdatesPane.setLeftComponent(renderPanel);
             restorePlayerPosition();
+            if (camera != null) {
+                camera.resetMovementFlags();
+            }
             if (combatMessageScrollPane != null) {
                 combatMessageScrollPane.setPreferredSize(new Dimension(600, 75));
                 combatMessageScrollPane.setMinimumSize(new Dimension(600, 75));
@@ -610,6 +652,7 @@ public class MainGameScreen extends JFrame implements KeyListener {
             }
             picturesAndTextUpdatesPane.revalidate();
             picturesAndTextUpdatesPane.repaint();
+            focusRenderPanel();
         }
     }
 

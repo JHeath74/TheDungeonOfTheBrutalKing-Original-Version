@@ -88,37 +88,35 @@ public class TheRustyTankard {
         JButton getRoomButton  = new JButton("Get a Room");
         JButton leaveButton    = new JButton("Leave the inn");
 
-        barButton.addActionListener(_ -> {
+        barButton.addActionListener(e -> {
             if (myMainGameScreen == null) return;
             Innkeeper innkeeper = new Innkeeper(mainPanel, myMainGameScreen);
             innkeeper.setupUI();
         });
 
-        tableButton.addActionListener(_ -> loadInformationProvider());
+        tableButton.addActionListener(e -> loadInformationProvider());
 
-        backroomButton.addActionListener(_ ->
+        backroomButton.addActionListener(e ->
                 uiSafely(() -> InnBackroom.loadBackroom(mainPanel, myMainGameScreen))
         );
 
-        getRoomButton.addActionListener(_ -> {
+        getRoomButton.addActionListener(e -> {
             if (myMainGameScreen == null) return;
             uiSafely(() -> MainGameScreen.replaceWithAnyPanel(new GetARoom(myMainGameScreen)));
         });
 
-        leaveButton.addActionListener(_ -> {
+        leaveButton.addActionListener(e -> {
             if (myMainGameScreen == null) return;
             uiSafely(() -> myMainGameScreen.setMessageTextPane("You leave the inn.\n"));
-            JPanel fallback = returnPanel != null ? returnPanel : new JPanel();
-            uiSafely(() -> MainGameScreen.replaceWithAnyPanel(fallback));
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    myMainGameScreen.getGameImagesAndCombatPanel().revalidate();
-                    myMainGameScreen.getGameImagesAndCombatPanel().repaint();
-                } catch (RuntimeException e) {
-                    System.err.println("Repaint failed after leaving inn: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            });
+
+            // Leaving the inn should always return to the dungeon render panel.
+            myMainGameScreen.restoreOriginalPanel();
+
+            JPanel hostPanel = myMainGameScreen.getGameImagesAndCombatPanel();
+            if (hostPanel != null) {
+                hostPanel.revalidate();
+                hostPanel.repaint();
+            }
         });
 
         buttonPanel.add(barButton);

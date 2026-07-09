@@ -5,7 +5,6 @@ import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Combat;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Enemies.MonsterSelector;
-import DungeonoftheBrutalKing.SharedData.LocationType;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -167,8 +166,6 @@ public class Camera implements KeyListener {
 
         if (moved) {
             Character.getInstance().setPosition(getX(), getY(), 0);
-            LocationType type = game.detectLocation(getX(), getY());
-            game.handleLocationEvent(type);
             onPlayerStep();
         }
     }
