@@ -1,207 +1,260 @@
-
 package DungeonoftheBrutalKing.GameEngine;
-
 import DungeonoftheBrutalKing.Character;
 import DungeonoftheBrutalKing.Combat;
 import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Enemies.MonsterSelector;
-
+import DungeonoftheBrutalKing.SharedData.GameSettings;
+import DungeonoftheBrutalKing.SharedData.LocationType;
+import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.util.Random;
 
 public class Camera implements KeyListener {
+public double xPos, yPos, xDir, yDir, xPlane, yPlane;
+public boolean left, right, forward, back;
 
-    public double xPos, yPos, xDir, yDir, xPlane, yPlane;
-    public boolean left, right, forward, back;
+private static final double MOVE_SPEED     = 0.08;
+private static final double ROTATION_SPEED = 0.045;
 
-    private static final double MOVE_SPEED     = 0.08;
-    private static final double ROTATION_SPEED = 0.045;
+// Combat pacing / encounter tuning
+private static final int ENCOUNTER_CHECK_START_STEPS = 180; // no encounter checks before this
+private static final int ENCOUNTER_FORCE_STEPS = 300;       // forced encounter at this step count
 
-    private final Random random = new Random();
-    private Combat activeCombat = null;
-    private int stepsSinceLastCombat = 0;
+private final Random random = new Random();
+private Combat activeCombat = null;
+private int stepsSinceLastCombat = 0;
 
-    private final Game game;
-    private final MainGameScreen mainGameScreen;
+private final Game game;
+private final MainGameScreen mainGameScreen;
 
-    private int[] floorPixels;
-    private int[] ceilingPixels;
+private BufferedImage floorImage;
+private BufferedImage ceilingImage;
 
-    public Camera(double x, double y, double xd, double yd, double xp, double yp,
-                  Game game, MainGameScreen mainGameScreen) {
-        xPos   = x;
-        yPos   = y;
-        xDir   = xd;
-        yDir   = yd;
-        xPlane = xp;
-        yPlane = yp;
-        this.game           = game;
-        this.mainGameScreen = mainGameScreen;
-        loadLevelEnvironment(1);
+public Camera(double x, double y, double xd, double yd, double xp, double yp,
+              Game game, MainGameScreen mainGameScreen) {
+    xPos   = x;
+    yPos   = y;
+    xDir   = xd;
+    yDir   = yd;
+    xPlane = xp;
+    yPlane = yp;
+    this.game           = game;
+    this.mainGameScreen = mainGameScreen;
+}
+
+// ── Environment Images ────────────────────────────────────────────────────
+
+public void loadEnvironmentImages(String floorFileName, String ceilingFileName) {
+    try {
+        floorImage = ImageIO.read(new File(GameSettings.getDungeonFloorTexturePath() + floorFileName));
+    } catch (IOException e) {
+        floorImage = null;
     }
-
-    // ── Environment Pixels ────────────────────────────────────────────────────
-
-    public void loadLevelEnvironment(int level) {
-        switch (level) {
-            case 1  -> { floorPixels = Texture.GREY_DUNGEON_FLOOR.pixels;  ceilingPixels = Texture.GREY_DUNGEON_CEILING.pixels; }
-           
-            default -> { floorPixels = Texture.GREY_DUNGEON_FLOOR.pixels;  ceilingPixels = Texture.GREY_DUNGEON_CEILING.pixels; }
-        }
+    try {
+        ceilingImage = ImageIO.read(new File(GameSettings.getDungeonFloorTexturePath() + ceilingFileName));
+    } catch (IOException e) {
+        ceilingImage = null;
     }
+}
 
-    public int[] getFloorPixels()   { return floorPixels; }
-    public int[] getCeilingPixels() { return ceilingPixels; }
+public BufferedImage getFloorImage()   { return floorImage; }
+public BufferedImage getCeilingImage() { return ceilingImage; }
 
-    // ── Position / Direction ──────────────────────────────────────────────────
+// ── Position / Direction ──────────────────────────────────────────────────
 
-    public int  getX() { return (int) xPos; }
-    public int  getY() { return (int) yPos; }
-    public void setX(double x) { this.xPos = x; }
-    public void setY(double y) { this.yPos = y; }
+public int  getX() { return (int) xPos; }
+public int  getY() { return (int) yPos; }
+public void setX(double x) { this.xPos = x; }
+public void setY(double y) { this.yPos = y; }
 
-    public void setPosition(double x, double y) {
-        this.xPos = x;
-        this.yPos = y;
-    }
+public void setPosition(double x, double y) {
+    this.xPos = x;
+    this.yPos = y;
+}
 
-    public void setDirection(double angleDegrees) {
-        double angleRadians = Math.toRadians(angleDegrees);
-        xDir = Math.cos(angleRadians);
-        yDir = Math.sin(angleRadians);
-        double fov = 0.66;
-        xPlane = -yDir * fov;
-        yPlane =  xDir * fov;
-    }
+public void setDirection(double angleDegrees) {
+    double angleRadians = Math.toRadians(angleDegrees);
+    xDir = Math.cos(angleRadians);
+    yDir = Math.sin(angleRadians);
+    double fov = 0.66;
+    xPlane = -yDir * fov;
+    yPlane =  xDir * fov;
+}
 
-    public void resetMovementFlags() {
-        forward = false;
-        back    = false;
-        left    = false;
-        right   = false;
-    }
+public void resetMovementFlags() {
+    forward = false;
+    back    = false;
+    left    = false;
+    right   = false;
+}
 
-    // ── KeyListener ───────────────────────────────────────────────────────────
+// ── KeyListener ───────────────────────────────────────────────────────────
 
-    @Override
-    public void keyPressed(KeyEvent key) {
-        if (key.getKeyCode() == KeyEvent.VK_LEFT)  left    = true;
-        if (key.getKeyCode() == KeyEvent.VK_RIGHT) right   = true;
-        if (key.getKeyCode() == KeyEvent.VK_UP)    forward = true;
-        if (key.getKeyCode() == KeyEvent.VK_DOWN)  back    = true;
-    }
+@Override
+public void keyPressed(KeyEvent key) {
+    if (key.getKeyCode() == KeyEvent.VK_LEFT)  left    = true;
+    if (key.getKeyCode() == KeyEvent.VK_RIGHT) right   = true;
+    if (key.getKeyCode() == KeyEvent.VK_UP)    forward = true;
+    if (key.getKeyCode() == KeyEvent.VK_DOWN)  back    = true;
+}
 
-    @Override
-    public void keyReleased(KeyEvent key) {
-        if (key.getKeyCode() == KeyEvent.VK_LEFT)  left    = false;
-        if (key.getKeyCode() == KeyEvent.VK_RIGHT) right   = false;
-        if (key.getKeyCode() == KeyEvent.VK_UP)    forward = false;
-        if (key.getKeyCode() == KeyEvent.VK_DOWN)  back    = false;
-    }
+@Override
+public void keyReleased(KeyEvent key) {
+    if (key.getKeyCode() == KeyEvent.VK_LEFT)  left    = false;
+    if (key.getKeyCode() == KeyEvent.VK_RIGHT) right   = false;
+    if (key.getKeyCode() == KeyEvent.VK_UP)    forward = false;
+    if (key.getKeyCode() == KeyEvent.VK_DOWN)  back    = false;
+}
 
-    @Override
-    public void keyTyped(KeyEvent arg0) { }
+@Override
+public void keyTyped(KeyEvent arg0) { }
 
-    // ── Update Loop ───────────────────────────────────────────────────────────
+// ── Update Loop ───────────────────────────────────────────────────────────
 
-    public void update(int[][] map) throws IOException, InterruptedException, ParseException {
-        boolean moved = false;
+public void update(int[][] map) throws IOException, InterruptedException, ParseException {
+    boolean moved = false;
 
-        if (forward) {
-            int nextX = (int) (xPos + xDir * MOVE_SPEED);
-            int nextY = (int) (yPos + yDir * MOVE_SPEED);
+    if (forward) {
+        int nextX = (int) (xPos + xDir * MOVE_SPEED);
+        int nextY = (int) (yPos + yDir * MOVE_SPEED);
 
-            if (nextX >= 0 && nextX < map.length && (int) yPos >= 0 && (int) yPos < map[0].length) {
-                if (map[nextX][(int) yPos] != 1) {
-                    xPos += xDir * MOVE_SPEED;
-                    moved = true;
-                }
-            }
-            if ((int) xPos >= 0 && (int) xPos < map.length && nextY >= 0 && nextY < map[0].length) {
-                if (map[(int) xPos][nextY] != 1) {
-                    yPos += yDir * MOVE_SPEED;
-                    moved = true;
-                }
-            }
-        }
-
-        if (back) {
-            int prevX = (int) (xPos - xDir * MOVE_SPEED);
-            int prevY = (int) (yPos - yDir * MOVE_SPEED);
-
-            if (prevX >= 0 && prevX < map.length && (int) yPos >= 0 && (int) yPos < map[0].length) {
-                if (map[prevX][(int) yPos] == 0) {
-                    xPos -= xDir * MOVE_SPEED;
-                    moved = true;
-                }
-            }
-            if ((int) xPos >= 0 && (int) xPos < map.length && prevY >= 0 && prevY < map[0].length) {
-                if (map[(int) xPos][prevY] == 0) {
-                    yPos -= yDir * MOVE_SPEED;
-                    moved = true;
-                }
+        if (nextX >= 0 && nextX < map.length && (int) yPos >= 0 && (int) yPos < map[0].length) {
+            if (map[nextX][(int) yPos] != 1) {
+                xPos += xDir * MOVE_SPEED;
+                moved = true;
             }
         }
-
-        if (right) {
-            double oldxDir   = xDir;
-            xDir   = xDir    * Math.cos(-ROTATION_SPEED) - yDir   * Math.sin(-ROTATION_SPEED);
-            yDir   = oldxDir * Math.sin(-ROTATION_SPEED) + yDir   * Math.cos(-ROTATION_SPEED);
-            double oldxPlane = xPlane;
-            xPlane = xPlane    * Math.cos(-ROTATION_SPEED) - yPlane * Math.sin(-ROTATION_SPEED);
-            yPlane = oldxPlane * Math.sin(-ROTATION_SPEED) + yPlane * Math.cos(-ROTATION_SPEED);
-        }
-
-        if (left) {
-            double oldxDir   = xDir;
-            xDir   = xDir    * Math.cos(ROTATION_SPEED) - yDir   * Math.sin(ROTATION_SPEED);
-            yDir   = oldxDir * Math.sin(ROTATION_SPEED) + yDir   * Math.cos(ROTATION_SPEED);
-            double oldxPlane = xPlane;
-            xPlane = xPlane    * Math.cos(ROTATION_SPEED) - yPlane * Math.sin(ROTATION_SPEED);
-            yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
-        }
-
-        if (moved) {
-            Character.getInstance().setPosition(getX(), getY(), 0);
-            onPlayerStep();
-        }
-    }
-
-    // ── Combat ────────────────────────────────────────────────────────────────
-
-    public void randomCombat() throws IOException, InterruptedException, ParseException {
-        if (getActiveCombat() == null) {
-            setActiveCombat(new Combat(this, game.getMainGamePanel()));
-            mainGameScreen.savePreCombatPosition();
-            getActiveCombat().setMyEnemies(MonsterSelector.selectRandomMonster());
-            getActiveCombat().combatEncounter();
-        }
-    }
-
-    public void endCombat() {
-        mainGameScreen.restoreOriginalPanel();
-        setActiveCombat(null);
-        game.getRenderPanel().requestFocusInWindow();
-        resetMovementFlags();
-    }
-
-    public void onPlayerStep() throws IOException, InterruptedException, ParseException {
-        stepsSinceLastCombat++;
-
-        if (stepsSinceLastCombat >= 150) {
-            randomCombat();
-            stepsSinceLastCombat = 0;
-        } else if (stepsSinceLastCombat >= 100) {
-            if (random.nextInt(75) == 0) {
-                randomCombat();
-                stepsSinceLastCombat = 0;
+        if ((int) xPos >= 0 && (int) xPos < map.length && nextY >= 0 && nextY < map[0].length) {
+            if (map[(int) xPos][nextY] != 1) {
+                yPos += yDir * MOVE_SPEED;
+                moved = true;
             }
         }
     }
 
-    public Combat getActiveCombat()                    { return activeCombat; }
-    public void   setActiveCombat(Combat activeCombat) { this.activeCombat = activeCombat; }
+    if (back) {
+        int prevX = (int) (xPos - xDir * MOVE_SPEED);
+        int prevY = (int) (yPos - yDir * MOVE_SPEED);
+
+        if (map[prevX][(int) yPos] == 0) {
+            xPos -= xDir * MOVE_SPEED;
+            moved = true;
+        }
+        if (map[(int) xPos][prevY] == 0) {
+            yPos -= yDir * MOVE_SPEED;
+            moved = true;
+        }
+    }
+
+    if (right) {
+        double oldxDir   = xDir;
+        xDir   = xDir    * Math.cos(-ROTATION_SPEED) - yDir   * Math.sin(-ROTATION_SPEED);
+        yDir   = oldxDir * Math.sin(-ROTATION_SPEED) + yDir   * Math.cos(-ROTATION_SPEED);
+        double oldxPlane = xPlane;
+        xPlane = xPlane   * Math.cos(-ROTATION_SPEED) - yPlane * Math.sin(-ROTATION_SPEED);
+        yPlane = oldxPlane * Math.sin(-ROTATION_SPEED) + yPlane * Math.cos(-ROTATION_SPEED);
+    }
+
+    if (left) {
+        double oldxDir   = xDir;
+        xDir   = xDir    * Math.cos(ROTATION_SPEED) - yDir   * Math.sin(ROTATION_SPEED);
+        yDir   = oldxDir * Math.sin(ROTATION_SPEED) + yDir   * Math.cos(ROTATION_SPEED);
+        double oldxPlane = xPlane;
+        xPlane = xPlane   * Math.cos(ROTATION_SPEED) - yPlane * Math.sin(ROTATION_SPEED);
+        yPlane = oldxPlane * Math.sin(ROTATION_SPEED) + yPlane * Math.cos(ROTATION_SPEED);
+    }
+
+    if (moved) {
+        Character.getInstance().setPosition(getX(), getY(), 0);
+        LocationType type = game.detectLocation(getX(), getY());
+        game.handleLocationEvent(type);
+        onPlayerStep();
+    }
+}
+
+// ── Combat ─────────────────────────────────────────────────────────────[...]
+
+public void randomCombat() throws IOException, InterruptedException, ParseException {
+    if (getActiveCombat() == null) {
+        setActiveCombat(new Combat(this, game.getMainGamePanel()));
+        mainGameScreen.savePreCombatPosition();
+        getActiveCombat().setMyEnemies(MonsterSelector.selectRandomMonster());
+        getActiveCombat().combatEncounter();
+    }
+}
+
+public void endCombat() {
+    mainGameScreen.restoreOriginalPanel();
+    setActiveCombat(null);
+    game.getRenderPanel().requestFocusInWindow();
+    resetMovementFlags();
+}
+
+public void onPlayerStep() throws IOException, InterruptedException, ParseException {
+    stepsSinceLastCombat++;
+
+    // No encounter checks until enough movement has happened
+    if (stepsSinceLastCombat < ENCOUNTER_CHECK_START_STEPS) {
+        return;
+    }
+
+    // Chance ramps up gradually from CHECK_START -> FORCE
+    int span = ENCOUNTER_FORCE_STEPS - ENCOUNTER_CHECK_START_STEPS;
+    int progress = stepsSinceLastCombat - ENCOUNTER_CHECK_START_STEPS;
+
+    // Starts around 1/220 and ramps up toward 1/80
+    int rollSize = Math.max(80, 220 - (progress * 140 / Math.max(1, span)));
+
+    boolean shouldEncounter = false;
+    if (stepsSinceLastCombat >= ENCOUNTER_FORCE_STEPS) {
+        shouldEncounter = true;
+    } else if (random.nextInt(rollSize) == 0) {
+        shouldEncounter = true;
+    }
+
+    if (!shouldEncounter) {
+        return;
+    }
+
+    // Safe agility lookup: uses getAgility() if available, otherwise defaults to 0.
+    int agility = getPlayerAgilitySafe();
+    if (passesAgilityAvoid(agility)) {
+        // If player avoids, keep some encounter pressure but avoid immediate retrigger.
+        stepsSinceLastCombat = ENCOUNTER_CHECK_START_STEPS / 2;
+        return;
+    }
+
+    randomCombat();
+    stepsSinceLastCombat = 0;
+}
+
+private boolean passesAgilityAvoid(int agility) {
+    // 1.5% avoid chance per AGI, capped at 45%
+    double avoidChance = Math.max(0.0, Math.min(0.45, agility * 0.015));
+    return random.nextDouble() < avoidChance;
+}
+
+private int getPlayerAgilitySafe() {
+    try {
+        Character player = Character.getInstance();
+        Method method = player.getClass().getMethod("getAgility");
+        Object value = method.invoke(player);
+
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
+        }
+    } catch (Exception ignored) {
+        // Fallback if method doesn't exist or isn't accessible
+    }
+    return 0;
+}
+
+public Combat getActiveCombat()                    { return activeCombat; }
+public void   setActiveCombat(Combat activeCombat) { this.activeCombat = activeCombat; }
 }
