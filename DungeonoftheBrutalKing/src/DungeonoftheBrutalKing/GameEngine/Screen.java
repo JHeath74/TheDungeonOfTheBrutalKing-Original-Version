@@ -21,7 +21,7 @@ public class Screen {
     public int[] update(Camera camera, int[] pixels) {
         int half = height / 2;
 
-        int[] floorPixels   = camera.getFloorPixels();
+        int[] floorPixels = camera.getFloorPixels();
         int[] ceilingPixels = camera.getCeilingPixels();
 
         // Floor and Ceiling via raycasted world-space coordinates

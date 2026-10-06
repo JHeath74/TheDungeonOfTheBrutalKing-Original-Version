@@ -8,11 +8,13 @@ import DungeonoftheBrutalKing.Maps.DungeonLevel;
 import DungeonoftheBrutalKing.Maps.DungeonLevel1;
 import DungeonoftheBrutalKing.Maps.DungeonLevel2;
 import DungeonoftheBrutalKing.Maps.DungeonLevel3;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.LocationType;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -232,6 +234,16 @@ public class Game implements Runnable {
         Graphics g = bs.getDrawGraphics();
         try {
             g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+            if (GameSettings.isEncounterDebugOverlayEnabled() && camera != null) {
+                String line = camera.getEncounterDebugLine();
+                if (line != null && !line.isBlank()) {
+                    // Simple shadowed text so it remains readable over any scene.
+                    g.setColor(Color.BLACK);
+                    g.drawString(line, 11, 21);
+                    g.setColor(Color.WHITE);
+                    g.drawString(line, 10, 20);
+                }
+            }
         } finally {
             bs.show();
             Toolkit.getDefaultToolkit().sync();

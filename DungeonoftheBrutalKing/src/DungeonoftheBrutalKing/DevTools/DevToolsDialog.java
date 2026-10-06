@@ -1,10 +1,12 @@
 
 package DungeonoftheBrutalKing.DevTools;
 
+import DungeonoftheBrutalKing.MainGameScreen;
 import DungeonoftheBrutalKing.Maps.DungeonLevel;
 import DungeonoftheBrutalKing.Maps.DungeonLevel1;
 import DungeonoftheBrutalKing.Maps.DungeonLevel2;
 import DungeonoftheBrutalKing.Maps.DungeonLevel3;
+import DungeonoftheBrutalKing.SharedData.GameSettings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,26 +33,41 @@ public class DevToolsDialog extends JDialog {
         JButton teleportButton = new JButton("Teleport Character");
         JButton mapInfoButton = new JButton("Show Map Numbers");
         JButton godModeButton = new JButton("God Mode / Combat");
+        JComboBox<GameSettings.EncounterTimingPreset> encounterTimingCombo =
+                new JComboBox<>(GameSettings.EncounterTimingPreset.values());
+        encounterTimingCombo.setSelectedItem(GameSettings.getEncounterTimingPreset());
+        encounterTimingCombo.setToolTipText("Select combat pacing preset");
         JButton loggingButton = new JButton("Logging Tool");
+
         JButton gameCaptureButton = new JButton("Game Log Capture (Toggle)");
         JButton loggingToolsButton = new JButton("Logging Tools Dialog");
         JButton mapNumbersButton = new JButton("Map Numbers Dialog");
         JButton closeButton = new JButton("Cancel");
 
 
-     // In `DevToolsDialog` (or wherever you launch TeleportCharacterTool)
      teleportButton.addActionListener(e -> {
-         SwingUtilities.invokeLater(() -> {
-             TeleportCharacterTool tool = new TeleportCharacterTool(parent, req -> {
-                 JOptionPane.showMessageDialog(
-                         parent,
-                         "Teleport requested: level=" + req.dungeonLevel() + ", x=" + req.x() + ", y=" + req.y(),
-                         "Teleport",
-                         JOptionPane.INFORMATION_MESSAGE
-                 );
-             });
-             tool.setVisible(true);
+         if (!(parent instanceof MainGameScreen mainGameScreen)) {
+             JOptionPane.showMessageDialog(
+                     this,
+                     "Teleport is only available from the main game screen.",
+                     "Teleport",
+                     JOptionPane.ERROR_MESSAGE
+             );
+             return;
+         }
+
+         TeleportCharacterTool tool = new TeleportCharacterTool(parent, req -> {
+             Point landed = mainGameScreen.teleportPlayer(req.dungeonLevel(), req.x(), req.y());
+             boolean snapped = landed.x != req.x() || landed.y != req.y();
+             JOptionPane.showMessageDialog(
+                     this,
+                     "Teleported to level " + req.dungeonLevel() + " at (" + landed.x + ", " + landed.y + ")"
+                             + (snapped ? " [autosnapped]" : "") + ".",
+                     "Teleport",
+                     JOptionPane.INFORMATION_MESSAGE
+             );
          });
+         tool.setVisible(true);
      });
 
 
@@ -70,6 +87,25 @@ public class DevToolsDialog extends JDialog {
             Consumer<GodModeDialog.DevCombatFlags> onChange = flags -> devCombatFlags[0] = Objects.requireNonNull(flags, "flags");
             GodModeDialog dialog = new GodModeDialog(parent, getState, onChange);
             dialog.setVisible(true);
+        });
+
+        encounterTimingCombo.addActionListener(_ -> {
+            Object selected = encounterTimingCombo.getSelectedItem();
+            if (!(selected instanceof GameSettings.EncounterTimingPreset preset)) {
+                return;
+            }
+
+            if (preset == GameSettings.getEncounterTimingPreset()) {
+                return;
+            }
+
+            GameSettings.setEncounterTimingPreset(preset);
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Encounter timing set to " + preset + ".",
+                    "Encounter Timing",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         });
 
         loggingButton.addActionListener(_ -> {
@@ -135,6 +171,12 @@ public class DevToolsDialog extends JDialog {
 
         gbc.gridy = row++;
         content.add(godModeButton, gbc);
+
+        gbc.gridy = row++;
+        content.add(new JLabel("Encounter Timing Preset"), gbc);
+
+        gbc.gridy = row++;
+        content.add(encounterTimingCombo, gbc);
 
         gbc.gridy = row++;
         content.add(loggingButton, gbc);

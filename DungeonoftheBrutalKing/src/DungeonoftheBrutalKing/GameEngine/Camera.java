@@ -11,8 +11,8 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.Random;
 
 public class Camera implements KeyListener {
@@ -22,19 +22,22 @@ public boolean left, right, forward, back;
 private static final double MOVE_SPEED     = 0.08;
 private static final double ROTATION_SPEED = 0.045;
 
-// Combat pacing / encounter tuning
-private static final int ENCOUNTER_CHECK_START_STEPS = 180; // no encounter checks before this
-private static final int ENCOUNTER_FORCE_STEPS = 300;       // forced encounter at this step count
-
 private final Random random = new Random();
 private Combat activeCombat = null;
 private int stepsSinceLastCombat = 0;
+private String encounterDebugLine = "";
+private int debugLogTick = 0;
+
+private static final int[] DEFAULT_FLOOR_PIXELS = Texture.GREY_DUNGEON_FLOOR.pixels.clone();
+private static final int[] DEFAULT_CEILING_PIXELS = Texture.GREY_DUNGEON_WALL.pixels.clone();
 
 private final Game game;
 private final MainGameScreen mainGameScreen;
 
 private BufferedImage floorImage;
 private BufferedImage ceilingImage;
+private int[] floorPixels = DEFAULT_FLOOR_PIXELS.clone();
+private int[] ceilingPixels = DEFAULT_CEILING_PIXELS.clone();
 
 public Camera(double x, double y, double xd, double yd, double xp, double yp,
               Game game, MainGameScreen mainGameScreen) {
@@ -53,18 +56,50 @@ public Camera(double x, double y, double xd, double yd, double xp, double yp,
 public void loadEnvironmentImages(String floorFileName, String ceilingFileName) {
     try {
         floorImage = ImageIO.read(new File(GameSettings.getDungeonFloorTexturePath() + floorFileName));
+        floorPixels = toTexturePixels(floorImage);
     } catch (IOException e) {
         floorImage = null;
+        floorPixels = DEFAULT_FLOOR_PIXELS.clone();
     }
     try {
-        ceilingImage = ImageIO.read(new File(GameSettings.getDungeonFloorTexturePath() + ceilingFileName));
+        ceilingImage = ImageIO.read(new File(GameSettings.getDungeonCeilingTexturePath() + ceilingFileName));
+        ceilingPixels = toTexturePixels(ceilingImage);
     } catch (IOException e) {
-        ceilingImage = null;
+        // Fallback to wall texture path for legacy maps that reuse wall art as ceiling.
+        try {
+            ceilingImage = ImageIO.read(new File(GameSettings.getDungeonWallTexturePath() + ceilingFileName));
+            ceilingPixels = toTexturePixels(ceilingImage);
+        } catch (IOException ignored) {
+            ceilingImage = null;
+            ceilingPixels = DEFAULT_CEILING_PIXELS.clone();
+        }
     }
 }
 
 public BufferedImage getFloorImage()   { return floorImage; }
 public BufferedImage getCeilingImage() { return ceilingImage; }
+public int[] getFloorPixels()          { return floorPixels; }
+public int[] getCeilingPixels()        { return ceilingPixels; }
+
+private int[] toTexturePixels(BufferedImage image) {
+    if (image == null) {
+        return null;
+    }
+
+    int[] pixels = new int[Texture.SIZE * Texture.SIZE];
+    int width = Math.max(1, image.getWidth());
+    int height = Math.max(1, image.getHeight());
+
+    // Normalize any loaded image to Texture.SIZE so Screen indexing stays valid.
+    for (int y = 0; y < Texture.SIZE; y++) {
+        int srcY = y * height / Texture.SIZE;
+        for (int x = 0; x < Texture.SIZE; x++) {
+            int srcX = x * width / Texture.SIZE;
+            pixels[y * Texture.SIZE + x] = image.getRGB(srcX, srcY);
+        }
+    }
+    return pixels;
+}
 
 // ── Position / Direction ──────────────────────────────────────────────────
 
@@ -199,20 +234,52 @@ public void endCombat() {
 public void onPlayerStep() throws IOException, InterruptedException, ParseException {
     stepsSinceLastCombat++;
 
+    int checkStart = GameSettings.getEncounterCheckStartSteps();
+    int forceSteps = GameSettings.getEncounterForceSteps();
+    int rollStart = GameSettings.getEncounterRollStart();
+    int rollMin = GameSettings.getEncounterRollMin();
+    int graceSteps = GameSettings.getEncounterPostCombatGraceSteps();
+    int checkInterval = GameSettings.getEncounterCheckIntervalSteps();
+    int agility = getPlayerAgilitySafe();
+    double avoidChance = getAgilityAvoidChance(agility);
+
+    // Hard cooldown right after combat to avoid immediate back-to-back encounters.
+    if (stepsSinceLastCombat < graceSteps) {
+        updateEncounterDebugLine(agility, avoidChance, 0.0, -2, checkStart, forceSteps, false, false);
+        return;
+    }
+
     // No encounter checks until enough movement has happened
-    if (stepsSinceLastCombat < ENCOUNTER_CHECK_START_STEPS) {
+    if (stepsSinceLastCombat < checkStart) {
+        updateEncounterDebugLine(agility, avoidChance, 0.0, 0, checkStart, forceSteps, false, false);
         return;
     }
 
     // Chance ramps up gradually from CHECK_START -> FORCE
-    int span = ENCOUNTER_FORCE_STEPS - ENCOUNTER_CHECK_START_STEPS;
-    int progress = stepsSinceLastCombat - ENCOUNTER_CHECK_START_STEPS;
+    int span = forceSteps - checkStart;
+    int progress = stepsSinceLastCombat - checkStart;
 
-    // Starts around 1/220 and ramps up toward 1/80
-    int rollSize = Math.max(80, 220 - (progress * 140 / Math.max(1, span)));
+    // Starts low and ramps up gradually as step pressure rises.
+    int rollSize = Math.max(
+        rollMin,
+        rollStart - (progress * (rollStart - rollMin) / Math.max(1, span))
+    );
+
+    boolean forcedEncounter = stepsSinceLastCombat >= forceSteps;
+
+    // Only perform random encounter rolls on interval ticks, unless the pity force threshold is hit.
+    int postStartSteps = Math.max(0, stepsSinceLastCombat - checkStart);
+    boolean shouldRollThisStep = forcedEncounter || (postStartSteps % Math.max(1, checkInterval) == 0);
+    if (!shouldRollThisStep) {
+        updateEncounterDebugLine(agility, avoidChance, 0.0, -1, checkStart, forceSteps, forcedEncounter, false);
+        return;
+    }
+
+    double encounterChance = forcedEncounter ? 1.0 : (1.0 / Math.max(1, rollSize));
+    updateEncounterDebugLine(agility, avoidChance, encounterChance, rollSize, checkStart, forceSteps, forcedEncounter, false);
 
     boolean shouldEncounter = false;
-    if (stepsSinceLastCombat >= ENCOUNTER_FORCE_STEPS) {
+    if (forcedEncounter) {
         shouldEncounter = true;
     } else if (random.nextInt(rollSize) == 0) {
         shouldEncounter = true;
@@ -222,37 +289,111 @@ public void onPlayerStep() throws IOException, InterruptedException, ParseExcept
         return;
     }
 
-    // Safe agility lookup: uses getAgility() if available, otherwise defaults to 0.
-    int agility = getPlayerAgilitySafe();
-    if (passesAgilityAvoid(agility)) {
-        // If player avoids, keep some encounter pressure but avoid immediate retrigger.
-        stepsSinceLastCombat = ENCOUNTER_CHECK_START_STEPS / 2;
+    if (passesAgilityAvoid(avoidChance)) {
+        // If player avoids, reduce immediate retriggers but keep pressure building.
+        stepsSinceLastCombat = Math.max(0, checkStart - Math.max(1, checkInterval));
+        updateEncounterDebugLine(agility, avoidChance, encounterChance, rollSize, checkStart, forceSteps, forcedEncounter, true);
         return;
     }
 
     randomCombat();
     stepsSinceLastCombat = 0;
+    updateEncounterDebugLine(agility, avoidChance, 0.0, 0, checkStart, forceSteps, false, false);
 }
 
-private boolean passesAgilityAvoid(int agility) {
-    // 1.5% avoid chance per AGI, capped at 45%
-    double avoidChance = Math.max(0.0, Math.min(0.45, agility * 0.015));
+private boolean passesAgilityAvoid(double avoidChance) {
     return random.nextDouble() < avoidChance;
+}
+
+private double getAgilityAvoidChance(int agility) {
+    // Stronger AGI scaling: 5% base, +1.2%/AGI, +0.5%/AGI over 15, capped at 55%.
+    int safeAgility = Math.max(0, agility);
+    int bonusAgility = Math.max(0, safeAgility - 15);
+    double avoidChance = 0.05 + (safeAgility * 0.012) + (bonusAgility * 0.005);
+    return Math.max(0.0, Math.min(0.55, avoidChance));
 }
 
 private int getPlayerAgilitySafe() {
     try {
-        Character player = Character.getInstance();
-        Method method = player.getClass().getMethod("getAgility");
-        Object value = method.invoke(player);
-
-        if (value instanceof Number) {
-            return ((Number) value).intValue();
-        }
+        return Math.max(0, Character.getInstance().getAgility());
     } catch (Exception ignored) {
-        // Fallback if method doesn't exist or isn't accessible
+        // Fallback if player data is unavailable
     }
     return 0;
+}
+
+private void updateEncounterDebugLine(int agility, double avoidChance, double encounterChance, int rollSize,
+                                      int checkStart, int forceSteps, boolean forced, boolean avoided) {
+    int graceSteps = GameSettings.getEncounterPostCombatGraceSteps();
+
+    if (stepsSinceLastCombat < graceSteps) {
+        int untilRolls = graceSteps - stepsSinceLastCombat;
+        encounterDebugLine = String.format(
+            Locale.US,
+            "Encounter: cooldown (%d steps to checks) | Avoid: %.1f%% (AGI %d) | Steps: %d/%d",
+            untilRolls,
+            avoidChance * 100.0,
+            agility,
+            stepsSinceLastCombat,
+            forceSteps
+        );
+    } else if (rollSize == -1) {
+        encounterDebugLine = String.format(
+            Locale.US,
+            "Encounter: gated (interval step) | Avoid: %.1f%% (AGI %d) | Steps: %d/%d",
+            avoidChance * 100.0,
+            agility,
+            stepsSinceLastCombat,
+            forceSteps
+        );
+    } else if (stepsSinceLastCombat < checkStart) {
+        int untilChecks = checkStart - stepsSinceLastCombat;
+        encounterDebugLine = String.format(
+            Locale.US,
+            "Encounter: warmup (%d steps to checks) | Avoid: %.1f%% (AGI %d) | Steps: %d/%d",
+            untilChecks,
+            avoidChance * 100.0,
+            agility,
+            stepsSinceLastCombat,
+            forceSteps
+        );
+    } else if (rollSize == -2) {
+        encounterDebugLine = String.format(
+            Locale.US,
+            "Encounter: cooldown | Avoid: %.1f%% (AGI %d) | Steps: %d/%d",
+            avoidChance * 100.0,
+            agility,
+            stepsSinceLastCombat,
+            forceSteps
+        );
+    } else {
+        String encounterText = forced
+            ? "FORCED"
+            : String.format(Locale.US, "1/%d (%.2f%%)", Math.max(1, rollSize), encounterChance * 100.0);
+        String avoidText = avoided ? " (avoided)" : "";
+        encounterDebugLine = String.format(
+            Locale.US,
+            "Encounter: %s | Avoid: %.1f%% (AGI %d)%s | Steps: %d/%d",
+            encounterText,
+            avoidChance * 100.0,
+            agility,
+            avoidText,
+            stepsSinceLastCombat,
+            forceSteps
+        );
+    }
+
+    if (GameSettings.isEncounterDebugLogEnabled()) {
+        debugLogTick++;
+        if (debugLogTick >= GameSettings.getEncounterDebugLogIntervalSteps()) {
+            System.out.println(encounterDebugLine);
+            debugLogTick = 0;
+        }
+    }
+}
+
+public String getEncounterDebugLine() {
+    return encounterDebugLine;
 }
 
 public Combat getActiveCombat()                    { return activeCombat; }

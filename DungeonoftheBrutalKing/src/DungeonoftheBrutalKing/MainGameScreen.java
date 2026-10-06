@@ -3,6 +3,7 @@ package DungeonoftheBrutalKing;
 
 import DungeonoftheBrutalKing.GameEngine.Camera;
 import DungeonoftheBrutalKing.GameEngine.Game;
+import DungeonoftheBrutalKing.DevTools.DevToolsDialog;
 import DungeonoftheBrutalKing.Maps.DungeonLevel;
 import DungeonoftheBrutalKing.Narrative.Core.QuestHooks;
 import DungeonoftheBrutalKing.Narrative.Core.QuestManager;
@@ -21,6 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.text.ParseException;
+import java.util.ArrayDeque;
 
 public class MainGameScreen extends JFrame implements KeyListener {
     private static final long serialVersionUID = 1L;
@@ -383,25 +385,80 @@ public class MainGameScreen extends JFrame implements KeyListener {
     }
 
     private void showDevToolsDialog() {
-        JDialog devDialog = new JDialog(mainFrame, "Developer Tools", true);
-        devDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JButton teleportButton = new JButton("Teleport Character");
-        teleportButton.addActionListener(_ -> JOptionPane.showMessageDialog(devDialog, "Teleport Character tool launched."));
-        panel.add(teleportButton);
-
-        JButton closeButton = new JButton("Close");
-        closeButton.addActionListener(_ -> devDialog.dispose());
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(closeButton);
-
-        devDialog.getContentPane().add(panel);
-        devDialog.pack();
-        devDialog.setLocationRelativeTo(mainFrame);
+        DevToolsDialog devDialog = new DevToolsDialog(this);
         devDialog.setVisible(true);
+    }
+
+    public Point teleportPlayer(int dungeonLevel, int x, int y) {
+        if (game == null || camera == null) {
+            throw new IllegalStateException("Game is not initialized.");
+        }
+
+        int levelIndex = dungeonLevel - 1;
+        game.changeLevel(levelIndex);
+
+        if (game.map == null) {
+            throw new IllegalStateException("Failed to load dungeon level " + dungeonLevel + ".");
+        }
+
+        if (y < 0 || y >= game.map.length || x < 0 || x >= game.map[0].length) {
+            throw new IllegalArgumentException("Coordinates out of bounds for dungeon level " + dungeonLevel + ".");
+        }
+
+        Point target = findNearestWalkableTile(game.map, x, y);
+        if (target == null) {
+            throw new IllegalArgumentException("No walkable tile found near the requested coordinates.");
+        }
+
+        if (target.x != x || target.y != y) {
+            appendToMessageTextPane("Teleport autosnap: requested (" + x + ", " + y + "), moved to (" + target.x + ", " + target.y + ").");
+        }
+
+        camera.setPosition(target.x + 0.5, target.y + 0.5);
+        myChar.setPosition(target.x, target.y, dungeonLevel);
+        currentDungeonLevel = game.getCurrentDungeonLevelInstance();
+
+        if (renderPanel != null) {
+            renderPanel.requestFocusInWindow();
+        }
+
+        return target;
+    }
+
+    private Point findNearestWalkableTile(int[][] map, int startX, int startY) {
+        if (map == null || map.length == 0 || map[0].length == 0) {
+            return null;
+        }
+
+        int mapHeight = map.length;
+        int mapWidth = map[0].length;
+        if (startX < 0 || startX >= mapWidth || startY < 0 || startY >= mapHeight) {
+            return null;
+        }
+
+        boolean[][] visited = new boolean[mapHeight][mapWidth];
+        ArrayDeque<Point> queue = new ArrayDeque<>();
+        queue.add(new Point(startX, startY));
+        visited[startY][startX] = true;
+
+        int[][] dirs = { {0, -1}, {1, 0}, {0, 1}, {-1, 0} };
+        while (!queue.isEmpty()) {
+            Point p = queue.removeFirst();
+            if (map[p.y][p.x] == 0) {
+                return p;
+            }
+
+            for (int[] d : dirs) {
+                int nx = p.x + d[0];
+                int ny = p.y + d[1];
+                if (nx < 0 || nx >= mapWidth || ny < 0 || ny >= mapHeight) continue;
+                if (visited[ny][nx]) continue;
+                visited[ny][nx] = true;
+                queue.addLast(new Point(nx, ny));
+            }
+        }
+
+        return null;
     }
 
     private void handleNewGame() {

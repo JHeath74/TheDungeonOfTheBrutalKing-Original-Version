@@ -12,6 +12,13 @@ import javax.sound.sampled.*;
 
 public class GameSettings {
 
+    public enum EncounterTimingPreset {
+        VERY_LOW,
+        LOW,
+        NORMAL,
+        FREQUENT
+    }
+
     // Static file paths
     public static String MenuBarImagePath = "MenuBar/";
     public static String EnemiesImagePath = "src/DungeonoftheBrutalKing/Images/Enemies/";
@@ -29,6 +36,25 @@ public class GameSettings {
     public static String RaceImagesPath = "src/DungeonoftheBrutalKing/Images/Race/";
     public static String QuestImagesPath = "src/DungeonoftheBrutalKing/Images/Quests/";
     public static String DungeonCeilingTexturePath = "src/DungeonoftheBrutalKing/Images/Level/Ceiling/";
+
+    // Encounter tuning
+    public static int EncounterCheckStartSteps = 240;
+    public static int EncounterForceSteps = 560;
+    public static int EncounterRollStart = 360;
+    public static int EncounterRollMin = 140;
+    public static int EncounterPostCombatGraceSteps = 120;
+    public static int EncounterCheckIntervalSteps = 3;
+    private static EncounterTimingPreset encounterTimingPreset = EncounterTimingPreset.LOW;
+
+    // Encounter debug telemetry (for balancing)
+    public static boolean ShowEncounterDebugOverlay = true;
+    public static boolean LogEncounterDebugLine = true;
+    public static int EncounterDebugLogIntervalSteps = 10;
+
+    static {
+        // Apply one central preset so encounter pacing is easy to retune in one place.
+        setEncounterTimingPreset(encounterTimingPreset);
+    }
     
     
     // Instance colors
@@ -151,6 +177,122 @@ public class GameSettings {
 
     public static String getDungeonCeilingTexturePath() {
         return DungeonCeilingTexturePath;
+    }
+
+    public static int getEncounterCheckStartSteps() {
+        return Math.max(1, EncounterCheckStartSteps);
+    }
+
+    public static void setEncounterCheckStartSteps(int steps) {
+        EncounterCheckStartSteps = Math.max(1, steps);
+    }
+
+    public static int getEncounterForceSteps() {
+        return Math.max(getEncounterCheckStartSteps() + 1, EncounterForceSteps);
+    }
+
+    public static void setEncounterForceSteps(int steps) {
+        EncounterForceSteps = Math.max(getEncounterCheckStartSteps() + 1, steps);
+    }
+
+    public static int getEncounterRollStart() {
+        return Math.max(2, EncounterRollStart);
+    }
+
+    public static void setEncounterRollStart(int roll) {
+        EncounterRollStart = Math.max(2, roll);
+    }
+
+    public static int getEncounterRollMin() {
+        return Math.max(2, Math.min(getEncounterRollStart(), EncounterRollMin));
+    }
+
+    public static void setEncounterRollMin(int roll) {
+        EncounterRollMin = Math.max(2, roll);
+    }
+
+    public static int getEncounterPostCombatGraceSteps() {
+        return Math.max(0, EncounterPostCombatGraceSteps);
+    }
+
+    public static void setEncounterPostCombatGraceSteps(int steps) {
+        EncounterPostCombatGraceSteps = Math.max(0, steps);
+    }
+
+    public static int getEncounterCheckIntervalSteps() {
+        return Math.max(1, EncounterCheckIntervalSteps);
+    }
+
+    public static void setEncounterCheckIntervalSteps(int steps) {
+        EncounterCheckIntervalSteps = Math.max(1, steps);
+    }
+
+    public static boolean isEncounterDebugOverlayEnabled() {
+        return ShowEncounterDebugOverlay;
+    }
+
+    public static void setEncounterDebugOverlayEnabled(boolean enabled) {
+        ShowEncounterDebugOverlay = enabled;
+    }
+
+    public static boolean isEncounterDebugLogEnabled() {
+        return LogEncounterDebugLine;
+    }
+
+    public static void setEncounterDebugLogEnabled(boolean enabled) {
+        LogEncounterDebugLine = enabled;
+    }
+
+    public static int getEncounterDebugLogIntervalSteps() {
+        return Math.max(1, EncounterDebugLogIntervalSteps);
+    }
+
+    public static void setEncounterDebugLogIntervalSteps(int steps) {
+        EncounterDebugLogIntervalSteps = Math.max(1, steps);
+    }
+
+    public static EncounterTimingPreset getEncounterTimingPreset() {
+        return encounterTimingPreset;
+    }
+
+    public static void setEncounterTimingPreset(EncounterTimingPreset preset) {
+        EncounterTimingPreset safePreset = (preset == null) ? EncounterTimingPreset.LOW : preset;
+        encounterTimingPreset = safePreset;
+
+        switch (safePreset) {
+            case VERY_LOW -> {
+                setEncounterCheckStartSteps(340);
+                setEncounterForceSteps(820);
+                setEncounterRollStart(520);
+                setEncounterRollMin(260);
+                setEncounterPostCombatGraceSteps(220);
+                setEncounterCheckIntervalSteps(5);
+            }
+            case LOW -> {
+                setEncounterCheckStartSteps(280);
+                setEncounterForceSteps(680);
+                setEncounterRollStart(430);
+                setEncounterRollMin(210);
+                setEncounterPostCombatGraceSteps(170);
+                setEncounterCheckIntervalSteps(4);
+            }
+            case NORMAL -> {
+                setEncounterCheckStartSteps(220);
+                setEncounterForceSteps(520);
+                setEncounterRollStart(320);
+                setEncounterRollMin(130);
+                setEncounterPostCombatGraceSteps(100);
+                setEncounterCheckIntervalSteps(2);
+            }
+            case FREQUENT -> {
+                setEncounterCheckStartSteps(150);
+                setEncounterForceSteps(360);
+                setEncounterRollStart(220);
+                setEncounterRollMin(80);
+                setEncounterPostCombatGraceSteps(50);
+                setEncounterCheckIntervalSteps(1);
+            }
+        }
     }
 
 
