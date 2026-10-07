@@ -41,6 +41,11 @@ public class Location implements Spell {
         Character myChar = Singleton.myCharSingleton();
         if (myChar == null) return;
 
+        if (!isWalkableTarget(dungeon, targetX, targetY, targetZ)) {
+            System.out.println("Teleport failed: target location is blocked or out of bounds.");
+            return;
+        }
+
         // Use proper accessors instead of raw charInfo indices
         int wisdom = myChar.getWisdom();
         int intelligence = myChar.getIntelligence();
@@ -67,6 +72,24 @@ public class Location implements Spell {
         } else {
             System.out.println("You don't have enough Magic Points, Wisdom, or Intelligence to cast this spell.");
         }
+    }
+
+    private boolean isWalkableTarget(int[][][] dungeon, int targetX, int targetY, int targetZ) {
+        if (dungeon == null || targetZ < 0 || targetZ >= dungeon.length || dungeon[targetZ] == null) {
+            return false;
+        }
+
+        int[][] level = dungeon[targetZ];
+        if (targetY < 0 || targetY >= level.length || level[targetY] == null) {
+            return false;
+        }
+
+        int[] row = level[targetY];
+        if (targetX < 0 || targetX >= row.length) {
+            return false;
+        }
+
+        return row[targetX] == 0;
     }
 
     @Override

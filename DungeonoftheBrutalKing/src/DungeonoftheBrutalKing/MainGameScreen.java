@@ -82,6 +82,14 @@ public class MainGameScreen extends JFrame implements KeyListener {
         return instance;
     }
 
+    /**
+     * Returns the already-created game screen instance, or null if startup has not initialized it yet.
+     * This does not create or initialize the game.
+     */
+    public static synchronized MainGameScreen getExistingInstance() {
+        return instance;
+    }
+
     private MainGameScreen() throws IOException {
         setupFrame();
         setupMenuBar();
@@ -418,9 +426,10 @@ public class MainGameScreen extends JFrame implements KeyListener {
         myChar.setPosition(target.x, target.y, dungeonLevel);
         currentDungeonLevel = game.getCurrentDungeonLevelInstance();
 
-        if (renderPanel != null) {
-            renderPanel.requestFocusInWindow();
+        if (camera != null) {
+            camera.resetMovementFlags();
         }
+        focusRenderPanel();
 
         return target;
     }
@@ -727,6 +736,10 @@ public class MainGameScreen extends JFrame implements KeyListener {
 
     public Character getPlayer() {
         return myChar;
+    }
+
+    public DungeonLevel getCurrentDungeonLevelInstance() {
+        return currentDungeonLevel;
     }
 
     public void savePreCombatPosition() {

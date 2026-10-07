@@ -20,6 +20,13 @@ public class Port implements Spell {
     // Custom method for dungeon teleportation
     public void cast(int[][][] dungeon, int targetX, int targetY, int targetZ) {
         Character character = Singleton.myCharSingleton();
+        if (character == null) return;
+
+        if (!isWalkableTarget(dungeon, targetX, targetY, targetZ)) {
+            System.out.println("Teleport failed: target location is blocked or out of bounds.");
+            return;
+        }
+
         int wisdom = character.getWisdom();
         int intelligence = character.getIntelligence();
         int magicPoints = character.getMagicPoints();
@@ -41,6 +48,24 @@ public class Port implements Spell {
         } else {
             System.out.println("You don't have enough Magic Points, or either Wisdom or Intelligence to cast this spell.");
         }
+    }
+
+    private boolean isWalkableTarget(int[][][] dungeon, int targetX, int targetY, int targetZ) {
+        if (dungeon == null || targetZ < 0 || targetZ >= dungeon.length || dungeon[targetZ] == null) {
+            return false;
+        }
+
+        int[][] level = dungeon[targetZ];
+        if (targetY < 0 || targetY >= level.length || level[targetY] == null) {
+            return false;
+        }
+
+        int[] row = level[targetY];
+        if (targetX < 0 || targetX >= row.length) {
+            return false;
+        }
+
+        return row[targetX] == 0;
     }
 
     @Override

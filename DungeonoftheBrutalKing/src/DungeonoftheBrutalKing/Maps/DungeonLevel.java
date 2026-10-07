@@ -82,6 +82,13 @@ public abstract class DungeonLevel {
     }
 
     /**
+     * Returns a defensive copy of all configured special locations for this level.
+     */
+    public Map<Point, LocationType> getSpecialLocations() {
+        return new HashMap<>(specialLocations);
+    }
+
+    /**
      * Helper for subclasses to register special locations.
      */
     protected void setSpecialLocation(int x, int y, LocationType type) {
@@ -111,7 +118,8 @@ public abstract class DungeonLevel {
 
     protected List<Quest> getAvailableQuests() throws IOException, InterruptedException, ParseException {
         List<Quest> availableQuests = new ArrayList<>();
-        MainGameScreen screen = MainGameScreen.getInstance();
+        // Dev tools can instantiate map objects outside active gameplay; avoid creating a new game screen here.
+        MainGameScreen screen = MainGameScreen.getExistingInstance();
         availableQuests.add(new QuestCleanseCursedShrine(screen));
         availableQuests.add(new QuestFeedHungryBeast(screen));
         availableQuests.add(new QuestForgiveBetrayer(screen));

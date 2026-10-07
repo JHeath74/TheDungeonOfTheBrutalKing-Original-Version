@@ -38,6 +38,7 @@ public class DevToolsDialog extends JDialog {
         encounterTimingCombo.setSelectedItem(GameSettings.getEncounterTimingPreset());
         encounterTimingCombo.setToolTipText("Select combat pacing preset");
         JButton loggingButton = new JButton("Logging Tool");
+        JButton locationCoordinatesButton = new JButton("Location Coordinates");
 
         JButton gameCaptureButton = new JButton("Game Log Capture (Toggle)");
         JButton loggingToolsButton = new JButton("Logging Tools Dialog");
@@ -113,6 +114,11 @@ public class DevToolsDialog extends JDialog {
             dialog.setVisible(true);
         });
 
+        locationCoordinatesButton.addActionListener(e -> {
+            LocationCoordinatesDialog dialog = new LocationCoordinatesDialog(parent);
+            dialog.setVisible(true);
+        });
+
         gameCaptureButton.addActionListener(_ -> {
             if (!GameLogCapture.isInstalled()) {
                 GameLogCapture.install();
@@ -180,6 +186,9 @@ public class DevToolsDialog extends JDialog {
 
         gbc.gridy = row++;
         content.add(loggingButton, gbc);
+
+        gbc.gridy = row++;
+        content.add(locationCoordinatesButton, gbc);
 
         gbc.gridy = row++;
         content.add(gameCaptureButton, gbc);

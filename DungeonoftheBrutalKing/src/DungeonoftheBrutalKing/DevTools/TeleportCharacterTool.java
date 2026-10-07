@@ -2,10 +2,6 @@
 package DungeonoftheBrutalKing.DevTools;
 
 import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
@@ -29,9 +25,16 @@ public class TeleportCharacterTool extends JDialog {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        installNonNegativeFilter(dungeonLevelField);
-        installNonNegativeFilter(xField);
-        installNonNegativeFilter(yField);
+        // Keep entry permissive and validate on submit to avoid input-method/keymap issues.
+        dungeonLevelField.setEditable(true);
+        xField.setEditable(true);
+        yField.setEditable(true);
+        dungeonLevelField.setEnabled(true);
+        xField.setEnabled(true);
+        yField.setEnabled(true);
+        dungeonLevelField.setFocusable(true);
+        xField.setFocusable(true);
+        yField.setFocusable(true);
 
         dungeonLevelField.setToolTipText("Dungeon level (0 or greater)");
         xField.setToolTipText("X coordinate (0 or greater)");
@@ -147,41 +150,8 @@ public class TeleportCharacterTool extends JDialog {
         }
     }
 
-    private static void installNonNegativeFilter(JTextField field) {
-        if (field.getDocument() instanceof AbstractDocument doc) {
-            doc.setDocumentFilter(new NonNegativeIntegerFilter());
-        }
-    }
-
     // ── Record ────────────────────────────────────────────────────────────────
 
     public record TeleportRequest(int dungeonLevel, int x, int y) { }
 
-    // ── Document Filter ───────────────────────────────────────────────────────
-
-    private static final class NonNegativeIntegerFilter extends DocumentFilter {
-
-        @Override
-        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr)
-                throws BadLocationException {
-            replace(fb, offset, 0, string, attr);
-        }
-
-        @Override
-        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs)
-                throws BadLocationException {
-            String current = fb.getDocument().getText(0, fb.getDocument().getLength());
-            String next = new StringBuilder(current)
-                    .replace(offset, offset + length, text == null ? "" : text)
-                    .toString()
-                    .trim();
-
-            // Only allow empty string or non-negative integer
-            if (next.isEmpty() || next.matches("\\d+")) {
-                fb.replace(offset, length, text, attrs);
-            } else {
-                Toolkit.getDefaultToolkit().beep();
-            }
-        }
-    }
 }

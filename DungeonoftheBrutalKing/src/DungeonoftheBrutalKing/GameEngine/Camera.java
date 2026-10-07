@@ -159,17 +159,13 @@ public void update(int[][] map) throws IOException, InterruptedException, ParseE
         int nextX = (int) (xPos + xDir * MOVE_SPEED);
         int nextY = (int) (yPos + yDir * MOVE_SPEED);
 
-        if (nextX >= 0 && nextX < map.length && (int) yPos >= 0 && (int) yPos < map[0].length) {
-            if (map[nextX][(int) yPos] != 1) {
-                xPos += xDir * MOVE_SPEED;
-                moved = true;
-            }
+        if (isWalkable(map, nextX, (int) yPos)) {
+            xPos += xDir * MOVE_SPEED;
+            moved = true;
         }
-        if ((int) xPos >= 0 && (int) xPos < map.length && nextY >= 0 && nextY < map[0].length) {
-            if (map[(int) xPos][nextY] != 1) {
-                yPos += yDir * MOVE_SPEED;
-                moved = true;
-            }
+        if (isWalkable(map, (int) xPos, nextY)) {
+            yPos += yDir * MOVE_SPEED;
+            moved = true;
         }
     }
 
@@ -177,11 +173,11 @@ public void update(int[][] map) throws IOException, InterruptedException, ParseE
         int prevX = (int) (xPos - xDir * MOVE_SPEED);
         int prevY = (int) (yPos - yDir * MOVE_SPEED);
 
-        if (map[prevX][(int) yPos] == 0) {
+        if (isWalkable(map, prevX, (int) yPos)) {
             xPos -= xDir * MOVE_SPEED;
             moved = true;
         }
-        if (map[(int) xPos][prevY] == 0) {
+        if (isWalkable(map, (int) xPos, prevY)) {
             yPos -= yDir * MOVE_SPEED;
             moved = true;
         }
@@ -211,6 +207,16 @@ public void update(int[][] map) throws IOException, InterruptedException, ParseE
         game.handleLocationEvent(type);
         onPlayerStep();
     }
+}
+
+private boolean isWalkable(int[][] map, int x, int y) {
+    if (map == null || map.length == 0 || map[0].length == 0) {
+        return false;
+    }
+    if (y < 0 || y >= map.length || x < 0 || x >= map[0].length) {
+        return false;
+    }
+    return map[y][x] != 1;
 }
 
 // ── Combat ─────────────────────────────────────────────────────────────[...]
