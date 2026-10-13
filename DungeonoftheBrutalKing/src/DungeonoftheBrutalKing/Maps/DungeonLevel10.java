@@ -14,6 +14,9 @@ public class DungeonLevel10 extends DungeonLevel {
     private static final int MAP_WIDTH = 128;
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 10;
+	// Level 10 is the final floor.
+	// Stairs up to level 9: (83, 112). No stairs down.
+	// Tile legend: 0=path, 1=wall, non-zero markers are resolved through specialLocations.
 
     public DungeonLevel10() throws IOException, InterruptedException, ParseException {
     	 this.map = new int [][] {
@@ -153,9 +156,8 @@ public class DungeonLevel10 extends DungeonLevel {
             }
         }
 
-        // Example special locations for level 10
+						// Important level transition point.
         specialLocations.put(new Point(83, 112), LocationType.STAIRS_UP);
-       // specialLocations.put(new Point(35, 35), LocationType.STAIRS_DOWN);
 
         // Assign quests to doors
         assignRandomQuestsToDoors(getDoorLocations(), getAvailableQuests());
@@ -163,7 +165,7 @@ public class DungeonLevel10 extends DungeonLevel {
 
     @Override
     public DungeonLevel goDown() {
-        return null; // Implement DungeonLevel11 if needed
+		return null; // Level 10 is the final floor.
     }
 
     @Override

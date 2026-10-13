@@ -6135,3 +6135,1265 @@ java.io.IOException: Unable to resolve plug-in "com.anthropic.claudecode.eclipse
 
 !ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-06 18:57:48.124
 !MESSAGE [C4E] Internal server stopped: true
+!SESSION 2026-10-13 16:45:45.089 -----------------------------------------------
+eclipse.buildId=4.40.0.20260604-0652
+java.version=21.0.12.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2026-10-13 16:45:52.221
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-10-13 16:46:20.533
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.101.20251017-1242.xml
+
+!ENTRY com.genuitec.copilot4eclipse.boot 1 0 2026-10-13 16:46:30.773
+!MESSAGE [C4E] booting
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 16:46:30.894
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 16:46:30.918
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 16:46:31.127
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-10-13 16:46:31.308
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.genuitec.copilot4eclipse.copilotapi 1 0 2026-10-13 16:46:31.326
+!MESSAGE [C4E] Language server: NATIVE_APP
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:34.781
+!MESSAGE [LS:Copilot4Eclipse Language Server][Info]	[lsp] GitHub Copilot Language Server 1.348.0 initialized
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 16:46:34.814
+!MESSAGE [C4E] EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse.chat\edgedata
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.322
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[lsp] GitHub Copilot Language Server 1.527.0 initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.850
+!MESSAGE [LS:Copilot4Eclipse Language Server][Info]	[certificates] Removed 15 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.975
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[certificates] Removed 14 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.978
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] Root certificate set changed; resetting Undici dispatchers. { certificateCount: 200 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.979
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.980
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:35.981
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:36.069
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] HTTP settings changed; resetting Undici dispatchers. {
+  proxy: 'none',
+  noProxyCount: 0,
+  proxyStrictSSL: true,
+  hasProxyAuthorization: false,
+  hasProxyKerberosServicePrincipal: false
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:36.089
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:36.090
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Using tmpFolder for ripgrep: C:\Users\jheat\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:36.099
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Resolved ripgrep path: C:\Users\jheat\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:36.100
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Set GITHUB_COPILOT_RIPGREP_PATH_OVERRIDE=C:\Users\jheat\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 16:46:36.661
+!MESSAGE [C4E] Conversation persistence: C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/.metadata/.plugins/com.genuitec.copilot4eclipse/chatdata
+
+!ENTRY com.genuitec.copilot4eclipse.copilotapi 1 0 2026-10-13 16:46:36.883
+!MESSAGE [C4E] Copilot API proxy: native mode
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:37.071
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] Root certificate set changed; resetting Undici dispatchers. { certificateCount: 200 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:37.082
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 16:46:37.509
+!MESSAGE [C4E] Internal server started: true uri: http://localhost:63886/chat
+
+!ENTRY com.genuitec.copilot4eclipse.boot 1 0 2026-10-13 16:46:37.747
+!MESSAGE [C4E] API started
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.050
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.053
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.073
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.073
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.074
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.076
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.077
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[BackgroundAgent] GitHub identity changed, clearing cached sessions {
+  hadPrevious: false,
+  hasCurrent: true,
+  cachedSessionCount: 0,
+  remoteDelegateCount: 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.083
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:46:38.412
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 16:46:41.984
+!MESSAGE [C4E] Workspace labels: java
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:51:37.735
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 16:56:37.752
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:01:38.253
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:06:37.762
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:37.768
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:47.184
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Fetched auto model for active in 73ms: gpt-5.3-codex
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:47.262
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Fetched auto model for standby in 109ms: gpt-5.3-codex
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:47.391
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Fetched auto model for reserve in 238ms: gpt-5.3-codex
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:47.574
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Rendering fresh global context for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:50.515
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request cbae88f2-e532-46ef-af6a-d620b54331f1 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2720.0452000000514ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:51.769
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 57ed54b2-3911-4f26-b12a-2217af73d4c5 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 290.4623999998439ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:51.892
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:52.073
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ea22e231-a97e-4f17-a895-a27efa20cdab at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 491.9169999998994ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:55.322
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request a6fba614-32d0-46ca-9320-2ab6779fb072 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 310.0765999997966ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:55.410
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:55.891
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6adddaae-c2e3-45ac-a9d5-d7e1b611d311 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 487.4114999999292ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:59.536
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6522dcef-b273-4988-9c32-ac087238ef28 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 314.16830000001937ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:11:59.659
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:00.511
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 7f8c9be4-8ab3-48b2-9fb4-2099723cec46 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1055.2306000001263ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:02.795
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 16963eee-c4c8-4e94-aa27-adc9ee4b5172 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 368.57459999993443ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:02.885
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:03.158
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 2ed6a2ea-7606-430c-bfe6-443a6cece675 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 529.8924000000115ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:05.293
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request f0e524fe-9e5a-4ff0-af2f-793c07304252 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 276.82260000007227ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:05.377
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:05.723
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 43f1a1fc-f52d-4fcf-9b72-45ad561f3992 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 530.7261999999173ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:07.549
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d0d5ca1d-9c71-4f06-afec-ba95ec784524 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 321.98460000008345ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:07.650
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:07.925
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 84d58ebd-2530-489d-abd7-f7380d4310b8 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 559.6027000001632ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:09.934
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d3ca328b-2d2f-4308-aed6-80d100e85027 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 409.11639999994077ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:10.035
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:10.277
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 458516be-20c7-486c-adc8-7043d45904f3 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 648.2286000000313ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:12.671
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d6368f29-c821-4b21-9505-7ae54ad6282d at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 301.0864999999758ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:12.761
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:13.033
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 8887bb25-e300-490a-9e38-dd5acb6c8292 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 522.9055000001099ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:14.541
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 903053e8-3c19-4ac2-80b8-4db06bb32971 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 349.4957999999169ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:14.637
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:14.922
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 03dec461-8142-4c66-bb52-5915b7d7d6ec at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 642.8285000000615ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:16.966
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 1f3048e4-28fa-447e-9d07-d8f7b4b2877e at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 269.0603000000119ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:17.054
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:17.337
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c16cb5ac-57f8-42b7-b9d4-6bf9d8e049e7 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 528.5882000001147ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:19.907
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 942ddc48-3641-4832-b2e1-ee4c63488e58 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 277.27110000001267ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:19.973
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:20.834
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c63d389f-3341-494c-83f7-fbf09df7f8b8 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1098.2916999999434ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:32.383
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 778459 prompt, 3572 completion, 583600 cached (cache rate: 75.0%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:32.403
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:32.699
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d9f98443-7c56-4971-9ac7-8cca0a53c3b1 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 286.468899999978ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:32.783
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:33.703
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request cd009d5e-f4af-4db7-bcd4-ad7fa458be90 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1287.9422999999952ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:35.406
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:35.729
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d0030bce-0913-4a26-8864-4a61cc9b505e at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 319.3430000001099ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:35.829
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:39.708
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ff93dc66-935d-49cd-85c4-b9485cb8d85e at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 4274.162899999879ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:40.915
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:41.238
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 8887cdb8-ab64-47e4-957b-bdc6a63a8a0b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 310.3974000001326ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:41.324
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:12:55.051
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request fac1864f-7c8c-48c7-a5aa-cf172310c6a1 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 14116.594599999953ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:03.182
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:03.416
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 24ff25e7-2ace-4723-bbbb-111c3806ebd7 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 353.9173000000883ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:03.480
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:05.126
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d2951155-0582-40e8-9557-b5053454c801 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1935.0089999998454ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:05.461
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:05.799
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 08c23e98-6043-4515-968f-faa50dc192e0 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 322.80750000011176ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:05.880
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:07.552
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 86171560-43d7-4a4e-b55b-1b46a62d077d at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2083.751700000139ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:35.152
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d9a0f8d0-470f-4192-abab-47fdecc93f4e at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 281.3208999999333ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:35.214
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:38.488
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:40.576
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 65de9e61-55d7-4e75-b7dc-77449d9f7fd2 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2063.6480000000447ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:40.956
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:41.240
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ebebca62-6736-4073-b093-8049add12623 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 265.59210000000894ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:41.307
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:13:42.979
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request b716f75e-05ec-4d62-9050-96494868c859 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1993.9851999999955ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:08.275
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ff8b3b38-98b9-448e-b92f-8d321afb6df9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 431.7549000000581ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:08.355
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:10.009
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:13.365
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request b2fecd73-d1c9-46d5-8964-3aaf5eefda93 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3336.4218999999575ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:16.392
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:16.571
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 153669f2-f85d-46e2-a12b-7b60fb50f588 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 299.18069999990985ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:16.652
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:17.979
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request b69796e7-c468-4670-9694-9a2d2fd50196 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1591.4462999999523ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:19.115
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:19.318
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9208eece-8e5c-450a-84f9-76cd194f492b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 312.52230000006966ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:19.378
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:20.686
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 092df301-be48-4b2e-af0a-6c024157d21a at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1556.8649999999907ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:21.245
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/25dc8e43-5e99-4209-b83d-d3d4d3325845
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:24.616
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request fb3d34f0-5031-4c67-9eb9-9421f2acebf9 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3347.503599999938ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:24.942
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 194f0f26-7d6b-46d7-9a8e-d8503ec0a64e at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 264.42250000010245ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:25.029
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:28.018
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 1233318 prompt, 5541 completion, 1102848 cached (cache rate: 89.4%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:28.032
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:28.344
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 7e8adfd2-1e3f-4557-b297-4c339b54481b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 309.844000000041ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:28.552
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:16:37.734
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:08.126
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d05a8b2d-eb51-40b1-8742-8aaaac555ec3
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:12.095
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 0e4bdf44-68ca-41cf-a769-eb0375c3b04a at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3909.057999999961ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:13.094
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 4d49994a-b4a0-4d25-a401-b98b5e360330 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 289.8021999998018ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:13.161
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:13.504
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 127153 prompt, 440 completion, 4608 cached (cache rate: 3.6%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:13.512
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:13.802
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request e90b8761-8520-4c24-885c-edbee5e2c49b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 289.63529999996535ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:13.987
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:33.438
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:36.491
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 71775ff4-4607-42b9-a008-7242c3f2d59b at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3005.8530999999493ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:37.986
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 217814df-c61b-4799-8a9d-f318b4aceb85 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 280.66720000002533ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:38.030
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:38.264
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 7f291920-f00f-426e-86c2-1bcb3408c611 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 482.0940999998711ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:41.242
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request fe33c0c9-3490-4215-a4e1-972190f2ee23 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 250.4073999999091ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:41.467
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:41.688
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 132d07b4-8085-44d8-b3b7-f3c62b1cf231 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 527.2005000000354ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:49.166
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request b2083bf6-4321-435c-8384-2cff92988753 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 256.48620000015944ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:49.268
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:50.365
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request a588e897-a99d-450d-af3a-02e4e503b581 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1203.7860999999102ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:55.458
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[chat] Automatic compression triggered: conversationId=bd5f8b48-2fbc-48ff-afd3-79ee3bcf678e, trigger=post-tool-call, tokens=112533/125000 (90.0%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:55.878
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request fc4e3818-6f72-4c76-9d50-ceefa161fb4a at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 386.3762999998871ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:55.967
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:56.707
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 00083488-6bf6-430c-a612-4dfe5abedb81 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1214.5467999998946ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:17:58.446
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 194275b7-637d-4566-8d21-a8fa481e7119 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1198.0814999998547ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:02.739
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request be2733b9-3962-4d03-81c9-bc9524b75a07 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 301.4735000000801ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:02.846
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:03.655
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9bbb96d6-65ae-4647-9624-de22d44601cc at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1107.3806000000332ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:06.959
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c3922f38-b2b6-4073-af84-3b574271da84 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 258.3871999999974ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:07.105
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:07.531
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request aa6a254b-87c3-44ce-a483-14215c7c658c at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 715.1315000001341ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:11.565
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 493fc9d5-0f2e-442a-8dc6-5de6567ef003 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 298.5411999998614ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:11.761
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:11.988
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 135bd8b5-52b9-4703-bc6d-1ba04336fbca at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 584.0043999999762ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:13.753
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request e3c7f77e-759e-451f-a39e-8dbc4bc7f8ee at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 273.15950000006706ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:13.855
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:14.193
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request f3b8794e-2f2e-402f-ac79-7784a65be29b at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 601.2861999999732ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:34.693
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 667253 prompt, 6263 completion, 315109 cached (cache rate: 47.2%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:34.737
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:35.091
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 483db177-9235-4c3a-8078-616546d2eeac at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 304.60590000008233ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:35.213
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:37.376
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 59ddd1d7-3dc3-446f-8426-5f337c6fbbe0 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2624.5214000002015ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:40.062
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:40.375
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 78255b6a-bdcc-47da-b2be-842481016630 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 300.05429999995977ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:40.482
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:48.165
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 283fb1a2-6e7e-429c-8aed-2d7d0cd40769 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 8077.242300000042ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:50.669
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:50.853
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 893a459b-3fe0-4782-8575-530881c7ea78 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 325.563700000057ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:50.903
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:51.862
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 94be6875-c33c-4672-86e8-46745bca4e8b at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1181.2742999999318ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:54.087
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:55.686
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request fb7ec3cc-ff4a-43ee-bd89-e026194bdd47 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1560.9194999998435ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:56.263
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:56.606
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 8824725a-6e3a-480a-aa51-72d61884fa29 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 321.3876000000164ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:56.689
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:18:59.168
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9158ad81-d6bc-4745-b3aa-812e007824c3 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2893.937099999981ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:21:37.765
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:26.537
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request dd8787ab-1ada-4d35-863f-741c4e3145c4 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 453.18679999979213ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:26.617
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:30.444
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/20fa9592-ad5f-485e-87ee-083cf38de75d
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:33.611
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request adbcfa5f-e79b-41da-95a3-f21fd5620d4d at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3147.4235000000335ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:34.122
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request e6fa44bd-8fb8-4a3b-a5d0-59fa4a3af65c at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 433.18319999985397ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:34.195
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:36.849
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 1601267 prompt, 2968 completion, 1328640 cached (cache rate: 83.0%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:36.861
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:37.215
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6b5a9bb8-984e-49b4-a17c-8839dd4ea0a3 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 354.6620000000112ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:37.446
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:23:57.105
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/e8355c94-e8a2-44e3-a2d4-0b71e8f49244
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:00.923
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request e2425f89-20e4-433f-9705-78eefc1a41f2 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3736.30979999993ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:02.419
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9e28e3cd-1663-4d17-91ae-6be7a0f24496 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 314.4728999999352ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:02.504
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:03.010
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 2441b470-9d6d-43fd-bec5-5fded61d9963 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 474.03200000012293ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:04.957
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ab7c2758-00fa-4b96-b0b8-81be6ccef80b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 264.0021999999881ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:05.069
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:05.378
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 366f22fc-ea99-4e0a-bb92-04f8cf7da5f4 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 508.2919000000693ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:08.179
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request b238894e-cac7-4216-b38d-ee8e8994472a at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 302.91629999969155ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:08.259
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:08.932
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6cb4ae75-1dad-4312-b601-5036a3b1a135 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 840.8175000003539ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:16.114
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 50965 prompt, 1334 completion, 0 cached (cache rate: 0.0%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:16.209
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/e8355c94-e8a2-44e3-a2d4-0b71e8f49244
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:16.588
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d38aa773-4fc1-4b37-b675-fa7abfa5ca59 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 322.47249999968335ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:16.690
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:18.116
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 11abdb3b-7309-45fa-8b1c-c01cd802ae23 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1863.972300000023ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:20.199
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/e8355c94-e8a2-44e3-a2d4-0b71e8f49244
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:20.262
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request aed6142a-87d3-4a09-8d66-7b1aae45c5b9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 284.5879000001587ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:20.368
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:22.747
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 5d00bcd7-ffe5-493e-8145-f0fcc9512d9b at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2539.088399999775ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:23.094
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/e8355c94-e8a2-44e3-a2d4-0b71e8f49244
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:24:28.120
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 228c0e03-c80d-48c4-9148-28d0dfeff91c at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 5028.949199999683ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:26:37.799
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:28:50.174
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 77511d86-e71a-4ff0-9784-59a9f1a9919a at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 454.5061999997124ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:28:50.366
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/e8355c94-e8a2-44e3-a2d4-0b71e8f49244
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:28:50.366
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:28:53.164
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 96ee425f-b23f-4697-be47-ad3d6836a76c at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2844.8924000002444ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:27.612
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 48c5c618-aa1d-41ae-bfe5-323ca92de122 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 255.4311999999918ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:27.678
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:27.862
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/e8355c94-e8a2-44e3-a2d4-0b71e8f49244
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:29.754
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 07b8e5d6-3ec3-40c8-b228-1d33cc8bb6a1 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1863.0482999999076ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:30.149
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ffdeaa8d-bd5e-403d-8a44-c498a1a6d9f9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 311.00190000003204ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:30.231
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:31.749
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 1614844 prompt, 1557 completion, 1134592 cached (cache rate: 70.3%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:31.773
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:32.136
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 584c6a93-60fd-4387-9f78-2fa35079270b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 368.0718999998644ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:32.376
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:52.179
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:56.029
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 8ecd7480-dd49-49eb-8098-583056ec8165 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3806.0652999999ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:56.587
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:56.891
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c0f16e59-e319-42b8-82ca-0c22e3ee3570 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 251.99640000006184ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:56.996
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:59.080
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6a7f2b85-5e3b-4b9e-9f27-e90cf9e75030 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2477.3403000002727ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:59.574
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:59.886
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6e5e3c77-ac33-469a-87cc-ae7b49bbd038 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 301.4978000000119ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:30:59.948
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:02.436
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9a75c540-f5a0-4f91-ba5c-9e8ce0701970 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2829.095499999821ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:02.919
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:03.258
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request cc909b90-dd08-4d21-a318-9c413cdd01ad at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 320.20390000008047ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:03.333
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:04.287
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c9c06219-d31c-4d2d-8ab7-9b95ba232d4a at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1339.7057000002824ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:04.720
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:05.035
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 5326dd3b-68b4-410f-b8dd-92649cfa4352 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 299.62870000023395ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:05.090
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:09.603
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 71a87e3c-5a9e-4d5e-9ddd-a2a94947004e at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 4870.344099999871ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:11.364
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:11.580
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request be3e4c34-ebc8-4b2a-a79a-fc6ae328dbc6 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 331.62529999995604ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:11.646
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:12.580
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 76384fb0-e3f5-43f5-9887-7b919c7be24b at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1199.5069999997504ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:13.301
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/d17e1821-2b20-4195-8bd7-37914225631c
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:14.398
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c00a607c-471c-419b-9cfc-8d23d919c9f1 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1079.059499999974ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:15.902
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 1884680 prompt, 1532 completion, 1613312 cached (cache rate: 85.6%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:15.917
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:16.262
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 7cd269d0-7d74-45bd-b76a-625554a7c6e5 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 336.8982000001706ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:16.448
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:31:37.764
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:34.108
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:36.960
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request e8d4215c-9aa9-4cc3-ae7e-16a7a2ed6454 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2832.538000000175ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:37.919
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c9e6c924-c523-4e52-b115-26da32c5c4e5 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 259.67579999985173ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:38.004
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:38.216
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 134647a7-8d7f-4779-ad76-f42057b7b875 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 489.34459999995306ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:40.262
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 4ab943dc-3bd1-4f4c-bd1d-804dfa69719c at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 288.4902999997139ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:40.371
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:40.584
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 55a116f2-5fa0-4ef6-bfe3-9daa7c870477 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 531.7985000000335ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:44.642
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 5e23e95c-c2fe-4178-a7ae-8c4cc0b2f3dd at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 288.59370000008494ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:44.731
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:45.669
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ffcd8ab0-b02d-42aa-8033-35025326e07b at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1195.2284999997355ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:52.203
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6e7b602f-707d-4038-a4d5-299b30b81941 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 316.0405000001192ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:52.315
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:53.270
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ef6ac58c-e4a3-41b5-aeaa-d8df95e2eb17 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1260.311999999918ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:56.095
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c890ddef-b024-410a-a5e5-2d2bd647099b at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 431.6573999999091ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:56.246
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:32:56.331
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ffbb28eb-1adb-419a-8224-768c6893c875 at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 552.1579999998212ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:04.250
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 84ac2e9f-357c-4dae-9ddc-e07ac0e74744 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 304.4196000001393ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:04.347
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:05.262
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 4ce5375a-508b-4733-b1d3-353f61b345de at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 1233.1101999999955ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:07.130
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 0bebbdbc-6f7d-4b02-b7d2-0b4993ffdc21 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 312.1868000002578ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:07.215
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:07.484
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 14bcb00b-b455-4521-bcab-7689d69ef55c at <https://api.individual.githubcopilot.com/v1/messages> finished with 200 status after 578.1348999999464ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:20.449
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 583858 prompt, 4805 completion, 232391 cached (cache rate: 39.8%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:20.487
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:20.872
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request e2ff2bb3-af2d-4b40-8e9a-56a39f126148 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 316.8045000000857ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:20.948
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:24.041
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d87c447b-04ca-4284-8385-7e969d76e4df at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3522.4820999996737ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:28.581
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:29.160
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request bde0bef5-264c-49dc-9010-8ac57976d483 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 466.1419000001624ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:29.263
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:32.672
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request cc478c01-3117-4655-82e9-935ead688ccf at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 4062.9327000002377ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:33.361
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:33.695
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d69d8b5a-d8d2-4abe-80c4-30668ff23e75 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 322.40139999985695ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:33.756
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:34.956
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 8107dcd9-4d1b-4240-a2e6-66fd641f1d3c at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1562.317300000228ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:35.391
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:35.681
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 3ec3718d-73ce-4a6e-8dcb-043d093f98e9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 272.8608000003733ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:35.747
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:40.555
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ea34c03e-534b-48cb-911f-054a767a46a7 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 5142.393199999817ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:40.964
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:41.322
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 5324d7e5-6530-4c53-aad8-91890b1de6c9 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 321.719000000041ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:41.388
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:43.757
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ce9327fe-9fe8-4a21-9e1e-e3ac3aedc210 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 2757.8542999997735ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:47.651
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:47.994
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request cffd9df7-d876-4ad7-83a1-623c2dca3536 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 325.8041000002995ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:48.077
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:50.929
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 4710852f-0fc0-476a-a8d2-cee54ddf85d0 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 3263.5821000002325ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:54.647
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:54.775
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request c494b5bf-c416-4824-968e-0ad69293e5c8 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 287.3023000000976ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:54.847
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:55.967
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request bbc69e97-8b76-4f83-997e-2756b0e490e0 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1310.8830999997444ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:58.881
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:59.077
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 931b4f68-043c-4998-8033-4253f1e778d1 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 333.1416000002064ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:33:59.146
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:00.833
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 87e47eee-39fd-4343-80f5-cc007f9d1f26 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1937.8874999997206ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:04.915
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:05.128
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 86f694eb-03ac-4cf5-a595-2ae94b55bfdd at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 338.06130000017583ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:05.209
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:06.340
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 012297df-7b4b-44b0-9af2-896352842fd4 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1396.683299999684ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:08.545
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:10.090
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 19ba15af-63d7-4ad1-b56a-399459ed07be at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1521.8487999998033ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:12.271
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:12.358
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 00965cef-04a8-4967-9825-33fffd2fa480 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 281.1022000000812ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:12.447
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:13.491
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 73073635-d782-4f1d-8ea6-ff161302effe at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1222.1987000000663ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:15.720
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:15.819
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6787c9db-0ce5-457b-9f4f-6514e177bfdd at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 260.49199999962ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:15.888
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:17.155
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9bccf1b8-652c-417f-b72b-164cdf20e981 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1423.9879000000656ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:19.297
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:20.534
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request aea37a07-09dd-4dc5-97cd-b98a7f1ad7db at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1197.822200000286ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:22.564
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:24.243
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6aa7b601-2dad-40a4-aca7-b016794db5e0 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1661.337799999863ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:26.244
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:27.536
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 3e8ecc4f-d154-46dd-b9ce-97872a5254d9 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1284.7406000001356ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:29.541
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:29.720
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request ee5c4722-1f7a-49df-89eb-ca05460cc384 at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 309.79870000015944ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:29.795
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:31.527
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 19146b1d-a35e-4c62-9f0f-403f34af67c2 at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1970.0704000000842ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:34.574
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[agentPrompt] Reusing cached global context from first turn for conversation/turn ca96256e-8cca-4842-904c-0347ef789faa/f0db67b5-9337-43ef-b01d-d93831e69b32
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:35.021
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 9528e570-ffa6-4500-80cb-efcf2352feae at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 320.69100000010803ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:35.088
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:36.607
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 11f8b9ed-b0f6-4705-8282-e5a38476001f at <https://api.individual.githubcopilot.com/responses> finished with 200 status after 1945.8344000000507ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:37.158
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request 6e22c79a-9ab8-40dd-9eec-aa1c5eead40e at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 307.83669999986887ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:37.224
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:39.388
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[roundMetricsTracker] Turn token usage: 4505886 prompt, 7268 completion, 3452928 cached (cache rate: 76.6%)
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:39.405
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:39.740
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[fetchChat] Request d16b8b60-051e-4d92-9dcc-b4243660c8bb at <https://api.individual.githubcopilot.com/chat/completions> finished with 200 status after 333.14669999992475ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:34:39.969
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[streamMessages] message 0 returned. finish reason: [stop]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:35:53.679
+!MESSAGE [C4E] Internal server stopped: Server@1250f79c{STOPPED}[10.0.25,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:35:53.679
+!MESSAGE [C4E] Internal server stopped: true
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.523
+!MESSAGE [Info] Document is null for editor: DungeonLevel1.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.524
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/DungeonoftheBrutalKing/src/DungeonoftheBrutalKing/Maps/DungeonLevel1.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.547
+!MESSAGE [Info] Document is null for editor: DungeonLevel2.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.549
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/DungeonoftheBrutalKing/src/DungeonoftheBrutalKing/Maps/DungeonLevel2.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.573
+!MESSAGE [Info] Document is null for editor: DungeonLevel3.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.573
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/DungeonoftheBrutalKing/src/DungeonoftheBrutalKing/Maps/DungeonLevel3.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.603
+!MESSAGE [Info] Document is null for editor: DungeonLevel10.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:05.603
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/DungeonoftheBrutalKing/src/DungeonoftheBrutalKing/Maps/DungeonLevel10.java
+!SESSION 2026-10-13 17:36:14.511 -----------------------------------------------
+eclipse.buildId=4.40.0.20260604-0652
+java.version=21.0.12.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2026-10-13 17:36:22.050
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2026-10-13 17:36:32.089
+!MESSAGE Logback config file: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.7.101.20251017-1242.xml
+
+!ENTRY com.genuitec.copilot4eclipse.boot 1 0 2026-10-13 17:36:43.874
+!MESSAGE [C4E] booting
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:43.900
+!MESSAGE [Info] Starting language server with binary lsp agent.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:43.906
+!MESSAGE [Info] Found native binary in fragment bundle: com.microsoft.copilot.eclipse.core.agent.win32
+
+!ENTRY org.eclipse.egit.ui 2 0 2026-10-13 17:36:43.943
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\jheat'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:36:43.947
+!MESSAGE [Info] Binary agent started successfully.
+
+!ENTRY com.genuitec.copilot4eclipse.copilotapi 1 0 2026-10-13 17:36:44.145
+!MESSAGE [C4E] Language server: NATIVE_APP
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.627
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Resolved ripgrep path: C:\Users\jheat\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.628
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Using tmpFolder for ripgrep: C:\Users\jheat\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.628
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[ripgrep] Set GITHUB_COPILOT_RIPGREP_PATH_OVERRIDE=C:\Users\jheat\.cache\pkg\72dc6f288b8f13e22da7572a55f576ac335b8402e617b8aaf91f8dbf72adf1a0\rg.exe
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.633
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[lsp] GitHub Copilot Language Server 1.527.0 initialized
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.827
+!MESSAGE [LS:Copilot4Eclipse Language Server][Info]	[lsp] GitHub Copilot Language Server 1.348.0 initialized
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:36:46.843
+!MESSAGE [C4E] EdgeDataDir: C:\Backup\Github\TheDungeonOfTheBrutalKing-Original-Version\.metadata\.plugins\com.genuitec.copilot4eclipse.chat\edgedata
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.857
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] HTTP settings changed; resetting Undici dispatchers. {
+  proxy: 'none',
+  noProxyCount: 0,
+  proxyStrictSSL: true,
+  hasProxyAuthorization: false,
+  hasProxyKerberosServicePrincipal: false
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.859
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[certificates] Removed 14 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.860
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.861
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.862
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[UndiciFetcher] Root certificate set changed; resetting Undici dispatchers. { certificateCount: 200 }
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.862
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:46.930
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[default] Policy watcher started for GitHub Copilot Plugin
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:47.211
+!MESSAGE [LS:Copilot4Eclipse Language Server][Info]	[certificates] Removed 15 expired certificates
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:47.426
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[GithubAvailableEmbeddingTypes] Got embeddings. Primary: metis-1024-I16-Binary. Deprecated: 
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:36:47.688
+!MESSAGE [C4E] Conversation persistence: C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/.metadata/.plugins/com.genuitec.copilot4eclipse/chatdata
+
+!ENTRY com.genuitec.copilot4eclipse.copilotapi 1 0 2026-10-13 17:36:47.755
+!MESSAGE [C4E] Copilot API proxy: native mode
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:36:48.090
+!MESSAGE [C4E] Internal server started: true uri: http://localhost:55006/chat
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.119
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AutoModelService] Auto model cache cleared due to token update
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.120
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[CopilotMCP] MCP state changed from false to true
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.143
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.144
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[BackgroundAgent] GitHub identity changed, clearing cached sessions {
+  hadPrevious: false,
+  hasCurrent: true,
+  cachedSessionCount: 0,
+  remoteDelegateCount: 0
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.144
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.145
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.146
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.149
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-10-13 17:36:48.659
+!MESSAGE [LS:GitHub Copilot Language Server][Info]	[AuthManager] resolveSession: persisted store resolved a session
+
+!ENTRY com.genuitec.copilot4eclipse.boot 1 0 2026-10-13 17:36:48.797
+!MESSAGE [C4E] API started
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:36:52.775
+!MESSAGE [C4E] Workspace labels: java
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:37:31.214
+!MESSAGE [C4E] Internal server stopped: Server@61ed9b54{STOPPED}[10.0.25,sto=0]
+
+!ENTRY com.genuitec.copilot4eclipse.chat 1 0 2026-10-13 17:37:31.216
+!MESSAGE [C4E] Internal server stopped: true
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:37:31.428
+!MESSAGE [Info] Document is null for editor: DungeonLevel10.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:37:31.429
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/DungeonoftheBrutalKing/src/DungeonoftheBrutalKing/Maps/DungeonLevel10.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:37:31.476
+!MESSAGE [Info] Document is null for editor: DungeonLevel1.java
+
+!ENTRY com.microsoft.copilot.eclipse 1 0 2026-10-13 17:37:31.476
+!MESSAGE [Info] Completion handler is refreshed for the document: file:///C:/Backup/Github/TheDungeonOfTheBrutalKing-Original-Version/DungeonoftheBrutalKing/src/DungeonoftheBrutalKing/Maps/DungeonLevel1.java

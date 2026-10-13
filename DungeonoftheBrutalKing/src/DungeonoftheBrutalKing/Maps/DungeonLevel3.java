@@ -15,11 +15,9 @@ public class DungeonLevel3 extends DungeonLevel {
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 3;
     
-    //0 = Path
-    //1 = Wall
-    //5 = Door
-    //7 = Downstairs
-    //8 = Upstairs
+    // Level 3 links Level 2 <-> Level 4.
+    // Stairs up to level 2: (118, 2). Stairs down to level 4: (77, 100).
+    // Tile legend: 0=path, 1=wall, non-zero markers are resolved through specialLocations.
 
     
    
@@ -163,9 +161,9 @@ public class DungeonLevel3 extends DungeonLevel {
     	    		    }
     	    		}
         
+        // Important level transition points.
         specialLocations.put(new Point(118, 2), LocationType.STAIRS_UP);
         specialLocations.put(new Point(77, 100), LocationType.STAIRS_DOWN);
-        // Add more as needed
         
      // Assign quests to doors
         assignRandomQuestsToDoors(getDoorLocations(), getAvailableQuests());

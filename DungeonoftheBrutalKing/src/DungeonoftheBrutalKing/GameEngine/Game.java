@@ -8,6 +8,13 @@ import DungeonoftheBrutalKing.Maps.DungeonLevel;
 import DungeonoftheBrutalKing.Maps.DungeonLevel1;
 import DungeonoftheBrutalKing.Maps.DungeonLevel2;
 import DungeonoftheBrutalKing.Maps.DungeonLevel3;
+import DungeonoftheBrutalKing.Maps.DungeonLevel4;
+import DungeonoftheBrutalKing.Maps.DungeonLevel5;
+import DungeonoftheBrutalKing.Maps.DungeonLevel6;
+import DungeonoftheBrutalKing.Maps.DungeonLevel7;
+import DungeonoftheBrutalKing.Maps.DungeonLevel8;
+import DungeonoftheBrutalKing.Maps.DungeonLevel9;
+import DungeonoftheBrutalKing.Maps.DungeonLevel10;
 import DungeonoftheBrutalKing.SharedData.GameSettings;
 import DungeonoftheBrutalKing.SharedData.LocationType;
 
@@ -61,6 +68,8 @@ public class Game implements Runnable {
     private LocationType lastEventType = LocationType.OTHER;
 
     private boolean preserveCameraOnNextLevelChange = false;
+    private LocationType preferredSpawnLocationType = null;
+    private boolean levelTransitionArmed = true;
 
     public Game() throws IOException, InterruptedException, ParseException {
         this.mainGameScreen = MainGameScreen.getInstance();
@@ -116,11 +125,19 @@ public class Game implements Runnable {
         levels.add(new DungeonLevel1());
         levels.add(new DungeonLevel2());
         levels.add(new DungeonLevel3());
+        levels.add(new DungeonLevel4());
+        levels.add(new DungeonLevel5());
+        levels.add(new DungeonLevel6());
+        levels.add(new DungeonLevel7());
+        levels.add(new DungeonLevel8());
+        levels.add(new DungeonLevel9());
+        levels.add(new DungeonLevel10());
     }
 
     public boolean isWalkable(int x, int y) {
         if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight) return false;
-        return map != null && map[y][x] == 0;
+        // Match Camera movement rules so stairs/door tiles can be used as valid spawn points.
+        return map != null && map[y][x] != 1;
     }
 
     public JPanel getMainGamePanel() {
@@ -154,6 +171,14 @@ public class Game implements Runnable {
             return;
         }
 
+        Point preferredSpawn = getSpecialLocationPoint(level, preferredSpawnLocationType);
+        preferredSpawnLocationType = null;
+        if (preferredSpawn != null && isWalkable(preferredSpawn.x, preferredSpawn.y)) {
+            camera.setX(preferredSpawn.x + 0.5);
+            camera.setY(preferredSpawn.y + 0.5);
+            return;
+        }
+
         Point stairsUp = level.getStairsUpLocation();
         if (stairsUp != null && isWalkable(stairsUp.x, stairsUp.y)) {
             camera.setX(stairsUp.x + 0.5);
@@ -166,6 +191,16 @@ public class Game implements Runnable {
             camera.setX(fallback.x + 0.5);
             camera.setY(fallback.y + 0.5);
         }
+    }
+
+    private Point getSpecialLocationPoint(DungeonLevel level, LocationType type) {
+        if (level == null || type == null) return null;
+        for (var entry : level.getSpecialLocations().entrySet()) {
+            if (entry.getValue() == type) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     private Point findFirstWalkableExcludingOrigin() {
@@ -182,12 +217,16 @@ public class Game implements Runnable {
 
     public void goToNextLevel() {
         if (currentLevelIndex < levels.size() - 1) {
+            // Going deeper should arrive on the destination's upstairs tile.
+            preferredSpawnLocationType = LocationType.STAIRS_UP;
             changeLevel(currentLevelIndex + 1);
         }
     }
 
     public void goToPreviousLevel() {
         if (currentLevelIndex > 0) {
+            // Going up should arrive on the destination's downstairs tile.
+            preferredSpawnLocationType = LocationType.STAIRS_DOWN;
             changeLevel(currentLevelIndex - 1);
         }
     }
@@ -197,11 +236,23 @@ public class Game implements Runnable {
         int playerY = (int) camera.getY();
         LocationType loc = detectLocation(playerX, playerY);
 
+        boolean onStairs = (loc == LocationType.STAIRS_DOWN || loc == LocationType.STAIRS_UP);
+        if (!onStairs) {
+            levelTransitionArmed = true;
+            return;
+        }
+        if (!levelTransitionArmed) {
+            return;
+        }
+
         if (loc == LocationType.STAIRS_DOWN) {
             goToNextLevel();
         } else if (loc == LocationType.STAIRS_UP) {
             goToPreviousLevel();
         }
+
+        // Prevent immediate ping-pong while standing on a stairs tile after transition.
+        levelTransitionArmed = false;
     }
 
     public JPanel getRenderPanel() {

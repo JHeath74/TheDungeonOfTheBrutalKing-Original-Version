@@ -15,11 +15,9 @@ public class DungeonLevel4 extends DungeonLevel {
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 4;
     
-    //0 = Path
-    //1 = Wall
-    //5 = Door
-    //7 = Downstairs
-    //8 = Upstairs
+    // Level 4 links Level 3 <-> Level 5.
+    // Stairs up to level 3: (77, 100). Stairs down to level 5: (15, 22).
+    // Tile legend: 0=path, 1=wall, non-zero markers are resolved through specialLocations.
 
     
    
@@ -163,9 +161,9 @@ public class DungeonLevel4 extends DungeonLevel {
     	    		    }
     	    		}
         
+        // Important level transition points.
         specialLocations.put(new Point(77, 100), LocationType.STAIRS_UP);
         specialLocations.put(new Point(15, 22), LocationType.STAIRS_DOWN);
-        // Add more as needed
         
      // Assign quests to doors
         assignRandomQuestsToDoors(getDoorLocations(), getAvailableQuests());
@@ -176,8 +174,8 @@ public class DungeonLevel4 extends DungeonLevel {
    
 
     @Override
-    public DungeonLevel goDown() {
-        return null; // return new DungeonLevel4();
+    public DungeonLevel goDown() throws IOException, InterruptedException, ParseException {
+        return new DungeonLevel5();
     }
 
     @Override

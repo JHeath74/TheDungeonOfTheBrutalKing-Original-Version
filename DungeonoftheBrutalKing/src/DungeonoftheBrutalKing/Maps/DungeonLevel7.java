@@ -14,6 +14,9 @@ public class DungeonLevel7 extends DungeonLevel {
     private static final int MAP_WIDTH = 128;
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 7;
+	// Level 7 links Level 6 <-> Level 8.
+	// Stairs up to level 6: (15, 15). Stairs down to level 8: (106, 20).
+	// Tile legend: 0=path, 1=wall, non-zero markers are resolved through specialLocations.
 
     public DungeonLevel7() throws IOException, InterruptedException, ParseException {
     	 this.map = new int [][] {
@@ -153,7 +156,7 @@ public class DungeonLevel7 extends DungeonLevel {
             }
         }
 
-        // Example special locations for level 7
+		// Important level transition points.
         specialLocations.put(new Point(15,15), LocationType.STAIRS_UP);
         specialLocations.put(new Point(106, 20), LocationType.STAIRS_DOWN);
 

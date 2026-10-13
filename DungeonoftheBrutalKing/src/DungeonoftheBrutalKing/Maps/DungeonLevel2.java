@@ -1,7 +1,6 @@
 
 package DungeonoftheBrutalKing.Maps;
 
-import java.awt.Point;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -14,12 +13,14 @@ public class DungeonLevel2 extends DungeonLevel {
     private static final int MAP_WIDTH = 128;
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 2;
+    private static final int STAIRS_DOWN_X = 12;
+    private static final int STAIRS_DOWN_Y = 104;
+    private static final int STAIRS_UP_X = 118;
+    private static final int STAIRS_UP_Y = 2;
     
-    //0 = Path
-    //1 = Wall
-    //2 = Door
-    //2 = Downstairs (12,104
-    //2 = Upstairs (118,2)
+    // Level 2 links Level 1 <-> Level 3.
+    // Stairs up from level 1: (118, 2). Stairs down to level 3: (12, 104).
+    // Tile legend: 0=path, 1=wall, 2=map marker (door/stairs; behavior comes from specialLocations).
 
     
 	
@@ -163,8 +164,9 @@ public class DungeonLevel2 extends DungeonLevel {
             }
         }
 
-        specialLocations.put(new Point(12, 104), LocationType.STAIRS_DOWN);
-        specialLocations.put(new Point(118, 2), LocationType.STAIRS_UP);
+        // Important level transition points.
+        setSpecialLocation(STAIRS_DOWN_X, STAIRS_DOWN_Y, LocationType.STAIRS_DOWN); // to level 3
+        setSpecialLocation(STAIRS_UP_X, STAIRS_UP_Y, LocationType.STAIRS_UP);       // from level 1
         
         
      // Assign quests to doors

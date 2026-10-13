@@ -16,25 +16,10 @@ public class DungeonLevel1 extends DungeonLevel{
     private static final int MAP_HEIGHT = 128;
     private static final int DUNGEON_LEVEL = 1;
     
-    // Dimensions of the dungeon
-
-    
-    //0 = Path
-    //1 = Wall
-    //2 = Door
-    //10 = Downstairs with gate
-    
-//    Found value 10 at (2, 0)  Downstairs with gate from outside dungegon
-  //  Found value 2 at (118, 2) Down to Dungeon Level 2
-    //Found value 2 at (2, 4)
-    //Found value 2 at (121, 12)
-   // Found value 2 at (45, 16)
-  //  Found value 2 at (13, 26)
-  //  Found value 2 at (88, 44)
-  //  Found value 2 at (124, 54)
-  //  Found value 2 at (94, 59)
-  //  Found value 2 at (56, 66)
-  //  Found value 2 at (112, 81)
+	// Level 1 is the entry floor.
+	// Stairs down to level 2: (118, 2).
+	// There is no stairs-up transition on this floor.
+	// Tile legend: 0=path, 1=wall, 2=door, 10=surface entry marker.
     
     
     
@@ -179,6 +164,7 @@ public class DungeonLevel1 extends DungeonLevel{
 	    		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
 
 	 
+	            // Important locations and level transition points.
 	    		setSpecialLocation(118, 2, LocationType.STAIRS_DOWN); // (118,2,1) - Stairs down to Dungeon Level 2
 	            setSpecialLocation(4, 2, LocationType.THE_RUSTY_TANKARD); // (4,2,1) - The Rusty Tankard (Inn)
 	            setSpecialLocation(45, 16, LocationType.DOOR); // (45,16,1) - Door
